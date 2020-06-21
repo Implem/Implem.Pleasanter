@@ -9,7 +9,10 @@ namespace Implem.ParameterAccessor.Parts
         public bool Disabled;
         public List<long> SiteIdList;
         public List<long> IdList;
+        public List<string> Controllers;
+        public List<string> Actions;
         public bool Api;
+        public bool Html;
         public bool OnCreating;
         public bool OnCreated;
         public bool OnUpdating;

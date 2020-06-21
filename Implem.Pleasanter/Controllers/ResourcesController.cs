@@ -15,8 +15,10 @@ namespace Implem.Pleasanter.Controllers
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
-            var result = JavaScripts.Get();
-            log.Finish(context: context, responseSize: result.Content.Length);
+            var result = JavaScripts.Get(context: context);
+            log.Finish(
+                context: context,
+                responseSize: result.Content.Length);
             return result;
         }
 
@@ -26,8 +28,10 @@ namespace Implem.Pleasanter.Controllers
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
-            var result = Css.Get();
-            log.Finish(context: context, responseSize: result.Content.Length);
+            var result = Css.Get(context: context);
+            log.Finish(
+                context: context,
+                responseSize: result.Content.Length);
             return result;
         }
     }

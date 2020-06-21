@@ -346,6 +346,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlStatement ExtensionsStatement(
+            string commandText,
+            SqlParamCollection param = null)
+        {
+            return new SqlStatement
+            {
+                CommandText = commandText,
+                SqlParamCollection = param
+            };
+        }
+
         public static SqlStatement SessionsStatement(
             string commandText,
             SqlParamCollection param = null)
@@ -769,6 +780,29 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "MailAddress": return "[MailAddress]";
                         case "Initialized": return "[Initialized]";
                         case "TimeLag": return "[TimeLag]";
+                        case "Comments": return "[Comments]";
+                        case "Creator": return "[Creator]";
+                        case "Updator": return "[Updator]";
+                        case "CreatedTime": return "[CreatedTime]";
+                        case "UpdatedTime": return "[UpdatedTime]";
+                        case "VerUp": return "[VerUp]";
+                        case "Timestamp": return "[Timestamp]";
+                        default: 
+                            return Def.ExtendedColumnTypes.ContainsKey(column.Name)
+                                ? $"[{column.Name}]"
+                                : null;
+                    }
+                case "Extensions":
+                    switch (column.Name)
+                    {
+                        case "ExtensionId": return "[ExtensionId]";
+                        case "Ver": return "[Ver]";
+                        case "ExtensionType": return "[ExtensionType]";
+                        case "ExtensionName": return "[ExtensionName]";
+                        case "ExtensionSettings": return "[ExtensionSettings]";
+                        case "Body": return "[Body]";
+                        case "Description": return "[Description]";
+                        case "Disabled": return "[Disabled]";
                         case "Comments": return "[Comments]";
                         case "Creator": return "[Creator]";
                         case "Updator": return "[Updator]";
@@ -1564,6 +1598,83 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 function: function);
                         case "UpdatedTime":
                             return self.Demos_UpdatedTime(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        default:
+                            return Def.ExtendedColumnTypes.ContainsKey(column.Name)
+                                ? self.Add(
+                                    columnBracket: $"[{column.Name}]",
+                                    orderType: orderType,
+                                    tableName: column.TableName(),
+                                    function: function)
+                                : self;
+                    }
+                case "Extensions":
+                    switch (column.Name)
+                    {
+                        case "ExtensionId":
+                            return self.Extensions_ExtensionId(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "Ver":
+                            return self.Extensions_Ver(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "ExtensionType":
+                            return self.Extensions_ExtensionType(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "ExtensionName":
+                            return self.Extensions_ExtensionName(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "ExtensionSettings":
+                            return self.Extensions_ExtensionSettings(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "Body":
+                            return self.Extensions_Body(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "Description":
+                            return self.Extensions_Description(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "Disabled":
+                            return self.Extensions_Disabled(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "Comments":
+                            return self.Extensions_Comments(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "Creator":
+                            return self.Extensions_Creator(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "Updator":
+                            return self.Extensions_Updator(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "CreatedTime":
+                            return self.Extensions_CreatedTime(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "UpdatedTime":
+                            return self.Extensions_UpdatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
                                 function: function);
@@ -3928,6 +4039,48 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlSelect SelectExtensions(
+            string dataTableName = null,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            string _as = null,
+            SqlColumnCollection column = null,
+            SqlJoinCollection join = null,
+            SqlWhereCollection where = null,
+            SqlGroupByCollection groupBy = null,
+            SqlHavingCollection having = null,
+            SqlOrderByCollection orderBy = null,
+            SqlParamCollection param = null,
+            bool distinct = false,
+            int top = 0,
+            int offset = 0,
+            int pageSize = 0,
+            Sqls.UnionTypes unionType = Sqls.UnionTypes.None,
+            bool _using = true)
+        {
+            return new SqlSelect
+            {
+                DataTableName = dataTableName,
+                TableType = tableType,
+                TableBracket = "[Extensions]",
+                HistoryTableBracket = "[Extensions_history]",
+                DeletedTableBracket = "[Extensions_deleted]",
+                As = _as,
+                SqlColumnCollection = column,
+                SqlJoinCollection = join,
+                SqlWhereCollection = where,
+                SqlGroupByCollection = groupBy,
+                SqlHavingCollection = having,
+                SqlOrderByCollection = orderBy,
+                SqlParamCollection = param,
+                Distinct = distinct,
+                Top = top,
+                Offset = offset,
+                PageSize = pageSize,
+                UnionType = unionType,
+                Using = _using
+            };
+        }
+
         public static SqlSelect SelectSessions(
             string dataTableName = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
@@ -4892,6 +5045,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlExists ExistsExtensions(
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool not = false,
+            SqlJoinCollection join = null,
+            SqlWhereCollection where = null,
+            bool _using = true)
+        {
+            return new SqlExists
+            {
+                TableType = tableType,
+                Not = not,
+                TableBracket = "[Extensions]",
+                HistoryTableBracket = "[Extensions_history]",
+                DeletedTableBracket = "[Extensions_deleted]",
+                SqlJoinCollection = join,
+                SqlWhereCollection = where,
+                Using = _using
+            };
+        }
+
         public static SqlExists ExistsSessions(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             bool not = false,
@@ -5424,6 +5597,53 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return on
                 ? new SqlStatement("set identity_insert [Demos_History] on;")
                 : new SqlStatement("set identity_insert [Demos_History] off;");
+        }
+
+        public static SqlInsert InsertExtensions(
+            string dataTableName = null,
+            bool selectIdentity = false,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            SqlParamCollection param = null,
+            SqlStatement select = null,
+            bool addUpdatorParam = true,
+            string _if = null,
+            bool _using = true)
+        {
+            return new SqlInsert
+            {
+                DataTableName = dataTableName,
+                TableType = tableType,
+                TableBracket = "[Extensions]",
+                HistoryTableBracket = "[Extensions_history]",
+                DeletedTableBracket = "[Extensions_deleted]",
+                SelectIdentity = selectIdentity,
+                SqlParamCollection = param,
+                Select = select,
+                AddUpdatorParam = addUpdatorParam,
+                If = _if,
+                Using = _using
+            };
+        }
+
+        public static SqlStatement IdentityInsertExtensions(bool on)
+        {
+            return on
+                ? new SqlStatement("set identity_insert [Extensions] on;")
+                : new SqlStatement("set identity_insert [Extensions] off;");
+        }
+
+        public static SqlStatement IdentityInsertExtensions_Deleted(bool on)
+        {
+            return on
+                ? new SqlStatement("set identity_insert [Extensions_Deleted] on;")
+                : new SqlStatement("set identity_insert [Extensions_Deleted] off;");
+        }
+
+        public static SqlStatement IdentityInsertExtensions_History(bool on)
+        {
+            return on
+                ? new SqlStatement("set identity_insert [Extensions_History] on;")
+                : new SqlStatement("set identity_insert [Extensions_History] off;");
         }
 
         public static SqlInsert InsertSessions(
@@ -6512,6 +6732,32 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlUpdate UpdateExtensions(
+            string dataTableName = null,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool addUpdatorParam = true,
+            bool addUpdatedTimeParam = true,
+            string _if = null,
+            bool _using = true)
+        {
+            return new SqlUpdate
+            {
+                DataTableName = dataTableName,
+                TableType = tableType,
+                TableBracket = "[Extensions]",
+                HistoryTableBracket = "[Extensions_history]",
+                DeletedTableBracket = "[Extensions_deleted]",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                AddUpdatorParam = addUpdatorParam,
+                AddUpdatedTimeParam = addUpdatedTimeParam,
+                If = _if,
+                Using = _using
+            };
+        }
+
         public static SqlUpdate UpdateSessions(
             string dataTableName = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
@@ -7130,6 +7376,34 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 TableBracket = "[Demos]",
                 HistoryTableBracket = "[Demos_history]",
                 DeletedTableBracket = "[Demos_deleted]",
+                SelectIdentity = selectIdentity,
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                AddUpdatorParam = addUpdatorParam,
+                AddUpdatedTimeParam = addUpdatedTimeParam,
+                If = _if,
+                Using = _using
+            };
+        }
+
+        public static SqlUpdateOrInsert UpdateOrInsertExtensions(
+            string dataTableName = null,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool selectIdentity = false,
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool addUpdatorParam = true,
+            bool addUpdatedTimeParam = true,
+            string _if = null,
+            bool _using = true)
+        {
+            return new SqlUpdateOrInsert
+            {
+                DataTableName = dataTableName,
+                TableType = tableType,
+                TableBracket = "[Extensions]",
+                HistoryTableBracket = "[Extensions_history]",
+                DeletedTableBracket = "[Extensions_deleted]",
                 SelectIdentity = selectIdentity,
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
@@ -7798,6 +8072,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlDelete DeleteExtensions(
+            string dataTableName = null,
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            string _if = null,
+            bool _using = true)
+        {
+            return new SqlDelete()
+            {
+                DataTableName = dataTableName,
+                CommandText = DeleteExtensionsStatement(),
+                TableBracket = "[Extensions]",
+                HistoryTableBracket = "[Extensions_history]",
+                DeletedTableBracket = "[Extensions_deleted]",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                If = _if,
+                Using = _using
+            };
+        }
+
         public static SqlDelete DeleteSessions(
             string dataTableName = null,
             SqlWhereCollection where = null,
@@ -8300,6 +8595,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlPhysicalDelete PhysicalDeleteExtensions(
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            string _if = null,
+            bool _using = true)
+        {
+            return new SqlPhysicalDelete()
+            {
+                TableType = tableType,
+                TableBracket = "[Extensions]",
+                HistoryTableBracket = "[Extensions_history]",
+                DeletedTableBracket = "[Extensions_deleted]",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                If = _if,
+                Using = _using
+            };
+        }
+
         public static SqlPhysicalDelete PhysicalDeleteSessions(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlWhereCollection where = null,
@@ -8778,6 +9093,25 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlRestore RestoreExtensions(
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            string _if = null,
+            bool _using = true)
+        {
+            return new SqlRestore()
+            {
+                CommandText = RestoreExtensionsStatement(), 
+                TableBracket = "[Extensions]",
+                HistoryTableBracket = "[Extensions_history]",
+                DeletedTableBracket = "[Extensions_deleted]",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                If = _if,
+                Using = _using
+            };
+        }
+
         public static SqlRestore RestoreSessions(
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -9246,6 +9580,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 tableType: tableType,
                 param: param,
                 select: SelectDemos(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement ExtensionsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
+        {
+            var column = new ExtensionsColumnCollection();
+            var param = new ExtensionsParamCollection();
+            column.ExtensionId(function: Sqls.Functions.SingleColumn); param.ExtensionId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.ExtensionType(function: Sqls.Functions.SingleColumn); param.ExtensionType();
+            column.ExtensionName(function: Sqls.Functions.SingleColumn); param.ExtensionName();
+            column.ExtensionSettings(function: Sqls.Functions.SingleColumn); param.ExtensionSettings();
+            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
+            column.Description(function: Sqls.Functions.SingleColumn); param.Description();
+            column.Disabled(function: Sqls.Functions.SingleColumn); param.Disabled();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertExtensions(
+                tableType: tableType,
+                param: param,
+                select: SelectExtensions(column: column, where: where),
                 addUpdatorParam: false);
         }
 
@@ -10081,6 +10439,74 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         default: break;
                     }
                     var statement = SelectDemos(
+                        dataTableName: "Aggregation" + data.Index,
+                        column: column,
+                        where: where,
+                        groupBy: groupBy);
+                    statementCollection.Add(statement);
+                });
+            return statementCollection;
+        }
+
+        public static IEnumerable<SqlStatement> ExtensionsAggregations(
+            IEnumerable<Aggregation> aggregations,
+            Sqls.TableTypes tableType,
+            SqlWhereCollection where)
+        {
+            var statementCollection = new List<SqlStatement>()
+            {
+                SelectExtensions(
+                    dataTableName: "Count",
+                    tableType: tableType,
+                    column: ExtensionsColumn().ExtensionsCount(),
+                    where: where)
+            };
+            if (tableType != Sqls.TableTypes.Normal)
+            {
+                return statementCollection;
+            }
+            aggregations
+                .Select((o, i) => new { Aggregation = o, Index = i })
+                .ForEach(data =>
+                {
+                    var groupBy = ExtensionsGroupBy();
+                    var column = ExtensionsColumn();
+                    switch (data.Aggregation.GroupBy)
+                    {
+                        case "[NotGroupBy]":
+                            break;
+                        default:
+                            groupBy.ExtensionsGroupBy(columnName: data.Aggregation.GroupBy);
+                            column.ExtensionsColumn(columnName: data.Aggregation.GroupBy);
+                            break;
+                    }
+                    switch (data.Aggregation.Type)
+                    {
+                        case Aggregation.Types.Count:
+                            column.ExtensionsCount(); break;
+                        case Aggregation.Types.Total:
+                            switch (data.Aggregation.Target)
+                            {
+                                default:
+                                    column.ExtensionsColumn(
+                                        columnName: data.Aggregation.Target,
+                                        function: Sqls.Functions.Sum);
+                                    break;
+                            }
+                            break;
+                        case Aggregation.Types.Average:
+                            switch (data.Aggregation.Target)
+                            {
+                                default:
+                                    column.ExtensionsColumn(
+                                        columnName: data.Aggregation.Target,
+                                        function: Sqls.Functions.Avg);
+                                    break;
+                            }
+                            break;
+                        default: break;
+                    }
+                    var statement = SelectExtensions(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
                         where: where,
@@ -11739,6 +12165,50 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 delete from [Demos] {0}".Params(DeleteParams(tableName: "Demos"));
         }
 
+        public static string DeleteExtensionsStatement()
+        {
+            return @"
+                update [Extensions]
+                set
+                    [Extensions].[Updator] = @_U,
+                    [Extensions].[UpdatedTime] = getdate() {0};
+                insert into [Extensions_deleted]
+                (
+                    [Extensions_deleted].[ExtensionId],
+                    [Extensions_deleted].[Ver],
+                    [Extensions_deleted].[ExtensionType],
+                    [Extensions_deleted].[ExtensionName],
+                    [Extensions_deleted].[ExtensionSettings],
+                    [Extensions_deleted].[Body],
+                    [Extensions_deleted].[Description],
+                    [Extensions_deleted].[Disabled],
+                    [Extensions_deleted].[Comments],
+                    [Extensions_deleted].[Creator],
+                    [Extensions_deleted].[Updator],
+                    [Extensions_deleted].[CreatedTime],
+                    [Extensions_deleted].[UpdatedTime]
+                    {1}
+                )
+                (
+                select
+                    [Extensions].[ExtensionId],
+                    [Extensions].[Ver],
+                    [Extensions].[ExtensionType],
+                    [Extensions].[ExtensionName],
+                    [Extensions].[ExtensionSettings],
+                    [Extensions].[Body],
+                    [Extensions].[Description],
+                    [Extensions].[Disabled],
+                    [Extensions].[Comments],
+                    [Extensions].[Creator],
+                    [Extensions].[Updator],
+                    [Extensions].[CreatedTime],
+                    [Extensions].[UpdatedTime] 
+                    {2}
+                from [Extensions] {0});
+                delete from [Extensions] {0}".Params(DeleteParams(tableName: "Extensions"));
+        }
+
         public static string DeleteSessionsStatement()
         {
             return @"
@@ -12926,6 +13396,52 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 from [Demos_deleted] {0});
                 set identity_insert [Demos] off; 
                 delete from [Demos_deleted] {0}".Params(DeleteParams(tableName: "Demos"));
+        }
+
+        public static string RestoreExtensionsStatement()
+        {
+            return @"
+                update [Extensions_deleted]
+                set
+                    [Extensions_deleted].[Updator] = @_U,
+                    [Extensions_deleted].[UpdatedTime] = getdate() {0};
+                set identity_insert [Extensions] on; 
+                insert into [Extensions]
+                (
+                    [Extensions].[ExtensionId],
+                    [Extensions].[Ver],
+                    [Extensions].[ExtensionType],
+                    [Extensions].[ExtensionName],
+                    [Extensions].[ExtensionSettings],
+                    [Extensions].[Body],
+                    [Extensions].[Description],
+                    [Extensions].[Disabled],
+                    [Extensions].[Comments],
+                    [Extensions].[Creator],
+                    [Extensions].[Updator],
+                    [Extensions].[CreatedTime],
+                    [Extensions].[UpdatedTime]
+                    {2}
+                )
+                (
+                select
+                    [Extensions_deleted].[ExtensionId],
+                    [Extensions_deleted].[Ver],
+                    [Extensions_deleted].[ExtensionType],
+                    [Extensions_deleted].[ExtensionName],
+                    [Extensions_deleted].[ExtensionSettings],
+                    [Extensions_deleted].[Body],
+                    [Extensions_deleted].[Description],
+                    [Extensions_deleted].[Disabled],
+                    [Extensions_deleted].[Comments],
+                    [Extensions_deleted].[Creator],
+                    [Extensions_deleted].[Updator],
+                    [Extensions_deleted].[CreatedTime],
+                    [Extensions_deleted].[UpdatedTime] 
+                    {1}
+                from [Extensions_deleted] {0});
+                set identity_insert [Extensions] off; 
+                delete from [Extensions_deleted] {0}".Params(DeleteParams(tableName: "Extensions"));
         }
 
         public static string RestoreSessionsStatement()
@@ -20849,6 +21365,2872 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlParamCollection Demos_UpdatedTime(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[UpdatedTime]",
+                    name: "UpdatedTime",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static ExtensionsColumnCollection ExtensionsColumn()
+        {
+            return new ExtensionsColumnCollection();
+        }
+
+        public class ExtensionsColumnCollection : SqlColumnCollection
+        {
+            public new ExtensionsColumnCollection Add(
+                string columnBracket = null,
+                string tableName = "Extensions",
+                string columnName = null,
+                string _as = null,
+                Sqls.Functions function = Sqls.Functions.None,
+                SqlStatement sub = null,
+                bool subPrefix = true)
+            {
+                base.Add(
+                    columnBracket: columnBracket,
+                    tableName: tableName,
+                    columnName: columnName,
+                    _as: _as,
+                    function: function,
+                    sub: sub,
+                    subPrefix: subPrefix);
+                return this;
+            }
+        }
+
+        public static ExtensionsJoinCollection ExtensionsJoin()
+        {
+            return new ExtensionsJoinCollection();
+        }
+
+        public class ExtensionsJoinCollection : SqlJoinCollection
+        {
+            public ExtensionsJoinCollection Add(params SqlJoin[] sqlJoinCollection)
+            {
+                sqlJoinCollection.ForEach(sqlJoin => base.Add(sqlJoin));
+                return this;
+            }
+        }
+
+        public static ExtensionsWhereCollection ExtensionsWhere()
+        {
+            return new ExtensionsWhereCollection();
+        }
+
+        public class ExtensionsWhereCollection : SqlWhereCollection
+        {
+            public new ExtensionsWhereCollection Add(
+                string tableName = "Extensions",
+                string[] columnBrackets = null,
+                string name = null,
+                object value = null,
+                string _operator = "=",
+                string multiColumnOperator = " or ",
+                string multiParamOperator = " and ",
+                SqlStatement subLeft = null,
+                SqlStatement sub = null,
+                bool subPrefix = true,
+                string raw = null,
+                bool _using = true)
+            {
+                if (_using)
+                {
+                    Add(new SqlWhere(
+                        columnBrackets: columnBrackets,
+                        tableName: tableName,
+                        name: name,
+                        value: value,
+                        _operator: _operator,
+                        multiColumnOperator: multiColumnOperator,
+                        multiParamOperator: multiParamOperator,
+                        subLeft: subLeft,
+                        sub: sub,
+                        subPrefix: subPrefix,
+                        raw: raw));
+                }
+                return this;
+            }
+        }
+
+        public static ExtensionsGroupByCollection ExtensionsGroupBy()
+        {
+            return new ExtensionsGroupByCollection();
+        }
+
+        public class ExtensionsGroupByCollection : SqlGroupByCollection
+        {
+            public new ExtensionsGroupByCollection Add(
+                string columnBracket, string tableName = "Extensions")
+            {
+                Add(new SqlGroupBy(
+                    columnBracket: columnBracket,
+                    tableName: tableName));
+                return this;
+            }
+        }
+
+        public static ExtensionsHavingCollection ExtensionsHaving()
+        {
+            return new ExtensionsHavingCollection();
+        }
+
+        public class ExtensionsHavingCollection : SqlHavingCollection
+        {
+            public ExtensionsHavingCollection Add(
+                string columnBracket,
+                string tableName = "Extensions",
+                object value = null,
+                string _operator = "=",
+                Sqls.Functions function = Sqls.Functions.None)
+            {
+                Add(new SqlHaving(
+                    columnBracket: columnBracket,
+                    tableName: tableName,
+                    value: value,
+                    _operator: _operator,
+                    function: function));
+                return this;
+            }
+        }
+
+        public static ExtensionsOrderByCollection ExtensionsOrderBy()
+        {
+            return new ExtensionsOrderByCollection();
+        }
+
+        public class ExtensionsOrderByCollection : SqlOrderByCollection
+        {
+            public new ExtensionsOrderByCollection Add(
+                string columnBracket,
+                SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+                string tableName = "Extensions",
+                Sqls.Functions function = Sqls.Functions.None)
+            {
+                Add(new SqlOrderBy(
+                    columnBracket: columnBracket,
+                    tableName: tableName,
+                    orderType: orderType,
+                    function: function));
+                return this;
+            }
+        }
+
+        public static ExtensionsParamCollection ExtensionsParam()
+        {
+            return new ExtensionsParamCollection();
+        }
+
+        public class ExtensionsParamCollection : SqlParamCollection
+        {
+            public new ExtensionsParamCollection Add(
+                string columnBracket = null,
+                string name = null,
+                object value = null,
+                SqlStatement sub = null,
+                string raw = null,
+                bool _using = true)
+            {
+                Add(new SqlParam(
+                    columnBracket: columnBracket,
+                    name: name,
+                    value: value,
+                    sub: sub,
+                    raw: raw,
+                    _using: _using));
+                return this;
+            }
+        }
+
+        public static ExtensionsColumnCollection ExtensionsColumn(
+            this ExtensionsColumnCollection self,
+            string columnName,
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            switch (columnName)
+            {
+                case "ExtensionId":
+                    return self.ExtensionId(_as: _as, function: function);
+                case "Ver":
+                    return self.Ver(_as: _as, function: function);
+                case "ExtensionType":
+                    return self.ExtensionType(_as: _as, function: function);
+                case "ExtensionName":
+                    return self.ExtensionName(_as: _as, function: function);
+                case "ExtensionSettings":
+                    return self.ExtensionSettings(_as: _as, function: function);
+                case "Body":
+                    return self.Body(_as: _as, function: function);
+                case "Description":
+                    return self.Description(_as: _as, function: function);
+                case "Disabled":
+                    return self.Disabled(_as: _as, function: function);
+                case "Comments":
+                    return self.Comments(_as: _as, function: function);
+                case "Creator":
+                    return self.Creator(_as: _as, function: function);
+                case "Updator":
+                    return self.Updator(_as: _as, function: function);
+                case "CreatedTime":
+                    return self.CreatedTime(_as: _as, function: function);
+                case "UpdatedTime":
+                    return self.UpdatedTime(_as: _as, function: function);
+                default:
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
+                        ? self.Add(
+                            columnBracket: $"[{columnName}]",
+                            columnName: columnName,
+                            _as: _as,
+                            function: function)
+                        : self;
+            }
+        }
+
+        public static ExtensionsColumnCollection ExtensionId(
+            this ExtensionsColumnCollection self,
+            string tableName = "Extensions",
+            string columnName = "ExtensionId",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[ExtensionId]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Extensions_ExtensionId(
+            this SqlColumnCollection self,
+            string tableName = "Extensions",
+            string columnName = "ExtensionId",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[ExtensionId]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static ExtensionsColumnCollection Ver(
+            this ExtensionsColumnCollection self,
+            string tableName = "Extensions",
+            string columnName = "Ver",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Ver]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Extensions_Ver(
+            this SqlColumnCollection self,
+            string tableName = "Extensions",
+            string columnName = "Ver",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Ver]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static ExtensionsColumnCollection ExtensionType(
+            this ExtensionsColumnCollection self,
+            string tableName = "Extensions",
+            string columnName = "ExtensionType",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[ExtensionType]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Extensions_ExtensionType(
+            this SqlColumnCollection self,
+            string tableName = "Extensions",
+            string columnName = "ExtensionType",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[ExtensionType]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static ExtensionsColumnCollection ExtensionName(
+            this ExtensionsColumnCollection self,
+            string tableName = "Extensions",
+            string columnName = "ExtensionName",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[ExtensionName]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Extensions_ExtensionName(
+            this SqlColumnCollection self,
+            string tableName = "Extensions",
+            string columnName = "ExtensionName",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[ExtensionName]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static ExtensionsColumnCollection ExtensionSettings(
+            this ExtensionsColumnCollection self,
+            string tableName = "Extensions",
+            string columnName = "ExtensionSettings",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[ExtensionSettings]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Extensions_ExtensionSettings(
+            this SqlColumnCollection self,
+            string tableName = "Extensions",
+            string columnName = "ExtensionSettings",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[ExtensionSettings]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static ExtensionsColumnCollection Body(
+            this ExtensionsColumnCollection self,
+            string tableName = "Extensions",
+            string columnName = "Body",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Body]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Extensions_Body(
+            this SqlColumnCollection self,
+            string tableName = "Extensions",
+            string columnName = "Body",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Body]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static ExtensionsColumnCollection Description(
+            this ExtensionsColumnCollection self,
+            string tableName = "Extensions",
+            string columnName = "Description",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Description]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Extensions_Description(
+            this SqlColumnCollection self,
+            string tableName = "Extensions",
+            string columnName = "Description",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Description]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static ExtensionsColumnCollection Disabled(
+            this ExtensionsColumnCollection self,
+            string tableName = "Extensions",
+            string columnName = "Disabled",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Disabled]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Extensions_Disabled(
+            this SqlColumnCollection self,
+            string tableName = "Extensions",
+            string columnName = "Disabled",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Disabled]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static ExtensionsColumnCollection Comments(
+            this ExtensionsColumnCollection self,
+            string tableName = "Extensions",
+            string columnName = "Comments",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Comments]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Extensions_Comments(
+            this SqlColumnCollection self,
+            string tableName = "Extensions",
+            string columnName = "Comments",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Comments]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static ExtensionsColumnCollection Creator(
+            this ExtensionsColumnCollection self,
+            string tableName = "Extensions",
+            string columnName = "Creator",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Creator]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Extensions_Creator(
+            this SqlColumnCollection self,
+            string tableName = "Extensions",
+            string columnName = "Creator",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Creator]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static ExtensionsColumnCollection Updator(
+            this ExtensionsColumnCollection self,
+            string tableName = "Extensions",
+            string columnName = "Updator",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Updator]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Extensions_Updator(
+            this SqlColumnCollection self,
+            string tableName = "Extensions",
+            string columnName = "Updator",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Updator]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static ExtensionsColumnCollection CreatedTime(
+            this ExtensionsColumnCollection self,
+            string tableName = "Extensions",
+            string columnName = "CreatedTime",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[CreatedTime]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Extensions_CreatedTime(
+            this SqlColumnCollection self,
+            string tableName = "Extensions",
+            string columnName = "CreatedTime",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[CreatedTime]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static ExtensionsColumnCollection UpdatedTime(
+            this ExtensionsColumnCollection self,
+            string tableName = "Extensions",
+            string columnName = "UpdatedTime",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[UpdatedTime]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Extensions_UpdatedTime(
+            this SqlColumnCollection self,
+            string tableName = "Extensions",
+            string columnName = "UpdatedTime",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[UpdatedTime]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static ExtensionsColumnCollection ExtensionsCount(
+            this ExtensionsColumnCollection self,
+            string _as = "ExtensionsCount")
+        {
+            return self.Add(
+                columnBracket: "*",
+                tableName: null,
+                _as: _as,
+                function: Sqls.Functions.Count);
+        }
+
+        public static ExtensionsWhereCollection ExtensionId(
+            this ExtensionsWhereCollection self,
+            object value = null,
+            string tableName = "Extensions",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[ExtensionId]" },
+                    tableName: tableName,
+                    name: "ExtensionId",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Extensions_ExtensionId(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Extensions",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[ExtensionId]" },
+                    tableName: tableName,
+                    name: "ExtensionId",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static ExtensionsWhereCollection Ver(
+            this ExtensionsWhereCollection self,
+            object value = null,
+            string tableName = "Extensions",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Ver]" },
+                    tableName: tableName,
+                    name: "Ver",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Extensions_Ver(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Extensions",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Ver]" },
+                    tableName: tableName,
+                    name: "Ver",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static ExtensionsWhereCollection ExtensionType(
+            this ExtensionsWhereCollection self,
+            object value = null,
+            string tableName = "Extensions",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[ExtensionType]" },
+                    tableName: tableName,
+                    name: "ExtensionType",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Extensions_ExtensionType(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Extensions",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[ExtensionType]" },
+                    tableName: tableName,
+                    name: "ExtensionType",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static ExtensionsWhereCollection ExtensionName(
+            this ExtensionsWhereCollection self,
+            object value = null,
+            string tableName = "Extensions",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[ExtensionName]" },
+                    tableName: tableName,
+                    name: "ExtensionName",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Extensions_ExtensionName(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Extensions",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[ExtensionName]" },
+                    tableName: tableName,
+                    name: "ExtensionName",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static ExtensionsWhereCollection ExtensionSettings(
+            this ExtensionsWhereCollection self,
+            object value = null,
+            string tableName = "Extensions",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[ExtensionSettings]" },
+                    tableName: tableName,
+                    name: "ExtensionSettings",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Extensions_ExtensionSettings(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Extensions",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[ExtensionSettings]" },
+                    tableName: tableName,
+                    name: "ExtensionSettings",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static ExtensionsWhereCollection Body(
+            this ExtensionsWhereCollection self,
+            object value = null,
+            string tableName = "Extensions",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Body]" },
+                    tableName: tableName,
+                    name: "Body",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Extensions_Body(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Extensions",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Body]" },
+                    tableName: tableName,
+                    name: "Body",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static ExtensionsWhereCollection Description(
+            this ExtensionsWhereCollection self,
+            object value = null,
+            string tableName = "Extensions",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Description]" },
+                    tableName: tableName,
+                    name: "Description",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Extensions_Description(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Extensions",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Description]" },
+                    tableName: tableName,
+                    name: "Description",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static ExtensionsWhereCollection Disabled(
+            this ExtensionsWhereCollection self,
+            object value = null,
+            string tableName = "Extensions",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Disabled]" },
+                    tableName: tableName,
+                    name: "Disabled",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Extensions_Disabled(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Extensions",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Disabled]" },
+                    tableName: tableName,
+                    name: "Disabled",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static ExtensionsWhereCollection Comments(
+            this ExtensionsWhereCollection self,
+            object value = null,
+            string tableName = "Extensions",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Comments]" },
+                    tableName: tableName,
+                    name: "Comments",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Extensions_Comments(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Extensions",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Comments]" },
+                    tableName: tableName,
+                    name: "Comments",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static ExtensionsWhereCollection Creator(
+            this ExtensionsWhereCollection self,
+            object value = null,
+            string tableName = "Extensions",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Creator]" },
+                    tableName: tableName,
+                    name: "Creator",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Extensions_Creator(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Extensions",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Creator]" },
+                    tableName: tableName,
+                    name: "Creator",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static ExtensionsWhereCollection Updator(
+            this ExtensionsWhereCollection self,
+            object value = null,
+            string tableName = "Extensions",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Updator]" },
+                    tableName: tableName,
+                    name: "Updator",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Extensions_Updator(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Extensions",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Updator]" },
+                    tableName: tableName,
+                    name: "Updator",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static ExtensionsWhereCollection CreatedTime(
+            this ExtensionsWhereCollection self,
+            object value = null,
+            string tableName = "Extensions",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[CreatedTime]" },
+                    tableName: tableName,
+                    name: "CreatedTime",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Extensions_CreatedTime(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Extensions",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[CreatedTime]" },
+                    tableName: tableName,
+                    name: "CreatedTime",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static ExtensionsWhereCollection UpdatedTime(
+            this ExtensionsWhereCollection self,
+            object value = null,
+            string tableName = "Extensions",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[UpdatedTime]" },
+                    tableName: tableName,
+                    name: "UpdatedTime",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Extensions_UpdatedTime(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Extensions",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[UpdatedTime]" },
+                    tableName: tableName,
+                    name: "UpdatedTime",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static ExtensionsWhereCollection ExtensionId_In(
+            this ExtensionsWhereCollection self,
+            IEnumerable<int> value = null,
+            string tableName = "Extensions",
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "[ExtensionId]" },
+                    tableName: tableName,
+                    name: "ExtensionId",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "[ExtensionId]" },
+                    tableName: tableName,
+                    name: "ExtensionId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ExtensionsWhereCollection Ver_In(
+            this ExtensionsWhereCollection self,
+            IEnumerable<int> value = null,
+            string tableName = "Extensions",
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "[Ver]" },
+                    tableName: tableName,
+                    name: "Ver",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "[Ver]" },
+                    tableName: tableName,
+                    name: "Ver",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ExtensionsWhereCollection Creator_In(
+            this ExtensionsWhereCollection self,
+            IEnumerable<int> value = null,
+            string tableName = "Extensions",
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "[Creator]" },
+                    tableName: tableName,
+                    name: "Creator",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "[Creator]" },
+                    tableName: tableName,
+                    name: "Creator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ExtensionsWhereCollection Updator_In(
+            this ExtensionsWhereCollection self,
+            IEnumerable<int> value = null,
+            string tableName = "Extensions",
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "[Updator]" },
+                    tableName: tableName,
+                    name: "Updator",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "[Updator]" },
+                    tableName: tableName,
+                    name: "Updator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ExtensionsWhereCollection ExtensionId_Between(
+            this ExtensionsWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Extensions",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[ExtensionId]" },
+                    tableName: tableName,
+                    name: "ExtensionId",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Extensions_ExtensionId_Between(
+            this SqlWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Extensions",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[ExtensionId]" },
+                    tableName: tableName,
+                    name: "ExtensionId",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static ExtensionsWhereCollection Ver_Between(
+            this ExtensionsWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Extensions",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Ver]" },
+                    tableName: tableName,
+                    name: "Ver",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Extensions_Ver_Between(
+            this SqlWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Extensions",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Ver]" },
+                    tableName: tableName,
+                    name: "Ver",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static ExtensionsWhereCollection Creator_Between(
+            this ExtensionsWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Extensions",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Creator]" },
+                    tableName: tableName,
+                    name: "Creator",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Extensions_Creator_Between(
+            this SqlWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Extensions",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Creator]" },
+                    tableName: tableName,
+                    name: "Creator",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static ExtensionsWhereCollection Updator_Between(
+            this ExtensionsWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Extensions",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Updator]" },
+                    tableName: tableName,
+                    name: "Updator",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Extensions_Updator_Between(
+            this SqlWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Extensions",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Updator]" },
+                    tableName: tableName,
+                    name: "Updator",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static ExtensionsWhereCollection CreatedTime_Between(
+            this ExtensionsWhereCollection self,
+            DateTime begin,
+            DateTime end,
+            string tableName = "Extensions",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[CreatedTime]" },
+                    tableName: tableName,
+                    name: "CreatedTime",
+                    _operator: " between ",
+                    raw: "'{0}' and '{1}' ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Extensions_CreatedTime_Between(
+            this SqlWhereCollection self,
+            DateTime begin,
+            DateTime end,
+            string tableName = "Extensions",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[CreatedTime]" },
+                    tableName: tableName,
+                    name: "CreatedTime",
+                    _operator: " between ",
+                    raw: "'{0}' and '{1}' ".Params(begin, end))
+                : self;
+        }
+
+        public static ExtensionsWhereCollection UpdatedTime_Between(
+            this ExtensionsWhereCollection self,
+            DateTime begin,
+            DateTime end,
+            string tableName = "Extensions",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[UpdatedTime]" },
+                    tableName: tableName,
+                    name: "UpdatedTime",
+                    _operator: " between ",
+                    raw: "'{0}' and '{1}' ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Extensions_UpdatedTime_Between(
+            this SqlWhereCollection self,
+            DateTime begin,
+            DateTime end,
+            string tableName = "Extensions",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[UpdatedTime]" },
+                    tableName: tableName,
+                    name: "UpdatedTime",
+                    _operator: " between ",
+                    raw: "'{0}' and '{1}' ".Params(begin, end))
+                : self;
+        }
+
+        public static ExtensionsWhereCollection Sub(
+            this ExtensionsWhereCollection self,
+            SqlStatement sub,
+            object value = null,
+            string _operator = "=",
+            bool _using = true)
+        {
+            return _using 
+                ? self.Add(
+                    null, null, null, value, _operator, sub: sub)
+                : self;
+        }
+
+        public static ExtensionsGroupByCollection ExtensionsGroupBy(
+            this ExtensionsGroupByCollection self, string columnName, bool _using = true)
+        {
+            if (_using)
+            {
+                switch (columnName)
+                {
+                    case "ExtensionId": return self.ExtensionId();
+                    case "Ver": return self.Ver();
+                    case "ExtensionType": return self.ExtensionType();
+                    case "ExtensionName": return self.ExtensionName();
+                    case "ExtensionSettings": return self.ExtensionSettings();
+                    case "Body": return self.Body();
+                    case "Description": return self.Description();
+                    case "Disabled": return self.Disabled();
+                    case "Comments": return self.Comments();
+                    case "Creator": return self.Creator();
+                    case "Updator": return self.Updator();
+                    case "CreatedTime": return self.CreatedTime();
+                    case "UpdatedTime": return self.UpdatedTime();
+                    default:
+                        return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                            ? self.Add(columnBracket: $"[{columnName}]")
+                            : self;
+                }
+            }
+            else
+            {
+                return self;
+            }
+        }
+
+        public static ExtensionsGroupByCollection ExtensionId(
+            this ExtensionsGroupByCollection self, string tableName = "Extensions")
+        {
+            return self.Add(columnBracket: "[ExtensionId]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Extensions_ExtensionId(
+            this SqlGroupByCollection self, string tableName = "Extensions")
+        {
+            return self.Add(columnBracket: "[ExtensionId]", tableName: tableName);
+        }
+
+        public static ExtensionsGroupByCollection Ver(
+            this ExtensionsGroupByCollection self, string tableName = "Extensions")
+        {
+            return self.Add(columnBracket: "[Ver]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Extensions_Ver(
+            this SqlGroupByCollection self, string tableName = "Extensions")
+        {
+            return self.Add(columnBracket: "[Ver]", tableName: tableName);
+        }
+
+        public static ExtensionsGroupByCollection ExtensionType(
+            this ExtensionsGroupByCollection self, string tableName = "Extensions")
+        {
+            return self.Add(columnBracket: "[ExtensionType]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Extensions_ExtensionType(
+            this SqlGroupByCollection self, string tableName = "Extensions")
+        {
+            return self.Add(columnBracket: "[ExtensionType]", tableName: tableName);
+        }
+
+        public static ExtensionsGroupByCollection ExtensionName(
+            this ExtensionsGroupByCollection self, string tableName = "Extensions")
+        {
+            return self.Add(columnBracket: "[ExtensionName]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Extensions_ExtensionName(
+            this SqlGroupByCollection self, string tableName = "Extensions")
+        {
+            return self.Add(columnBracket: "[ExtensionName]", tableName: tableName);
+        }
+
+        public static ExtensionsGroupByCollection ExtensionSettings(
+            this ExtensionsGroupByCollection self, string tableName = "Extensions")
+        {
+            return self.Add(columnBracket: "[ExtensionSettings]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Extensions_ExtensionSettings(
+            this SqlGroupByCollection self, string tableName = "Extensions")
+        {
+            return self.Add(columnBracket: "[ExtensionSettings]", tableName: tableName);
+        }
+
+        public static ExtensionsGroupByCollection Body(
+            this ExtensionsGroupByCollection self, string tableName = "Extensions")
+        {
+            return self.Add(columnBracket: "[Body]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Extensions_Body(
+            this SqlGroupByCollection self, string tableName = "Extensions")
+        {
+            return self.Add(columnBracket: "[Body]", tableName: tableName);
+        }
+
+        public static ExtensionsGroupByCollection Description(
+            this ExtensionsGroupByCollection self, string tableName = "Extensions")
+        {
+            return self.Add(columnBracket: "[Description]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Extensions_Description(
+            this SqlGroupByCollection self, string tableName = "Extensions")
+        {
+            return self.Add(columnBracket: "[Description]", tableName: tableName);
+        }
+
+        public static ExtensionsGroupByCollection Disabled(
+            this ExtensionsGroupByCollection self, string tableName = "Extensions")
+        {
+            return self.Add(columnBracket: "[Disabled]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Extensions_Disabled(
+            this SqlGroupByCollection self, string tableName = "Extensions")
+        {
+            return self.Add(columnBracket: "[Disabled]", tableName: tableName);
+        }
+
+        public static ExtensionsGroupByCollection Comments(
+            this ExtensionsGroupByCollection self, string tableName = "Extensions")
+        {
+            return self.Add(columnBracket: "[Comments]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Extensions_Comments(
+            this SqlGroupByCollection self, string tableName = "Extensions")
+        {
+            return self.Add(columnBracket: "[Comments]", tableName: tableName);
+        }
+
+        public static ExtensionsGroupByCollection Creator(
+            this ExtensionsGroupByCollection self, string tableName = "Extensions")
+        {
+            return self.Add(columnBracket: "[Creator]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Extensions_Creator(
+            this SqlGroupByCollection self, string tableName = "Extensions")
+        {
+            return self.Add(columnBracket: "[Creator]", tableName: tableName);
+        }
+
+        public static ExtensionsGroupByCollection Updator(
+            this ExtensionsGroupByCollection self, string tableName = "Extensions")
+        {
+            return self.Add(columnBracket: "[Updator]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Extensions_Updator(
+            this SqlGroupByCollection self, string tableName = "Extensions")
+        {
+            return self.Add(columnBracket: "[Updator]", tableName: tableName);
+        }
+
+        public static ExtensionsGroupByCollection CreatedTime(
+            this ExtensionsGroupByCollection self, string tableName = "Extensions")
+        {
+            return self.Add(columnBracket: "[CreatedTime]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Extensions_CreatedTime(
+            this SqlGroupByCollection self, string tableName = "Extensions")
+        {
+            return self.Add(columnBracket: "[CreatedTime]", tableName: tableName);
+        }
+
+        public static ExtensionsGroupByCollection UpdatedTime(
+            this ExtensionsGroupByCollection self, string tableName = "Extensions")
+        {
+            return self.Add(columnBracket: "[UpdatedTime]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Extensions_UpdatedTime(
+            this SqlGroupByCollection self, string tableName = "Extensions")
+        {
+            return self.Add(columnBracket: "[UpdatedTime]", tableName: tableName);
+        }
+
+        public static ExtensionsHavingCollection ExtensionsCount(
+            this ExtensionsHavingCollection self,
+            object value = null,
+            string tableName = "Extensions",
+            string _operator = null)
+        {
+            return self.Add(
+                columnBracket: "*",
+                value: value,
+                tableName: tableName,
+                _operator: _operator,
+                function: Sqls.Functions.Count);
+        }
+
+        public static ExtensionsHavingCollection CreatedTime(
+            this ExtensionsHavingCollection self,
+            string tableName = "Extensions",
+            object value = null,
+            string _operator = "=",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            return self.Add(
+                columnBracket: "CreatedTime",
+                tableName: tableName,
+                value: value,
+                _operator: _operator,
+                function: function);
+        }
+
+        public static ExtensionsHavingCollection UpdatedTime(
+            this ExtensionsHavingCollection self,
+            string tableName = "Extensions",
+            object value = null,
+            string _operator = "=",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            return self.Add(
+                columnBracket: "UpdatedTime",
+                tableName: tableName,
+                value: value,
+                _operator: _operator,
+                function: function);
+        }
+
+        public static ExtensionsOrderByCollection ExtensionId(
+            this ExtensionsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Extensions",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[ExtensionId]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static ExtensionsOrderByCollection Ver(
+            this ExtensionsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Extensions",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Ver]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static ExtensionsOrderByCollection ExtensionType(
+            this ExtensionsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Extensions",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[ExtensionType]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static ExtensionsOrderByCollection ExtensionName(
+            this ExtensionsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Extensions",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[ExtensionName]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static ExtensionsOrderByCollection ExtensionSettings(
+            this ExtensionsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Extensions",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[ExtensionSettings]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static ExtensionsOrderByCollection Body(
+            this ExtensionsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Extensions",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Body]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static ExtensionsOrderByCollection Description(
+            this ExtensionsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Extensions",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Description]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static ExtensionsOrderByCollection Disabled(
+            this ExtensionsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Extensions",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Disabled]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static ExtensionsOrderByCollection Comments(
+            this ExtensionsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Extensions",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Comments]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static ExtensionsOrderByCollection Creator(
+            this ExtensionsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Extensions",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Creator]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static ExtensionsOrderByCollection Updator(
+            this ExtensionsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Extensions",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Updator]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static ExtensionsOrderByCollection CreatedTime(
+            this ExtensionsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Extensions",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[CreatedTime]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static ExtensionsOrderByCollection UpdatedTime(
+            this ExtensionsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Extensions",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[UpdatedTime]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Extensions_ExtensionId(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Extensions",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[ExtensionId]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Extensions_Ver(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Extensions",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Ver]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Extensions_ExtensionType(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Extensions",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[ExtensionType]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Extensions_ExtensionName(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Extensions",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[ExtensionName]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Extensions_ExtensionSettings(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Extensions",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[ExtensionSettings]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Extensions_Body(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Extensions",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Body]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Extensions_Description(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Extensions",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Description]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Extensions_Disabled(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Extensions",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Disabled]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Extensions_Comments(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Extensions",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Comments]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Extensions_Creator(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Extensions",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Creator]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Extensions_Updator(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Extensions",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Updator]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Extensions_CreatedTime(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Extensions",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[CreatedTime]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Extensions_UpdatedTime(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Extensions",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[UpdatedTime]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static ExtensionsOrderByCollection ExtensionsCount(
+            this ExtensionsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc)
+        {
+            return self.Add(
+                columnBracket: "*",
+                orderType: orderType,
+                function: Sqls.Functions.Count);
+        }
+
+        public static ExtensionsParamCollection ExtensionId(
+            this ExtensionsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[ExtensionId]",
+                    name: "ExtensionId",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Extensions_ExtensionId(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[ExtensionId]",
+                    name: "ExtensionId",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static ExtensionsParamCollection Ver(
+            this ExtensionsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Ver]",
+                    name: "Ver",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Extensions_Ver(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Ver]",
+                    name: "Ver",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static ExtensionsParamCollection ExtensionType(
+            this ExtensionsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[ExtensionType]",
+                    name: "ExtensionType",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Extensions_ExtensionType(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[ExtensionType]",
+                    name: "ExtensionType",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static ExtensionsParamCollection ExtensionName(
+            this ExtensionsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[ExtensionName]",
+                    name: "ExtensionName",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Extensions_ExtensionName(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[ExtensionName]",
+                    name: "ExtensionName",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static ExtensionsParamCollection ExtensionSettings(
+            this ExtensionsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[ExtensionSettings]",
+                    name: "ExtensionSettings",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Extensions_ExtensionSettings(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[ExtensionSettings]",
+                    name: "ExtensionSettings",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static ExtensionsParamCollection Body(
+            this ExtensionsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Body]",
+                    name: "Body",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Extensions_Body(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Body]",
+                    name: "Body",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static ExtensionsParamCollection Description(
+            this ExtensionsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Description]",
+                    name: "Description",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Extensions_Description(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Description]",
+                    name: "Description",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static ExtensionsParamCollection Disabled(
+            this ExtensionsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Disabled]",
+                    name: "Disabled",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Extensions_Disabled(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Disabled]",
+                    name: "Disabled",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static ExtensionsParamCollection Comments(
+            this ExtensionsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Comments]",
+                    name: "Comments",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Extensions_Comments(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Comments]",
+                    name: "Comments",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static ExtensionsParamCollection Creator(
+            this ExtensionsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Creator]",
+                    name: "Creator",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Extensions_Creator(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Creator]",
+                    name: "Creator",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static ExtensionsParamCollection Updator(
+            this ExtensionsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Updator]",
+                    name: "Updator",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Extensions_Updator(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Updator]",
+                    name: "Updator",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static ExtensionsParamCollection CreatedTime(
+            this ExtensionsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[CreatedTime]",
+                    name: "CreatedTime",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Extensions_CreatedTime(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[CreatedTime]",
+                    name: "CreatedTime",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static ExtensionsParamCollection UpdatedTime(
+            this ExtensionsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[UpdatedTime]",
+                    name: "UpdatedTime",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Extensions_UpdatedTime(
             this SqlParamCollection self,
             object value = null,
             SqlStatement sub = null,
@@ -100273,6 +103655,114 @@ namespace Implem.Pleasanter.Libraries.DataSources
             demoModel.AttachmentsHash
                 .Where(o => demoModel.Attachments_Updated(columnName: o.Key)
                     || (otherInitValue && !demoModel.Attachments(columnName: o.Key)
+                        .InitialValue(context: context)))
+                .ForEach(o =>
+                    param.Add(
+                        columnBracket: o.Key,
+                        name: o.Key,
+                        value: o.Value?.RecordingJson() ?? string.Empty));
+            return param;
+        }
+
+        public static ExtensionsColumnCollection ExtensionsDefaultColumns()
+        {
+            var column = ExtensionsColumn()
+                .ExtensionId()
+                .Ver()
+                .ExtensionType()
+                .ExtensionName()
+                .ExtensionSettings()
+                .Body()
+                .Description()
+                .Disabled()
+                .Comments()
+                .Creator()
+                .Updator()
+                .CreatedTime()
+                .UpdatedTime();
+            Def.ColumnDefinitionCollection
+                .Where(columnDefinition => columnDefinition.TableName == "Extensions")
+                .Where(columnDefinition => !columnDefinition.ExtendedColumnType.IsNullOrEmpty())
+                .ForEach(columnDefinition =>
+                    column.ExtensionsColumn(columnDefinition.ColumnName));
+            return column;
+        }
+
+        public static ExtensionsJoinCollection ExtensionsJoinDefault()
+        {
+            var join = ExtensionsJoin();
+            return join;
+        }
+
+        public static ExtensionsWhereCollection ExtensionsWhereDefault(ExtensionModel extensionModel)
+        {
+            return ExtensionsWhere()
+                .ExtensionId(extensionModel.ExtensionId);
+        }
+
+        public static ExtensionsParamCollection ExtensionsParamDefault(
+            Context context,
+            ExtensionModel extensionModel,
+            bool setDefault = false,
+            bool otherInitValue = false)
+        {
+            var param = ExtensionsParam()
+                .Ver(extensionModel.Ver, _using: extensionModel.Ver_Updated(context) || setDefault || (otherInitValue && !extensionModel.Ver.InitialValue(context)))
+                .ExtensionType(extensionModel.ExtensionType.MaxLength(128), _using: extensionModel.ExtensionType_Updated(context) || setDefault || (otherInitValue && !extensionModel.ExtensionType.InitialValue(context)))
+                .ExtensionName(extensionModel.ExtensionName.MaxLength(256), _using: extensionModel.ExtensionName_Updated(context) || setDefault || (otherInitValue && !extensionModel.ExtensionName.InitialValue(context)))
+                .ExtensionSettings(extensionModel.ExtensionSettings, _using: extensionModel.ExtensionSettings_Updated(context) || setDefault || (otherInitValue && !extensionModel.ExtensionSettings.InitialValue(context)))
+                .Body(extensionModel.Body, _using: extensionModel.Body_Updated(context) || (otherInitValue && !extensionModel.Body.InitialValue(context)))
+                .Description(extensionModel.Description, _using: extensionModel.Description_Updated(context) || (otherInitValue && !extensionModel.Description.InitialValue(context)))
+                .Disabled(extensionModel.Disabled, _using: extensionModel.Disabled_Updated(context) || setDefault || (otherInitValue && !extensionModel.Disabled.InitialValue(context)))
+                .Comments(extensionModel.Comments.ToJson(), _using: extensionModel.Comments_Updated(context) || (otherInitValue && !extensionModel.Comments.InitialValue(context)));
+            extensionModel.ClassHash
+                .Where(o => extensionModel.Class_Updated(columnName: o.Key)
+                    || (otherInitValue && !extensionModel.Class(columnName: o.Key)
+                        .InitialValue(context: context)))
+                .ForEach(o =>
+                    param.Add(
+                        columnBracket: o.Key,
+                        name: o.Key,
+                        value: o.Value.MaxLength(1024)));
+            extensionModel.NumHash
+                .Where(o => extensionModel.Num_Updated(columnName: o.Key)
+                    || (otherInitValue && !extensionModel.Num(columnName: o.Key)
+                        .InitialValue(context: context)))
+                .ForEach(o =>
+                    param.Add(
+                        columnBracket: o.Key,
+                        name: o.Key,
+                        value: o.Value));
+            extensionModel.DateHash
+                .Where(o => extensionModel.Date_Updated(columnName: o.Key)
+                    || (otherInitValue && !extensionModel.Date(columnName: o.Key)
+                        .InitialValue(context: context)))
+                .ForEach(o =>
+                    param.Add(
+                        columnBracket: o.Key,
+                        name: o.Key,
+                        value: o.Value));
+            extensionModel.DescriptionHash
+                .Where(o => extensionModel.Description_Updated(columnName: o.Key)
+                    || (otherInitValue && !extensionModel.Description(columnName: o.Key)
+                        .InitialValue(context: context)))
+                .ForEach(o =>
+                    param.Add(
+                        columnBracket: o.Key,
+                        name: o.Key,
+                        value: o.Value));
+            extensionModel.CheckHash
+                .Where(o => extensionModel.Check_Updated(columnName: o.Key)
+                    || (otherInitValue && !extensionModel.Check(columnName: o.Key)
+                        .InitialValue(context: context)))
+                .ForEach(o =>
+                    param.Add(
+                        columnBracket: o.Key,
+                        name: o.Key,
+                        value: o.Value));
+            extensionModel.AttachmentsHash
+                .Where(o => extensionModel.Attachments_Updated(columnName: o.Key)
+                    || (otherInitValue && !extensionModel.Attachments(columnName: o.Key)
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(

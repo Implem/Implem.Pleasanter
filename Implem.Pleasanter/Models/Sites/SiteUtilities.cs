@@ -3212,13 +3212,13 @@ namespace Implem.Pleasanter.Models
                                             "Hayato2.png"))
                                         .Text(text: Displays.UserManual(context: context)))
                                 .A(
-                                    href: Parameters.General.HtmlFaqUrl,
+                                    href: Parameters.General.HtmlEnterPriseEditionUrl,
                                     action: () => hb
                                         .Img(src: Locations.Get(
                                             context: context,
                                             "Images",
                                             "Hayato3.png"))
-                                        .Text(text: Displays.Faq(context: context))))
+                                        .Text(text: Displays.EnterpriseEdition(context: context))))
                         .FieldCheckBox(
                             fieldId: "DisableStartGuideField",
                             controlId: "DisableStartGuide",

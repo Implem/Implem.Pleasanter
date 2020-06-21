@@ -10,12 +10,13 @@ namespace Implem.ParameterAccessor.Parts
         public string HtmlPortalUrl;
         public string HtmlApplicationBuildingGuideUrl;
         public string HtmlUserManualUrl;
-        public string HtmlFaqUrl;
         public string HtmlBlogUrl;
         public string HtmlSupportUrl;
         public string HtmlContactUrl;
         public string HtmlAGPLUrl;
         public string HtmlCommercialLicenseUrl;
+        public string HtmlAnnualSupportServiceUrl;
+        public string HtmlEnterPriseEditionUrl;
         public bool DisplayLogoText;
         public int SiteMenuHotSpan;
         public int LimitWarning1;

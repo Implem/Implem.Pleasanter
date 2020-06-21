@@ -16,8 +16,8 @@ namespace Implem.DefinitionAccessor
         public static Dictionary<string, string> ExtendedColumnDefinitions;
         public static List<ExtendedColumns> ExtendedColumnsSet;
         public static List<ExtendedSql> ExtendedSqls;
-        public static List<string> ExtendedStyles;
-        public static List<string> ExtendedScripts;
+        public static List<ExtendedStyle> ExtendedStyles;
+        public static List<ExtendedScript> ExtendedScripts;
         public static Dictionary<string, string> ExtendedTags;
         public static General General;
         public static History History;

@@ -119,6 +119,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 case "tenants": return TenantsSiteSettings(context: context);
                 case "demos": return DemosSiteSettings(context: context);
+                case "extensions": return ExtensionsSiteSettings(context: context);
                 case "sessions": return SessionsSiteSettings(context: context);
                 case "syslogs": return SysLogsSiteSettings(context: context);
                 case "statuses": return StatusesSiteSettings(context: context);
@@ -163,6 +164,16 @@ namespace Implem.Pleasanter.Libraries.Settings
             var ss = new SiteSettings()
             {
                 ReferenceType = "Demos"
+            };
+            ss.Init(context: context);
+            return ss;
+        }
+
+        public static SiteSettings ExtensionsSiteSettings(Context context)
+        {
+            var ss = new SiteSettings()
+            {
+                ReferenceType = "Extensions"
             };
             ss.Init(context: context);
             return ss;

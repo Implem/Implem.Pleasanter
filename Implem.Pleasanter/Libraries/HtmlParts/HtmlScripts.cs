@@ -18,8 +18,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string script = null,
             string userScript = null)
         {
-            return !context.Ajax
-                ? hb
+
+            if (!context.Ajax)
+            { 
+                var extendedScripts = ExtendedScripts(context: context);
+                return hb
                     .Script(src: Locations.Get(
                         context: context,
                         parts: "Scripts/Plugins/jquery-3.1.0.min.js"))
@@ -52,8 +55,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         src: Locations.Get(
                             context: context,
                             parts: "Resources/Scripts?v="
-                                + Parameters.ExtendedScripts.Join().Sha512Cng()),
-                        _using: Parameters.ExtendedScripts?.Any() == true)
+                                + extendedScripts.Sha512Cng()),
+                        _using: !extendedScripts.IsNullOrEmpty())
                     .Script(script: script, _using: !script.IsNullOrEmpty())
                     .Script(
                         script: ss.GetScriptBody(context: context, peredicate: o => o.All == true),
@@ -63,8 +66,24 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         script: userScript,
                         _using: context.ContractSettings.Script != false
                             && !userScript.IsNullOrEmpty())
-                    .OnEditorLoad(context: context)
-                : hb;
+                    .OnEditorLoad(context: context);
+            }
+            else
+            {
+                return hb;
+            }
+        }
+
+        public static string ExtendedScripts(Context context)
+        {
+            return Parameters.ExtendedScripts
+                ?.Where(o => o.SiteIdList?.Any() != true || o.SiteIdList.Contains(context.SiteId))
+                .Where(o => o.IdList?.Any() != true || o.IdList.Contains(context.Id))
+                .Where(o => o.Controllers?.Any() != true || o.Controllers.Contains(context.Controller))
+                .Where(o => o.Actions?.Any() != true || o.Actions.Contains(context.Action))
+                .Where(o => !o.Disabled)
+                .Select(o => o.Script)
+                .Join("\n");
         }
 
         private static HtmlBuilder Generals(this HtmlBuilder hb)

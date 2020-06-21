@@ -50,6 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Parameters.cs" />
+    <Compile Include="Parts\ExtendedStyle.cs" />
+    <Compile Include="Parts\ExtendedSql.cs" />
     <Compile Include="Parts\Locations.cs" />
     <Compile Include="Parts\SamlAttributes.cs" />
     <Compile Include="Parts\Saml.cs" />
@@ -65,7 +67,7 @@
     <Compile Include="Parts\BackgroundTask.cs" />
     <Compile Include="Parts\BinaryStorage.cs" />
     <Compile Include="Parts\ExtendedColumns.cs" />
-    <Compile Include="Parts\ExtendedSql.cs" />
+    <Compile Include="Parts\ExtendedScript.cs" />
     <Compile Include="Parts\General.cs" />
     <Compile Include="Parts\Ldap.cs" />
     <Compile Include="Parts\LdapExtendedAttribute.cs" />
