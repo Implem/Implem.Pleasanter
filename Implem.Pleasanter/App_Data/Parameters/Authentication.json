@@ -51,6 +51,34 @@
             "Body": "Body",
             "MailAddress": "{NameId}"
         },
-        "SamlTenantId": 1
+        "SamlTenantId": 1,
+        "SPOptions": {
+            "EntityId": "http://localhost:59802/Saml2",
+            "ReturnUrl": "http://localhost:59802/Users/SamlLogin",
+            "AuthenticateRequestSigningBehavior": "IfIdpWantAuthnRequestsSigned",
+            "OutboundSigningAlgorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
+            "MinIncomingSigningAlgorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
+            "ServiceCertificates": []
+        },
+        "IdentityProviders": [
+            {
+                "EntityId": null,
+                "SingleSignOnServiceUrl": null,
+                "SingleLogoutServiceUrl": null,
+                "AllowUnsolicitedAuthnResponse": true,
+                "Binding": "HttpPost",
+                "WantAuthnRequestsSigned": false,
+                "DisableOutboundLogoutRequests": true,
+                "LoadMetadata": false,
+                "MetadataLocation": null,
+                "SigningCertificate": {
+                    "StoreName": "CurrentUser",
+                    "StoreLocation": "My",
+                    "X509FindType": "FindByThumbprint",
+                    "FindValue": null
+                }
+
+            }
+        ]
     }
 }

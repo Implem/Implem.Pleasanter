@@ -3181,7 +3181,22 @@ namespace Implem.Pleasanter.Models
                                         icon: "ui-icon-unlocked",
                                         action: "Authenticate",
                                         method: "post",
-                                        type: "submit"))))
+                                        type: "submit"))
+                                .Div(id: "SsoLogin",
+                                    css: " command-center",
+                                    action: () => hb
+                                        .P(
+                                            css: "ssoLoginMessage",
+                                            action: () => hb
+                                                .Text(Displays.SsoLoginMessage(context: context)))
+                                        .Button(
+                                            controlId: "SSOLogin",
+                                            controlCss: "button-icon button-right-justified",
+                                            text: Displays.SsoLogin(context: context),
+                                            href: "../Saml2/SignIn",
+                                            onClick: "",
+                                            icon: "ui-icon-unlocked"),
+                                    _using: Parameters.Authentication.Provider == "SAML")))
                     .Form(
                         attributes: new HtmlAttributes()
                             .Id("DemoForm")

@@ -5,7 +5,10 @@ using Implem.ParameterAccessor.Parts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using Sustainsys.Saml2;
+using Sustainsys.Saml2.AspNetCore2;
 using Sustainsys.Saml2.Configuration;
+using Sustainsys.Saml2.Metadata;
 using Sustainsys.Saml2.WebSso;
 using System;
 using System.Collections.Generic;
@@ -214,6 +217,96 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 statements: statements.ToArray());
         }
 
+        public static void SetSPOptions(Saml2Options options)
+        {
+            var paramSPOptions = Parameters.Authentication.SamlParameters.SPOptions;
+            options.SPOptions.AuthenticateRequestSigningBehavior
+                = paramSPOptions.AuthenticateRequestSigningBehavior
+                    .ToEnum(SigningBehavior.IfIdpWantAuthnRequestsSigned);
+            options.SPOptions.ReturnUrl
+                = paramSPOptions.ReturnUrl.IsNullOrEmpty() ? null : new Uri(paramSPOptions.ReturnUrl);
+            options.SPOptions.EntityId
+                = paramSPOptions.EntityId.IsNullOrEmpty() ? null : new EntityId(paramSPOptions.EntityId);
+            options.SPOptions.MinIncomingSigningAlgorithm
+                = paramSPOptions.MinIncomingSigningAlgorithm
+                ?? options.SPOptions.MinIncomingSigningAlgorithm;
+            options.SPOptions.OutboundSigningAlgorithm
+                = paramSPOptions.OutboundSigningAlgorithm
+                ?? options.SPOptions.OutboundSigningAlgorithm;
+            if (paramSPOptions.ServiceCertificates != null)
+            {
+                foreach (var cert in paramSPOptions.ServiceCertificates)
+                {
+                    var x509Store = new X509Store(
+                        cert.StoreName.ToEnum(StoreName.My),
+                        cert.StoreLocation.ToEnum(StoreLocation.CurrentUser));
+                    x509Store.Open(OpenFlags.OpenExistingOnly);
+                    try
+                    {
+                        var cer = x509Store.Certificates.Find(
+                            cert.X509FindType.ToEnum(X509FindType.FindByThumbprint),
+                            cert.FindValue,
+                            false);
+                        var serviceCert = new Sustainsys.Saml2.ServiceCertificate()
+                        {
+                            Certificate = cer[0],
+                            Status = cert.Status.ToEnum(CertificateStatus.Current),
+                            Use = cert.Use.ToEnum(CertificateUse.Both)
+                        };
+                        options.SPOptions.ServiceCertificates.Add(serviceCert);
+                    }
+                    finally
+                    {
+                        x509Store.Close();
+                    }
+                }
+            }
+            var paramIdps = Parameters.Authentication.SamlParameters.IdentityProviders;
+            if (paramIdps != null)
+            {
+                foreach (var paramIdp in paramIdps)
+                {
+                    var idp = new Sustainsys.Saml2.IdentityProvider(
+                        new EntityId(paramIdp.EntityId),
+                        options.SPOptions)
+                    {
+                        SingleSignOnServiceUrl = paramIdp.SignOnUrl.IsNullOrEmpty() ? null : new Uri(paramIdp.SignOnUrl),
+                        SingleLogoutServiceUrl = paramIdp.LogoutUrl.IsNullOrEmpty() ? null : new Uri(paramIdp.LogoutUrl),
+                        AllowUnsolicitedAuthnResponse = paramIdp.AllowUnsolicitedAuthnResponse,
+                        Binding = paramIdp.Binding.ToEnum(Saml2BindingType.HttpRedirect),
+                        WantAuthnRequestsSigned = paramIdp.WantAuthnRequestsSigned,
+                        DisableOutboundLogoutRequests = paramIdp.DisableOutboundLogoutRequests
+                    };
+                    if (paramIdp.LoadMetadata)
+                    {
+                        idp.MetadataLocation = paramIdp.MetadataLocation.IsNullOrEmpty()
+                            ? idp.MetadataLocation
+                            : paramIdp.MetadataLocation;
+                        idp.LoadMetadata = paramIdp.LoadMetadata;
+                    }
+                    if (paramIdp.SigningCertificate != null)
+                    {
+                        var store = new X509Store(
+                            paramIdp.SigningCertificate.StoreName.ToEnum(StoreName.My),
+                            paramIdp.SigningCertificate.StoreLocation.ToEnum(StoreLocation.CurrentUser));
+                        store.Open(OpenFlags.OpenExistingOnly);
+                        try
+                        {
+                            var certs = store.Certificates.Find(
+                                paramIdp.SigningCertificate.X509FindType.ToEnum(X509FindType.FindByThumbprint),
+                                paramIdp.SigningCertificate.FindValue, false);
+                            idp.SigningKeys.AddConfiguredKey(certs[0]);
+                        }
+                        finally
+                        {
+                            store.Close();
+                        }
+                    }
+                    options.IdentityProviders.Add(idp);
+                }
+            }
+        }
+
         public static void RegisterSamlConfiguration(Context context)
         {
             if (Parameters.Authentication.Provider != "SAML") { return; }
@@ -272,7 +365,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 WriteIdPSettings(contractSettings?.SamlLoginUrl, contractSettings?.SamlThumbprint, idp, newProvider, newCert);
                                 try
                                 {
-                                    var spOptions = new SPOptions(SustainsysSaml2Section.Current);
+                                    var spOptions = new Sustainsys.Saml2.Configuration.SPOptions(SustainsysSaml2Section.Current);
                                     var options = new Options(spOptions);
                                     SustainsysSaml2Section.Current.IdentityProviders.RegisterIdentityProviders(options);
                                     SustainsysSaml2Section.Current.Federations.RegisterFederations(options);
@@ -280,7 +373,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                         System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
                                     optionsFromConfiguration.SetValue(null, new Lazy<Options>(() => options, true));
                                     //Sustainsys.Saml2.Mvc.Saml2Controller.Options = Options.FromConfiguration;
-                                    
+
                                 }
                                 catch
                                 {
@@ -297,7 +390,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             AddIdP(section, newProvider);
                             if (startup == false)
                             {
-                                var spOptions = new SPOptions(SustainsysSaml2Section.Current);
+                                var spOptions = new Sustainsys.Saml2.Configuration.SPOptions(SustainsysSaml2Section.Current);
                                 var options = new Options(spOptions);
                                 SustainsysSaml2Section.Current.IdentityProviders.RegisterIdentityProviders(options);
                                 SustainsysSaml2Section.Current.Federations.RegisterFederations(options);

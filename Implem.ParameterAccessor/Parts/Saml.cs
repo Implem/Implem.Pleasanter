@@ -5,5 +5,7 @@ namespace Implem.ParameterAccessor.Parts
     {
         public Dictionary<string,string> Attributes;
         public int SamlTenantId;
+        public SPOptions SPOptions;
+        public List<IdentityProvider> IdentityProviders; 
     }
 }

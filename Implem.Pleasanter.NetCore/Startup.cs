@@ -1,6 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Initializers;
 using Implem.Pleasanter.Libraries.Migrators;
 using Implem.Pleasanter.Libraries.Requests;
@@ -23,6 +24,7 @@ using Sustainsys.Saml2;
 using Sustainsys.Saml2.Configuration;
 using Sustainsys.Saml2.Metadata;
 using System;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -34,12 +36,16 @@ namespace Implem.Pleasanter.NetCore
     {
         IConfiguration configuration;
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             this.configuration = configuration;
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
             Applications.StartTime = DateTime.Now;
             Applications.LastAccessTime = Applications.StartTime;
+            ContextImplement.Init();
+            Initializer.Initialize(
+                path: env.ContentRootPath,
+                assemblyVersion: Assembly.GetExecutingAssembly().GetName().Version.ToString());
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -59,27 +65,23 @@ namespace Implem.Pleasanter.NetCore
                         options.Filters.Add(new Microsoft.AspNetCore.Mvc.RequireHttpsAttribute());
                     }
                 });
-            services
-                .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(o => o.LoginPath = new PathString("/users/login"))
-                .AddSaml2(options=> 
-                {
-                    options.SPOptions.EntityId = new EntityId("http://localhost:59803/Saml2");
-                    options.SPOptions.ReturnUrl = new Uri("http://localhost:59803/Users/SamlLogin");
-                    var idp = new IdentityProvider(
-                            new EntityId("https://robotid.jp/idaas/f/saml2/vsu2sb/"),
-                            options.SPOptions)
+            if (Authentications.SAML())
+            {
+                services
+                    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(o => o.LoginPath = new PathString("/users/login"))
+                    .AddSaml2(options =>
                     {
-                        SingleSignOnServiceUrl = new Uri("https://robotid.jp/idaas/f/saml2/vsu2sb/test001"),
-                        AllowUnsolicitedAuthnResponse = true,
-                        Binding = Sustainsys.Saml2.WebSso.Saml2BindingType.HttpPost
-                    };
-                    var store = new X509Store(StoreName.My, StoreLocation.CurrentUser);
-                    store.Open(OpenFlags.OpenExistingOnly);
-                    var certs = store.Certificates.Find(X509FindType.FindByThumbprint, "fc5aca46237f8eea89ccee3f6cb44b8ef2e5645d", false);
-                    idp.SigningKeys.AddConfiguredKey(certs[0]);
-                    options.IdentityProviders.Add(idp);
-                });
+                        Saml.SetSPOptions(options);
+
+                    });
+            }
+            else 
+            {
+                services
+                    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(o => o.LoginPath = new PathString("/users/login"));
+            }
             var extensionDirectory = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "ExtendedLibraries");
             if (Directory.Exists(extensionDirectory))
             {
@@ -102,20 +104,10 @@ namespace Implem.Pleasanter.NetCore
             services.AddHealthChecks();
         }
 
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseCurrentRequestContext();
-            ContextImplement.Init();
-            Initializer.Initialize(
-                path: env.ContentRootPath,
-                assemblyVersion: Assembly.GetExecutingAssembly().GetName().Version.ToString());
-            app.UsePathBase(configuration["pathBase"]);
-            app.UseStaticFiles();
-            app.UseSession();
-            app.UseRouting();
-            app.UseCors();
-            app.UseAuthentication();
-            app.UseAuthorization();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -124,6 +116,7 @@ namespace Implem.Pleasanter.NetCore
             {
                 app.UseExceptionHandler("/errors/internalservererror");
             }
+            app.Use(async (context, next) => await Invoke(context, next));
             app.UseStatusCodePages(context =>
             {
                 var statusCode = context.HttpContext.Response.StatusCode;
@@ -133,7 +126,13 @@ namespace Implem.Pleasanter.NetCore
                 else context.HttpContext.Response.Redirect("/errors/internalservererror");
                 return Task.CompletedTask;
             });
-            app.Use(async (context, next) => await Invoke(context, next));
+            app.UsePathBase(configuration["pathBase"]);
+            app.UseStaticFiles();
+            app.UseRouting();
+            app.UseCors();
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseSession();
             app.UseSessionMiddleware();
             app.UseEndpoints(endpoints =>
             {
@@ -195,6 +194,7 @@ namespace Implem.Pleasanter.NetCore
                     }
                 );
             });
+            
         }
 
         private static ContextImplement ApplicationStartContext()
@@ -279,9 +279,10 @@ namespace Implem.Pleasanter.NetCore
         public async Task Invoke(HttpContext httpContext)
         {
             const string enabled = "Enabled";
-            if (!httpContext.Session.Keys.Any(key => key == enabled)) {
+            if (!httpContext.Session.Keys.Any(key => key == enabled))
+            {
                 AspNetCoreCurrentRequestContext.AspNetCoreHttpContext.Current.Session.Set("SessionGuid", System.Text.Encoding.UTF8.GetBytes(Newtonsoft.Json.JsonConvert.SerializeObject(Strings.NewGuid())));
-                httpContext.Session.Set(enabled, new byte[]{ 1 });
+                httpContext.Session.Set(enabled, new byte[] { 1 });
                 var context = SessionStartContext();
                 SessionUtilities.SetStartTime(context: context);
                 if (WindowsAuthenticated(context))

@@ -1,4 +1,8 @@
-﻿using Implem.Pleasanter.NetCore.Filters;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using Implem.ParameterAccessor.Parts;
+using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.NetCore.Filters;
 using Implem.Pleasanter.NetCore.Libraries.Requests;
 using Implem.Pleasanter.NetCore.Libraries.Responses;
 using Microsoft.AspNetCore.Authentication;
@@ -183,12 +187,17 @@ namespace Implem.Pleasanter.NetCore.Controllers
         [HttpGet]
         public ActionResult Challenge(string idp = "")
         {
+            if (!Authentications.SAML())
+            {
+                var context = new ContextImplement();
+                return new RedirectResult(
+                    Pleasanter.Libraries.Responses.Locations.Login(context: context));
+            }
             return new ChallengeResult(Saml2Defaults.Scheme,
                 new AuthenticationProperties(
-                    items: null,
-                    parameters: string.IsNullOrEmpty(idp)
+                    items: string.IsNullOrEmpty(idp)
                         ? null
-                        : new Dictionary<string, object> { ["idp"] = idp })
+                        : new Dictionary<string, string> { ["idp"] = idp })
                 {
                     RedirectUri = Url.Action(nameof(SamlLogin))
                 });

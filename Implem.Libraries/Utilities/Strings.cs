@@ -130,5 +130,15 @@ namespace Implem.Libraries.Utilities
                 ? self.Substring(0, self.Length - before.Length) + (before.ToInt() + number)
                 : self + number;
         }
+
+        public static T ToEnum<T>(this string self, T defaultValue = default(T), bool ignoreCase = true) where T : struct, Enum
+        {
+            T result;
+            if (!Enum.TryParse(self, ignoreCase, out result))
+            {
+                result = defaultValue;
+            }
+            return result;
+        }
     }
 }
