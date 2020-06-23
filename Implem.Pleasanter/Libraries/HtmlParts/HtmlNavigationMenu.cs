@@ -62,8 +62,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         action: () => hb
                             .Div(action: () => hb
                                 .A(
-                                    href: NewHref(context: context, ss: ss),
-                                    attributes: SiteIndex(context: context, ss: ss)
+                                    href: NewHref(
+                                            context: context,
+                                            ss: ss),
+                                    attributes: SiteIndex(
+                                            context: context,
+                                            ss: ss)
                                         ? new HtmlAttributes()
                                             .OnClick("$p.templates($(this));")
                                             .DataAction("Templates")
@@ -86,7 +90,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 action: () => hb
                                     .Span(css: "ui-icon ui-icon-triangle-1-e")
                                     .Text(text: Displays.View(context: context)))
-                            .ViewModeMenu(context: context, ss: ss),
+                            .ViewModeMenu(
+                                context: context, 
+                                ss: ss),
                         _using: Def.ViewModeDefinitionCollection
                             .Any(o => o.ReferenceType == referenceType))
                     .Li(
@@ -114,6 +120,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             canManageDepts ||
                             canManageGroups ||
                             canManageUsers)
+                    .Li(
+                        id: "HelpMenuContainer",
+                        css: "sub-menu",
+                        action: () => hb
+                            .Div(
+                                attributes: new HtmlAttributes().DataId("HelpMenu"),
+                                action: () => hb
+                                    .Span(css: "ui-icon ui-icon-help")
+                                    .Text(text: Displays.HelpMenu(context: context)))
+                            .HelpMenu(context: context))
                     .Li(
                         id: "AccountMenuContainer",
                         css: "sub-menu",
@@ -337,6 +353,68 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         _using: canManageTrashBox));
         }
 
+        private static HtmlBuilder HelpMenu(
+            this HtmlBuilder hb,
+            Context context)
+        {
+            return hb.Ul(
+                id: "HelpMenu",
+                css: "menu",
+                action: () => hb
+                    .Li(action: () => hb
+                        .A(
+                            href: Parameters.General.HtmlUserManualUrl,
+                            target: "_blank",
+                            action: () => hb
+                                .Span(css: "ui-icon ui-icon-help")
+                                .Text(text: Displays.UserManual(context: context)))
+                    .Li(action: () => hb
+                        .A(
+                            href: Parameters.General.HtmlAnnualSupportServiceUrl,
+                            target: "_blank",
+                            action: () => hb
+                                .Span(css: "ui-icon ui-icon-clipboard")
+                                .Text(text: Displays.AnnualSupportService(context: context))))
+                    .Li(action: () => hb
+                        .A(
+                            href: Parameters.General.HtmlEnterPriseEditionUrl,
+                            target: "_blank",
+                            action: () => hb
+                                .Span(css: "ui-icon ui-icon-lightbulb")
+                                .Text(text: Displays.EnterpriseEdition(context: context))))
+                    .Li(action: () => hb
+                        .A(
+                            href: Parameters.General.HtmlBlogUrl,
+                            target: "_blank",
+                            action: () => hb
+                                .Span(css: "ui-icon ui-icon-info")
+                                .Text(text: Displays.Blog(context: context))))
+                    .Li(action: () => hb
+                        .A(
+                            href: Parameters.General.HtmlContactUrl,
+                            target: "_blank",
+                            action: () => hb
+                                .Span(css: "ui-icon ui-icon-contact")
+                                .Text(text: Displays.Contact(context: context))))
+                    .Li(action: () => hb
+                        .A(
+                            href: Parameters.General.HtmlPortalUrl,
+                            target: "_blank",
+                            action: () => hb
+                                .Span(css: "ui-icon ui-icon-cart")
+                                .Text(text: Displays.Portal(context: context))))
+                    .Li(action: () => hb
+                        .A(
+                            href: Locations.Get(
+                                context: context,
+                                parts: "versions"),
+                            action: () => hb
+                                .Span(css: "ui-icon ui-icon-info")
+                                .Text(text: Displays.Version(context: context))))));
+        }
+
+
+
         private static string SiteSettingsDisplayName(Context context, SiteSettings ss)
         {
             switch (ss.ReferenceType)
@@ -410,19 +488,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder AccountMenu(this HtmlBuilder hb, Context context)
         {
             return hb.Ul(id: "AccountMenu", css: "menu", action: () => hb
-                .Li(action: () => hb
+                .Li(
+                    action: () => hb
                     .A(
                         href: Locations.Logout(context: context),
                         action: () => hb
                             .Span(css: "ui-icon ui-icon-locked")
                             .Text(text: Displays.Logout(context: context))))
-                .Li(action: () => hb
-                    .A(
-                        href: Parameters.General.HtmlUserManualUrl,
-                        target: "_blank",
-                        action: () => hb
-                            .Span(css: "ui-icon ui-icon-help")
-                            .Text(text: Displays.UserManual(context: context))))
                 .Li(
                     action: () => hb
                         .A(
@@ -457,43 +529,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-link")
                                 .Text(text: Displays.ApiSettings(context: context))),
-                    _using: context.ContractSettings.Api != false && Parameters.Api.Enabled)
-                .Li(action: () => hb
-                    .A(
-                        href: Parameters.General.HtmlBlogUrl,
-                        target: "_blank",
-                        action: () => hb
-                            .Span(css: "ui-icon ui-icon-info")
-                            .Text(text: Displays.Blog(context: context))))
-                .Li(action: () => hb
-                    .A(
-                        href: Parameters.General.HtmlSupportUrl,
-                        target: "_blank",
-                        action: () => hb
-                            .Span(css: "ui-icon ui-icon-contact")
-                            .Text(text: Displays.Support(context: context))))
-                .Li(action: () => hb
-                    .A(
-                        href: Parameters.General.HtmlContactUrl,
-                        target: "_blank",
-                        action: () => hb
-                            .Span(css: "ui-icon ui-icon-contact")
-                            .Text(text: Displays.Contact(context: context))))
-                .Li(action: () => hb
-                    .A(
-                        href: Parameters.General.HtmlPortalUrl,
-                        target: "_blank",
-                        action: () => hb
-                            .Span(css: "ui-icon ui-icon-cart")
-                            .Text(text: Displays.Portal(context: context))))
-                .Li(action: () => hb
-                    .A(
-                        href: Locations.Get(
-                            context: context,
-                            parts: "versions"),
-                        action: () => hb
-                            .Span(css: "ui-icon ui-icon-info")
-                            .Text(text: Displays.Version(context: context)))));
+                    _using: context.ContractSettings.Api != false && Parameters.Api.Enabled));
         }
 
         private static HtmlBuilder Search(this HtmlBuilder hb, Context context, bool _using)

@@ -1,0 +1,29 @@
+{
+    "Id": "EnterpriseEdition",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Enterprise edition"
+        },
+        {
+            "Language": "zh",
+            "Body": "企业版"
+        },
+        {
+            "Language": "ja",
+            "Body": "Enterprise edition"
+        },
+        {
+            "Language": "de",
+            "Body": "Enterprise Edition"
+        },
+        {
+            "Language": "ko",
+            "Body": "기업용 에디션"
+        },
+        {
+            "Language": "es",
+            "Body": "Edición de Empresa"
+        }
+    ]
+}
