@@ -1,6 +1,5 @@
-﻿using Implem.DefinitionAccessor;
-using Implem.Libraries.Utilities;
-using System.Linq;
+﻿using Implem.Pleasanter.Libraries.HtmlParts;
+using Implem.Pleasanter.Libraries.Requests;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Libraries.Resources
 {
@@ -22,12 +21,12 @@ namespace Implem.Pleasanter.Libraries.Resources
             return string.Empty;
         }
 
-        public static ContentResult Get()
+        public static ContentResult Get(Context context)
         {
             return new ContentResult
             {
                 ContentType = "text/javascript",
-                Content = Parameters.ExtendedScripts.Join("\n")
+                Content = HtmlScripts.ExtendedScripts(context: context)
             };
         }
     }

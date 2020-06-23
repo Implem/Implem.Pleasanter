@@ -7568,6 +7568,76 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Extensions_ExtensionId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Extensions_ExtensionId",
+                data: data);
+        }
+
+        public static string Extensions_ExtensionType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Extensions_ExtensionType",
+                data: data);
+        }
+
+        public static string Extensions_ExtensionName(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Extensions_ExtensionName",
+                data: data);
+        }
+
+        public static string Extensions_ExtensionSettings(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Extensions_ExtensionSettings",
+                data: data);
+        }
+
+        public static string Extensions_Body(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Extensions_Body",
+                data: data);
+        }
+
+        public static string Extensions_Description(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Extensions_Description",
+                data: data);
+        }
+
+        public static string Extensions_Disabled(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Extensions_Disabled",
+                data: data);
+        }
+
         public static string Sessions_SessionGuid(
             Context context,
             params string[] data)
@@ -10115,6 +10185,86 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Demos_Timestamp",
+                data: data);
+        }
+
+        public static string Extensions_Ver(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Extensions_Ver",
+                data: data);
+        }
+
+        public static string Extensions_Comments(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Extensions_Comments",
+                data: data);
+        }
+
+        public static string Extensions_Creator(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Extensions_Creator",
+                data: data);
+        }
+
+        public static string Extensions_Updator(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Extensions_Updator",
+                data: data);
+        }
+
+        public static string Extensions_CreatedTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Extensions_CreatedTime",
+                data: data);
+        }
+
+        public static string Extensions_UpdatedTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Extensions_UpdatedTime",
+                data: data);
+        }
+
+        public static string Extensions_VerUp(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Extensions_VerUp",
+                data: data);
+        }
+
+        public static string Extensions_Timestamp(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Extensions_Timestamp",
                 data: data);
         }
 
@@ -18245,6 +18395,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Demos",
+                data: data);
+        }
+
+        public static string Extensions(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Extensions",
                 data: data);
         }
 

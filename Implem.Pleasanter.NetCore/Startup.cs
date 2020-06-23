@@ -230,6 +230,7 @@ namespace Implem.Pleasanter.NetCore
         {
             ContextImplement context = ApplicationStartContext();
             var log = new SysLogModel(context: context);
+            ExtensionInitializer.Initialize(context: context);
             UsersInitializer.Initialize(context: context);
             ItemsInitializer.Initialize(context: context);
             StatusesMigrator.Migrate(context: context);

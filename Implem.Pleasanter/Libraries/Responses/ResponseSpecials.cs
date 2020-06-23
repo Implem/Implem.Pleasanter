@@ -48,6 +48,28 @@ namespace Implem.Pleasanter.Libraries.Responses
         }
     }
 
+    public class ExtensionsResponseCollection : ResponseCollection
+    {
+        public ExtensionModel ExtensionModel;
+
+        public ExtensionsResponseCollection(ExtensionModel extensionModel)
+        {
+            ExtensionModel = extensionModel;
+        }
+
+        public ExtensionsResponseCollection Val(string selector, string value)
+        {
+            base.Val(selector, value);
+            return this;
+        }
+
+        public ExtensionsResponseCollection ValAndFormData(string selector, string value)
+        {
+            base.ValAndFormData(selector, value);
+            return this;
+        }
+    }
+
     public class SessionsResponseCollection : ResponseCollection
     {
         public SessionModel SessionModel;
@@ -928,6 +950,226 @@ namespace Implem.Pleasanter.Libraries.Responses
             this DemosResponseCollection res, Context context, string value)
         {
             return res.ValAndFormData("#Demos_Timestamp", value);
+        }
+
+        public static ExtensionsResponseCollection Ver(
+            this ExtensionsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Extensions_Ver",
+                res.ExtensionModel.Ver.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Ver")));
+        }
+
+        public static ExtensionsResponseCollection Ver(
+            this ExtensionsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Extensions_Ver", value);
+        }
+
+        public static ExtensionsResponseCollection Ver_FormData(
+            this ExtensionsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Extensions_Ver",
+                res.ExtensionModel.Ver.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Ver")));
+        }
+
+        public static ExtensionsResponseCollection Ver_FormData(
+            this ExtensionsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Extensions_Ver", value);
+        }
+
+        public static ExtensionsResponseCollection Comments(
+            this ExtensionsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Extensions_Comments",
+                res.ExtensionModel.Comments.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Comments")));
+        }
+
+        public static ExtensionsResponseCollection Comments(
+            this ExtensionsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Extensions_Comments", value);
+        }
+
+        public static ExtensionsResponseCollection Comments_FormData(
+            this ExtensionsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Extensions_Comments",
+                res.ExtensionModel.Comments.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Comments")));
+        }
+
+        public static ExtensionsResponseCollection Comments_FormData(
+            this ExtensionsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Extensions_Comments", value);
+        }
+
+        public static ExtensionsResponseCollection CreatedTime(
+            this ExtensionsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Extensions_CreatedTime",
+                res.ExtensionModel.CreatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "CreatedTime")));
+        }
+
+        public static ExtensionsResponseCollection CreatedTime(
+            this ExtensionsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Extensions_CreatedTime", value);
+        }
+
+        public static ExtensionsResponseCollection CreatedTime_FormData(
+            this ExtensionsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Extensions_CreatedTime",
+                res.ExtensionModel.CreatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "CreatedTime")));
+        }
+
+        public static ExtensionsResponseCollection CreatedTime_FormData(
+            this ExtensionsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Extensions_CreatedTime", value);
+        }
+
+        public static ExtensionsResponseCollection UpdatedTime(
+            this ExtensionsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Extensions_UpdatedTime",
+                res.ExtensionModel.UpdatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UpdatedTime")));
+        }
+
+        public static ExtensionsResponseCollection UpdatedTime(
+            this ExtensionsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Extensions_UpdatedTime", value);
+        }
+
+        public static ExtensionsResponseCollection UpdatedTime_FormData(
+            this ExtensionsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Extensions_UpdatedTime",
+                res.ExtensionModel.UpdatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UpdatedTime")));
+        }
+
+        public static ExtensionsResponseCollection UpdatedTime_FormData(
+            this ExtensionsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Extensions_UpdatedTime", value);
+        }
+
+        public static ExtensionsResponseCollection Timestamp(
+            this ExtensionsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Extensions_Timestamp",
+                res.ExtensionModel.Timestamp.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Timestamp")));
+        }
+
+        public static ExtensionsResponseCollection Timestamp(
+            this ExtensionsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Extensions_Timestamp", value);
+        }
+
+        public static ExtensionsResponseCollection Timestamp_FormData(
+            this ExtensionsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Extensions_Timestamp",
+                res.ExtensionModel.Timestamp.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Timestamp")));
+        }
+
+        public static ExtensionsResponseCollection Timestamp_FormData(
+            this ExtensionsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Extensions_Timestamp", value);
         }
 
         public static SessionsResponseCollection Ver(

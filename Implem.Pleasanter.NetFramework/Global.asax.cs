@@ -23,6 +23,7 @@ namespace Implem.Pleasanter
             Initialize();
             ContextImplement context = ApplicationStartContext();
             var log = new SysLogModel(context: context);
+            ExtensionInitializer.Initialize(context: context);
             UsersInitializer.Initialize(context: context);
             StatusesMigrator.Migrate(context: context);
             StatusesInitializer.Initialize(context: context);
