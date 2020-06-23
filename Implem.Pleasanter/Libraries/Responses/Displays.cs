@@ -328,6 +328,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AnnualSupportService(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AnnualSupportService",
+                data: data);
+        }
+
         public static string ApiKey(
             Context context,
             params string[] data)
@@ -2168,6 +2178,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string EnterpriseEdition(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "EnterpriseEdition",
+                data: data);
+        }
+
         public static string EnterTitle(
             Context context,
             params string[] data)
@@ -2385,16 +2405,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "FailedReadFile",
-                data: data);
-        }
-
-        public static string Faq(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "Faq",
                 data: data);
         }
 
@@ -2735,6 +2745,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "HasNotPermission",
+                data: data);
+        }
+
+        public static string HelpMenu(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "HelpMenu",
                 data: data);
         }
 

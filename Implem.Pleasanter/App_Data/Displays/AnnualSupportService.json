@@ -1,0 +1,29 @@
+{
+    "Id": "AnnualSupportService",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Annual support service"
+        },
+        {
+            "Language": "zh",
+            "Body": "年度支持服务"
+        },
+        {
+            "Language": "ja",
+            "Body": "年間サポートサービス"
+        },
+        {
+            "Language": "de",
+            "Body": "Jährlicher Support-Service"
+        },
+        {
+            "Language": "ko",
+            "Body": "연간 지원 서비스"
+        },
+        {
+            "Language": "es",
+            "Body": "Servicio de soporte anual"
+        }
+    ]
+}
