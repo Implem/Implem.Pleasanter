@@ -202,7 +202,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             string labelType,
             int? order = null)
         {
-            var column = ss?.GetColumn(
+            if (ss == null)
+            {
+                return new ControlData(string.Empty);
+            }
+            var column = ss.GetColumn(
                 context: context,
                 columnName: columnName.Split(',').Last());
             if (column != null)

@@ -11,14 +11,27 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder ExtendedStyles(this HtmlBuilder hb, Context context)
         {
+            var extendedStyles = ExtendedStyles(context: context);
             return hb
                 .Link(
                     rel: "stylesheet",
                     href: Locations.Get(
                         context: context,
                         parts: "Resources/Styles?v="
-                            + Parameters.ExtendedStyles.Join().Sha512Cng()),
-                    _using: Parameters.ExtendedStyles?.Any() == true);
+                            + extendedStyles?.Sha512Cng()),
+                    _using: !extendedStyles.IsNullOrEmpty());
+        }
+
+        public static string ExtendedStyles(Context context)
+        {
+            return Parameters.ExtendedStyles
+                ?.Where(o => o.SiteIdList?.Any() != true || o.SiteIdList.Contains(context.SiteId))
+                .Where(o => o.IdList?.Any() != true || o.IdList.Contains(context.Id))
+                .Where(o => o.Controllers?.Any() != true || o.Controllers.Contains(context.Controller))
+                .Where(o => o.Actions?.Any() != true || o.Actions.Contains(context.Action))
+                .Where(o => !o.Disabled)
+                .Select(o => o.Style)
+                .Join("\n");
         }
 
         public static HtmlBuilder Styles(

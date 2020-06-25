@@ -2,6 +2,7 @@
 using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
+using Implem.ParameterAccessor.Parts;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -206,10 +207,10 @@ namespace Implem.DefinitionAccessor
             return list;
         }
 
-        private static List<ParameterAccessor.Parts.ExtendedSql> ExtendedSqls(
-            string path = null, List<ParameterAccessor.Parts.ExtendedSql> list = null)
+        private static List<ExtendedSql> ExtendedSqls(
+            string path = null, List<ExtendedSql> list = null)
         {
-            list = list ?? new List<ParameterAccessor.Parts.ExtendedSql>();
+            list = list ?? new List<ExtendedSql>();
             path = path ?? Path.Combine(
                 Environments.CurrentDirectoryPath,
                 "App_Data",
@@ -218,7 +219,7 @@ namespace Implem.DefinitionAccessor
             foreach (var file in new DirectoryInfo(path).GetFiles("*.json"))
             {
                 var extendedSql = Files.Read(file.FullName)
-                    .Deserialize<ParameterAccessor.Parts.ExtendedSql>();
+                    .Deserialize<ExtendedSql>();
                 if (extendedSql != null)
                 {
                     extendedSql.Path = file.FullName;
@@ -241,9 +242,10 @@ namespace Implem.DefinitionAccessor
             return list;
         }
 
-        private static List<string> ExtendedStyles(string path = null, List<string> list = null)
+        private static List<ExtendedStyle> ExtendedStyles(
+            string path = null, List<ExtendedStyle> list = null)
         {
-            list = list ?? new List<string>();
+            list = list ?? new List<ExtendedStyle>();
             path = path ?? Path.Combine(
                 Environments.CurrentDirectoryPath,
                 "App_Data",
@@ -254,7 +256,12 @@ namespace Implem.DefinitionAccessor
                 var style = Files.Read(file.FullName);
                 if (style != null)
                 {
-                    list.Add(style);
+                    list.Add(new ExtendedStyle()
+                    {
+                        Name = file.Name,
+                        Path = file.FullName,
+                        Style = style
+                    });
                 }
             }
             foreach (var dir in new DirectoryInfo(path).GetDirectories())
@@ -264,9 +271,10 @@ namespace Implem.DefinitionAccessor
             return list;
         }
 
-        private static List<string> ExtendedScripts(string path = null, List<string> list = null)
+        private static List<ExtendedScript> ExtendedScripts(
+            string path = null, List<ExtendedScript> list = null)
         {
-            list = list ?? new List<string>();
+            list = list ?? new List<ExtendedScript>();
             path = path ?? Path.Combine(
                 Environments.CurrentDirectoryPath,
                 "App_Data",
@@ -277,7 +285,12 @@ namespace Implem.DefinitionAccessor
                 var script = Files.Read(file.FullName);
                 if (script != null)
                 {
-                    list.Add(script);
+                    list.Add(new ExtendedScript()
+                    {
+                        Name = file.Name,
+                        Path = file.FullName,
+                        Script = script
+                    });
                 }
             }
             foreach (var dir in new DirectoryInfo(path).GetDirectories())

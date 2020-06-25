@@ -496,6 +496,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         })
                         .ToJson())
                     .HiddenSiteSettings(context: context, ss: ss)
+                    .ExtendedSql(context: context)
                 : hb;
         }
 

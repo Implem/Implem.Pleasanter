@@ -1,0 +1,29 @@
+{
+    "Id": "HelpMenu",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Help menu"
+        },
+        {
+            "Language": "zh",
+            "Body": "帮帮我"
+        },
+        {
+            "Language": "ja",
+            "Body": "ヘルプ"
+        },
+        {
+            "Language": "de",
+            "Body": "Hilfe"
+        },
+        {
+            "Language": "ko",
+            "Body": "도움"
+        },
+        {
+            "Language": "es",
+            "Body": "Ayuda"
+        }
+    ]
+}

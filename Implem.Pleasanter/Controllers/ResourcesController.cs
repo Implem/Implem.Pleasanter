@@ -9,16 +9,20 @@ namespace Implem.Pleasanter.Controllers
         public ContentResult Scripts(Context context)
         {
             var log = new SysLogModel(context: context);
-            var result = JavaScripts.Get();
-            log.Finish(context: context, responseSize: result.Content.Length);
+            var result = JavaScripts.Get(context: context);
+            log.Finish(
+                context: context,
+                responseSize: result.Content.Length);
             return result;
         }
 
         public ContentResult Styles(Context context)
         {
             var log = new SysLogModel(context: context);
-            var result = Css.Get();
-            log.Finish(context: context, responseSize: result.Content.Length);
+            var result = Css.Get(context: context);
+            log.Finish(
+                context: context,
+                responseSize: result.Content.Length);
             return result;
         }
     }
