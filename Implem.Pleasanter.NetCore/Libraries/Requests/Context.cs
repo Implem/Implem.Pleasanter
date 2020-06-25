@@ -185,17 +185,22 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
 
         private void SetSessionGuid()
         {
-            if (AspNetCoreHttpContext.Current?.Session != null)
+            try
             {
-                var sessionGuid = GetSessionData<string>("SessionGuid");
-                if (!string.IsNullOrWhiteSpace(sessionGuid))
-                {
-                    SessionGuid = sessionGuid;
-                }
-                else
-                {
-                    SetSessionData("SessionGuid", SessionGuid);
-                }
+                var session = AspNetCoreHttpContext.Current?.Session;
+            }
+            catch (InvalidOperationException)
+            {
+                return;
+            }
+            var sessionGuid = GetSessionData<string>("SessionGuid");
+            if (!string.IsNullOrWhiteSpace(sessionGuid))
+            {
+                SessionGuid = sessionGuid;
+            }
+            else
+            {
+                SetSessionData("SessionGuid", SessionGuid);
             }
         }
 

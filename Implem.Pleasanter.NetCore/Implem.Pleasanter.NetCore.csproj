@@ -30,6 +30,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="bin\Debug\netcoreapp3.1\App_Data\implem-37864-metadata.xml" />
+    <None Include="bin\Debug\netcoreapp3.1\App_Data\test001.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="App_Data\Definitions\definition_Code.xlsm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -1,82 +1,82 @@
 ﻿{
-  "Provider": null,
-  "ServiceId": null,
-  "ExtensionUrl": null,
-  "RejectUnregisteredUser": false,
-  "LdapParameters": [
-    {
-      "LdapSearchRoot": null,
-      "LdapSearchProperty": "sAMAccountName",
-      "LdapSearchPattern": null,
-      "LdapLoginPattern": null,
-      "LdapAuthenticationType": null,
-      "NetBiosDomainName": null,
-      "LdapTenantId": 1,
-      "LdapDeptCode": null,
-      "LdapDeptCodePattern": null,
-      "LdapDeptName": null,
-      "LdapDeptNamePattern": null,
-      "LdapUserCode": null,
-      "LdapUserCodePattern": null,
-      "LdapFirstName": "givenName",
-      "LdapFirstNamePattern": null,
-      "LdapLastName": "sn",
-      "LdapLastNamePattern": null,
-      "LdapMailAddress": "mail",
-      "LdapMailAddressPattern": null,
-      "LdapSyncPageSize": 0,
-      "LdapSyncPatterns": [
-        "(&(ObjectCategory=User)(ObjectClass=Person))"
-      ],
-      "LdapExcludeAccountDisabled": false,
-      "AutoDisable": false,
-      "AutoEnable": false,
-      "LdapSyncUser": null,
-      "LdapSyncPassword": null
-    }
-  ],
-  "SamlParameters": {
-    "Attributes": {
-      "Name": "Name",
-      "UserCode": "UserCode",
-      "Birthday": "Birthday",
-      "Gender": "Gender",
-      "Language": "Language",
-      "TimeZone": "TimeZone",
-      "TenantManager": "TenantManager",
-      "DeptCode": "DeptCode",
-      "Dept": "Dept",
-      "Body": "Body",
-      "MailAddress": "{NameId}"
-    },
-    "SamlTenantId": 1,
-    "SPOptions": {
-      "EntityId": "http://localhost:59802/Saml2",
-      "ReturnUrl": "http://localhost:59802/Users/SamlLogin",
-      "AuthenticateRequestSigningBehavior": "IfIdpWantAuthnRequestsSigned",
-      "OutboundSigningAlgorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
-      "MinIncomingSigningAlgorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
-      "ServiceCertificates": []
-    },
-    "IdentityProviders": [
-      {
-        "EntityId": null,
-        "SingleSignOnServiceUrl": null,
-        "SingleLogoutServiceUrl": null,
-        "AllowUnsolicitedAuthnResponse": true,
-        "Binding": "HttpPost",
-        "WantAuthnRequestsSigned": false,
-        "DisableOutboundLogoutRequests": true,
-        "LoadMetadata": false,
-        "MetadataLocation": null,
-        "SigningCertificate": {
-          "StoreName": "CurrentUser",
-          "StoreLocation": "My",
-          "X509FindType": "FindByThumbprint",
-          "FindValue": null
+    "Provider": null,
+    "ServiceId": null,
+    "ExtensionUrl": null,
+    "RejectUnregisteredUser": false,
+    "LdapParameters": [
+        {
+            "LdapSearchRoot": null,
+            "LdapSearchProperty": "sAMAccountName",
+            "LdapSearchPattern": null,
+            "LdapLoginPattern": null,
+            "LdapAuthenticationType": null,
+            "NetBiosDomainName": null,
+            "LdapTenantId": 1,
+            "LdapDeptCode": null,
+            "LdapDeptCodePattern": null,
+            "LdapDeptName": null,
+            "LdapDeptNamePattern": null,
+            "LdapUserCode": null,
+            "LdapUserCodePattern": null,
+            "LdapFirstName": "givenName",
+            "LdapFirstNamePattern": null,
+            "LdapLastName": "sn",
+            "LdapLastNamePattern": null,
+            "LdapMailAddress": "mail",
+            "LdapMailAddressPattern": null,
+            "LdapSyncPageSize": 0,
+            "LdapSyncPatterns": [
+                "(&(ObjectCategory=User)(ObjectClass=Person))"
+            ],
+            "LdapExcludeAccountDisabled": false,
+            "AutoDisable": false,
+            "AutoEnable": false,
+            "LdapSyncUser": null,
+            "LdapSyncPassword": null
         }
+    ],
+    "SamlParameters": {
+        "Attributes": {
+            "Name": "Name",
+            "UserCode": "UserCode",
+            "Birthday": "Birthday",
+            "Gender": "Gender",
+            "Language": "Language",
+            "TimeZone": "TimeZone",
+            "TenantManager": "TenantManager",
+            "DeptCode": "DeptCode",
+            "Dept": "Dept",
+            "Body": "Body",
+            "MailAddress": "{NameId}"
+        },
+        "SamlTenantId": 1,
+        "SPOptions": {
+            "EntityId": "http://localhost:59802/Saml2",
+            "ReturnUrl": "http://localhost:59802/Users/SamlLogin",
+            "AuthenticateRequestSigningBehavior": "IfIdpWantAuthnRequestsSigned",
+            "OutboundSigningAlgorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
+            "MinIncomingSigningAlgorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
+            "ServiceCertificates": []
+        },
+        "IdentityProviders": [
+            {
+                "EntityId": null,
+                "SingleSignOnServiceUrl": null,
+                "SingleLogoutServiceUrl": null,
+                "AllowUnsolicitedAuthnResponse": true,
+                "Binding": "HttpPost",
+                "WantAuthnRequestsSigned": false,
+                "DisableOutboundLogoutRequests": true,
+                "LoadMetadata": false,
+                "MetadataLocation": null,
+                "SigningCertificate": {
+                    "StoreName": "CurrentUser",
+                    "StoreLocation": "My",
+                    "X509FindType": "FindByThumbprint",
+                    "FindValue": null
+                }
 
-      }
-    ]
-  }
+            }
+        ]
+    }
 }

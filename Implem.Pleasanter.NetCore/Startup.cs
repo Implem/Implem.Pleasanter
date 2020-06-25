@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
@@ -90,6 +91,10 @@ namespace Implem.Pleasanter.NetCore
                     mvcBuilder.AddApplicationPart(assembly);
                 }
             }
+            services.Configure<FormOptions>(options => 
+            {
+                options.MultipartBodyLengthLimit = int.MaxValue;
+            });
             services.Configure<IISServerOptions>(options =>
             {
                 options.AllowSynchronousIO = true;
@@ -130,9 +135,9 @@ namespace Implem.Pleasanter.NetCore
             app.UseStaticFiles();
             app.UseRouting();
             app.UseCors();
+            app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseSession();
             app.UseSessionMiddleware();
             app.UseEndpoints(endpoints =>
             {
