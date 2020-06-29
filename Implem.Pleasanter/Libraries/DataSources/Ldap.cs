@@ -22,7 +22,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 try
                 {
-                    using (var con = LdapConnection(loginId, password, ldap))
+                    using (var con = LdapConnection(
+                        ldap.LdapSyncUser,
+                        ldap.LdapSyncPassword, 
+                        ldap))
                     {
                         var entry = con.Search(
                             con.DN(ldap),
@@ -32,6 +35,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             false).FindOne();
                         if (entry != null)
                         {
+                            con.Bind(entry.Dn, password);
                             UpdateOrInsert(
                                 context: context,
                                 loginId: loginId,

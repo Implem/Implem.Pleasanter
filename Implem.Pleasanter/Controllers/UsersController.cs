@@ -3,17 +3,13 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
-using System.Web;
 using System.Web.Mvc;
 using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using System.Security.Claims;
 using System.Data.Common;
-using Microsoft.AspNetCore.Http.Authentication;
-using Microsoft.AspNetCore.Http;
 using System.Linq;
-using Microsoft.IdentityModel.Tokens.Saml;
 
 namespace Implem.Pleasanter.Controllers
 {
@@ -265,7 +261,6 @@ namespace Implem.Pleasanter.Controllers
                 return (null, Locations.SamlLoginFailed(context: context), null);
             }
             Authentications.SignOut(context: context);
-
             var loginId = context.UserClaims?.FirstOrDefault(claim => claim.Type == ClaimTypes.NameIdentifier);
             var attributes = Saml.MapAttributes(context.UserClaims, loginId.Value);
             var name = attributes.UserName;
