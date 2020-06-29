@@ -970,6 +970,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.NoWrap = column.NoWrap;
                     }
+                    if (column.Hide == true)
+                    {
+                        enabled = true;
+                        newColumn.Hide = column.Hide;
+                    }
+                    if (column.ExtendedFieldCss?.Trim().IsNullOrEmpty() == false)
+                    {
+                        enabled = true;
+                        newColumn.ExtendedFieldCss = column.ExtendedFieldCss;
+                    }
                     if (column.Section?.Trim().IsNullOrEmpty() == false)
                     {
                         enabled = true;
@@ -2920,6 +2930,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ControlType": column.ControlType = value; break;
                 case "Format": column.Format = value; break;
                 case "NoWrap": column.NoWrap = value.ToBool(); break;
+                case "Hide": column.Hide = value.ToBool(); break;
+                case "ExtendedFieldCss": column.ExtendedFieldCss = value; break;
                 case "Section": column.Section = value; break;
                 case "GridDesign":
                     column.GridDesign = LabelTextToColumnName(column, value);
@@ -3221,16 +3233,29 @@ namespace Implem.Pleasanter.Libraries.Settings
             List<string> searchIndexes,
             Dictionary<string, List<string>> linkHash)
         {
+            var columns = new List<Column>();
             Columns?
                 .Where(o => o.HasChoices())
                 .Where(o => columnName == null || o.ColumnName == columnName)
                 .ForEach(column =>
+                {
+                    var same = columns.FirstOrDefault(o => o.ChoicesText == column.ChoicesText);
+                    if (same == null)
+                    {
+                        columns.Add(column);
+                    }
+                    else
+                    {
+                        column.ChoiceHash = same.ChoiceHash;
+                    }
                     column.SetChoiceHash(
                         context: context,
                         siteId: InheritPermission,
                         linkHash: linkHash,
                         searchIndexes: searchIndexes,
-                        setAllChoices: SetAllChoices));
+                        setAllChoices: SetAllChoices,
+                        setChoices: same == null);
+                });
         }
 
         private Dictionary<string, List<string>> LinkHash(

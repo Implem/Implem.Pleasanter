@@ -38,7 +38,9 @@ namespace Implem.Pleasanter.Libraries.Extensions
                     css: TextAlignCss(context: context, column: column),
                     action: () =>
                     {
-                        if (column.UserColumn && column.UseSearch == true && !value.IsNullOrEmpty())
+                        if (column.UserColumn
+                            && !value.IsNullOrEmpty()
+                            && !column.ChoiceHash.ContainsKey(value))
                         {
                             column.ChoiceHash.AddIfNotConainsKey(
                                 value,

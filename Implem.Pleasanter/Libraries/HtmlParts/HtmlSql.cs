@@ -15,6 +15,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             Parameters.ExtendedSqls
                 ?.Where(o => o.Html)
+                .Where(o => !o.CommandText.IsNullOrEmpty())
                 .Where(o => o.SiteIdList?.Any() != true || o.SiteIdList.Contains(context.SiteId))
                 .Where(o => o.IdList?.Any() != true || o.IdList.Contains(context.Id))
                 .Where(o => o.Controllers?.Any() != true || o.Controllers.Contains(context.Controller))
@@ -24,7 +25,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 {
                     var dataSet = Rds.ExecuteDataSet(
                         context: context,
-                        statements: new SqlStatement(commandText: extendedSql.CommandText));
+                        statements: new SqlStatement(commandText: extendedSql.CommandText
+                            .Replace("{{SiteId}}", context.SiteId.ToString())
+                            .Replace("{{Id}}", context.Id.ToString())));
                     foreach (DataTable dataTable in dataSet.Tables)
                     {
                         var table = new List<Dictionary<string, object>>();

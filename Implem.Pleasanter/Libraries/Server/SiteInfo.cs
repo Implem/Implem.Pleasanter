@@ -336,10 +336,8 @@ namespace Implem.Pleasanter.Libraries.Server
                     Name = Displays.AllUsers(context: context)
                 };
             }
-            return TenantCaches.Get(context.TenantId)?.UserHash?
-                .Where(o => o.Key == userId)
-                .Select(o => o.Value)
-                .FirstOrDefault() ?? Anonymous(context: context);
+            return TenantCaches.Get(context.TenantId)?.UserHash?.Get(userId)
+                ?? Anonymous(context: context);
         }
 
         private static User Anonymous(Context context)

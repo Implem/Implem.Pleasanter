@@ -29,6 +29,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ControlType;
         public string Format;
         public bool? NoWrap;
+        public bool? Hide;
+        public string ExtendedFieldCss;
         public string Section;
         public string GridDesign;
         public bool? ValidateRequired;
@@ -186,9 +188,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             long siteId,
             Dictionary<string, List<string>> linkHash = null,
             IEnumerable<string> searchIndexes = null,
-            bool setAllChoices = false)
+            bool setAllChoices = false,
+            bool setChoices = true)
         {
-            ChoiceHash = new Dictionary<string, Choice>();
+            if (setChoices) ChoiceHash = new Dictionary<string, Choice>();
             ChoicesText.SplitReturn()
                 .Where(o => o.Trim() != string.Empty)
                 .Select((o, i) => new { Line = o.Trim(), Index = i })
@@ -200,8 +203,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         searchIndexes: searchIndexes,
                         index: data.Index,
                         line: data.Line,
-                        setAllChoices: setAllChoices));
-            if (searchIndexes?.Any() == true)
+                        setAllChoices: setAllChoices,
+                        setChoices: setChoices));
+            if (searchIndexes?.Any() == true && setChoices)
             {
                 ChoiceHash = ChoiceHash.Take(Parameters.General.DropDownSearchPageSize)
                     .ToDictionary(o => o.Key, o => o.Value);
@@ -215,70 +219,89 @@ namespace Implem.Pleasanter.Libraries.Settings
             IEnumerable<string> searchIndexes,
             int index,
             string line,
-            bool setAllChoices)
+            bool setAllChoices,
+            bool setChoices)
         {
             switch (line)
             {
                 case "[[Depts]]":
-                    SiteInfo.TenantCaches.Get(context.TenantId)?
-                        .DeptHash
-                        .Where(o => o.Value.TenantId == context.TenantId)
-                        .Where(o => searchIndexes?.Any() != true ||
-                            searchIndexes.All(p =>
-                                o.Key == p.ToInt() ||
-                                o.Value.Name.RegexLike(p).Any()))
-                        .ForEach(o => AddToChoiceHash(
-                            o.Key.ToString(),
-                            SiteInfo.Dept(
-                                tenantId: context.TenantId,
-                                deptId: o.Key).Name));
+                    if (setChoices)
+                    {
+                        SiteInfo.TenantCaches.Get(context.TenantId)?
+                            .DeptHash
+                            .Where(o => o.Value.TenantId == context.TenantId)
+                            .Where(o => searchIndexes?.Any() != true ||
+                                searchIndexes.All(p =>
+                                    o.Key == p.ToInt() ||
+                                    o.Value.Name.RegexLike(p).Any()))
+                            .ForEach(o => AddToChoiceHash(
+                                o.Key.ToString(),
+                                SiteInfo.Dept(
+                                    tenantId: context.TenantId,
+                                    deptId: o.Key).Name));
+                    }
                     break;
                 case "[[TimeZones]]":
-                    TimeZoneInfo.GetSystemTimeZones()
-                        .ForEach(o => AddToChoiceHash(
-                            o.Id,
-                            o?.StandardName ?? string.Empty));
+                    if (setChoices)
+                    {
+                        TimeZoneInfo.GetSystemTimeZones()
+                            .ForEach(o => AddToChoiceHash(
+                                o.Id,
+                                o?.StandardName ?? string.Empty));
+                    }
                     break;
                 default:
                     if (line.RegexExists(@"^\[\[Users.*\]\]$"))
                     {
                         UserColumn = true;
-                        if (UseSearch != true || searchIndexes != null || setAllChoices)
+                        if (setChoices) 
                         {
-                            AddUsersToChoiceHash(
-                                context: context,
-                                siteId: siteId,
-                                settings: line,
-                                searchIndexes: searchIndexes,
-                                setAllChoices: setAllChoices);
+                            if (UseSearch != true || searchIndexes != null || setAllChoices)
+                            {
+                                AddUsersToChoiceHash(
+                                    context: context,
+                                    siteId: siteId,
+                                    settings: line,
+                                    searchIndexes: searchIndexes,
+                                    setAllChoices: setAllChoices);
+                            }
                         }
                     }
                     else if (Linked())
                     {
-                        var key = "[[" + new Link(
-                            columnName: ColumnName,
-                            settings: line).SiteId + "]]";
-                        if (linkHash != null && linkHash.ContainsKey(key))
+                        if (setChoices) 
                         {
-                            linkHash.Get(key)?
-                                .ToDictionary(
-                                    o => o.Split_1st(),
-                                    o => Strings.CoalesceEmpty(o.Split_2nd(), o.Split_1st()))
-                                .ForEach(o =>
-                                    AddToChoiceHash(o.Key, o.Value));
+                            var key = "[[" + new Link(
+                                columnName: ColumnName,
+                                settings: line).SiteId + "]]";
+                            if (linkHash != null && linkHash.ContainsKey(key))
+                            {
+                                linkHash.Get(key)?
+                                    .ToDictionary(
+                                        o => o.Split_1st(),
+                                        o => Strings.CoalesceEmpty(o.Split_2nd(), o.Split_1st()))
+                                    .ForEach(o =>
+                                        AddToChoiceHash(o.Key, o.Value));
+                            }
                         }
                     }
                     else if (TypeName != "bit")
                     {
-                        if (searchIndexes == null ||
-                            searchIndexes.All(o => line.RegexLike(o).Any()))
+                        if (setChoices)
                         {
-                            AddToChoiceHash(line);
+                            if (searchIndexes == null ||
+                                searchIndexes.All(o => line.RegexLike(o).Any()))
+                            {
+                                AddToChoiceHash(line);
+                            }
                         }
                     }
                     else
                     {
-                        AddToChoiceHash((index == 0).ToOneOrZeroString(), line);
+                        if (setChoices)
+                        {
+                            AddToChoiceHash((index == 0).ToOneOrZeroString(), line);
+                        }
                     }
                     break;
             }

@@ -5115,7 +5115,17 @@ namespace Implem.Pleasanter.Models
                                     .FieldCheckBox(
                                         controlId: "NoWrap",
                                         labelText: Displays.NoWrap(context: context),
-                                        _checked: column.NoWrap == true);
+                                        _checked: column.NoWrap == true)
+                                    .FieldCheckBox(
+                                        controlId: "Hide",
+                                        labelText: Displays.Hide(context: context),
+                                        _checked: column.Hide == true,
+                                        _using: !column.Id_Ver)
+                                    .FieldTextBox(
+                                        controlId: "ExtendedFieldCss",
+                                        fieldCss: "field-normal",
+                                        labelText: Displays.ExtendedFieldCss(context: context),
+                                        text: column.ExtendedFieldCss);
                             }
                         }));
         }
