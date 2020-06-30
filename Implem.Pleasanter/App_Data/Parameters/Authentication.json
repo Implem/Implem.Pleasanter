@@ -63,8 +63,8 @@
         "IdentityProviders": [
             {
                 "EntityId": null,
-                "SingleSignOnServiceUrl": null,
-                "SingleLogoutServiceUrl": null,
+                "SignOnUrl": null,
+                "LogoutUrl": null,
                 "AllowUnsolicitedAuthnResponse": true,
                 "Binding": "HttpPost",
                 "WantAuthnRequestsSigned": false,
