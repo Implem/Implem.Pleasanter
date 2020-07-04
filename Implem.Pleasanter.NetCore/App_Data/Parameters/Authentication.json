@@ -38,8 +38,6 @@
     "SamlParameters": {
         "Attributes": {
             "Name": "Name",
-            "FirstName": "FirstName",
-            "LastName": "LastName",
             "UserCode": "UserCode",
             "Birthday": "Birthday",
             "Gender": "Gender",
@@ -63,8 +61,8 @@
         "IdentityProviders": [
             {
                 "EntityId": null,
-                "SingleSignOnServiceUrl": null,
-                "SingleLogoutServiceUrl": null,
+                "SignOnUrl": null,
+                "LogoutUrl": null,
                 "AllowUnsolicitedAuthnResponse": true,
                 "Binding": "HttpPost",
                 "WantAuthnRequestsSigned": false,
