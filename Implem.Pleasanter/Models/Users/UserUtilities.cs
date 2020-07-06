@@ -3193,7 +3193,7 @@ namespace Implem.Pleasanter.Models
                                             controlId: "SSOLogin",
                                             controlCss: "button-icon button-right-justified",
                                             text: Displays.SsoLogin(context: context),
-                                            href: "../Saml2/SignIn",
+                                            href: "../Users/Challenge",
                                             onClick: "",
                                             icon: "ui-icon-unlocked"),
                                     _using: Parameters.Authentication.Provider == "SAML")))
