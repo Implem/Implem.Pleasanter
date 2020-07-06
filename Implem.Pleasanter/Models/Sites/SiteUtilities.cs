@@ -5067,10 +5067,20 @@ namespace Implem.Pleasanter.Models
                                                     controlId: "AllowImage",
                                                     labelText: Displays.AllowImage(context: context),
                                                     _checked: column.AllowImage == true,
-                                                    _using:
-                                                        context.ContractSettings.Images()
+                                                    _using:context.ContractSettings.Images()
                                                         && (column.ControlType == "MarkDown"
                                                         || column.ColumnName == "Comments"))
+                                                .FieldSpinner(
+                                                    controlId: "ThumbnailLimitSize",
+                                                    labelText: Displays.ThumbnailLimitSize(context: context),
+                                                    value: column.ThumbnailLimitSize == 0
+                                                           ? null
+                                                           : column.ThumbnailLimitSize,
+                                                    min: Parameters.BinaryStorage.ThumbnailMinSize,
+                                                    max: Parameters.BinaryStorage.ThumbnailMaxSize,
+                                                    step: column.Step.ToInt(),
+                                                    width: 50,
+                                                    _using: column.Max == -1)
                                                 .FieldTextBox(
                                                     textType: column.ControlType == "MarkDown"
                                                         ? HtmlTypes.TextTypes.MultiLine

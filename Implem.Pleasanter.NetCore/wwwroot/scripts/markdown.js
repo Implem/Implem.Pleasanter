@@ -66,7 +66,7 @@ $p.markup = function (markdownValue, encoded) {
         return text
             .replace(regex_i, function ($1) {
                 return '<a href="' + address($1) + '" target="_blank">' +
-                    '<img src="' + address($1) + '" alt="' + title($1) + '" /></a>';
+                    '<img src="' + address($1) + '?thumbnail=1" alt="' + title($1) + '" /></a>';
             })
             .replace(regex_t, function ($1) {
                 return '<a href="' + address($1) + '" target="_blank">' + title($1) + '</a>';

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Implem.PostgreSql": {
+      "commandName": "Project",
+      "commandLineArgs": "_rds"
+    }
+  }
+}

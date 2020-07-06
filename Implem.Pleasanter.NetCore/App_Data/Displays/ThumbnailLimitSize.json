@@ -1,0 +1,29 @@
+{
+    "Id": "ThumbnailLimitSize",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Thumbnail size"
+        },
+        {
+            "Language": "zh",
+            "Body": "缩图大小"
+        },
+        {
+            "Language": "ja",
+            "Body": "サムネイルサイズ"
+        },
+        {
+            "Language": "de",
+            "Body": "Thumbnail Größe"
+        },
+        {
+            "Language": "ko",
+            "Body": "썸네일 크기"
+        },
+        {
+            "Language": "es",
+            "Body": "tamaño de la uña del pulgar"
+        }
+    ]
+}

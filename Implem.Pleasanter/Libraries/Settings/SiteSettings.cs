@@ -1162,6 +1162,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.TotalLimitSize = column.TotalLimitSize;
                     }
+                    if (column.ThumbnailLimitSize != null
+                        && column.ThumbnailLimitSize != Parameters.BinaryStorage.ThumbnailLimitSize
+                        && column.ThumbnailLimitSize >= Parameters.BinaryStorage.ThumbnailMinSize
+                        && column.ThumbnailLimitSize <= Parameters.BinaryStorage.ThumbnailMaxSize)
+                    {
+                        enabled = true;
+                        newColumn.ThumbnailLimitSize = column.ThumbnailLimitSize;
+                    }
                 }
                 if (enabled)
                 {
@@ -1397,6 +1405,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.EditorReadOnly = column.EditorReadOnly ?? columnDefinition.EditorReadOnly;
                 column.AllowBulkUpdate = column.AllowBulkUpdate ?? false;
                 column.AllowImage = column.AllowImage ?? true;
+                column.ThumbnailLimitSize = column.ThumbnailLimitSize ?? columnDefinition.ThumbnailLimitSize;
                 column.FieldCss = column.FieldCss ?? columnDefinition.FieldCss;
                 column.TextAlign = column.TextAlign ?? TextAlignTypes.Left;
                 column.Unit = column.Unit ?? columnDefinition.Unit;
@@ -2940,6 +2949,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "EditorReadOnly": column.EditorReadOnly = value.ToBool(); break;
                 case "AllowBulkUpdate": column.AllowBulkUpdate = value.ToBool(); break;
                 case "AllowImage": column.AllowImage = value.ToBool(); break;
+                case "ThumbnailLimitSize": column.ThumbnailLimitSize = value.ToDecimal(); break;
                 case "FieldCss": column.FieldCss = value; break;
                 case "TextAlign": column.TextAlign = (TextAlignTypes)value.ToInt(); break;
                 case "Description": column.Description = value; break;

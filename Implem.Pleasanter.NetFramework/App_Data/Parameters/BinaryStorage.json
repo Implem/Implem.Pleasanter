@@ -11,5 +11,9 @@
     "MaxSize": 50,
     "LimitTotalSize": 1024,
     "TotalMinSize": 1,
-    "TotalMaxSize": 1024
+    "TotalMaxSize": 1024,
+    "ImageLimitSize": 1000,
+    "ThumbnailLimitSize": null,
+    "ThumbnailMinSize": 100,
+    "ThumbnailMaxSize": 1000
 }

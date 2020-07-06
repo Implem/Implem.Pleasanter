@@ -68,6 +68,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public decimal? LimitQuantity;
         public decimal? LimitSize;
         public decimal? TotalLimitSize;
+        public decimal? ThumbnailLimitSize;
         [NonSerialized]
         public int? No;
         [NonSerialized]
