@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <Version>1.1.2.1</Version>
+    <Version>1.1.3.0</Version>
     <Copyright>Copyright © Implem Inc 2014 - 2020</Copyright>
     <Product>Implem.Pleasanter</Product>
     <PackageId>Implem.Pleasanter.NetCore</PackageId>
     <Description>Web tool that helps the efficiency of business</Description>
-    <AssemblyVersion>1.1.2.1</AssemblyVersion>
-    <FileVersion>1.1.2.1</FileVersion>
+    <AssemblyVersion>1.1.3.0</AssemblyVersion>
+    <FileVersion>1.1.3.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
