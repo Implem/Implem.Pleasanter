@@ -252,7 +252,7 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
-        public (string redirectUrl, string redirectResultUrl, string html) SamlLogin(Context context)
+        public (string redirectUrl, string redirectResultUrl, string html) SsoSync(Context context)
         {
             if (!Authentications.SAML()
                 || context.AuthenticationType != "Federation"
@@ -289,11 +289,12 @@ namespace Implem.Pleasanter.Controllers
                         context: context,
                         connectionString: Parameters.Rds.OwnerConnectionString,
                         statements: new[] {
-                        Rds.InsertTenants(
-                            selectIdentity:true,
-                            param: Rds.TenantsParam()
-                                .TenantId(Parameters.Authentication.SamlParameters.SamlTenantId)
-                                .TenantName("DefaultTenant")),
+                            Rds.IdentityInsertTenants(factory: context, on: true),
+                            Rds.InsertTenants(
+                                param: Rds.TenantsParam()
+                                    .TenantId(Parameters.Authentication.SamlParameters.SamlTenantId)
+                                    .TenantName("DefaultTenant")),
+                            Rds.IdentityInsertTenants(factory: context, on: false)
                         });
                     tenant.TenantId = Parameters.Authentication.SamlParameters.SamlTenantId;
                 }

@@ -196,7 +196,7 @@ namespace Implem.Pleasanter.NetFramework.Controllers
         {
             var context = new ContextImplement();
             var controller = new Pleasanter.Controllers.UsersController();
-            var result = controller.SamlLogin(context: context);
+            var result = controller.SsoSync(context: context);
             var redirectResult = new RedirectResult(result.redirectResultUrl);
             return redirectResult;
         }
