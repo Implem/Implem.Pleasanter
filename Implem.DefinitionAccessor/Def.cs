@@ -8377,7 +8377,6 @@ namespace Implem.DefinitionAccessor
         public string TypeCs; public string SavedTypeCs;
         public string RecordingData; public string SavedRecordingData;
         public int MaxLength; public int SavedMaxLength;
-        public int ThumbnailLimitSize; public int SavedThumbnailLimitSize;
         public string Size; public string SavedSize;    
         public int Pk; public int SavedPk;
         public string PkOrderBy; public string SavedPkOrderBy;

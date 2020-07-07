@@ -1405,7 +1405,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.EditorReadOnly = column.EditorReadOnly ?? columnDefinition.EditorReadOnly;
                 column.AllowBulkUpdate = column.AllowBulkUpdate ?? false;
                 column.AllowImage = column.AllowImage ?? true;
-                column.ThumbnailLimitSize = column.ThumbnailLimitSize ?? columnDefinition.ThumbnailLimitSize;
+                column.ThumbnailLimitSize = column.ThumbnailLimitSize ?? Parameters.BinaryStorage.ThumbnailLimitSize;
                 column.FieldCss = column.FieldCss ?? columnDefinition.FieldCss;
                 column.TextAlign = column.TextAlign ?? TextAlignTypes.Left;
                 column.Unit = column.Unit ?? columnDefinition.Unit;
