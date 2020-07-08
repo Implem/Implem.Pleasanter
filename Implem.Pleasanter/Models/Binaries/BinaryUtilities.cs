@@ -398,11 +398,11 @@ namespace Implem.Pleasanter.Models
                     bin,
                     ss.ReferenceId,
                     Libraries.Images.ImageData.Types.SiteImage);
-            if (column.ThumbnailLimitSize.ToInt() > 0)
+            if (Parameters.BinaryStorage.ImageLimitSize?.ToInt() > 0)
             {
                 bin = imageData.ReSizeBytes(Parameters.BinaryStorage.ImageLimitSize);
             }
-            var thumbnail = column.ThumbnailLimitSize.ToInt() > 0
+            var thumbnail = column.ThumbnailLimitSize?.ToInt() > 0
                 ? imageData.ReSizeBytes(column.ThumbnailLimitSize)
                 : null;
             if (Parameters.BinaryStorage.IsLocal())
