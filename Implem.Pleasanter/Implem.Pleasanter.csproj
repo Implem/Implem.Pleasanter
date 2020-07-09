@@ -217,6 +217,7 @@
     <Compile Include="Controllers\Api\DeptsController.cs" />
     <Compile Include="Controllers\Api\GroupsController.cs" />
     <Compile Include="Controllers\Api\ItemsController.cs" />
+    <Compile Include="Controllers\Api\OutgoingMailsController.cs" />
     <Compile Include="Controllers\Api\SessionsController.cs" />
     <Compile Include="Controllers\Api\ExtendedController.cs" />
     <Compile Include="Controllers\Api\UsersController.cs" />
@@ -554,6 +555,7 @@
     <Compile Include="Models\Orders\OrderModel.cs" />
     <Compile Include="Models\Orders\OrderUtilities.cs" />
     <Compile Include="Models\Orders\OrderValidators.cs" />
+    <Compile Include="Models\OutgoingMails\OutgoingMailApiModel.cs" />
     <Compile Include="Models\OutgoingMails\OutgoingMailCollection.cs" />
     <Compile Include="Models\OutgoingMails\OutgoingMailModel.cs" />
     <Compile Include="Models\OutgoingMails\OutgoingMailUtilities.cs" />
@@ -1283,6 +1285,7 @@
     <Content Include="App_Data\Displays\YmdhmsFormat.json" />
     <Content Include="App_Data\Displays\YmFormat.json" />
     <Content Include="App_Data\Licenses\Implem.License.dll" />
+    <Content Include="App_Data\Parameters\ExtendedHtmls\Sample.html.txt" />
     <Content Include="App_Data\Parameters\ExtendedScripts\Sample.js.txt" />
     <Content Include="App_Data\Parameters\ExtendedSqls\Sample.json.txt" />
     <Content Include="App_Data\Parameters\ExtendedStyles\Sample.css.txt" />
@@ -1593,9 +1596,26 @@
     <Content Include="App_Data\Displays\CanNotDelete.json" />
     <Content Include="App_Data\Displays\ExcludeOverdue.json" />
     <Content Include="App_Data\Displays\CodeDefinerMigrationCompleted.json" />
+    <Content Include="App_Data\Displays\SecondaryAuthenticationMailBody.json" />
+    <Content Include="App_Data\Displays\Confirm.json" />
+    <Content Include="App_Data\Displays\AuthenticationCode.json" />
+    <Content Include="App_Data\Displays\SecondaryAuthenticationMailSubject.json" />
+    <Content Include="App_Data\Displays\SecondaryAuthentication.json" />
     <Content Include="App_Data\Displays\AnnualSupportService.json" />
     <Content Include="App_Data\Displays\EnterpriseEdition.json" />
     <Content Include="App_Data\Displays\HelpMenu.json" />
+    <Content Include="App_Data\Displays\ThumbnailLimitSize.json" />
+    <Content Include="App_Data\Displays\AllowExpand.json" />
+    <Content Include="App_Data\Displays\AwayFromZero.json" />
+    <Content Include="App_Data\Displays\Ceiling.json" />
+    <Content Include="App_Data\Displays\Close.json" />
+    <Content Include="App_Data\Displays\Expand.json" />
+    <Content Include="App_Data\Displays\ExtendedFieldCss.json" />
+    <Content Include="App_Data\Displays\Floor.json" />
+    <Content Include="App_Data\Displays\Open.json" />
+    <Content Include="App_Data\Displays\RoundingType.json" />
+    <Content Include="App_Data\Displays\ToEven.json" />
+    <Content Include="App_Data\Displays\Truncate.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />
@@ -1647,6 +1667,10 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -1,0 +1,29 @@
+{
+    "Id": "Close",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Close"
+        },
+        {
+            "Language": "zh",
+            "Body": "关"
+        },
+        {
+            "Language": "ja",
+            "Body": "閉じる"
+        },
+        {
+            "Language": "de",
+            "Body": "schließen"
+        },
+        {
+            "Language": "ko",
+            "Body": "닫기"
+        },
+        {
+            "Language": "es",
+            "Body": "cerca"
+        }
+    ]
+}

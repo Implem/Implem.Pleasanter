@@ -55,6 +55,7 @@
     <Compile Include="Parts\Locations.cs" />
     <Compile Include="Parts\SamlAttributes.cs" />
     <Compile Include="Parts\Saml.cs" />
+    <Compile Include="Parts\SecondaryAuthentication.cs" />
     <Compile Include="Parts\SitePackage.cs" />
     <Compile Include="Parts\Registration.cs" />
     <Compile Include="Parts\Validation.cs" />

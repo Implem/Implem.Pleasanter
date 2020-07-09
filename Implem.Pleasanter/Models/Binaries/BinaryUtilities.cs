@@ -379,6 +379,33 @@ namespace Implem.Pleasanter.Models
             }
             var file = context.PostedFiles.FirstOrDefault();
             var bin = file.Byte();
+            var columnName = context.FormString.Substring(context.FormString.IndexOf("=") + 1);
+            if (columnName.Contains("_"))
+            {
+                columnName = columnName.Substring(columnName.IndexOf("_") + 1);
+            }
+            var ss = new ItemModel(
+                context: context,
+                referenceId: id)
+                    .GetSite(
+                        context: context,
+                        initSiteSettings: true)
+                            .SiteSettings;
+            var column = ss.GetColumn(
+                    context: context,
+                    columnName: columnName)
+                ;
+            var imageData = new Libraries.Images.ImageData(
+                    bin,
+                    ss.ReferenceId,
+                    Libraries.Images.ImageData.Types.SiteImage);
+           if (Parameters.BinaryStorage.ImageLimitSize?.ToInt() > 0)
+            {
+                bin = imageData.ReSizeBytes(Parameters.BinaryStorage.ImageLimitSize);
+            }
+            var thumbnail = column.ThumbnailLimitSize?.ToInt() > 0
+                ? imageData.ReSizeBytes(column.ThumbnailLimitSize)
+                : null;
             if (Parameters.BinaryStorage.IsLocal())
             {
                 bin.Write(System.IO.Path.Combine(
@@ -396,6 +423,7 @@ namespace Implem.Pleasanter.Models
                         .BinaryType("Images")
                         .Title(file.FileName)
                         .Bin(bin, _using: !Parameters.BinaryStorage.IsLocal())
+                        .Thumbnail(thumbnail, _using: thumbnail != null)
                         .FileName(file.FileName)
                         .Extension(file.Extension)
                         .Size(file.Size)

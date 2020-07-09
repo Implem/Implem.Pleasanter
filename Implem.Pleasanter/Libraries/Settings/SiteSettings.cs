@@ -44,6 +44,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             Session = 1,
             User = 2
         }
+        
+        public enum RoundingTypes: int
+        {
+            AwayFromZero = 10,
+            Ceiling = 20,
+            Truncate = 30,
+            Floor = 40,
+            ToEven = 50
+        }
 
         public enum TextAlignTypes : int
         {
@@ -124,6 +133,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<string> GridColumns;
         public List<string> FilterColumns;
         public Dictionary<string, List<string>> EditorColumnHash;
+        public string GeneralTabLabelText;
         public int? TabLatestId;
         public SettingList<Tab> Tabs;
         public int? SectionLatestId;
@@ -240,6 +250,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             UpdateGridColumns(context: context);
             UpdateFilterColumns(context: context);
             UpdateEditorColumns(context: context);
+            GeneralTabLabelText = GeneralTabLabelText ?? Displays.General(context);
             TabLatestId = TabLatestId ?? 0;
             SectionLatestId = SectionLatestId ?? 0;
             UpdateTitleColumns(context: context);
@@ -615,6 +626,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         ?.Any(o => TabId(o.Key) > 0 && o.Value?.Any() == true) == true)
             {
                 ss.EditorColumnHash = EditorColumnHash;
+            }
+            if (GeneralTabLabelText != Displays.General(context)
+                && !GeneralTabLabelText.IsNullOrEmpty())
+            {
+                ss.GeneralTabLabelText = GeneralTabLabelText;
             }
             if (TabLatestId != 0)
             {
@@ -1041,6 +1057,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.DecimalPlaces = column.DecimalPlaces;
                     }
+                    if (column.RoundingType != RoundingTypes.AwayFromZero)
+                    {
+                        enabled = true;
+                        newColumn.RoundingType = column.RoundingType;
+                    }
                     if (column.Min != columnDefinition.Min)
                     {
                         enabled = true;
@@ -1170,6 +1191,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         enabled = true;
                         newColumn.TotalLimitSize = column.TotalLimitSize;
+                    }
+                    if (column.ThumbnailLimitSize != null
+                        && column.ThumbnailLimitSize != Parameters.BinaryStorage.ThumbnailLimitSize
+                        && column.ThumbnailLimitSize >= Parameters.BinaryStorage.ThumbnailMinSize
+                        && column.ThumbnailLimitSize <= Parameters.BinaryStorage.ThumbnailMaxSize)
+                    {
+                        enabled = true;
+                        newColumn.ThumbnailLimitSize = column.ThumbnailLimitSize;
                     }
                 }
                 if (enabled)
@@ -1398,6 +1427,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.ServerRegexValidation = column.ServerRegexValidation ?? columnDefinition.ServerRegexValidation;
                 column.RegexValidationMessage = column.RegexValidationMessage ?? columnDefinition.RegexValidationMessage;
                 column.DecimalPlaces = column.DecimalPlaces ?? columnDefinition.DecimalPlaces;
+                column.RoundingType = column.RoundingType ?? RoundingTypes.AwayFromZero;
                 column.Min = column.Min ?? columnDefinition.Min;
                 column.Max = column.Max ?? DefaultMax(columnDefinition);
                 column.Step = column.Step ?? DefaultStep(columnDefinition);
@@ -1406,6 +1436,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.EditorReadOnly = column.EditorReadOnly ?? columnDefinition.EditorReadOnly;
                 column.AllowBulkUpdate = column.AllowBulkUpdate ?? false;
                 column.AllowImage = column.AllowImage ?? true;
+                column.ThumbnailLimitSize = column.ThumbnailLimitSize ?? Parameters.BinaryStorage.ThumbnailLimitSize;
                 column.FieldCss = column.FieldCss ?? columnDefinition.FieldCss;
                 column.TextAlign = column.TextAlign ?? TextAlignTypes.Left;
                 column.Unit = column.Unit ?? columnDefinition.Unit;
@@ -1947,7 +1978,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     new Tab
                     {
                         Id = 0,
-                        LabelText = Displays.General(context: context)
+                        LabelText = GeneralTabLabelText.IsNullOrEmpty()
+                            ? Displays.General(context:context)
+                            : GeneralTabLabelText
                     }
                 }
                     .Union(Tabs ?? Enumerable.Empty<Tab>())
@@ -2805,7 +2838,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             .Forms
                             .Data(key: "EditorColumnsTabsTarget"),
                         editorColumnsAll: context.Forms.List(propertyName));
-                     Sections = EditorColumnHash
+                    Sections = EditorColumnHash
                         .SelectMany(o => o
                             .Value?
                             .Select(columnName => SectionId(columnName))
@@ -2816,7 +2849,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                             LabelText = Sections?
                                 .FirstOrDefault(section => section.Id == sectionId)
                                 ?.LabelText
-                                    ?? Displays.Section(context: context)
+                                    ?? Displays.Section(context: context),
+                            AllowExpand = Sections?
+                                .FirstOrDefault(section => section.Id == sectionId)
+                                ?.AllowExpand
+                                    ?? false,
+                            Expand = Sections?
+                                .FirstOrDefault(section => section.Id == sectionId)
+                                ?.Expand
+                                    ?? true
                         })
                         .ToList();
                     break;
@@ -2947,6 +2988,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ServerRegexValidation": column.ServerRegexValidation = value; break;
                 case "RegexValidationMessage": column.RegexValidationMessage = value; break;
                 case "DecimalPlaces": column.DecimalPlaces = value.ToInt(); break;
+                case "RoundingType": column.RoundingType = (RoundingTypes)value.ToInt(); break;
                 case "Max": column.Max = value.ToDecimal(); break;
                 case "Min": column.Min = value.ToDecimal(); break;
                 case "Step": column.Step = value.ToDecimal(); break;
@@ -2955,6 +2997,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "EditorReadOnly": column.EditorReadOnly = value.ToBool(); break;
                 case "AllowBulkUpdate": column.AllowBulkUpdate = value.ToBool(); break;
                 case "AllowImage": column.AllowImage = value.ToBool(); break;
+                case "ThumbnailLimitSize": column.ThumbnailLimitSize = value.ToDecimal(); break;
                 case "FieldCss": column.FieldCss = value; break;
                 case "TextAlign": column.TextAlign = (TextAlignTypes)value.ToInt(); break;
                 case "Description": column.Description = value; break;

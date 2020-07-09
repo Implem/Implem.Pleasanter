@@ -27,6 +27,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Implem.SupportTools.SysLogV
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Implem.SupportTools.LdapSyncTester", "Implem.SupportTools\LdapSyncTester\Implem.SupportTools.LdapSyncTester.csproj", "{F7543D1C-61EF-4C68-94B3-AAD950CE2EC7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0F3C5C42-85A1-4DB4-BA9A-47A3EDC9ADC4}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
@@ -159,49 +164,5 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6E97E664-D49F-4BFC-930F-F941C4996E2C}
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 12
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://implem.visualstudio.com/
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Implem.CodeDefiner\\Implem.CodeDefiner.csproj
-		SccProjectName1 = Implem.CodeDefiner
-		SccLocalPath1 = Implem.CodeDefiner
-		SccProjectUniqueName2 = Implem.DefinitionAccessor\\Implem.DefinitionAccessor.csproj
-		SccProjectName2 = Implem.DefinitionAccessor
-		SccLocalPath2 = Implem.DefinitionAccessor
-		SccProjectUniqueName3 = Implem.DisplayAccessor\\Implem.DisplayAccessor.csproj
-		SccProjectName3 = Implem.DisplayAccessor
-		SccLocalPath3 = Implem.DisplayAccessor
-		SccProjectUniqueName4 = Implem.Libraries\\Implem.Libraries.csproj
-		SccProjectName4 = Implem.Libraries
-		SccLocalPath4 = Implem.Libraries
-		SccProjectUniqueName5 = Implem.ParameterAccessor\\Implem.ParameterAccessor.csproj
-		SccProjectName5 = Implem.ParameterAccessor
-		SccLocalPath5 = Implem.ParameterAccessor
-		SccProjectUniqueName6 = Implem.Pleasanter\\Implem.Pleasanter.csproj
-		SccProjectName6 = Implem.Pleasanter
-		SccLocalPath6 = Implem.Pleasanter
-		SccProjectUniqueName7 = Implem.SupportTools\\Common\\Implem.SupportTools.Common.csproj
-		SccProjectTopLevelParentUniqueName7 = Implem.Pleasanter.sln
-		SccProjectName7 = Implem.SupportTools/Common
-		SccLocalPath7 = Implem.SupportTools\\Common
-		SccProjectUniqueName8 = Implem.SupportTools\\Launcher\\Implem.SupportTools.csproj
-		SccProjectTopLevelParentUniqueName8 = Implem.Pleasanter.sln
-		SccProjectName8 = Implem.SupportTools/Launcher
-		SccLocalPath8 = Implem.SupportTools\\Launcher
-		SccProjectUniqueName9 = Implem.SupportTools\\MailTester\\Implem.SupportTools.MailTester.csproj
-		SccProjectTopLevelParentUniqueName9 = Implem.Pleasanter.sln
-		SccProjectName9 = Implem.SupportTools/MailTester
-		SccLocalPath9 = Implem.SupportTools\\MailTester
-		SccProjectUniqueName10 = Implem.SupportTools\\SysLogViewer\\Implem.SupportTools.SysLogViewer.csproj
-		SccProjectTopLevelParentUniqueName10 = Implem.Pleasanter.sln
-		SccProjectName10 = Implem.SupportTools/SysLogViewer
-		SccLocalPath10 = Implem.SupportTools\\SysLogViewer
-		SccProjectUniqueName11 = Implem.SupportTools\\LdapSyncTester\\Implem.SupportTools.LdapSyncTester.csproj
-		SccProjectTopLevelParentUniqueName11 = Implem.Pleasanter.sln
-		SccProjectName11 = Implem.SupportTools/LdapSyncTester
-		SccLocalPath11 = Implem.SupportTools\\LdapSyncTester
 	EndGlobalSection
 EndGlobal

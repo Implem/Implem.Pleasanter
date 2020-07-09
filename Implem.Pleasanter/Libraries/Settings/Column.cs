@@ -44,6 +44,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ServerRegexValidation;
         public string RegexValidationMessage;
         public int? DecimalPlaces;
+        public SiteSettings.RoundingTypes? RoundingType;
         public decimal? Min;
         public decimal? Max;
         public decimal? Step;
@@ -70,6 +71,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public decimal? LimitQuantity;
         public decimal? LimitSize;
         public decimal? TotalLimitSize;
+        public decimal? ThumbnailLimitSize;
         [NonSerialized]
         public int? No;
         [NonSerialized]
@@ -570,7 +572,26 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public decimal Round(decimal value)
         {
-             return Math.Round(value, DecimalPlaces.ToInt(), MidpointRounding.AwayFromZero);
+            switch (RoundingType)
+            {
+                case SiteSettings.RoundingTypes.AwayFromZero:
+                    return Math.Round(value, DecimalPlaces.ToInt(), MidpointRounding.AwayFromZero);
+                case SiteSettings.RoundingTypes.Ceiling:
+                    return Math.Ceiling(Adjustment(value)) / Math.Pow(10, DecimalPlaces.ToInt()).ToInt();
+                case SiteSettings.RoundingTypes.Truncate:
+                    return Math.Truncate(Adjustment(value)) / Math.Pow(10, DecimalPlaces.ToInt()).ToInt();
+                case SiteSettings.RoundingTypes.Floor:
+                    return Math.Floor(Adjustment(value)) / Math.Pow(10, DecimalPlaces.ToInt()).ToInt();
+                case SiteSettings.RoundingTypes.ToEven:
+                    return Math.Round(value, DecimalPlaces.ToInt(), MidpointRounding.ToEven);
+                default:
+                    return value;
+            }
+        }
+
+        public decimal Adjustment(decimal value)
+        {
+            return value * Math.Pow(10, DecimalPlaces.ToInt()).ToInt();
         }
 
         public string DateTimeFormat(Context context)
@@ -1014,6 +1035,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                             break;
                         case "ApiKey":
                             sql.Users_ApiKey(tableName: path, _as: _as);
+                            break;
+                        case "SecondaryAuthenticationCode":
+                            sql.Users_SecondaryAuthenticationCode(tableName: path, _as: _as);
+                            break;
+                        case "SecondaryAuthenticationCodeExpirationTime":
+                            sql.Users_SecondaryAuthenticationCodeExpirationTime(tableName: path, _as: _as);
                             break;
                         case "LdapSearchRoot":
                             sql.Users_LdapSearchRoot(tableName: path, _as: _as);

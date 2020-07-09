@@ -1,0 +1,29 @@
+{
+    "Id": "RoundingType",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Rounding type"
+        },
+        {
+            "Language": "zh",
+            "Body": "舍入类型"
+        },
+        {
+            "Language": "ja",
+            "Body": "端数処理種類"
+        },
+        {
+            "Language": "de",
+            "Body": "Rundung"
+        },
+        {
+            "Language": "ko",
+            "Body": "반올림 유형"
+        },
+        {
+            "Language": "es",
+            "Body": "Tipo de redondeo"
+        }
+    ]
+}

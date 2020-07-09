@@ -4975,7 +4975,35 @@ namespace Implem.Pleasanter.Models
                                                 min: 0,
                                                 max: maxDecimalPlaces,
                                                 step: 1,
-                                                _using: maxDecimalPlaces > 0);
+                                                _using: maxDecimalPlaces > 0)
+                                            .FieldDropDown(
+                                                context: context,
+                                                controlId: "RoundingType",
+                                                labelText: Displays.RoundingType(context: context),
+                                                optionCollection: new Dictionary<string, string>
+                                                {
+                                                    {
+                                                        SiteSettings.RoundingTypes.AwayFromZero.ToInt().ToString(),
+                                                        Displays.AwayFromZero(context:context)
+                                                    },
+                                                    {
+                                                        SiteSettings.RoundingTypes.Ceiling.ToInt().ToString(),
+                                                        Displays.Ceiling(context:context)
+                                                    },
+                                                    {
+                                                        SiteSettings.RoundingTypes.Truncate.ToInt().ToString(),
+                                                        Displays.Truncate(context: context)
+                                                    },
+                                                    {
+                                                        SiteSettings.RoundingTypes.Floor.ToInt().ToString(),
+                                                        Displays.Floor(context:context)
+                                                    },
+                                                    {
+                                                        SiteSettings.RoundingTypes.ToEven.ToInt().ToString(),
+                                                        Displays.ToEven(context:context)
+                                                    }
+                                                },
+                                                selectedValue: column.RoundingType.ToInt().ToString());
                                         if (!column.NotUpdate && !column.Id_Ver)
                                         {
                                             var hidden = column.ControlType != "Spinner"
@@ -5062,10 +5090,20 @@ namespace Implem.Pleasanter.Models
                                                     controlId: "AllowImage",
                                                     labelText: Displays.AllowImage(context: context),
                                                     _checked: column.AllowImage == true,
-                                                    _using:
-                                                        context.ContractSettings.Images()
+                                                    _using: context.ContractSettings.Images()
                                                         && (column.ControlType == "MarkDown"
                                                         || column.ColumnName == "Comments"))
+                                                .FieldSpinner(
+                                                    controlId: "ThumbnailLimitSize",
+                                                    labelText: Displays.ThumbnailLimitSize(context: context),
+                                                    value: column.ThumbnailLimitSize == 0
+                                                           ? null
+                                                           : column.ThumbnailLimitSize,
+                                                    min: Parameters.BinaryStorage.ThumbnailMinSize,
+                                                    max: Parameters.BinaryStorage.ThumbnailMaxSize,
+                                                    step: column.Step.ToInt(),
+                                                    width: 50,
+                                                    _using: column.Max == -1)
                                                 .FieldTextBox(
                                                     textType: column.ControlType == "MarkDown"
                                                         ? HtmlTypes.TextTypes.MultiLine
@@ -5410,13 +5448,8 @@ namespace Implem.Pleasanter.Models
                         controlId: "LabelText",
                         labelText: Displays.DisplayName(context: context),
                         text: tab?.LabelText,
-                        validateRequired: true,
-                        _using: tab?.Id != 0)
-                    .FieldText(
-                        controlId: "LabelText",
-                        labelText: Displays.DisplayName(context: context),
-                        text: tab?.LabelText,
-                        _using: tab?.Id == 0)
+                        labelRequired: tab?.Id != 0,
+                        validateRequired: tab?.Id != 0)
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
@@ -5493,7 +5526,29 @@ namespace Implem.Pleasanter.Models
                             controlId: "LabelText",
                             labelText: Displays.DisplayName(context: context),
                             text: section.LabelText,
-                            validateRequired: true))
+                            validateRequired: true)
+                        .FieldCheckBox(
+                            controlId: "AllowExpand",
+                            labelText: Displays.AllowExpand(context: context),
+                            _checked: section.AllowExpand == true)
+                        .FieldDropDown(
+                            context: context,
+                            controlId: "Expand",
+                            labelText: Displays.Expand(context: context),
+                            optionCollection: new Dictionary<string, string>
+                            {
+                                {
+                                    "1",
+                                    Displays.Open(context:context)
+                                },
+                                {
+                                    "0",
+                                    Displays.Close(context: context)
+                                }
+                            },
+                            selectedValue: section.Expand != false
+                                ? "1"
+                                : "0"))
                         .P(css: "message-dialog")
                         .Div(css: "command-center", action: () => hb
                             .Button(

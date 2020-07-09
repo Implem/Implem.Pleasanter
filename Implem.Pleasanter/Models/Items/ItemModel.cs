@@ -143,7 +143,7 @@ namespace Implem.Pleasanter.Models
         public System.Web.Mvc.ContentResult ExportByApi(Context context)
         {
             SetSite(context: context);
-            if (!WithinApiLimits(context: context, siteModel: Site))
+            if (!Site.WithinApiLimits())
             {
                 return ApiResults.Get(ApiResponses.OverLimitApi(
                     context: context,
@@ -1486,7 +1486,7 @@ namespace Implem.Pleasanter.Models
         public System.Web.Mvc.ContentResult GetByApi(Context context, bool internalRequest = false)
         {
             SetSite(context: context);
-            if (!WithinApiLimits(context: context, siteModel: Site))
+            if (!Site.WithinApiLimits())
             {
                 return ApiResults.Get(ApiResponses.OverLimitApi(
                     context: context,
@@ -1540,21 +1540,6 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private bool WithinApiLimits(Context context, SiteModel siteModel)
-        {
-            if (siteModel.ApiCountDate.Date < DateTime.Now.Date)
-            {
-                siteModel.ApiCountDate = DateTime.Now;
-                siteModel.ApiCount = 0;
-            }
-            if (Parameters.Api.LimitPerSite != 0
-                && siteModel.ApiCount >= Parameters.Api.LimitPerSite)
-            {
-                return false;
-            }
-            return true;
-        }
-
         public string Create(Context context)
         {
             SetSite(context: context);
@@ -1585,7 +1570,7 @@ namespace Implem.Pleasanter.Models
         public System.Web.Mvc.ContentResult CreateByApi(Context context)
         {
             SetSite(context: context);
-            if (!WithinApiLimits(context: context, siteModel: Site))
+            if (!Site.WithinApiLimits())
             {
                 return ApiResults.Get(ApiResponses.OverLimitApi(
                     context: context,
@@ -1786,7 +1771,7 @@ namespace Implem.Pleasanter.Models
         public System.Web.Mvc.ContentResult UpdateByApi(Context context)
         {
             SetSite(context: context);
-            if (!WithinApiLimits(context: context, siteModel: Site))
+            if (!Site.WithinApiLimits())
             {
                 return ApiResults.Get(ApiResponses.OverLimitApi(
                     context: context,
@@ -1979,7 +1964,7 @@ namespace Implem.Pleasanter.Models
         public System.Web.Mvc.ContentResult DeleteByApi(Context context)
         {
             SetSite(context: context);
-            if (!WithinApiLimits(context: context, siteModel: Site))
+            if (!Site.WithinApiLimits())
             {
                 return ApiResults.Get(ApiResponses.OverLimitApi(
                     context: context,

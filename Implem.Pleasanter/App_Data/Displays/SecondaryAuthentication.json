@@ -1,0 +1,29 @@
+{
+    "Id": "SecondaryAuthentication",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The specified authentication code invalid."
+        },
+        {
+            "Language": "zh",
+            "Body": "指定的验证码无效。"
+        },
+        {
+            "Language": "ja",
+            "Body": "指定された確認コードが不正です。"
+        },
+        {
+            "Language": "de",
+            "Body": "Der angegebene Authentifizierungscode ist ungültig."
+        },
+        {
+            "Language": "ko",
+            "Body": "지정된 인증 코드가 유효하지 않습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "El codigo de autenticacion especificado no es valido."
+        }
+    ]
+}

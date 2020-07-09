@@ -12,24 +12,32 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder ExtendedStyles(this HtmlBuilder hb, Context context)
         {
-            var extendedStyles = ExtendedStyles(context: context);
+            var extendedStyles = ExtendedStyles(
+                siteId: context.SiteId,
+                id: context.Id,
+                controller: context.Controller,
+                action: context.Action);
             return hb
                 .Link(
                     rel: "stylesheet",
                     href: Locations.Get(
                         context: context,
-                        parts: "Resources/Styles?v="
-                            + extendedStyles?.Sha512Cng()),
+                        parts: $"resources/styles?v={extendedStyles.Sha512Cng()}"
+                            + $"&site-id={context.SiteId}"
+                            + $"&id={context.Id}"
+                            + $"&controller={context.Controller}"
+                            + $"&action={context.Action}"),
                     _using: !extendedStyles.IsNullOrEmpty());
         }
 
-        public static string ExtendedStyles(Context context)
+        public static string ExtendedStyles(
+            long siteId, long id, string controller, string action)
         {
             return Parameters.ExtendedStyles
-                ?.Where(o => o.SiteIdList?.Any() != true || o.SiteIdList.Contains(context.SiteId))
-                .Where(o => o.IdList?.Any() != true || o.IdList.Contains(context.Id))
-                .Where(o => o.Controllers?.Any() != true || o.Controllers.Contains(context.Controller))
-                .Where(o => o.Actions?.Any() != true || o.Actions.Contains(context.Action))
+                ?.Where(o => o.SiteIdList?.Any() != true || o.SiteIdList.Contains(siteId))
+                .Where(o => o.IdList?.Any() != true || o.IdList.Contains(id))
+                .Where(o => o.Controllers?.Any() != true || o.Controllers.Contains(controller))
+                .Where(o => o.Actions?.Any() != true || o.Actions.Contains(action))
                 .Where(o => !o.Disabled)
                 .Select(o => o.Style)
                 .Join("\n");

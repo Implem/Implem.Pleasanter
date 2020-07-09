@@ -367,7 +367,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             target: "_blank",
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-help")
-                                .Text(text: Displays.UserManual(context: context)))
+                                .Text(text: Displays.UserManual(context: context))))
                     .Li(action: () => hb
                         .A(
                             href: Parameters.General.HtmlAnnualSupportServiceUrl,
@@ -410,7 +410,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 parts: "versions"),
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-info")
-                                .Text(text: Displays.Version(context: context))))));
+                                .Text(text: Displays.Version(context: context)))));
         }
 
 

@@ -15,6 +15,11 @@
         public decimal MaxSize;
         public decimal TotalMinSize;
         public decimal TotalMaxSize;
+        public decimal Image;
+        public decimal? ImageLimitSize;
+        public decimal? ThumbnailLimitSize;
+        public decimal ThumbnailMinSize;
+        public decimal ThumbnailMaxSize;
 
         public bool IsLocal()
         {

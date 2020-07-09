@@ -1,0 +1,29 @@
+{
+    "Id": "Confirm",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Confirm"
+        },
+        {
+            "Language": "zh",
+            "Body": "确认"
+        },
+        {
+            "Language": "ja",
+            "Body": "確認"
+        },
+        {
+            "Language": "de",
+            "Body": "Bestätigen"
+        },
+        {
+            "Language": "ko",
+            "Body": "확인"
+        },
+        {
+            "Language": "es",
+            "Body": "Confirmar"
+        }
+    ]
+}

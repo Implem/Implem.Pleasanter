@@ -53,6 +53,7 @@ namespace Implem.Pleasanter
                 "~/Scripts/Display.js",
                 "~/Scripts/DropDownSearch.js",
                 "~/Scripts/DropDownSearchEvents.js",
+                "~/Scripts/Expand.js",
                 "~/Scripts/Export.js",
                 "~/Scripts/FilterEvents.js",
                 "~/Scripts/Focus.js",

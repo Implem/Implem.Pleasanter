@@ -53,5 +53,12 @@ namespace Implem.Pleasanter.Libraries.Security
             return Parameters.Authentication.Provider == "SAML"
                 || Parameters.Authentication.Provider == "SAML-MultiTenant";
         }
+
+        public enum AuthenticationCodeCharacterTypes
+        {
+            Number,
+            Letter,
+            NumberAndLetter
+        }
     }
 }

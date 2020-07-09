@@ -1071,6 +1071,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "MailAddresses": return "[MailAddresses]";
                         case "DemoMailAddress": return "[DemoMailAddress]";
                         case "SessionGuid": return "[SessionGuid]";
+                        case "SecondaryAuthenticationCode": return "[SecondaryAuthenticationCode]";
+                        case "SecondaryAuthenticationCodeExpirationTime": return "[SecondaryAuthenticationCodeExpirationTime]";
                         case "LdapSearchRoot": return "[LdapSearchRoot]";
                         case "SynchronizedTime": return "[SynchronizedTime]";
                         case "Comments": return "[Comments]";
@@ -2561,6 +2563,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 tableName: column.TableName(),
                                 orderType: orderType,
                                 function: function);
+                        case "SecondaryAuthenticationCode":
+                            return self.Users_SecondaryAuthenticationCode(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "SecondaryAuthenticationCodeExpirationTime":
+                            return self.Users_SecondaryAuthenticationCodeExpirationTime(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
                         case "LdapSearchRoot":
                             return self.Users_LdapSearchRoot(
                                 tableName: column.TableName(),
@@ -3845,6 +3857,15 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Where(o => o.OnSelectingWhere)
                 .ExtendedSqlsWhere(where, ss);
             return where;
+        }
+
+        public static List<SqlStatement> OnUseSecondaryAuthentication(
+            this List<SqlStatement> statements)
+        {
+            Parameters.ExtendedSqls
+                ?.Where(o => o.OnUseSecondaryAuthentication)
+                .ForEach(o => statements.Add(new SqlStatement(commandText: o.CommandText)));
+            return statements;
         }
 
         public static IEnumerable<ExtendedSql> ExtendedSqls(long siteId, long id)
@@ -9850,6 +9871,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             column.Developer(function: Sqls.Functions.SingleColumn); param.Developer();
             column.UserSettings(function: Sqls.Functions.SingleColumn); param.UserSettings();
             column.ApiKey(function: Sqls.Functions.SingleColumn); param.ApiKey();
+            column.SecondaryAuthenticationCode(function: Sqls.Functions.SingleColumn); param.SecondaryAuthenticationCode();
+            column.SecondaryAuthenticationCodeExpirationTime(function: Sqls.Functions.SingleColumn); param.SecondaryAuthenticationCodeExpirationTime();
             column.LdapSearchRoot(function: Sqls.Functions.SingleColumn); param.LdapSearchRoot();
             column.SynchronizedTime(function: Sqls.Functions.SingleColumn); param.SynchronizedTime();
             column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
@@ -12634,6 +12657,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     [Users_deleted].[Developer],
                     [Users_deleted].[UserSettings],
                     [Users_deleted].[ApiKey],
+                    [Users_deleted].[SecondaryAuthenticationCode],
+                    [Users_deleted].[SecondaryAuthenticationCodeExpirationTime],
                     [Users_deleted].[LdapSearchRoot],
                     [Users_deleted].[SynchronizedTime],
                     [Users_deleted].[Comments],
@@ -12675,6 +12700,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     [Users].[Developer],
                     [Users].[UserSettings],
                     [Users].[ApiKey],
+                    [Users].[SecondaryAuthenticationCode],
+                    [Users].[SecondaryAuthenticationCodeExpirationTime],
                     [Users].[LdapSearchRoot],
                     [Users].[SynchronizedTime],
                     [Users].[Comments],
@@ -13878,6 +13905,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     [Users].[Developer],
                     [Users].[UserSettings],
                     [Users].[ApiKey],
+                    [Users].[SecondaryAuthenticationCode],
+                    [Users].[SecondaryAuthenticationCodeExpirationTime],
                     [Users].[LdapSearchRoot],
                     [Users].[SynchronizedTime],
                     [Users].[Comments],
@@ -13919,6 +13948,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     [Users_deleted].[Developer],
                     [Users_deleted].[UserSettings],
                     [Users_deleted].[ApiKey],
+                    [Users_deleted].[SecondaryAuthenticationCode],
+                    [Users_deleted].[SecondaryAuthenticationCodeExpirationTime],
                     [Users_deleted].[LdapSearchRoot],
                     [Users_deleted].[SynchronizedTime],
                     [Users_deleted].[Comments],
@@ -51871,6 +51902,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     return self.UserSettings(_as: _as, function: function);
                 case "ApiKey":
                     return self.ApiKey(_as: _as, function: function);
+                case "SecondaryAuthenticationCode":
+                    return self.SecondaryAuthenticationCode(_as: _as, function: function);
+                case "SecondaryAuthenticationCodeExpirationTime":
+                    return self.SecondaryAuthenticationCodeExpirationTime(_as: _as, function: function);
                 case "LdapSearchRoot":
                     return self.LdapSearchRoot(_as: _as, function: function);
                 case "SynchronizedTime":
@@ -52943,6 +52978,74 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return self.Add(
                 columnBracket: "[ApiKey]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static UsersColumnCollection SecondaryAuthenticationCode(
+            this UsersColumnCollection self,
+            string tableName = "Users",
+            string columnName = "SecondaryAuthenticationCode",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[SecondaryAuthenticationCode]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Users_SecondaryAuthenticationCode(
+            this SqlColumnCollection self,
+            string tableName = "Users",
+            string columnName = "SecondaryAuthenticationCode",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[SecondaryAuthenticationCode]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static UsersColumnCollection SecondaryAuthenticationCodeExpirationTime(
+            this UsersColumnCollection self,
+            string tableName = "Users",
+            string columnName = "SecondaryAuthenticationCodeExpirationTime",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[SecondaryAuthenticationCodeExpirationTime]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Users_SecondaryAuthenticationCodeExpirationTime(
+            this SqlColumnCollection self,
+            string tableName = "Users",
+            string columnName = "SecondaryAuthenticationCodeExpirationTime",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[SecondaryAuthenticationCodeExpirationTime]",
                 tableName: tableName,
                 columnName: columnName,
                 _as: _as,
@@ -55065,6 +55168,122 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
+        public static UsersWhereCollection SecondaryAuthenticationCode(
+            this UsersWhereCollection self,
+            object value = null,
+            string tableName = "Users",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[SecondaryAuthenticationCode]" },
+                    tableName: tableName,
+                    name: "SecondaryAuthenticationCode",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Users_SecondaryAuthenticationCode(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Users",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[SecondaryAuthenticationCode]" },
+                    tableName: tableName,
+                    name: "SecondaryAuthenticationCode",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static UsersWhereCollection SecondaryAuthenticationCodeExpirationTime(
+            this UsersWhereCollection self,
+            object value = null,
+            string tableName = "Users",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[SecondaryAuthenticationCodeExpirationTime]" },
+                    tableName: tableName,
+                    name: "SecondaryAuthenticationCodeExpirationTime",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Users_SecondaryAuthenticationCodeExpirationTime(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Users",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[SecondaryAuthenticationCodeExpirationTime]" },
+                    tableName: tableName,
+                    name: "SecondaryAuthenticationCodeExpirationTime",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
         public static UsersWhereCollection LdapSearchRoot(
             this UsersWhereCollection self,
             object value = null,
@@ -56435,6 +56654,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
+        public static UsersWhereCollection SecondaryAuthenticationCodeExpirationTime_Between(
+            this UsersWhereCollection self,
+            DateTime begin,
+            DateTime end,
+            string tableName = "Users",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[SecondaryAuthenticationCodeExpirationTime]" },
+                    tableName: tableName,
+                    name: "SecondaryAuthenticationCodeExpirationTime",
+                    _operator: " between ",
+                    raw: "'{0}' and '{1}' ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Users_SecondaryAuthenticationCodeExpirationTime_Between(
+            this SqlWhereCollection self,
+            DateTime begin,
+            DateTime end,
+            string tableName = "Users",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[SecondaryAuthenticationCodeExpirationTime]" },
+                    tableName: tableName,
+                    name: "SecondaryAuthenticationCodeExpirationTime",
+                    _operator: " between ",
+                    raw: "'{0}' and '{1}' ".Params(begin, end))
+                : self;
+        }
+
         public static UsersWhereCollection SynchronizedTime_Between(
             this UsersWhereCollection self,
             DateTime begin,
@@ -56590,6 +56843,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     case "Developer": return self.Developer();
                     case "UserSettings": return self.UserSettings();
                     case "ApiKey": return self.ApiKey();
+                    case "SecondaryAuthenticationCode": return self.SecondaryAuthenticationCode();
+                    case "SecondaryAuthenticationCodeExpirationTime": return self.SecondaryAuthenticationCodeExpirationTime();
                     case "LdapSearchRoot": return self.LdapSearchRoot();
                     case "SynchronizedTime": return self.SynchronizedTime();
                     case "Comments": return self.Comments();
@@ -57003,6 +57258,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlGroupByCollection self, string tableName = "Users")
         {
             return self.Add(columnBracket: "[ApiKey]", tableName: tableName);
+        }
+
+        public static UsersGroupByCollection SecondaryAuthenticationCode(
+            this UsersGroupByCollection self, string tableName = "Users")
+        {
+            return self.Add(columnBracket: "[SecondaryAuthenticationCode]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Users_SecondaryAuthenticationCode(
+            this SqlGroupByCollection self, string tableName = "Users")
+        {
+            return self.Add(columnBracket: "[SecondaryAuthenticationCode]", tableName: tableName);
+        }
+
+        public static UsersGroupByCollection SecondaryAuthenticationCodeExpirationTime(
+            this UsersGroupByCollection self, string tableName = "Users")
+        {
+            return self.Add(columnBracket: "[SecondaryAuthenticationCodeExpirationTime]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Users_SecondaryAuthenticationCodeExpirationTime(
+            this SqlGroupByCollection self, string tableName = "Users")
+        {
+            return self.Add(columnBracket: "[SecondaryAuthenticationCodeExpirationTime]", tableName: tableName);
         }
 
         public static UsersGroupByCollection LdapSearchRoot(
@@ -57628,6 +57907,36 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return self;
         }
 
+        public static UsersOrderByCollection SecondaryAuthenticationCode(
+            this UsersOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Users",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[SecondaryAuthenticationCode]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static UsersOrderByCollection SecondaryAuthenticationCodeExpirationTime(
+            this UsersOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Users",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[SecondaryAuthenticationCodeExpirationTime]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
         public static UsersOrderByCollection LdapSearchRoot(
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
@@ -58220,6 +58529,36 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "[ApiKey]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Users_SecondaryAuthenticationCode(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Users",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[SecondaryAuthenticationCode]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Users_SecondaryAuthenticationCodeExpirationTime(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Users",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[SecondaryAuthenticationCodeExpirationTime]" }.ForEach(columnBracket =>
                 self.Add(
                     columnBracket: columnBracket,
                     orderType: orderType,
@@ -59357,6 +59696,74 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 ? self.Add(
                     columnBracket: "[ApiKey]",
                     name: "ApiKey",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static UsersParamCollection SecondaryAuthenticationCode(
+            this UsersParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[SecondaryAuthenticationCode]",
+                    name: "SecondaryAuthenticationCode",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Users_SecondaryAuthenticationCode(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[SecondaryAuthenticationCode]",
+                    name: "SecondaryAuthenticationCode",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static UsersParamCollection SecondaryAuthenticationCodeExpirationTime(
+            this UsersParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[SecondaryAuthenticationCodeExpirationTime]",
+                    name: "SecondaryAuthenticationCodeExpirationTime",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Users_SecondaryAuthenticationCodeExpirationTime(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[SecondaryAuthenticationCodeExpirationTime]",
+                    name: "SecondaryAuthenticationCodeExpirationTime",
                     value: value,
                     sub: sub,
                     raw: raw)
@@ -104718,6 +105125,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Developer()
                 .UserSettings()
                 .ApiKey()
+                .SecondaryAuthenticationCode()
+                .SecondaryAuthenticationCodeExpirationTime()
                 .LdapSearchRoot()
                 .SynchronizedTime()
                 .Comments()
@@ -104786,6 +105195,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Developer(userModel.Developer, _using: userModel.Developer_Updated(context) || setDefault || (otherInitValue && !userModel.Developer.InitialValue(context)))
                 .UserSettings(userModel.UserSettings.RecordingJson(), _using: userModel.UserSettings_Updated(context) || (otherInitValue && !userModel.UserSettings.InitialValue(context)))
                 .ApiKey(userModel.ApiKey.MaxLength(128), _using: userModel.ApiKey_Updated(context) || (otherInitValue && !userModel.ApiKey.InitialValue(context)))
+                .SecondaryAuthenticationCode(userModel.SecondaryAuthenticationCode.MaxLength(128), _using: userModel.SecondaryAuthenticationCode_Updated(context) || (otherInitValue && !userModel.SecondaryAuthenticationCode.InitialValue(context)))
+                .SecondaryAuthenticationCodeExpirationTime(userModel.SecondaryAuthenticationCodeExpirationTime.Value, _using: userModel.SecondaryAuthenticationCodeExpirationTime_Updated(context) || (otherInitValue && !userModel.SecondaryAuthenticationCodeExpirationTime.InitialValue(context)))
                 .LdapSearchRoot(userModel.LdapSearchRoot.MaxLength(2048), _using: userModel.LdapSearchRoot_Updated(context) || (otherInitValue && !userModel.LdapSearchRoot.InitialValue(context)))
                 .SynchronizedTime(userModel.SynchronizedTime, _using: userModel.SynchronizedTime_Updated(context) || (otherInitValue && !userModel.SynchronizedTime.InitialValue(context)))
                 .Comments(userModel.Comments.ToJson(), _using: userModel.Comments_Updated(context) || (otherInitValue && !userModel.Comments.InitialValue(context)));

@@ -1,0 +1,29 @@
+{
+    "Id": "AuthenticationCode",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Authentication code"
+        },
+        {
+            "Language": "zh",
+            "Body": "验证码"
+        },
+        {
+            "Language": "ja",
+            "Body": "確認コード"
+        },
+        {
+            "Language": "de",
+            "Body": "Authentication Code"
+        },
+        {
+            "Language": "ko",
+            "Body": "인증 코드"
+        },
+        {
+            "Language": "es",
+            "Body": "Código de autenticación"
+        }
+    ]
+}

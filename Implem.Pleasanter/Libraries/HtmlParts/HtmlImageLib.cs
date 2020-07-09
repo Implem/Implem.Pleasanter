@@ -75,7 +75,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .A(
                                 href: href,
                                 action: () => hb
-                                    .Img(src: href)))
+                                    .Img(src: href + "?thumbnail=1")))
                     .Button(
                         controlCss: "button-icon delete-image",
                         onClick: $"$p.deleteImage($(this));",

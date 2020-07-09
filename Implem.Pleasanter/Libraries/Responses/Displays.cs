@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.DisplayAccessor;
 using Implem.Libraries.Utilities;
 using Implem.ParameterAccessor.Parts;
 using Implem.Pleasanter.Libraries.Requests;
@@ -56,6 +57,18 @@ namespace Implem.Pleasanter.Libraries.Responses
             return policy.Languages.FirstOrDefault(o => o.Language == context.Language)?.Body
                 ?? policy.Languages.FirstOrDefault(o => o.Language.IsNullOrEmpty())?.Body
                 ?? policy.Languages.FirstOrDefault()?.Body;
+        }
+
+        public static string Display(this List<DisplayElement> languages, Context context)
+        {
+            return languages?.FirstOrDefault(o => o.Language == context.Language)?.Body
+                ?? languages?.FirstOrDefault(o => o.Language.IsNullOrEmpty())?.Body
+                ?? languages?.FirstOrDefault()?.Body;
+        }
+
+        public static string Display(this Dictionary<string, List<DisplayElement>> languages, Context context, string id)
+        {
+            return languages?.Get(id)?.Display(context: context);
         }
 
         public static string Add(
@@ -235,6 +248,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "AllowedUsers",
+                data: data);
+        }
+
+        public static string AllowExpand(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AllowExpand",
                 data: data);
         }
 
@@ -538,6 +561,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AuthenticationCode(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AuthenticationCode",
+                data: data);
+        }
+
         public static string Auto(
             Context context,
             params string[] data)
@@ -575,6 +608,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Average",
+                data: data);
+        }
+
+        public static string AwayFromZero(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AwayFromZero",
                 data: data);
         }
 
@@ -878,6 +921,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Ceiling(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Ceiling",
+                data: data);
+        }
+
         public static string Change(
             Context context,
             params string[] data)
@@ -995,6 +1048,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ClientRegexValidation",
+                data: data);
+        }
+
+        public static string Close(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Close",
                 data: data);
         }
 
@@ -1165,6 +1228,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Condition",
+                data: data);
+        }
+
+        public static string Confirm(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Confirm",
                 data: data);
         }
 
@@ -2238,6 +2311,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Expand(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Expand",
+                data: data);
+        }
+
         public static string Expired(
             Context context,
             params string[] data)
@@ -2495,6 +2578,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "FirstDay",
+                data: data);
+        }
+
+        public static string Floor(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Floor",
                 data: data);
         }
 
@@ -4678,6 +4771,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Open(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Open",
+                data: data);
+        }
+
         public static string Operations(
             Context context,
             params string[] data)
@@ -5508,6 +5611,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string RoundingType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "RoundingType",
+                data: data);
+        }
+
         public static string Row(
             Context context,
             params string[] data)
@@ -5655,6 +5768,36 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "SearchTypes",
+                data: data);
+        }
+
+        public static string SecondaryAuthentication(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SecondaryAuthentication",
+                data: data);
+        }
+
+        public static string SecondaryAuthenticationMailBody(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SecondaryAuthenticationMailBody",
+                data: data);
+        }
+
+        public static string SecondaryAuthenticationMailSubject(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SecondaryAuthenticationMailSubject",
                 data: data);
         }
 
@@ -6468,6 +6611,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ThumbnailLimitSize(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ThumbnailLimitSize",
+                data: data);
+        }
+
         public static string Thursday(
             Context context,
             params string[] data)
@@ -6545,6 +6698,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ToEnable",
+                data: data);
+        }
+
+        public static string ToEven(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ToEven",
                 data: data);
         }
 
@@ -6645,6 +6808,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "TrashBox",
+                data: data);
+        }
+
+        public static string Truncate(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Truncate",
                 data: data);
         }
 
@@ -8895,6 +9068,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Users_SessionGuid",
+                data: data);
+        }
+
+        public static string Users_SecondaryAuthenticationCode(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_SecondaryAuthenticationCode",
+                data: data);
+        }
+
+        public static string Users_SecondaryAuthenticationCodeExpirationTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_SecondaryAuthenticationCodeExpirationTime",
                 data: data);
         }
 

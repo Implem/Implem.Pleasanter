@@ -1,4 +1,5 @@
-﻿using Implem.ParameterAccessor.Parts;
+﻿using Implem.DisplayAccessor;
+using Implem.ParameterAccessor.Parts;
 using System;
 using System.Collections.Generic;
 namespace Implem.DefinitionAccessor
@@ -18,6 +19,7 @@ namespace Implem.DefinitionAccessor
         public static List<ExtendedSql> ExtendedSqls;
         public static List<ExtendedStyle> ExtendedStyles;
         public static List<ExtendedScript> ExtendedScripts;
+        public static Dictionary<string, List<DisplayElement>> ExtendedHtmls;
         public static Dictionary<string, string> ExtendedTags;
         public static General General;
         public static History History;

@@ -218,6 +218,12 @@ namespace Implem.Pleasanter.Models
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
+                    case "SecondaryAuthenticationCode":
+                        if (userModel.SecondaryAuthenticationCode_Updated(context: context, column: column))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
                     case "LdapSearchRoot":
                         if (userModel.LdapSearchRoot_Updated(context: context, column: column))
                         {
@@ -244,6 +250,12 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "PasswordChangeTime":
                         if (userModel.PasswordChangeTime_Updated(context: context, column: column))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "SecondaryAuthenticationCodeExpirationTime":
+                        if (userModel.SecondaryAuthenticationCodeExpirationTime_Updated(context: context, column: column))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
@@ -489,6 +501,18 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "ApiKey":
                         if (userModel.ApiKey_Updated(context: context))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "SecondaryAuthenticationCode":
+                        if (userModel.SecondaryAuthenticationCode_Updated(context: context))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "SecondaryAuthenticationCodeExpirationTime":
+                        if (userModel.SecondaryAuthenticationCodeExpirationTime_Updated(context: context))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
