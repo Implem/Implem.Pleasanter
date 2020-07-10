@@ -1086,27 +1086,22 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var from = param.Split_1st();
             var to = param.Split_2nd();
-            if (from == string.Empty)
+            yield return new SqlWhere(
+                tableName: column.TableName(),
+                columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
+                _operator: from == string.Empty
+                    ? "<={0}".Params(to.ToDecimal())
+                    : to == string.Empty
+                        ? ">={0}".Params(from.ToDecimal())
+                        : " between {0} and {1}".Params(from.ToDecimal(), to.ToDecimal()));
+            if ((to == string.Empty && from.ToDecimal() <= 0)
+                || (from == string.Empty && to.ToDecimal() >= 0)
+                || (from != string.Empty && to != string.Empty && from.ToDecimal() <= 0 && to.ToDecimal() >= 0))
             {
                 yield return new SqlWhere(
                     tableName: column.TableName(),
                     columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
-                    _operator: "<={0}".Params(to.ToDecimal()));
-            }
-            else if (to == string.Empty)
-            {
-                yield return new SqlWhere(
-                    tableName: column.TableName(),
-                    columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
-                    _operator: ">={0}".Params(from.ToDecimal()));
-            }
-            else
-            {
-                yield return new SqlWhere(
-                    tableName: column.TableName(),
-                    columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
-                    _operator: " between {0} and {1}".Params(
-                        from.ToDecimal(), to.ToDecimal()));
+                    _operator: " is null");
             }
         }
 

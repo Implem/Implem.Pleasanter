@@ -23,12 +23,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static SamlAttributes MapAttributes(IEnumerable<Claim> claims, string nameId)
         {
             var attributes = new SamlAttributes();
-            var setMailAddress = false;
-            if (Parameters.Authentication?.SamlParameters?
-                    .Attributes?["MailAddress"] == "{NameId}")
+            var addressIsNameId = true == (Parameters.Authentication?.SamlParameters?
+                .Attributes?["MailAddress"] == "{NameId}");
+            if(addressIsNameId)
             {
-                setMailAddress = true;
-                attributes.Add("MailAddress", nameId);
+                attributes.Add("MailAddress", GetSafeMailAddress(nameId));
             }
             foreach (var claim in claims)
             {
@@ -43,12 +42,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 }   
                 if((typeof(UserModel).GetField(attribute.Key) != null
                     || attribute.Key == "Dept" || attribute.Key == "DeptCode"
-                    || (setMailAddress == false && attribute.Key == "MailAddress")))
+                    || (addressIsNameId == false && attribute.Key == "MailAddress")))
                 {
                     attributes.Add(attribute.Key, claim.Value);
                 }
             }
             return attributes;
+        }
+
+        private static string GetSafeMailAddress(string address)
+        {
+            try
+            {
+                return new System.Net.Mail.MailAddress(address).Address;
+            }
+            catch (FormatException)
+            {
+                return null;
+            }
         }
 
         public static void UpdateOrInsert(
