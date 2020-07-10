@@ -384,6 +384,10 @@ namespace Implem.Pleasanter.Models
             {
                 columnName = columnName.Substring(columnName.IndexOf("_") + 1);
             }
+            if (columnName.StartsWith("Comment"))
+            {
+                columnName = "Comments";
+            }
             var ss = new ItemModel(
                 context: context,
                 referenceId: id)
