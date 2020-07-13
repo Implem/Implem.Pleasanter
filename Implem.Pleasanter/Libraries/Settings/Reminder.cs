@@ -137,6 +137,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 withLink: true,
                 all: true);
             var toColumns = ss.IncludedColumns(To);
+            var subjectColumns = ss.IncludedColumns(Subject);
+            var bodyColumns = ss.IncludedColumns(Body);
             var fixedTo = GetFixedTo(
                 context: context,
                 toColumns: toColumns);
@@ -144,6 +146,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 context: context,
                 ss: ss,
                 toColumns: toColumns,
+                subjectColumns: subjectColumns,
+                bodyColumns: bodyColumns,
                 fixedTo: fixedTo)
                     .Where(data => !data.Key.IsNullOrEmpty())
                     .Where(data => data.Value.Count > 0
@@ -154,6 +158,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         {
                             Title = GetSubject(
                                 context: context,
+                                ss: ss,
+                                dataRows: data.Value.Values.ToList(),
                                 test: test),
                             Body = GetBody(
                                 context: context,
@@ -193,7 +199,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         private Dictionary<string, Dictionary<long, DataRow>> GetDataHash(
-            Context context, SiteSettings ss, List<Column> toColumns, string fixedTo)
+            Context context, SiteSettings ss, List<Column> toColumns, List<Column> subjectColumns, List<Column> bodyColumns, string fixedTo)
         {
             var hash = new Dictionary<string, Dictionary<long, DataRow>>()
             {
@@ -205,7 +211,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             GetDataSet(
                 context: context,
                 ss: ss,
-                toColumns: toColumns)
+                toColumns: toColumns,
+                subjectColumns: subjectColumns,
+                bodyColumns: bodyColumns)
                     .Tables["Main"]
                     .AsEnumerable()
                     .ForEach(dataRow =>
@@ -232,12 +240,17 @@ namespace Implem.Pleasanter.Libraries.Settings
             return hash;
         }
 
-        private Title GetSubject(Context context, bool test)
+        private Title GetSubject(Context context, SiteSettings ss, List<DataRow> dataRows, bool test)
         {
+            var subject = ReplacedLine(
+                context: context,
+                ss: ss,
+                dataRow: dataRows.FirstOrDefault(),
+                line: Subject);
             return new Title((test
                 ? "(" + Displays.Test(context: context) + ")"
                 : string.Empty)
-                    + Subject);
+                    + subject);
         }
 
         private string GetBody(Context context, SiteSettings ss, List<DataRow> dataRows)
@@ -246,6 +259,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             var timeGroups = dataRows
                 .GroupBy(dataRow => dataRow.DateTime(Column).Date)
                 .ToList();
+            var body = ReplacedLine(
+                context: context,
+                ss: ss,
+                dataRow: dataRows.FirstOrDefault(),
+                line: Body);
             timeGroups.ForEach(timeGroup =>
             {
                 var date = timeGroup.First().DateTime(Column).ToLocal(context: context).Date;
@@ -274,7 +292,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                             ReplacedLine(
                                 context: context,
                                 ss: ss,
-                                dataRow: dataRow));
+                                dataRow: dataRow,
+                                line: Line));
                         if (NotSendHyperLink != true)
                         {
                             sb.Append(
@@ -291,12 +310,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 sb.Append(Displays.NoTargetRecord(context: context), "\r\n");
             }
-            return Body.Contains(BodyPlaceholder)
-                ? Body.Replace(BodyPlaceholder, sb.ToString())
-                : Body + "\n" + sb.ToString();
+            return body.Contains(BodyPlaceholder)
+                ? body.Replace(BodyPlaceholder, sb.ToString())
+                : body + "\n" + sb.ToString();
         }
 
-        private DataSet GetDataSet(Context context, SiteSettings ss, List<Column> toColumns)
+        private DataSet GetDataSet(Context context, SiteSettings ss, List<Column> toColumns, List<Column> subjectColumns, List<Column> bodyColumns)
         {
             var orderByColumn = ss.GetColumn(
                 context: context,
@@ -309,6 +328,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ItemTitle(ss.ReferenceType);
             toColumns.ForEach(toColumn =>
                 column.Add(column: toColumn));
+            subjectColumns.ForEach(subjectColumn =>
+                column.Add(column: subjectColumn));
+            bodyColumns.ForEach(bodyColumn =>
+                column.Add(column: bodyColumn));
             var columns = ss.IncludedColumns(Line).ToList();
             columns.ForEach(o => column.Add(column: o));
             if (columns.Any(o => o.ColumnName == "Status"))
@@ -433,15 +456,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             return reminder;
         }
 
-        private string ReplacedLine(Context context, SiteSettings ss, DataRow dataRow)
+        private string ReplacedLine(Context context, SiteSettings ss, DataRow dataRow, string line)
         {
-            var line = Line;
             switch (ss.ReferenceType)
             {
                 case "Issues":
                     var issueModel = new IssueModel(
                         context: context, ss: ss, dataRow: dataRow);
-                    ss.IncludedColumns(Line).ForEach(column =>
+                    ss.IncludedColumns(line).ForEach(column =>
                     {
                         switch (column.ColumnName)
                         {

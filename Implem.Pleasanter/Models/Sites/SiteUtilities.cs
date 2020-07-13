@@ -7703,9 +7703,9 @@ namespace Implem.Pleasanter.Models
                             .Td(action: () => hb
                                 .Text(text: reminder.Id.ToString()))
                             .Td(action: () => hb
-                                .Text(text: reminder.Subject))
+                                .Text(text: ss.ColumnNameToLabelText(reminder.Subject)))
                             .Td(action: () => hb
-                                .Text(text: reminder.Body))
+                                .Text(text: ss.ColumnNameToLabelText(reminder.Body)))
                             .Td(action: () => hb
                                 .Text(text: ss.ColumnNameToLabelText(reminder.Line)))
                             .Td(action: () => hb
@@ -7776,7 +7776,7 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-wide",
                         controlCss: " always-send",
                         labelText: Displays.Subject(context: context),
-                        text: reminder.Subject,
+                        text: ss.ColumnNameToLabelText(reminder.Subject),
                         validateRequired: true)
                     .FieldTextBox(
                         textType: HtmlTypes.TextTypes.MultiLine,
@@ -7784,7 +7784,7 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-wide",
                         controlCss: " always-send",
                         labelText: Displays.Body(context: context),
-                        text: reminder.Body,
+                        text: ss.ColumnNameToLabelText(reminder.Body),
                         validateRequired: true)
                     .FieldTextBox(
                         controlId: "ReminderLine",
