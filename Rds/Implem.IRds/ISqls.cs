@@ -20,6 +20,8 @@
 
         string BooleanString(string value);
 
+        string GroupIdLike(string tableName);
+
         string DateGroupYearly { get; }
 
         string DateGroupMonthly { get; }

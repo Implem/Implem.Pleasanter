@@ -42906,14 +42906,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     : factory.Sqls.WhereLikeTemplateForward) +
                 $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
-
+     
         public static string Groups_GroupId_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Groups",
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"GroupId\" like " + 
+            return factory.Sqls.GroupIdLike(tableName) + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
