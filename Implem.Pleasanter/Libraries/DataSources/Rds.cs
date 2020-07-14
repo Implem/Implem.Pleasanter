@@ -42913,7 +42913,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return factory.Sqls.GroupIdLike(tableName) + 
+            return factory.Sqls.IntegerColumnLike(tableName, "GroupId") + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
