@@ -20,6 +20,8 @@
 
         string BooleanString(string value);
 
+        string IntegerColumnLike(string tableName, string columnName);
+
         string DateGroupYearly { get; }
 
         string DateGroupMonthly { get; }

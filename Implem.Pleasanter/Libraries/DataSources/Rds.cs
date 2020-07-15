@@ -40113,19 +40113,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
-        public static string Depts_DeptId_WhereLike(
-            ISqlObjectFactory factory,
-            string tableName = "Depts",
-            string name = "SearchText",
-            bool forward = false)
-        {
-            return "(\"" + tableName + "\".\"DeptId\" like " + 
-                (forward
-                    ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
-        }
-
         public static string Depts_DeptCode_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Depts",
@@ -40159,6 +40146,19 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"Body\" like " + 
+                (forward
+                    ? string.Empty
+                    : factory.Sqls.WhereLikeTemplateForward) +
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+        }
+
+        public static string Depts_DeptId_WhereLike(
+            ISqlObjectFactory factory,
+            string tableName = "Depts",
+            string name = "SearchText",
+            bool forward = false)
+        {
+            return factory.Sqls.IntegerColumnLike(tableName, "DeptId") + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
@@ -42894,32 +42894,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
-        public static string Groups_TenantId_WhereLike(
-            ISqlObjectFactory factory,
-            string tableName = "Groups",
-            string name = "SearchText",
-            bool forward = false)
-        {
-            return "(\"" + tableName + "\".\"TenantId\" like " + 
-                (forward
-                    ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
-        }
-
-        public static string Groups_GroupId_WhereLike(
-            ISqlObjectFactory factory,
-            string tableName = "Groups",
-            string name = "SearchText",
-            bool forward = false)
-        {
-            return "(\"" + tableName + "\".\"GroupId\" like " + 
-                (forward
-                    ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
-        }
-
         public static string Groups_GroupName_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Groups",
@@ -42940,6 +42914,32 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"Body\" like " + 
+                (forward
+                    ? string.Empty
+                    : factory.Sqls.WhereLikeTemplateForward) +
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+        }
+
+        public static string Groups_TenantId_WhereLike(
+            ISqlObjectFactory factory,
+            string tableName = "Groups",
+            string name = "SearchText",
+            bool forward = false)
+        {
+            return factory.Sqls.IntegerColumnLike(tableName, "TenantId") + 
+                (forward
+                    ? string.Empty
+                    : factory.Sqls.WhereLikeTemplateForward) +
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+        }
+
+        public static string Groups_GroupId_WhereLike(
+            ISqlObjectFactory factory,
+            string tableName = "Groups",
+            string name = "SearchText",
+            bool forward = false)
+        {
+            return factory.Sqls.IntegerColumnLike(tableName, "GroupId") + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
