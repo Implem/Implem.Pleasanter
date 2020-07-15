@@ -1350,7 +1350,7 @@ namespace Implem.Pleasanter.Models
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetGeneral",
-                        text: Displays.General(context: context)))
+                        text: ss.GeneralTabLabelText))
                 .Tabs(
                     context: context,
                     ss: ss)

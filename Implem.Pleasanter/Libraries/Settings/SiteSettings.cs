@@ -125,6 +125,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<string> GridColumns;
         public List<string> FilterColumns;
         public Dictionary<string, List<string>> EditorColumnHash;
+        public string GeneralTabLabelText;
         public int? TabLatestId;
         public SettingList<Tab> Tabs;
         public int? SectionLatestId;
@@ -241,6 +242,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             UpdateGridColumns(context: context);
             UpdateFilterColumns(context: context);
             UpdateEditorColumns(context: context);
+            GeneralTabLabelText = GeneralTabLabelText ?? Displays.General(context);
             TabLatestId = TabLatestId ?? 0;
             SectionLatestId = SectionLatestId ?? 0;
             UpdateTitleColumns(context: context);
@@ -616,6 +618,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         ?.Any(o => TabId(o.Key) > 0 && o.Value?.Any() == true) == true)
             {
                 ss.EditorColumnHash = EditorColumnHash;
+            }
+            if (GeneralTabLabelText != Displays.General(context)
+                && !GeneralTabLabelText.IsNullOrEmpty())
+            {
+                ss.GeneralTabLabelText = GeneralTabLabelText;
             }
             if (TabLatestId != 0)
             {
@@ -1947,7 +1954,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     new Tab
                     {
                         Id = 0,
-                        LabelText = Displays.General(context: context)
+                        LabelText = GeneralTabLabelText.IsNullOrEmpty()
+                            ? Displays.General(context:context)
+                            : GeneralTabLabelText
                     }
                 }
                     .Union(Tabs ?? Enumerable.Empty<Tab>())

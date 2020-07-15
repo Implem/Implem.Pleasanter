@@ -5415,13 +5415,8 @@ namespace Implem.Pleasanter.Models
                         controlId: "LabelText",
                         labelText: Displays.DisplayName(context: context),
                         text: tab?.LabelText,
-                        validateRequired: true,
-                        _using: tab?.Id != 0)
-                    .FieldText(
-                        controlId: "LabelText",
-                        labelText: Displays.DisplayName(context: context),
-                        text: tab?.LabelText,
-                        _using: tab?.Id == 0)
+                        labelRequired: tab?.Id != 0,
+                        validateRequired: tab?.Id != 0)
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
