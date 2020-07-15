@@ -1,4 +1,4 @@
-# Windows image file caches
+﻿# Windows image file caches
 Thumbs.db
 ehthumbs.db
 
@@ -67,9 +67,11 @@ bld/
 [Ll]ogs/
 
 PublishProfiles/
+BinaryStorage/
 bundles/
 Histories/
 Logs/
 Temp/
 /Implem.CodeDefiner.NetCore/Properties/launchSettings.json
 /Implem.Pleasanter/App_Data/Temp/
+/Implem.Pleasanter.NetCore/App_Data/BinaryStorage/Images

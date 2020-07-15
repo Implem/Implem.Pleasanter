@@ -415,6 +415,13 @@ namespace Implem.Pleasanter.Models
                     Directories.BinaryStorage(),
                     "Images",
                     file.Guid));
+                if (column.ThumbnailLimitSize?.ToInt() > 0)
+                {
+                    thumbnail.Write(System.IO.Path.Combine(
+                        Directories.BinaryStorage(),
+                        "Images",
+                        file.Guid + "_thumbnail"));
+                }
             }
             Repository.ExecuteNonQuery(
                 context: context,

@@ -25,8 +25,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                             fileContent: new MemoryStream(
                                 Bytes(
                                     dataRow: dataRow,
-                                    thumbnail: context.QueryStrings.Bool("thumbnail")
-                                        && dataRow["Thumbnail"] != DBNull.Value),
+                                    thumbnail: context.QueryStrings.Bool("thumbnail")),
                                 false),
                             fileDownloadName: dataRow.String("FileName"),
                             contentType: dataRow.String("ContentType")).FileStream()
@@ -34,18 +33,19 @@ namespace Implem.Pleasanter.Libraries.Responses
                 default:
                     return dataRow != null
                         ? new ResponseFile(
-                            fileContent: new MemoryStream(Bytes(dataRow), false),
+                            fileContent: new MemoryStream(Bytes(dataRow: dataRow), false),
                             fileDownloadName: dataRow.String("FileName"),
                             contentType: dataRow.String("ContentType")).FileStream()
                         : null;
             }
         }
+
         public static ContentResult DownloadByApi(Context context, string guid)
         {
-            DataRow dataRow = GetBinariesTable(context, guid);
+            var dataRow = GetBinariesTable(context, guid);
             return dataRow != null
                 ? new ResponseFile(
-                    new MemoryStream(Bytes(dataRow), false),
+                    new MemoryStream(Bytes(dataRow: dataRow), false),
                     dataRow.String("FileName"),
                     dataRow.String("ContentType"))
                         .ToContentResult(
@@ -63,6 +63,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                     context: context,
                     errorData: new ErrorData(type: Error.Types.NotFound));
         }
+
         private static DataRow GetBinariesTable(Context context, string guid)
         {
             if (guid.IsNullOrEmpty()) return null;
@@ -135,21 +136,36 @@ namespace Implem.Pleasanter.Libraries.Responses
                             .AsEnumerable()
                             .FirstOrDefault();
         }
+
         private static byte[] Bytes(DataRow dataRow, bool thumbnail = false)
         {
             switch (Parameters.BinaryStorage.Provider)
             {
                 case "Local":
-                    return Files.Bytes(
-                        Path.Combine(Directories.BinaryStorage(),
-                        dataRow.String("BinaryType"),
-                        dataRow.String("Guid")));
+                    return BytesforLocal(
+                         dataRow: dataRow,
+                         thumbnail: thumbnail)
+                             ?? BytesforLocal(
+                                 dataRow: dataRow,
+                                 thumbnail: false);
                 default:
-                    return thumbnail
+                    return thumbnail && dataRow["Thumbnail"] != DBNull.Value
                         ? dataRow.Bytes("Thumbnail")
                         : dataRow.Bytes("Bin");
             }
         }
+
+        private static byte[] BytesforLocal(DataRow dataRow, bool thumbnail = false)
+        {
+            return Files.Bytes(Path.Combine(
+                Directories.BinaryStorage(),
+                dataRow.String("BinaryType"),
+                dataRow.String("Guid")
+                    + (thumbnail
+                        ? "_thumbnail"
+                        : string.Empty)));
+        }
+
         public static FileContentResult DownloadTemp(string guid)
         {
             var folderPath = Path.Combine(Path.Combine(Directories.Temp(), guid));
