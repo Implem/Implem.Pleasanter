@@ -27,9 +27,9 @@ namespace Implem.SqlServer
             return bit == "1" ? TrueString : FalseString;
         }
 
-        public string GroupIdLike(string tableName)
+        public string IntegerColumnLike(string tableName, string columnName)
         {
-            return "(\"" + tableName + "\".\"GroupId\" like ";
+            return "(\"" + tableName + "\".\"" + columnName + "\" like ";
         }
 
         public string DateGroupYearly { get; } = "substring(convert(varchar,{0},111),1,4)";

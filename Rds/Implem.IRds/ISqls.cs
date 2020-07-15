@@ -20,7 +20,7 @@
 
         string BooleanString(string value);
 
-        string GroupIdLike(string tableName);
+        string IntegerColumnLike(string tableName, string columnName);
 
         string DateGroupYearly { get; }
 

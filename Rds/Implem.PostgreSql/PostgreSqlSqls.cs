@@ -32,9 +32,9 @@ namespace Implem.PostgreSql
             return bit == "1" ? TrueString : FalseString;
         }
 
-        public string GroupIdLike(string tableName)
+        public string IntegerColumnLike(string tableName, string columnName)
         {
-            return "(cast(\"" + tableName + "\".\"GroupId\" as text) like ";
+            return "(cast(\"" + tableName + "\".\"" + columnName + "\" as text) like ";
         }
 
         public string DateGroupYearly { get; } = "to_char({0}, 'YYYY')";
