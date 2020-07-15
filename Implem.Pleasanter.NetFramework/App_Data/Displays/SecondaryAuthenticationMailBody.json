@@ -1,0 +1,29 @@
+{
+    "Id": "SecondaryAuthenticationMailBody",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Use the following code as the Pleasanter authentication code. \nAuthentication code: [AuthenticationCode]\nThank you for using Pleasanter."
+        },
+        {
+            "Language": "zh",
+            "Body": "使用以下代码作为Pleasanter身份验证代码。 \n验证码：[AuthenticationCode] \n感谢您使用Pleasanter。"
+        },
+        {
+            "Language": "ja",
+            "Body": "Pleasanterの確認コードには、次のコードをお使いください。\n確認コード: [AuthenticationCode]\nPleasanterのご利用ありがとうございます。"
+        },
+        {
+            "Language": "de",
+            "Body": "Verwenden Sie den folgenden Code als Pleasanter-Authentifizierungscode. \nAuthentifizierungscode: [AuthenticationCode] \nDanke, dass Sie Pleasanter verwenden. "
+        },
+        {
+            "Language": "ko",
+            "Body": "다음 코드를 Pleasanter 인증 코드로 사용하십시오. \n 인증 코드 : [AuthenticationCode] \nPleasanter를 이용해 주셔서 감사합니다. "
+        },
+        {
+            "Language": "es",
+            "Body": "Use el siguiente código como código de autenticación de Pleasanter. \nCódigo de autenticación: [AuthenticationCode] \nGracias por usar Pleasanter. "
+        }
+    ]
+}

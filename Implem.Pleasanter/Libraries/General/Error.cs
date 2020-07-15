@@ -72,6 +72,7 @@ namespace Implem.Pleasanter.Libraries.General
             RequireTo,
             Restricted,
             SamlLoginFailed,
+            SecondaryAuthentication,
             SelectFile,
             SelectOne,
             SelectTargets,
@@ -351,6 +352,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.SamlLoginFailed:
                     return Messages.SamlLoginFailed(
+                        context: context,
+                        data: data);
+                case Types.SecondaryAuthentication:
+                    return Messages.SecondaryAuthentication(
                         context: context,
                         data: data);
                 case Types.SelectFile:

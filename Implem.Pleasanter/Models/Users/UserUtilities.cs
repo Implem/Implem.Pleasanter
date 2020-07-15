@@ -1856,6 +1856,16 @@ namespace Implem.Pleasanter.Models
                                 "#Users_ApiKey" + idSuffix,
                                 userModel.ApiKey.ToResponse(context: context, ss: ss, column: column));
                             break;
+                        case "SecondaryAuthenticationCode":
+                            res.Val(
+                                "#Users_SecondaryAuthenticationCode" + idSuffix,
+                                userModel.SecondaryAuthenticationCode.ToResponse(context: context, ss: ss, column: column));
+                            break;
+                        case "SecondaryAuthenticationCodeExpirationTime":
+                            res.Val(
+                                "#Users_SecondaryAuthenticationCodeExpirationTime" + idSuffix,
+                                userModel.SecondaryAuthenticationCodeExpirationTime.ToResponse(context: context, ss: ss, column: column));
+                            break;
                         case "LdapSearchRoot":
                             res.Val(
                                 "#Users_LdapSearchRoot" + idSuffix,
@@ -3148,55 +3158,69 @@ namespace Implem.Pleasanter.Models
                             .DataEnter("#Login"),
                         action: () => hb
                             .FieldSet(id: "LoginFieldSet", action: () => hb
-                                .Div(action: () => hb
-                                    .Field(
-                                        context: context,
-                                        ss: ss,
-                                        column: ss.GetColumn(
-                                            context: context,
-                                            columnName: "LoginId"),
-                                        fieldCss: "field-wide",
-                                        controlCss: " always-send focus")
-                                    .Field(
-                                        context: context,
-                                        ss: ss,
-                                        column: ss.GetColumn(
-                                            context: context,
-                                            columnName: "Password"),
-                                        fieldCss: "field-wide",
-                                        controlCss: " always-send")
-                                    .Div(id: "Tenants")
-                                    .Field(
-                                        context: context,
-                                        ss: ss,
-                                        column: ss.GetColumn(
-                                            context: context,
-                                            columnName: "RememberMe")))
-                                .Div(id: "LoginCommands", action: () => hb
-                                    .Button(
-                                        controlId: "Login",
-                                        controlCss: "button-icon button-right-justified validate",
-                                        text: Displays.Login(context: context),
-                                        onClick: "$p.send($(this));",
-                                        icon: "ui-icon-unlocked",
-                                        action: "Authenticate",
-                                        method: "post",
-                                        type: "submit"))
-                                .Div(id: "SsoLogin",
-                                    css: " command-center",
+                                .Div(
+                                    id: "Logins",
                                     action: () => hb
-                                        .P(
-                                            css: "ssoLoginMessage",
+                                        .Div(
+                                            id: "LoginGuideTop",
+                                            action: () => hb.Raw(Parameters.ExtendedHtmls?.Display(
+                                                context: context,
+                                                id: "LoginGuideTop")))
+                                        .Div(action: () => hb
+                                            .Field(
+                                                context: context,
+                                                ss: ss,
+                                                column: ss.GetColumn(
+                                                    context: context,
+                                                    columnName: "LoginId"),
+                                                fieldCss: "field-wide",
+                                                controlCss: " always-send focus")
+                                            .Field(
+                                                context: context,
+                                                ss: ss,
+                                                column: ss.GetColumn(
+                                                    context: context,
+                                                    columnName: "Password"),
+                                                fieldCss: "field-wide",
+                                                controlCss: " always-send")
+                                            .Div(id: "Tenants")
+                                            .Field(
+                                                context: context,
+                                                ss: ss,
+                                                column: ss.GetColumn(
+                                                    context: context,
+                                                    columnName: "RememberMe")))
+                                        .Div(id: "LoginCommands", action: () => hb
+                                            .Button(
+                                                controlId: "Login",
+                                                controlCss: "button-icon button-right-justified validate",
+                                                text: Displays.Login(context: context),
+                                                onClick: "$p.send($(this));",
+                                                icon: "ui-icon-unlocked",
+                                                action: "Authenticate",
+                                                method: "post",
+                                                type: "submit"))
+                                        .Div(id: "SsoLogin",
+                                            css: " command-center",
                                             action: () => hb
-                                                .Text(Displays.SsoLoginMessage(context: context)))
-                                        .Button(
-                                            controlId: "SSOLogin",
-                                            controlCss: "button-icon button-right-justified",
-                                            text: Displays.SsoLogin(context: context),
-                                            href: "../Users/Challenge",
-                                            onClick: "",
-                                            icon: "ui-icon-unlocked"),
-                                    _using: Parameters.Authentication.Provider == "SAML")))
+                                                .P(
+                                                    css: "ssoLoginMessage",
+                                                    action: () => hb
+                                                        .Text(Displays.SsoLoginMessage(context: context)))
+                                                .Button(
+                                                    controlId: "SSOLogin",
+                                                    controlCss: "button-icon button-right-justified",
+                                                    text: Displays.SsoLogin(context: context),
+                                                    href: "../Users/Challenge",
+                                                    onClick: "",
+                                                    icon: "ui-icon-unlocked"),
+                                            _using: Parameters.Authentication.Provider == "SAML")
+                                        .Div(
+                                            id: "LoginGuideBottom",
+                                            action: () => hb.Raw(Parameters.ExtendedHtmls?.Display(
+                                                context: context,
+                                                id: "LoginGuideBottom"))))
+                                .Div(id: "SecondaryAuthentications")))
                     .Form(
                         attributes: new HtmlAttributes()
                             .Id("DemoForm")

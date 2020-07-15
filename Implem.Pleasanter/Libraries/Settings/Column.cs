@@ -1000,6 +1000,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "ApiKey":
                             sql.Users_ApiKey(tableName: path, _as: _as);
                             break;
+                        case "SecondaryAuthenticationCode":
+                            sql.Users_SecondaryAuthenticationCode(tableName: path, _as: _as);
+                            break;
+                        case "SecondaryAuthenticationCodeExpirationTime":
+                            sql.Users_SecondaryAuthenticationCodeExpirationTime(tableName: path, _as: _as);
+                            break;
                         case "LdapSearchRoot":
                             sql.Users_LdapSearchRoot(tableName: path, _as: _as);
                             break;
