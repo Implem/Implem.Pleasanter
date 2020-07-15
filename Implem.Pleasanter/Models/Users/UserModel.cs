@@ -16,6 +16,7 @@ using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
@@ -65,6 +66,8 @@ namespace Implem.Pleasanter.Models
         public List<string> MailAddresses = new List<string>();
         public string DemoMailAddress = string.Empty;
         public string SessionGuid = string.Empty;
+        public string SecondaryAuthenticationCode = string.Empty;
+        public Time SecondaryAuthenticationCodeExpirationTime = new Time();
         public string LdapSearchRoot = string.Empty;
         public DateTime SynchronizedTime = 0.ToDateTime();
 
@@ -133,6 +136,8 @@ namespace Implem.Pleasanter.Models
         public string SavedMailAddresses = string.Empty;
         public string SavedDemoMailAddress = string.Empty;
         public string SavedSessionGuid = string.Empty;
+        public string SavedSecondaryAuthenticationCode = string.Empty;
+        public DateTime SavedSecondaryAuthenticationCodeExpirationTime = 0.ToDateTime();
         public string SavedLdapSearchRoot = string.Empty;
         public DateTime SavedSynchronizedTime = 0.ToDateTime();
 
@@ -336,6 +341,14 @@ namespace Implem.Pleasanter.Models
                 column.GetDefaultInput(context: context).ToString() != ApiKey);
         }
 
+        public bool SecondaryAuthenticationCode_Updated(Context context, Column column = null)
+        {
+            return SecondaryAuthenticationCode != SavedSecondaryAuthenticationCode && SecondaryAuthenticationCode != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToString() != SecondaryAuthenticationCode);
+        }
+
         public bool LdapSearchRoot_Updated(Context context, Column column = null)
         {
             return LdapSearchRoot != SavedLdapSearchRoot && LdapSearchRoot != null &&
@@ -374,6 +387,14 @@ namespace Implem.Pleasanter.Models
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.DefaultTime().Date != PasswordChangeTime.Value.Date);
+        }
+
+        public bool SecondaryAuthenticationCodeExpirationTime_Updated(Context context, Column column = null)
+        {
+            return SecondaryAuthenticationCodeExpirationTime.Value != SavedSecondaryAuthenticationCodeExpirationTime &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != SecondaryAuthenticationCodeExpirationTime.Value.Date);
         }
 
         public bool SynchronizedTime_Updated(Context context, Column column = null)
@@ -855,6 +876,32 @@ namespace Implem.Pleasanter.Models
                                 exportColumn: exportColumn)
                             : string.Empty;
                     break;
+                case "SecondaryAuthenticationCode":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? SecondaryAuthenticationCode.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "SecondaryAuthenticationCodeExpirationTime":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? SecondaryAuthenticationCodeExpirationTime.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
                 case "LdapSearchRoot":
                     value = ss.ReadColumnAccessControls.Allowed(
                         context: context,
@@ -1218,6 +1265,8 @@ namespace Implem.Pleasanter.Models
                     case "LockoutCounter": data.LockoutCounter = LockoutCounter; break;
                     case "Developer": data.Developer = Developer; break;
                     case "UserSettings": data.UserSettings = UserSettings.RecordingJson(); break;
+                    case "SecondaryAuthenticationCode": data.SecondaryAuthenticationCode = SecondaryAuthenticationCode; break;
+                    case "SecondaryAuthenticationCodeExpirationTime": data.SecondaryAuthenticationCodeExpirationTime = SecondaryAuthenticationCodeExpirationTime.Value.ToLocal(context: context); break;
                     case "LdapSearchRoot": data.LdapSearchRoot = LdapSearchRoot; break;
                     case "SynchronizedTime": data.SynchronizedTime = SynchronizedTime.ToLocal(context: context); break;
                     case "Creator": data.Creator = Creator.Id; break;
@@ -1548,6 +1597,8 @@ namespace Implem.Pleasanter.Models
                     case "Users_AfterResetPasswordValidator": AfterResetPasswordValidator = value.ToString().Sha512Cng(); break;
                     case "Users_DemoMailAddress": DemoMailAddress = value.ToString(); break;
                     case "Users_SessionGuid": SessionGuid = value.ToString(); break;
+                    case "Users_SecondaryAuthenticationCode": SecondaryAuthenticationCode = value.ToString().Sha512Cng(); break;
+                    case "Users_SecondaryAuthenticationCodeExpirationTime": SecondaryAuthenticationCodeExpirationTime = new Time(context, value.ToDateTime(), byForm: true); break;
                     case "Users_LdapSearchRoot": LdapSearchRoot = value.ToString(); break;
                     case "Users_SynchronizedTime": SynchronizedTime = value.ToDateTime().ToUniversal(context: context); break;
                     case "Users_Timestamp": Timestamp = value.ToString(); break;
@@ -1664,6 +1715,8 @@ namespace Implem.Pleasanter.Models
             MailAddresses = userModel.MailAddresses;
             DemoMailAddress = userModel.DemoMailAddress;
             SessionGuid = userModel.SessionGuid;
+            SecondaryAuthenticationCode = userModel.SecondaryAuthenticationCode;
+            SecondaryAuthenticationCodeExpirationTime = userModel.SecondaryAuthenticationCodeExpirationTime;
             LdapSearchRoot = userModel.LdapSearchRoot;
             SynchronizedTime = userModel.SynchronizedTime;
             Comments = userModel.Comments;
@@ -1712,6 +1765,8 @@ namespace Implem.Pleasanter.Models
             if (data.Disabled != null) Disabled = data.Disabled.ToBool().ToBool();
             if (data.Lockout != null) Lockout = data.Lockout.ToBool().ToBool();
             if (data.LockoutCounter != null) LockoutCounter = data.LockoutCounter.ToInt().ToInt();
+            if (data.SecondaryAuthenticationCode != null) SecondaryAuthenticationCode = data.SecondaryAuthenticationCode.ToString().ToString().Sha512Cng();
+            if (data.SecondaryAuthenticationCodeExpirationTime != null) SecondaryAuthenticationCodeExpirationTime = new Time(context, data.SecondaryAuthenticationCodeExpirationTime.ToDateTime(), byForm: true);
             if (data.LdapSearchRoot != null) LdapSearchRoot = data.LdapSearchRoot.ToString().ToString();
             if (data.SynchronizedTime != null) SynchronizedTime = data.SynchronizedTime.ToDateTime().ToDateTime().ToUniversal(context: context);
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
@@ -1901,6 +1956,14 @@ namespace Implem.Pleasanter.Models
                             ApiKey = dataRow[column.ColumnName].ToString();
                             SavedApiKey = ApiKey;
                             break;
+                        case "SecondaryAuthenticationCode":
+                            SecondaryAuthenticationCode = dataRow[column.ColumnName].ToString();
+                            SavedSecondaryAuthenticationCode = SecondaryAuthenticationCode;
+                            break;
+                        case "SecondaryAuthenticationCodeExpirationTime":
+                            SecondaryAuthenticationCodeExpirationTime = new Time(context, dataRow, column.ColumnName);
+                            SavedSecondaryAuthenticationCodeExpirationTime = SecondaryAuthenticationCodeExpirationTime.Value;
+                            break;
                         case "LdapSearchRoot":
                             LdapSearchRoot = dataRow[column.ColumnName].ToString();
                             SavedLdapSearchRoot = LdapSearchRoot;
@@ -2025,6 +2088,8 @@ namespace Implem.Pleasanter.Models
                 || Developer_Updated(context: context)
                 || UserSettings_Updated(context: context)
                 || ApiKey_Updated(context: context)
+                || SecondaryAuthenticationCode_Updated(context: context)
+                || SecondaryAuthenticationCodeExpirationTime_Updated(context: context)
                 || LdapSearchRoot_Updated(context: context)
                 || SynchronizedTime_Updated(context: context)
                 || Comments_Updated(context: context)
@@ -2152,6 +2217,32 @@ namespace Implem.Pleasanter.Models
                 else if (Lockout)
                 {
                     return UserLockout(context: context);
+                }
+                else if (EnabledSecondaryAuthentication(context: context))
+                {
+                    var secondaryAuthenticationCode = context
+                        .Forms
+                        .Data("SecondaryAuthenticationCode");
+                    return string.IsNullOrEmpty(secondaryAuthenticationCode)
+                        ? OpenSecondaryAuthentication(context: context)
+                        : !SecondaryAuthentication(
+                                context: context,
+                                secondaryAuthenticationCode: secondaryAuthenticationCode)
+                            ? Messages
+                                .ResponseSecondaryAuthentication(
+                                    context: context,
+                                    target: "#LoginMessage")
+                                .Focus("#SecondaryAuthenticationCode")
+                                .ToJson()
+                            : PasswordExpired()
+                                ? OpenChangePasswordAtLoginDialog()
+                                : Allow(
+                                    context: context,
+                                    returnUrl: (!string.IsNullOrEmpty(returnUrl)
+                                        || Permissions.PrivilegedUsers(LoginId))
+                                            ? returnUrl
+                                            : Parameters.Locations.LoginAfterUrl,
+                                    createPersistentCookie: context.Forms.Bool("Users_RememberMe"));
                 }
                 else if (PasswordExpired())
                 {
@@ -2396,6 +2487,214 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private char[] AuthenticationCodeUsableCharactors(
+            Authentications.AuthenticationCodeCharacterTypes authenticationCodeCharacterTypes)
+        {
+            switch (authenticationCodeCharacterTypes)
+            {
+                case Authentications.AuthenticationCodeCharacterTypes.Number:
+                    return Enumerable.Range('0', '9' - '0' + 1).Select(o => (char)o).ToArray();
+                case Authentications.AuthenticationCodeCharacterTypes.Letter:
+                    return Enumerable
+                        .Range('A', 'Z' - 'A' + 1)
+                        .Concat(Enumerable.Range('a', 'z' - 'a' + 1))
+                        .Select(o => (char)o)
+                        .ToArray();
+                default:
+                    return Enumerable
+                        .Range('0', '9' - '0' + 1)
+                        .Concat(Enumerable.Range('A', 'Z' - 'A' + 1))
+                        .Concat(Enumerable.Range('a', 'z' - 'a' + 1))
+                        .Select(o => (char)o)
+                        .ToArray();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private string CreateSecondaryAuthenticationCode()
+        {
+            switch (Parameters.Security?.SecondaryAuthentication?.AuthenticationCodeCharacterType)
+            {
+                case "Number":
+                    return CreateAuthenticationCode(
+                        length: Parameters
+                            .Security
+                            ?.SecondaryAuthentication
+                            ?.AuthenticationCodeLength ?? 0,
+                        chars: AuthenticationCodeUsableCharactors(
+                            authenticationCodeCharacterTypes: Authentications
+                                .AuthenticationCodeCharacterTypes
+                                .Number));
+                case "Letter":
+                    return CreateAuthenticationCode(
+                        length: Parameters
+                            .Security
+                            ?.SecondaryAuthentication
+                            ?.AuthenticationCodeLength ?? 0,
+                        chars: AuthenticationCodeUsableCharactors(
+                            authenticationCodeCharacterTypes: Authentications
+                                .AuthenticationCodeCharacterTypes
+                                .Letter));
+                default:
+                    return CreateAuthenticationCode(
+                        length: Parameters
+                            .Security
+                            ?.SecondaryAuthentication
+                            ?.AuthenticationCodeLength ?? 0,
+                        chars: AuthenticationCodeUsableCharactors(
+                            authenticationCodeCharacterTypes: Authentications
+                                .AuthenticationCodeCharacterTypes
+                                .NumberAndLetter));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private string CreateAuthenticationCode(int length, char[] chars)
+        {
+            var authenticationCodeLength = Math.Max(Math.Min(length, 128), 1);
+            var generateLength = Math.Max(Math.Min(length * 3, 128), 1);
+            var authenticationCode = new System.Text.StringBuilder();
+            while (authenticationCode.Length < authenticationCodeLength)
+            {
+                authenticationCode.Append(Strings
+                    .NewGuid()
+                    .Where(o => chars?.Contains(o) != false).ToArray());
+            }
+            return authenticationCode.ToString().Substring(0, authenticationCodeLength);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateSecondaryAuthenticationCode(Context context)
+        {
+            SecondaryAuthenticationCode = CreateSecondaryAuthenticationCode();
+            Rds.ExecuteNonQuery(
+                context: context,
+                statements: Rds.UpdateUsers(
+                    where: Rds.UsersWhereDefault(this),
+                    param: UpdateSecondaryAuthenticationCodeParam(
+                        context: context,
+                        authenticationCode: SecondaryAuthenticationCode),
+                    addUpdatorParam: false,
+                    addUpdatedTimeParam: false));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public SqlParamCollection UpdateSecondaryAuthenticationCodeParam(
+            Context context,
+            string authenticationCode)
+        {
+            return Rds.UsersParam()
+                .SecondaryAuthenticationCode(authenticationCode)
+                .SecondaryAuthenticationCodeExpirationTime(DateTime.Now.AddSeconds(Parameters.
+                    Security
+                    ?.SecondaryAuthentication
+                    ?.AuthenticationCodeExpirationPeriod ?? 0));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void NotificationSecondaryAuthenticationCode(Context context)
+        {
+            var language = Language.IsNullOrEmpty()
+                ? context.Language
+                : Language;
+            switch (Parameters.Security?.SecondaryAuthentication?.NotificationType)
+            {
+                case "Mail":
+                    Rds.ExecuteTable(
+                        context: context,
+                        statements: Rds.SelectMailAddresses(
+                            column: Rds.MailAddressesColumn().MailAddress(),
+                            where: Rds.MailAddressesWhere().OwnerId(UserId).OwnerType("Users")))
+                                ?.AsEnumerable()
+                                .Select(o => o["MailAddress"].ToString())
+                                .Where(o => !o.IsNullOrEmpty())
+                                .ForEach(mailAddress => new OutgoingMailModel()
+                                {
+                                    Title = new Title(Displays.Get(
+                                        id: "SecondaryAuthenticationMailSubject",
+                                        language: language)),
+                                    Body = Displays.Get(
+                                        id: "SecondaryAuthenticationMailBody",
+                                        language: language)
+                                            .Replace(
+                                                "[AuthenticationCode]",
+                                                SecondaryAuthenticationCode),
+                                    From = new System.Net.Mail.MailAddress(Parameters
+                                        .Mail
+                                        .SupportFrom),
+                                    To = $"\"{Name}\" <{mailAddress}>",
+                                    Bcc = Parameters.Mail.SupportFrom
+                                }.Send(
+                                    context: context,
+                                    ss: new SiteSettings()));
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private string OpenSecondaryAuthentication(Context context)
+        {
+            UpdateSecondaryAuthenticationCode(context: context);
+            NotificationSecondaryAuthenticationCode(context: context);
+            var hb = new HtmlBuilder();
+            return new ResponseCollection()
+                .Css(
+                    target: "#Logins",
+                    name: "display",
+                    value: "none")
+                .Html(
+                    target: "#SecondaryAuthentications",
+                    value: hb
+                        .Div(
+                            id: "SecondaryAuthenticationGuideTop",
+                            action: () => hb.Raw(Parameters.ExtendedHtmls?.Display(
+                                context: context,
+                                id: "SecondaryAuthenticationGuideTop")))
+                        .Div(action: () => hb
+                            .FieldTextBox(
+                                textType: HtmlTypes.TextTypes.Password,
+                                controlId: "SecondaryAuthenticationCode",
+                                controlCss: " focus always-send",
+                                labelText: Displays.AuthenticationCode(context: context),
+                                validateRequired: true,
+                                labelRequired: true))
+                        .Div(
+                            id: "SecondaryAuthenticationCommands",
+                            css: "both",
+                            action: () => hb
+                                .Button(
+                                    controlId: "SecondaryAuthenticate",
+                                    controlCss: "button-icon button-right-justified validate",
+                                    text: Displays.Confirm(context: context),
+                                    onClick: "$p.send($(this));",
+                                    icon: "ui-icon-unlocked",
+                                    action: "Authenticate",
+                                    method: "post",
+                                    type: "submit"))
+                        .Div(
+                            id: "SecondaryAuthenticationBottom",
+                            action: () => hb.Raw(Parameters.ExtendedHtmls?.Display(
+                                context: context,
+                                id: "SecondaryAuthenticationGuideBottom"))))
+                .Focus("#SecondaryAuthenticationCode").ToJson();
+        }
+
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public string Allow(
             Context context,
             string returnUrl,
@@ -2506,6 +2805,51 @@ namespace Implem.Pleasanter.Models
             return
                 PasswordExpirationTime.Value.InRange() &&
                 PasswordExpirationTime.Value <= DateTime.Now;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private bool EnabledSecondaryAuthentication(Context context)
+        {
+            if (Parameters.Security?.SecondaryAuthentication?.Enabled != true)
+            {
+                return false;
+            }
+            var statements = new List<SqlStatement>().OnUseSecondaryAuthentication().ToArray();
+            if (!(statements?.Any() == true))
+            {
+                return true;
+            }
+            statements.ForEach(statement => statement.SqlParamCollection = new SqlParamCollection()
+                .Add("TenantId", this.TenantId)
+                .Add("UserId", this.UserId));
+            var dataTables = statements.Select(statement => Rds.ExecuteTable(
+                context: context,
+                statements: statement));
+            foreach (DataTable table in dataTables)
+            {
+                if (table.Rows.Count == 0)
+                {
+                    return true;
+                }
+                if (!table.AsEnumerable().All(dataRow => dataRow[0]?.ToBool() == false))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private bool SecondaryAuthentication(Context context, string secondaryAuthenticationCode)
+        {
+            return
+                SecondaryAuthenticationCode == secondaryAuthenticationCode
+                && SecondaryAuthenticationCodeExpirationTime.Value.InRange()
+                && SecondaryAuthenticationCodeExpirationTime.Value > DateTime.Now;
         }
 
         /// <summary>

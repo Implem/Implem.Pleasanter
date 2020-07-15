@@ -1587,6 +1587,8 @@ namespace Implem.DefinitionAccessor
                     case "Users_MailAddresses": Column.Users_MailAddresses = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_MailAddresses, definitionRow, ColumnXls); break;
                     case "Users_DemoMailAddress": Column.Users_DemoMailAddress = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_DemoMailAddress, definitionRow, ColumnXls); break;
                     case "Users_SessionGuid": Column.Users_SessionGuid = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_SessionGuid, definitionRow, ColumnXls); break;
+                    case "Users_SecondaryAuthenticationCode": Column.Users_SecondaryAuthenticationCode = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_SecondaryAuthenticationCode, definitionRow, ColumnXls); break;
+                    case "Users_SecondaryAuthenticationCodeExpirationTime": Column.Users_SecondaryAuthenticationCodeExpirationTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_SecondaryAuthenticationCodeExpirationTime, definitionRow, ColumnXls); break;
                     case "Users_LdapSearchRoot": Column.Users_LdapSearchRoot = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_LdapSearchRoot, definitionRow, ColumnXls); break;
                     case "Users_SynchronizedTime": Column.Users_SynchronizedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_SynchronizedTime, definitionRow, ColumnXls); break;
                     case "LoginKeys_LoginId": Column.LoginKeys_LoginId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.LoginKeys_LoginId, definitionRow, ColumnXls); break;
@@ -5305,7 +5307,7 @@ namespace Implem.DefinitionAccessor
                         ?? s.Body;
                     newSqlDefinition.SavedBody = newSqlDefinition.Body;
                     SqlDefinitionCollection.Add(newSqlDefinition);
-                });
+            });
         }
 
         private static void SetSqlTable(SqlDefinition definition, XlsRow definitionRow, XlsIo sqlxls)
@@ -8377,7 +8379,7 @@ namespace Implem.DefinitionAccessor
         public string TypeCs; public string SavedTypeCs;
         public string RecordingData; public string SavedRecordingData;
         public int MaxLength; public int SavedMaxLength;
-        public string Size; public string SavedSize;    
+        public string Size; public string SavedSize;
         public int Pk; public int SavedPk;
         public string PkOrderBy; public string SavedPkOrderBy;
         public int PkHistory; public int SavedPkHistory;
@@ -9008,6 +9010,8 @@ namespace Implem.DefinitionAccessor
         public string Users_MailAddresses;
         public string Users_DemoMailAddress;
         public string Users_SessionGuid;
+        public string Users_SecondaryAuthenticationCode;
+        public string Users_SecondaryAuthenticationCodeExpirationTime;
         public string Users_LdapSearchRoot;
         public string Users_SynchronizedTime;
         public string LoginKeys_LoginId;
@@ -9502,6 +9506,8 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Users_MailAddresses = new ColumnDefinition();
         public ColumnDefinition Users_DemoMailAddress = new ColumnDefinition();
         public ColumnDefinition Users_SessionGuid = new ColumnDefinition();
+        public ColumnDefinition Users_SecondaryAuthenticationCode = new ColumnDefinition();
+        public ColumnDefinition Users_SecondaryAuthenticationCodeExpirationTime = new ColumnDefinition();
         public ColumnDefinition Users_LdapSearchRoot = new ColumnDefinition();
         public ColumnDefinition Users_SynchronizedTime = new ColumnDefinition();
         public ColumnDefinition LoginKeys_LoginId = new ColumnDefinition();

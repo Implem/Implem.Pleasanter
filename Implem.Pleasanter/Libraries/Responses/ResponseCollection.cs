@@ -113,6 +113,13 @@ namespace Implem.Pleasanter.Libraries.Responses
             return _using ? Add("RemoveAttr", target, name) : this;
         }
 
+        public ResponseCollection Css(string target, string name, string value, bool _using = true)
+        {
+            return _using
+                ? Add("Css", target, new { Name = name, Value = value }.ToJson())
+                : this;
+        }
+
         public ResponseCollection Focus(string target, bool _using = true)
         {
             return _using ? Add("Focus", target) : this;

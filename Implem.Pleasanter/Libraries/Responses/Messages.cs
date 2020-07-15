@@ -1121,6 +1121,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message SecondaryAuthentication(Context context, params string[] data)
+        {
+            return Get(
+                id: "SecondaryAuthentication",
+                text: Displays.SecondaryAuthentication(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message SelectFile(Context context, params string[] data)
         {
             return Get(
@@ -2436,6 +2446,16 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return ResponseMessage(
                 message: SamlLoginFailed(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseSecondaryAuthentication(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: SecondaryAuthentication(
                     context: context,
                     data: data),
                 target: target);

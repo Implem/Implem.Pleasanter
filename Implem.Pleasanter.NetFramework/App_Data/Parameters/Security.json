@@ -71,5 +71,12 @@
                 }
             ]
         }
-    ]
+    ],
+    "SecondaryAuthentication": {
+        "Enabled": false,
+        "NotificationType": "Mail",
+        "AuthenticationCodeCharacterType": "Number",
+        "AuthenticationCodeLength": 8,
+        "AuthenticationCodeExpirationPeriod": 300
+    }
 }

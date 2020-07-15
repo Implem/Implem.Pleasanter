@@ -1,0 +1,29 @@
+{
+    "Id": "SecondaryAuthenticationMailSubject",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Pleasanter authentication code"
+        },
+        {
+            "Language": "zh",
+            "Body": "Pleasanter验证码"
+        },
+        {
+            "Language": "ja",
+            "Body": "Pleasanterの確認コード"
+        },
+        {
+            "Language": "de",
+            "Body": "Pleasanter-Authentifizierungscode"
+        },
+        {
+            "Language": "ko",
+            "Body": "Pleasanter인증 코드"
+        },
+        {
+            "Language": "es",
+            "Body": "Código de autenticación de Pleasanter"
+        }
+    ]
+}

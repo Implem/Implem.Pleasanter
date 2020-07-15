@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.DisplayAccessor;
 using Implem.Libraries.Utilities;
 using Implem.ParameterAccessor.Parts;
 using Implem.Pleasanter.Libraries.Requests;
@@ -36,8 +37,16 @@ namespace Implem.Pleasanter.Libraries.Responses
 
         public static string Get(Context context, string id, params string[] data)
         {
+            return Get(
+                id: id,
+                language: context.Language,
+                data: data);
+        }
+
+        public static string Get(string id, string language, params string[] data)
+        {
             var screen = id;
-            var kay = id + "_" + context.Language;
+            var kay = id + "_" + language;
             if (DisplayHash.ContainsKey(kay))
             {
                 screen = DisplayHash[kay];
@@ -56,6 +65,18 @@ namespace Implem.Pleasanter.Libraries.Responses
             return policy.Languages.FirstOrDefault(o => o.Language == context.Language)?.Body
                 ?? policy.Languages.FirstOrDefault(o => o.Language.IsNullOrEmpty())?.Body
                 ?? policy.Languages.FirstOrDefault()?.Body;
+        }
+
+        public static string Display(this List<DisplayElement> languages, Context context)
+        {
+            return languages?.FirstOrDefault(o => o.Language == context.Language)?.Body
+                ?? languages?.FirstOrDefault(o => o.Language.IsNullOrEmpty())?.Body
+                ?? languages?.FirstOrDefault()?.Body;
+        }
+
+        public static string Display(this Dictionary<string, List<DisplayElement>> languages, Context context, string id)
+        {
+            return languages?.Get(id)?.Display(context: context);
         }
 
         public static string Add(
@@ -535,6 +556,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Authentication",
+                data: data);
+        }
+
+        public static string AuthenticationCode(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AuthenticationCode",
                 data: data);
         }
 
@@ -1165,6 +1196,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Condition",
+                data: data);
+        }
+
+        public static string Confirm(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Confirm",
                 data: data);
         }
 
@@ -5648,6 +5689,36 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string SecondaryAuthentication(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SecondaryAuthentication",
+                data: data);
+        }
+
+        public static string SecondaryAuthenticationMailBody(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SecondaryAuthenticationMailBody",
+                data: data);
+        }
+
+        public static string SecondaryAuthenticationMailSubject(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SecondaryAuthenticationMailSubject",
+                data: data);
+        }
+
         public static string SecondsAgo(
             Context context,
             params string[] data)
@@ -8895,6 +8966,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Users_SessionGuid",
+                data: data);
+        }
+
+        public static string Users_SecondaryAuthenticationCode(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_SecondaryAuthenticationCode",
+                data: data);
+        }
+
+        public static string Users_SecondaryAuthenticationCodeExpirationTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_SecondaryAuthenticationCodeExpirationTime",
                 data: data);
         }
 
