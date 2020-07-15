@@ -2413,7 +2413,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                SiteSettings.Tabs.MoveUpOrDown(
+                SiteSettings.Tabs?.MoveUpOrDown(
                     ColumnUtilities.ChangeCommand(controlId), selected);
                 res
                     .TabResponses(
@@ -2449,7 +2449,7 @@ namespace Implem.Pleasanter.Models
                         ? new Tab
                         {
                             Id = 0,
-                            LabelText = Displays.General(context: context)
+                            LabelText = SiteSettings.GeneralTabLabelText
                         }
                         : SiteSettings.Tabs?.Get(idList.First());
                     if (tab == null)
@@ -2529,7 +2529,16 @@ namespace Implem.Pleasanter.Models
             var tab = SiteSettings.Tabs?.Get(selected);
             if(selected == 0)
             {
-                res.CloseDialog();
+                SiteSettings.GeneralTabLabelText = context.Forms.Data("LabelText");
+                res
+                    .TabResponses(
+                        context: context,
+                        ss: SiteSettings,
+                        selected: new List<int> { selected })
+                    .CloseDialog()
+                    .EditorColumnsResponses(
+                        context: context,
+                        ss: SiteSettings);
             }
             else if (tab == null)
             {
