@@ -16,7 +16,6 @@ using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
@@ -2690,7 +2689,6 @@ namespace Implem.Pleasanter.Models
                                 id: "SecondaryAuthenticationGuideBottom"))))
                 .Focus("#SecondaryAuthenticationCode").ToJson();
         }
-
 
         /// <summary>
         /// Fixed:
