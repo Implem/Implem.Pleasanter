@@ -90,7 +90,7 @@ namespace Implem.Pleasanter.Libraries.Images
             using (var memory = new MemoryStream())
             {
                 memory.Position = 0;
-                ReSize(sizeType).Save(memory, ImageFormat.Bmp);
+                ReSize(sizeType).Save(memory, ImageFormat.Png);
                 return GetByte(memory);
             }
         }
@@ -120,7 +120,7 @@ namespace Implem.Pleasanter.Libraries.Images
             using (var memory = new MemoryStream())
             {
                 memory.Position = 0;
-                ReSize(size).Save(memory, ImageFormat.Bmp); ;
+                ReSize(size).Save(memory, ImageFormat.Png); ;
                 return GetByte(memory);
             }
         }

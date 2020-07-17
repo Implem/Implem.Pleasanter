@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Primitives;
 using Sustainsys.Saml2;
 using Sustainsys.Saml2.Configuration;
 using Sustainsys.Saml2.Metadata;
@@ -109,7 +110,6 @@ namespace Implem.Pleasanter.NetCore
             services.AddHealthChecks();
         }
 
-
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseCurrentRequestContext();
@@ -121,6 +121,7 @@ namespace Implem.Pleasanter.NetCore
             {
                 app.UseExceptionHandler("/errors/internalservererror");
             }
+            app.UseSecurityHeadersMiddleware();
             app.Use(async (context, next) => await Invoke(context, next));
             app.UseStatusCodePages(context =>
             {
@@ -199,7 +200,6 @@ namespace Implem.Pleasanter.NetCore
                     }
                 );
             });
-            
         }
 
         private static ContextImplement ApplicationStartContext()
@@ -337,6 +337,31 @@ namespace Implem.Pleasanter.NetCore
         public static IApplicationBuilder UseSessionMiddleware(this IApplicationBuilder app)
         {
             return app.UseMiddleware<SessionMiddleware>();
+        }
+    }
+
+    public class SecurityHeadersMiddleware
+    {
+        private readonly RequestDelegate _next;
+
+        public SecurityHeadersMiddleware(RequestDelegate next)
+        {
+            _next = next;
+        }
+        public Task Invoke(HttpContext context)
+        {
+            context.Response.Headers.Add("X-Frame-Options", new StringValues("SAMEORIGIN"));
+            context.Response.Headers.Add("X-Xss-Protection", new StringValues("1; mode=block"));
+            context.Response.Headers.Add("X-Content-Type-Options", new StringValues("nosniff"));
+            return _next(context);
+        }
+    }
+
+    public static class SecurityHeadersMiddlewareExtensions
+    {
+        public static IApplicationBuilder UseSecurityHeadersMiddleware(this IApplicationBuilder app)
+        {
+            return app.UseMiddleware<SecurityHeadersMiddleware>();
         }
     }
 }

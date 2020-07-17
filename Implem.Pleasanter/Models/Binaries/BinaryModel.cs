@@ -851,6 +851,7 @@ namespace Implem.Pleasanter.Models
                     Thumbnail = imageData.ReSizeBytes(
                         Libraries.Images.ImageData.SizeTypes.Thumbnail);
                     Icon = imageData.ReSizeBytes(Libraries.Images.ImageData.SizeTypes.Icon);
+                    ContentType = "image/png";
                     Repository.ExecuteNonQuery(
                         context: context,
                         transactional: true,
@@ -882,6 +883,7 @@ namespace Implem.Pleasanter.Models
                 case "Local": imageData.WriteToLocal(); break;
                 default:
                     Bin = imageData.ReSizeBytes(Libraries.Images.ImageData.SizeTypes.Logo);
+                    ContentType = "image/png";
                     Repository.ExecuteNonQuery(
                         context: context,
                         transactional: true,
@@ -956,6 +958,21 @@ namespace Implem.Pleasanter.Models
         public BinaryModel(long referenceId)
         {
             ReferenceId = referenceId;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public BinaryModel(Context context, long referenceId, string binaryType)
+        {
+            Get(
+                context: context,
+                where: Rds.BinariesWhere()
+                    .ReferenceId(referenceId)
+                    .BinaryType(binaryType),
+                param: Rds.BinariesParam()
+                    .ReferenceId()
+                    .ContentType());
         }
     }
 }
