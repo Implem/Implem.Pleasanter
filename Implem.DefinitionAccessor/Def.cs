@@ -2437,6 +2437,16 @@ namespace Implem.DefinitionAccessor
                                 data.ToDecimal();
                             newColumnDefinition.SavedStep = newColumnDefinition.Step;
                             break;
+                        case "DefaultMinValue":
+                            newColumnDefinition.DefaultMinValue = customDefinitionRow.Get("DefaultMinValue")?.ToDecimal() ??
+                                data.ToDecimal();
+                            newColumnDefinition.SavedDefaultMinValue = newColumnDefinition.DefaultMinValue;
+                            break;
+                        case "DefaultMaxValue":
+                            newColumnDefinition.DefaultMaxValue = customDefinitionRow.Get("DefaultMaxValue")?.ToDecimal() ??
+                                data.ToDecimal();
+                            newColumnDefinition.SavedDefaultMaxValue = newColumnDefinition.DefaultMaxValue;
+                            break;
                         case "StringFormat":
                             newColumnDefinition.StringFormat = customDefinitionRow.Get("StringFormat")?.ToString() ??
                                 data.ToString();
@@ -2619,6 +2629,8 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("Min")) { definition.Min = definitionRow["Min"].ToDecimal(); definition.SavedMin = definition.Min; }
             if (definitionRow.ContainsKey("Max")) { definition.Max = definitionRow["Max"].ToDecimal(); definition.SavedMax = definition.Max; }
             if (definitionRow.ContainsKey("Step")) { definition.Step = definitionRow["Step"].ToDecimal(); definition.SavedStep = definition.Step; }
+            if (definitionRow.ContainsKey("DefaultMinValue")) { definition.DefaultMinValue = definitionRow["DefaultMinValue"].ToDecimal(); definition.SavedDefaultMinValue = definition.DefaultMinValue; }
+            if (definitionRow.ContainsKey("DefaultMaxValue")) { definition.DefaultMaxValue = definitionRow["DefaultMaxValue"].ToDecimal(); definition.SavedDefaultMaxValue = definition.DefaultMaxValue; }
             if (definitionRow.ContainsKey("StringFormat")) { definition.StringFormat = definitionRow["StringFormat"].ToString(); definition.SavedStringFormat = definition.StringFormat; }
             if (definitionRow.ContainsKey("Unit")) { definition.Unit = definitionRow["Unit"].ToString(); definition.SavedUnit = definition.Unit; }
             if (definitionRow.ContainsKey("NumFilterMin")) { definition.NumFilterMin = definitionRow["NumFilterMin"].ToDecimal(); definition.SavedNumFilterMin = definition.NumFilterMin; }
@@ -6277,6 +6289,8 @@ namespace Implem.DefinitionAccessor
                         case "Min": columnDefinition.Min = optionValue.ToDecimal(); break;
                         case "Max": columnDefinition.Max = optionValue.ToDecimal(); break;
                         case "Step": columnDefinition.Step = optionValue.ToDecimal(); break;
+                        case "DefaultMinValue": columnDefinition.DefaultMinValue = optionValue.ToDecimal(); break;
+                        case "DefaultMaxValue": columnDefinition.DefaultMaxValue = optionValue.ToDecimal(); break;
                         case "StringFormat": columnDefinition.StringFormat = optionValue.ToString(); break;
                         case "Unit": columnDefinition.Unit = optionValue.ToString(); break;
                         case "NumFilterMin": columnDefinition.NumFilterMin = optionValue.ToDecimal(); break;
@@ -8483,6 +8497,8 @@ namespace Implem.DefinitionAccessor
         public decimal Min; public decimal SavedMin;
         public decimal Max; public decimal SavedMax;
         public decimal Step; public decimal SavedStep;
+        public decimal DefaultMinValue; public decimal SavedDefaultMinValue;
+        public decimal DefaultMaxValue; public decimal SavedDefaultMaxValue;
         public string StringFormat; public string SavedStringFormat;
         public string Unit; public string SavedUnit;
         public decimal NumFilterMin; public decimal SavedNumFilterMin;
@@ -8607,6 +8623,8 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("Min")) Min = propertyCollection["Min"].ToDecimal(); else Min = 0;
             if (propertyCollection.ContainsKey("Max")) Max = propertyCollection["Max"].ToDecimal(); else Max = 0;
             if (propertyCollection.ContainsKey("Step")) Step = propertyCollection["Step"].ToDecimal(); else Step = 0;
+            if (propertyCollection.ContainsKey("DefaultMinValue")) DefaultMinValue = propertyCollection["DefaultMinValue"].ToDecimal(); else DefaultMinValue = 0;
+            if (propertyCollection.ContainsKey("DefaultMaxValue")) DefaultMaxValue = propertyCollection["DefaultMaxValue"].ToDecimal(); else DefaultMaxValue = 0;
             if (propertyCollection.ContainsKey("StringFormat")) StringFormat = propertyCollection["StringFormat"].ToString(); else StringFormat = string.Empty;
             if (propertyCollection.ContainsKey("Unit")) Unit = propertyCollection["Unit"].ToString(); else Unit = string.Empty;
             if (propertyCollection.ContainsKey("NumFilterMin")) NumFilterMin = propertyCollection["NumFilterMin"].ToDecimal(); else NumFilterMin = 0;
@@ -8731,6 +8749,8 @@ namespace Implem.DefinitionAccessor
                     case "Min": return Min;
                     case "Max": return Max;
                     case "Step": return Step;
+                    case "DefaultMinValue": return DefaultMinValue;
+                    case "DefaultMaxValue": return DefaultMaxValue;
                     case "StringFormat": return StringFormat;
                     case "Unit": return Unit;
                     case "NumFilterMin": return NumFilterMin;
@@ -8855,6 +8875,8 @@ namespace Implem.DefinitionAccessor
             Min = SavedMin;
             Max = SavedMax;
             Step = SavedStep;
+            DefaultMinValue = SavedDefaultMinValue;
+            DefaultMaxValue = SavedDefaultMaxValue;
             StringFormat = SavedStringFormat;
             Unit = SavedUnit;
             NumFilterMin = SavedNumFilterMin;

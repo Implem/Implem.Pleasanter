@@ -51,7 +51,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool disableSection = false,
             bool _using = true)
         {
-            if (column.UserColumn && value == User.UserTypes.Anonymous.ToInt().ToString())
+            if (column.Type == Column.Types.User && value == User.UserTypes.Anonymous.ToInt().ToString())
             {
                 value = string.Empty;
             }
@@ -259,10 +259,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 labelText: column.LabelText,
                                 controlOnly: controlOnly,
                                 text: column.HasChoices() && !value.IsNullOrEmpty()
-                                    ? column.UserColumn
-                                        ? SiteInfo.UserName(
+                                    ? column.Type != Column.Types.Normal
+                                        ? SiteInfo.Name(
                                             context: context,
-                                            userId: value.ToInt())
+                                            id: value.ToInt(),
+                                            type: column.Type)
                                         : optionCollection.Get(value)?.Text ?? "? " + value
                                     : value,
                                 dataValue: column.HasChoices()
@@ -489,8 +490,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 labelRequired: required,
                                 controlOnly: controlOnly,
                                 value: value.ToDecimal(),
-                                min: column.Min.ToDecimal(),
-                                max: column.Max.ToDecimal(),
+                                min: column.MinNumber(),
+                                max: column.MaxNumber(),
                                 step: column.Step.ToDecimal(),
                                 width: 50,
                                 unit: column.Unit,

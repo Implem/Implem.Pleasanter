@@ -15,6 +15,14 @@ namespace Implem.Pleasanter.Libraries.Settings
 {
     public class Column
     {
+        public enum Types
+        {
+            Normal,
+            Dept,
+            Group,
+            User
+        }
+
         public string Id;
         public string ColumnName;
         public string LabelText;
@@ -48,6 +56,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public decimal? Min;
         public decimal? Max;
         public decimal? Step;
+        public decimal? DefaultMinValue;
+        public decimal? DefaultMaxValue;
         public bool? NoDuplication;
         public bool? CopyByDefault;
         public bool? EditorReadOnly;
@@ -113,7 +123,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public string JoinTableName;
         [NonSerialized]
-        public bool UserColumn;
+        public Types Type = Types.Normal;
         [NonSerialized]
         public bool Hash;
         [NonSerialized]
@@ -227,6 +237,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             switch (line)
             {
                 case "[[Depts]]":
+                    Type = Types.Dept;
                     if (setChoices)
                     {
                         SiteInfo.TenantCaches.Get(context.TenantId)?
@@ -236,11 +247,44 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 searchIndexes.All(p =>
                                     o.Key == p.ToInt() ||
                                     o.Value.Name.RegexLike(p).Any()))
+                            .OrderBy(o => o.Value.Name)
                             .ForEach(o => AddToChoiceHash(
                                 o.Key.ToString(),
-                                SiteInfo.Dept(
-                                    tenantId: context.TenantId,
-                                    deptId: o.Key).Name));
+                                o.Value.Name));
+                    }
+                    break;
+                case "[[Groups]]":
+                    Type = Types.Group;
+                    if (setChoices)
+                    {
+                        SiteInfo.SiteGroups(context: context, siteId: siteId)
+                            .ToDictionary(o => o, o => SiteInfo.Group(context.TenantId, o))
+                            .Where(o => o.Value.TenantId == context.TenantId)
+                            .Where(o => searchIndexes?.Any() != true ||
+                                searchIndexes.All(p =>
+                                    o.Key == p.ToInt() ||
+                                    o.Value.Name.RegexLike(p).Any()))
+                            .OrderBy(o => o.Value.Name)
+                            .ForEach(o => AddToChoiceHash(
+                                o.Key.ToString(),
+                                o.Value.Name));
+                    }
+                    break;
+                case "[[Groups*]]":
+                    Type = Types.Group;
+                    if (setChoices)
+                    {
+                        SiteInfo.TenantCaches.Get(context.TenantId)?
+                            .GroupHash
+                            .Where(o => o.Value.TenantId == context.TenantId)
+                            .Where(o => searchIndexes?.Any() != true ||
+                                searchIndexes.All(p =>
+                                    o.Key == p.ToInt() ||
+                                    o.Value.Name.RegexLike(p).Any()))
+                            .OrderBy(o => o.Value.Name)
+                            .ForEach(o => AddToChoiceHash(
+                                o.Key.ToString(),
+                                o.Value.Name));
                     }
                     break;
                 case "[[TimeZones]]":
@@ -255,7 +299,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 default:
                     if (line.RegexExists(@"^\[\[Users.*\]\]$"))
                     {
-                        UserColumn = true;
+                        Type = Types.User;
                         if (setChoices) 
                         {
                             if (UseSearch != true || searchIndexes != null || setAllChoices)
@@ -359,12 +403,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                         user.Dept.Code,
                         user.Dept.Name).RegexLike(p).Any()))
                 .Take(take)
-                .ForEach(user => AddToChoiceHash(
-                    user.Id.ToString(),
-                    SiteInfo.UserName(
+                .Select(user => new
+                {
+                    user.Id,
+                    Name = SiteInfo.UserName(
                         context: context,
                         userId: user.Id,
-                        showDeptName: showDeptName)));
+                        showDeptName: showDeptName)
+                })
+                .OrderBy(user => user.Name)
+                .ForEach(user => AddToChoiceHash(
+                    user.Id.ToString(),
+                    user.Name));
         }
 
         public bool Linked(SiteSettings ss, long fromSiteId)
@@ -399,7 +449,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             View view = null)
         {
             var hash = new Dictionary<string, ControlData>();
-            var blank = UserColumn
+            var blank = Type == Types.User
                 ? User.UserTypes.Anonymous.ToInt().ToString()
                 : TypeName == "int"
                     ? "0"
@@ -449,9 +499,9 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public string ChoicePart(Context context, string selectedValue, ExportColumn.Types? type)
         {
-            if (UserColumn)
+            if (Type != Types.Normal)
             {
-                AddNotIncludedUser(
+                AddNotIncludedValue(
                     context: context,
                     selectedValue: selectedValue);
             }
@@ -465,16 +515,31 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        private void AddNotIncludedUser(Context context, string selectedValue)
+        private void AddNotIncludedValue(Context context, string selectedValue)
         {
             if (ChoiceHash?.ContainsKey(selectedValue) == false)
             {
-                var user = SiteInfo.User(
-                    context: context,
-                    userId: selectedValue.ToInt());
-                if (!user.Anonymous())
+                switch (Type)
                 {
-                    ChoiceHash.Add(selectedValue, new Choice(user.Name));
+                    case Types.User:
+                        var user = SiteInfo.User(
+                            context: context,
+                            userId: selectedValue.ToInt());
+                        if (!user.Anonymous())
+                        {
+                            ChoiceHash.Add(selectedValue, new Choice(user.Name));
+                        }
+                        break;
+                    default:
+                        var name = SiteInfo.Name(
+                            context: context,
+                            id: selectedValue.ToInt(),
+                            type: Type);
+                        if (!name.IsNullOrEmpty())
+                        {
+                            ChoiceHash.Add(selectedValue, new Choice(name));
+                        }
+                        break;
                 }
             }
         }
@@ -503,7 +568,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .ToDictionary(o => o.Value.Text, o => o.Key);
                 }
                 recordingData = ChoiceValueHash.Get(value);
-                if (UserColumn && recordingData == null)
+                if (Type == Types.User && recordingData == null)
                 {
                     if (SiteUserHash == null)
                     {
@@ -528,7 +593,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return (!Format.IsNullOrEmpty() && format
                 ? value.ToString(
-                    Format + (Format == "C" && DecimalPlaces.ToInt() > 0
+                    Format + ((Format == "C" || Format == "N") && DecimalPlaces.ToInt() > 0
                         ? DecimalPlaces.ToString()
                         : string.Empty),
                     context.CultureInfo())
@@ -620,10 +685,19 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public decimal MinNumber()
         {
-            return MaxNumber() * -1;
+            return Math.Max(
+                Min ?? DefaultMinValue ?? (MaxNumberFromSize() * -1),
+                MaxNumberFromSize() * -1);
         }
 
         public decimal MaxNumber()
+        {
+            return Math.Min(
+                Max ?? DefaultMaxValue ?? MaxNumberFromSize(),
+                MaxNumberFromSize());
+        }
+
+        private decimal MaxNumberFromSize()
         {
             var length = Size.Split_1st().ToInt() - Size.Split_2nd().ToInt();
             return length > 0
@@ -647,6 +721,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         case "[[Depts]]":
                             return context.DeptId.ToString();
+                        case "[[Groups]]":
+                        case "[[Groups*]]":
+                            return DefaultGroupId(context: context).ToString();
                         case "[[Users]]":
                         case "[[Users*]]":
                             return context.UserId.ToString();
@@ -654,6 +731,21 @@ namespace Implem.Pleasanter.Libraries.Settings
                     break;
             }
             return DefaultInput;
+        }
+
+        private int DefaultGroupId(Context context)
+        {
+            return Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectGroupMembers(
+                    column: Rds.GroupMembersColumn().GroupId(),
+                    where: Rds.GroupMembersWhere()
+                        .Or(or: Rds.GroupMembersWhere()
+                            .DeptId(context.DeptId)
+                            .UserId(context.UserId))))
+                                .AsEnumerable()
+                                .Select(dataRow => dataRow.Int("GroupId"))
+                                .FirstOrDefault(groupId => ChoiceHash.ContainsKey(groupId.ToString()));
         }
 
         public SqlColumnCollection SqlColumnCollection()
@@ -716,7 +808,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ConvertIfUserColumn(DataRow dataRow)
         {
             var value = dataRow.String(ColumnName);
-            return UserColumn && value.IsNullOrEmpty()
+            return Type == Types.User && value.IsNullOrEmpty()
                 ? User.UserTypes.Anonymous.ToInt().ToString()
                 : value;
         }

@@ -19,10 +19,10 @@ namespace Implem.Pleasanter.Controllers
             var context = new Context();
             if (reference.ToLower() == "items")
             {
-                var bytes = BinaryUtilities.SiteImageThumbnail(
+                var (bytes, contentType) = BinaryUtilities.SiteImageThumbnail(
                     context: context,
                     siteModel: new SiteModel(context: context, siteId: id));
-                return new FileContentResult(bytes, "image/png");
+                return new FileContentResult(bytes, contentType);
             }
             else
             {
@@ -37,10 +37,10 @@ namespace Implem.Pleasanter.Controllers
             var context = new Context();
             if (reference.ToLower() == "items")
             {
-                var bytes = BinaryUtilities.SiteImageIcon(
+                var (bytes, contentType) = BinaryUtilities.SiteImageIcon(
                     context: context,
                     siteModel: new SiteModel(context: context, siteId: id));
-                return new FileContentResult(bytes, "image/png");
+                return new FileContentResult(bytes, contentType);
             }
             else
             {
@@ -54,7 +54,7 @@ namespace Implem.Pleasanter.Controllers
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
-            var bytes = BinaryUtilities.TenantImageLogo(
+            var (bytes, contentType) = BinaryUtilities.TenantImageLogo(
                 context: context,
                 tenantModel: new TenantModel(
                     context: context,
@@ -62,7 +62,7 @@ namespace Implem.Pleasanter.Controllers
             log.Finish(
                 context: context,
                 responseSize: bytes.Length);
-            return new FileContentResult(bytes, "image/png");
+            return new FileContentResult(bytes, contentType);
         }
 
         [HttpPost]

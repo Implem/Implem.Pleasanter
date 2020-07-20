@@ -1077,7 +1077,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             yield return new SqlWhere(
                 tableName: column.TableName(),
                 columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
-                _operator: "={0}".Params(column.UserColumn
+                _operator: "={0}".Params(column.Type == Column.Types.User
                     ? User.UserTypes.Anonymous.ToInt()
                     : 0));
         }

@@ -139,7 +139,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static byte[] SiteImageThumbnail(Context context, SiteModel siteModel)
+        public static (byte[] bytes, string contentType) SiteImageThumbnail(Context context, SiteModel siteModel)
         {
             siteModel.SiteSettings = SiteSettingsUtilities.Get(
                 context: context,
@@ -151,18 +151,26 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return null;
+                default: return (null, null);
             }
-            return new BinaryModel(siteModel.SiteId).SiteImage(
+            var binaryModel = new BinaryModel(
                 context: context,
-                sizeType: Libraries.Images.ImageData.SizeTypes.Thumbnail,
-                column: Rds.BinariesColumn().Thumbnail());
+                referenceId: siteModel.SiteId,
+                binaryType: "SiteImage");
+            return (
+                binaryModel.SiteImage(
+                    context: context,
+                    sizeType: Libraries.Images.ImageData.SizeTypes.Thumbnail,
+                    column: Rds.BinariesColumn().Thumbnail()),
+                binaryModel.ContentType.IsNullOrEmpty()
+                    ? "image/bmp"
+                    : binaryModel.ContentType);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static byte[] SiteImageIcon(Context context, SiteModel siteModel)
+        public static (byte[] bytes, string contentType) SiteImageIcon(Context context, SiteModel siteModel)
         {
             siteModel.SiteSettings = SiteSettingsUtilities.Get(
                 context: context,
@@ -174,18 +182,26 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return null;
+                default: return (null,null);
             }
-            return new BinaryModel(siteModel.SiteId).SiteImage(
+            var binaryModel = new BinaryModel(
                 context: context,
-                sizeType: Libraries.Images.ImageData.SizeTypes.Icon,
-                column: Rds.BinariesColumn().Icon());
+                referenceId: siteModel.SiteId,
+                binaryType: "SiteImage");
+            return (
+                binaryModel.SiteImage(
+                    context: context,
+                    sizeType: Libraries.Images.ImageData.SizeTypes.Icon,
+                    column: Rds.BinariesColumn().Icon()),
+                binaryModel.ContentType.IsNullOrEmpty()
+                    ? "image/bmp"
+                    : binaryModel.ContentType);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static byte[] TenantImageLogo(Context context, TenantModel tenantModel)
+        public static (byte[] bytes, string contentType) TenantImageLogo(Context context, TenantModel tenantModel)
         {
             var ss = SiteSettingsUtilities.TenantsSiteSettings(context);
             var invalid = BinaryValidators.OnGetting(
@@ -194,12 +210,20 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return null;
+                default: return (null, null);
             }
-            return new BinaryModel(tenantModel.TenantId).TenantImage(
-                context: context,
-                sizeType: Libraries.Images.ImageData.SizeTypes.Logo,
-                column: Rds.BinariesColumn().Bin());
+            var binaryModel = new BinaryModel(
+                context:context,
+                referenceId: tenantModel.TenantId,
+                binaryType: "TenantImage");
+            return  (
+                binaryModel.TenantImage(
+                    context: context,
+                    sizeType: Libraries.Images.ImageData.SizeTypes.Logo,
+                    column: Rds.BinariesColumn().Bin()),
+                binaryModel.ContentType.IsNullOrEmpty()
+                    ? "image/bmp"
+                    : binaryModel.ContentType);
         }
 
         /// <summary>
@@ -397,13 +421,12 @@ namespace Implem.Pleasanter.Models
                             .SiteSettings;
             var column = ss.GetColumn(
                     context: context,
-                    columnName: columnName)
-                ;
+                    columnName: columnName);
             var imageData = new Libraries.Images.ImageData(
                     bin,
                     ss.ReferenceId,
                     Libraries.Images.ImageData.Types.SiteImage);
-           if (Parameters.BinaryStorage.ImageLimitSize?.ToInt() > 0)
+            if (Parameters.BinaryStorage.ImageLimitSize?.ToInt() > 0)
             {
                 bin = imageData.ReSizeBytes(Parameters.BinaryStorage.ImageLimitSize);
             }
@@ -416,6 +439,13 @@ namespace Implem.Pleasanter.Models
                     Directories.BinaryStorage(),
                     "Images",
                     file.Guid));
+                if (column.ThumbnailLimitSize?.ToInt() > 0)
+                {
+                    thumbnail.Write(System.IO.Path.Combine(
+                        Directories.BinaryStorage(),
+                        "Images",
+                        file.Guid + "_thumbnail"));
+                }
             }
             Rds.ExecuteNonQuery(
                 context: context,

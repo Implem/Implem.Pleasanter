@@ -5023,13 +5023,13 @@ namespace Implem.Pleasanter.Models
                                                 .FieldTextBox(
                                                     fieldId: "MinField",
                                                     controlId: "Min",
-                                                    fieldCss: " both" + hidden,
+                                                    fieldCss: " both",
                                                     labelText: Displays.Min(context: context),
                                                     text: column.Min.ToString())
                                                 .FieldTextBox(
                                                     fieldId: "MaxField",
                                                     controlId: "Max",
-                                                    fieldCss: hidden,
+                                                    fieldCss: "",
                                                     labelText: Displays.Max(context: context),
                                                     text: column.Max.ToString())
                                                 .FieldTextBox(
@@ -5311,6 +5311,7 @@ namespace Implem.Pleasanter.Models
             {
                 { string.Empty, "Standard" },
                 { "C", "Currency" },
+                { "N", "DigitGrouping"},
                 { "\t", "Custom" },
             };
         }

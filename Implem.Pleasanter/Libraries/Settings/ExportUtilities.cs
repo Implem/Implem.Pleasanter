@@ -15,13 +15,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             IEnumerable<ExportColumn> columns)
         {
             return columns.ToDictionary(
-                column => new
-                {
-                    column.Id,
-                    column.ColumnName,
-                    column.LabelText,
-                    column.Type
-                }.ToJson(),
+                column => column.GetRecordingData().ToJson(),
                 column => new ControlData(column.GetLabelText(withSiteTitle: true)));
         }
 

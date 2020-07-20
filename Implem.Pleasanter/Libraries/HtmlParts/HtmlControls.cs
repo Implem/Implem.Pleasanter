@@ -410,13 +410,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
             else
             {
-                var userId = selectedValue.ToInt();
+                var selectedId = selectedValue.ToInt();
                 optionCollection?.Add(
                     selectedValue,
-                    column != null && column.UserColumn
-                        ? new ControlData(SiteInfo.UserName(
+                    column != null && column.Type != Column.Types.Normal
+                        ? new ControlData(SiteInfo.Name(
                             context: context,
-                            userId: userId))
+                            id: selectedId,
+                            type: column.Type))
                         : new ControlData("? " + selectedValue));
                 return optionCollection;
             }

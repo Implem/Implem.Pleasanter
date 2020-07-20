@@ -2983,7 +2983,10 @@ namespace Implem.Pleasanter.Models
         public ErrorData CreateApiKey(Context context, SiteSettings ss)
         {
             ApiKey = Guid.NewGuid().ToString().Sha512Cng();
-            return Update(context: context, ss: ss);
+            return Update(
+                context: context,
+                ss: ss,
+                updateMailAddresses: false);
         }
 
         /// <summary>
@@ -2992,7 +2995,10 @@ namespace Implem.Pleasanter.Models
         public ErrorData DeleteApiKey(Context context, SiteSettings ss)
         {
             ApiKey = string.Empty;
-            return Update(context: context, ss: ss);
+            return Update(
+                context: context,
+                ss: ss,
+                updateMailAddresses: false);
         }
 
         /// <summary>

@@ -82378,7 +82378,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static LinksColumnCollection SiteId(
             this LinksColumnCollection self,
-            string tableName = "Items",
+            string tableName = "Sites",
             string columnName = "SiteId",
             string _as = null,
             Sqls.Functions function = Sqls.Functions.None,
@@ -82395,7 +82395,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static SqlColumnCollection Links_SiteId(
             this SqlColumnCollection self,
-            string tableName = "Items",
+            string tableName = "Sites",
             string columnName = "SiteId",
             string _as = null,
             Sqls.Functions function = Sqls.Functions.None,
@@ -82928,7 +82928,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static LinksWhereCollection SiteId(
             this LinksWhereCollection self,
             object value = null,
-            string tableName = "Items",
+            string tableName = "Sites",
             string _operator = "=",
             string multiColumnOperator = " or ",
             string multiParamOperator = " and ",
@@ -82957,7 +82957,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static SqlWhereCollection Links_SiteId(
             this SqlWhereCollection self,
             object value = null,
-            string tableName = "Items",
+            string tableName = "Sites",
             string _operator = "=",
             string multiColumnOperator = " or ",
             string multiParamOperator = " and ",
@@ -83560,7 +83560,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static LinksWhereCollection SiteId_In(
             this LinksWhereCollection self,
             IEnumerable<long> value = null,
-            string tableName = "Items",
+            string tableName = "Sites",
             SqlStatement sub = null,
             bool negative = false,
             bool _using = true)
@@ -83777,7 +83777,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this LinksWhereCollection self,
             long begin,
             long end,
-            string tableName = "Items",
+            string tableName = "Sites",
             bool _using = true)
         {
             return _using
@@ -83794,7 +83794,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlWhereCollection self,
             long begin,
             long end,
-            string tableName = "Items",
+            string tableName = "Sites",
             bool _using = true)
         {
             return _using
@@ -84037,13 +84037,13 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static LinksGroupByCollection SiteId(
-            this LinksGroupByCollection self, string tableName = "Items")
+            this LinksGroupByCollection self, string tableName = "Sites")
         {
             return self.Add(columnBracket: "[SiteId]", tableName: tableName);
         }
 
         public static SqlGroupByCollection Links_SiteId(
-            this SqlGroupByCollection self, string tableName = "Items")
+            this SqlGroupByCollection self, string tableName = "Sites")
         {
             return self.Add(columnBracket: "[SiteId]", tableName: tableName);
         }
@@ -84251,7 +84251,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static LinksOrderByCollection SiteId(
             this LinksOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
-            string tableName = "Items",
+            string tableName = "Sites",
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "[SiteId]" }.ForEach(columnBracket =>
@@ -84446,7 +84446,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static SqlOrderByCollection Links_SiteId(
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
-            string tableName = "Items",
+            string tableName = "Sites",
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "[SiteId]" }.ForEach(columnBracket =>

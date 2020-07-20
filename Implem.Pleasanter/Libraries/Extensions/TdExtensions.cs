@@ -38,15 +38,16 @@ namespace Implem.Pleasanter.Libraries.Extensions
                     css: TextAlignCss(context: context, column: column),
                     action: () =>
                     {
-                        if (column.UserColumn
+                        if (column.Type != Column.Types.Normal
                             && !value.IsNullOrEmpty()
                             && !column.ChoiceHash.ContainsKey(value))
                         {
                             column.ChoiceHash.AddIfNotConainsKey(
                                 value,
-                                new Choice(SiteInfo.UserName(
+                                new Choice(SiteInfo.Name(
                                     context: context,
-                                    userId: value.ToInt())));
+                                    id: value.ToInt(),
+                                    type: column.Type)));
                         }
                         var choice = column.Choice(
                             value,

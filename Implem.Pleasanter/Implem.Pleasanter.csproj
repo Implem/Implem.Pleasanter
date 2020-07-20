@@ -123,6 +123,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData">
       <Private>True</Private>
     </Reference>
@@ -253,6 +256,7 @@
     <Compile Include="Libraries\DataSources\Line.cs" />
     <Compile Include="Libraries\DataSources\Saml.cs" />
     <Compile Include="Libraries\DataSources\Teams.cs" />
+    <Compile Include="Libraries\DataTypes\Group.cs" />
     <Compile Include="Libraries\Extensions\FormatExtension.cs" />
     <Compile Include="Libraries\Extensions\InitialValueExtensions.cs" />
     <Compile Include="Libraries\Extensions\GridTextExtensions.cs" />
@@ -1308,6 +1312,7 @@
     <Content Include="Scripts\BurnDownEvents.js" />
     <Content Include="Scripts\Clipboard.js" />
     <Content Include="Scripts\ColumnAccessControl.js" />
+    <Content Include="Scripts\Expand.js" />
     <Content Include="Scripts\FieldSelectable.js" />
     <Content Include="Scripts\BulkUpdate.js" />
     <Content Include="Scripts\LockEvents.js" />
@@ -1616,6 +1621,7 @@
     <Content Include="App_Data\Displays\RoundingType.json" />
     <Content Include="App_Data\Displays\ToEven.json" />
     <Content Include="App_Data\Displays\Truncate.json" />
+    <Content Include="App_Data\Displays\DigitGrouping.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

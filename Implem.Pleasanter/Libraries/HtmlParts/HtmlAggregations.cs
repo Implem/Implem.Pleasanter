@@ -262,11 +262,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string selectedValue,
             Dictionary<string, string> linkedLabelHash)
         {
-            if (groupBy.UserColumn)
+            if (groupBy.Type != Column.Types.Normal)
             {
-                return SiteInfo.UserName(
+                return SiteInfo.Name(
                     context: context,
-                    userId: selectedValue.ToInt());
+                    id: selectedValue.ToInt(),
+                    type: groupBy.Type);
             }
             else if (groupBy.HasChoices())
             {
@@ -321,7 +322,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     }
                     break;
                 default:
-                    if (groupBy.UserColumn)
+                    if (groupBy.Type == Column.Types.User)
                     {
                         if (User.UserTypes.Anonymous.ToInt().ToString() == key)
                         {
@@ -373,7 +374,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static bool UserNotSet(Column groupBy, string key)
         {
-            return groupBy.UserColumn && (key == "0" || key == "2");
+            return groupBy.Type == Column.Types.User && (key == "0" || key == "2");
         }
 
         private static bool NumericZero(Column groupBy, string key)

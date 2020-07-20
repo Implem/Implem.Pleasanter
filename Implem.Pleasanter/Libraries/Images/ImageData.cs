@@ -101,7 +101,7 @@ namespace Implem.Pleasanter.Libraries.Images
             using (var memory = new MemoryStream())
             {
                 memory.Position = 0;
-                ReSize(sizeType).Save(memory, ImageFormat.Bmp);
+                ReSize(sizeType).Save(memory, ImageFormat.Png);
                 return GetByte(memory);
             }
         }
@@ -129,7 +129,7 @@ namespace Implem.Pleasanter.Libraries.Images
             using (var memory = new MemoryStream())
             {
                 memory.Position = 0;
-                ReSize(size).Save(memory, ImageFormat.Bmp); ;
+                ReSize(size).Save(memory, ImageFormat.Png);
                 return GetByte(memory);
             }
         }
@@ -162,6 +162,7 @@ namespace Implem.Pleasanter.Libraries.Images
                 return Data;
             }
         }
+
         private Image GetImage(int width, int height, int x, int y)
         {
             var resizedImage = new Bitmap(width, height);
@@ -173,6 +174,7 @@ namespace Implem.Pleasanter.Libraries.Images
                 return resizedImage;
             }
         }
+
         private static byte[] GetByte(MemoryStream memory)
         {
             var ret = new byte[memory.Length];

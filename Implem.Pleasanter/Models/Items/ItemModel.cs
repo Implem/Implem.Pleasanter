@@ -1281,20 +1281,44 @@ namespace Implem.Pleasanter.Models
         {
             if (selected.Any()
                 && column.UseSearch == true
-                && column.UserColumn
+                && column.Type != Column.Types.Normal
                 && !selected.All(o => column.ChoiceHash.ContainsKey(o)))
             {
-                selected
-                    .Select(userId => SiteInfo.User(
-                        context: context,
-                        userId: userId.ToInt()))
-                    .Where(o => !o.Anonymous())
-                    .ForEach(user =>
-                        column.ChoiceHash.AddIfNotConainsKey(
-                            user.Id.ToString(),
-                            new Choice(
-                                value: user.Id.ToString(),
-                                text: user.Name)));
+                switch (column.Type)
+                {
+                    case Column.Types.User:
+                        selected
+                            .Select(userId => SiteInfo.User(
+                                context: context,
+                                userId: userId.ToInt()))
+                            .Where(o => !o.Anonymous())
+                            .ForEach(user =>
+                                column.ChoiceHash.AddIfNotConainsKey(
+                                    user.Id.ToString(),
+                                    new Choice(
+                                        value: user.Id.ToString(),
+                                        text: user.Name)));
+                        break;
+                    default:
+                        selected
+                            .Select(id =>
+                            new
+                            {
+                                Id = id.ToInt(),
+                                Name = SiteInfo.Name(
+                                    context: context,
+                                    id: id.ToInt(),
+                                    type: column.Type)
+                            })
+                            .Where(o => o.Id != 0 && !o.Name.IsNullOrEmpty())
+                            .ForEach(data =>
+                                column.ChoiceHash.AddIfNotConainsKey(
+                                    data.Id.ToString(),
+                                    new Choice(
+                                        value: data.Id.ToString(),
+                                        text: data.Name)));
+                        break;
+                }
             }
             if (selected.Any() &&
                 !selected.All(o => column.ChoiceHash.ContainsKey(o)))

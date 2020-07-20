@@ -223,7 +223,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         toColumns.ForEach(toColumn =>
                             Addresses.Get(
                                 context: context,
-                                addresses: toColumn.UserColumn
+                                addresses: toColumn.Type == Settings.Column.Types.User
                                     ? $"[User{dataRow.String(toColumn.ColumnName)}]"
                                     : dataRow.String(toColumn.ColumnName))
                                         .ForEach(mailAddress =>
@@ -635,7 +635,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "Results":
                     var resultModel = new ResultModel(
                         context: context, ss: ss, dataRow: dataRow);
-                    ss.IncludedColumns(Line).ForEach(column =>
+                    ss.IncludedColumns(line).ForEach(column =>
                     {
                         switch (column.ColumnName)
                         {
