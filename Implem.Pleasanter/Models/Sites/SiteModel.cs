@@ -3473,7 +3473,7 @@ namespace Implem.Pleasanter.Models
                                 type: (Times.RepeatTypes)context.Forms.Int("ReminderType"),
                                 range: context.Forms.Int("ReminderRange"),
                                 sendCompletedInPast: context.Forms.Bool("ReminderSendCompletedInPast"),
-                                notSendIfNotApplicable: context.Forms.Bool("RminderNotSendIfNotApplicable"),
+                                notSendIfNotApplicable: context.Forms.Bool("ReminderNotSendIfNotApplicable"),
                                 notSendHyperLink: context.Forms.Bool("ReminderNotSendHyperLink"),
                                 excludeOverdue: context.Forms.Bool("ReminderExcludeOverdue"),
                                 condition: context.Forms.Int("ReminderCondition"),
