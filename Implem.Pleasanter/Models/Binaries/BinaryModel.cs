@@ -965,6 +965,12 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public BinaryModel(Context context, long referenceId, string binaryType)
         {
+            ReferenceId = referenceId;
+            BinaryType = binaryType;
+            if(Parameters.BinaryStorage.Provider == "Local")
+            {
+                return;
+            }
             Get(
                 context: context,
                 where: Rds.BinariesWhere()
