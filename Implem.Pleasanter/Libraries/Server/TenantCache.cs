@@ -8,11 +8,12 @@ namespace Implem.Pleasanter.Libraries.Server
         public int TenantId;
         public SiteMenu SiteMenu;
         public Dictionary<int, Dept> DeptHash;
+        public Dictionary<int, Group> GroupHash;
         public Dictionary<int, User> UserHash;
         public Dictionary<int, object> TenantHash;
         public Dictionary<long, List<int>> SiteDeptHash;
-        public Dictionary<long, List<int>> SiteUserHash;
         public Dictionary<long, List<int>> SiteGroupHash;
+        public Dictionary<long, List<int>> SiteUserHash;
 
         public UpdateMonitor UpdateMonitor;
 

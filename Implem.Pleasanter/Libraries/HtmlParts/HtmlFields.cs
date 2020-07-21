@@ -50,7 +50,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool disableSection = false,
             bool _using = true)
         {
-            if (column.UserColumn && value == User.UserTypes.Anonymous.ToInt().ToString())
+            if (column.Type == Column.Types.User && value == User.UserTypes.Anonymous.ToInt().ToString())
             {
                 value = string.Empty;
             }

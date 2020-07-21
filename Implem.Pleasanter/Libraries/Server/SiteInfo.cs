@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.DataSources.SqlServer;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
@@ -11,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using Group = Implem.Pleasanter.Libraries.DataTypes.Group;
 namespace Implem.Pleasanter.Libraries.Server
 {
     public static class SiteInfo
@@ -25,7 +27,7 @@ namespace Implem.Pleasanter.Libraries.Server
             }
             var tenantCache = TenantCaches.Get(context.TenantId);
             var monitor = tenantCache.GetUpdateMonitor(context: context);
-            if (monitor.DeptsUpdated || monitor.UsersUpdated || force)
+            if (monitor.DeptsUpdated || monitor.GroupsUpdated || monitor.UsersUpdated || force)
             {
                 var dataSet = Repository.ExecuteDataSet(
                     context: context,
@@ -40,6 +42,14 @@ namespace Implem.Pleasanter.Libraries.Server
                                 .DeptName(),
                             where: Rds.DeptsWhere().TenantId(context.TenantId),
                             _using: monitor.DeptsUpdated || force),
+                        Rds.SelectGroups(
+                            dataTableName: "Groups",
+                            column: Rds.GroupsColumn()
+                                .TenantId()
+                                .GroupId()
+                                .GroupName(),
+                            where: Rds.GroupsWhere().TenantId(context.TenantId),
+                            _using: monitor.GroupsUpdated || force),
                         Rds.SelectUsers(
                             dataTableName: "Users",
                             column: Rds.UsersColumn()
@@ -62,6 +72,14 @@ namespace Implem.Pleasanter.Libraries.Server
                             dataRow => dataRow.Int("DeptId"),
                             dataRow => new Dept(dataRow));
                 }
+                if (monitor.GroupsUpdated || force)
+                {
+                    tenantCache.GroupHash = dataSet.Tables["Groups"]
+                        .AsEnumerable()
+                        .ToDictionary(
+                            dataRow => dataRow.Int("GroupId"),
+                            dataRow => new Group(dataRow));
+                }
                 if (monitor.UsersUpdated || force)
                 {
                     tenantCache.UserHash = dataSet.Tables["Users"]
@@ -76,8 +94,8 @@ namespace Implem.Pleasanter.Libraries.Server
             if (monitor.PermissionsUpdated || monitor.GroupsUpdated || monitor.UsersUpdated || force)
             {
                 tenantCache.SiteDeptHash = new Dictionary<long, List<int>>();
-                tenantCache.SiteUserHash = new Dictionary<long, List<int>>();
                 tenantCache.SiteGroupHash = new Dictionary<long, List<int>>();
+                tenantCache.SiteUserHash = new Dictionary<long, List<int>>();
             }
             if (monitor.SitesUpdated || force)
             {
@@ -87,40 +105,6 @@ namespace Implem.Pleasanter.Libraries.Server
             {
                 monitor.Update();
             }
-        }
-
-        public static IEnumerable<int> SiteUsers(Context context, long siteId)
-        {
-            if (context.TenantId == 0)
-            {
-                return new List<int>();
-            }
-            var tenantCache = TenantCaches.Get(context.TenantId);
-            if (!tenantCache.SiteUserHash.ContainsKey(siteId))
-            {
-                SetSiteUserHash(
-                    context: context,
-                    siteId: siteId,
-                    reload: true);
-            }
-            return tenantCache.SiteUserHash.Get(siteId);
-        }
-
-        public static IEnumerable<int> SiteGroups(Context context, long siteId)
-        {
-            if (context.TenantId == 0)
-            {
-                return new List<int>();
-            }
-            var tenantCache = TenantCaches.Get(context.TenantId);
-            if (!tenantCache.SiteGroupHash.ContainsKey(siteId))
-            {
-                SetSiteGroupHash(
-                    context: context,
-                    siteId: siteId,
-                    reload: true);
-            }
-            return tenantCache.SiteGroupHash.Get(siteId);
         }
 
         public static IEnumerable<int> SiteDepts(Context context, long siteId)
@@ -140,18 +124,52 @@ namespace Implem.Pleasanter.Libraries.Server
             return tenantCache.SiteDeptHash.Get(siteId);
         }
 
-        public static void SetSiteUserHash(Context context, long siteId, bool reload = false)
+        public static IEnumerable<int> SiteGroups(Context context, long siteId)
+        {
+            if (context.TenantId == 0)
+            {
+                return new List<int>();
+            }
+            var tenantCache = TenantCaches.Get(context.TenantId);
+            if (!tenantCache.SiteGroupHash.ContainsKey(siteId))
+            {
+                SetSiteGroupHash(
+                    context: context,
+                    siteId: siteId,
+                    reload: true);
+            }
+            return tenantCache.SiteGroupHash.Get(siteId);
+        }
+
+        public static IEnumerable<int> SiteUsers(Context context, long siteId)
+        {
+            if (context.TenantId == 0)
+            {
+                return new List<int>();
+            }
+            var tenantCache = TenantCaches.Get(context.TenantId);
+            if (!tenantCache.SiteUserHash.ContainsKey(siteId))
+            {
+                SetSiteUserHash(
+                    context: context,
+                    siteId: siteId,
+                    reload: true);
+            }
+            return tenantCache.SiteUserHash.Get(siteId);
+        }
+
+        public static void SetSiteDeptHash(Context context, long siteId, bool reload = false)
         {
             if (context.TenantId == 0)
             {
                 return;
             }
             var tenantCache = TenantCaches.Get(context.TenantId);
-            if (!tenantCache.SiteUserHash.ContainsKey(siteId))
+            if (!tenantCache.SiteDeptHash.ContainsKey(siteId))
             {
                 try
                 {
-                    tenantCache.SiteUserHash.Add(siteId, GetSiteUserHash(
+                    tenantCache.SiteDeptHash.Add(siteId, GetSiteDeptHash(
                         context: context,
                         siteId: siteId));
                 }
@@ -161,7 +179,7 @@ namespace Implem.Pleasanter.Libraries.Server
             }
             else if (reload)
             {
-                tenantCache.SiteUserHash[siteId] = GetSiteUserHash(
+                tenantCache.SiteDeptHash[siteId] = GetSiteDeptHash(
                     context: context,
                     siteId: siteId);
             }
@@ -194,18 +212,18 @@ namespace Implem.Pleasanter.Libraries.Server
             }
         }
 
-        public static void SetSiteDeptHash(Context context, long siteId, bool reload = false)
+        public static void SetSiteUserHash(Context context, long siteId, bool reload = false)
         {
             if (context.TenantId == 0)
             {
                 return;
             }
             var tenantCache = TenantCaches.Get(context.TenantId);
-            if (!tenantCache.SiteDeptHash.ContainsKey(siteId))
+            if (!tenantCache.SiteUserHash.ContainsKey(siteId))
             {
                 try
                 {
-                    tenantCache.SiteDeptHash.Add(siteId, GetSiteDeptHash(
+                    tenantCache.SiteUserHash.Add(siteId, GetSiteUserHash(
                         context: context,
                         siteId: siteId));
                 }
@@ -215,34 +233,10 @@ namespace Implem.Pleasanter.Libraries.Server
             }
             else if (reload)
             {
-                tenantCache.SiteDeptHash[siteId] = GetSiteDeptHash(
+                tenantCache.SiteUserHash[siteId] = GetSiteUserHash(
                     context: context,
                     siteId: siteId);
             }
-        }
-
-        private static List<int> GetSiteUserHash(Context context, long siteId)
-        {
-            var siteUserCollection = new List<int>();
-            foreach (DataRow dataRow in SiteUserDataTable(
-                context: context,
-                siteId: siteId).Rows)
-            {
-                siteUserCollection.Add(dataRow["UserId"].ToInt());
-            }
-            return siteUserCollection;
-        }
-
-        private static List<int> GetSiteGroupHash(Context context, long siteId)
-        {
-            var siteGroupCollection = new List<int>();
-            foreach (DataRow dataRow in SiteGroupDataTable(
-                context: context,
-                siteId: siteId).Rows)
-            {
-                siteGroupCollection.Add(dataRow["GroupId"].ToInt());
-            }
-            return siteGroupCollection;
         }
 
         private static List<int> GetSiteDeptHash(Context context, long siteId)
@@ -257,36 +251,28 @@ namespace Implem.Pleasanter.Libraries.Server
             return siteDeptCollection;
         }
 
-        private static DataTable SiteUserDataTable(Context context, long siteId)
+        private static List<int> GetSiteGroupHash(Context context, long siteId)
         {
-            return Repository.ExecuteTable(
+            var siteGroupCollection = new List<int>();
+            foreach (DataRow dataRow in SiteGroupDataTable(
                 context: context,
-                statements: Rds.SelectUsers(
-                    distinct: true,
-                    column: Rds.UsersColumn().UserId(),
-                    where: Rds.UsersWhere()
-                        .TenantId(context.TenantId)
-                        .SiteUserWhere(siteId: siteId)));
+                siteId: siteId).Rows)
+            {
+                siteGroupCollection.Add(dataRow["GroupId"].ToInt());
+            }
+            return siteGroupCollection;
         }
 
-        private static DataTable SiteGroupDataTable(Context context, long siteId)
+        private static List<int> GetSiteUserHash(Context context, long siteId)
         {
-            var groupRaw = "\"Groups\".\"GroupId\" and \"Groups\".\"GroupId\">0";
-            return Repository.ExecuteTable(
+            var siteUserCollection = new List<int>();
+            foreach (DataRow dataRow in SiteUserDataTable(
                 context: context,
-                statements: Rds.SelectGroups(
-                    distinct: true,
-                    column: Rds.GroupsColumn().GroupId(),
-                    where: Rds.GroupsWhere()
-                        .TenantId(context.TenantId)
-                        .Add(
-                            subLeft: Rds.SelectPermissions(
-                                column: Rds.PermissionsColumn()
-                                    .PermissionType(function: Sqls.Functions.Max),
-                                where: Rds.PermissionsWhere()
-                                    .ReferenceId(siteId)
-                                    .GroupId(raw: groupRaw)),
-                            _operator: ">0")));
+                siteId: siteId).Rows)
+            {
+                siteUserCollection.Add(dataRow["UserId"].ToInt());
+            }
+            return siteUserCollection;
         }
 
         private static DataTable SiteDeptDataTable(Context context, long siteId)
@@ -309,6 +295,59 @@ namespace Implem.Pleasanter.Libraries.Server
                             _operator: ">0")));
         }
 
+        private static DataTable SiteGroupDataTable(Context context, long siteId)
+        {
+            var groupRaw = "\"Groups\".\"GroupId\" and \"Groups\".\"GroupId\">0";
+            return Repository.ExecuteTable(
+                context: context,
+                statements: Rds.SelectGroups(
+                    distinct: true,
+                    column: Rds.GroupsColumn().GroupId(),
+                    where: Rds.GroupsWhere()
+                        .TenantId(context.TenantId)
+                        .Add(
+                            subLeft: Rds.SelectPermissions(
+                                column: Rds.PermissionsColumn()
+                                    .PermissionType(function: Sqls.Functions.Max),
+                                where: Rds.PermissionsWhere()
+                                    .ReferenceId(siteId)
+                                    .GroupId(raw: groupRaw)),
+                            _operator: ">0")));
+        }
+
+        private static DataTable SiteUserDataTable(Context context, long siteId)
+        {
+            return Repository.ExecuteTable(
+                context: context,
+                statements: Rds.SelectUsers(
+                    distinct: true,
+                    column: Rds.UsersColumn().UserId(),
+                    where: Rds.UsersWhere()
+                        .TenantId(context.TenantId)
+                        .SiteUserWhere(siteId: siteId)));
+        }
+
+        public static string Name(Context context, int id, Settings.Column.Types type)
+        {
+            switch (type)
+            {
+                case Settings.Column.Types.Dept:
+                    return Dept(
+                        tenantId: context.TenantId,
+                        deptId: id).Name;
+                case Settings.Column.Types.Group:
+                    return Group(
+                        tenantId: context.TenantId,
+                        groupId: id).Name;
+                case Settings.Column.Types.User:
+                    return UserName(
+                        context: context,
+                        userId: id);
+                default:
+                    return string.Empty;
+            }
+        }
+
         public static Dept Dept(int tenantId, int deptId)
         {
             if (tenantId == 0 || deptId == 0)
@@ -319,6 +358,18 @@ namespace Implem.Pleasanter.Libraries.Server
                 .Where(o => o.Key == deptId)
                 .Select(o => o.Value)
                 .FirstOrDefault() ?? new Dept();
+        }
+
+        public static Group Group(int tenantId, int groupId)
+        {
+            if (tenantId == 0 || groupId == 0)
+            {
+                return new Group();
+            }
+            return TenantCaches.Get(tenantId)?.GroupHash?
+                .Where(o => o.Key == groupId)
+                .Select(o => o.Value)
+                .FirstOrDefault() ?? new Group();
         }
 
         public static User User(Context context, int userId)
@@ -336,10 +387,8 @@ namespace Implem.Pleasanter.Libraries.Server
                     Name = Displays.AllUsers(context: context)
                 };
             }
-            return TenantCaches.Get(context.TenantId)?.UserHash?
-                .Where(o => o.Key == userId)
-                .Select(o => o.Value)
-                .FirstOrDefault() ?? Anonymous(context: context);
+            return TenantCaches.Get(context.TenantId)?.UserHash?.Get(userId)
+                ?? Anonymous(context: context);
         }
 
         private static User Anonymous(Context context)
