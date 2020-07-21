@@ -45,6 +45,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public decimal? Min;
         public decimal? Max;
         public decimal? Step;
+        public decimal? DefaultMinValue;
+        public decimal? DefaultMaxValue;
         public bool? NoDuplication;
         public bool? CopyByDefault;
         public bool? EditorReadOnly;
@@ -583,10 +585,19 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public decimal MinNumber()
         {
-            return MaxNumber() * -1;
+            return Math.Max(
+                Min ?? DefaultMinValue ?? (MaxNumberFromSize() * -1),
+                MaxNumberFromSize() * -1);
         }
 
         public decimal MaxNumber()
+        {
+            return Math.Min(
+                Max ?? DefaultMaxValue ?? MaxNumberFromSize(),
+                MaxNumberFromSize());
+        }
+
+        private decimal MaxNumberFromSize()
         {
             var length = Size.Split_1st().ToInt() - Size.Split_2nd().ToInt();
             return length > 0

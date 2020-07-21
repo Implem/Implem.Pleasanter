@@ -12,6 +12,8 @@
     "HistoryColumn": "300",
     "TypeName": "decimal",
     "Size": "19,4",
+    "DefaultMinValue": "-999999999999999",
+    "DefaultMaxValue": "999999999999999",
     "Nullable": "1",
     "SearchIndexPriority": "200",
     "Computable": "1",

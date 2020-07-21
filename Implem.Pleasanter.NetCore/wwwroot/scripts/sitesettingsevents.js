@@ -4,8 +4,6 @@
     });
     $(document).on('change', '#ControlType', function () {
         var visibility = $(this).val() === 'Spinner';
-        $('#MinField').toggle(visibility);
-        $('#MaxField').toggle(visibility);
         $('#StepField').toggle(visibility);
     });
     $(document).on('change', '#FormatSelector', function () {
