@@ -215,7 +215,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         toColumns.ForEach(toColumn =>
                             Addresses.Get(
                                 context: context,
-                                addresses: toColumn.UserColumn
+                                addresses: toColumn.Type == Settings.Column.Types.User
                                     ? $"[User{dataRow.String(toColumn.ColumnName)}]"
                                     : dataRow.String(toColumn.ColumnName))
                                         .ForEach(mailAddress =>

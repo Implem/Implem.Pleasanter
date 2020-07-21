@@ -53,7 +53,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             dataRows.ForEach(dataRow =>
                 Add(new TimeSeriesElement(
                     context: context,
-                    userColumn: groupBy?.UserColumn == true,
+                    userColumn: groupBy?.Type == Column.Types.User,
                     id: dataRow["Id"].ToLong(),
                     ver: dataRow["Ver"].ToInt(),
                     updatedTime: dataRow["UpdatedTime"]

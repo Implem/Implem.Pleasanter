@@ -103,10 +103,11 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             {
                 case Types.CsNumeric:
                     return column.HasChoices()
-                        ? column.UserColumn
-                            ? SiteInfo.UserName(
+                        ? column.Type != Column.Types.Normal
+                            ? SiteInfo.Name(
                                 context: context,
-                                userId: dataRow.Int(path))
+                                id: dataRow.Int(path),
+                                type: column.Type)
                             : column.Choice(dataRow.Long(path).ToString()).Text
                         : column.Display(
                             context: context,
@@ -144,10 +145,11 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             {
                 case Types.CsNumeric:
                     return column.HasChoices()
-                        ? column.UserColumn
-                            ? SiteInfo.UserName(
+                        ? column.Type != Column.Types.Normal
+                            ? SiteInfo.Name(
                                 context: context,
-                                userId: data.Get(column.ColumnName).ToInt())
+                                id: data.Get(column.ColumnName).ToInt(),
+                                type: column.Type)
                             : column.Choice(data.Get(column.ColumnName)).Text
                         : column.Display(
                             context: context,

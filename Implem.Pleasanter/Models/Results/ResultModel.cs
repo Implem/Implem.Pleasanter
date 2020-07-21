@@ -901,7 +901,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 users: ss.Columns
-                    .Where(o => o.UserColumn)
+                    .Where(o => o.Type == Column.Types.User)
                     .ToDictionary(o =>
                         o.ColumnName,
                         o => SiteInfo.User(

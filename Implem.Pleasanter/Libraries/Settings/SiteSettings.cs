@@ -1039,7 +1039,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.DecimalPlaces = column.DecimalPlaces;
                     }
-                    if (column.Min != columnDefinition.Min)
+                    if (column.Min != DefaultMin(columnDefinition))
                     {
                         enabled = true;
                         newColumn.Min = column.Min;
@@ -1404,9 +1404,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.ServerRegexValidation = column.ServerRegexValidation ?? columnDefinition.ServerRegexValidation;
                 column.RegexValidationMessage = column.RegexValidationMessage ?? columnDefinition.RegexValidationMessage;
                 column.DecimalPlaces = column.DecimalPlaces ?? columnDefinition.DecimalPlaces;
-                column.Min = column.Min ?? columnDefinition.Min;
+                column.Min = column.Min ?? DefaultMin(columnDefinition);
                 column.Max = column.Max ?? DefaultMax(columnDefinition);
                 column.Step = column.Step ?? DefaultStep(columnDefinition);
+                column.DefaultMinValue = column.DefaultMinValue ?? columnDefinition.DefaultMinValue;
+                column.DefaultMaxValue = column.DefaultMaxValue ?? columnDefinition.DefaultMaxValue;
                 column.NoDuplication = column.NoDuplication ?? false;
                 column.CopyByDefault = column.CopyByDefault ?? false;
                 column.EditorReadOnly = column.EditorReadOnly ?? columnDefinition.EditorReadOnly;
@@ -1450,7 +1452,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.TypeName = columnDefinition.TypeName;
                 column.TypeCs = columnDefinition.TypeCs;
                 column.JoinTableName = columnDefinition.JoinTableName;
-                column.UserColumn = columnDefinition.UserColumn;
+                column.Type = columnDefinition.UserColumn
+                    ? Column.Types.User
+                    : Column.Types.Normal;
                 column.Hash = columnDefinition.Hash;
                 column.StringFormat = columnDefinition.StringFormat;
                 column.UnitDefault = columnDefinition.Unit;
@@ -1593,11 +1597,22 @@ namespace Implem.Pleasanter.Libraries.Settings
                     mine: mine));
         }
 
+        private decimal DefaultMin(ColumnDefinition columnDefinition)
+        {
+            return columnDefinition.ExtendedColumnType == "Num"
+                && columnDefinition.DefaultMinValue != 0
+                    ? columnDefinition.DefaultMinValue
+                    : columnDefinition.Min;
+        }
+
         private decimal DefaultMax(ColumnDefinition columnDefinition)
         {
-            return (columnDefinition.Max > 0
-                ? columnDefinition.Max
-                : columnDefinition.MaxLength);
+            return columnDefinition.ExtendedColumnType == "Num"
+                && columnDefinition.DefaultMaxValue != 0
+                    ? columnDefinition.DefaultMaxValue
+                    : (columnDefinition.Max > 0
+                        ? columnDefinition.Max
+                        : columnDefinition.MaxLength);
         }
 
         private decimal DefaultStep(ColumnDefinition columnDefinition)
@@ -1973,6 +1988,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             return enabled
                 ? Sources
                     .Union(Destinations)
+                    .GroupBy(currentSs => currentSs.Key)
+                    .Select(currentSs => currentSs.First())
                     .OrderBy(currentSs => currentSs.Key)
                     .ToDictionary(
                         currentSs => LinkId(currentSs.Value),
@@ -1980,6 +1997,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : Sources.Union(Destinations)
                     .Where(currentSs => !GetEditorColumnNames()
                     .Contains(LinkId(currentSs.Value)))
+                    .GroupBy(currentSs => currentSs.Key)
+                    .Select(currentSs => currentSs.First())
                     .OrderBy(currentSs => currentSs.Key)
                     .ToDictionary(
                         currentSs => LinkId(currentSs.Value),
@@ -3237,16 +3256,29 @@ namespace Implem.Pleasanter.Libraries.Settings
             List<string> searchIndexes,
             Dictionary<string, List<string>> linkHash)
         {
+            var columns = new List<Column>();
             Columns?
                 .Where(o => o.HasChoices())
                 .Where(o => columnName == null || o.ColumnName == columnName)
                 .ForEach(column =>
+                {
+                    var same = columns.FirstOrDefault(o => o.ChoicesText == column.ChoicesText);
+                    if (same == null)
+                    {
+                        columns.Add(column);
+                    }
+                    else
+                    {
+                        column.ChoiceHash = same.ChoiceHash;
+                    }
                     column.SetChoiceHash(
                         context: context,
                         siteId: InheritPermission,
                         linkHash: linkHash,
                         searchIndexes: searchIndexes,
-                        setAllChoices: SetAllChoices));
+                        setAllChoices: SetAllChoices,
+                        setChoices: same == null);
+                });
         }
 
         private Dictionary<string, List<string>> LinkHash(
@@ -3386,7 +3418,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         referenceType: referenceType,
                         parentColumn: parentColumn,
                         parentIds: parentIds)),
-                    _using: (referenceType == "Results" || referenceType == "Issues")
+                    _using: (referenceType == "Results"
+                        || referenceType == "Issues")
                         && (parentIds?.Any() ?? false)
                         && parentColumn != null)
                 .ReferenceType("Sites", _operator: "<>")

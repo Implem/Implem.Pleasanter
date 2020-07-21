@@ -50,7 +50,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool disableSection = false,
             bool _using = true)
         {
-            if (column.UserColumn && value == User.UserTypes.Anonymous.ToInt().ToString())
+            if (column.Type == Column.Types.User && value == User.UserTypes.Anonymous.ToInt().ToString())
             {
                 value = string.Empty;
             }
@@ -478,8 +478,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 labelRequired: required,
                                 controlOnly: controlOnly,
                                 value: value.ToDecimal(),
-                                min: column.Min.ToDecimal(),
-                                max: column.Max.ToDecimal(),
+                                min: column.MinNumber(),
+                                max: column.MaxNumber(),
                                 step: column.Step.ToDecimal(),
                                 width: 50,
                                 unit: column.Unit,

@@ -468,15 +468,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 selectedValue?.Deserialize<List<string>>()?.ForEach(value =>
                 {
-                    if (column.UserColumn)
+                    if (column.Type != Settings.Column.Types.Normal)
                     {
-                        var userId = value.ToInt();
-                        if (userId > 0 && userId != User.UserTypes.Anonymous.ToInt())
+                        var id = value.ToInt();
+                        if (id > 0
+                            && !(column.Type == Settings.Column.Types.User
+                                && id == User.UserTypes.Anonymous.ToInt()))
                         {
                             optionCollection.AddIfNotConainsKey(
-                                value, new ControlData(SiteInfo.UserName(
+                                value, new ControlData(SiteInfo.Name(
                                     context: context,
-                                    userId: userId)));
+                                    id: id,
+                                    type: column.Type)));
                         }
                     }
                     else
