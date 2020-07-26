@@ -43,31 +43,41 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             BaseModel.MethodTypes? methodType,
             int tabIndex)
         {
-            var sourceSs = TargetSiteSettings(ss.Sources, linkId);
-            var destinationSs = TargetSiteSettings(ss.Destinations, linkId);
-            var targetSs = sourceSs ?? destinationSs;
-            if (targetSs != null)
+            new[]
             {
-                var direction = sourceSs != null
-                    ? "Source"
-                    : "Destination";
-                var dataTableName = DataTableName(
-                    ss: targetSs,
-                    direction: direction);
-                hb.Div(
-                    id: dataTableName + "Field",
-                    action: () => hb.Link(
-                        context: context,
-                        ss: ss,
-                        id: id,
-                        linkId: linkId,
-                        direction: direction,
-                        targetSs: targetSs,
-                        links: links,
-                        dataSet: dataSet,
-                        methodType: methodType,
-                        tabIndex: tabIndex));
-            }
+                new
+                {
+                    Ss = TargetSiteSettings(ss.Destinations, linkId),
+                    Direction = "Destination"
+                },
+                new
+                {
+                    Ss = TargetSiteSettings(ss.Sources, linkId),
+                    Direction = "Source"
+                }
+            }.Where(target => target.Ss != null).ForEach(target =>
+            {
+                var targetSs = ss.JoinedSsHash.Get(linkId);
+                if (targetSs != null)
+                {
+                    var dataTableName = DataTableName(
+                        ss: targetSs,
+                        direction: target.Direction);
+                    hb.Div(
+                        id: dataTableName + "Field",
+                        action: () => hb.Link(
+                            context: context,
+                            ss: ss,
+                            id: id,
+                            linkId: linkId,
+                            direction: target.Direction,
+                            targetSs: targetSs,
+                            links: links,
+                            dataSet: dataSet,
+                            methodType: methodType,
+                            tabIndex: tabIndex));
+                }
+            });
             return hb;
         }
 

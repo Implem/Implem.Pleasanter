@@ -1996,7 +1996,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         currentSs => new ControlData(currentSs.Value.Title))
                 : Sources.Union(Destinations)
                     .Where(currentSs => !GetEditorColumnNames()
-                    .Contains(LinkId(currentSs.Value)))
+                        .Contains(LinkId(currentSs.Value)))
                     .GroupBy(currentSs => currentSs.Key)
                     .Select(currentSs => currentSs.First())
                     .OrderBy(currentSs => currentSs.Key)
