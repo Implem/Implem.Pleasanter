@@ -24,7 +24,7 @@ $p.openDropDownSearchDialog = function ($control) {
     $text.val('');
     $('#DropDownSearchMultiple').val($control.attr('multiple') === 'multiple');
     $($('#DropDownSearchDialog')).dialog({
-        title: $('label[for="' + id + '"]').text(),
+        title: $('.field-label label[for="' + id + '"]').text(),
         modal: true,
         width: '630px',
         resizable: false,
