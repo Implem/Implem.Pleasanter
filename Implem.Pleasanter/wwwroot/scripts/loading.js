@@ -6,7 +6,7 @@
             $icon
                 .attr('data-css', $icon.prop('class'))
                 .prop('class', 'ui-icon')
-                .css('background-image', 'url(' + $('#Logo > a').attr('href') + 'images/loading.gif)');
+                .css('background-image', 'url(' + $('#ApplicationPath').val() + 'images/loading.gif)');
         }
     }
 }
