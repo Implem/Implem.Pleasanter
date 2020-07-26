@@ -19,7 +19,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             if (!context.Ajax)
             {
-                var extendedScripts = ExtendedScripts(context: context);
+                var extendedScripts = ExtendedScripts(
+                    siteId: context.SiteId,
+                    id: context.Id,
+                    controller: context.Controller,
+                    action: context.Action);
                 return hb
                     .Script(src: Locations.Get(
                         context: context,
@@ -52,8 +56,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Script(
                         src: Locations.Get(
                             context: context,
-                            parts: "resources/scripts?v="
-                                + extendedScripts.Sha512Cng()),
+                            parts: $"resources/scripts?v={extendedScripts.Sha512Cng()}"
+                                + $"&site-id={context.SiteId}"
+                                + $"&id={context.Id}"
+                                + $"&controller={context.Controller}"
+                                + $"&action={context.Action}"),
                         _using: !extendedScripts.IsNullOrEmpty())
                     .Script(script: script, _using: !script.IsNullOrEmpty())
                     .Script(
@@ -72,13 +79,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
         }
 
-        public static string ExtendedScripts(Context context)
+        public static string ExtendedScripts(
+            long siteId, long id, string controller, string action)
         {
             return Parameters.ExtendedScripts
-                ?.Where(o => o.SiteIdList?.Any() != true || o.SiteIdList.Contains(context.SiteId))
-                .Where(o => o.IdList?.Any() != true || o.IdList.Contains(context.Id))
-                .Where(o => o.Controllers?.Any() != true || o.Controllers.Contains(context.Controller))
-                .Where(o => o.Actions?.Any() != true || o.Actions.Contains(context.Action))
+                ?.Where(o => o.SiteIdList?.Any() != true || o.SiteIdList.Contains(siteId))
+                .Where(o => o.IdList?.Any() != true || o.IdList.Contains(id))
+                .Where(o => o.Controllers?.Any() != true || o.Controllers.Contains(controller))
+                .Where(o => o.Actions?.Any() != true || o.Actions.Contains(action))
                 .Where(o => !o.Disabled)
                 .Select(o => o.Script)
                 .Join("\n");
