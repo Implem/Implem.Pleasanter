@@ -17,6 +17,7 @@ namespace Implem.Pleasanter.Libraries.Images
             SiteImage = 1,
             TenantImage = 2
         }
+
         public enum SizeTypes : int
         {
             Regular = 1,
@@ -24,30 +25,36 @@ namespace Implem.Pleasanter.Libraries.Images
             Icon = 3,
             Logo = 4,
         }
+
         public ImageData(byte[] data, long referenceId, Types type)
         {
             Data = Image.FromStream(new MemoryStream(data));
             ReferenceId = referenceId;
             Type = type;
         }
+
         public ImageData(long referenceId, Types type)
         {
             ReferenceId = referenceId;
             Type = type;
         }
+
         public byte[] Read(SizeTypes sizeType)
         {
             return Files.Bytes(Path(ReferenceId, Type, sizeType));
         }
+
         public bool Exists(SizeTypes sizeType)
         {
             return File.Exists(Path(ReferenceId, Type, sizeType));
         }
+
         public string UrlPrefix(SizeTypes sizeType)
         {
             return new FileInfo(Path(ReferenceId, Type, sizeType))
                 .LastWriteTime.ToString("?yyyyMMddHHmmss");
         }
+
         public void WriteToLocal()
         {
             if (Type == Types.SiteImage)
@@ -61,10 +68,12 @@ namespace Implem.Pleasanter.Libraries.Images
                 WriteToLocal(ReSize(SizeTypes.Logo), ReferenceId, Type, SizeTypes.Logo);
             }
         }
+
         private void WriteToLocal(Image image, long referenceId, Types type, SizeTypes sizeType)
         {
             image.Write(Path(referenceId, type, sizeType), ImageFormat.Png);
         }
+
         public void DeleteLocalFiles()
         {
             if (Type == Types.SiteImage)
@@ -78,6 +87,7 @@ namespace Implem.Pleasanter.Libraries.Images
                 Files.DeleteFile(Path(ReferenceId, Type, SizeTypes.Logo));
             }
         }
+
         private string Path(long referenceId, Types type, SizeTypes sizeType)
         {
             return System.IO.Path.Combine(
@@ -85,6 +95,7 @@ namespace Implem.Pleasanter.Libraries.Images
                 type.ToString(),
                 "{0}_{1}.png".Params(referenceId, sizeType));
         }
+
         public byte[] ReSizeBytes(SizeTypes sizeType)
         {
             using (var memory = new MemoryStream())
@@ -94,14 +105,13 @@ namespace Implem.Pleasanter.Libraries.Images
                 return GetByte(memory);
             }
         }
+
         private Image ReSize(SizeTypes sizeType)
         {
-            
             var size = (double)Size(sizeType);
             var rate = (Data.Width > Data.Height) || (sizeType == SizeTypes.Logo)
                 ? size / Data.Height
                 : size / Data.Width;
-            
             if (rate != 1)
             {
                 var width = (Data.Width * rate).ToInt();
@@ -115,15 +125,17 @@ namespace Implem.Pleasanter.Libraries.Images
                 return Data;
             }
         }
+
         public byte[] ReSizeBytes(decimal? size)
         {
             using (var memory = new MemoryStream())
             {
                 memory.Position = 0;
-                ReSize(size).Save(memory, ImageFormat.Png); ;
+                ReSize(size).Save(memory, ImageFormat.Png);
                 return GetByte(memory);
             }
         }
+
         private Image ReSize(decimal? size)
         {
             if (size != null && size > 0)
@@ -153,6 +165,7 @@ namespace Implem.Pleasanter.Libraries.Images
                 return Data;
             }
         }
+
         private Image GetImage(int width, int height, int x, int y)
         {
             var resizedImage = new Bitmap(width, height);
@@ -164,6 +177,7 @@ namespace Implem.Pleasanter.Libraries.Images
                 return resizedImage;
             }
         }
+
         private static byte[] GetByte(MemoryStream memory)
         {
             var ret = new byte[memory.Length];
@@ -172,6 +186,7 @@ namespace Implem.Pleasanter.Libraries.Images
             memory.Close();
             return ret;
         }
+
         private int Size(SizeTypes sizeType)
         {
             switch (sizeType)
