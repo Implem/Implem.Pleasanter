@@ -43,31 +43,41 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             BaseModel.MethodTypes? methodType,
             int tabIndex)
         {
-            var sourceSs = TargetSiteSettings(ss.Sources, linkId);
-            var destinationSs = TargetSiteSettings(ss.Destinations, linkId);
-            var targetSs = sourceSs ?? destinationSs;
-            if (targetSs != null)
+            new[]
             {
-                var direction = sourceSs != null
-                    ? "Source"
-                    : "Destination";
-                var dataTableName = DataTableName(
-                    ss: targetSs,
-                    direction: direction);
-                hb.Div(
-                    id: dataTableName + "Field",
-                    action: () => hb.Link(
-                        context: context,
-                        ss: ss,
-                        id: id,
-                        linkId: linkId,
-                        direction: direction,
-                        targetSs: targetSs,
-                        links: links,
-                        dataSet: dataSet,
-                        methodType: methodType,
-                        tabIndex: tabIndex));
-            }
+                new
+                {
+                    Ss = TargetSiteSettings(ss.Destinations, linkId),
+                    Direction = "Destination"
+                },
+                new
+                {
+                    Ss = TargetSiteSettings(ss.Sources, linkId),
+                    Direction = "Source"
+                }
+            }.Where(target => target.Ss != null).ForEach(target =>
+            {
+                var targetSs = ss.JoinedSsHash.Get(linkId);
+                if (targetSs != null)
+                {
+                    var dataTableName = DataTableName(
+                        ss: targetSs,
+                        direction: target.Direction);
+                    hb.Div(
+                        id: dataTableName + "Field",
+                        action: () => hb.Link(
+                            context: context,
+                            ss: ss,
+                            id: id,
+                            linkId: linkId,
+                            direction: target.Direction,
+                            targetSs: targetSs,
+                            links: links,
+                            dataSet: dataSet,
+                            methodType: methodType,
+                            tabIndex: tabIndex));
+                }
+            });
             return hb;
         }
 
@@ -95,29 +105,44 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         var linkId = ss.LinkId(columnName);
                         if (linkId > 0)
                         {
-                            var sourceSs = TargetSiteSettings(ss.Sources, linkId);
-                            var destinationSs = TargetSiteSettings(ss.Destinations, linkId);
-                            var targetSs = sourceSs ?? destinationSs;
-                            if (targetSs != null)
+                            new[]
                             {
-                                var direction = sourceSs != null
-                                    ? "Source"
-                                    : "Destination";
-                                var dataTableName = DataTableName(
-                                    ss: targetSs,
-                                    direction: direction);
-                                res.Html("#" + dataTableName + "Field", new HtmlBuilder().Link(
-                                    context: context,
-                                    ss: ss,
-                                    id: id,
-                                    linkId: linkId,
-                                    direction: direction,
-                                    targetSs: targetSs,
-                                    links: links,
-                                    dataSet: dataSet,
-                                    methodType: methodType,
-                                    tabIndex: data.tabIndex));
-                            }
+                                new
+                                {
+                                    Ss = TargetSiteSettings(
+                                        links: ss.Destinations,
+                                        linkId: linkId),
+                                    Direction = "Destination"
+                                },
+                                new
+                                {
+                                    Ss = TargetSiteSettings(
+                                        links: ss.Sources,
+                                        linkId: linkId),
+                                    Direction = "Source"
+                                }
+                            }.Where(target => target.Ss != null).ForEach(target =>
+                            {
+                                var targetSs = ss.JoinedSsHash.Get(linkId);
+                                if (targetSs != null)
+                                {
+                                    var dataTableName = DataTableName(
+                                        ss: targetSs,
+                                        direction: target.Direction);
+                                    res.Html("#" + dataTableName + "Field", new HtmlBuilder()
+                                        .Link(
+                                            context: context,
+                                            ss: ss,
+                                            id: id,
+                                            linkId: linkId,
+                                            direction: target.Direction,
+                                            targetSs: targetSs,
+                                            links: links,
+                                            dataSet: dataSet,
+                                            methodType: methodType,
+                                            tabIndex: data.tabIndex));
+                                }
+                            });
                         }
                     });
                 });
@@ -143,7 +168,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 action: () => hb.Div(action: () =>
                 {
                     var link = links.FirstOrDefault(o => o.SourceId == linkId);
-                    if (link != null)
+                    if (link != null && direction == "Source")
                     {
                         hb.Div(action: () => hb.LinkCreationButton(
                             context: context,

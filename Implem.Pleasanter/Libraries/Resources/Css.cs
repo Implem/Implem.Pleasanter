@@ -31,7 +31,11 @@ namespace Implem.Pleasanter.Libraries.Resources
             return new ContentResult
             {
                 ContentType = "text/css",
-                Content = HtmlStyles.ExtendedStyles(context: context)
+                Content = HtmlStyles.ExtendedStyles(
+                    siteId: context.QueryStrings.Long("site-id"),
+                    id: context.QueryStrings.Long("id"),
+                    controller: context.QueryStrings.Data("controller"),
+                    action: context.QueryStrings.Data("action"))
             };
         }
     }
