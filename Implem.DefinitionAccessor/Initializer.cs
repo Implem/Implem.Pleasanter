@@ -81,6 +81,7 @@ namespace Implem.DefinitionAccessor
             Parameters.ExtendedSqls = ExtendedSqls();
             Parameters.ExtendedStyles = ExtendedStyles();
             Parameters.ExtendedScripts = ExtendedScripts();
+            Parameters.ExtendedHtmls = ExtendedHtmls();
             Parameters.ExtendedTags = ExtendedTags();
             Parameters.General = Read<ParameterAccessor.Parts.General>();
             Parameters.History = Read<ParameterAccessor.Parts.History>();
@@ -296,6 +297,50 @@ namespace Implem.DefinitionAccessor
             foreach (var dir in new DirectoryInfo(path).GetDirectories())
             {
                 list = ExtendedScripts(dir.FullName, list);
+            }
+            return list;
+        }
+
+        private static List<ExtendedHtml> ExtendedHtmls(
+            string path = null,
+            List<ExtendedHtml> list = null)
+        {
+            list = list ?? new List<ExtendedHtml>();
+            path = path ?? Path.Combine(
+                Environments.CurrentDirectoryPath,
+                "App_Data",
+                "Parameters",
+                "ExtendedHtmls");
+            foreach (var file in new DirectoryInfo(path).GetFiles("*.html"))
+            {
+                var extendedHtml = Files.Read(file.FullName);
+                if (!extendedHtml.IsNullOrEmpty())
+                {
+                    var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(file.Name);
+                    var displayElement = new DisplayElement
+                    {
+                        Language = fileNameWithoutExtension?.Split('_').Skip(1).LastOrDefault(),
+                        Body = extendedHtml
+                    };
+                    var name = displayElement.Language.IsNullOrEmpty()
+                        ? fileNameWithoutExtension
+                        : fileNameWithoutExtension?.Substring(
+                            0,
+                            fileNameWithoutExtension.Length - displayElement.Language.Length - 1);
+                    var listDisplay = new Dictionary<string, List<DisplayElement>>();
+                    listDisplay
+                        .AddIfNotConainsKey(name, new List<DisplayElement>())
+                        .Get(name)
+                        .Add(displayElement);
+                    list.Add(new ExtendedHtml()
+                    {
+                        Html = listDisplay
+                    });
+                }
+            }
+            foreach (var dir in new DirectoryInfo(path).GetDirectories())
+            {
+                list = ExtendedHtmls(dir.FullName, list);
             }
             return list;
         }

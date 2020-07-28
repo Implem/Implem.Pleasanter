@@ -5278,6 +5278,7 @@ namespace Implem.Pleasanter.Models
             {
                 { string.Empty, "Standard" },
                 { "C", "Currency" },
+                { "N", "DigitGrouping"},
                 { "\t", "Custom" },
             };
         }

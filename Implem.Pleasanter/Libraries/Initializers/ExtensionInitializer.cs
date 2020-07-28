@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DisplayAccessor;
+using Implem.Libraries.Utilities;
 using Implem.ParameterAccessor.Parts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Requests;
@@ -21,6 +22,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                 Parameters.ExtendedSqls = Parameters.ExtendedSqls ?? new List<ExtendedSql>();
                 Parameters.ExtendedStyles = Parameters.ExtendedStyles ?? new List<ExtendedStyle>();
                 Parameters.ExtendedScripts = Parameters.ExtendedScripts ?? new List<ExtendedScript>();
+                Parameters.ExtendedHtmls = Parameters.ExtendedHtmls ?? new List<ExtendedHtml>();
                 extensions.ForEach(extension =>
                 {
                     switch (extension.ExtensionType)
@@ -65,6 +67,31 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                     extendedScript.Script = extension.Body;
                                 }
                                 Parameters.ExtendedScripts.Add(extendedScript);
+                            }
+                            break;
+                        case "Html":
+                            var extendedHtml = extension.ExtensionSettings.Deserialize<ExtendedHtml>();
+                            if (extendedHtml != null)
+                            {
+                                extendedHtml.Name = Strings.CoalesceEmpty(
+                                    extension.ExtensionName,
+                                    extendedHtml.Name);
+                                if (!extension.Body.IsNullOrEmpty())
+                                {
+                                    var listDisplay = new Dictionary<string, List<DisplayElement>>();
+                                    var name = extendedHtml.Name;
+                                    var displayElement = new DisplayElement
+                                    {
+                                        Language = extendedHtml.Language,
+                                        Body = extension.Body
+                                    };
+                                    listDisplay
+                                        .AddIfNotConainsKey(name, new List<DisplayElement>())
+                                        .Get(name)
+                                        .Add(displayElement);
+                                    extendedHtml.Html = listDisplay;
+                                }
+                                Parameters.ExtendedHtmls.Add(extendedHtml);
                             }
                             break;
                         default:

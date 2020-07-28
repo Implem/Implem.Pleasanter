@@ -1989,6 +1989,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string DigitGrouping(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DigitGrouping",
+                data: data);
+        }
+
         public static string Direct(
             Context context,
             params string[] data)

@@ -1,0 +1,29 @@
+﻿{
+    "Id": "DigitGrouping",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Digit grouping"
+        },
+        {
+            "Language": "zh",
+            "Body": "数字分组"
+        },
+        {
+            "Language": "ja",
+            "Body": "桁区切り"
+        },
+        {
+            "Language": "de",
+            "Body": "Zifferngruppierung"
+        },
+        {
+            "Language": "ko",
+            "Body": "숫자 그룹"
+        },
+        {
+            "Language": "es",
+            "Body": "Agrupación de dígitos"
+        }
+    ]
+}

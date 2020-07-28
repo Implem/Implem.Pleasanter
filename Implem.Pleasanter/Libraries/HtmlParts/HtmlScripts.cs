@@ -1,10 +1,11 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.ParameterAccessor.Parts;
 using Implem.Pleasanter.App_Start;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
-using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
@@ -19,42 +20,38 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             if (!context.Ajax)
             {
-                var extendedScripts = ExtendedScripts(
-                    siteId: context.SiteId,
-                    id: context.Id,
-                    controller: context.Controller,
-                    action: context.Action);
+                var extendedScripts = ExtendedScripts(context: context); ;
                 return hb
-                    .Script(src: Locations.Get(
+                    .Script(src: Responses.Locations.Get(
                         context: context,
                         parts: "scripts/plugins/jquery-3.1.0.min.js"))
-                    .Script(src: Locations.Get(
+                    .Script(src: Responses.Locations.Get(
                         context: context,
                         parts: "scripts/plugins/jquery-ui.min.js"))
-                    .Script(src: Locations.Get(
+                    .Script(src: Responses.Locations.Get(
                         context: context,
                         parts: "scripts/plugins/jquery.datetimepicker.full.min.js"))
-                    .Script(src: Locations.Get(
+                    .Script(src: Responses.Locations.Get(
                         context: context,
                         parts: "scripts/plugins/jquery.multiselect.min.js"))
-                    .Script(src: Locations.Get(
+                    .Script(src: Responses.Locations.Get(
                         context: context,
                         parts: "scripts/plugins/jquery.multiselect.filter.min.js"))
-                    .Script(src: Locations.Get(
+                    .Script(src: Responses.Locations.Get(
                         context: context,
                         parts: "scripts/plugins/jquery.validate.min.js"))
-                    .Script(src: Locations.Get(
+                    .Script(src: Responses.Locations.Get(
                         context: context,
                         parts: "scripts/plugins/d3.min.js"))
-                    .Script(src: Locations.Get(
+                    .Script(src: Responses.Locations.Get(
                         context: context,
                         parts: "scripts/plugins/hogan-3.0.2.min.js"))
-                    .Script(src: Locations.Get(
+                    .Script(src: Responses.Locations.Get(
                         context: context,
                         parts: "scripts/plugins/marked.min.js"))
                     .Generals(context: context)
                     .Script(
-                        src: Locations.Get(
+                        src: Responses.Locations.Get(
                             context: context,
                             parts: $"resources/scripts?v={extendedScripts.Sha512Cng()}"
                                 + $"&site-id={context.SiteId}"
@@ -80,16 +77,35 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         public static string ExtendedScripts(
-            long siteId, long id, string controller, string action)
+            Context context)
         {
-            return Parameters.ExtendedScripts
-                ?.Where(o => o.SiteIdList?.Any() != true || o.SiteIdList.Contains(siteId))
-                .Where(o => o.IdList?.Any() != true || o.IdList.Contains(id))
-                .Where(o => o.Controllers?.Any() != true || o.Controllers.Contains(controller))
-                .Where(o => o.Actions?.Any() != true || o.Actions.Contains(action))
-                .Where(o => !o.Disabled)
-                .Select(o => o.Script)
-                .Join("\n");
+            return ExtendedScripts(
+                deptId: context.DeptId,
+                userId: context.UserId,
+                siteId: context.SiteId,
+                id: context.Id,
+                controller: context.Controller,
+                action: context.Action);
+        }
+
+        public static string ExtendedScripts(
+            int deptId,
+            int userId,
+            long siteId,
+            long id,
+            string controller,
+            string action)
+        {
+            return ExtensionUtilities.ExtensionWhere<ExtendedScript>(
+                extensions: Parameters.ExtendedScripts,
+                deptId: deptId,
+                userId: userId,
+                siteId: siteId,
+                id: id,
+                controller: controller,
+                action: action)
+                    .Select(o => o.Script)
+                    .Join("\n");
         }
 
         private static HtmlBuilder Generals(this HtmlBuilder hb, Context context)
