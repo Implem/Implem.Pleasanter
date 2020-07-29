@@ -32,6 +32,11 @@ namespace Implem.SqlServer
             return "(\"" + tableName + "\".\"" + columnName + "\" like ";
         }
 
+        public string DateAddHour(int hour, string columnBracket)
+        {
+            return $"dateadd(hour,{hour},{columnBracket})";
+        }
+
         public string DateGroupYearly { get; } = "substring(convert(varchar,{0},111),1,4)";
 
         public string DateGroupMonthly { get; } = "substring(convert(varchar,{0},111),1,7)";

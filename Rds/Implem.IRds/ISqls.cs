@@ -22,6 +22,8 @@
 
         string IntegerColumnLike(string tableName, string columnName);
 
+        string DateAddHour(int hour, string columnBracket);
+
         string DateGroupYearly { get; }
 
         string DateGroupMonthly { get; }

@@ -153,7 +153,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 column: column);
             if (diff != 0)
             {
-                columnBracket = $"dateadd(hour,{diff},{columnBracket})";
+                columnBracket = context.Sqls.DateAddHour(diff,columnBracket);
             }
             return columnBracket;
         }

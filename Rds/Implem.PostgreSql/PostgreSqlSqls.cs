@@ -37,6 +37,11 @@ namespace Implem.PostgreSql
             return "(cast(\"" + tableName + "\".\"" + columnName + "\" as text) like ";
         }
 
+        public string DateAddHour(int hour, string columnBracket)
+        {
+            return $"{columnBracket} + interval '{hour} hour'";
+        }
+
         public string DateGroupYearly { get; } = "to_char({0}, 'YYYY')";
 
         public string DateGroupMonthly { get; } = "to_char({0}, 'YYYY/MM')";
