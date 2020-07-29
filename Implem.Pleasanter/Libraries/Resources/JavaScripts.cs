@@ -27,6 +27,8 @@ namespace Implem.Pleasanter.Libraries.Resources
             {
                 ContentType = "text/javascript",
                 Content = HtmlScripts.ExtendedScripts(
+                    deptId: context.DeptId,
+                    userId: context.UserId,
                     siteId: context.QueryStrings.Long("site-id"),
                     id: context.QueryStrings.Long("id"),
                     controller: context.QueryStrings.Data("controller"),

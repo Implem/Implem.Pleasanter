@@ -590,7 +590,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var ret = (!Format.IsNullOrEmpty() && format
                 ? value.ToString(
-                    Format + (Format == "C" && DecimalPlaces.ToInt() > 0
+                    Format + (Format == "C" || Format == "N"
                         ? DecimalPlaces.ToString()
                         : string.Empty))
                 : DecimalPlaces.ToInt() == 0

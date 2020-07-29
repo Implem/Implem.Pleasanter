@@ -88,6 +88,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 return hb.Html(
                     lang: context.Language,
                     action: () => hb.Head(action: () => hb
+                        .Raw(HtmlHtmls.ExtendedHtmls(
+                            context: context,
+                            id: "HtmlHeaderTop"))
                         .Meta(httpEquiv: "X-UA-Compatible", content: "IE=edge")
                         .Meta(charset: "utf-8")
                         .Meta(name: "keywords", content: Parameters.General.HtmlHeadKeywords)
@@ -102,7 +105,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Text(text: HtmlTitle(
                                 context: context,
                                 ss: ss)))
-                        .ExtendedHeader(ss: ss))
+                        .ExtendedHeader(ss: ss)
+                        .Raw(HtmlHtmls.ExtendedHtmls(
+                            context: context,
+                            id: "HtmlHeaderBottom")))
                     .Body(style: "visibility:hidden", action: action));
             }
             else

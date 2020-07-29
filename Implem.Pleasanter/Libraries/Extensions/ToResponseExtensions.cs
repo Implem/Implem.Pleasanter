@@ -53,7 +53,7 @@ namespace Implem.Pleasanter.Libraries.Extensions
                     context: context,
                     ss: ss,
                     value: self,
-                    format: column.Format == "C");
+                    format: column.Format == "C" || column.Format == "N");
         }
 
         public static string ToResponse(
