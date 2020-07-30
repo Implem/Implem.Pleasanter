@@ -87,11 +87,12 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         {
             var elements = new List<Element>();
             var choices = groupBy
-                .ChoiceHash
+                ?.ChoiceHash
                 .ToDictionary(o => o.Key, o => new ControlData(o.Value.Text))
                 .Reverse()
                 .Where(o => this.Select(p => p.Index).Contains(o.Key))
-                .ToDictionary(o => o.Key, o => o.Value);
+                .ToDictionary(o => o.Key, o => o.Value)
+                    ?? new Dictionary<string, ControlData>();
             var valueColumn = value;
             var choiceKeys = choices.Keys.ToList();
             var indexes = choices.Select((index, id) => new Index
