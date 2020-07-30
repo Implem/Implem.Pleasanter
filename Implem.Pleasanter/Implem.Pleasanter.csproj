@@ -80,4 +80,10 @@
     <ProjectReference Include="..\Rds\Implem.IRds\Implem.IRds.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="App_Data\Parameters\ExtendedHtmls\Sample.html.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

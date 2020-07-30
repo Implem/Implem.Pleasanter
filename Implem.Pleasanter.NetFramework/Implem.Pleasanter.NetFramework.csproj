@@ -647,6 +647,7 @@
     <Content Include="App_Data\Licenses\Implem.License.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="App_Data\Parameters\ExtendedHtmls\Sample.html.txt" />
     <Content Include="App_Data\Parameters\ExtendedScripts\Sample.js.txt" />
     <Content Include="App_Data\Parameters\ExtendedSqls\Sample.json.txt" />
     <Content Include="App_Data\Parameters\ExtendedStyles\Sample.css.txt" />
@@ -1551,6 +1552,39 @@
     <Content Include="App_Data\Displays\Ymdhms.json" />
     <Content Include="App_Data\Displays\YmdhmsFormat.json" />
     <Content Include="App_Data\Displays\YmFormat.json" />
+    <Content Include="App_Data\Parameters\Locations.json" />
+    <Content Include="App_Data\Parameters\Migration.json" />
+    <Content Include="App_Data\Parameters\Validation.json" />
+    <Content Include="App_Data\Displays\AnnualSupportService.json" />
+    <Content Include="App_Data\Displays\AuthenticationCode.json" />
+    <Content Include="App_Data\Displays\CanNotDelete.json" />
+    <Content Include="App_Data\Displays\ClientRegexValidation.json" />
+    <Content Include="App_Data\Displays\CodeDefinerMigrationCompleted.json" />
+    <Content Include="App_Data\Displays\Confirm.json" />
+    <Content Include="App_Data\Displays\ConfirmUnlockRecord.json" />
+    <Content Include="App_Data\Displays\DigitGrouping.json" />
+    <Content Include="App_Data\Displays\EnterpriseEdition.json" />
+    <Content Include="App_Data\Displays\ExcludeOverdue.json" />
+    <Content Include="App_Data\Displays\HelpMenu.json" />
+    <Content Include="App_Data\Displays\LeftAlignment.json" />
+    <Content Include="App_Data\Displays\LockedRecord.json" />
+    <Content Include="App_Data\Displays\LockedTable.json" />
+    <Content Include="App_Data\Displays\MaxLength.json" />
+    <Content Include="App_Data\Displays\NotLockedRecord.json" />
+    <Content Include="App_Data\Displays\NotMatchRegex.json" />
+    <Content Include="App_Data\Displays\RegexValidationMessage.json" />
+    <Content Include="App_Data\Displays\RightAlignment.json" />
+    <Content Include="App_Data\Displays\SecondaryAuthentication.json" />
+    <Content Include="App_Data\Displays\SecondaryAuthenticationMailBody.json" />
+    <Content Include="App_Data\Displays\SecondaryAuthenticationMailSubject.json" />
+    <Content Include="App_Data\Displays\ServerRegexValidation.json" />
+    <Content Include="App_Data\Displays\Tab.json" />
+    <Content Include="App_Data\Displays\TabSettings.json" />
+    <Content Include="App_Data\Displays\TextAlign.json" />
+    <Content Include="App_Data\Displays\ThumbnailLimitSize.json" />
+    <Content Include="App_Data\Displays\TooLongText.json" />
+    <Content Include="App_Data\Displays\UnlockedRecord.json" />
+    <Content Include="App_Data\Displays\ValidateInput.json" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Admins\Index.cshtml" />
