@@ -38,6 +38,7 @@ namespace Implem.Pleasanter.App_Start
                 "~/scripts/display.js",
                 "~/scripts/dropdownsearch.js",
                 "~/scripts/dropdownsearchevents.js",
+                "~/scripts/expand.js",
                 "~/scripts/export.js",
                 "~/scripts/filterevents.js",
                 "~/scripts/focus.js",

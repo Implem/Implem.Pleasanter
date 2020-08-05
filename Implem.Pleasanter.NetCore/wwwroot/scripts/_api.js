@@ -79,3 +79,11 @@ $p.apiGroupsUrl = function (action) {
 $p.apiGroupsGet = function (args) {
     return $p.apiExec($p.apiGroupsUrl('get'), args);
 }
+
+$p.apiSendMailUrl = function (id) {
+    return $('#ApplicationPath').val() + 'api/items/' + id + '/OutgoingMails/Send';
+}
+
+$p.apiSendMail = function (args) {
+    return $p.apiExec($p.apiSendMailUrl(args.id), args);
+}  

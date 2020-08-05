@@ -1,0 +1,29 @@
+{
+    "Id": "ToEven",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Bankers' rounding"
+        },
+        {
+            "Language": "zh",
+            "Body": "银行家四舍五入"
+        },
+        {
+            "Language": "ja",
+            "Body": "銀行家の丸め"
+        },
+        {
+            "Language": "de",
+            "Body": "Bankrundung"
+        },
+        {
+            "Language": "ko",
+            "Body": "은행가의 반올림"
+        },
+        {
+            "Language": "es",
+            "Body": "Redondeo de los banqueros"
+        }
+    ]
+}

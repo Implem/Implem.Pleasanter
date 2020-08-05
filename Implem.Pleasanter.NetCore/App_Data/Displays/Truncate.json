@@ -1,0 +1,29 @@
+{
+    "Id": "Truncate",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Truncate"
+        },
+        {
+            "Language": "zh",
+            "Body": "截短"
+        },
+        {
+            "Language": "ja",
+            "Body": "切り捨て"
+        },
+        {
+            "Language": "de",
+            "Body": "Kürzen"
+        },
+        {
+            "Language": "ko",
+            "Body": "자르기"
+        },
+        {
+            "Language": "es",
+            "Body": "Truncar"
+        }
+    ]
+}

@@ -119,9 +119,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static string FieldCss(Column column, string fieldCss)
         {
-            return Strings.CoalesceEmpty(fieldCss, column.FieldCss) +
-                (column.NoWrap == true
+            return Strings.CoalesceEmpty(fieldCss, column.FieldCss)
+                + (column.NoWrap == true
                     ? " both"
+                    : string.Empty)
+                + (column.Hide == true
+                    ? " hidden"
+                    : string.Empty)
+                + (!column.ExtendedFieldCss.IsNullOrEmpty()
+                    ? " " + column.ExtendedFieldCss
                     : string.Empty);
         }
 

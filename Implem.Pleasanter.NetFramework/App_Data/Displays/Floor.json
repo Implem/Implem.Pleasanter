@@ -1,0 +1,29 @@
+{
+    "Id": "Floor",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Floor"
+        },
+        {
+            "Language": "zh",
+            "Body": "贬值"
+        },
+        {
+            "Language": "ja",
+            "Body": "切り下げ"
+        },
+        {
+            "Language": "de",
+            "Body": "Abwertung"
+        },
+        {
+            "Language": "ko",
+            "Body": "평가 절하"
+        },
+        {
+            "Language": "es",
+            "Body": "Devaluación"
+        }
+    ]
+}

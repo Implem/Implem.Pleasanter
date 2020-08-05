@@ -1,4 +1,4 @@
-[
+﻿[
     {
         "outputFileName": "wwwroot/content/styles.css",
         "inputFiles": [
@@ -40,6 +40,7 @@
             "wwwroot/scripts/display.js",
             "wwwroot/scripts/dropdownsearch.js",
             "wwwroot/scripts/dropdownsearchevents.js",
+            "wwwroot/scripts/expand.js",
             "wwwroot/scripts/export.js",
             "wwwroot/scripts/filterevents.js",
             "wwwroot/scripts/focus.js",

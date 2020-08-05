@@ -1,0 +1,29 @@
+﻿{
+    "Id": "AllowExpand",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Allow expand"
+        },
+        {
+            "Language": "zh",
+            "Body": "允许折叠部分"
+        },
+        {
+            "Language": "ja",
+            "Body": "セクションの折りたたみを許可"
+        },
+        {
+            "Language": "de",
+            "Body": "Klappabschnitt zulassen"
+        },
+        {
+            "Language": "ko",
+            "Body": "접는 섹션 허용"
+        },
+        {
+            "Language": "es",
+            "Body": "Permitir sección plegable"
+        }
+    ]
+}

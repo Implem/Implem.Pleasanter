@@ -1,0 +1,29 @@
+{
+    "Id": "Expand",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Default expansion"
+        },
+        {
+            "Language": "zh",
+            "Body": "默认折叠设置"
+        },
+        {
+            "Language": "ja",
+            "Body": "規定の表示"
+        },
+        {
+            "Language": "de",
+            "Body": "Standard Falteinstellungen"
+        },
+        {
+            "Language": "ko",
+            "Body": "기본 접기 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Configuración de plegado predeterminada"
+        }
+    ]
+}

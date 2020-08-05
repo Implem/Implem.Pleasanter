@@ -30,6 +30,13 @@ namespace Implem.Pleasanter
                 {
                     Id = RouteParameter.Optional
                 });
+            config.Routes.MapHttpRoute(
+                name: "OutgoingMails",
+                routeTemplate: "api/{reference}/{id}/{controller}/{action}",
+                defaults: new
+                {
+                    Id = RouteParameter.Optional
+                });
         }
     }
 }

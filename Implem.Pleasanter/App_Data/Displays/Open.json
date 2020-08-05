@@ -1,0 +1,29 @@
+{
+    "Id": "Open",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Open"
+        },
+        {
+            "Language": "zh",
+            "Body": "打开"
+        },
+        {
+            "Language": "ja",
+            "Body": "開く"
+        },
+        {
+            "Language": "de",
+            "Body": "öffnen"
+        },
+        {
+            "Language": "ko",
+            "Body": "열다"
+        },
+        {
+            "Language": "es",
+            "Body": "Abierto"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "Id": "Ceiling",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Ceiling"
+        },
+        {
+            "Language": "zh",
+            "Body": "舍入"
+        },
+        {
+            "Language": "ja",
+            "Body": "切り上げ"
+        },
+        {
+            "Language": "de",
+            "Body": "Aufgerundet"
+        },
+        {
+            "Language": "ko",
+            "Body": "올림"
+        },
+        {
+            "Language": "es",
+            "Body": "Redondeado"
+        }
+    ]
+}

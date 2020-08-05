@@ -3410,8 +3410,10 @@ namespace Implem.Pleasanter.Models
                     case Error.Types.None:
                         SiteSettings.Reminders.Add(new Reminder(
                             id: SiteSettings.Reminders.MaxOrDefault(o => o.Id) + 1,
-                            subject: context.Forms.Data("ReminderSubject"),
-                            body: context.Forms.Data("ReminderBody"),
+                            subject: SiteSettings.LabelTextToColumnName(
+                                context.Forms.Data("ReminderSubject")),
+                            body: SiteSettings.LabelTextToColumnName(
+                                context.Forms.Data("ReminderBody")),
                             line: SiteSettings.LabelTextToColumnName(
                                 context.Forms.Data("ReminderLine")),
                             from: context.Forms.Data("ReminderFrom"),
@@ -3461,8 +3463,10 @@ namespace Implem.Pleasanter.Models
                     {
                         case Error.Types.None:
                             reminder.Update(
-                                subject: context.Forms.Data("ReminderSubject"),
-                                body: context.Forms.Data("ReminderBody"),
+                                subject: SiteSettings.LabelTextToColumnName(
+                                    context.Forms.Data("ReminderSubject")),
+                                body: SiteSettings.LabelTextToColumnName(
+                                    context.Forms.Data("ReminderBody")),
                                 line: SiteSettings.LabelTextToColumnName(
                                     context.Forms.Data("ReminderLine")),
                                 from: context.Forms.Data("ReminderFrom"),
@@ -4447,6 +4451,19 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseNotFound(context: context).ToJson();
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public bool WithinApiLimits()
+        {
+            if (ApiCountDate.Date < DateTime.Now.Date)
+            {
+                ApiCountDate = DateTime.Now;
+            }
+            return !(Parameters.Api.LimitPerSite != 0
+                && ApiCount >= Parameters.Api.LimitPerSite);
         }
     }
 }

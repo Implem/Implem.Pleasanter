@@ -46,6 +46,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             User = 2
         }
 
+        public enum RoundingTypes : int
+        {
+            AwayFromZero = 10,
+            Ceiling = 20,
+            Truncate = 30,
+            Floor = 40,
+            ToEven = 50
+        }
+
         public enum TextAlignTypes : int
         {
             Left = 10,
@@ -978,6 +987,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.NoWrap = column.NoWrap;
                     }
+                    if (column.Hide == true)
+                    {
+                        enabled = true;
+                        newColumn.Hide = column.Hide;
+                    }
+                    if (column.ExtendedFieldCss?.Trim().IsNullOrEmpty() == false)
+                    {
+                        enabled = true;
+                        newColumn.ExtendedFieldCss = column.ExtendedFieldCss;
+                    }
                     if (column.Section?.Trim().IsNullOrEmpty() == false)
                     {
                         enabled = true;
@@ -1038,6 +1057,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         enabled = true;
                         newColumn.DecimalPlaces = column.DecimalPlaces;
+                    }
+                    if (column.RoundingType != RoundingTypes.AwayFromZero)
+                    {
+                        enabled = true;
+                        newColumn.RoundingType = column.RoundingType;
                     }
                     if (column.Min != DefaultMin(columnDefinition))
                     {
@@ -1404,6 +1428,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.ServerRegexValidation = column.ServerRegexValidation ?? columnDefinition.ServerRegexValidation;
                 column.RegexValidationMessage = column.RegexValidationMessage ?? columnDefinition.RegexValidationMessage;
                 column.DecimalPlaces = column.DecimalPlaces ?? columnDefinition.DecimalPlaces;
+                column.RoundingType = column.RoundingType ?? RoundingTypes.AwayFromZero;
                 column.Min = column.Min ?? DefaultMin(columnDefinition);
                 column.Max = column.Max ?? DefaultMax(columnDefinition);
                 column.Step = column.Step ?? DefaultStep(columnDefinition);
@@ -2831,18 +2856,26 @@ namespace Implem.Pleasanter.Libraries.Settings
                         editorColumnsAll: context.Forms.List(propertyName));
                     Sections = EditorColumnHash
                        .SelectMany(o => o
-                           .Value?
-                           .Select(columnName => SectionId(columnName))
-                           .Where(sectionId => sectionId != 0))
-                       .Select(sectionId => new Section
-                       {
-                           Id = sectionId,
-                           LabelText = Sections?
-                               .FirstOrDefault(section => section.Id == sectionId)
-                               ?.LabelText
-                                   ?? Displays.Section(context: context)
-                       })
-                       .ToList();
+                            .Value?
+                            .Select(columnName => SectionId(columnName))
+                            .Where(sectionId => sectionId != 0))
+                        .Select(sectionId => new Section
+                        {
+                            Id = sectionId,
+                            LabelText = Sections?
+                                .FirstOrDefault(section => section.Id == sectionId)
+                                ?.LabelText
+                                    ?? Displays.Section(context: context),
+                            AllowExpand = Sections?
+                                .FirstOrDefault(section => section.Id == sectionId)
+                                ?.AllowExpand
+                                    ?? false,
+                            Expand = Sections?
+                                .FirstOrDefault(section => section.Id == sectionId)
+                                ?.Expand
+                                    ?? true
+                        })
+                        .ToList();
                     break;
                 case "TabsAll":
                     Tabs = Tabs?.Join(context.Forms.List(propertyName).Select((val, key) => new { Key = key, Val = val }), v => v.Id, l => l.Val.ToInt(),
@@ -2954,6 +2987,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ControlType": column.ControlType = value; break;
                 case "Format": column.Format = value; break;
                 case "NoWrap": column.NoWrap = value.ToBool(); break;
+                case "Hide": column.Hide = value.ToBool(); break;
+                case "ExtendedFieldCss": column.ExtendedFieldCss = value; break;
                 case "Section": column.Section = value; break;
                 case "GridDesign":
                     column.GridDesign = LabelTextToColumnName(column, value);
@@ -2969,6 +3004,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ServerRegexValidation": column.ServerRegexValidation = value; break;
                 case "RegexValidationMessage": column.RegexValidationMessage = value; break;
                 case "DecimalPlaces": column.DecimalPlaces = value.ToInt(); break;
+                case "RoundingType": column.RoundingType = (RoundingTypes)value.ToInt(); break;
                 case "Max": column.Max = value.ToDecimal(); break;
                 case "Min": column.Min = value.ToDecimal(); break;
                 case "Step": column.Step = value.ToDecimal(); break;

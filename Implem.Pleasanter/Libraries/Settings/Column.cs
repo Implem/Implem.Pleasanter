@@ -37,6 +37,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ControlType;
         public string Format;
         public bool? NoWrap;
+        public bool? Hide;
+        public string ExtendedFieldCss;
         public string Section;
         public string GridDesign;
         public bool? ValidateRequired;
@@ -50,6 +52,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ServerRegexValidation;
         public string RegexValidationMessage;
         public int? DecimalPlaces;
+        public SiteSettings.RoundingTypes? RoundingType;
         public decimal? Min;
         public decimal? Max;
         public decimal? Step;
@@ -640,7 +643,26 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public decimal Round(decimal value)
         {
-             return Math.Round(value, DecimalPlaces.ToInt(), MidpointRounding.AwayFromZero);
+            switch (RoundingType)
+            {
+                case SiteSettings.RoundingTypes.AwayFromZero:
+                    return Math.Round(value, DecimalPlaces.ToInt(), MidpointRounding.AwayFromZero);
+                case SiteSettings.RoundingTypes.Ceiling:
+                    return Math.Ceiling(Adjustment(value)) / Math.Pow(10, DecimalPlaces.ToInt()).ToInt();
+                case SiteSettings.RoundingTypes.Truncate:
+                    return Math.Truncate(Adjustment(value)) / Math.Pow(10, DecimalPlaces.ToInt()).ToInt();
+                case SiteSettings.RoundingTypes.Floor:
+                    return Math.Floor(Adjustment(value)) / Math.Pow(10, DecimalPlaces.ToInt()).ToInt();
+                case SiteSettings.RoundingTypes.ToEven:
+                    return Math.Round(value, DecimalPlaces.ToInt(), MidpointRounding.ToEven);
+                default:
+                    return value;
+            }
+        }
+
+        public decimal Adjustment(decimal value)
+        {
+            return value * Math.Pow(10, DecimalPlaces.ToInt()).ToInt();
         }
 
         public string DateTimeFormat(Context context)

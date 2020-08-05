@@ -511,6 +511,7 @@
     <Compile Include="Controllers\Api\GroupsController.cs" />
     <Compile Include="Controllers\Api\ItemsController.cs" />
     <Compile Include="Controllers\Api\ExtendedController.cs" />
+    <Compile Include="Controllers\Api\OutgoingMailsController.cs" />
     <Compile Include="Controllers\Api\SessionsController.cs" />
     <Compile Include="Controllers\Api\UsersController.cs" />
     <Compile Include="Controllers\Api_DeptsController.cs" />

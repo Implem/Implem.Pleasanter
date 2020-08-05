@@ -1699,7 +1699,15 @@ namespace Implem.Pleasanter.Models
                                 LabelText = ss
                                     .Sections
                                     ?.FirstOrDefault(o => o.Id == sectionId)
-                                    ?.LabelText
+                                    ?.LabelText,
+                                AllowExpand = ss
+                                    .Sections
+                                    ?.FirstOrDefault(o => o.Id == sectionId)
+                                    ?.AllowExpand,
+                                Expand = ss
+                                    .Sections
+                                    ?.FirstOrDefault(o => o.Id == sectionId)
+                                    ?.Expand
                             },
                             new List<string>()));
                     }
@@ -1734,23 +1742,38 @@ namespace Implem.Pleasanter.Models
                     {
                         hb
                             .Div(
-                                css: "SectionFields",
-                                action: () => hb.Div(action: () => hb.Label(
-                                    css: "field-section", 
-                                    action: () => hb.Text(text: section.Key.LabelText)))
-                                .Div(
-                                    css: "section-fields",
-                                    action: () => hb.Fields(
-                                        context: context,
-                                        ss: ss,
-                                        id: id,
-                                        columnNames: section.Value,
-                                        dataSet: dataSet,
-                                        links: links,
-                                        issueModel: issueModel,
-                                        preview: preview,
-                                        editInDialog: editInDialog,
-                                        tabIndex: tabIndex)));
+                                id: $"SectionFields{section.Key.Id}Container",
+                                    css: "section-fields-container",
+                                    action: () => hb
+                                        .Div(action: () => hb.Label(
+                                            css: "field-section" + (section.Key.AllowExpand == true
+                                                ? " expand"
+                                                : string.Empty),
+                                            attributes: new HtmlAttributes()
+                                                .For($"SectionFields{section.Key.Id}"),
+                                            action: () => hb
+                                                .Span(css: section.Key.AllowExpand == true
+                                                    ? section.Key.Expand == true
+                                                        ? "ui-icon ui-icon-triangle-1-s"
+                                                        : "ui-icon ui-icon-triangle-1-e"
+                                                    : string.Empty)
+                                                .Text(text: section.Key.LabelText)))
+                                        .Div(
+                                            id: $"SectionFields{section.Key.Id}",
+                                            css: section.Key.AllowExpand == true && section.Key.Expand != true
+                                                ? "section-fields hidden"
+                                                : "section-fields",
+                                            action: () => hb.Fields(
+                                                context: context,
+                                                ss: ss,
+                                                id: id,
+                                                columnNames: section.Value,
+                                                dataSet: dataSet,
+                                                links: links,
+                                                issueModel: issueModel,
+                                                preview: preview,
+                                                editInDialog: editInDialog,
+                                                tabIndex: tabIndex)));
                     }
                 });
             return hb;

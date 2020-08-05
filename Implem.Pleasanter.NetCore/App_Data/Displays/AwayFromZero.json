@@ -1,0 +1,29 @@
+{
+    "Id": "AwayFromZero",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Round"
+        },
+        {
+            "Language": "zh",
+            "Body": "四舍五入"
+        },
+        {
+            "Language": "ja",
+            "Body": "四捨五入"
+        },
+        {
+            "Language": "de",
+            "Body": "Runden"
+        },
+        {
+            "Language": "ko",
+            "Body": "반올림"
+        },
+        {
+            "Language": "es",
+            "Body": "redondeo"
+        }
+    ]
+}

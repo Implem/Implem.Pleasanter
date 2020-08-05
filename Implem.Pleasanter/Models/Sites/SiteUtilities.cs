@@ -4980,7 +4980,35 @@ namespace Implem.Pleasanter.Models
                                                 min: 0,
                                                 max: maxDecimalPlaces,
                                                 step: 1,
-                                                _using: maxDecimalPlaces > 0);
+                                                _using: maxDecimalPlaces > 0)
+                                            .FieldDropDown(
+                                                context: context,
+                                                controlId: "RoundingType",
+                                                labelText: Displays.RoundingType(context: context),
+                                                optionCollection: new Dictionary<string, string>
+                                                {
+                                                    {
+                                                        SiteSettings.RoundingTypes.AwayFromZero.ToInt().ToString(),
+                                                        Displays.AwayFromZero(context:context)
+                                                    },
+                                                    {
+                                                        SiteSettings.RoundingTypes.Ceiling.ToInt().ToString(),
+                                                        Displays.Ceiling(context:context)
+                                                    },
+                                                    {
+                                                        SiteSettings.RoundingTypes.Truncate.ToInt().ToString(),
+                                                        Displays.Truncate(context: context)
+                                                    },
+                                                    {
+                                                        SiteSettings.RoundingTypes.Floor.ToInt().ToString(),
+                                                        Displays.Floor(context:context)
+                                                    },
+                                                    {
+                                                        SiteSettings.RoundingTypes.ToEven.ToInt().ToString(),
+                                                        Displays.ToEven(context:context)
+                                                    }
+                                                },
+                                                selectedValue: column.RoundingType.ToInt().ToString());
                                         if (!column.NotUpdate && !column.Id_Ver)
                                         {
                                             var hidden = column.ControlType != "Spinner"
@@ -5130,7 +5158,17 @@ namespace Implem.Pleasanter.Models
                                     .FieldCheckBox(
                                         controlId: "NoWrap",
                                         labelText: Displays.NoWrap(context: context),
-                                        _checked: column.NoWrap == true);
+                                        _checked: column.NoWrap == true)
+                                    .FieldCheckBox(
+                                            controlId: "Hide",
+                                            labelText: Displays.Hide(context: context),
+                                            _checked: column.Hide == true,
+                                            _using: !column.Id_Ver)
+                                    .FieldTextBox(
+                                        controlId: "ExtendedFieldCss",
+                                        fieldCss: "field-normal",
+                                        labelText: Displays.ExtendedFieldCss(context: context),
+                                        text: column.ExtendedFieldCss);
                             }
                         }));
         }
@@ -5494,7 +5532,29 @@ namespace Implem.Pleasanter.Models
                             controlId: "LabelText",
                             labelText: Displays.DisplayName(context: context),
                             text: section.LabelText,
-                            validateRequired: true))
+                            validateRequired: true)
+                        .FieldCheckBox(
+                            controlId: "AllowExpand",
+                            labelText: Displays.AllowExpand(context: context),
+                            _checked: section.AllowExpand == true)
+                        .FieldDropDown(
+                            context: context,
+                            controlId: "Expand",
+                            labelText: Displays.Expand(context: context),
+                            optionCollection: new Dictionary<string, string>
+                            {
+                                {
+                                    "1",
+                                    Displays.Open(context:context)
+                                },
+                                {
+                                    "0",
+                                    Displays.Close(context: context)
+                                }
+                            },
+                            selectedValue: section.Expand != false
+                                ? "1"
+                                : "0"))
                         .P(css: "message-dialog")
                         .Div(css: "command-center", action: () => hb
                             .Button(
@@ -7649,9 +7709,9 @@ namespace Implem.Pleasanter.Models
                             .Td(action: () => hb
                                 .Text(text: reminder.Id.ToString()))
                             .Td(action: () => hb
-                                .Text(text: reminder.Subject))
+                                .Text(text: ss.ColumnNameToLabelText(reminder.Subject)))
                             .Td(action: () => hb
-                                .Text(text: reminder.Body))
+                                .Text(text: ss.ColumnNameToLabelText(reminder.Body)))
                             .Td(action: () => hb
                                 .Text(text: ss.ColumnNameToLabelText(reminder.Line)))
                             .Td(action: () => hb
@@ -7722,7 +7782,7 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-wide",
                         controlCss: " always-send",
                         labelText: Displays.Subject(context: context),
-                        text: reminder.Subject,
+                        text: ss.ColumnNameToLabelText(reminder.Subject),
                         validateRequired: true)
                     .FieldTextBox(
                         textType: HtmlTypes.TextTypes.MultiLine,
@@ -7730,7 +7790,7 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-wide",
                         controlCss: " always-send",
                         labelText: Displays.Body(context: context),
-                        text: reminder.Body,
+                        text: ss.ColumnNameToLabelText(reminder.Body),
                         validateRequired: true)
                     .FieldTextBox(
                         controlId: "ReminderLine",
