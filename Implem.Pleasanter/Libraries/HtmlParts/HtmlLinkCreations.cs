@@ -18,9 +18,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context,
             SiteSettings ss,
             long linkId,
-            BaseModel.MethodTypes methodType)
+            BaseModel.MethodTypes methodType,
+            List<Link> links = null)
         {
-            var links = Links(context: context, ss: ss);
+            links = links ?? Links(
+                context: context,
+                ss: ss);
             return
                 methodType != BaseModel.MethodTypes.New &&
                 links.Any()

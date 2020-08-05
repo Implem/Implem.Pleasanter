@@ -50,8 +50,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Parameters.cs" />
+    <Compile Include="Parts\ExtendedHtml.cs" />
     <Compile Include="Parts\ExtendedStyle.cs" />
     <Compile Include="Parts\ExtendedSql.cs" />
+    <Compile Include="Parts\ExtendedBase.cs" />
     <Compile Include="Parts\Locations.cs" />
     <Compile Include="Parts\SamlAttributes.cs" />
     <Compile Include="Parts\Saml.cs" />

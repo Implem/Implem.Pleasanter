@@ -2623,7 +2623,7 @@ namespace Implem.Pleasanter.Models
                     value: hb
                         .Div(
                             id: "SecondaryAuthenticationGuideTop",
-                            action: () => hb.Raw(Parameters.ExtendedHtmls?.Display(
+                            action: () => hb.Raw(HtmlHtmls.ExtendedHtmls(
                                 context: context,
                                 id: "SecondaryAuthenticationGuideTop")))
                         .Div(action: () => hb
@@ -2649,7 +2649,7 @@ namespace Implem.Pleasanter.Models
                                     type: "submit"))
                         .Div(
                             id: "SecondaryAuthenticationBottom",
-                            action: () => hb.Raw(Parameters.ExtendedHtmls?.Display(
+                            action: () => hb.Raw(HtmlHtmls.ExtendedHtmls(
                                 context: context,
                                 id: "SecondaryAuthenticationGuideBottom"))))
                 .Focus("#SecondaryAuthenticationCode").ToJson();

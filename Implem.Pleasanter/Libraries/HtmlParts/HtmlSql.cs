@@ -1,9 +1,10 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.DataSources;
+using Implem.ParameterAccessor.Parts;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -11,19 +12,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlSql
     {
-        public static HtmlBuilder ExtendedSql(this HtmlBuilder hb, Context context)
+        public static HtmlBuilder ExtendedSql(
+            this HtmlBuilder hb,
+            Context context)
         {
-            Parameters.ExtendedSqls
-                ?.Where(o => o.Html)
-                .Where(o => !o.CommandText.IsNullOrEmpty())
-                .Where(o => o.SiteIdList?.Any() != true || o.SiteIdList.Contains(context.SiteId))
-                .Where(o => o.IdList?.Any() != true || o.IdList.Contains(context.Id))
-                .Where(o => o.Controllers?.Any() != true || o.Controllers.Contains(context.Controller))
-                .Where(o => o.Actions?.Any() != true || o.Actions.Contains(context.Action))
-                .Where(o => !o.Disabled)
+            ExtensionUtilities.ExtensionWhere<ExtendedSql>(
+                context: context,
+                extensions: Parameters.ExtendedSqls
+                    ?.Where(o => o.Html)
+                    .Where(o => !o.CommandText.IsNullOrEmpty()))
                 .ForEach(extendedSql =>
                 {
-                    var dataSet = Rds.ExecuteDataSet(
+                    var dataSet = DataSources.Rds.ExecuteDataSet(
                         context: context,
                         statements: new SqlStatement(commandText: extendedSql.CommandText
                             .Replace("{{SiteId}}", context.SiteId.ToString())

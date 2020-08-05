@@ -3163,7 +3163,7 @@ namespace Implem.Pleasanter.Models
                                     action: () => hb
                                         .Div(
                                             id: "LoginGuideTop",
-                                            action: () => hb.Raw(Parameters.ExtendedHtmls?.Display(
+                                            action: () => hb.Raw(HtmlHtmls.ExtendedHtmls(
                                                 context: context,
                                                 id: "LoginGuideTop")))
                                         .Div(action: () => hb
@@ -3217,7 +3217,7 @@ namespace Implem.Pleasanter.Models
                                             _using: Parameters.Authentication.Provider == "SAML")
                                         .Div(
                                             id: "LoginGuideBottom",
-                                            action: () => hb.Raw(Parameters.ExtendedHtmls?.Display(
+                                            action: () => hb.Raw(HtmlHtmls.ExtendedHtmls(
                                                 context:context,
                                                 id: "LoginGuideBottom"))))
                                 .Div(id: "SecondaryAuthentications")))

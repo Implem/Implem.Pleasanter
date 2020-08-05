@@ -403,7 +403,7 @@ namespace Implem.Pleasanter.Models
             }
             var file = context.PostedFiles.FirstOrDefault();
             var bin = file.Byte();
-            var columnName = context.FormString.Substring(context.FormString.IndexOf("=") + 1);
+            var columnName = context.Forms.Data("ControlId");
             if (columnName.Contains("_"))
             {
                 columnName = columnName.Substring(columnName.IndexOf("_") + 1);
@@ -419,19 +419,20 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         initSiteSettings: true)
                             .SiteSettings;
-            var column = ss.GetColumn(
-                    context: context,
-                    columnName: columnName);
+            var thumbnailLimitSize = ss.GetColumn(
+                context: context,
+                columnName: columnName)?.ThumbnailLimitSize
+                    ?? Parameters.BinaryStorage.ThumbnailLimitSize;
             var imageData = new Libraries.Images.ImageData(
-                    bin,
-                    ss.ReferenceId,
-                    Libraries.Images.ImageData.Types.SiteImage);
+                bin,
+                ss.ReferenceId,
+                Libraries.Images.ImageData.Types.SiteImage);
             if (Parameters.BinaryStorage.ImageLimitSize?.ToInt() > 0)
             {
                 bin = imageData.ReSizeBytes(Parameters.BinaryStorage.ImageLimitSize);
             }
-            var thumbnail = column.ThumbnailLimitSize?.ToInt() > 0
-                ? imageData.ReSizeBytes(column.ThumbnailLimitSize)
+            var thumbnail = thumbnailLimitSize > 0
+                ? imageData.ReSizeBytes(thumbnailLimitSize)
                 : null;
             if (Parameters.BinaryStorage.IsLocal())
             {
@@ -439,7 +440,7 @@ namespace Implem.Pleasanter.Models
                     Directories.BinaryStorage(),
                     "Images",
                     file.Guid));
-                if (column.ThumbnailLimitSize?.ToInt() > 0)
+                if (thumbnailLimitSize > 0)
                 {
                     thumbnail.Write(System.IO.Path.Combine(
                         Directories.BinaryStorage(),

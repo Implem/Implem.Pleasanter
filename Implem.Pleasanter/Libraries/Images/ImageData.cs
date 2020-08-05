@@ -105,6 +105,7 @@ namespace Implem.Pleasanter.Libraries.Images
                 return GetByte(memory);
             }
         }
+
         private Image ReSize(SizeTypes sizeType)
         {
             var size = (double)Size(sizeType);
@@ -124,6 +125,7 @@ namespace Implem.Pleasanter.Libraries.Images
                 return Data;
             }
         }
+
         public byte[] ReSizeBytes(decimal? size)
         {
             using (var memory = new MemoryStream())
@@ -133,6 +135,7 @@ namespace Implem.Pleasanter.Libraries.Images
                 return GetByte(memory);
             }
         }
+
         private Image ReSize(decimal? size)
         {
             if (size != null && size > 0)
@@ -183,7 +186,6 @@ namespace Implem.Pleasanter.Libraries.Images
             memory.Close();
             return ret;
         }
-
 
         private int Size(SizeTypes sizeType)
         {

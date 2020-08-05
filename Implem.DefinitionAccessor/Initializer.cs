@@ -299,11 +299,11 @@ namespace Implem.DefinitionAccessor
             return list;
         }
 
-        private static Dictionary<string, List<DisplayElement>> ExtendedHtmls(
+        private static List<ExtendedHtml> ExtendedHtmls(
             string path = null,
-            Dictionary<string, List<DisplayElement>> list = null)
+            List<ExtendedHtml> list = null)
         {
-            list = list ?? new Dictionary<string, List<DisplayElement>>();
+            list = list ?? new List<ExtendedHtml>();
             path = path ?? Path.Combine(
                 Environments.CurrentDirectoryPath,
                 "App_Data",
@@ -320,15 +320,20 @@ namespace Implem.DefinitionAccessor
                         Language = fileNameWithoutExtension?.Split('_').Skip(1).LastOrDefault(),
                         Body = extendedHtml
                     };
-                    var elementId = displayElement.Language.IsNullOrEmpty()
+                    var name = displayElement.Language.IsNullOrEmpty()
                         ? fileNameWithoutExtension
                         : fileNameWithoutExtension?.Substring(
                             0,
                             fileNameWithoutExtension.Length - displayElement.Language.Length - 1);
-                    list
-                        .AddIfNotConainsKey(elementId, new List<DisplayElement>())
-                        .Get(elementId)
+                    var listDisplay = new Dictionary<string, List<DisplayElement>>();
+                    listDisplay
+                        .AddIfNotConainsKey(name, new List<DisplayElement>())
+                        .Get(name)
                         .Add(displayElement);
+                    list.Add(new ExtendedHtml()
+                    {
+                        Html = listDisplay
+                    });
                 }
             }
             foreach (var dir in new DirectoryInfo(path).GetDirectories())

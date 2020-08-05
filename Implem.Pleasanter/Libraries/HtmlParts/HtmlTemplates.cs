@@ -88,7 +88,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 return hb.Html(
                     lang: context.Language,
                     action: () => hb.Head(action: () => hb
-                        .Raw(Parameters.ExtendedHtmls?.Display(
+                        .Raw(HtmlHtmls.ExtendedHtmls(
                             context: context,
                             id: "HtmlHeaderTop"))
                         .Meta(httpEquiv: "X-UA-Compatible", content: "IE=edge")
@@ -106,7 +106,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 context: context,
                                 ss: ss)))
                         .ExtendedHeader(ss: ss)
-                        .Raw(Parameters.ExtendedHtmls?.Display(
+                        .Raw(HtmlHtmls.ExtendedHtmls(
                             context: context,
                             id: "HtmlHeaderBottom")))
                     .Body(style: "visibility:hidden", action: action));

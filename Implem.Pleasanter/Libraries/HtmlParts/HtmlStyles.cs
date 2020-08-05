@@ -1,9 +1,10 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.ParameterAccessor.Parts;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
-using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models;
 using System.Linq;
 using System.Web.Optimization;
 namespace Implem.Pleasanter.Libraries.HtmlParts
@@ -12,15 +13,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder ExtendedStyles(this HtmlBuilder hb, Context context)
         {
-            var extendedStyles = ExtendedStyles(
-                siteId: context.SiteId,
-                id: context.Id,
-                controller: context.Controller,
-                action: context.Action);
+            var extendedStyles = ExtendedStyles(context: context);
             return hb
                 .Link(
                     rel: "stylesheet",
-                    href: Locations.Get(
+                    href: Responses.Locations.Get(
                         context: context,
                         parts: $"resources/styles?v={extendedStyles.Sha512Cng()}"
                             + $"&site-id={context.SiteId}"
@@ -31,16 +28,35 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         public static string ExtendedStyles(
-            long siteId, long id, string controller, string action)
+            Context context)
         {
-            return Parameters.ExtendedStyles
-                ?.Where(o => o.SiteIdList?.Any() != true || o.SiteIdList.Contains(siteId))
-                .Where(o => o.IdList?.Any() != true || o.IdList.Contains(id))
-                .Where(o => o.Controllers?.Any() != true || o.Controllers.Contains(controller))
-                .Where(o => o.Actions?.Any() != true || o.Actions.Contains(action))
-                .Where(o => !o.Disabled)
-                .Select(o => o.Style)
-                .Join("\n");
+            return ExtendedStyles(
+                deptId: context.DeptId,
+                userId: context.UserId,
+                siteId: context.SiteId,
+                id: context.Id,
+                controller: context.Controller,
+                action: context.Action);
+        }
+
+        public static string ExtendedStyles(
+            int deptId,
+            int userId,
+            long siteId,
+            long id,
+            string controller,
+            string action)
+        {
+            return ExtensionUtilities.ExtensionWhere<ExtendedStyle>(
+                extensions: Parameters.ExtendedStyles,
+                deptId: deptId,
+                userId: userId,
+                siteId: siteId,
+                id: id,
+                controller: controller,
+                action: action)
+                    .Select(o => o.Style)
+                    .Join("\n");
         }
 
         public static HtmlBuilder Styles(
@@ -64,27 +80,27 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb
                 .Link(
-                    href: Locations.Get(
+                    href: Responses.Locations.Get(
                         context: context,
                         parts: "Styles/Plugins/Normalize.css"),
                     rel: "stylesheet")
                 .Link(
-                    href: Locations.Get(
+                    href: Responses.Locations.Get(
                         context: context,
                         parts: "Styles/Plugins/jquery-ui.min.css"),
                     rel: "stylesheet")
                 .Link(
-                    href: Locations.Get(
+                    href: Responses.Locations.Get(
                         context: context,
                         parts: "Styles/Plugins/jquery.datetimepicker.min.css"),
                     rel: "stylesheet")
                 .Link(
-                    href: Locations.Get(
+                    href: Responses.Locations.Get(
                         context: context,
                         parts: "Styles/Plugins/jquery.multiselect.css"),
                     rel: "stylesheet")
                 .Link(
-                    href: Locations.Get(
+                    href: Responses.Locations.Get(
                         context: context,
                         parts: "Styles/Plugins/jquery.multiselect.filter.css"),
                     rel: "stylesheet")
@@ -92,7 +108,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     href: BundleTable.Bundles.ResolveBundleUrl("~/content/styles"),
                     rel: "stylesheet")
                 .Link(
-                    href: Locations.Get(
+                    href: Responses.Locations.Get(
                         context: context,
                         parts: "favicon.ico"),
                     rel: "shortcut icon");

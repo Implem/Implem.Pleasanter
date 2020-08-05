@@ -302,6 +302,7 @@
     <Compile Include="Libraries\HtmlParts\HtmlCrosstab.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlEditor.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlExport.cs" />
+    <Compile Include="Libraries\HtmlParts\HtmlHtmls.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlSql.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlGuides.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlNumericRange.cs" />
@@ -349,7 +350,6 @@
     <Compile Include="Libraries\Resources\JavaScripts.cs" />
     <Compile Include="Libraries\Resources\Css.cs" />
     <Compile Include="Libraries\Responses\Actions.cs" />
-    <Compile Include="Libraries\Api\Extended.cs" />
     <Compile Include="Libraries\Responses\ApiResponse.cs" />
     <Compile Include="Libraries\Responses\ApiResponses.cs" />
     <Compile Include="Libraries\Responses\ApiResults.cs" />

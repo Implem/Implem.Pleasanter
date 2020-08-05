@@ -691,6 +691,8 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             WikiModel wikiModel,
+            DataSet dataSet = null,
+            List<Link> links = null,
             bool editInDialog = false)
         {
             var mine = wikiModel.Mine(context: context);
@@ -699,6 +701,8 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     wikiModel: wikiModel,
+                    dataSet: dataSet,
+                    links: links,
                     editInDialog: editInDialog));
         }
 
@@ -707,6 +711,8 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             WikiModel wikiModel,
+            DataSet dataSet = null,
+            List<Link> links = null,
             bool preview = false,
             bool editInDialog = false)
         {
@@ -715,6 +721,8 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 id: wikiModel.WikiId,
                 wikiModel: wikiModel,
+                dataSet: dataSet,
+                links: links,
                 preview: preview,
                 editInDialog: editInDialog);
             if (!preview)
@@ -775,14 +783,16 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             long id,
             WikiModel wikiModel,
+            DataSet dataSet = null,
+            List<Link> links = null,
             bool preview = false,
             bool editInDialog = false)
         {
-            var dataSet = HtmlLinks.DataSet(
+            dataSet = dataSet ?? HtmlLinks.DataSet(
                 context: context,
                 ss: ss,
                 id: id);
-            var links = HtmlLinkCreations.Links(
+            links = links ?? HtmlLinkCreations.Links(
                 context: context,
                 ss: ss);
             ss.Tabs?.Select((tab, index) => new { tab = tab, index = index + 1 })?.ForEach(data =>
@@ -811,6 +821,8 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             long id,
             WikiModel wikiModel,
+            DataSet dataSet = null,
+            List<Link> links = null,
             bool preview = false,
             bool editInDialog = false)
         {
@@ -820,12 +832,12 @@ namespace Implem.Pleasanter.Models
                 id: id,
                 tab: new Tab { Id = 0 },
                 dataSet: !preview
-                    ? HtmlLinks.DataSet(
+                    ? dataSet ?? HtmlLinks.DataSet(
                         context: context,
                         ss: ss,
                         id: id)
                     : null,
-                links: HtmlLinkCreations.Links(
+                links: links ?? HtmlLinkCreations.Links(
                     context: context,
                     ss: ss),
                 wikiModel: wikiModel,
