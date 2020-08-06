@@ -1201,6 +1201,13 @@ namespace Implem.Pleasanter.Models
                 .ColumnPermissionType(context: context);
             var showComments = ss.ShowComments(commentsColumnPermissionType);
             var tabsCss = showComments ? null : "max";
+            var linksDataSet = HtmlLinks.DataSet(
+                context: context,
+                ss: ss,
+                id: resultModel.ResultId);
+            var links = HtmlLinkCreations.Links(
+                context: context,
+                ss: ss);
             return hb.Div(id: "Editor", action: () => hb
                 .Form(
                     attributes: new HtmlAttributes()
@@ -1239,12 +1246,16 @@ namespace Implem.Pleasanter.Models
                                 .FieldSetGeneral(
                                     context: context,
                                     ss: ss,
-                                    resultModel: resultModel)
+                                    resultModel: resultModel,
+                                    dataSet: linksDataSet,
+                                    links: links)
                                 .FieldSetTabs(
                                     context: context,
                                     ss: ss,
                                     id: resultModel.ResultId,
-                                    resultModel: resultModel)
+                                    resultModel: resultModel,
+                                    dataSet: linksDataSet,
+                                    links: links)
                                 .FieldSet(
                                     attributes: new HtmlAttributes()
                                         .Id("FieldSetHistories")
@@ -1418,6 +1429,8 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             ResultModel resultModel,
+            DataSet dataSet = null,
+            List<Link> links = null,
             bool editInDialog = false)
         {
             var mine = resultModel.Mine(context: context);
@@ -1426,6 +1439,8 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     resultModel: resultModel,
+                    dataSet: dataSet,
+                    links: links,
                     editInDialog: editInDialog));
         }
 
@@ -1434,6 +1449,8 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             ResultModel resultModel,
+            DataSet dataSet = null,
+            List<Link> links = null,
             bool preview = false,
             bool editInDialog = false)
         {
@@ -1442,6 +1459,8 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 id: resultModel.ResultId,
                 resultModel: resultModel,
+                dataSet: dataSet,
+                links: links,
                 preview: preview,
                 editInDialog: editInDialog);
             if (!preview)
@@ -1462,12 +1481,14 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 linkId: resultModel.ResultId,
-                                methodType: resultModel.MethodType))
+                                methodType: resultModel.MethodType,
+                                links: links))
                         .Div(id: "Links", css: "links", action: () => hb
                             .Links(
                                 context: context,
                                 ss: ss,
-                                id: resultModel.ResultId));
+                                id: resultModel.ResultId,
+                                dataSet: dataSet));
                 }
             }
             return hb;
@@ -1521,14 +1542,16 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             long id,
             ResultModel resultModel,
+            DataSet dataSet = null,
+            List<Link> links = null,
             bool preview = false,
             bool editInDialog = false)
         {
-            var dataSet = HtmlLinks.DataSet(
+            dataSet = dataSet ?? HtmlLinks.DataSet(
                 context: context,
                 ss: ss,
                 id: id);
-            var links = HtmlLinkCreations.Links(
+            links = links ?? HtmlLinkCreations.Links(
                 context: context,
                 ss: ss);
             ss.Tabs?.Select((tab, index) => new { tab = tab, index = index + 1 })?.ForEach(data =>
@@ -1557,6 +1580,8 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             long id,
             ResultModel resultModel,
+            DataSet dataSet = null,
+            List<Link> links = null,
             bool preview = false,
             bool editInDialog = false)
         {
@@ -1566,12 +1591,12 @@ namespace Implem.Pleasanter.Models
                 id: id,
                 tab: new Tab { Id = 0 },
                 dataSet: !preview
-                    ? HtmlLinks.DataSet(
+                    ? dataSet ?? HtmlLinks.DataSet(
                         context: context,
                         ss: ss,
                         id: id)
                     : null,
-                links: HtmlLinkCreations.Links(
+                links: links ?? HtmlLinkCreations.Links(
                     context: context,
                     ss: ss),
                 resultModel: resultModel,

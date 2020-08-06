@@ -305,6 +305,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool sources = true,
             List<long> previously = null)
         {
+            if ((!destinations || Destinations != null) && (!sources || Sources != null))
+            {
+                return;
+            }
             var dataSet = Repository.ExecuteDataSet(
                 context: context,
                 statements: new SqlStatement[]

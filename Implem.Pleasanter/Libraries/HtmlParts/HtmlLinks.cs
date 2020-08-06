@@ -17,9 +17,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     public static class HtmlLinks
     {
         public static HtmlBuilder Links(
-            this HtmlBuilder hb, Context context, SiteSettings ss, long id)
+            this HtmlBuilder hb, Context context, SiteSettings ss, long id, DataSet dataSet = null)
         {
-            var dataSet = DataSet(context: context, ss: ss, id: id);
+            dataSet = dataSet ?? DataSet(
+                context: context,
+                ss: ss,
+                id: id);
             return Contains(ss, dataSet)
                 ? hb.FieldSet(
                     css: " enclosed",
