@@ -1204,7 +1204,7 @@ namespace Implem.Pleasanter.Models
             var linksDataSet = HtmlLinks.DataSet(
                 context: context,
                 ss: ss,
-                id: issueModel.IssueId);
+                id: resultModel.ResultId);
             var links = HtmlLinkCreations.Links(
                 context: context,
                 ss: ss);
