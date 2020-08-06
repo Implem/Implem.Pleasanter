@@ -87,7 +87,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 return true;
             }
-            else if (GroupContains(context: context, ss: ss))
+            else if (GroupContains(context: context))
             {
                 return true;
             }
@@ -117,19 +117,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        private bool GroupContains(Context context, SiteSettings ss)
+        private bool GroupContains(Context context)
         {
-            if (Groups?.Any() == true)
-            {
-                var groups = PermissionUtilities.Groups(
-                    context: context,
-                    ss: ss);
-                return groups.Any(o => Groups.Contains(o));
-            }
-            else
-            {
-                return false;
-            }
+            return Groups?.Any() == true
+                ? context.Groups?.Any(o => Groups.Contains(o)) ?? false
+                : false;
         }
 
         public List<Permission> GetPermissions(SiteSettings ss)
