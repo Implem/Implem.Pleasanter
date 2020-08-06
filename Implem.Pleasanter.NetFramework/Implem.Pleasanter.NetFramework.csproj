@@ -1586,6 +1586,17 @@
     <Content Include="App_Data\Displays\TooLongText.json" />
     <Content Include="App_Data\Displays\UnlockedRecord.json" />
     <Content Include="App_Data\Displays\ValidateInput.json" />
+    <Content Include="App_Data\Displays\AllowExpand.json" />
+    <Content Include="App_Data\Displays\AwayFromZero.json" />
+    <Content Include="App_Data\Displays\Ceiling.json" />
+    <Content Include="App_Data\Displays\Close.json" />
+    <Content Include="App_Data\Displays\Expand.json" />
+    <Content Include="App_Data\Displays\ExtendedFieldCss.json" />
+    <Content Include="App_Data\Displays\Floor.json" />
+    <Content Include="App_Data\Displays\Open.json" />
+    <Content Include="App_Data\Displays\RoundingType.json" />
+    <Content Include="App_Data\Displays\ToEven.json" />
+    <Content Include="App_Data\Displays\Truncate.json" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Admins\Index.cshtml" />
