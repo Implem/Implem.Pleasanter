@@ -52,6 +52,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public long SiteId;
         public long Id;
         public Dictionary<long, Permissions.Types> PermissionHash;
+        public List<int> Groups;
         public string Guid;
         public TenantModel.LogoTypes LogoType;
         public string TenantTitle;
@@ -500,6 +501,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         private void SetPermissions()
         {
             PermissionHash = Permissions.Get(context: this);
+            Groups = PermissionUtilities.Groups(context: this);
         }
 
         public void SetTenantCaches()

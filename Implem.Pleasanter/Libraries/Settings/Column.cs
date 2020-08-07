@@ -591,16 +591,23 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Display(
             Context context, decimal value, bool unit = false, bool format = true)
         {
-            return (!Format.IsNullOrEmpty() && format
-                ? value.ToString(
-                    Format + (Format == "C" || Format == "N"
-                        ? DecimalPlaces.ToString()
-                        : string.Empty),
-                    context.CultureInfo())
-                : DecimalPlaces.ToInt() == 0
-                    ? value.ToString("0", "0")
-                    : DisplayValue(value))
-                        + (unit ? Unit : string.Empty);
+            try
+            {
+                return (!Format.IsNullOrEmpty() && format
+                    ? value.ToString(
+                        Format + (Format == "C" || Format == "N"
+                            ? DecimalPlaces.ToString()
+                            : string.Empty),
+                        context.CultureInfo())
+                    : DecimalPlaces.ToInt() == 0
+                        ? value.ToString("0", "0")
+                        : DisplayValue(value))
+                            + (unit ? Unit : string.Empty);
+            }
+            catch (FormatException)
+            {
+                return ((int)value).ToString(Format);
+            }
         }
 
         private string DisplayValue(decimal value)

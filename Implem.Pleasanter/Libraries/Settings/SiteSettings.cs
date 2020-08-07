@@ -3301,7 +3301,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => columnName == null || o.ColumnName == columnName)
                 .ForEach(column =>
                 {
-                    var same = columns.FirstOrDefault(o => o.ChoicesText == column.ChoicesText);
+                    var same = columns.FirstOrDefault(o =>
+                        $"{o.ChoicesText}{o.UseSearch}" == $"{column.ChoicesText}{column.UseSearch}");
                     if (same == null)
                     {
                         columns.Add(column);

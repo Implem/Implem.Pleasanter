@@ -494,7 +494,7 @@ namespace Implem.Pleasanter.Models
                             permissionType: data.Value));
                         break;
                     case "Group":
-                        Groups(context: context, ss: ss).ForEach(groupId =>
+                        Groups(context: context).ForEach(groupId =>
                             insertSet.Add(new PermissionModel(
                                 context: context,
                                 referenceId: 0,
@@ -540,7 +540,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static List<int> Groups(Context context, SiteSettings ss)
+        public static List<int> Groups(Context context)
         {
             return Rds.ExecuteTable(
                 context: context,

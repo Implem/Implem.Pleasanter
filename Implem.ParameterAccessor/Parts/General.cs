@@ -17,6 +17,7 @@ namespace Implem.ParameterAccessor.Parts
         public string HtmlCommercialLicenseUrl;
         public string HtmlAnnualSupportServiceUrl;
         public string HtmlEnterPriseEditionUrl;
+        public string HtmlCasesUrl;
         public bool DisplayLogoText;
         public int SiteMenuHotSpan;
         public int LimitWarning1;

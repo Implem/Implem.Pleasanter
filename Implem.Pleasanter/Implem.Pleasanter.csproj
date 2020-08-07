@@ -344,7 +344,7 @@
     <Compile Include="Libraries\Requests\Calendars.cs" />
     <Compile Include="Libraries\Requests\FormData.cs" />
     <Compile Include="Libraries\Requests\FormDataSet.cs" />
-    <Compile Include="Libraries\Requests\GridSelector.cs" />
+    <Compile Include="Libraries\Requests\RecordSelector.cs" />
     <Compile Include="Libraries\DataSources\File.cs" />
     <Compile Include="Libraries\Requests\PostedFile.cs" />
     <Compile Include="Libraries\Resources\JavaScripts.cs" />
@@ -1295,6 +1295,8 @@
     <Content Include="App_Data\Parameters\ExtendedStyles\Sample.css.txt" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\cases-banner.png" />
+    <Content Include="Images\enterprise-banner.png" />
     <Content Include="Images\Hayato1.png" />
     <Content Include="Images\Hayato2.png" />
     <Content Include="Images\Hayato3.png" />

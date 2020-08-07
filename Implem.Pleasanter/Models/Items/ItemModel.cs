@@ -2040,6 +2040,35 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public System.Web.Mvc.ContentResult BulkDeleteByApi(Context context)
+        {
+            SetSite(context: context);
+            if (!Site.WithinApiLimits())
+            {
+                return ApiResults.Get(ApiResponses.OverLimitApi(
+                    context: context,
+                    siteId: Site.SiteId,
+                    limitPerSite: Parameters.Api.LimitPerSite));
+            }
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.BulkDeleteByApi(
+                        context: context,
+                        ss: Site.IssuesSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId));
+                case "Results":
+                    return ResultUtilities.BulkDeleteByApi(
+                        context: context,
+                        ss: Site.ResultsSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId));
+                default:
+                    return ApiResults.Get(ApiResponses.NotFound(context: context));
+            }
+        }
+
         public string DeleteHistory(Context context)
         {
             SetSite(

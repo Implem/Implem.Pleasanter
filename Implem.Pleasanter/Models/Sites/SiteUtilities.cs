@@ -328,18 +328,30 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         dataRows: gridData.DataRows,
                         columns: columns,
-                        gridSelector: null,
+                        recordSelector: null,
                         checkRow: checkRow));
         }
 
         private static SqlWhereCollection SelectedWhere(
-            Context context, SiteSettings ss)
+            Context context,
+            SiteSettings ss)
         {
-            var selector = new GridSelector(context: context);
+            var selector = new RecordSelector(context: context);
             return !selector.Nothing
                 ? Rds.SitesWhere().SiteId_In(
                     value: selector.Selected.Select(o => o.ToLong()),
                     negative: selector.All)
+                : null;
+        }
+
+        private static SqlWhereCollection SelectedWhereByApi(
+            SiteSettings ss,
+            RecordSelector recordSelector)
+        {
+            return !recordSelector.Nothing
+                ? Rds.SitesWhere().SiteId_In(
+                    value: recordSelector.Selected?.Select(o => o.ToLong()) ?? new List<long>(),
+                    negative: recordSelector.All)
                 : null;
         }
 
@@ -379,7 +391,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 view: view,
                                 checkPermission: true),
-                            gridSelector: null,
+                            recordSelector: null,
                             editRow: true,
                             checkRow: false,
                             idColumn: "SiteId"))
@@ -1034,7 +1046,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             dataRows: gridData.DataRows,
                             columns: columns,
-                            gridSelector: null))
+                            recordSelector: null))
                     .CloseDialog()
                     .Message(Messages.Updated(
                         context: context,
@@ -1182,7 +1194,7 @@ namespace Implem.Pleasanter.Models
             }
             else if (context.CanManageSite(ss: ss))
             {
-                var selector = new GridSelector(context: context);
+                var selector = new RecordSelector(context: context);
                 var count = 0;
                 if (selector.All)
                 {
@@ -1414,7 +1426,7 @@ namespace Implem.Pleasanter.Models
             }
             if (context.CanManageSite(ss: ss))
             {
-                var selector = new GridSelector(context: context);
+                var selector = new RecordSelector(context: context);
                 var selected = selector
                     .Selected
                     .Select(o => o.ToInt())
@@ -1501,7 +1513,7 @@ namespace Implem.Pleasanter.Models
             }
             if (context.CanManageSite(ss: ss))
             {
-                var selector = new GridSelector(context: context);
+                var selector = new RecordSelector(context: context);
                 var count = 0;
                 if (selector.All)
                 {
@@ -3441,6 +3453,30 @@ namespace Implem.Pleasanter.Models
                                     verType: siteModel.VerType,
                                     columnPermissionType: commentsColumnPermissionType),
                             _using: showComments)
+                        .Div(
+                            id: "EnterPriseBanner", action: () => hb
+                                .A(
+                                    attributes: new HtmlAttributes().Href(Parameters.General.HtmlEnterPriseEditionUrl),
+                                    action: () => hb
+                                        .Img(
+                                            id: "EnterPriseBannerImage",
+                                            src: Locations.Get(
+                                                context: context,
+                                                "Images",
+                                                "enterprise-banner.png"))),
+                            _using: !Parameters.CommercialLicense())
+                        .Div(
+                            id: "CasesBanner", action: () => hb
+                                .A(
+                                    attributes: new HtmlAttributes().Href(Parameters.General.HtmlCasesUrl),
+                                    action: () => hb
+                                        .Img(
+                                            id: "CasesBannerImage",
+                                            src: Locations.Get(
+                                                context: context,
+                                                "Images",
+                                                "cases-banner.png"))),
+                            _using: !Parameters.CommercialLicense())
                         .Div(id: "EditorTabsContainer", css: tabsCss, action: () => hb
                             .EditorTabs(context: context, siteModel: siteModel)
                             .FieldSetGeneral(context: context, siteModel: siteModel)

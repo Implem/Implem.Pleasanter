@@ -18,6 +18,35 @@ $p.apiDelete = function (args) {
     return $p.apiExec($p.apiUrl(args.id, 'delete'), args);
 }
 
+$p.apiBulkDelete = function (args) {
+    return $p.apiBulkDeleteExec($p.apiUrl(args.id, 'bulkdelete'), args);
+}
+
+$p.apiBulkDeleteExec = function (url, args) {
+    if (args.async !== undefined) {
+        $.ajaxSetup({ async: args.async });
+    }
+    if (args.data.GridCheck) {
+        args.data.All = $p.data.MainForm.GridCheckAll;
+        args.data.Selected = args.data.All
+            ? $p.data.MainForm.GridUnCheckedItems === ''
+                ? []
+                : $p.data.MainForm.GridUnCheckedItems.split(',')
+            : $p.data.MainForm.GridCheckedItems.split(',');
+    }
+    return $.ajax({
+        type: 'Post',
+        url: url,
+        data: args.data !== undefined
+            ? JSON.stringify(args.data)
+            : "",
+        dataType: 'json'
+    })
+        .done(args.done)
+        .fail(args.fail)
+        .always(args.always);
+}
+
 $p.apiExec = function (url, args) {
     if (args.async !== undefined) {
         $.ajaxSetup({ async: args.async });

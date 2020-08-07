@@ -27,6 +27,7 @@ namespace Implem.Pleasanter.Models
         public int GroupId = 0;
         public string GroupName = string.Empty;
         public string Body = string.Empty;
+        public string ApiKey = string.Empty;
 
         public Title Title
         {
@@ -621,6 +622,7 @@ namespace Implem.Pleasanter.Models
             CreatedTime = groupModel.CreatedTime;
             UpdatedTime = groupModel.UpdatedTime;
             VerUp = groupModel.VerUp;
+            ApiKey = groupModel.ApiKey;
             Comments = groupModel.Comments;
             ClassHash = groupModel.ClassHash;
             NumHash = groupModel.NumHash;
@@ -834,6 +836,38 @@ namespace Implem.Pleasanter.Models
             return GroupUtilities.GetByApi(
                 context: context,
                 ss: SiteSettingsUtilities.ApiGroupsSiteSettings(context));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public System.Web.Mvc.ContentResult CreateByApi(Context context)
+        {
+            return GroupUtilities.CreateByApi(
+                context: context,
+                ss: SiteSettingsUtilities.ApiGroupsSiteSettings(context));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public System.Web.Mvc.ContentResult UpdateByApi(Context context, int groupId)
+        {
+            return GroupUtilities.UpdateByApi(
+                context: context,
+                ss: SiteSettingsUtilities.ApiGroupsSiteSettings(context),
+                groupId: groupId);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public System.Web.Mvc.ContentResult DeleteByApi(Context context, int groupId)
+        {
+            return GroupUtilities.DeleteByApi(
+                context: context,
+                ss: SiteSettingsUtilities.ApiGroupsSiteSettings(context),
+                groupId: groupId);
         }
     }
 }

@@ -1341,7 +1341,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             dataRows: gridData.DataRows,
                             columns: columns,
-                            gridSelector: null))
+                            recordSelector: null))
                     .CloseDialog()
                     .Message(Messages.Updated(
                         context: context,
@@ -1441,7 +1441,7 @@ namespace Implem.Pleasanter.Models
         {
             if (context.CanManageSite(ss: ss))
             {
-                var selector = new GridSelector(context: context);
+                var selector = new RecordSelector(context: context);
                 var count = 0;
                 if (selector.All)
                 {
@@ -1797,7 +1797,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: invalid);
             }
-            var selector = new GridSelector(context: context);
+            var selector = new RecordSelector(context: context);
             var selected = selector
                 .Selected
                 .Select(o => o.ToInt())

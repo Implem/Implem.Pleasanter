@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Requests
 {
-    public class GridSelector
+    public class RecordSelector
     {
         public bool All;
         public List<long> Selected;
         public bool Nothing;
 
-        public GridSelector(Context context)
+        public RecordSelector()
+        {
+        }
+
+        public RecordSelector(Context context)
         {
             All = context.RequestData("GridCheckAll").ToBool();
             Selected = All

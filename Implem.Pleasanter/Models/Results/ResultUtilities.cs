@@ -406,7 +406,7 @@ namespace Implem.Pleasanter.Models
                         dataRows: gridData.DataRows,
                         columns: columns,
                         formDataSet: formDataSet,
-                        gridSelector: null,
+                        recordSelector: null,
                         editRow: editRow,
                         checkRow: checkRow));
         }
@@ -493,13 +493,25 @@ namespace Implem.Pleasanter.Models
         }
 
         private static SqlWhereCollection SelectedWhere(
-            Context context, SiteSettings ss)
+            Context context,
+            SiteSettings ss)
         {
-            var selector = new GridSelector(context: context);
+            var selector = new RecordSelector(context: context);
             return !selector.Nothing
                 ? Rds.ResultsWhere().ResultId_In(
                     value: selector.Selected.Select(o => o.ToLong()),
                     negative: selector.All)
+                : null;
+        }
+
+        private static SqlWhereCollection SelectedWhereByApi(
+            SiteSettings ss,
+            RecordSelector recordSelector)
+        {
+            return !recordSelector.Nothing
+                ? Rds.ResultsWhere().ResultId_In(
+                    value: recordSelector.Selected?.Select(o => o.ToLong()) ?? new List<long>(),
+                    negative: recordSelector.All)
                 : null;
         }
 
@@ -539,7 +551,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 view: view,
                                 checkPermission: true),
-                            gridSelector: null,
+                            recordSelector: null,
                             editRow: true,
                             checkRow: false,
                             idColumn: "ResultId"))
@@ -2477,7 +2489,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             dataRows: gridData.DataRows,
                             columns: columns,
-                            gridSelector: null))
+                            recordSelector: null))
                     .CloseDialog()
                     .Message(Messages.Updated(
                         context: context,
@@ -3048,7 +3060,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         dataRow: dataRow,
                         columns: columns,
-                        gridSelector: null,
+                        recordSelector: null,
                         editRow: true,
                         checkRow: false,
                         idColumn: "ResultId")));
@@ -3356,7 +3368,7 @@ namespace Implem.Pleasanter.Models
             }
             else if (context.CanManageSite(ss: ss))
             {
-                var selector = new GridSelector(context: context);
+                var selector = new RecordSelector(context: context);
                 var count = 0;
                 if (selector.All)
                 {
@@ -3904,6 +3916,72 @@ namespace Implem.Pleasanter.Models
                     .Count.ToInt();
         }
 
+        public static System.Web.Mvc.ContentResult BulkDeleteByApi(
+            Context context,
+            SiteSettings ss)
+        {
+            if (context.CanDelete(ss: ss))
+            {
+                var recordSelector = context.RequestDataString.Deserialize<RecordSelector>();
+                if (recordSelector == null)
+                {
+                    return ApiResults.Get(ApiResponses.BadRequest(context: context));
+                }
+                var selectedWhere = SelectedWhereByApi(
+                    ss: ss,
+                    recordSelector: recordSelector);
+                if (selectedWhere == null)
+                {
+                    return ApiResults.Get(ApiResponses.BadRequest(context: context));
+                }
+                var view = Views.GetBySession(
+                    context: context,
+                    ss: ss);
+                var where = view.Where(
+                    context: context,
+                    ss: ss,
+                    where: selectedWhere,
+                    itemJoin: false);
+                var invalid = ExistsLockedRecord(
+                    context: context,
+                    ss: ss,
+                    where: where,
+                    orderBy: view.OrderBy(
+                        context: context,
+                        ss: ss));
+                switch (invalid.Type)
+                {
+                    case Error.Types.None:
+                        break;
+                    default:
+                        return ApiResults.Error(
+                            context: context,
+                            errorData: invalid);
+                }
+                var count = BulkDelete(
+                    context: context,
+                    ss: ss,
+                    where: where);
+                Summaries.Synchronize(
+                    context: context,
+                    ss: ss);
+                GridRows(
+                    context: context,
+                    ss: ss);
+                return ApiResults.Success(
+                    id: context.SiteId,
+                    limitPerDate: Parameters.Api.LimitPerSite,
+                    limitRemaining: Parameters.Api.LimitPerSite - ss.ApiCount,
+                    message: Displays.BulkDeleted(
+                        context: context,
+                        data: count.ToString()));
+            }
+            else
+            {
+                return ApiResults.Get(ApiResponses.Forbidden(context: context));
+            }
+        }
+
         public static string DeleteHistory(Context context, SiteSettings ss, long resultId)
         {
             var resultModel = new ResultModel(
@@ -3921,7 +3999,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: invalid);
             }
-            var selector = new GridSelector(context: context);
+            var selector = new RecordSelector(context: context);
             var selected = selector
                 .Selected
                 .Select(o => o.ToInt())
@@ -4008,7 +4086,7 @@ namespace Implem.Pleasanter.Models
             }
             if (context.CanManageSite(ss: ss))
             {
-                var selector = new GridSelector(context: context);
+                var selector = new RecordSelector(context: context);
                 var count = 0;
                 if (selector.All)
                 {
