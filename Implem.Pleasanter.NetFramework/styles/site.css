@@ -3019,3 +3019,19 @@ textarea:focus{
     border-top:solid 1px silver;
 }
 
+#EnterPriseBanner{
+    width:250px;
+    position:fixed;
+    right:8px;
+    bottom:170px;
+    z-index:3;
+}
+
+#CasesBanner{
+    width:250px;
+    position:fixed;
+    right:8px;
+    bottom:80px;
+    z-index:3;
+}
+

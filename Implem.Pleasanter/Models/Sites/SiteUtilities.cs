@@ -3446,6 +3446,30 @@ namespace Implem.Pleasanter.Models
                                     verType: siteModel.VerType,
                                     columnPermissionType: commentsColumnPermissionType),
                             _using: showComments)
+                        .Div(
+                            id: "EnterPriseBanner", action: () => hb
+                                .A(
+                                    attributes: new HtmlAttributes().Href(Parameters.General.HtmlEnterPriseEditionUrl),
+                                    action: () => hb
+                                        .Img(
+                                            id: "EnterPriseBannerImage",
+                                            src: Locations.Get(
+                                                context: context,
+                                                "Images",
+                                                "enterprise-banner.png"))),
+                            _using: !Parameters.CommercialLicense())
+                        .Div(
+                            id: "CasesBanner", action: () => hb
+                                .A(
+                                    attributes: new HtmlAttributes().Href(Parameters.General.HtmlCasesUrl),
+                                    action: () => hb
+                                        .Img(
+                                            id: "CasesBannerImage",
+                                            src: Locations.Get(
+                                                context: context,
+                                                "Images",
+                                                "cases-banner.png"))),
+                            _using: !Parameters.CommercialLicense())
                         .Div(id: "EditorTabsContainer", css: tabsCss, action: () => hb
                             .EditorTabs(context: context, siteModel: siteModel)
                             .FieldSetGeneral(context: context, siteModel: siteModel)
