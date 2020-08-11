@@ -96,7 +96,7 @@ namespace Implem.Pleasanter.Libraries.Models
 
         private static string Key(SiteSettings ss, string key, Column groupByColumn)
         {
-            return !(groupByColumn.Type != Column.Types.User && key.ToInt() == 0)
+            return !(groupByColumn.Type == Column.Types.User && key.ToInt() == 0)
                  ? key
                  : User.UserTypes.Anonymous.ToInt().ToString();
         }
