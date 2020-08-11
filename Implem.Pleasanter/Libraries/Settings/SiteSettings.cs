@@ -2859,7 +2859,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             .Data(key: "EditorColumnsTabsTarget"),
                         editorColumnsAll: context.Forms.List(propertyName));
                     Sections = EditorColumnHash
-                       .SelectMany(o => o
+                        .SelectMany(o => o
                             .Value?
                             .Select(columnName => SectionId(columnName))
                             .Where(sectionId => sectionId != 0))
@@ -3030,12 +3030,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ExportFormat": column.ExportFormat = value; break;
                 case "Unit": column.Unit = value; break;
                 case "CheckFilterControlType": column.CheckFilterControlType =
-                        (ColumnUtilities.CheckFilterControlTypes)value.ToInt(); break;
+                    (ColumnUtilities.CheckFilterControlTypes)value.ToInt(); break;
                 case "NumFilterMin": column.NumFilterMin = value.ToDecimal(); break;
                 case "NumFilterMax": column.NumFilterMax = value.ToDecimal(); break;
                 case "NumFilterStep": column.NumFilterStep = value.ToDecimal(); break;
                 case "DateFilterSetMode": column.DateFilterSetMode =
-                        (ColumnUtilities.DateFilterSetMode)value.ToInt(); break;
+                    (ColumnUtilities.DateFilterSetMode)value.ToInt(); break;
                 case "DateFilterMinSpan": column.DateFilterMinSpan = value.ToInt(); break;
                 case "DateFilterMaxSpan": column.DateFilterMaxSpan = value.ToInt(); break;
                 case "DateFilterFy": column.DateFilterFy = value.ToBool(); break;
@@ -3302,7 +3302,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => columnName == null || o.ColumnName == columnName)
                 .ForEach(column =>
                 {
-                    var same = columns.FirstOrDefault(o => o.ChoicesText == column.ChoicesText);
+                    var same = columns.FirstOrDefault(o =>
+                        $"{o.ChoicesText}{o.UseSearch}" == $"{column.ChoicesText}{column.UseSearch}");
                     if (same == null)
                     {
                         columns.Add(column);
@@ -3695,7 +3696,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "TimeSeries": return canRead && EnableTimeSeries == true;
                 case "Kamban": return canRead && EnableKamban == true;
                 case "ImageLib": return context.ContractSettings.Images()
-       && canRead && EnableImageLib == true;
+                    && canRead && EnableImageLib == true;
                 default: return false;
             }
         }
