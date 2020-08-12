@@ -3153,7 +3153,7 @@ namespace Implem.Pleasanter.Models
                                 parts: new string[]
                                 {
                                     "users",
-                                    "_action_?ReturnUrl=" + returnUrl
+                                    "_action_?ReturnUrl=" + System.Web.HttpUtility.UrlEncode(returnUrl)
                                 }))
                             .DataEnter("#Login"),
                         action: () => hb
