@@ -85,6 +85,19 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
                         .Select(o => new IndexInfo.Column(o.ColumnName, o.Ix3, o.Ix3OrderBy, o.Unique))
                         .ToList()));
             }
+            if (Def.ColumnDefinitionCollection.Any(o => o.TableName == generalTableName && o.Ix4 > 0))
+            {
+                tableIndexCollection.Add(new IndexInfo(
+                    sourceTableName,
+                    IndexInfo.Types.Ix,
+                    "Ix4",
+                    Def.ColumnDefinitionCollection
+                        .Where(o => o.TableName == generalTableName)
+                        .Where(o => o.Ix4 > 0)
+                        .OrderBy(o => o.Ix4)
+                        .Select(o => new IndexInfo.Column(o.ColumnName, o.Ix4, o.Ix4OrderBy, o.Unique))
+                        .ToList()));
+            }
         }
 
         private static void Unique(string generalTableName, List<IndexInfo> tableIndexCollection)

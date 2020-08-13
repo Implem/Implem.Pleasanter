@@ -183,7 +183,7 @@ namespace Implem.Pleasanter.Libraries.Server
                         groupBy: Rds.IssuesGroupBy()
                             .SiteId())
                 });
-            return hash.Select(o => SiteCondition(dataSet, o.Key, o.Value));
+            return hash.Select(o => SiteCondition(dataSet, o.Key, o.Value)).ToArray();
         }
 
         private SiteCondition SiteCondition(DataSet dataSet, long siteId, List<long> children)

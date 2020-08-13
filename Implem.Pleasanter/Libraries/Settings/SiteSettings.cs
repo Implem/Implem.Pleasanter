@@ -44,8 +44,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Session = 1,
             User = 2
         }
-        
-        public enum RoundingTypes: int
+
+        public enum RoundingTypes : int
         {
             AwayFromZero = 10,
             Ceiling = 20,
@@ -1365,16 +1365,19 @@ namespace Implem.Pleasanter.Libraries.Settings
         private void UpdateColumns(Context context, bool onSerializing = false)
         {
             if (Columns == null) Columns = new List<Column>();
+            var columnHash = Columns.ToDictionary(
+                column => column.ColumnName,
+                column => column);
             ColumnDefinitionHash?.Values.ForEach(columnDefinition =>
             {
                 if (!onSerializing)
                 {
-                    var column = Columns.FirstOrDefault(o =>
-                        o.ColumnName == columnDefinition.ColumnName);
+                    var column = columnHash.Get(columnDefinition.ColumnName);
                     if (column == null)
                     {
                         column = new Column(columnDefinition.ColumnName);
                         Columns.Add(column);
+                        columnHash.Add(column.ColumnName, column);
                     }
                     UpdateColumn(
                         context: context,
@@ -1534,8 +1537,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => !o.Required)
                 .Select(column => new ColumnAccessControl(this, column, "Create"))
                 .ToList();
+            var columnAccessControlHash = columnAccessControls
+                .ToDictionary(
+                    accessControl => accessControl.ColumnName,
+                    accessControl => accessControl);
             CreateColumnAccessControls?.ForEach(o =>
-                SetColumnAccessControl(columnAccessControls, o));
+                SetColumnAccessControl(columnAccessControlHash, o));
             CreateColumnAccessControls = columnAccessControls;
         }
 
@@ -1544,8 +1551,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             var columnAccessControls = columns
                 .Select(column => new ColumnAccessControl(this, column, "Read"))
                 .ToList();
+            var columnAccessControlHash = columnAccessControls
+                .ToDictionary(
+                    accessControl => accessControl.ColumnName,
+                    accessControl => accessControl);
             ReadColumnAccessControls?.ForEach(o =>
-                SetColumnAccessControl(columnAccessControls, o));
+                SetColumnAccessControl(columnAccessControlHash, o));
             ReadColumnAccessControls = columnAccessControls;
         }
 
@@ -1566,17 +1577,20 @@ namespace Implem.Pleasanter.Libraries.Settings
             var columnAccessControls = columns
                 .Select(column => new ColumnAccessControl(this, column, "Update"))
                 .ToList();
+            var columnAccessControlHash = columnAccessControls
+                .ToDictionary(
+                    accessControl => accessControl.ColumnName,
+                    accessControl => accessControl);
             UpdateColumnAccessControls?.ForEach(o =>
-                SetColumnAccessControl(columnAccessControls, o));
+                SetColumnAccessControl(columnAccessControlHash, o));
             UpdateColumnAccessControls = columnAccessControls;
         }
 
         private void SetColumnAccessControl(
-            IEnumerable<ColumnAccessControl> columnAccessControls,
+            Dictionary<string, ColumnAccessControl> columnAccessControls,
             ColumnAccessControl columnAccessControl)
         {
-            var data = columnAccessControls.FirstOrDefault(o =>
-                o.ColumnName == columnAccessControl.ColumnName);
+            var data = columnAccessControls.Get(columnAccessControl.ColumnName);
             if (data != null)
             {
                 data.Depts = columnAccessControl.Depts;
@@ -4177,7 +4191,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ColumnsJson()
         {
             return Columns
-                ?.Where(column => 
+                ?.Where(column =>
                     GridColumns.Contains(column.ColumnName)
                     || GetEditorColumnNames().Contains(column.ColumnName)
                     || TitleColumns.Contains(column.ColumnName)
