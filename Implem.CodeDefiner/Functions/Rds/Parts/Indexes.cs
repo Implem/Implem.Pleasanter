@@ -107,6 +107,20 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                         .Select(o => new IndexInfo.Column(o.ColumnName, o.Ix3, o.Ix3OrderBy, o.Unique))
                         .ToList()));
             }
+            if (Def.ColumnDefinitionCollection.Any(o => o.TableName == generalTableName && o.Ix4 > 0))
+            {
+                tableIndexCollection.Add(new IndexInfo(
+                    factory: factory,
+                    tableName: sourceTableName,
+                    type: IndexInfo.Types.Ix,
+                    name: "Ix4",
+                    columnCollection: Def.ColumnDefinitionCollection
+                        .Where(o => o.TableName == generalTableName)
+                        .Where(o => o.Ix4 > 0)
+                        .OrderBy(o => o.Ix4)
+                        .Select(o => new IndexInfo.Column(o.ColumnName, o.Ix4, o.Ix4OrderBy, o.Unique))
+                        .ToList()));
+            }
         }
 
         private static void Unique(ISqlObjectFactory factory, string generalTableName, List<IndexInfo> tableIndexCollection)
