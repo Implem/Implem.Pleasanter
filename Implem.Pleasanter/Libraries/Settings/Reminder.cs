@@ -199,7 +199,12 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         private Dictionary<string, Dictionary<long, DataRow>> GetDataHash(
-            Context context, SiteSettings ss, List<Column> toColumns, List<Column> subjectColumns, List<Column> bodyColumns, string fixedTo)
+            Context context,
+            SiteSettings ss,
+            List<Column> toColumns,
+            List<Column> subjectColumns,
+            List<Column> bodyColumns,
+            string fixedTo)
         {
             var hash = new Dictionary<string, Dictionary<long, DataRow>>()
             {
@@ -214,7 +219,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 toColumns: toColumns,
                 subjectColumns: subjectColumns,
                 bodyColumns: bodyColumns)
-                    .Tables["Main"]
                     .AsEnumerable()
                     .ForEach(dataRow =>
                     {
@@ -315,7 +319,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : body + "\n" + sb.ToString();
         }
 
-        private DataSet GetDataSet(Context context, SiteSettings ss, List<Column> toColumns, List<Column> subjectColumns, List<Column> bodyColumns)
+        private DataTable GetDataSet(
+            Context context,
+            SiteSettings ss,
+            List<Column> toColumns,
+            List<Column> subjectColumns,
+            List<Column> bodyColumns)
         {
             var orderByColumn = ss.GetColumn(
                 context: context,
@@ -375,27 +384,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Add(
                     column: orderByColumn,
                     orderType: SqlOrderBy.Types.desc);
-            var dataSet = Rds.ExecuteDataSet(
+            var dataTable = Rds.ExecuteTable(
                 context: context,
-                statements: new SqlStatement[]
-                {
-                    Rds.Select(
-                        tableName: ss.ReferenceType,
-                        dataTableName: "Main",
-                        column: column,
-                        join: new SqlJoinCollection().ItemJoin(
-                            tableType: Sqls.TableTypes.Normal,
-                            tableName: ss.ReferenceType),
-                        where: where,
-                        orderBy: orderBy),
-                    Rds.SelectCount(
-                        tableName: ss.ReferenceType,
-                        join: new SqlJoinCollection().ItemJoin(
-                            tableType: Sqls.TableTypes.Normal,
-                            tableName: ss.ReferenceType),
-                        where: where)
-                });
-            return dataSet;
+                statements: Rds.Select(
+                    tableName: ss.ReferenceType,
+                    column: column,
+                    join: new SqlJoinCollection().ItemJoin(
+                        tableType: Sqls.TableTypes.Normal,
+                        tableName: ss.ReferenceType),
+                    where: where,
+                    orderBy: orderBy,
+                    top: Parameters.Reminder.Limit));
+            return dataTable;
         }
 
         private string Relative(Context context, DateTime time)
