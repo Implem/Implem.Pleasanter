@@ -498,6 +498,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_DeleteCases": Code.Model_DeleteCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteCases, definitionRow, CodeXls); break;
                     case "Model_DeleteByApiCases": Code.Model_DeleteByApiCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteByApiCases, definitionRow, CodeXls); break;
                     case "Model_BulkDeleteCases": Code.Model_BulkDeleteCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BulkDeleteCases, definitionRow, CodeXls); break;
+                    case "Model_BulkDeleteByApiCases": Code.Model_BulkDeleteByApiCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BulkDeleteByApiCases, definitionRow, CodeXls); break;
                     case "Model_DeleteHistoryCases": Code.Model_DeleteHistoryCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteHistoryCases, definitionRow, CodeXls); break;
                     case "Model_PhysicalDeleteCases": Code.Model_PhysicalDeleteCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PhysicalDeleteCases, definitionRow, CodeXls); break;
                     case "Model_RestoreCases": Code.Model_RestoreCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_RestoreCases, definitionRow, CodeXls); break;
@@ -658,6 +659,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_Separate": Code.Model_Utilities_Separate = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Separate, definitionRow, CodeXls); break;
                     case "Model_Utilities_BulkMove": Code.Model_Utilities_BulkMove = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_BulkMove, definitionRow, CodeXls); break;
                     case "Model_Utilities_BulkDelete": Code.Model_Utilities_BulkDelete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_BulkDelete, definitionRow, CodeXls); break;
+                    case "Model_Utilities_BulkDeleteByApi": Code.Model_Utilities_BulkDeleteByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_BulkDeleteByApi, definitionRow, CodeXls); break;
                     case "Model_Utilities_DeleteHistory_Sites": Code.Model_Utilities_DeleteHistory_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DeleteHistory_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_DeleteHistory_Items": Code.Model_Utilities_DeleteHistory_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DeleteHistory_Items, definitionRow, CodeXls); break;
                     case "Model_Utilities_PhysicalDelete_Sites": Code.Model_Utilities_PhysicalDelete_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_PhysicalDelete_Sites, definitionRow, CodeXls); break;
@@ -707,6 +709,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Validator_LockedTable": Code.Model_Validator_LockedTable = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_LockedTable, definitionRow, CodeXls); break;
                     case "Model_Validator_LockedRecord": Code.Model_Validator_LockedRecord = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_LockedRecord, definitionRow, CodeXls); break;
                     case "Model_Validator_ShowProfiles": Code.Model_Validator_ShowProfiles = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_ShowProfiles, definitionRow, CodeXls); break;
+                    case "Model_Validator_ShowProfilesAndHasPrivilege": Code.Model_Validator_ShowProfilesAndHasPrivilege = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_ShowProfilesAndHasPrivilege, definitionRow, CodeXls); break;
                     case "Model_Validator_OnAttaching": Code.Model_Validator_OnAttaching = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnAttaching, definitionRow, CodeXls); break;
                     case "Model_Validator_OnAttachingMethod": Code.Model_Validator_OnAttachingMethod = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnAttachingMethod, definitionRow, CodeXls); break;
                     case "Model_Validator_OnInputValidating": Code.Model_Validator_OnInputValidating = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnInputValidating, definitionRow, CodeXls); break;
@@ -3189,6 +3192,8 @@ namespace Implem.DefinitionAccessor
                     case "select_colon_focus_colon_not__dot_has_css_": Css.select_colon_focus_colon_not__dot_has_css_ = definitionRow[1].ToString(); SetCssTable(CssTable.select_colon_focus_colon_not__dot_has_css_, definitionRow, CssXls); break;
                     case "textarea_colon_focus": Css.textarea_colon_focus = definitionRow[1].ToString(); SetCssTable(CssTable.textarea_colon_focus, definitionRow, CssXls); break;
                     case "_dot_ssoLoginMessage": Css._dot_ssoLoginMessage = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ssoLoginMessage, definitionRow, CssXls); break;
+                    case "_sharp_EnterPriseBanner": Css._sharp_EnterPriseBanner = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_EnterPriseBanner, definitionRow, CssXls); break;
+                    case "_sharp_CasesBanner": Css._sharp_CasesBanner = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CasesBanner, definitionRow, CssXls); break;
                     default: break;
                 }
             });
@@ -7383,6 +7388,7 @@ namespace Implem.DefinitionAccessor
         public string Model_DeleteCases;
         public string Model_DeleteByApiCases;
         public string Model_BulkDeleteCases;
+        public string Model_BulkDeleteByApiCases;
         public string Model_DeleteHistoryCases;
         public string Model_PhysicalDeleteCases;
         public string Model_RestoreCases;
@@ -7543,6 +7549,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_Separate;
         public string Model_Utilities_BulkMove;
         public string Model_Utilities_BulkDelete;
+        public string Model_Utilities_BulkDeleteByApi;
         public string Model_Utilities_DeleteHistory_Sites;
         public string Model_Utilities_DeleteHistory_Items;
         public string Model_Utilities_PhysicalDelete_Sites;
@@ -7592,6 +7599,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Validator_LockedTable;
         public string Model_Validator_LockedRecord;
         public string Model_Validator_ShowProfiles;
+        public string Model_Validator_ShowProfilesAndHasPrivilege;
         public string Model_Validator_OnAttaching;
         public string Model_Validator_OnAttachingMethod;
         public string Model_Validator_OnInputValidating;
@@ -8019,6 +8027,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_DeleteCases = new CodeDefinition();
         public CodeDefinition Model_DeleteByApiCases = new CodeDefinition();
         public CodeDefinition Model_BulkDeleteCases = new CodeDefinition();
+        public CodeDefinition Model_BulkDeleteByApiCases = new CodeDefinition();
         public CodeDefinition Model_DeleteHistoryCases = new CodeDefinition();
         public CodeDefinition Model_PhysicalDeleteCases = new CodeDefinition();
         public CodeDefinition Model_RestoreCases = new CodeDefinition();
@@ -8179,6 +8188,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_Separate = new CodeDefinition();
         public CodeDefinition Model_Utilities_BulkMove = new CodeDefinition();
         public CodeDefinition Model_Utilities_BulkDelete = new CodeDefinition();
+        public CodeDefinition Model_Utilities_BulkDeleteByApi = new CodeDefinition();
         public CodeDefinition Model_Utilities_DeleteHistory_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_DeleteHistory_Items = new CodeDefinition();
         public CodeDefinition Model_Utilities_PhysicalDelete_Sites = new CodeDefinition();
@@ -8228,6 +8238,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Validator_LockedTable = new CodeDefinition();
         public CodeDefinition Model_Validator_LockedRecord = new CodeDefinition();
         public CodeDefinition Model_Validator_ShowProfiles = new CodeDefinition();
+        public CodeDefinition Model_Validator_ShowProfilesAndHasPrivilege = new CodeDefinition();
         public CodeDefinition Model_Validator_OnAttaching = new CodeDefinition();
         public CodeDefinition Model_Validator_OnAttachingMethod = new CodeDefinition();
         public CodeDefinition Model_Validator_OnInputValidating = new CodeDefinition();
@@ -10673,6 +10684,8 @@ namespace Implem.DefinitionAccessor
         public string select_colon_focus_colon_not__dot_has_css_;
         public string textarea_colon_focus;
         public string _dot_ssoLoginMessage;
+        public string _sharp_EnterPriseBanner;
+        public string _sharp_CasesBanner;
     }
 
     public class CssTable
@@ -11186,6 +11199,8 @@ namespace Implem.DefinitionAccessor
         public CssDefinition select_colon_focus_colon_not__dot_has_css_ = new CssDefinition();
         public CssDefinition textarea_colon_focus = new CssDefinition();
         public CssDefinition _dot_ssoLoginMessage = new CssDefinition();
+        public CssDefinition _sharp_EnterPriseBanner = new CssDefinition();
+        public CssDefinition _sharp_CasesBanner = new CssDefinition();
     }
 
     public class DemoDefinition

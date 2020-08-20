@@ -519,6 +519,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Li(
                     action: () => hb
                         .A(
+                            href: "javascript:void(0);",
+                            attributes: new HtmlAttributes()
+                                .OnClick("$p.openChangePasswordDialog($(this), 'ChangePasswordForm');")
+                                .DataMethod("post")
+                                .DataAction("OpenChangePasswordDialog"),
+                            action: () => hb
+                                .Span(css: "ui-icon ui-icon-person")
+                                .Text(text: Displays.ChangePassword(context: context))),
+                    _using: !Parameters.Service.ShowProfiles
+                        && Parameters.Service.ShowChangePassword)
+                .Li(
+                    action: () => hb
+                        .A(
                             href: Locations.Get(
                                 context: context,
                                 parts: new string[]

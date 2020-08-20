@@ -1965,6 +1965,9 @@ namespace Implem.Pleasanter.Models
             }.ToJson());
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static System.Web.Mvc.ContentResult CreateByApi(Context context, SiteSettings ss)
         {
             var groupModel = new GroupModel(context, ss, 0, setByApi: true);
@@ -2009,6 +2012,9 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static System.Web.Mvc.ContentResult UpdateByApi(Context context, SiteSettings ss, int groupId)
         {
             var groupModel = new GroupModel(context, ss, groupId: groupId, setByApi: true);
@@ -2059,6 +2065,9 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static System.Web.Mvc.ContentResult DeleteByApi(Context context, SiteSettings ss, int groupId)
         {
             var groupModel = new GroupModel(context, ss, groupId: groupId, setByApi: true);

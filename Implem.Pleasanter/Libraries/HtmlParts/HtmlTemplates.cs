@@ -59,6 +59,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         useSearch: useSearch,
                         useNavigationMenu: useNavigationMenu,
                         action: action)
+                    .TemplateDialogs(
+                        context: context,
+                        ss: ss,
+                        useNavigationMenu: useNavigationMenu)
                     .HiddenData(
                         context: context,
                         ss: ss)
@@ -475,6 +479,30 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Canvas(id: "Canvas")
                     : hb;
         }
+
+        private static HtmlBuilder TemplateDialogs(
+            this HtmlBuilder hb, Context context, SiteSettings ss, bool useNavigationMenu = true)
+        {
+            return !context.Ajax
+                ? hb.Div(
+                    id: "TemplateDialogs",
+                    action: () => hb.Div(
+                        id: "ChangePassword",
+                        action: () => hb.Div(
+                            attributes: new HtmlAttributes()
+                                .Id("ChangePasswordDialog")
+                                .Class("dialog")
+                                .Title(Displays.ChangePassword(context: context)),
+                            action: () => hb.ChangePasswordDialog(
+                                context: context,
+                                ss: ss,
+                                content: false)),
+                        _using: useNavigationMenu
+                            && !Parameters.Service.ShowProfiles
+                            && Parameters.Service.ShowChangePassword))
+                : hb;
+        }
+
 
         private static HtmlBuilder HiddenData(
             this HtmlBuilder hb, Context context, SiteSettings ss = null)

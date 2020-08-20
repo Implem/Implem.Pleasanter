@@ -27,7 +27,6 @@ namespace Implem.Pleasanter.Models
         public int GroupId = 0;
         public string GroupName = string.Empty;
         public string Body = string.Empty;
-        public string ApiKey = string.Empty;
 
         public Title Title
         {
@@ -622,7 +621,6 @@ namespace Implem.Pleasanter.Models
             CreatedTime = groupModel.CreatedTime;
             UpdatedTime = groupModel.UpdatedTime;
             VerUp = groupModel.VerUp;
-            ApiKey = groupModel.ApiKey;
             Comments = groupModel.Comments;
             ClassHash = groupModel.ClassHash;
             NumHash = groupModel.NumHash;

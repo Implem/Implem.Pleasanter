@@ -20,7 +20,11 @@ namespace Implem.Pleasanter
         protected void Application_Start()
         {
             Initialize();
-            Context context = ApplicationStartContext();
+            Context context = new Context(tenantId: 0)
+            {
+                Controller = "Global.asax",
+                Action = "Application_Start",
+            };
             var log = new SysLogModel(context: context);
             ExtensionInitializer.Initialize(context: context);
             UsersInitializer.Initialize(context: context);
@@ -30,16 +34,6 @@ namespace Implem.Pleasanter
             SetConfigrations();
             SiteInfo.Reflesh(context: context);
             log.Finish(context: context);
-        }
-
-        private static Context ApplicationStartContext()
-        {
-            return new Context(tenantId: 0)
-            {
-                Controller = "Global.asax",
-                Action = "Application_Start",
-                Id = 0
-            };
         }
 
         private void Initialize()
@@ -63,7 +57,11 @@ namespace Implem.Pleasanter
 
         protected void Application_End()
         {
-            var context = new Context();
+            var context = new Context(tenantId: 0)
+            {
+                Controller = "Global.asax",
+                Action = "Application_End",
+            };
             var log = new SysLogModel(context: context);
             log.Finish(context: context);
         }
@@ -95,7 +93,11 @@ namespace Implem.Pleasanter
         protected void Session_Start()
         {
             Session["Enabled"] = true;
-            var context = SessionStartContext();
+            var context = new Context()
+            {
+                Controller = "Global.asax",
+                Action = "Session_Start",
+            };
             SessionUtilities.SetStartTime(context: context);
             if (WindowsAuthenticated(context))
             {
@@ -117,16 +119,6 @@ namespace Implem.Pleasanter
                     new SysLogModel(context: context).Finish(context: context);
                     break;
             }
-        }
-
-        private static Context SessionStartContext()
-        {
-            return new Context()
-            {
-                Controller = "Global.asax",
-                Action = "Session_Start",
-                Id = 0
-            };
         }
 
         private static bool WindowsAuthenticated(Context context)

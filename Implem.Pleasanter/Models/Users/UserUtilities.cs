@@ -2795,6 +2795,27 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static string OpenChangePasswordDialog(Context context, SiteSettings ss)
+        {
+            var invalid = UserValidators.OnPasswordChange(
+                context: context);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson(context: context);
+            }
+            return new ResponseCollection()
+                .Html(
+                    "#ChangePasswordDialog",
+                    new HtmlBuilder().ChangePasswordDialog(
+                        context: context,
+                        ss: ss))
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string ChangePassword(Context context, int userId)
         {
             var ss = SiteSettingsUtilities.UsersSiteSettings(context: context);
@@ -3023,49 +3044,77 @@ namespace Implem.Pleasanter.Models
                     .Id("ChangePasswordDialog")
                     .Class("dialog")
                     .Title(Displays.ChangePassword(context: context)),
-                action: () => hb
-                    .Form(
-                        attributes: new HtmlAttributes()
-                            .Id("ChangePasswordForm")
-                            .Action(Locations.Action(
+                action: () => hb.ChangePasswordDialog(
+                    context: context,
+                    ss: ss,
+                    userId: userId,
+                    content: true));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder ChangePasswordDialog(
+            this HtmlBuilder hb, Context context, SiteSettings ss, bool content = true)
+        {
+            return hb.ChangePasswordDialog(
+                context: context,
+                ss: ss,
+                userId: context.UserId,
+                content: content);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder ChangePasswordDialog(
+            this HtmlBuilder hb, Context context, SiteSettings ss, long userId, bool content)
+        {
+            hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("ChangePasswordForm")
+                    .Action(Locations.Action(
+                        context: context,
+                        controller: "Users",
+                        id: userId))
+                    .DataEnter("#ChangePassword"),
+                action: content
+                    ? () => hb
+                        .Field(
+                            context: context,
+                            ss: ss,
+                            column: ss.GetColumn(
                                 context: context,
-                                controller: "Users",
-                                id: userId))
-                            .DataEnter("#ChangePassword"),
-                        action: () => hb
-                            .Field(
+                                columnName: "OldPassword"))
+                        .Field(
+                            context: context,
+                            ss: ss,
+                            column: ss.GetColumn(
                                 context: context,
-                                ss: ss,
-                                column: ss.GetColumn(
-                                    context: context,
-                                    columnName: "OldPassword"))
-                            .Field(
+                                columnName: "ChangedPassword"))
+                        .Field(
+                            context: context,
+                            ss: ss,
+                            column: ss.GetColumn(
                                 context: context,
-                                ss: ss,
-                                column: ss.GetColumn(
-                                    context: context,
-                                    columnName: "ChangedPassword"))
-                            .Field(
-                                context: context,
-                                ss: ss,
-                                column: ss.GetColumn(
-                                    context: context,
-                                    columnName: "ChangedPasswordValidator"))
-                            .P(css: "message-dialog")
-                            .Div(css: "command-center", action: () => hb
-                                .Button(
-                                    controlId: "ChangePassword",
-                                    text: Displays.Change(context: context),
-                                    controlCss: "button-icon validate",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-disk",
-                                    action: "ChangePassword",
-                                    method: "post")
-                                .Button(
-                                    text: Displays.Cancel(context: context),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.closeDialog($(this));",
-                                    icon: "ui-icon-cancel"))));
+                                columnName: "ChangedPasswordValidator"))
+                        .P(css: "message-dialog")
+                        .Div(css: "command-center", action: () => hb
+                            .Button(
+                                controlId: "ChangePassword",
+                                text: Displays.Change(context: context),
+                                controlCss: "button-icon validate",
+                                onClick: "$p.send($(this));",
+                                icon: "ui-icon-disk",
+                                action: "ChangePassword",
+                                method: "post")
+                            .Button(
+                                text: Displays.Cancel(context: context),
+                                controlCss: "button-icon",
+                                onClick: "$p.closeDialog($(this));",
+                                icon: "ui-icon-cancel"))
+                    : (Action)null);
+            return hb;
         }
 
         /// <summary>
