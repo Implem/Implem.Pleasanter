@@ -3901,7 +3901,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         join.Add(new SqlJoin(
                             tableBracket: "\"" + tableName + "\"",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
-                            joinExpression: $"\"{leftAlias}\".\"{Rds.IdColumn(leftTableName)}\"=try_cast(\"{alias}\".\"{name}\" as bigint) and \"{alias}\".\"SiteId\"={siteId}",
+                            joinExpression: $"\"{leftAlias}\".\"{Rds.IdColumn(leftTableName)}\"={context.SqlCommandText.CreateTryCast(alias, name, "bigint")} and \"{alias}\".\"SiteId\"={siteId}",
                             _as: alias));
                         join.Add(
                             tableName: "\"Items\"",
