@@ -6,7 +6,7 @@ Pleasanter（プリザンター）はオープンソースのビジネスアプ�
 ## Linux + PostgreSQL対応版(.NET Core クロスプラットフォーム版)
 **2020年5月、待望の正式版をリリースしました！**
 
-[Windows版(.NET Framework版)はこちら](https://github.com/Implem/Implem.Pleasanter/README.md)
+[Windows版(.NET Framework版)はこちら](https://github.com/Implem/Implem.Pleasanter/blob/master/README.md)
 
 ## ダウンロード
 ダウンロードサイトです。  
