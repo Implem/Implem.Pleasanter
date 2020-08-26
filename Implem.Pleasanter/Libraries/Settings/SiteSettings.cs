@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 namespace Implem.Pleasanter.Libraries.Settings
 {
     [Serializable()]
@@ -995,6 +996,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.Hide = column.Hide;
                     }
+                    if (column.ExtendedCellCss?.Trim().IsNullOrEmpty() == false)
+                    {
+                        enabled = true;
+                        newColumn.ExtendedCellCss = column.ExtendedCellCss;
+                    }
                     if (column.ExtendedFieldCss?.Trim().IsNullOrEmpty() == false)
                     {
                         enabled = true;
@@ -1603,12 +1609,84 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public void SetColumnAccessControls(Context context, List<string> mine = null)
         {
-            ColumnHash.Values.ForEach(column =>
+            var columns = ColumnHash.Values.ToArray();
+            var tasks = new Task[]
             {
-                SetColumnAccessControls(
+                Task.Run(() => SetColumnAccessControls(
                     context: context,
-                    column: column,
-                    mine: mine);
+                    columns: columns,
+                    getAccessControls: GetCreateColumnAccessControls,
+                    setAllowed: SetCanCreate,
+                    mine: mine)),
+                Task.Run(() => SetColumnAccessControls(
+                    context: context,
+                    columns: columns,
+                    getAccessControls: GetReadColumnAccessControls,
+                    setAllowed: SetCanRead,
+                    mine: mine)),
+                Task.Run(() => SetColumnAccessControls(
+                    context: context,
+                    columns: columns,
+                    getAccessControls: GetUpdateColumnAccessControls,
+                    setAllowed: SetCanUpdate,
+                    mine: mine))
+            };
+            Task.WaitAll(tasks);
+        }
+
+        private List<ColumnAccessControl> GetCreateColumnAccessControls(SiteSettings ss)
+        {
+            return ss.CreateColumnAccessControls;
+        }
+
+        private List<ColumnAccessControl> GetReadColumnAccessControls(SiteSettings ss)
+        {
+            return ss.ReadColumnAccessControls;
+        }
+
+        private List<ColumnAccessControl> GetUpdateColumnAccessControls(SiteSettings ss)
+        {
+            return ss.UpdateColumnAccessControls;
+        }
+
+        private void SetCanCreate(Column column, bool allowed)
+        {
+            column.CanCreate = allowed;
+        }
+
+        private void SetCanRead(Column column, bool allowed)
+        {
+            column.CanRead = allowed;
+        }
+
+        private void SetCanUpdate(Column column, bool allowed)
+        {
+            column.CanUpdate = allowed;
+        }
+
+        public void SetColumnAccessControls(
+            Context context,
+            Column[] columns,
+            Func<SiteSettings, List<ColumnAccessControl>> getAccessControls,
+            Action<Column, bool> setAllowed,
+            List<string> mine = null)
+        {
+            var columnAccessContrHash = columns.GroupBy(column => column.SiteSettings)
+                .ToDictionary(
+                    group => group.Key,
+                    group => getAccessControls(group.Key)
+                        .GroupBy(columnAccessControl => columnAccessControl.ColumnName)
+                        .ToDictionary(
+                            columnAccessControls => columnAccessControls.Key,
+                            columnAccessControls => columnAccessControls.ToArray()));
+            columns.ForEach(column =>
+            {
+                columnAccessContrHash.Get(column.SiteSettings).Get(column.Name)
+                    ?.ForEach(o => setAllowed(column, o.Allowed(
+                        context: context,
+                        ss: this,
+                        type: PermissionType,
+                        mine: mine)));
             });
         }
 
@@ -3005,6 +3083,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "Format": column.Format = value; break;
                 case "NoWrap": column.NoWrap = value.ToBool(); break;
                 case "Hide": column.Hide = value.ToBool(); break;
+                case "ExtendedCellCss": column.ExtendedCellCss = value; break;
                 case "ExtendedFieldCss": column.ExtendedFieldCss = value; break;
                 case "Section": column.Section = value; break;
                 case "GridDesign":

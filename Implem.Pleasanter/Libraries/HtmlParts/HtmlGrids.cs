@@ -60,7 +60,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         if (sort)
                         {
                             hb.Th(
-                                css: "sortable",
+                                css: column.CellCss(css: "sortable"),
                                 attributes: new HtmlAttributes()
                                     .DataName(column.ColumnName),
                                 action: () => hb
@@ -82,10 +82,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         }
                         else
                         {
-                            hb.Th(action: () => hb
-                                .Text(text: Displays.Get(
-                                    context: context,
-                                    id: column.GridLabelText)));
+                            hb.Th(
+                                css: column.CellCss(),
+                                action: () => hb
+                                    .Text(text: Displays.Get(
+                                        context: context,
+                                        id: column.GridLabelText)));
                         }
                     });
                 });

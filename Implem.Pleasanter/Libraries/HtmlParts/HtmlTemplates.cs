@@ -531,6 +531,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .ToJson())
                     .HiddenSiteSettings(context: context, ss: ss)
                     .ExtendedSql(context: context)
+                    .Hidden(
+                        controlId: "data-validation-maxlength-type", 
+                        value: Parameters.Validation.MaxLengthCountType)
+                    .Hidden(
+                        controlId: "data-validation-maxlength-regex", 
+                        value: Parameters.Validation.SingleByteCharactorRegexClient)
                 : hb;
         }
 

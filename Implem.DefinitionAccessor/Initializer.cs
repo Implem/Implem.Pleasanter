@@ -327,7 +327,9 @@ namespace Implem.DefinitionAccessor
                             fileNameWithoutExtension.Length - displayElement.Language.Length - 1);
                     var listDisplay = new Dictionary<string, List<DisplayElement>>();
                     listDisplay
-                        .AddIfNotConainsKey(name, new List<DisplayElement>())
+                        .AddIfNotConainsKey(
+                            key: name,
+                            value: new List<DisplayElement>())
                         .Get(name)
                         .Add(displayElement);
                     list.Add(new ExtendedHtml()

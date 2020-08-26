@@ -2050,22 +2050,49 @@ namespace Implem.Pleasanter.Models
                     siteId: Site.SiteId,
                     limitPerSite: Parameters.Api.LimitPerSite));
             }
-            switch (Site.ReferenceType)
+            if (context.RequestDataString.Deserialize<ApiDeleteOption>()?.PhysicalDelete == true)
             {
-                case "Issues":
-                    return IssueUtilities.BulkDeleteByApi(
-                        context: context,
-                        ss: Site.IssuesSiteSettings(
+                switch (Site.ReferenceType)
+                {
+                    case "Issues":
+                        return IssueUtilities.PhysicalBulkDeleteByApi(
                             context: context,
-                            referenceId: ReferenceId));
-                case "Results":
-                    return ResultUtilities.BulkDeleteByApi(
-                        context: context,
-                        ss: Site.ResultsSiteSettings(
+                            ss: Site.IssuesSiteSettings(
+                                context: context,
+                                referenceId: ReferenceId,
+                                setSiteIntegration: true,
+                                tableType: Sqls.TableTypes.Deleted));
+                    case "Results":
+                        return ResultUtilities.PhysicalBulkDeleteByApi(
                             context: context,
-                            referenceId: ReferenceId));
-                default:
-                    return ApiResults.Get(ApiResponses.NotFound(context: context));
+                            ss: Site.ResultsSiteSettings(
+                                context: context,
+                                referenceId: ReferenceId,
+                                setSiteIntegration: true,
+                                tableType: Sqls.TableTypes.Deleted));
+                    default:
+                        return ApiResults.Get(ApiResponses.NotFound(context: context));
+                }
+            }
+            else
+            {
+                switch (Site.ReferenceType)
+                {
+                    case "Issues":
+                        return IssueUtilities.BulkDeleteByApi(
+                            context: context,
+                            ss: Site.IssuesSiteSettings(
+                                context: context,
+                                referenceId: ReferenceId));
+                    case "Results":
+                        return ResultUtilities.BulkDeleteByApi(
+                            context: context,
+                            ss: Site.ResultsSiteSettings(
+                                context: context,
+                                referenceId: ReferenceId));
+                    default:
+                        return ApiResults.Get(ApiResponses.NotFound(context: context));
+                }
             }
         }
 
@@ -2107,13 +2134,13 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public string PhysicalDelete(Context context)
+        public string PhysicalBulkDelete(Context context)
         {
             SetSite(context: context, tableType: Sqls.TableTypes.Deleted);
             switch (Site.ReferenceType)
             {
                 case "Sites":
-                    return SiteUtilities.PhysicalDelete(
+                    return SiteUtilities.PhysicalBulkDelete(
                         context: context,
                         ss: Site.SitesSiteSettings(
                             context: context,
@@ -2121,7 +2148,7 @@ namespace Implem.Pleasanter.Models
                             setSiteIntegration: true,
                             tableType: Sqls.TableTypes.Deleted));
                 case "Issues":
-                    return IssueUtilities.PhysicalDelete(
+                    return IssueUtilities.PhysicalBulkDelete(
                         context: context,
                         ss: Site.IssuesSiteSettings(
                             context: context,
@@ -2129,7 +2156,7 @@ namespace Implem.Pleasanter.Models
                             setSiteIntegration: true,
                             tableType: Sqls.TableTypes.Deleted));
                 case "Results":
-                    return ResultUtilities.PhysicalDelete(
+                    return ResultUtilities.PhysicalBulkDelete(
                         context: context,
                         ss: Site.ResultsSiteSettings(
                             context: context,

@@ -4400,7 +4400,7 @@ namespace Implem.Pleasanter.Models
                 }).Count.ToInt();
         }
 
-        public static string PhysicalDelete(Context context, SiteSettings ss)
+        public static string PhysicalBulkDelete(Context context, SiteSettings ss)
         {
             if (!Parameters.Deleted.PhysicalDelete)
             {
@@ -4412,7 +4412,7 @@ namespace Implem.Pleasanter.Models
                 var count = 0;
                 if (selector.All)
                 {
-                    count = PhysicalDelete(
+                    count = PhysicalBulkDelete(
                         context: context,
                         ss: ss,
                         selected: selector.Selected,
@@ -4422,7 +4422,7 @@ namespace Implem.Pleasanter.Models
                 {
                     if (selector.Selected.Any())
                     {
-                        count = PhysicalDelete(
+                        count = PhysicalBulkDelete(
                             context: context,
                             ss: ss,
                             selected: selector.Selected);
@@ -4436,7 +4436,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     clearCheck: true,
-                    message: Messages.PhysicalDeleted(
+                    message: Messages.PhysicalBulkDeletedFromRecycleBin(
                         context: context,
                         data: count.ToString()));
             }
@@ -4446,25 +4446,38 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private static int PhysicalDelete(
+        private static int PhysicalBulkDelete(
             Context context,
             SiteSettings ss,
             List<long> selected,
-            bool negative = false)
+            bool negative = false,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Deleted)
         {
+            var tableName = string.Empty;
+            switch (tableType)
+            {
+                case Sqls.TableTypes.History:
+                    tableName = "_History";
+                    break;
+                case Sqls.TableTypes.Deleted:
+                    tableName = "_Deleted";
+                    break;
+                default:
+                    break;
+            }
             var where = Rds.IssuesWhere()
                 .SiteId(
                     value: ss.SiteId,
-                    tableName: "Issues_Deleted")
+                    tableName: "Issues" + tableName)
                 .IssueId_In(
                     value: selected,
-                    tableName: "Issues_Deleted",
+                    tableName: "Issues" + tableName,
                     negative: negative,
                     _using: selected.Any())
                 .IssueId_In(
-                    tableName: "Issues_Deleted",
+                    tableName: "Issues" + tableName,
                     sub: Rds.SelectIssues(
-                        tableType: Sqls.TableTypes.Deleted,
+                        tableType: tableType,
                         column: Rds.IssuesColumn().IssueId(),
                         where: Views.GetBySession(
                             context: context,
@@ -4474,10 +4487,10 @@ namespace Implem.Pleasanter.Models
                                     ss: ss,
                                     itemJoin: false)));
             var sub = Rds.SelectIssues(
-                tableType: Sqls.TableTypes.Deleted,
-                _as: "Issues_Deleted",
+                tableType: tableType,
+                _as: "Issues" + tableName,
                 column: Rds.IssuesColumn()
-                    .IssueId(tableName: "Issues_Deleted"),
+                    .IssueId(tableName: "Issues" + tableName),
                 where: where);
             var guid = Strings.NewGuid();
             return Rds.ExecuteScalar_response(
@@ -4486,25 +4499,86 @@ namespace Implem.Pleasanter.Models
                 statements: new SqlStatement[]
                 {
                     Rds.UpdateItems(
-                        tableType: Sqls.TableTypes.Deleted,
+                        tableType: tableType,
                         where: Rds.ItemsWhere()
                             .SiteId(ss.SiteId)
                             .ReferenceId_In(sub: sub),
                         param: Rds.ItemsParam()
                             .ReferenceType(guid)),
                     Rds.PhysicalDeleteBinaries(
-                        tableType: Sqls.TableTypes.Deleted,
+                        tableType: tableType,
                         where: Rds.ItemsWhere().ReferenceId_In(sub: sub)),
                     Rds.PhysicalDeleteIssues(
-                        tableType: Sqls.TableTypes.Deleted,
+                        tableType: tableType,
                         where: where),
                     Rds.RowCount(),
                     Rds.PhysicalDeleteItems(
-                        tableType: Sqls.TableTypes.Deleted,
+                        tableType: tableType,
                         where: Rds.ItemsWhere()
                             .SiteId(ss.SiteId)
                             .ReferenceType(guid)),
                 }).Count.ToInt();
+        }
+
+        public static System.Web.Mvc.ContentResult PhysicalBulkDeleteByApi(
+            Context context,
+            SiteSettings ss)
+        {
+            if (!Parameters.Deleted.PhysicalDelete)
+            {
+                return ApiResults.Get(ApiResponses.BadRequest(context: context));
+            }
+            if (context.CanManageSite(ss: ss))
+            {
+                var recordSelector = context.RequestDataString.Deserialize<RecordSelector>();
+                if (recordSelector == null)
+                {
+                    return ApiResults.Get(ApiResponses.BadRequest(context: context));
+                }
+                var count = 0;
+                if (recordSelector.All)
+                {
+                    count = PhysicalBulkDelete(
+                        context: context,
+                        ss: ss,
+                        selected: recordSelector.Selected,
+                        negative: true,
+                        tableType: Sqls.TableTypes.Normal);
+                }
+                else
+                {
+                    if (recordSelector.Selected.Any())
+                    {
+                        count = PhysicalBulkDelete(
+                            context: context,
+                            ss: ss,
+                            selected: recordSelector.Selected,
+                            tableType: Sqls.TableTypes.Normal);
+                    }
+                    else
+                    {
+                        return ApiResults.Get(ApiResponses.BadRequest(context: context));
+                    }
+                }
+                GridRows(
+                    context: context,
+                    ss: ss,
+                    clearCheck: true,
+                    message: Messages.PhysicalBulkDeleted(
+                        context: context,
+                        data: count.ToString()));
+                return ApiResults.Success(
+                    id: context.SiteId,
+                    limitPerDate: Parameters.Api.LimitPerSite,
+                    limitRemaining: Parameters.Api.LimitPerSite - ss.ApiCount,
+                    message: Displays.PhysicalBulkDeleted(
+                        context: context,
+                        data: count.ToString()));
+            }
+            else
+            {
+                return ApiResults.Get(ApiResponses.Forbidden(context: context));
+            }
         }
 
         public static string Import(Context context, SiteModel siteModel)

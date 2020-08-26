@@ -727,7 +727,7 @@ namespace Implem.Pleasanter.Controllers
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
-            var json = new ItemModel(context: context, referenceId: id).PhysicalDelete(context: context);
+            var json = new ItemModel(context: context, referenceId: id).PhysicalBulkDelete(context: context);
             log.Finish(context: context, responseSize: json.Length);
             return json;
         }

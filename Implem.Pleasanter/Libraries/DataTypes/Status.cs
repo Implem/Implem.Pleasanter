@@ -51,9 +51,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             var choice = column.Choice(Value.ToString());
             return hb.Td(
-                css: column.TextAlign == SiteSettings.TextAlignTypes.Right
-                    ? " right-align "
-                    : string.Empty, 
+                css: column.CellCss(),
                 action: () => hb
                     .P(
                         attributes: new HtmlAttributes()

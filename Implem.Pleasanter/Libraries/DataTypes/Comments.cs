@@ -88,9 +88,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             var css = GridCss(context: context);
             return hb.Td(
-                css: column.TextAlign == SiteSettings.TextAlignTypes.Right
-                    ? " right-align "
-                    : string.Empty,
+                css: column.CellCss(),
                 action: () => this?
                     .Take(DisplayCount(context: context))
                     .ForEach(comment => comment

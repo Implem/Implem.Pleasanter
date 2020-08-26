@@ -337,6 +337,7 @@
     <Compile Include="Libraries\Models\JsonConverter.cs" />
     <Compile Include="Libraries\Models\JsonExport.cs" />
     <Compile Include="Libraries\Models\JsonExportColumn.cs" />
+    <Compile Include="Libraries\Requests\ApiDeleteOption.cs" />
     <Compile Include="Libraries\Requests\ExtendedApi.cs" />
     <Compile Include="Libraries\Requests\ExportApi.cs" />
     <Compile Include="Libraries\Requests\SessionApi.cs" />
@@ -1082,7 +1083,7 @@
     <Content Include="App_Data\Displays\PermissionNotSelfChange.json" />
     <Content Include="App_Data\Displays\PermissionSetting.json" />
     <Content Include="App_Data\Displays\PermissionSource.json" />
-    <Content Include="App_Data\Displays\PhysicalDeleted.json" />
+    <Content Include="App_Data\Displays\PhysicalBulkDeletedFromRecycleBin.json" />
     <Content Include="App_Data\Displays\Plan.json" />
     <Content Include="App_Data\Displays\PlannedValue.json" />
     <Content Include="App_Data\Displays\Portal.json" />
@@ -1318,6 +1319,8 @@
     <Content Include="Scripts\FieldSelectable.js" />
     <Content Include="Scripts\BulkUpdate.js" />
     <Content Include="Scripts\LockEvents.js" />
+    <Content Include="Scripts\Plugins\jquery-3.1.0.min.js" />
+    <Content Include="Scripts\Plugins\jquery-3.5.1.min.js" />
     <Content Include="Scripts\SetDateRangeDialog.js" />
     <Content Include="Scripts\RelatingColumns.js" />
     <Content Include="Scripts\SetNumericRangeDialog.js" />
@@ -1384,7 +1387,6 @@
     <Content Include="Scripts\MarkDown.js" />
     <Content Include="Scripts\_ControllEvents.js" />
     <Content Include="Scripts\Plugins\d3.min.js" />
-    <Content Include="Scripts\Plugins\jquery-3.1.0.min.js" />
     <Content Include="Scripts\SearchEvents.js" />
     <Content Include="Scripts\Selectable.js" />
     <Content Include="Scripts\Separate.js" />
@@ -1624,6 +1626,8 @@
     <Content Include="App_Data\Displays\ToEven.json" />
     <Content Include="App_Data\Displays\Truncate.json" />
     <Content Include="App_Data\Displays\DigitGrouping.json" />
+    <Content Include="App_Data\Displays\PhysicalBulkDeleted.json" />
+    <Content Include="App_Data\Displays\ExtendedCellCss.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

@@ -38,8 +38,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
         {
-            return hb.Td(action: () => hb
-                .Text(text: Name));
+            return hb.Td(
+                css: column.CellCss(),
+                action: () => hb
+                    .Text(text: Name));
         }
 
         public string GridText(Context context, Column column)

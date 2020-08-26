@@ -14,9 +14,12 @@ namespace Implem.Pleasanter.Libraries.Extensions
             this HtmlBuilder hb, Context context, Column column, IConvertable value)
         {
             return column != null && value != null
-                ? value.Td(hb: hb, context: context, column: column)
+                ? value.Td(
+                    hb: hb,
+                    context: context,
+                    column: column)
                 : hb.Td(
-                    css: TextAlignCss(context: context, column: column), 
+                    css: column.CellCss(), 
                     action: () => hb
                         .Text(string.Empty));
         }
@@ -25,7 +28,7 @@ namespace Implem.Pleasanter.Libraries.Extensions
             this HtmlBuilder hb, Context context, Column column, TimeZoneInfo value)
         {
             return hb.Td(
-                css: TextAlignCss(context: context, column: column), 
+                css: column.CellCss(), 
                 action: () => hb
                     .Text(text: value?.StandardName));
         }
@@ -35,7 +38,7 @@ namespace Implem.Pleasanter.Libraries.Extensions
         {
             return column.HasChoices()
                 ? hb.Td(
-                    css: TextAlignCss(context: context, column: column),
+                    css: column.CellCss(),
                     action: () =>
                     {
                         if (column.Type != Column.Types.Normal
@@ -63,13 +66,13 @@ namespace Implem.Pleasanter.Libraries.Extensions
                     })
                 : column.ControlType == "MarkDown"
                     ? hb.Td(
-                        css: TextAlignCss(context: context, column: column),
+                        css: column.CellCss(),
                         action: () => hb
                             .Div(css: "grid-title-body", action: () => hb
                                 .P(css: "body markup", action: () => hb
                                     .Text(text: value))))
                     : hb.Td(
-                        css: TextAlignCss(context: context, column: column),
+                        css: column.CellCss(),
                         action: () => hb
                             .Text(text: value));
         }
@@ -78,7 +81,7 @@ namespace Implem.Pleasanter.Libraries.Extensions
             this HtmlBuilder hb, Context context, Column column, int value)
         {
             return hb.Td(
-                css: TextAlignCss(context: context, column: column),
+                css: column.CellCss(),
                 action: () => hb
                     .Text(text: value.ToString(column.StringFormat) + column.Unit));
         }
@@ -87,7 +90,7 @@ namespace Implem.Pleasanter.Libraries.Extensions
             this HtmlBuilder hb, Context context, Column column, long value)
         {
             return hb.Td(
-                css: TextAlignCss(context: context, column: column),
+                css: column.CellCss(),
                 action: () => hb
                     .Text(text: value.ToString(column.StringFormat) + column.Unit));
         }
@@ -96,7 +99,7 @@ namespace Implem.Pleasanter.Libraries.Extensions
             this HtmlBuilder hb, Context context, Column column, decimal value)
         {
             return hb.Td(
-                css: TextAlignCss(context: context, column: column), 
+                css: column.CellCss(), 
                 action: () => hb
                     .Text(text: column.Display(
                         context: context,
@@ -108,7 +111,7 @@ namespace Implem.Pleasanter.Libraries.Extensions
             this HtmlBuilder hb, Context context, Column column, DateTime value)
         {
             return hb.Td(
-                css: TextAlignCss(context: context, column: column), 
+                css: column.CellCss(), 
                 action: () => hb
                     .Text(text: column.DisplayGrid(
                         context: context,
@@ -121,15 +124,15 @@ namespace Implem.Pleasanter.Libraries.Extensions
             return column.HasChoices()
                 ? value
                     ? hb.Td(
-                        css: TextAlignCss(context: context, column: column), 
+                        css: column.CellCss(), 
                         action: () => hb
                             .Text(text: column.ChoicesText.SplitReturn()._1st()))
                     : hb.Td(
-                        css: TextAlignCss(context: context, column: column), 
+                        css: column.CellCss(), 
                         action: () => hb
                             .Text(text: column.ChoicesText.SplitReturn()._2nd()))
                 : hb.Td(
-                    css: TextAlignCss(context: context, column: column), 
+                    css: column.CellCss(), 
                     action: () => hb
                         .Span(css: "ui-icon ui-icon-circle-check", _using: value));
         }
@@ -138,16 +141,9 @@ namespace Implem.Pleasanter.Libraries.Extensions
             this HtmlBuilder hb, Context context, Column column, Enum value)
         {
             return hb.Td(
-                css: TextAlignCss(context: context, column: column), 
+                css: column.CellCss(), 
                 action: () => hb
                     .Text(text: value.ToString()));
-        }
-
-        private static string TextAlignCss(Context context, Column column)
-        {
-            return column.TextAlign == SiteSettings.TextAlignTypes.Right
-                ? " right-align "
-                : string.Empty;
         }
     }
 }

@@ -175,7 +175,7 @@ namespace Implem.Pleasanter.Models
         public RegistrationModel(
             Context context,
             SiteSettings ss,
-            IDictionary<string, string> formData = null,
+            Dictionary<string, string> formData = null,
             bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
@@ -198,7 +198,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             int registrationId,
-            IDictionary<string, string> formData = null,
+            Dictionary<string, string> formData = null,
             bool setByApi = false,
             bool clearSessions = false,
             List<int> switchTargets = null,
@@ -237,7 +237,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             DataRow dataRow,
-            IDictionary<string, string> formData = null,
+            Dictionary<string, string> formData = null,
             string tableAlias = null)
         {
             OnConstructing(context: context);
@@ -577,7 +577,7 @@ namespace Implem.Pleasanter.Models
         public void SetByForm(
             Context context,
             SiteSettings ss,
-            IDictionary<string, string> formData)
+            Dictionary<string, string> formData)
         {
             formData.ForEach(data =>
             {

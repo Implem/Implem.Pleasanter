@@ -1505,7 +1505,7 @@ namespace Implem.Pleasanter.Models
                 }).Count.ToInt();
         }
 
-        public static string PhysicalDelete(Context context, SiteSettings ss)
+        public static string PhysicalBulkDelete(Context context, SiteSettings ss)
         {
             if (!Parameters.Deleted.PhysicalDelete)
             {
@@ -1517,7 +1517,7 @@ namespace Implem.Pleasanter.Models
                 var count = 0;
                 if (selector.All)
                 {
-                    count = PhysicalDelete(
+                    count = PhysicalBulkDelete(
                         context: context,
                         ss: ss,
                         selected: selector.Selected,
@@ -1527,7 +1527,7 @@ namespace Implem.Pleasanter.Models
                 {
                     if (selector.Selected.Any())
                     {
-                        count = PhysicalDelete(
+                        count = PhysicalBulkDelete(
                             context: context,
                             ss: ss,
                             selected: selector.Selected);
@@ -1541,7 +1541,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     clearCheck: true,
-                    message: Messages.PhysicalDeleted(
+                    message: Messages.PhysicalBulkDeletedFromRecycleBin(
                         context: context,
                         data: count.ToString()));
             }
@@ -1551,26 +1551,42 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private static int PhysicalDelete(
-            Context context, SiteSettings ss, List<long> selected, bool negative = false)
+        private static int PhysicalBulkDelete(
+            Context context, 
+            SiteSettings ss, 
+            List<long> selected, 
+            bool negative = false,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Deleted)
         {
+            var tableName = string.Empty;
+            switch (tableType)
+            {
+                case Sqls.TableTypes.History:
+                    tableName = "_History";
+                    break;
+                case Sqls.TableTypes.Deleted:
+                    tableName = "_Deleted";
+                    break;
+                default:
+                    break;
+            }
             var where = Rds.SitesWhere()
                 .TenantId(
                     value: context.TenantId,
-                    tableName: "Sites_Deleted")
+                    tableName: "Sites" + tableName)
                 .ParentId(
                     value: ss.SiteId,
-                    tableName: "Sites_Deleted")
+                    tableName: "Sites" + tableName)
                 .SiteId_In(
                     value: selected,
-                    tableName: "Sites_Deleted",
+                    tableName: "Sites" + tableName,
                     negative: negative,
                     _using: selected.Any());
             var sub = Rds.SelectSites(
-                tableType: Sqls.TableTypes.Deleted,
-                _as: "Sites_Deleted",
+                tableType: tableType,
+                _as: "Sites" + tableName,
                 column: Rds.SitesColumn()
-                    .SiteId(tableName: "Sites_Deleted"),
+                    .SiteId(tableName: "Sites" + tableName),
                 where: where);
             return Rds.ExecuteScalar_response(
                 context: context,
@@ -1578,22 +1594,25 @@ namespace Implem.Pleasanter.Models
                 statements: new SqlStatement[]
                 {
                     Rds.PhysicalDeleteItems(
-                        tableType: Sqls.TableTypes.Deleted,
+                        tableType: tableType,
                         where: Rds.ItemsWhere()
                             .ReferenceId_In(sub:
                                 Rds.SelectWikis(
-                                    tableType: Sqls.TableTypes.Deleted,
+                                    tableType: tableType,
                                     column: Rds.WikisColumn().WikiId(),
                                     where: Rds.WikisWhere().SiteId_In(sub: sub)))
                             .ReferenceType("Wikis")),
                     Rds.PhysicalDeleteWikis(
-                        tableType: Sqls.TableTypes.Deleted,
+                        tableType: tableType,
                         where: Rds.WikisWhere().SiteId_In(sub: sub)),
                     Rds.PhysicalDeleteItems(
-                        tableType: Sqls.TableTypes.Deleted,
+                        tableType: tableType,
+                        where: Rds.ItemsWhere().ReferenceId_In(sub: sub)),
+                    Rds.PhysicalDeleteBinaries(
+                        tableType: tableType,
                         where: Rds.ItemsWhere().ReferenceId_In(sub: sub)),
                     Rds.PhysicalDeleteSites(
-                        tableType: Sqls.TableTypes.Deleted,
+                        tableType: tableType,
                         where: where),
                     Rds.RowCount()
                 }).Count.ToInt();
@@ -3992,6 +4011,11 @@ namespace Implem.Pleasanter.Models
                                 selectedValue: column.GridFormat);
                     }
                     hb
+                        .FieldTextBox(
+                            controlId: "ExtendedCellCss",
+                            fieldCss: "field-normal",
+                            labelText: Displays.ExtendedCellCss(context: context),
+                            text: column.ExtendedCellCss)
                         .FieldCheckBox(
                             controlId: "UseGridDesign",
                             labelText: Displays.UseCustomDesign(context: context),

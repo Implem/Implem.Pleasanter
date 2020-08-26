@@ -82,9 +82,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public override HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
         {
             return hb.Td(
-                css: column.TextAlign == SiteSettings.TextAlignTypes.Right
-                    ? " right-align "
-                    : string.Empty,
+                css: column.CellCss(),
                 action: () =>
                 {
                     hb.P(css: "time", action: () => hb

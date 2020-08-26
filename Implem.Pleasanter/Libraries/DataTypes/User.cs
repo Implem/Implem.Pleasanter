@@ -122,9 +122,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             return Id != UserTypes.Anonymous.ToInt()
                 ? hb.Td(
-                    css: column.TextAlign == SiteSettings.TextAlignTypes.Right
-                        ? " right-align "
-                        : string.Empty, 
+                    css: column.CellCss(),
                     action: () => hb
                         .HtmlUser(
                             context: context,

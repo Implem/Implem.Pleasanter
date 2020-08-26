@@ -12,6 +12,7 @@ using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlLinks
@@ -202,12 +203,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static DataSet DataSet(Context context, SiteSettings ss, long id)
         {
-            var statements = new List<SqlStatement>();
-            ss.Sources
+            var tasks = new List<Task<SqlStatement>>();
+            tasks.AddRange(ss.Sources
                 .Values
                 .Where(currentSs => currentSs.ReferenceType == "Issues")
-                .ForEach(currentSs =>
-                    statements.Add(SelectIssues(
+                .Select(currentSs =>
+                    Task.Run(() => SelectIssues(
                         context: context,
                         ss: currentSs,
                         view: Views.GetBySession(
@@ -217,12 +218,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 ss: currentSs,
                                 direction: "Source")),
                         id: id,
-                        direction: "Source")));
-            ss.Destinations
+                        direction: "Source"))));
+            tasks.AddRange(ss.Destinations
                 .Values
                 .Where(currentSs => currentSs.ReferenceType == "Issues")
-                .ForEach(currentSs =>
-                    statements.Add(SelectIssues(
+                .Select(currentSs =>
+                    Task.Run(() => SelectIssues(
                         context: context,
                         ss: currentSs,
                         view: Views.GetBySession(
@@ -232,12 +233,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 ss: currentSs,
                                 direction: "Destination")),
                         id: id,
-                        direction: "Destination")));
-            ss.Sources
+                        direction: "Destination"))));
+            tasks.AddRange(ss.Sources
                 .Values
                 .Where(currentSs => currentSs.ReferenceType == "Results")
-                .ForEach(currentSs =>
-                    statements.Add(SelectResults(
+                .Select(currentSs =>
+                    Task.Run(() => SelectResults(
                         context: context,
                         ss: currentSs,
                         view: Views.GetBySession(
@@ -247,12 +248,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 ss: currentSs,
                                 direction: "Source")),
                         id: id,
-                        direction: "Source")));
-            ss.Destinations
+                        direction: "Source"))));
+            tasks.AddRange(ss.Destinations
                 .Values
                 .Where(currentSs => currentSs.ReferenceType == "Results")
-                .ForEach(currentSs =>
-                    statements.Add(SelectResults(
+                .Select(currentSs =>
+                    Task.Run(() => SelectResults(
                         context: context,
                         ss: currentSs,
                         view: Views.GetBySession(
@@ -262,7 +263,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 ss: currentSs,
                                 direction: "Destination")),
                         id: id,
-                        direction: "Destination")));
+                        direction: "Destination"))));
+            Task.WaitAll(tasks.ToArray());
+            var statements = new List<SqlStatement>(tasks.Select(task => task.Result));
             return statements.Any()
                 ? Rds.ExecuteDataSet(
                     context: context,

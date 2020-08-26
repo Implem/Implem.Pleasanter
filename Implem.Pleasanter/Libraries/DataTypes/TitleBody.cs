@@ -30,7 +30,12 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public override HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
         {
-            return hb.Td(action: () => TdTitleBody(hb: hb, context: context, column: column));
+            return hb.Td(
+                css: column.CellCss(),
+                action: () => TdTitleBody(
+                    hb: hb,
+                    context: context,
+                    column: column));
         }
 
         private HtmlBuilder TdTitleBody(HtmlBuilder hb, Context context, Column column)

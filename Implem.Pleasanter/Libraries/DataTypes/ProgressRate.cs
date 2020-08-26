@@ -80,9 +80,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
         {
             return hb.Td(
-                css: column.TextAlign == SiteSettings.TextAlignTypes.Right
-                    ? " right-align "
-                    : string.Empty,
+                css: column.CellCss(),
                 action: () => Svg(hb, context, column));
         }
 

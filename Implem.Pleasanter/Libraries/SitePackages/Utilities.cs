@@ -345,7 +345,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
         }
 
         private static void ImportItems(Context context,
-            IDictionary<long, long> idHash,
+            Dictionary<long, long> idHash,
             SitePackage sitePackage)
         {
             long savedReferenceId;
@@ -416,7 +416,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             return count;
         }
 
-        private static void ImportIssues(Context context, IDictionary<long, long> idHash, IExportModel exportModel)
+        private static void ImportIssues(Context context, Dictionary<long, long> idHash, IExportModel exportModel)
         {
             var model = exportModel as IssueExportModel;
             var siteId = idHash.Get(model.SiteId.ToLong());
