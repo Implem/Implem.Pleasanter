@@ -7,7 +7,7 @@ Pleasanter（プリザンター）はオープンソースのビジネスアプ�
 ![postgrebanner](https://user-images.githubusercontent.com/45094165/91284939-868b3680-e7c7-11ea-8530-84f388cf6c2c.jpg)  
 **2020年5月、待望の正式版をリリースしました！**
 
-[Windows版(.NET Framework版)はこちら](https://github.com/Implem/Implem.Pleasanter/blob/master/README.md)
+[Windows版(.NET Framework版)はこちら](https://github.com/Implem/Implem.Pleasanter)
 
 ## ダウンロード
 ダウンロードサイトです。  
