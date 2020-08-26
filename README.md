@@ -1,168 +1,83 @@
 ![image](https://user-images.githubusercontent.com/12204265/48656589-f785b200-ea69-11e8-8278-3cf084ccbd27.png)
 
-## プリザンター クロスプラットフォーム beta 版
+## Pleasanterとは
+Pleasanter（プリザンター）はオープンソースのビジネスアプリケーション プラットフォームです。顧客管理や案件管理などエクセルで行っているよう な様々な管理業務業務を簡単にWebデータベース化することができます。人数制限なし、機能制限なし、利用期限なしで無料でご利用頂けます。
 
-プリザンター クロスプラットフォーム beta 版のデバッグへのご協力まことにありがとうございます。  
-本プロダクトは開発途中のものであり、まだ多くの不具合が含まれております。不具合を発見された場合は issue にてお知らせください。  
+## Linux + PostgreSQL対応版(.NET Core クロスプラットフォーム版)
+**2020年5月、待望の正式版をリリースしました！**
 
-技術概要資料(PDF)は[こちら](docs/20190308.pdf)です。
-
-## 製品版の README
-製品版（Windows 版）の README は[こちら](https://github.com/Implem/Implem.Pleasanter/blob/master/README.md)です。  
-製品版（Windows 版）のリポジトリは[こちら](https://github.com/Implem/Implem.Pleasanter)です。
+[Windows版(.NET Framework版)はこちら](https://github.com/Implem/Implem.Pleasanter/README.md)
 
 ## ダウンロード
-クロスプラットフォーム beta 版のセットアップモジュールはまだありません。  
-ソースコードからビルドしてください。  
-開発/ビルドは Windows で行います。  
-Linux でビルド/実行する場合は、下記「Linux だけでビルド/実行する」を参照してください。
+ダウンロードサイトです。  
+http://pleasanter.org
 
-## 開発/ビルド環境を構成する（Windows）
-* Visual Studio 2017 [[download](https://visualstudio.microsoft.com/ja/downloads/)]
-* .NET Framework 4.7.2 [[download](https://dotnet.microsoft.com/download)]
-* .NET Core 2.2 [[download](https://dotnet.microsoft.com/download)]
+## インストール・利用ガイド
+プリザンターのインストール手順及び、操作方法を解説します。  
+[利用ガイド](https://pleasanter.net/fs/publishes/418092/index)
 
-## ビルド/デバッグ実行をする（Windows）
-ソースコード（ソリューション）を Visual Studio で開きビルド/デバッグ実行をします。  
-実行可能なプロジェクト次の４つです。
+## デモサイト
+下記のサイトでe-mailアドレスを登録すると60日間試用することが出来ます。  
+https://pleasanter.azurewebsites.net
 
-| プロジェクト | 概要 | プラットフォーム |
-|:-|:-|:-|
-| Implem.CodeDefiner.NetCore | データベース構成ツール | クロスプラットフォーム（.NET Core） |
-| Implem.CodeDefiner.NetFramework | データベース構成ツール | Windows（.NET Framework） |
-| Implem.Pleasanter.NetCore | プリザンター | クロスプラットフォーム（.NET Core） |
-| Implem.Pleasanter.NetFramework | プリザンター | Windows（.NET Framework） |
+## 資料
+* [紹介資料](https://pleasanter.org/downloads/pleasanterp.pdf)
+* [パンフレット](https://pleasanter.org/downloads/pleasanter.pdf)
+* [アプリ作成ガイド](https://pleasanter.org/downloads/hands-on1.pdf)
 
-## 発行（publish）（Windowsで操作）
+## 主な利用シーン
+* [問合せ管理](https://implem.co.jp/2017/08/19/1728/)
+* [ナレッジ管理](https://implem.co.jp/2017/08/27/1987/)
+* [プロジェクト管理](https://implem.co.jp/2017/08/29/2015/)
+* [インシデント管理](https://implem.co.jp/2017/10/06/2317/)
+* [顧客管理](https://implem.co.jp/2017/08/31/2108/)
+* [営業支援](https://implem.co.jp/2017/08/22/1822/)
+* [画像の管理](https://implem.co.jp/2018/02/12/2773/)
 
-Visual Studio からクロスプラットフォーム（.NET Core）実行環境へ配置するバイナリの発行を行います。  
+## 動作イメージ
+* レコード操作
+![default](https://user-images.githubusercontent.com/17098267/26913025-36b4d106-4c53-11e7-9220-eeaf521aa9e4.gif)
 
-#### 作業対象プロジェクト
+* [カレンダー](https://github.com/Implem/Implem.Pleasanter/wiki/テーブル機能：カレンダー)
+![default](https://user-images.githubusercontent.com/17098267/26912816-ddbdcc48-4c51-11e7-9626-fe6e14864ec2.gif)
 
-1. Implem.CodeDefiner.NetCore
-1. Implem.Pleasanter.NetCore
+* [クロス集計](https://github.com/Implem/Implem.Pleasanter/wiki/テーブル機能：クロス集計)
+![default](https://user-images.githubusercontent.com/17098267/26914950-e92cf0a6-4c5e-11e7-8d71-9712e91b12fd.gif)
 
-#### 発行の設定
-| 項目 | 設定 |
-|:-|:-|
-| 発行方法 | ファイルシステム |
-| 構成 | Release |
-| ターゲットフレームワーク | .netcoreapp2.2 |
-| 配置モード | フレームワーク依存 |
-| ターゲットランタイム | ポータブル |
+* [ガントチャート](https://github.com/Implem/Implem.Pleasanter/wiki/テーブル機能：ガントチャート)
+![default](https://user-images.githubusercontent.com/17098267/27017681-49f03c82-4f65-11e7-9df9-97ae76780096.gif)
 
-## 実行環境を構築する（Windowsの場合）
-* .NET Framework 4.7.2 [[download](https://dotnet.microsoft.com/download)]
-* .NET Core 2.2 [[download](https://dotnet.microsoft.com/download)]
-* SQL Server 2017 [[download](https://www.microsoft.com/ja-jp/sql-server/sql-server-downloads)]
+* [バーンダウンチャート](https://github.com/Implem/Implem.Pleasanter/wiki/テーブル機能：バーンダウンチャート)
+![default](https://user-images.githubusercontent.com/17098267/26912848-08ead8ca-4c52-11e7-8159-bb6d2184f84c.gif)
 
-## 実行環境を構築する（Linuxの場合）
-* .NET Core 2.2 [[download](https://dotnet.microsoft.com/download)]  または [[パッケージ管理システム](https://dotnet.microsoft.com/download/linux-package-manager/rhel/sdk-2.2.105)]
-* SQL Server 2017 [[download](https://www.microsoft.com/ja-jp/sql-server/sql-server-downloads)] または [[パッケージ管理システム](https://docs.microsoft.com/ja-jp/sql/linux/quickstart-install-connect-ubuntu?view=sql-server-linux-2017)]
-* SQL Server フルテキスト検索 [[パッケージ管理システム](https://docs.microsoft.com/ja-jp/sql/linux/sql-server-linux-setup-full-text-search?view=sql-server-2017)]
+* [時系列チャート](https://github.com/Implem/Implem.Pleasanter/wiki/テーブル機能：時系列チャート)
+![default](https://user-images.githubusercontent.com/17098267/26912851-0c1b82f6-4c52-11e7-9461-8efbfd6cfea4.gif)
 
-参考：  
-CentOS
-```
-yum install -y mssql-server-fts
-```
-Ubuntu
-```
-apt-get install -y mssql-server-fts
-```
-
-* GDI+ のインストール
-
-参考：  
-CentOS
-```
-yum install -y epel-release
-yum install -y libgdiplus
-```
-Ubuntu
-```
-apt-get install -y libgdiplus
-```
-
-## SQL Server を構成する
-
-1. SQL Server をインストールした Windows または Linux へソースコードおよび発行したバイナリをコピーします。  
-※フォルダ構成を維持したままコピーしてください。
-1. Implem.CodeDefiner.NetCore プロジェクトの発行先フォルダへ移動します。  
-通常は Implem.CodeDefiner.NetCore\bin\Debug\netcoreapp2.2\publish\ または Implem.CodeDefiner.NetCore\bin\Release\netcoreapp2.2\publish\ です。
-1. SQL Server の接続情報を書き換えます。  
-接続情報が記載されたファイルは `Implem.Pleasanter\App_Data\Parameters\Rds.json` です。下記行のパスワード部分をSAのパスワード(※)に書き換えてください。  
-```"SaConnectionString": "Server=(local);Database=master;UID=sa;PWD=********;Connection Timeout=30;",  ```  
-※ SAのパスワードはSQL Serverのインストール時に設定したSQL Serverのシステム管理者のパスワードです。
-1. 次のコマンドで SQL Server を構築します。
-```
-dotnet Implem.CodeDefiner.NetCore.dll _rds
-```
-
-## プリザンターの配置
-
-1. プリザンターを実行する Windows または Linux へ Implem.Pleasanter.NetCore プロジェクトから発行したバイナリをコピーします。  
-通常は Implem.Pleasanter.NetCore\bin\Debug\netcoreapp2.2\publish\ または \Implem.Pleasanter.NetCore\bin\Release\netcoreapp2.2\publish\ です。
-
-## 実行
-次のコマンドでプリザンターを実行します。
-```
-dotnet Implem.Pleasanter.NetCore.dll
-```
-
-#### ブラウザでアクセス
-```
-http://localhost:5000/
-```
-
-## Linux だけでビルド/実行する
-
-1. 上記「実行環境を構築する（Linuxの場合）」で .NET Core と SQL Server をインストールします。
-1. ダウンロードしたプリザンターのソースファイル一式を Linux 上にコピーします。
-1. ソースファイルの中の cmdnetcore ディレクトリへ移動します。
-1. ```build.sh``` を実行しビルドを行います。
-1. ```codedefiner.sh``` を実行し SQL Server を構成します。
-1. ```pleasanter.sh``` を実行しプリザンターを実行します。
-1. ブラウザで ```http://localhost:5000/``` へアクセスします。
-
-## 常駐プログラムのスクリプトの動作環境を構築する（Linux）
-リマインダー機能やActive Directoryのユーザ情報を同期する場合は、スクリプトの動作環境として Python3 系をインストールします。  
-Linux に既に Python3 系がインストールされている場合は作業は不要です。  
-
-参考：  
-CentOS [[パッケージ管理システム](https://www.softwarecollections.org/en/scls/rhscl/rh-python36/)]
-
-## プリザンターのリマインダー機能を有効化する（Linux）
-
-リマインダーを使用すると指定した時間にタスクの状況などを通知することが可能です。リマインダーを動作させるためには、常駐プログラムによりプリザンターの URL にリクエストを送信し続けます。
-### **スクリプトの配置**
----
-[Reminder.py](https://github.com/Implem/Implem.Pleasanter.NetCore/tree/master/Implem.Pleasanter.NetCore/Tools/Reminder.py)を /opt/pleasanter-tools 等任意のディレクトリにコピーします。[Reminder.py](https://github.com/Implem/Implem.Pleasanter.NetCore/tree/master/Implem.Pleasanter.NetCore/Tools/Reminder.py) を vim 等の任意のエディターで編集し http://localhost/ の部分を、クライアントからアクセス可能なURLに変更します。localhost のままでもリマインダーを動かす事ができますが、送信されたメールに記載されるレコードの URL が http://localhost/ となり、クライアントからアクセスできません。
-### **cron の設定**
----
-スクリプトを cron に登録します。以下のコマンドを参考に設定を行ってください。  
-   
-1. crontab を編集します。  
-crontab -e
-
-1. crontab をサーバの起動時にリマインダー機能を実行するように設定します。  
-@reboot python3 /opt/pleasanter-tools/Reminder.py
-
-1. スクリプトを実行します。次回サーバ起動時には自動実行されるため初回のみ必要です。  
-python3 /opt/pleasanter-tools/Reminder.py
+* [カンバン](https://github.com/Implem/Implem.Pleasanter/wiki/テーブル機能：カンバン)
+![default](https://user-images.githubusercontent.com/17098267/26912853-0d61e2b8-4c52-11e7-8eb4-56feb7576d24.gif)
 
 
-## データベースバックアップスクリプトの動作環境を構成する（Linux）
-データベースバックアップスクリプト ```Implem.Pleasanter.NetCore/Tools/DbBackup.py``` を使用する場合は、Microsoft ODBC Driver 17 for SQL Server をインストールします。
+## 動作環境(検証済みの一例)
+Windows Server 2012 + IIS + SQL Server 2017 / 2019  
+Windows Server 2016 + IIS + SQL Server 2017 / 2019  
+Windows Server 2019 + IIS + SQL Server 2017 / 2019
+  
+RHEL8 + Nginx + PostgreSQL  
+RHEL8 + Apache + PostgreSQL 
+  
+CentOS7 + Nginx + SQL Server 2019  
+CentOS7 + Nginx + PostgreSQL  
+CentOS8 + Nginx + PostgreSQL  
 
-* Microsoft ODBC Driver 17 for SQL Server [[パッケージ管理システム](https://docs.microsoft.com/ja-jp/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-2017)]
+## 推奨スペック
+* CPU: 2コア以上
+* メモリ: 4GB以上
+* システムディスク: 60GB以上
+* データディスク: 10GB以上（バックアップ等の領域を検討する場合は別途ご準備ください）
 
-## デバッグする
-
-## issue を立てる
-
-プリザンター クロスプラットフォーム beta 版のデバッグへのご協力まことにありがとうございます。  
-本プロダクトは開発途中のものであり、まだ多くの不具合が含まれております。不具合を発見された場合は issue にてお知らせください。
+## 開発元
+お気軽にお問い合わせください。  
+[株式会社インプリム](https://implem.co.jp)
 
 ## キャラクター
 HAYATO  
