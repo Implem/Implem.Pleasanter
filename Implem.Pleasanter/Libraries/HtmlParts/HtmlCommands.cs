@@ -14,7 +14,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
-            Versions.VerTypes verType,
+            View view = null,
+            Versions.VerTypes verType = Versions.VerTypes.Latest,
             bool backButton = true,
             bool updateButton = false,
             bool copyButton = false,
@@ -208,7 +209,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                     method: "get",
                                                     _using: ss.MoveTargets?.Any() == true
                                                         && context.CanUpdate(ss: ss)
-                                                        && !ss.GridColumnsHasSources())
+                                                        && !ss.GridColumnsHasSources(gridColumns: view?.GridColumns))
                                                 .Button(
                                                     text: Displays.BulkDelete(context: context),
                                                     controlCss: "button-icon",
@@ -219,7 +220,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                     method: "delete",
                                                     confirm: "ConfirmDelete",
                                                     _using: context.CanDelete(ss: ss)
-                                                        && !ss.GridColumnsHasSources())
+                                                        && !ss.GridColumnsHasSources(gridColumns: view?.GridColumns))
                                                 .Button(
                                                     controlId: "EditImportSettings",
                                                     text: Displays.Import(context: context),
@@ -257,7 +258,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                     method: "post",
                                                     _using: ss.GridEditorType == SiteSettings.GridEditorTypes.Grid
                                                         && context.CanUpdate(ss: ss)
-                                                        && !ss.GridColumnsHasSources()
+                                                        && !ss.GridColumnsHasSources(gridColumns: view?.GridColumns)
                                                         && ss.IntegratedSites?.Any() != true);
                                             break;
                                         case "crosstab":

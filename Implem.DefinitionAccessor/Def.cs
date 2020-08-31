@@ -501,6 +501,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_BulkDeleteByApiCases": Code.Model_BulkDeleteByApiCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BulkDeleteByApiCases, definitionRow, CodeXls); break;
                     case "Model_DeleteHistoryCases": Code.Model_DeleteHistoryCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteHistoryCases, definitionRow, CodeXls); break;
                     case "Model_PhysicalDeleteCases": Code.Model_PhysicalDeleteCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PhysicalDeleteCases, definitionRow, CodeXls); break;
+                    case "Model_PhysicalDeleteByApiCases": Code.Model_PhysicalDeleteByApiCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PhysicalDeleteByApiCases, definitionRow, CodeXls); break;
                     case "Model_RestoreCases": Code.Model_RestoreCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_RestoreCases, definitionRow, CodeXls); break;
                     case "Model_RestoreFromHistoryCases": Code.Model_RestoreFromHistoryCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_RestoreFromHistoryCases, definitionRow, CodeXls); break;
                     case "Model_EditSeparateSettingsCases": Code.Model_EditSeparateSettingsCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_EditSeparateSettingsCases, definitionRow, CodeXls); break;
@@ -662,8 +663,9 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_BulkDeleteByApi": Code.Model_Utilities_BulkDeleteByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_BulkDeleteByApi, definitionRow, CodeXls); break;
                     case "Model_Utilities_DeleteHistory_Sites": Code.Model_Utilities_DeleteHistory_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DeleteHistory_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_DeleteHistory_Items": Code.Model_Utilities_DeleteHistory_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DeleteHistory_Items, definitionRow, CodeXls); break;
-                    case "Model_Utilities_PhysicalDelete_Sites": Code.Model_Utilities_PhysicalDelete_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_PhysicalDelete_Sites, definitionRow, CodeXls); break;
-                    case "Model_Utilities_PhysicalDelete_Items": Code.Model_Utilities_PhysicalDelete_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_PhysicalDelete_Items, definitionRow, CodeXls); break;
+                    case "Model_Utilities_PhysicalBulkDelete_Sites": Code.Model_Utilities_PhysicalBulkDelete_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_PhysicalBulkDelete_Sites, definitionRow, CodeXls); break;
+                    case "Model_Utilities_PhysicalBulkDelete_Items": Code.Model_Utilities_PhysicalBulkDelete_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_PhysicalBulkDelete_Items, definitionRow, CodeXls); break;
+                    case "Model_Utilities_PhysicalBulkDeleteByApi_Items": Code.Model_Utilities_PhysicalBulkDeleteByApi_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_PhysicalBulkDeleteByApi_Items, definitionRow, CodeXls); break;
                     case "Model_Utilities_Import": Code.Model_Utilities_Import = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Import, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImportColumnCases": Code.Model_Utilities_ImportColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportColumnCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImportUserColumnCases": Code.Model_Utilities_ImportUserColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportUserColumnCases, definitionRow, CodeXls); break;
@@ -7391,6 +7393,7 @@ namespace Implem.DefinitionAccessor
         public string Model_BulkDeleteByApiCases;
         public string Model_DeleteHistoryCases;
         public string Model_PhysicalDeleteCases;
+        public string Model_PhysicalDeleteByApiCases;
         public string Model_RestoreCases;
         public string Model_RestoreFromHistoryCases;
         public string Model_EditSeparateSettingsCases;
@@ -7552,8 +7555,9 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_BulkDeleteByApi;
         public string Model_Utilities_DeleteHistory_Sites;
         public string Model_Utilities_DeleteHistory_Items;
-        public string Model_Utilities_PhysicalDelete_Sites;
-        public string Model_Utilities_PhysicalDelete_Items;
+        public string Model_Utilities_PhysicalBulkDelete_Sites;
+        public string Model_Utilities_PhysicalBulkDelete_Items;
+        public string Model_Utilities_PhysicalBulkDeleteByApi_Items;
         public string Model_Utilities_Import;
         public string Model_Utilities_ImportColumnCases;
         public string Model_Utilities_ImportUserColumnCases;
@@ -8030,6 +8034,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_BulkDeleteByApiCases = new CodeDefinition();
         public CodeDefinition Model_DeleteHistoryCases = new CodeDefinition();
         public CodeDefinition Model_PhysicalDeleteCases = new CodeDefinition();
+        public CodeDefinition Model_PhysicalDeleteByApiCases = new CodeDefinition();
         public CodeDefinition Model_RestoreCases = new CodeDefinition();
         public CodeDefinition Model_RestoreFromHistoryCases = new CodeDefinition();
         public CodeDefinition Model_EditSeparateSettingsCases = new CodeDefinition();
@@ -8191,8 +8196,9 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_BulkDeleteByApi = new CodeDefinition();
         public CodeDefinition Model_Utilities_DeleteHistory_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_DeleteHistory_Items = new CodeDefinition();
-        public CodeDefinition Model_Utilities_PhysicalDelete_Sites = new CodeDefinition();
-        public CodeDefinition Model_Utilities_PhysicalDelete_Items = new CodeDefinition();
+        public CodeDefinition Model_Utilities_PhysicalBulkDelete_Sites = new CodeDefinition();
+        public CodeDefinition Model_Utilities_PhysicalBulkDelete_Items = new CodeDefinition();
+        public CodeDefinition Model_Utilities_PhysicalBulkDeleteByApi_Items = new CodeDefinition();
         public CodeDefinition Model_Utilities_Import = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImportColumnCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImportUserColumnCases = new CodeDefinition();

@@ -303,55 +303,58 @@ namespace Implem.Pleasanter.Libraries.Settings
             Dictionary<long, SiteSettings> joinedSsHash = null,
             bool destinations = true,
             bool sources = true,
-            List<long> previously = null)
+            List<long> previously = null,
+            Dictionary<long, DataSet> cache = null)
         {
             if ((!destinations || Destinations != null) && (!sources || Sources != null))
             {
                 return;
             }
-            var dataSet = Rds.ExecuteDataSet(
-                context: context,
-                statements: new SqlStatement[]
-                {
-                    Rds.SelectSites(
-                        dataTableName: "Destinations",
-                        column: Rds.SitesColumn()
-                            .SiteId()
-                            .Title()
-                            .Body()
-                            .GridGuide()
-                            .EditorGuide()
-                            .ReferenceType()
-                            .ParentId()
-                            .InheritPermission()
-                            .SiteSettings(),
-                        where: Rds.SitesWhere()
-                            .TenantId(context.TenantId)
-                            .SiteId_In(sub: Rds.SelectLinks(
-                                column: Rds.LinksColumn().DestinationId(),
-                                where: Rds.LinksWhere().SourceId(SiteId)))
-                            .ReferenceType("Wikis", _operator: "<>"),
-                        _using: destinations),
-                    Rds.SelectSites(
-                        dataTableName: "Sources",
-                        column: Rds.SitesColumn()
-                            .SiteId()
-                            .Title()
-                            .Body()
-                            .GridGuide()
-                            .EditorGuide()
-                            .ReferenceType()
-                            .ParentId()
-                            .InheritPermission()
-                            .SiteSettings(),
-                        where: Rds.SitesWhere()
-                            .TenantId(context.TenantId)
-                            .SiteId_In(sub: Rds.SelectLinks(
-                                column: Rds.LinksColumn().SourceId(),
-                                where: Rds.LinksWhere().DestinationId(SiteId)))
-                            .ReferenceType("Wikis", _operator: "<>"),
-                        _using: sources)
-                });
+            var dataSet = cache == null
+                ? Rds.ExecuteDataSet(
+                    context: context,
+                    statements: new SqlStatement[]
+                    {
+                        Rds.SelectSites(
+                            dataTableName: "Destinations",
+                            column: Rds.SitesColumn()
+                                .SiteId()
+                                .Title()
+                                .Body()
+                                .GridGuide()
+                                .EditorGuide()
+                                .ReferenceType()
+                                .ParentId()
+                                .InheritPermission()
+                                .SiteSettings(),
+                            where: Rds.SitesWhere()
+                                .TenantId(context.TenantId)
+                                .SiteId_In(sub: Rds.SelectLinks(
+                                    column: Rds.LinksColumn().DestinationId(),
+                                    where: Rds.LinksWhere().SourceId(SiteId)))
+                                .ReferenceType("Wikis", _operator: "<>"),
+                            _using: destinations),
+                        Rds.SelectSites(
+                            dataTableName: "Sources",
+                            column: Rds.SitesColumn()
+                                .SiteId()
+                                .Title()
+                                .Body()
+                                .GridGuide()
+                                .EditorGuide()
+                                .ReferenceType()
+                                .ParentId()
+                                .InheritPermission()
+                                .SiteSettings(),
+                            where: Rds.SitesWhere()
+                                .TenantId(context.TenantId)
+                                .SiteId_In(sub: Rds.SelectLinks(
+                                    column: Rds.LinksColumn().SourceId(),
+                                    where: Rds.LinksWhere().DestinationId(SiteId)))
+                                .ReferenceType("Wikis", _operator: "<>"),
+                            _using: sources)
+                    })
+                : cache.Get(SiteId);
             if (joinedSsHash == null)
             {
                 joinedSsHash = new Dictionary<long, SiteSettings>()
@@ -369,7 +372,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     joinedSsHash: joinedSsHash,
                     joinStacks: JoinStacks,
                     links: Links,
-                    previously: previously);
+                    previously: previously,
+                    cache: cache);
             }
             if (sources)
             {
@@ -380,7 +384,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     joinedSsHash: joinedSsHash,
                     joinStacks: JoinStacks,
                     links: Links,
-                    previously: previously);
+                    previously: previously,
+                    cache: cache);
             }
             if (destinations && sources)
             {
@@ -395,7 +400,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Dictionary<long, SiteSettings> joinedSsHash,
             List<JoinStack> joinStacks,
             List<Link> links,
-            List<long> previously)
+            List<long> previously,
+            Dictionary<long, DataSet> cache = null)
         {
             var hash = new Dictionary<long, SiteSettings>();
             dataSet.Tables[direction].AsEnumerable()
@@ -434,7 +440,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 joinedSsHash: joinedSsHash,
                                 destinations: true,
                                 sources: false,
-                                previously: previously);
+                                previously: previously,
+                                cache: cache);
                             break;
                         case "Sources":
                             ss.Links
@@ -453,7 +460,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 joinedSsHash: joinedSsHash,
                                 destinations: false,
                                 sources: true,
-                                previously: previously);
+                                previously: previously,
+                                cache: cache);
                             break;
                     }
                     hash.Add(ss.SiteId, ss);
@@ -4253,18 +4261,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .SingleOrDefault();
         }
 
-        public bool CheckRow(Context context)
+        public bool CheckRow(Context context, List<string> gridColumns)
         {
-            return GridColumnsHasSources()
+            return GridColumnsHasSources(gridColumns: gridColumns)
                 ? false
                 : context.CanUpdate(ss: this)
                     || context.CanDelete(ss: this)
                     || context.CanExport(ss: this);
         }
 
-        public bool GridColumnsHasSources()
+        public bool GridColumnsHasSources(List<string> gridColumns)
         {
-            return GridColumns?.Any(o => o.Contains("~~")) == true;
+            return (gridColumns ?? GridColumns)?.Any(o => o.Contains("~~")) == true;
         }
 
         public string ColumnsJson()
