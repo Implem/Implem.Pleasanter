@@ -4178,18 +4178,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .SingleOrDefault();
         }
 
-        public bool CheckRow(Context context)
+        public bool CheckRow(Context context, List<string> gridColumns)
         {
-            return GridColumnsHasSources()
+            return GridColumnsHasSources(gridColumns: gridColumns)
                 ? false
                 : context.CanUpdate(ss: this)
                     || context.CanDelete(ss: this)
                     || context.CanExport(ss: this);
         }
 
-        public bool GridColumnsHasSources()
+        public bool GridColumnsHasSources(List<string> gridColumns)
         {
-            return GridColumns?.Any(o => o.Contains("~~")) == true;
+            return (gridColumns ?? GridColumns)?.Any(o => o.Contains("~~")) == true;
         }
 
         public string ColumnsJson()
