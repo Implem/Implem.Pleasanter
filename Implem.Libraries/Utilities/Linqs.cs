@@ -14,7 +14,7 @@ namespace Implem.Libraries.Utilities
             }
         }
 
-        public static V Get<K, V>(this IDictionary<K, V> self, K key)
+        public static V Get<K, V>(this Dictionary<K, V> self, K key)
         {
             return key != null && self?.ContainsKey(key) == true
                 ? self[key]
@@ -22,7 +22,7 @@ namespace Implem.Libraries.Utilities
         }
 
         public static void RemoveAll<K, V>(
-            this IDictionary<K, V> self, Func<K, V, bool> peredicate)
+            this Dictionary<K, V> self, Func<K, V, bool> peredicate)
         {
             foreach (var key in self.Keys.ToArray().Where(key => peredicate(key, self[key])))
             {
@@ -31,17 +31,17 @@ namespace Implem.Libraries.Utilities
         }
 
         public static Dictionary<K, V> AddIfNotConainsKey<K, V>(
-            this IDictionary<K, V> self, K key, V value)
+            this Dictionary<K, V> self, K key, V value)
         {
             if (!self.ContainsKey(key))
             {
                 self.Add(key, value);
             }
-            return self.ToDictionary(o => o.Key, o => o.Value);
+            return self;
         }
 
         public static Dictionary<K, V> AddOrUpdate<K, V>(
-            this IDictionary<K, V> self, K key, V value)
+            this Dictionary<K, V> self, K key, V value)
         {
             if (!self.ContainsKey(key))
             {
@@ -51,27 +51,27 @@ namespace Implem.Libraries.Utilities
             {
                 self[key] = value;
             }
-            return self.ToDictionary(o => o.Key, o => o.Value);
+            return self;
         }
 
         public static Dictionary<K, V> AddRange<K, V>(
-            this IDictionary<K, V> self, IDictionary<K, V> data)
+            this Dictionary<K, V> self, Dictionary<K, V> data)
         {
             foreach (var dataPart in data)
             {
-                self.Add(dataPart);
+                self.Add(dataPart.Key, dataPart.Value);
             }
-            return self.ToDictionary(o => o.Key, o => o.Value);
+            return self;
         }
 
         public static Dictionary<K, V> AddRangeIfNotConainsKey<K, V>(
-            this IDictionary<K, V> self, IDictionary<K, V> data)
+            this Dictionary<K, V> self, Dictionary<K, V> data)
         {
             foreach (var dataPart in data)
             {
                 self.AddIfNotConainsKey(dataPart.Key, dataPart.Value);
             }
-            return self.ToDictionary(o => o.Key, o => o.Value);
+            return self;
         }
 
         public static Dictionary<K, V> UpdateOrAdd<K, V>(
@@ -85,7 +85,7 @@ namespace Implem.Libraries.Utilities
             {
                 self.Add(key, value);
             }
-            return self.ToDictionary(o => o.Key, o => o.Value);
+            return self;
         }
 
         public static TResult MinOrDefault<T, TResult>(

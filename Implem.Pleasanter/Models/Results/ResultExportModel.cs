@@ -309,7 +309,7 @@ namespace Implem.Pleasanter.Models
             Sources.Add(exportModel);
         }
 
-        public void ReplaceIdHash(string columnName, IDictionary<long, long> idHash)
+        public void ReplaceIdHash(string columnName, Dictionary<long, long> idHash)
         {
             switch (Def.ExtendedColumnTypes.Get(columnName))
             {

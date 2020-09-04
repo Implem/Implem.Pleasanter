@@ -86,7 +86,9 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                         Body = extension.Body
                                     };
                                     listDisplay
-                                        .AddIfNotConainsKey(name, new List<DisplayElement>())
+                                        .AddIfNotConainsKey(
+                                            key: name,
+                                            value: new List<DisplayElement>())
                                         .Get(name)
                                         .Add(displayElement);
                                     extendedHtml.Html = listDisplay;
