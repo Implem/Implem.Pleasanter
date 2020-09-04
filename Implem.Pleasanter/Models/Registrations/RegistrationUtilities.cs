@@ -108,6 +108,7 @@ namespace Implem.Pleasanter.Models
                             .MainCommands(
                                 context: context,
                                 ss: ss,
+                                view: view,
                                 verType: Versions.VerTypes.Latest,
                                 backButton: !context.Publish)
                             .Div(css: "margin-bottom")
@@ -301,7 +302,9 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false,
             string action = "GridRows")
         {
-            var checkRow = ss.CheckRow(context: context);
+            var checkRow = ss.CheckRow(
+                context: context,
+                gridColumns: view.GridColumns);
             var checkAll = clearCheck
                 ? false
                 : context.Forms.Bool("GridCheckAll");
