@@ -3457,7 +3457,8 @@ namespace Implem.Pleasanter.Models
                                                 context: context,
                                                 "Images",
                                                 "enterprise-banner.png"))),
-                            _using: !Parameters.CommercialLicense())
+                            _using: !Parameters.CommercialLicense()
+                                || Parameters.Service.Demo)
                         .Div(
                             id: "CasesBanner", action: () => hb
                                 .A(
@@ -3469,7 +3470,8 @@ namespace Implem.Pleasanter.Models
                                                 context: context,
                                                 "Images",
                                                 "cases-banner.png"))),
-                            _using: !Parameters.CommercialLicense())
+                            _using: !Parameters.CommercialLicense()
+                                || Parameters.Service.Demo)
                         .Div(id: "EditorTabsContainer", css: tabsCss, action: () => hb
                             .EditorTabs(context: context, siteModel: siteModel)
                             .FieldSetGeneral(context: context, siteModel: siteModel)
