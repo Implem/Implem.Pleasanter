@@ -418,7 +418,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             long parentId,
             long inheritPermission,
-            IDictionary<string, string> formData = null,
+            Dictionary<string, string> formData = null,
             bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
@@ -440,7 +440,7 @@ namespace Implem.Pleasanter.Models
         public SiteModel(
             Context context,
             long siteId,
-            IDictionary<string, string> formData = null,
+            Dictionary<string, string> formData = null,
             bool setByApi = false,
             bool clearSessions = false,
             List<long> switchTargets = null,
@@ -466,7 +466,7 @@ namespace Implem.Pleasanter.Models
         public SiteModel(
             Context context,
             DataRow dataRow,
-            IDictionary<string, string> formData = null,
+            Dictionary<string, string> formData = null,
             string tableAlias = null)
         {
             OnConstructing(context: context);
@@ -891,7 +891,7 @@ namespace Implem.Pleasanter.Models
 
         public void SetByForm(
             Context context,
-            IDictionary<string, string> formData)
+            Dictionary<string, string> formData)
         {
             var ss = new SiteSettings();
             formData.ForEach(data =>

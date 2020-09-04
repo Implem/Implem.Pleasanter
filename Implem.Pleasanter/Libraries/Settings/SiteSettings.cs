@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 namespace Implem.Pleasanter.Libraries.Settings
 {
     [Serializable()]
@@ -303,55 +304,58 @@ namespace Implem.Pleasanter.Libraries.Settings
             Dictionary<long, SiteSettings> joinedSsHash = null,
             bool destinations = true,
             bool sources = true,
-            List<long> previously = null)
+            List<long> previously = null,
+            Dictionary<long, DataSet> cache = null)
         {
             if ((!destinations || Destinations != null) && (!sources || Sources != null))
             {
                 return;
             }
-            var dataSet = Repository.ExecuteDataSet(
-                context: context,
-                statements: new SqlStatement[]
-                {
-                    Rds.SelectSites(
-                        dataTableName: "Destinations",
-                        column: Rds.SitesColumn()
-                            .SiteId()
-                            .Title()
-                            .Body()
-                            .GridGuide()
-                            .EditorGuide()
-                            .ReferenceType()
-                            .ParentId()
-                            .InheritPermission()
-                            .SiteSettings(),
-                        where: Rds.SitesWhere()
-                            .TenantId(context.TenantId)
-                            .SiteId_In(sub: Rds.SelectLinks(
-                                column: Rds.LinksColumn().DestinationId(),
-                                where: Rds.LinksWhere().SourceId(SiteId)))
-                            .ReferenceType("Wikis", _operator: "<>"),
-                        _using: destinations),
-                    Rds.SelectSites(
-                        dataTableName: "Sources",
-                        column: Rds.SitesColumn()
-                            .SiteId()
-                            .Title()
-                            .Body()
-                            .GridGuide()
-                            .EditorGuide()
-                            .ReferenceType()
-                            .ParentId()
-                            .InheritPermission()
-                            .SiteSettings(),
-                        where: Rds.SitesWhere()
-                            .TenantId(context.TenantId)
-                            .SiteId_In(sub: Rds.SelectLinks(
-                                column: Rds.LinksColumn().SourceId(),
-                                where: Rds.LinksWhere().DestinationId(SiteId)))
-                            .ReferenceType("Wikis", _operator: "<>"),
-                        _using: sources)
-                });
+            var dataSet = cache == null
+                ? Repository.ExecuteDataSet(
+                    context: context,
+                    statements: new SqlStatement[]
+                    {
+                        Rds.SelectSites(
+                            dataTableName: "Destinations",
+                            column: Rds.SitesColumn()
+                                .SiteId()
+                                .Title()
+                                .Body()
+                                .GridGuide()
+                                .EditorGuide()
+                                .ReferenceType()
+                                .ParentId()
+                                .InheritPermission()
+                                .SiteSettings(),
+                            where: Rds.SitesWhere()
+                                .TenantId(context.TenantId)
+                                .SiteId_In(sub: Rds.SelectLinks(
+                                    column: Rds.LinksColumn().DestinationId(),
+                                    where: Rds.LinksWhere().SourceId(SiteId)))
+                                .ReferenceType("Wikis", _operator: "<>"),
+                            _using: destinations),
+                        Rds.SelectSites(
+                            dataTableName: "Sources",
+                            column: Rds.SitesColumn()
+                                .SiteId()
+                                .Title()
+                                .Body()
+                                .GridGuide()
+                                .EditorGuide()
+                                .ReferenceType()
+                                .ParentId()
+                                .InheritPermission()
+                                .SiteSettings(),
+                            where: Rds.SitesWhere()
+                                .TenantId(context.TenantId)
+                                .SiteId_In(sub: Rds.SelectLinks(
+                                    column: Rds.LinksColumn().SourceId(),
+                                    where: Rds.LinksWhere().DestinationId(SiteId)))
+                                .ReferenceType("Wikis", _operator: "<>"),
+                            _using: sources)
+                    })
+                : cache.Get(SiteId);
             if (joinedSsHash == null)
             {
                 joinedSsHash = new Dictionary<long, SiteSettings>()
@@ -369,7 +373,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     joinedSsHash: joinedSsHash,
                     joinStacks: JoinStacks,
                     links: Links,
-                    previously: previously);
+                    previously: previously,
+                    cache: cache);
             }
             if (sources)
             {
@@ -380,7 +385,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     joinedSsHash: joinedSsHash,
                     joinStacks: JoinStacks,
                     links: Links,
-                    previously: previously);
+                    previously: previously,
+                    cache: cache);
             }
             if (destinations && sources)
             {
@@ -395,7 +401,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Dictionary<long, SiteSettings> joinedSsHash,
             List<JoinStack> joinStacks,
             List<Link> links,
-            List<long> previously)
+            List<long> previously,
+            Dictionary<long, DataSet> cache = null)
         {
             var hash = new Dictionary<long, SiteSettings>();
             dataSet.Tables[direction].AsEnumerable()
@@ -434,7 +441,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 joinedSsHash: joinedSsHash,
                                 destinations: true,
                                 sources: false,
-                                previously: previously);
+                                previously: previously,
+                                cache: cache);
                             break;
                         case "Sources":
                             ss.Links
@@ -453,7 +461,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 joinedSsHash: joinedSsHash,
                                 destinations: false,
                                 sources: true,
-                                previously: previously);
+                                previously: previously,
+                                cache: cache);
                             break;
                     }
                     hash.Add(ss.SiteId, ss);
@@ -1604,12 +1613,84 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public void SetColumnAccessControls(Context context, List<string> mine = null)
         {
-            ColumnHash.Values.ForEach(column =>
+            var columns = ColumnHash.Values.ToArray();
+            var tasks = new Task[]
             {
-                SetColumnAccessControls(
+                Task.Run(() => SetColumnAccessControls(
                     context: context,
-                    column: column,
-                    mine: mine);
+                    columns: columns,
+                    getAccessControls: GetCreateColumnAccessControls,
+                    setAllowed: SetCanCreate,
+                    mine: mine)),
+                Task.Run(() => SetColumnAccessControls(
+                    context: context,
+                    columns: columns,
+                    getAccessControls: GetReadColumnAccessControls,
+                    setAllowed: SetCanRead,
+                    mine: mine)),
+                Task.Run(() => SetColumnAccessControls(
+                    context: context,
+                    columns: columns,
+                    getAccessControls: GetUpdateColumnAccessControls,
+                    setAllowed: SetCanUpdate,
+                    mine: mine))
+            };
+            Task.WaitAll(tasks);
+        }
+
+        private List<ColumnAccessControl> GetCreateColumnAccessControls(SiteSettings ss)
+        {
+            return ss.CreateColumnAccessControls;
+        }
+
+        private List<ColumnAccessControl> GetReadColumnAccessControls(SiteSettings ss)
+        {
+            return ss.ReadColumnAccessControls;
+        }
+
+        private List<ColumnAccessControl> GetUpdateColumnAccessControls(SiteSettings ss)
+        {
+            return ss.UpdateColumnAccessControls;
+        }
+
+        private void SetCanCreate(Column column, bool allowed)
+        {
+            column.CanCreate = allowed;
+        }
+
+        private void SetCanRead(Column column, bool allowed)
+        {
+            column.CanRead = allowed;
+        }
+
+        private void SetCanUpdate(Column column, bool allowed)
+        {
+            column.CanUpdate = allowed;
+        }
+
+        public void SetColumnAccessControls(
+            Context context,
+            Column[] columns,
+            Func<SiteSettings, List<ColumnAccessControl>> getAccessControls,
+            Action<Column, bool> setAllowed,
+            List<string> mine = null)
+        {
+            var columnAccessContrHash = columns.GroupBy(column => column.SiteSettings)
+                .ToDictionary(
+                    group => group.Key,
+                    group => getAccessControls(group.Key)
+                        .GroupBy(columnAccessControl => columnAccessControl.ColumnName)
+                        .ToDictionary(
+                            columnAccessControls => columnAccessControls.Key,
+                            columnAccessControls => columnAccessControls.ToArray()));
+            columns.ForEach(column =>
+            {
+                columnAccessContrHash.Get(column.SiteSettings).Get(column.Name)
+                    ?.ForEach(o => setAllowed(column, o.Allowed(
+                        context: context,
+                        ss: this,
+                        type: PermissionType,
+                        mine: mine)));
             });
         }
 

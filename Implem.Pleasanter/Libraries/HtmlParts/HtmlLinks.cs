@@ -12,6 +12,7 @@ using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlLinks
@@ -200,14 +201,172 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .FirstOrDefault();
         }
 
+        private static Dictionary<long, DataSet> SiteSettingsCache(
+            Context context,
+            SiteSettings ss)
+        {
+            var (destinationIds, sourceIds) = LinkIds(
+                context: context,
+                siteIds: (ss.Destinations?.Keys.OfType<long>()
+                    ?? Enumerable.Empty<long>())
+                        .Union(ss.Sources?.Keys.OfType<long>()
+                            ?? Enumerable.Empty<long>()).ToArray(),
+                destinationIds: new Dictionary<long, long[]>(),
+                sourceIds: new Dictionary<long, long[]>());
+            return SiteSettingsCache(
+                context: context,
+                siteIds: destinationIds
+                    .SelectMany(ids => ids.Value)
+                    .Union(sourceIds.SelectMany(ids => ids.Value))
+                    .ToArray(),
+                destinationIds: destinationIds,
+                sourceIds: sourceIds);
+        }
+
+        static Dictionary<long, DataSet> SiteSettingsCache(
+            Context context,
+            long[] siteIds,
+            Dictionary<long, long[]> destinationIds,
+            Dictionary<long, long[]> sourceIds)
+        {
+            var dataSets = new Dictionary<long, DataSet>();
+            var dataTable = Rds.ExecuteTable(
+                context: context,
+                statements:
+                    Rds.SelectSites(
+                        column: Rds.SitesColumn()
+                            .SiteId()
+                            .Title()
+                            .Body()
+                            .GridGuide()
+                            .EditorGuide()
+                            .ReferenceType()
+                            .ParentId()
+                            .InheritPermission()
+                            .SiteSettings(),
+                        where: Rds.SitesWhere()
+                            .TenantId(context.TenantId)
+                            .SiteId_In(siteIds)
+                            .ReferenceType("Wikis", _operator: "<>")));
+            var dataRows = dataTable.AsEnumerable().ToDictionary(r => r.Field<long>(0), r => r);
+            siteIds.ForEach(siteId =>
+            {
+                var dataSet = new DataSet();
+                dataSets.Add(siteId, dataSet);
+                new[]
+                {
+                    (direction: "Destinations", links: sourceIds),
+                    (direction: "Sources", links: destinationIds)
+                }.ForEach(ids =>
+                {
+                    var clonedDataTable = dataTable.Clone();
+                    clonedDataTable.TableName = ids.direction;
+                    dataSet.Tables.Add(clonedDataTable);
+                    ids
+                        .links
+                        .Get(siteId)?
+                        .Select(id => dataRows.Get(id))
+                        .Where(row => row != null)
+                        .ForEach(row=> clonedDataTable
+                        .Rows
+                            .Add(row.ItemArray));
+                });
+            });
+            return dataSets;
+        }
+
+        private static (Dictionary<long, long[]> destinationIds, Dictionary<long, long[]> sourceIds) LinkIds(
+            Context context,
+            long[] siteIds,
+            Dictionary<long, long[]> destinationIds,
+            Dictionary<long, long[]> sourceIds)
+        {
+            (destinationIds, sourceIds) = DestinationIds(
+                context: context,
+                siteIds: siteIds,
+                destinationIds: destinationIds,
+                sourceIds: sourceIds);
+            (destinationIds, sourceIds) = SourceIds(
+                context: context,
+                siteIds: siteIds,
+                destinationIds: destinationIds,
+                sourceIds: sourceIds);
+            return (destinationIds, sourceIds);
+        }
+
+        private static (Dictionary<long, long[]> destinationIds, Dictionary<long, long[]> sourceIds) DestinationIds(
+            Context context,
+            long[] siteIds,
+            Dictionary<long, long[]> destinationIds,
+            Dictionary<long, long[]> sourceIds)
+        {
+            var ids = siteIds.Where(id => destinationIds.Get(id) == null).ToArray();
+            if (!ids.Any())
+            {
+                return (destinationIds, sourceIds);
+            }
+            var dataTable = Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectLinks(
+                    column: Rds.LinksColumn()
+                        .SourceId()
+                        .DestinationId(),
+                    where: Rds.LinksWhere()
+                        .DestinationId_In(ids)));
+            var newLinks = dataTable.AsEnumerable()
+                .Select(r => (sourceId: r.Field<long>(0), destinationId: r.Field<long>(1)))
+                .GroupBy(r => r.destinationId, r => r.sourceId)
+                .ToDictionary(r => r.Key, r => r.ToArray());
+            destinationIds.AddRange(newLinks);
+            return LinkIds(
+                context: context,
+                siteIds: newLinks.SelectMany(o => o.Value).Distinct().ToArray(),
+                destinationIds: destinationIds,
+                sourceIds: sourceIds);
+        }
+
+        private static (Dictionary<long, long[]> destinationIds, Dictionary<long, long[]> sourceIds) SourceIds(
+            Context context,
+            long[] siteIds,
+            Dictionary<long, long[]> destinationIds,
+            Dictionary<long, long[]> sourceIds)
+        {
+            var ids = siteIds.Where(id => sourceIds.Get(id) == null).ToArray();
+            if (!ids.Any())
+            {
+                return (destinationIds, sourceIds);
+            }
+            var dataTable = Rds.ExecuteTable(
+                context: context,
+                statements:
+                    Rds.SelectLinks(
+                        column: Rds.LinksColumn()
+                            .DestinationId()
+                            .SourceId(),
+                        where: Rds.LinksWhere()
+                            .SourceId_In(ids))
+                );
+            var newLinks = dataTable.AsEnumerable()
+                .Select(r => (destinationId: r.Field<long>(0), sourceId: r.Field<long>(1)))
+                .GroupBy(r => r.sourceId, r => r.destinationId)
+                .ToDictionary(r => r.Key, r => r.ToArray());
+            sourceIds.AddRange(newLinks);
+            return LinkIds(
+                context: context,
+                siteIds: newLinks.SelectMany(o => o.Value).Distinct().ToArray(),
+                destinationIds: destinationIds,
+                sourceIds: sourceIds);
+        }
+
         public static DataSet DataSet(Context context, SiteSettings ss, long id)
         {
-            var statements = new List<SqlStatement>();
-            ss.Sources
+            var cache = SiteSettingsCache(context, ss);
+            var tasks = new List<Task<SqlStatement>>();
+            tasks.AddRange(ss.Sources
                 .Values
                 .Where(currentSs => currentSs.ReferenceType == "Issues")
-                .ForEach(currentSs =>
-                    statements.Add(SelectIssues(
+                .Select(currentSs =>
+                    Task.Run(() => SelectIssues(
                         context: context,
                         ss: currentSs,
                         view: Views.GetBySession(
@@ -217,12 +376,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 ss: currentSs,
                                 direction: "Source")),
                         id: id,
-                        direction: "Source")));
-            ss.Destinations
+                        direction: "Source",
+                        cache: cache))));
+            tasks.AddRange(ss.Destinations
                 .Values
                 .Where(currentSs => currentSs.ReferenceType == "Issues")
-                .ForEach(currentSs =>
-                    statements.Add(SelectIssues(
+                .Select(currentSs =>
+                    Task.Run(() => SelectIssues(
                         context: context,
                         ss: currentSs,
                         view: Views.GetBySession(
@@ -232,12 +392,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 ss: currentSs,
                                 direction: "Destination")),
                         id: id,
-                        direction: "Destination")));
-            ss.Sources
+                        direction: "Destination",
+                        cache: cache))));
+            tasks.AddRange(ss.Sources
                 .Values
                 .Where(currentSs => currentSs.ReferenceType == "Results")
-                .ForEach(currentSs =>
-                    statements.Add(SelectResults(
+                .Select(currentSs =>
+                    Task.Run(() => SelectResults(
                         context: context,
                         ss: currentSs,
                         view: Views.GetBySession(
@@ -247,12 +408,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 ss: currentSs,
                                 direction: "Source")),
                         id: id,
-                        direction: "Source")));
-            ss.Destinations
+                        direction: "Source",
+                        cache: cache))));
+            tasks.AddRange(ss.Destinations
                 .Values
                 .Where(currentSs => currentSs.ReferenceType == "Results")
-                .ForEach(currentSs =>
-                    statements.Add(SelectResults(
+                .Select(currentSs =>
+                    Task.Run(() => SelectResults(
                         context: context,
                         ss: currentSs,
                         view: Views.GetBySession(
@@ -262,9 +424,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 ss: currentSs,
                                 direction: "Destination")),
                         id: id,
-                        direction: "Destination")));
+                        direction: "Destination",
+                        cache: cache))));
+            Task.WaitAll(tasks.ToArray());
+            var statements = new List<SqlStatement>(tasks.Select(task => task.Result));
             return statements.Any()
-                ? Repository.ExecuteDataSet(
+                ? Rds.ExecuteDataSet(
                     context: context,
                     statements: statements.ToArray())
                 : null;
@@ -275,13 +440,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             View view,
             long id,
-            string direction)
+            string direction,
+            Dictionary<long, DataSet> cache = null)
         {
             var column = IssuesLinkColumns(
                 context: context,
                 ss: ss,
                 view: view,
-                direction: direction);
+                direction: direction,
+                cache: cache);
             var where = view.Where(
                 context: context,
                 ss: ss,
@@ -322,11 +489,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context,
             SiteSettings ss,
             View view,
-            string direction)
+            string direction,
+            Dictionary<long, DataSet> cache = null)
         {
             if (ss.Links?.Any() == true)
             {
-                ss.SetLinkedSiteSettings(context: context);
+                ss.SetLinkedSiteSettings(
+                    context: context,
+                    cache: cache);
             }
             var column = ColumnUtilities.SqlColumnCollection(
                 context: context,
@@ -346,13 +516,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             View view,
             long id,
-            string direction)
+            string direction,
+            Dictionary<long, DataSet> cache = null)
         {
             var column = ResultsLinkColumns(
                 context: context,
                 ss: ss,
                 view: view,
-                direction: direction);
+                direction: direction,
+                cache: cache);
             var where = view.Where(
                 context: context,
                 ss: ss,
@@ -393,11 +565,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context,
             SiteSettings ss,
             View view,
-            string direction)
+            string direction,
+            Dictionary<long, DataSet> cache = null)
         {
             if (ss.Links?.Any() == true)
             {
-                ss.SetLinkedSiteSettings(context: context);
+                ss.SetLinkedSiteSettings(
+                    context: context,
+                    cache: cache);
             }
             var column = ColumnUtilities.SqlColumnCollection(
                 context: context,
