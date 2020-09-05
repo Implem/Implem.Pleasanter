@@ -55,7 +55,6 @@
                     }
                     else {
                         var paramVer = dataHistory ? '?ver=' + dataVer : '';
-                        var paramBack = paramVer ? '&back=1' : '?back=1';
                         if ($('#EditorDialog').length === 1) {
                             var data = {};
                             data.EditInDialog = true;
@@ -63,10 +62,18 @@
                                 + paramVer;
                             $p.ajax(url, 'post', data);
                         } else {
+                            var params = [];
+                            var fromTabIndex = $grid.attr('from-tab-index');
+                            if ($grid.attr('data-value') === 'back') {
+                                params.push('back=1');
+                            }
+                            if (fromTabIndex) {
+                                params.push('FromTabIndex=' + fromTabIndex);
+                            }
                             location.href = $('#BaseUrl').val() + dataId
                                 + paramVer
-                                + ($grid.attr('data-value') === 'back'
-                                    ? paramBack
+                                + (params.length
+                                    ? (paramVer ? '$' : '?') + params.join('&')
                                     : '');
                         }
                     }

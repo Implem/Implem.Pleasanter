@@ -186,7 +186,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         context: context,
                         ss: targetSs,
                         direction: direction,
-                        dataSet: dataSet);
+                        dataSet: dataSet,
+                        tabIndex: tabIndex);
                 }),
                 _using: methodType != BaseModel.MethodTypes.New);
         }
@@ -749,7 +750,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context,
             SiteSettings ss,
             string direction,
-            DataSet dataSet)
+            DataSet dataSet,
+            int tabIndex)
         {
             var dataTableName = DataTableName(
                 ss: ss,
@@ -766,7 +768,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ss: ss,
                     dataTableName: dataTableName),
                 direction: direction,
-                dataTableName: dataTableName);
+                dataTableName: dataTableName,
+                tabIndex: tabIndex);
         }
 
         public static HtmlBuilder LinkTable(
@@ -805,7 +808,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             View view,
             EnumerableRowCollection<DataRow> dataRows,
             string direction,
-            string dataTableName)
+            string dataTableName,
+            int tabIndex = 0)
         {
             ss.SetChoiceHash(dataRows: dataRows);
             return hb.Table(
@@ -816,7 +820,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .DataName(direction)
                     .DataValue("back")
                     .DataAction("LinkTable")
-                    .DataMethod("post"),
+                    .DataMethod("post")
+                    .Add(
+                        name: "from-tab-index",
+                        value: tabIndex.ToString()),
                 action: () =>
                 {
                     var siteMenu = SiteInfo.TenantCaches.Get(context.TenantId)?.SiteMenu;
@@ -886,7 +893,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                             context: context,
                                                             ss: ss,
                                                             column: column,
-                                                            issueModel: issueModel)));
+                                                            issueModel: issueModel,
+                                                            tabIndex: tabIndex)));
                                         }));
                                 break;
                             case "Results":
@@ -946,7 +954,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                             context: context,
                                                             ss: ss,
                                                             column: column,
-                                                            resultModel: resultModel)));
+                                                            resultModel: resultModel,
+                                                            tabIndex: tabIndex)));
                                         }));
                                 break;
                         }

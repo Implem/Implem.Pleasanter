@@ -47,7 +47,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return Value.ToString();
         }
 
-        public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
+        public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column, int? tabIndex)
         {
             var choice = column.Choice(Value.ToString());
             return hb.Td(

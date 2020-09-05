@@ -131,10 +131,11 @@ namespace Implem.Pleasanter.Models
         public static bool IsContains<T, U>(List<T> list, U param)
         {
             return param == null
-                || (list?.Any(o => o.ToString() == param.ToString()) ?? true)
-                || (list?
+                || list?.Any() != true
+                || list.Any(o => o.ToString() == param.ToString())
+                || list
                     .Where(o => o.ToString().StartsWith("-"))
-                    .Any(o => o.ToString() != $"-{param}") ?? true);
+                    .Any(o => o.ToString() != $"-{param}");
         }
     }
 }

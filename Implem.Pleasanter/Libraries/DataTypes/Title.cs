@@ -214,15 +214,27 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return Value;
         }
 
-        public virtual HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
+        public virtual HtmlBuilder Td(
+            HtmlBuilder hb,
+            Context context,
+            Column column,
+            int? tabIndex)
         {
             return hb.Td(
                 css: column.CellCss(),
                 action: () => hb
-                    .P(action: () => TdTitle(hb: hb, context: context, column: column)));
+                    .P(action: () => TdTitle(
+                        hb: hb,
+                        context: context,
+                        column: column,
+                        tabIndex: tabIndex)));
         }
 
-        protected void TdTitle(HtmlBuilder hb, Context context, Column column)
+        protected void TdTitle(
+            HtmlBuilder hb,
+            Context context,
+            Column column,
+            int? tabIndex)
         {
             var queryString = new[] {
                 column.Joined
@@ -232,6 +244,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                        : string.Empty,
                 IsHistory
                     ? "ver=" + Ver
+                    : string.Empty,
+                tabIndex.HasValue
+                    ? $"FromTabIndex={tabIndex}"
                     : string.Empty
             }
                 .Where(s => s != string.Empty)

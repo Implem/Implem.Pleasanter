@@ -7,7 +7,7 @@ namespace Implem.Pleasanter.Interfaces
     {
         string ToControl(Context context, SiteSettings ss, Column column);
         string ToResponse(Context context, SiteSettings ss, Column column);
-        HtmlBuilder Td(HtmlBuilder hb, Context context, Column column);
+        HtmlBuilder Td(HtmlBuilder hb, Context context, Column column, int? tabIndex);
         string ToExport(Context context, Column column, ExportColumn exportColumn = null);
         bool InitialValue(Context context);
     }

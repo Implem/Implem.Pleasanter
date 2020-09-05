@@ -2995,7 +2995,7 @@ h3.title-header{
     margin:0px 5px 0px 0px;
 }
 
-.menu-sort > li > div.field-control > *{
+.menu-sort > li div.field-control > *{
     color:black;
     background-color:white;
     border:solid 1px silver;

@@ -3,6 +3,7 @@ using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
+using System.Text.RegularExpressions;
 using System.Web;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
@@ -126,21 +127,30 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             {
                                 case "new":
                                 case "edit":
-                                    return context.QueryStrings.Int("back") == 1
-                                        && !referer.IsNullOrEmpty()
-                                            ? referer
-                                            : Locations.Get(
-                                                context: context,
-                                                parts: new string[]
-                                                {
-                                                    context.Publish
-                                                        ? "Publishes"
-                                                        : "Items",
-                                                    siteId.ToString(),
-                                                    Requests.ViewModes.GetSessionData(
-                                                        context: context,
-                                                        siteId: siteId)
-                                                });
+                                    return context.QueryStrings.ContainsKey("FromTabIndex")
+                                        ? Regex.IsMatch(
+                                            referer,
+                                            "([\\?\\&])(?<name>TabIndex=)[0-9]+")
+                                            ? Regex.Replace(
+                                                referer,
+                                                "([\\?\\&])(?<name>TabIndex=)[0-9]+",
+                                                $"$1${{name}}{context.QueryStrings.Long("FromTabIndex")}")
+                                            : $"{referer}{(referer.Contains("?") ? "&" : "?")}TabIndex={context.QueryStrings.Long("FromTabIndex")}"
+                                        : context.QueryStrings.Int("back") == 1
+                                            && !referer.IsNullOrEmpty()
+                                                ? referer
+                                                : Locations.Get(
+                                                    context: context,
+                                                    parts: new string[]
+                                                    {
+                                                        context.Publish
+                                                            ? "Publishes"
+                                                            : "Items",
+                                                        siteId.ToString(),
+                                                        Requests.ViewModes.GetSessionData(
+                                                            context: context,
+                                                            siteId: siteId)
+                                                    });
                                 case "trashbox":
                                     return Locations.ItemIndex(
                                         context: context,

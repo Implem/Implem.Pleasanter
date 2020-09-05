@@ -17,7 +17,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
         }
 
-        public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
+        public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column, int? tabIndex)
         {
             return hb.Td(
                 css: column.CellCss(),
