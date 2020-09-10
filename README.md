@@ -3,6 +3,11 @@
 ## Pleasanterとは
 Pleasanter（プリザンター）はオープンソースのビジネスアプリケーション プラットフォームです。顧客管理や案件管理などエクセルで行っているよう な様々な管理業務業務を簡単にWebデータベース化することができます。人数制限なし、機能制限なし、利用期限なしで無料でご利用頂けます。
 
+## クロスプラットフォーム版(.NET Core版)
+![postgrebanner](https://user-images.githubusercontent.com/45094165/91284939-868b3680-e7c7-11ea-8530-84f388cf6c2c.jpg)  
+**2020年5月、待望の正式版をリリースしました！**  
+[クロスプラットフォーム版(.NET Core)はこちら](https://github.com/Implem/Implem.Pleasanter.NetCore)
+
 ## 利用ガイド
 プリザンターのインストール手順及び、操作方法を解説します。  
 [利用ガイド](https://pleasanter.net/fs/publishes/418092/index)
