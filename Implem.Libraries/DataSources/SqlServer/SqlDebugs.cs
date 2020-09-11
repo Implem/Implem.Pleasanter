@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 namespace Implem.Libraries.DataSources.SqlServer
 {
     public static class SqlDebugs
@@ -18,11 +19,14 @@ namespace Implem.Libraries.DataSources.SqlServer
             commandTextForDebugging.Append("use [", rdsName, "];\r\n");
             commandTextForDebugging.Append(DeclareParametersText(sqlCommand));
             commandTextForDebugging.Append(FormattedCommandText(sqlCommand));
-            lock (WriteLockObject)
+            Task.Run(() =>
             {
-                commandTextForDebugging.ToString()
-                    .Write(Path.Combine(logsPath, "CommandTextForDebugging.sql"));
-            }
+                lock (WriteLockObject)
+                {
+                    commandTextForDebugging.ToString()
+                        .Write(Path.Combine(logsPath, "CommandTextForDebugging.sql"));
+                }
+            });
         }
 
         private static string FormattedCommandText(SqlCommand sqlCommand)

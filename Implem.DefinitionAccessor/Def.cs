@@ -315,6 +315,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_GetNormal": Code.Model_GetNormal = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetNormal, definitionRow, CodeXls); break;
                     case "Model_ClearSessions": Code.Model_ClearSessions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ClearSessions, definitionRow, CodeXls); break;
                     case "Model_Get": Code.Model_Get = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Get, definitionRow, CodeXls); break;
+                    case "Model_LinkedSsDataSetHash": Code.Model_LinkedSsDataSetHash = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_LinkedSsDataSetHash, definitionRow, CodeXls); break;
                     case "Model_GetDefaultColumns": Code.Model_GetDefaultColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetDefaultColumns, definitionRow, CodeXls); break;
                     case "Model_GetSitesDefaultColumns": Code.Model_GetSitesDefaultColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetSitesDefaultColumns, definitionRow, CodeXls); break;
                     case "Model_GetItemsDefaultColumns": Code.Model_GetItemsDefaultColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetItemsDefaultColumns, definitionRow, CodeXls); break;
@@ -536,6 +537,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_SiteSettingsContext": Code.Model_SiteSettingsContext = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsContext, definitionRow, CodeXls); break;
                     case "Model_ExtendedSqls": Code.Model_ExtendedSqls = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExtendedSqls, definitionRow, CodeXls); break;
                     case "Model_ExtendedSqlsParameter": Code.Model_ExtendedSqlsParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExtendedSqlsParameter, definitionRow, CodeXls); break;
+                    case "Model_LinkedSsDataSetHashBeforeComma": Code.Model_LinkedSsDataSetHashBeforeComma = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_LinkedSsDataSetHashBeforeComma, definitionRow, CodeXls); break;
+                    case "Model_LinkedSsDataSetHashParameter": Code.Model_LinkedSsDataSetHashParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_LinkedSsDataSetHashParameter, definitionRow, CodeXls); break;
                     case "Model_ToLocal": Code.Model_ToLocal = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToLocal, definitionRow, CodeXls); break;
                     case "Model_ExportByApi": Code.Model_ExportByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportByApi, definitionRow, CodeXls); break;
                     case "Collection": Code.Collection = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection, definitionRow, CodeXls); break;
@@ -3189,7 +3192,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_menu_sort_space___space_li": Css._dot_menu_sort_space___space_li = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_sort_space___space_li, definitionRow, CssXls); break;
                     case "_dot_menu_sort_space___space_li_colon_hover": Css._dot_menu_sort_space___space_li_colon_hover = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_sort_space___space_li_colon_hover, definitionRow, CssXls); break;
                     case "_dot_menu_sort_space___space_li_space___space__asterisk_": Css._dot_menu_sort_space___space_li_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_sort_space___space_li_space___space__asterisk_, definitionRow, CssXls); break;
-                    case "_dot_menu_sort_space___space_li_space___space_div_dot_field_control_space___space__asterisk_": Css._dot_menu_sort_space___space_li_space___space_div_dot_field_control_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_sort_space___space_li_space___space_div_dot_field_control_space___space__asterisk_, definitionRow, CssXls); break;
+                    case "_dot_menu_sort_space___space_li_space_div_dot_field_control_space___space__asterisk_": Css._dot_menu_sort_space___space_li_space_div_dot_field_control_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_sort_space___space_li_space_div_dot_field_control_space___space__asterisk_, definitionRow, CssXls); break;
                     case "input_colon_focus": Css.input_colon_focus = definitionRow[1].ToString(); SetCssTable(CssTable.input_colon_focus, definitionRow, CssXls); break;
                     case "select_colon_focus_colon_not__dot_has_css_": Css.select_colon_focus_colon_not__dot_has_css_ = definitionRow[1].ToString(); SetCssTable(CssTable.select_colon_focus_colon_not__dot_has_css_, definitionRow, CssXls); break;
                     case "textarea_colon_focus": Css.textarea_colon_focus = definitionRow[1].ToString(); SetCssTable(CssTable.textarea_colon_focus, definitionRow, CssXls); break;
@@ -7207,6 +7210,7 @@ namespace Implem.DefinitionAccessor
         public string Model_GetNormal;
         public string Model_ClearSessions;
         public string Model_Get;
+        public string Model_LinkedSsDataSetHash;
         public string Model_GetDefaultColumns;
         public string Model_GetSitesDefaultColumns;
         public string Model_GetItemsDefaultColumns;
@@ -7428,6 +7432,8 @@ namespace Implem.DefinitionAccessor
         public string Model_SiteSettingsContext;
         public string Model_ExtendedSqls;
         public string Model_ExtendedSqlsParameter;
+        public string Model_LinkedSsDataSetHashBeforeComma;
+        public string Model_LinkedSsDataSetHashParameter;
         public string Model_ToLocal;
         public string Model_ExportByApi;
         public string Collection;
@@ -7848,6 +7854,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_GetNormal = new CodeDefinition();
         public CodeDefinition Model_ClearSessions = new CodeDefinition();
         public CodeDefinition Model_Get = new CodeDefinition();
+        public CodeDefinition Model_LinkedSsDataSetHash = new CodeDefinition();
         public CodeDefinition Model_GetDefaultColumns = new CodeDefinition();
         public CodeDefinition Model_GetSitesDefaultColumns = new CodeDefinition();
         public CodeDefinition Model_GetItemsDefaultColumns = new CodeDefinition();
@@ -8069,6 +8076,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SiteSettingsContext = new CodeDefinition();
         public CodeDefinition Model_ExtendedSqls = new CodeDefinition();
         public CodeDefinition Model_ExtendedSqlsParameter = new CodeDefinition();
+        public CodeDefinition Model_LinkedSsDataSetHashBeforeComma = new CodeDefinition();
+        public CodeDefinition Model_LinkedSsDataSetHashParameter = new CodeDefinition();
         public CodeDefinition Model_ToLocal = new CodeDefinition();
         public CodeDefinition Model_ExportByApi = new CodeDefinition();
         public CodeDefinition Collection = new CodeDefinition();
@@ -10685,7 +10694,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_menu_sort_space___space_li;
         public string _dot_menu_sort_space___space_li_colon_hover;
         public string _dot_menu_sort_space___space_li_space___space__asterisk_;
-        public string _dot_menu_sort_space___space_li_space___space_div_dot_field_control_space___space__asterisk_;
+        public string _dot_menu_sort_space___space_li_space_div_dot_field_control_space___space__asterisk_;
         public string input_colon_focus;
         public string select_colon_focus_colon_not__dot_has_css_;
         public string textarea_colon_focus;
@@ -11200,7 +11209,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_menu_sort_space___space_li = new CssDefinition();
         public CssDefinition _dot_menu_sort_space___space_li_colon_hover = new CssDefinition();
         public CssDefinition _dot_menu_sort_space___space_li_space___space__asterisk_ = new CssDefinition();
-        public CssDefinition _dot_menu_sort_space___space_li_space___space_div_dot_field_control_space___space__asterisk_ = new CssDefinition();
+        public CssDefinition _dot_menu_sort_space___space_li_space_div_dot_field_control_space___space__asterisk_ = new CssDefinition();
         public CssDefinition input_colon_focus = new CssDefinition();
         public CssDefinition select_colon_focus_colon_not__dot_has_css_ = new CssDefinition();
         public CssDefinition textarea_colon_focus = new CssDefinition();

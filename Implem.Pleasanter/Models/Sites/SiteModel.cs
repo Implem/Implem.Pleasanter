@@ -443,13 +443,14 @@ namespace Implem.Pleasanter.Models
             bool setByApi = false,
             bool clearSessions = false,
             List<long> switchTargets = null,
+            Dictionary<long, DataSet> linkedSsDataSetHash = null,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
             Context = context;
             TenantId = context.TenantId;
             SiteId = siteId;
-            Get(context: context);
+            Get(context: context, linkedSsDataSetHash: linkedSsDataSetHash);
             if (clearSessions) ClearSessions(context: context);
             if (formData != null)
             {
@@ -515,6 +516,7 @@ namespace Implem.Pleasanter.Models
             SqlWhereCollection where = null,
             SqlOrderByCollection orderBy = null,
             SqlParamCollection param = null,
+            Dictionary<long, DataSet> linkedSsDataSetHash = null,
             bool distinct = false,
             int top = 0)
         {
@@ -529,7 +531,7 @@ namespace Implem.Pleasanter.Models
                     param: param,
                     distinct: distinct,
                     top: top)));
-            SetSiteSettingsProperties(context: context);
+            SetSiteSettingsProperties(context: context, linkedSsDataSetHash: linkedSsDataSetHash);
             return this;
         }
 
@@ -1422,7 +1424,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public void SetSiteSettingsProperties(Context context)
+        public void SetSiteSettingsProperties(
+            Context context,
+            Dictionary<long, DataSet> linkedSsDataSetHash = null)
         {
             if (SiteSettings == null)
             {
@@ -1435,6 +1439,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings.ParentId = ParentId;
             SiteSettings.InheritPermission = InheritPermission;
             SiteSettings.AccessStatus = AccessStatus;
+            SiteSettings.LinkedSsDataSetHash = linkedSsDataSetHash;
             SiteSettings.SetLinkedSiteSettings(context: context);
         }
 

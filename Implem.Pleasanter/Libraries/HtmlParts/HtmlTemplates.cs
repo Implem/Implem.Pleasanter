@@ -43,6 +43,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ss: ss,
                 body: body,
                 action: () => hb
+                    .Raw(HtmlHtmls.ExtendedHtmls(
+                        context: context,
+                        id: "HtmlBodyTop"))
                     .MainContainer(
                         context: context,
                         ss: ss,
@@ -77,7 +80,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         context: context,
                         ss: ss,
                         script: script,
-                        userScript: userScript));
+                        userScript: userScript)
+                    .Raw(HtmlHtmls.ExtendedHtmls(
+                        context: context,
+                        id: "HtmlBodyBottom")));
         }
 
         private static HtmlBuilder Container(
