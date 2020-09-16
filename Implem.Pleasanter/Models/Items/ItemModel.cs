@@ -250,8 +250,16 @@ namespace Implem.Pleasanter.Models
                     column: Rds.LinksColumn()
                         .SourceId()
                         .DestinationId(),
+                    join: new SqlJoinCollection(new SqlJoin(
+                        tableBracket: "[Sites]",
+                        joinType: SqlJoin.JoinTypes.Inner,
+                        joinExpression: "[Links].[DestinationId]=[Sites].[SiteId]")),
                     where: Rds.LinksWhere()
-                        .DestinationId_In(ids)));
+                        .DestinationId_In(ids)
+                        .Sites_TenantId(context.TenantId)
+                        .Sites_ReferenceType(
+                            _operator: " in ",
+                            raw: "('Issues','Results')")));
             var newLinks = dataTable.AsEnumerable()
                 .Select(r => (sourceId: r.Field<long>(0), destinationId: r.Field<long>(1)))
                 .GroupBy(r => r.destinationId, r => r.sourceId)

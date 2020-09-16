@@ -1641,7 +1641,7 @@ pre{
     float:right;
 }
 
-.field-normal .container-normal{
+fieldset .field-normal .container-normal{
     width:auto;
     margin-left:120px;
 }
@@ -1675,7 +1675,7 @@ pre{
     float:right;
 }
 
-.field-wide .container-normal{
+fieldset .field-wide .container-normal{
     margin-left:120px;
 }
 
@@ -1700,7 +1700,7 @@ pre{
     float:right;
 }
 
-.field-markdown .container-normal{
+fieldset .field-markdown .container-normal{
     margin-left:120px;
 }
 

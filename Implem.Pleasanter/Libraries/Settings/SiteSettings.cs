@@ -3772,6 +3772,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<ExportColumn> ExportColumns(Context context, string join = null)
         {
             return GetJoinedSs(join: join)?.ColumnDefinitionHash.ExportDefinitions()
+                .Where(o => o.TypeCs != "Attachments")
                 .OrderBy(o => o.EditorColumn)
                 .Select((o, i) => new ExportColumn(
                     context: context,

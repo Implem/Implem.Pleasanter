@@ -3978,11 +3978,11 @@ namespace Implem.Pleasanter.Models
                 var selectedWhere = SelectedWhereByApi(
                     ss: ss,
                     recordSelector: recordSelector);
-                if (selectedWhere == null)
+                if (selectedWhere == null && recordSelector.View == null)
                 {
                     return ApiResults.Get(ApiResponses.BadRequest(context: context));
                 }
-                var view = Views.GetBySession(
+                var view = recordSelector.View ?? Views.GetBySession(
                     context: context,
                     ss: ss);
                 var where = view.Where(
@@ -4011,9 +4011,6 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     where: where);
                 Summaries.Synchronize(
-                    context: context,
-                    ss: ss);
-                GridRows(
                     context: context,
                     ss: ss);
                 return ApiResults.Success(
@@ -4175,7 +4172,8 @@ namespace Implem.Pleasanter.Models
         private static int PhysicalBulkDelete(
             Context context,
             SiteSettings ss,
-            List<long> selected,
+            List<long> selected = null,
+            SqlWhereCollection where = null,
             bool negative = false,
             Sqls.TableTypes tableType = Sqls.TableTypes.Deleted)
         {
@@ -4191,7 +4189,7 @@ namespace Implem.Pleasanter.Models
                 default:
                     break;
             }
-            var where = Rds.ResultsWhere()
+            where = where ?? Rds.ResultsWhere()
                 .SiteId(
                     value: ss.SiteId,
                     tableName: "Results" + tableName)
@@ -4261,38 +4259,45 @@ namespace Implem.Pleasanter.Models
                 {
                     return ApiResults.Get(ApiResponses.BadRequest(context: context));
                 }
-                var count = 0;
-                if (recordSelector.All)
+                var selectedWhere = SelectedWhereByApi(
+                    ss: ss,
+                    recordSelector: recordSelector);
+                if (selectedWhere == null && recordSelector.View == null)
                 {
-                    count = PhysicalBulkDelete(
-                        context: context,
-                        ss: ss,
-                        selected: recordSelector.Selected,
-                        negative: true,
-                        tableType: Sqls.TableTypes.Normal);
+                    return ApiResults.Get(ApiResponses.BadRequest(context: context));
                 }
-                else
-                {
-                    if (recordSelector.Selected.Any())
-                    {
-                        count = PhysicalBulkDelete(
-                            context: context,
-                            ss: ss,
-                            selected: recordSelector.Selected,
-                            tableType: Sqls.TableTypes.Normal);
-                    }
-                    else
-                    {
-                        return ApiResults.Get(ApiResponses.BadRequest(context: context));
-                    }
-                }
-                GridRows(
+                var view = recordSelector.View ?? Views.GetBySession(
+                    context: context,
+                    ss: ss);
+                var where = view.Where(
                     context: context,
                     ss: ss,
-                    clearCheck: true,
-                    message: Messages.PhysicalBulkDeleted(
+                    where: selectedWhere,
+                    itemJoin: false);
+                var invalid = ExistsLockedRecord(
+                    context: context,
+                    ss: ss,
+                    where: where,
+                    orderBy: view.OrderBy(
                         context: context,
-                        data: count.ToString()));
+                        ss: ss));
+                switch (invalid.Type)
+                {
+                    case Error.Types.None:
+                        break;
+                    default:
+                        return ApiResults.Error(
+                            context: context,
+                            errorData: invalid);
+                }
+                var count = PhysicalBulkDelete(
+                    context: context,
+                    ss: ss,
+                    where: where,
+                    tableType: Sqls.TableTypes.Normal);
+                Summaries.Synchronize(
+                    context: context,
+                    ss: ss);
                 return ApiResults.Success(
                     id: context.SiteId,
                     limitPerDate: Parameters.Api.LimitPerSite,
@@ -4357,6 +4362,7 @@ namespace Implem.Pleasanter.Models
                 {
                     var column = ss.Columns
                         .Where(o => o.LabelText == data.Header)
+                        .Where(o => o.TypeCs != "Attachments")
                         .FirstOrDefault();
                     if (column?.ColumnName == "ResultId")
                     {

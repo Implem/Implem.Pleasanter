@@ -14,9 +14,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         public static Dictionary<string, ControlData> ColumnOptions(
             IEnumerable<ExportColumn> columns)
         {
-            return columns.ToDictionary(
-                column => column.GetRecordingData().ToJson(),
-                column => new ControlData(column.GetLabelText(withSiteTitle: true)));
+            return columns
+                .Where(o => o.Column.TypeCs != "Attachments")
+                .ToDictionary(
+                    column => column.GetRecordingData().ToJson(),
+                    column => new ControlData(column.GetLabelText(withSiteTitle: true)));
         }
 
         public static string Export(
@@ -65,6 +67,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 csv.Append(export.Columns
                     .Where(o => o.Column.CanRead)
+                    .Where(o => o.Column.TypeCs != "Attachments")
                     .Select(column =>
                         "\"" + column.GetLabelText() + "\"").Join(","), "\n");
             }
@@ -72,7 +75,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 context: context,
                 ss: ss,
                 csv: csv,
-                exportColumns: export.Columns.Where(o => o.Column.CanRead));
+                exportColumns: export.Columns
+                    .Where(o => o.Column.CanRead)
+                    .Where(o => o.Column.TypeCs != "Attachments"));
             return csv.ToString();
         }
 
@@ -108,6 +113,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.SetColumnAccessControls(context: context);
             view.GridColumns = export.Columns
                 .Where(o => o.Column.CanRead)
+                .Where(o => o.Column.TypeCs != "Attachments")
                 .Select(o => o.ColumnName)
                 .ToList();
             var gridData = new GridData(
