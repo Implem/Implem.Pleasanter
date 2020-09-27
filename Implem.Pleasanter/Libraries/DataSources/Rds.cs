@@ -3778,6 +3778,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return statements;
         }
 
+        public static List<SqlStatement> OnUpdatingByGridExtendedSqls(
+            this List<SqlStatement> statements, long siteId)
+        {
+            Parameters.ExtendedSqls?
+                .Where(o => o.OnUpdatingByGrid)
+                .ExtendedSqls(statements, siteId);
+            return statements;
+        }
+
+        public static List<SqlStatement> OnUpdatedByGridExtendedSqls(
+            this List<SqlStatement> statements, long siteId)
+        {
+            Parameters.ExtendedSqls?
+                .Where(o => o.OnUpdatedByGrid)
+                .ExtendedSqls(statements, siteId);
+            return statements;
+        }
+
         public static List<SqlStatement> OnBulkUpdatingExtendedSqls(
             this List<SqlStatement> statements, long siteId)
         {

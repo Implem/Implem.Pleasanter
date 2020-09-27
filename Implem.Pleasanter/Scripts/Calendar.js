@@ -1,5 +1,5 @@
 ﻿$p.moveCalendar = function (type) {
-    var $control = $('#CalendarMonth');
+    var $control = $('#CalendarDate');
     $control.val($('#Calendar' + type).val());
     $p.setData($control);
     $p.send($control);
@@ -8,19 +8,33 @@
 $p.setCalendar = function () {
     $('#Calendar .container > div > div:not(.day)').remove();
     var data = JSON.parse($('#CalendarJson').val());
-    var hash = {};
-    var begin = new Date($('#Calendar .container:first').attr('data-id'));
-    var end = new Date($('#Calendar .container:last').attr('data-id'));
-    switch ($('#CalendarTimePeriod').val()) {
-        case 'Yearly':
-            setYearly(data, hash, begin, end);
-            break;
-        case 'Monthly':
-            setMonthly(data, hash, begin, end);
-            break;
+    data.forEach(function (element) {
+        setCalendarGroup(element.group, element.items);
+    });
+
+    function setCalendarGroup(group, data) {
+        var hash = {};
+        var beginSelector = (group === undefined)
+            ? '#Calendar .container:first'
+            : '#Calendar .container[data-value="' + group + '"]:first';
+        var endSelector = (group === undefined)
+            ? '#Calendar .container:last'
+            : '#Calendar .container[data-value="' + group + '"]:last';
+        var begin = new Date($(beginSelector).attr('data-id'));
+        var end = new Date($(endSelector).attr('data-id'));
+
+        switch ($('#CalendarTimePeriod').val()) {
+            case 'Yearly':
+                setYearly(group, data, hash, begin, end);
+                break;
+            case 'Monthly':
+            case 'Weekly':
+                setMonthly(group, data, hash, begin, end);
+                break;
+        }
     }
 
-    function setYearly(data, hash, begin, end) {
+    function setYearly(group, data, hash, begin, end) {
         data.forEach(function (element) {
             var current = $p.beginningMonth(new Date(element.From))
             if (current < begin) {
@@ -28,6 +42,7 @@ $p.setCalendar = function () {
             }
             rank = Rank(hash, $p.shortDateString(current));
             addItem(
+                group,
                 hash,
                 element,
                 current,
@@ -42,6 +57,7 @@ $p.setCalendar = function () {
                 }
                 while ($p.shortDate(to) >= $p.shortDate(current)) {
                     addItem(
+                        group,
                         hash,
                         element,
                         current,
@@ -53,7 +69,7 @@ $p.setCalendar = function () {
         });
     }
 
-    function setMonthly(data, hash, begin, end) {
+    function setMonthly(group, data, hash, begin, end) {
         data.forEach(function (element) {
             var current = new Date(element.From);
             if (current < begin) {
@@ -61,6 +77,7 @@ $p.setCalendar = function () {
             }
             rank = Rank(hash, $p.shortDateString(current));
             addItem(
+                group,
                 hash,
                 element,
                 current);
@@ -75,6 +92,7 @@ $p.setCalendar = function () {
                         rank = Rank(hash, $p.shortDateString(current));
                     }
                     addItem(
+                        group,
                         hash,
                         element,
                         current,
@@ -130,9 +148,12 @@ $p.setCalendar = function () {
         return hash[id];
     }
 
-    function addItem(hash, element, current, sub, rank, yearly) {
+    function addItem(group, hash, element, current, sub, rank, yearly) {
         var id = $p.shortDateString(current);
-        var $cell = $('[data-id="' + id + '"] > div');
+        var groupSelector = (group === undefined)
+            ? ''
+            : '[data-value="' + group + '"]';
+        var $cell = $(groupSelector + '[data-id="' + id + '"] > div');
         while (Rank(hash, id) < rank) {
             $cell.append($('<div />').addClass('dummy'));
             hash[id]++;
@@ -211,4 +232,4 @@ $p.setCalendar = function () {
             dateTime.getMinutes() + ':' +
             dateTime.getSeconds();
     }
-}
+};

@@ -403,6 +403,7 @@
     <Compile Include="Libraries\ViewModes\BurnDownElement.cs" />
     <Compile Include="Libraries\ViewModes\CalendarElement.cs" />
     <Compile Include="Libraries\ViewModes\CrosstabElement.cs" />
+    <Compile Include="Libraries\ViewModes\CalendarUtilities.cs" />
     <Compile Include="Libraries\ViewModes\CrosstabUtilities.cs" />
     <Compile Include="Libraries\ViewModes\Gantt.cs" />
     <Compile Include="Libraries\ViewModes\GanttElement.cs" />

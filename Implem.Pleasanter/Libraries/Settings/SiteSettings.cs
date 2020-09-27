@@ -2636,7 +2636,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             return new Dictionary<string, string>
             {
                 { "Yearly", Displays.Year(context: context) },
-                { "Monthly", Displays.Month(context: context) }
+                { "Monthly", Displays.Month(context: context) },
+                { "Weekly", Displays.Week(context: context) }
             };
         }
 
@@ -2754,6 +2755,16 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public Dictionary<string, string> GanttGroupByOptions()
+        {
+            return Columns
+                .Where(o => o.HasChoices())
+                .Where(o => !o.Joined)
+                .Where(o => o.CanRead)
+                .OrderBy(o => o.No)
+                .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
+        }
+
+        public Dictionary<string, string> CalendarGroupByOptions()
         {
             return Columns
                 .Where(o => o.HasChoices())

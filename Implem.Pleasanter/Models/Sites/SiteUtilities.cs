@@ -7095,6 +7095,14 @@ namespace Implem.Pleasanter.Models
                 ? hb.FieldSet(id: "ViewCalendarTab", action: () => hb
                     .FieldDropDown(
                         context: context,
+                        controlId: "CalendarGroupBy",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.GroupBy(context: context),
+                        optionCollection: ss.CalendarGroupByOptions(),
+                        selectedValue: view.GetCalendarGroupBy(),
+                        insertBlank: true)
+                    .FieldDropDown(
+                        context: context,
                         controlId: "CalendarTimePeriod",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.Period(context: context),
