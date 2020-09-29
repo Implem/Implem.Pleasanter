@@ -108,6 +108,7 @@ namespace Implem.Pleasanter.Models
                             .MainCommands(
                                 context: context,
                                 ss: ss,
+                                view: view,
                                 verType: Versions.VerTypes.Latest,
                                 backButton: !context.Publish)
                             .Div(css: "margin-bottom")
@@ -305,7 +306,9 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false,
             string action = "GridRows")
         {
-            var checkRow = ss.CheckRow(context: context);
+            var checkRow = ss.CheckRow(
+                context: context,
+                gridColumns: view.GridColumns);
             var checkAll = clearCheck
                 ? false
                 : context.Forms.Bool("GridCheckAll");
@@ -3457,7 +3460,8 @@ namespace Implem.Pleasanter.Models
                                                 context: context,
                                                 "Images",
                                                 "enterprise-banner.png"))),
-                            _using: !Parameters.CommercialLicense())
+                            _using: !Parameters.CommercialLicense()
+                                || Parameters.Service.Demo)
                         .Div(
                             id: "CasesBanner", action: () => hb
                                 .A(
@@ -3469,7 +3473,8 @@ namespace Implem.Pleasanter.Models
                                                 context: context,
                                                 "Images",
                                                 "cases-banner.png"))),
-                            _using: !Parameters.CommercialLicense())
+                            _using: !Parameters.CommercialLicense()
+                                || Parameters.Service.Demo)
                         .Div(id: "EditorTabsContainer", css: tabsCss, action: () => hb
                             .EditorTabs(context: context, siteModel: siteModel)
                             .FieldSetGeneral(context: context, siteModel: siteModel)

@@ -8,6 +8,6 @@
         long? SiteId { get; set; }
         long GetReferenceId();
         string GetReferenceType();
-        void ReplaceIdHash(string columnName, System.Collections.Generic.IDictionary<long, long> idHash);
+        void ReplaceIdHash(string columnName, System.Collections.Generic.Dictionary<long, long> idHash);
     }
 }

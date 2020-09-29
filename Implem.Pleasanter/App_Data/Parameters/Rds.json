@@ -5,7 +5,7 @@
     "SaConnectionString": "Server=localhost;Database=postgres;UID=postgres;PWD=SetSaPWD",
     "OwnerConnectionString": "Server=localhost;Database=#ServiceName#;UID=#ServiceName#_Owner;PWD=SetAdminsPWD",
     "UserConnectionString": "Server=localhost;Database=#ServiceName#;UID=#ServiceName#_User;PWD=SetUsersPWD",
-    "SqlCommandTimeOut": 600,
+    "SqlCommandTimeOut": 0,
     "MinimumTime": 3,
     "DeadlockRetryCount": 4,
     "DeadlockRetryInterval": 1000

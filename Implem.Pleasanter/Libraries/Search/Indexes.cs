@@ -425,15 +425,13 @@ namespace Implem.Pleasanter.Libraries.Search
                     searchText: searchText,
                     siteIdList: siteIdList,
                     like: Rds.Items_FullText_WhereLike(
-                            factory: context,
-                            forward: true));
+                        factory: context,
+                        forward: false));
             }
             switch (ss?.SearchType)
             {
                 case SiteSettings.SearchTypes.FullText:
-                    var words = context.SqlCommandText.CreateSearchTextWords(
-                        words: Words(searchText.SearchIndexes().Join(" ")),
-                        searchText: searchText.SearchIndexes().Join(" "));
+                    var words = Words(searchText.SearchIndexes().Join(" "));
                     if (words?.Any() != true) return null;
                     return SelectByFullText(
                         context: context,
@@ -512,9 +510,7 @@ namespace Implem.Pleasanter.Libraries.Search
             switch (ss?.SearchType)
             {
                 case SiteSettings.SearchTypes.FullText:
-                    var words = context.SqlCommandText.CreateSearchTextWords( 
-                        words: Words(searchText),
-                        searchText: searchText);
+                    var words = Words(searchText);
                     if (words?.Any() != true) return where;
                     if (itemJoin)
                     {
@@ -702,9 +698,7 @@ namespace Implem.Pleasanter.Libraries.Search
             int pageSize = 0,
             bool countRecord = false)
         {
-            var words = context.SqlCommandText.CreateSearchTextWords(
-                words: Words(searchText),
-                searchText: searchText);
+            var words = Words(searchText);
             if (words?.Any() != true) return null;
             var statements = new List<SqlStatement>
             {
@@ -817,13 +811,12 @@ namespace Implem.Pleasanter.Libraries.Search
             Dictionary<string, string> words,
             string itemsTableName = "Items")
         {
-            words
-                .ForEach(data => where.Add(
+            words.ForEach(data => where.Add(
                 name: data.Key,
                 value: data.Value,
                 raw: FullTextWhere(
                     factory: context,
-                    paramName: data.Key,
+                    name: data.Key,
                     itemsTableName: itemsTableName)));
             return where;
         }
@@ -831,10 +824,10 @@ namespace Implem.Pleasanter.Libraries.Search
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static string FullTextWhere(ISqlObjectFactory factory, string paramName, string itemsTableName = "Items")
+        private static string FullTextWhere(ISqlObjectFactory factory, string name, string itemsTableName = "Items")
         {
-            var item = factory.SqlCommandText.CreateFullTextWhereItem(itemsTableName, paramName);
-            var binary = factory.SqlCommandText.CreateFullTextWhereBinary(itemsTableName, paramName);
+            var item = factory.SqlCommandText.CreateFullTextWhereItem(itemsTableName, name);
+            var binary = factory.SqlCommandText.CreateFullTextWhereBinary(itemsTableName, name);
             return Parameters.Search.SearchDocuments
                 ? $"({item} or {binary})"
                 : item;

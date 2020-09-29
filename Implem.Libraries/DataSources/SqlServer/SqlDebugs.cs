@@ -9,6 +9,8 @@ namespace Implem.Libraries.DataSources.SqlServer
 {
     public static class SqlDebugs
     {
+        private static object WriteLockObject = new object();
+
         [Conditional("DEBUG")]
         public static void WriteSqlLog(string rdsName, ISqlCommand sqlCommand, string logsPath)
         {
@@ -16,8 +18,11 @@ namespace Implem.Libraries.DataSources.SqlServer
             commandTextForDebugging.Append("use [", rdsName, "];\r\n");
             commandTextForDebugging.Append(DeclareParametersText(sqlCommand));
             commandTextForDebugging.Append(FormattedCommandText(sqlCommand));
-            commandTextForDebugging.ToString()
-                .Write(Path.Combine(logsPath, "CommandTextForDebugging.sql"));
+            lock (WriteLockObject)
+            {
+                commandTextForDebugging.ToString()
+                    .Write(Path.Combine(logsPath, "CommandTextForDebugging.sql"));
+            }
         }
 
         private static string FormattedCommandText(ISqlCommand sqlCommand)
