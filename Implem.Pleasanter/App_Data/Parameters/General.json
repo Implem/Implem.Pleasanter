@@ -43,7 +43,7 @@
     "CalendarBegin": -120,
     "CalendarEnd": 120,
     "CalendarLimit": 300,
-    "CalendarYLimit": 1000,
+    "CalendarYLimit": 100,
     "CrosstabBegin": -120,
     "CrosstabEnd": 120,
     "CrosstabXLimit": 50,

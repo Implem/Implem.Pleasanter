@@ -10,13 +10,14 @@ using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics.PerformanceData;
 using System.Linq;
 using System.Text;
 namespace Implem.Pleasanter.Libraries.ViewModes
 {
     public static class CalendarUtilities
     {
-        public static bool InRange(Context context, EnumerableRowCollection<DataRow> dataRows )
+        public static bool InRange(Context context, EnumerableRowCollection<DataRow> dataRows)
         {
             var inRange = dataRows.Count() <= Parameters.General.CalendarLimit;
             if (!inRange)
@@ -30,11 +31,10 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             return inRange;
         }
 
-        public static bool InRangeY(Context context, EnumerableRowCollection<DataRow> dataRows, Column groupBy)
+        public static bool InRangeY(Context context, int choicesCount)
         {
-            var inRange = groupBy == null
-                || dataRows.Select(o => o.String(groupBy.ColumnName)).Distinct().Count() <=
-                    Parameters.General.CalendarYLimit;
+            var inRange = Parameters.General.CalendarYLimit != 0
+                && choicesCount <= Parameters.General.CalendarYLimit;
             if (!inRange)
             {
                 SessionUtilities.Set(
@@ -45,6 +45,5 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             }
             return inRange;
         }
-
     }
 }

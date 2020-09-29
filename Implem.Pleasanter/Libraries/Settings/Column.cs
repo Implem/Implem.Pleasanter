@@ -447,7 +447,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Context context,
             bool insertBlank = false,
             bool addNotSet = false,
-            View view = null)
+            View view = null,
+            int limit = 0)
         {
             var hash = new Dictionary<string, ControlData>();
             var blank = Type == Types.User
@@ -474,6 +475,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .GroupBy(o => o.Value)
                 .Select(o => o.FirstOrDefault())
                 .Where(o => selected?.Any() != true || selected.Contains(o.Value))
+                .Take(limit > 0 ? limit + 1 : int.MaxValue)
                 .ForEach(choice =>
                     hash.Add(
                         choice.Value,

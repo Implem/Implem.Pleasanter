@@ -4852,6 +4852,10 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 insertBlank: true,
                 view: view);
+            var inRangeY = Libraries.ViewModes
+                .CalendarUtilities.InRangeY(
+                    context: context,
+                    choices?.Count ?? 0);
             var begin = Calendars.BeginDate(
                 context: context,
                 date: date,
@@ -4860,17 +4864,22 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 date: date,
                 timePeriod: timePeriod);
-            var dataRows = CalendarDataRows(
-                context: context,
-                ss: ss,
-                view: view,
-                fromColumn: fromColumn,
-                toColumn: toColumn,
-                groupBy: groupBy,
-                begin: begin,
-                end: end);
-            var inRange = Libraries.ViewModes.CalendarUtilities.InRange(context: context, dataRows: dataRows);
-            var inRangeY = Libraries.ViewModes.CalendarUtilities.InRangeY(context: context, dataRows: dataRows, groupBy);
+            var dataRows = inRangeY
+                ? CalendarDataRows(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    fromColumn: fromColumn,
+                    toColumn: toColumn,
+                    groupBy: groupBy,
+                    begin: begin,
+                    end: end)
+                : null;
+            var inRange = inRangeY
+                && Libraries.ViewModes
+                    .CalendarUtilities.InRange(
+                        context: context,
+                        dataRows: dataRows);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
@@ -4889,7 +4898,7 @@ namespace Implem.Pleasanter.Models
                         choices: choices,
                         dataRows: dataRows,
                         bodyOnly: false,
-                        inRange: inRange && inRangeY));
+                        inRange: inRange));
         }
 
         public static string UpdateByCalendar(Context context, SiteSettings ss)
@@ -4954,6 +4963,10 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 insertBlank: true,
                 view: view);
+            var inRangeY = Libraries.ViewModes
+                .CalendarUtilities.InRangeY(
+                    context: context,
+                    choices?.Count ?? 0);
             var begin = Calendars.BeginDate(
                 context: context,
                 date: date,
@@ -4962,18 +4975,23 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 date: date,
                 timePeriod: timePeriod);
-            var dataRows = CalendarDataRows(
-                context: context,
-                ss: ss,
-                view: view,
-                fromColumn: fromColumn,
-                toColumn: toColumn,
-                groupBy: groupBy,
-                begin: begin,
-                end: end);
-            var inRange = Libraries.ViewModes.CalendarUtilities.InRange(context: context, dataRows: dataRows);
-            var inRangeY = Libraries.ViewModes.CalendarUtilities.InRangeY(context: context, dataRows: dataRows, groupBy);
-            return inRange && inRangeY
+            var dataRows = inRangeY 
+                ? CalendarDataRows(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    fromColumn: fromColumn,
+                    toColumn: toColumn,
+                    groupBy: groupBy,
+                    begin: begin,
+                    end: end)
+                :null;
+            var inRange = inRangeY
+                && Libraries.ViewModes
+                    .CalendarUtilities.InRange(
+                        context: context,
+                        dataRows: dataRows);
+            return inRange
                 ? new ResponseCollection()
                     .ViewMode(
                         context: context,
@@ -5005,9 +5023,13 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         view: view,
-                        message: Messages.TooManyCases(
-                            context: context,
-                            data: Parameters.General.CalendarLimit.ToString()),
+                        message: inRangeY
+                            ? Messages.TooManyCases(
+                                context: context,
+                                data: Parameters.General.CalendarLimit.ToString())
+                            : Messages.TooManyRowCases(
+                                context: context,
+                                data: Parameters.General.CalendarYLimit.ToString()),
                         bodyOnly: bodyOnly,
                         bodySelector: "#CalendarBody",
                         body: new HtmlBuilder()

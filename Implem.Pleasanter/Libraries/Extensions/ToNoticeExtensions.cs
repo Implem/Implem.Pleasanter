@@ -114,19 +114,61 @@ namespace Implem.Pleasanter.Libraries.Extensions
             bool updated,
             bool update)
         {
-            return column.HasChoices()
-                ? notificationColumnFormat.DisplayText(
-                    self: column.Choice(self).Text,
-                    saved: column.Choice(saved).Text,
-                    column: column,
-                    updated: updated,
-                    update: update)
-                : notificationColumnFormat.DisplayText(
+            if (column.HasChoices())
+            {
+                switch (column.Type)
+                {
+                    case Column.Types.Dept:
+                        return notificationColumnFormat.DisplayText(
+                            self: SiteInfo.Dept(
+                                tenantId: context.TenantId,
+                                deptId: self.ToInt()).Name,
+                            saved: SiteInfo.Dept(
+                                tenantId: context.TenantId,
+                                deptId: saved.ToInt()).Name,
+                            column: column,
+                            updated: updated,
+                            update: update);
+                    case Column.Types.Group:
+                        return notificationColumnFormat.DisplayText(
+                            self: SiteInfo.Group(
+                                tenantId: context.TenantId,
+                                groupId: self.ToInt()).Name,
+                            saved: SiteInfo.Group(
+                                tenantId: context.TenantId,
+                                groupId: saved.ToInt()).Name,
+                            column: column,
+                            updated: updated,
+                            update: update);
+                    case Column.Types.User:
+                        return notificationColumnFormat.DisplayText(
+                            self: SiteInfo.UserName(
+                                context: context,
+                                userId: self.ToInt()),
+                            saved: SiteInfo.UserName(
+                                context: context,
+                                userId: saved.ToInt()),
+                            column: column,
+                            updated: updated,
+                            update: update);
+                    default:
+                        return notificationColumnFormat.DisplayText(
+                            self: column.Choice(self).Text,
+                            saved: column.Choice(saved).Text,
+                            column: column,
+                            updated: updated,
+                            update: update);
+                }
+            }
+            else
+            {
+                return notificationColumnFormat.DisplayText(
                     self: self,
                     saved: saved,
                     column: column,
                     updated: updated,
                     update: update);
+            }
         }
 
         public static string ToNotice(
