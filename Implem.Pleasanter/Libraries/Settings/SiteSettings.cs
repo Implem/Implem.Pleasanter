@@ -3973,12 +3973,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 var siteId = part.Split('~').Last().ToLong();
                 var currentSs = JoinedSsHash.Get(siteId);
                 var tableName = currentSs?.ReferenceType;
-                var name = currentSs?.GetColumn(
-                    context: context,
-                    columnName: part.Split_1st('~'))?.Name;
+                var name = part.Split_1st('~').RegexFirst("[A-Za-z0-9]+");
                 path.Add(part);
                 var alias = path.Join("-");
-                if (tableName != null && name != null)
+                if (!tableName.IsNullOrEmpty() && !name.IsNullOrEmpty())
                 {
                     if (alias.Contains("~~"))
                     {
