@@ -79,7 +79,11 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     columnName: "CompletionTime")?.EditorFormat, minus: true);
         }
 
-        public override HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
+        public override HtmlBuilder Td(
+            HtmlBuilder hb,
+            Context context,
+            Column column,
+            int? tabIndex)
         {
             return hb.Td(
                 css: column.TextAlign == SiteSettings.TextAlignTypes.Right

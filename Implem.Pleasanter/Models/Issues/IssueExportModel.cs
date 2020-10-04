@@ -16,6 +16,7 @@ namespace Implem.Pleasanter.Models
     [JsonConverter(typeof(DefaultConverer))]
     public class IssueExportModel : IExportModel
     {
+
         public string ItemTitle { get; set; }
         public long? SiteId { get; set; }
         public Time UpdatedTime { get; set; }
@@ -36,6 +37,8 @@ namespace Implem.Pleasanter.Models
         public User Creator { get; set; }
         public User Updator { get; set; }
         public Time CreatedTime { get; set; }
+
+
         public Dictionary<string, object> ClassHash = new Dictionary<string, object>();
         public Dictionary<string, decimal> NumHash = new Dictionary<string, decimal>();
         public Dictionary<string, DateTime> DateHash = new Dictionary<string, DateTime>();
@@ -219,60 +222,80 @@ namespace Implem.Pleasanter.Models
                 {
                     switch (column.Name)
                     {
+
                         case "SiteId":
                             SiteId = dataRow[column.ColumnName].ToLong();
                             break;
+
                         case "IssueId":
                             IssueId = dataRow[column.ColumnName].ToLong();
                             break;
+
                         case "Ver":
                             Ver = dataRow[column.ColumnName].ToInt();
                             break;
+
                         case "Title":
                             Title = new Title(context: context, ss: ss, dataRow: dataRow, column: column);
                             break;
+
                         case "Body":
                             Body = dataRow[column.ColumnName].ToString();
                             break;
+
                         case "StartTime":
                             StartTime = dataRow[column.ColumnName].ToDateTime();
                             break;
+
                         case "CompletionTime":
                             CompletionTime = new CompletionTime(context: context, ss: ss, dataRow: dataRow, column: column);
                             break;
+
                         case "WorkValue":
                             WorkValue = new WorkValue(dataRow, column);
                             break;
+
                         case "ProgressRate":
                             ProgressRate = new ProgressRate(dataRow, column);
                             break;
+
                         case "RemainingWorkValue":
                             RemainingWorkValue = dataRow[column.ColumnName].ToDecimal();
                             break;
+
                         case "Status":
                             Status = new Status(dataRow, column);
                             break;
+
                         case "Manager":
                             Manager = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             break;
+
                         case "Owner":
                             Owner = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             break;
+
                         case "Locked":
                             Locked = dataRow[column.ColumnName].ToBool();
                             break;
+
                         case "Comments":
                             Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
                             break;
+
                         case "Creator":
                             Creator = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             break;
+
                         case "Updator":
                             Updator = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             break;
+
                         case "CreatedTime":
                             CreatedTime = new Time(context, dataRow, column.ColumnName);
                             break;
+
+
                         default:
                             switch (Def.ExtendedColumnTypes.Get(column.Name))
                             {

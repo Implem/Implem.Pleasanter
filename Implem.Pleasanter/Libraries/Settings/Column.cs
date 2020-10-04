@@ -38,6 +38,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Format;
         public bool? NoWrap;
         public bool? Hide;
+        public string ExtendedCellCss;
         public string ExtendedFieldCss;
         public string Section;
         public string GridDesign;
@@ -830,6 +831,21 @@ namespace Implem.Pleasanter.Libraries.Settings
                     settings: settings))
                 .FirstOrDefault(o => o.SiteId != 0);
             return link?.SiteId;
+        }
+
+        public string CellCss(string css = null)
+        {
+            return new List<string>()
+            {
+                css,
+                ExtendedCellCss,
+                TextAlign == SiteSettings.TextAlignTypes.Right
+                    ? "right-align"
+                    : string.Empty
+            }
+                .Select(o => o?.Trim())
+                .Where(o => !o.IsNullOrEmpty())
+                .Join(" ");
         }
 
         private void SelectColumns(

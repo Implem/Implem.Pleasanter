@@ -122,7 +122,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     userId: Id);
         }
 
-        public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
+        public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column, int? tabIndex)
         {
             return Id != UserTypes.Anonymous.ToInt()
                 ? hb.Td(
