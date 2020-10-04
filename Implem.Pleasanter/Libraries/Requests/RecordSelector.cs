@@ -1,15 +1,25 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Settings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
+
 namespace Implem.Pleasanter.Libraries.Requests
 {
-    public class GridSelector
+    [Serializable]
+    public class RecordSelector
     {
-        public bool All;
-        public List<long> Selected;
-        public bool Nothing;
+        public bool All { get; set; }
+        public List<long> Selected { get; set; }
+        public bool Nothing { get; set; }
+        public View View { get; set; }
 
-        public GridSelector(Context context)
+        public RecordSelector()
+        {
+        }
+
+        public RecordSelector(Context context)
         {
             All = context.RequestData("GridCheckAll").ToBool();
             Selected = All
@@ -20,6 +30,12 @@ namespace Implem.Pleasanter.Libraries.Requests
                     context: context,
                     name: "GridCheckedItems");
             Nothing = !All && !Selected.Any();
+        }
+
+        [OnDeserialized]
+        private void OnDeserialized(StreamingContext streamingContext)
+        {
+            Nothing = !All && Selected?.Any() != true;
         }
 
         private static List<long> Get(Context context, string name)

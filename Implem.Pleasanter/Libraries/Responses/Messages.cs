@@ -1031,11 +1031,21 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
-        public static Message PhysicalDeleted(Context context, params string[] data)
+        public static Message PhysicalBulkDeleted(Context context, params string[] data)
         {
             return Get(
-                id: "PhysicalDeleted",
-                text: Displays.PhysicalDeleted(
+                id: "PhysicalBulkDeleted",
+                text: Displays.PhysicalBulkDeleted(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
+        public static Message PhysicalBulkDeletedFromRecycleBin(Context context, params string[] data)
+        {
+            return Get(
+                id: "PhysicalBulkDeletedFromRecycleBin",
+                text: Displays.PhysicalBulkDeletedFromRecycleBin(
                     context: context,
                     data: data),
                 css: "alert-success");
@@ -2361,11 +2371,21 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
-        public static ResponseCollection ResponsePhysicalDeleted(
+        public static ResponseCollection ResponsePhysicalBulkDeleted(
             Context context, string target = null, params string[] data)
         {
             return ResponseMessage(
-                message: PhysicalDeleted(
+                message: PhysicalBulkDeleted(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponsePhysicalBulkDeletedFromRecycleBin(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: PhysicalBulkDeletedFromRecycleBin(
                     context: context,
                     data: data),
                 target: target);

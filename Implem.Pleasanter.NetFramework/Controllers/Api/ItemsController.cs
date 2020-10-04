@@ -61,6 +61,19 @@ namespace Implem.Pleasanter.NetFramework.Controllers.Api
         }
 
         [HttpPost]
+        public async Task<HttpResponseMessage> BulkDelete(long id)
+        {
+            var body = await Request.Content.ReadAsStringAsync();
+            var context = new ContextImplement(
+                sessionStatus: User?.Identity?.IsAuthenticated == true,
+                sessionData: User?.Identity?.IsAuthenticated == true,
+                apiRequestBody: body);
+            var controller = new Pleasanter.Controllers.Api.ItemsController();
+            var result = controller.BulkDelete(context: context, id: id);
+            return result.ToHttpResponse(Request);
+        }
+
+        [HttpPost]
         public async Task<HttpResponseMessage> Export(long id)
         {
             var body = await Request.Content.ReadAsStringAsync();

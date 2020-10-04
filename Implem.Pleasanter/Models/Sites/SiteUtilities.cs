@@ -331,18 +331,30 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         dataRows: gridData.DataRows,
                         columns: columns,
-                        gridSelector: null,
+                        recordSelector: null,
                         checkRow: checkRow));
         }
 
         private static SqlWhereCollection SelectedWhere(
-            Context context, SiteSettings ss)
+            Context context,
+            SiteSettings ss)
         {
-            var selector = new GridSelector(context: context);
+            var selector = new RecordSelector(context: context);
             return !selector.Nothing
                 ? Rds.SitesWhere().SiteId_In(
                     value: selector.Selected.Select(o => o.ToLong()),
                     negative: selector.All)
+                : null;
+        }
+
+        private static SqlWhereCollection SelectedWhereByApi(
+            SiteSettings ss,
+            RecordSelector recordSelector)
+        {
+            return !recordSelector.Nothing
+                ? Rds.IssuesWhere().IssueId_In(
+                    value: recordSelector.Selected?.Select(o => o.ToLong()) ?? new List<long>(),
+                    negative: recordSelector.All)
                 : null;
         }
 
@@ -382,7 +394,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 view: view,
                                 checkPermission: true),
-                            gridSelector: null,
+                            recordSelector: null,
                             editRow: true,
                             checkRow: false,
                             idColumn: "SiteId"))
@@ -1070,7 +1082,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             dataRows: gridData.DataRows,
                             columns: columns,
-                            gridSelector: null))
+                            recordSelector: null))
                     .CloseDialog()
                     .Message(Messages.Updated(
                         context: context,
@@ -1218,7 +1230,7 @@ namespace Implem.Pleasanter.Models
             }
             else if (context.CanManageSite(ss: ss))
             {
-                var selector = new GridSelector(context: context);
+                var selector = new RecordSelector(context: context);
                 var count = 0;
                 if (selector.All)
                 {
@@ -1455,7 +1467,7 @@ namespace Implem.Pleasanter.Models
             }
             if (context.CanManageSite(ss: ss))
             {
-                var selector = new GridSelector(context: context);
+                var selector = new RecordSelector(context: context);
                 var selected = selector
                     .Selected
                     .Select(o => o.ToInt())
@@ -1534,7 +1546,7 @@ namespace Implem.Pleasanter.Models
                 }).Count.ToInt();
         }
 
-        public static string PhysicalDelete(Context context, SiteSettings ss)
+        public static string PhysicalBulkDelete(Context context, SiteSettings ss)
         {
             if (!Parameters.Deleted.PhysicalDelete)
             {
@@ -1542,11 +1554,11 @@ namespace Implem.Pleasanter.Models
             }
             if (context.CanManageSite(ss: ss))
             {
-                var selector = new GridSelector(context: context);
+                var selector = new RecordSelector(context: context);
                 var count = 0;
                 if (selector.All)
                 {
-                    count = PhysicalDelete(
+                    count = PhysicalBulkDelete(
                         context: context,
                         ss: ss,
                         selected: selector.Selected,
@@ -1556,7 +1568,7 @@ namespace Implem.Pleasanter.Models
                 {
                     if (selector.Selected.Any())
                     {
-                        count = PhysicalDelete(
+                        count = PhysicalBulkDelete(
                             context: context,
                             ss: ss,
                             selected: selector.Selected);
@@ -1570,7 +1582,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     clearCheck: true,
-                    message: Messages.PhysicalDeleted(
+                    message: Messages.PhysicalBulkDeletedFromRecycleBin(
                         context: context,
                         data: count.ToString()));
             }
@@ -1580,49 +1592,68 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private static int PhysicalDelete(
-            Context context, SiteSettings ss, List<long> selected, bool negative = false)
+        private static int PhysicalBulkDelete(
+            Context context, 
+            SiteSettings ss, 
+            List<long> selected, 
+            bool negative = false,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Deleted)
         {
+            var tableName = string.Empty;
+            switch (tableType)
+            {
+                case Sqls.TableTypes.History:
+                    tableName = "_History";
+                    break;
+                case Sqls.TableTypes.Deleted:
+                    tableName = "_Deleted";
+                    break;
+                default:
+                    break;
+            }
             var where = Rds.SitesWhere()
                 .TenantId(
                     value: context.TenantId,
-                    tableName: "Sites_Deleted")
+                    tableName: "Sites" + tableName)
                 .ParentId(
                     value: ss.SiteId,
-                    tableName: "Sites_Deleted")
+                    tableName: "Sites" + tableName)
                 .SiteId_In(
                     value: selected,
-                    tableName: "Sites_Deleted",
+                    tableName: "Sites" + tableName,
                     negative: negative,
                     _using: selected.Any());
             var sub = Rds.SelectSites(
-                tableType: Sqls.TableTypes.Deleted,
-                _as: "Sites_Deleted",
+                tableType: tableType,
+                _as: "Sites" + tableName,
                 column: Rds.SitesColumn()
-                    .SiteId(tableName: "Sites_Deleted"),
+                    .SiteId(tableName: "Sites" + tableName),
                 where: where);
-            return Repository.ExecuteScalar_response(
+            return Rds.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
                     Rds.PhysicalDeleteItems(
-                        tableType: Sqls.TableTypes.Deleted,
+                        tableType: tableType,
                         where: Rds.ItemsWhere()
                             .ReferenceId_In(sub:
                                 Rds.SelectWikis(
-                                    tableType: Sqls.TableTypes.Deleted,
+                                    tableType: tableType,
                                     column: Rds.WikisColumn().WikiId(),
                                     where: Rds.WikisWhere().SiteId_In(sub: sub)))
                             .ReferenceType("Wikis")),
                     Rds.PhysicalDeleteWikis(
-                        tableType: Sqls.TableTypes.Deleted,
+                        tableType: tableType,
                         where: Rds.WikisWhere().SiteId_In(sub: sub)),
                     Rds.PhysicalDeleteItems(
-                        tableType: Sqls.TableTypes.Deleted,
+                        tableType: tableType,
+                        where: Rds.ItemsWhere().ReferenceId_In(sub: sub)),
+                    Rds.PhysicalDeleteBinaries(
+                        tableType: tableType,
                         where: Rds.ItemsWhere().ReferenceId_In(sub: sub)),
                     Rds.PhysicalDeleteSites(
-                        tableType: Sqls.TableTypes.Deleted,
+                        tableType: tableType,
                         where: where),
                     Rds.RowCount()
                 }).Count.ToInt();

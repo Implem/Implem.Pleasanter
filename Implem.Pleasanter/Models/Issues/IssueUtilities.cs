@@ -409,7 +409,7 @@ namespace Implem.Pleasanter.Models
                         dataRows: gridData.DataRows,
                         columns: columns,
                         formDataSet: formDataSet,
-                        gridSelector: null,
+                        recordSelector: null,
                         editRow: editRow,
                         checkRow: checkRow));
         }
@@ -496,13 +496,25 @@ namespace Implem.Pleasanter.Models
         }
 
         private static SqlWhereCollection SelectedWhere(
-            Context context, SiteSettings ss)
+            Context context,
+            SiteSettings ss)
         {
-            var selector = new GridSelector(context: context);
+            var selector = new RecordSelector(context: context);
             return !selector.Nothing
                 ? Rds.IssuesWhere().IssueId_In(
                     value: selector.Selected.Select(o => o.ToLong()),
                     negative: selector.All)
+                : null;
+        }
+
+        private static SqlWhereCollection SelectedWhereByApi(
+            SiteSettings ss,
+            RecordSelector recordSelector)
+        {
+            return !recordSelector.Nothing
+                ? Rds.IssuesWhere().IssueId_In(
+                    value: recordSelector.Selected?.Select(o => o.ToLong()) ?? new List<long>(),
+                    negative: recordSelector.All)
                 : null;
         }
 
@@ -542,7 +554,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 view: view,
                                 checkPermission: true),
-                            gridSelector: null,
+                            recordSelector: null,
                             editRow: true,
                             checkRow: false,
                             idColumn: "IssueId"))
@@ -2704,7 +2716,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             dataRows: gridData.DataRows,
                             columns: columns,
-                            gridSelector: null))
+                            recordSelector: null))
                     .CloseDialog()
                     .Message(Messages.Updated(
                         context: context,
@@ -3287,7 +3299,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         dataRow: dataRow,
                         columns: columns,
-                        gridSelector: null,
+                        recordSelector: null,
                         editRow: true,
                         checkRow: false,
                         idColumn: "IssueId")));
@@ -3595,7 +3607,7 @@ namespace Implem.Pleasanter.Models
             }
             else if (context.CanManageSite(ss: ss))
             {
-                var selector = new GridSelector(context: context);
+                var selector = new RecordSelector(context: context);
                 var count = 0;
                 if (selector.All)
                 {
@@ -4294,6 +4306,69 @@ namespace Implem.Pleasanter.Models
                     .Count.ToInt();
         }
 
+        public static System.Web.Mvc.ContentResult BulkDeleteByApi(
+            Context context,
+            SiteSettings ss)
+        {
+            if (context.CanDelete(ss: ss))
+            {
+                var recordSelector = context.RequestDataString.Deserialize<RecordSelector>();
+                if (recordSelector == null)
+                {
+                    return ApiResults.Get(ApiResponses.BadRequest(context: context));
+                }
+                var selectedWhere = SelectedWhereByApi(
+                    ss: ss,
+                    recordSelector: recordSelector);
+                if (selectedWhere == null && recordSelector.View == null)
+                {
+                    return ApiResults.Get(ApiResponses.BadRequest(context: context));
+                }
+                var view = recordSelector.View ?? Views.GetBySession(
+                    context: context,
+                    ss: ss);
+                var where = view.Where(
+                    context: context,
+                    ss: ss,
+                    where: selectedWhere,
+                    itemJoin: false);
+                var invalid = ExistsLockedRecord(
+                    context: context,
+                    ss: ss,
+                    where: where,
+                    orderBy: view.OrderBy(
+                        context: context,
+                        ss: ss));
+                switch (invalid.Type)
+                {
+                    case Error.Types.None:
+                        break;
+                    default:
+                        return ApiResults.Error(
+                            context: context,
+                            errorData: invalid);
+                }
+                var count = BulkDelete(
+                    context: context,
+                    ss: ss,
+                    where: where);
+                Summaries.Synchronize(
+                    context: context,
+                    ss: ss);
+                return ApiResults.Success(
+                    id: context.SiteId,
+                    limitPerDate: Parameters.Api.LimitPerSite,
+                    limitRemaining: Parameters.Api.LimitPerSite - ss.ApiCount,
+                    message: Displays.BulkDeleted(
+                        context: context,
+                        data: count.ToString()));
+            }
+            else
+            {
+                return ApiResults.Get(ApiResponses.Forbidden(context: context));
+            }
+        }
+
         public static string DeleteHistory(Context context, SiteSettings ss, long issueId)
         {
             var issueModel = new IssueModel(
@@ -4311,7 +4386,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: invalid);
             }
-            var selector = new GridSelector(context: context);
+            var selector = new RecordSelector(context: context);
             var selected = selector
                 .Selected
                 .Select(o => o.ToInt())
@@ -4390,7 +4465,7 @@ namespace Implem.Pleasanter.Models
                 }).Count.ToInt();
         }
 
-        public static string PhysicalDelete(Context context, SiteSettings ss)
+        public static string PhysicalBulkDelete(Context context, SiteSettings ss)
         {
             if (!Parameters.Deleted.PhysicalDelete)
             {
@@ -4398,11 +4473,11 @@ namespace Implem.Pleasanter.Models
             }
             if (context.CanManageSite(ss: ss))
             {
-                var selector = new GridSelector(context: context);
+                var selector = new RecordSelector(context: context);
                 var count = 0;
                 if (selector.All)
                 {
-                    count = PhysicalDelete(
+                    count = PhysicalBulkDelete(
                         context: context,
                         ss: ss,
                         selected: selector.Selected,
@@ -4412,7 +4487,7 @@ namespace Implem.Pleasanter.Models
                 {
                     if (selector.Selected.Any())
                     {
-                        count = PhysicalDelete(
+                        count = PhysicalBulkDelete(
                             context: context,
                             ss: ss,
                             selected: selector.Selected);
@@ -4426,7 +4501,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     clearCheck: true,
-                    message: Messages.PhysicalDeleted(
+                    message: Messages.PhysicalBulkDeletedFromRecycleBin(
                         context: context,
                         data: count.ToString()));
             }
@@ -4436,25 +4511,39 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private static int PhysicalDelete(
+        private static int PhysicalBulkDelete(
             Context context,
             SiteSettings ss,
-            List<long> selected,
-            bool negative = false)
+            List<long> selected = null,
+            SqlWhereCollection where = null,
+            bool negative = false,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Deleted)
         {
-            var where = Rds.IssuesWhere()
+            var tableName = string.Empty;
+            switch (tableType)
+            {
+                case Sqls.TableTypes.History:
+                    tableName = "_History";
+                    break;
+                case Sqls.TableTypes.Deleted:
+                    tableName = "_Deleted";
+                    break;
+                default:
+                    break;
+            }
+            where = where ?? Rds.IssuesWhere()
                 .SiteId(
                     value: ss.SiteId,
-                    tableName: "Issues_Deleted")
+                    tableName: "Issues" + tableName)
                 .IssueId_In(
                     value: selected,
-                    tableName: "Issues_Deleted",
+                    tableName: "Issues" + tableName,
                     negative: negative,
                     _using: selected.Any())
                 .IssueId_In(
-                    tableName: "Issues_Deleted",
+                    tableName: "Issues" + tableName,
                     sub: Rds.SelectIssues(
-                        tableType: Sqls.TableTypes.Deleted,
+                        tableType: tableType,
                         column: Rds.IssuesColumn().IssueId(),
                         where: Views.GetBySession(
                             context: context,
@@ -4464,37 +4553,105 @@ namespace Implem.Pleasanter.Models
                                     ss: ss,
                                     itemJoin: false)));
             var sub = Rds.SelectIssues(
-                tableType: Sqls.TableTypes.Deleted,
-                _as: "Issues_Deleted",
+                tableType: tableType,
+                _as: "Issues" + tableName,
                 column: Rds.IssuesColumn()
-                    .IssueId(tableName: "Issues_Deleted"),
+                    .IssueId(tableName: "Issues" + tableName),
                 where: where);
             var guid = Strings.NewGuid();
-            return Repository.ExecuteScalar_response(
+            return Rds.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
                     Rds.UpdateItems(
-                        tableType: Sqls.TableTypes.Deleted,
+                        tableType: tableType,
                         where: Rds.ItemsWhere()
                             .SiteId(ss.SiteId)
                             .ReferenceId_In(sub: sub),
                         param: Rds.ItemsParam()
                             .ReferenceType(guid)),
                     Rds.PhysicalDeleteBinaries(
-                        tableType: Sqls.TableTypes.Deleted,
+                        tableType: tableType,
                         where: Rds.ItemsWhere().ReferenceId_In(sub: sub)),
                     Rds.PhysicalDeleteIssues(
-                        tableType: Sqls.TableTypes.Deleted,
+                        tableType: tableType,
                         where: where),
                     Rds.RowCount(),
                     Rds.PhysicalDeleteItems(
-                        tableType: Sqls.TableTypes.Deleted,
+                        tableType: tableType,
                         where: Rds.ItemsWhere()
                             .SiteId(ss.SiteId)
                             .ReferenceType(guid)),
                 }).Count.ToInt();
+        }
+
+        public static System.Web.Mvc.ContentResult PhysicalBulkDeleteByApi(
+            Context context,
+            SiteSettings ss)
+        {
+            if (!Parameters.Deleted.PhysicalDelete)
+            {
+                return ApiResults.Get(ApiResponses.BadRequest(context: context));
+            }
+            if (context.CanManageSite(ss: ss))
+            {
+                var recordSelector = context.RequestDataString.Deserialize<RecordSelector>();
+                if (recordSelector == null)
+                {
+                    return ApiResults.Get(ApiResponses.BadRequest(context: context));
+                }
+                var selectedWhere = SelectedWhereByApi(
+                    ss: ss,
+                    recordSelector: recordSelector);
+                if (selectedWhere == null && recordSelector.View == null)
+                {
+                    return ApiResults.Get(ApiResponses.BadRequest(context: context));
+                }
+                var view = recordSelector.View ?? Views.GetBySession(
+                    context: context,
+                    ss: ss);
+                var where = view.Where(
+                    context: context,
+                    ss: ss,
+                    where: selectedWhere,
+                    itemJoin: false);
+                var invalid = ExistsLockedRecord(
+                    context: context,
+                    ss: ss,
+                    where: where,
+                    orderBy: view.OrderBy(
+                        context: context,
+                        ss: ss));
+                switch (invalid.Type)
+                {
+                    case Error.Types.None:
+                        break;
+                    default:
+                        return ApiResults.Error(
+                            context: context,
+                            errorData: invalid);
+                }
+                var count = PhysicalBulkDelete(
+                    context: context,
+                    ss: ss,
+                    where: where,
+                    tableType: Sqls.TableTypes.Normal);
+                Summaries.Synchronize(
+                    context: context,
+                    ss: ss);
+                return ApiResults.Success(
+                    id: context.SiteId,
+                    limitPerDate: Parameters.Api.LimitPerSite,
+                    limitRemaining: Parameters.Api.LimitPerSite - ss.ApiCount,
+                    message: Displays.PhysicalBulkDeleted(
+                        context: context,
+                        data: count.ToString()));
+            }
+            else
+            {
+                return ApiResults.Get(ApiResponses.Forbidden(context: context));
+            }
         }
 
         public static string Import(Context context, SiteModel siteModel)

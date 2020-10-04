@@ -5169,13 +5169,23 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string PhysicalDeleted(
+        public static string PhysicalBulkDeleted(
             Context context,
             params string[] data)
         {
             return Get(
                 context: context,
-                id: "PhysicalDeleted",
+                id: "PhysicalBulkDeleted",
+                data: data);
+        }
+
+        public static string PhysicalBulkDeletedFromRecycleBin(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "PhysicalBulkDeletedFromRecycleBin",
                 data: data);
         }
 
