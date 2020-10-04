@@ -50,7 +50,7 @@
     $(document).on('click', '.calendar-to-monthly', function () {
         var data = {
             'CalendarTimePeriod': 'Monthly',
-            'CalendarMonth': $(this).attr('data-id')
+            'CalendarDate': $(this).attr('data-id')
         };
         $p.ajax(location.href, 'post', data);
     });
