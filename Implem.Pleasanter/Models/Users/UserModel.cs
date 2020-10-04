@@ -2672,21 +2672,27 @@ namespace Implem.Pleasanter.Models
                         .Div(
                             id: "SecondaryAuthenticationCommands",
                             css: "both",
-                            action: () => hb
+                            action: () => hb.Div(css: "command-right", action: () => hb
                                 .Button(
                                     controlId: "SecondaryAuthenticate",
-                                    controlCss: "button-icon button-right-justified validate",
+                                    controlCss: " button-icon validate",
                                     text: Displays.Confirm(context: context),
                                     onClick: "$p.send($(this));",
                                     icon: "ui-icon-unlocked",
                                     action: "Authenticate",
                                     method: "post",
-                                    type: "submit"))
+                                    type: "submit")
+                                .Button(
+                                        text: Displays.Cancel(context: context),
+                                        controlCss: "button-icon ",
+                                        onClick: "$p.back();",
+                                        icon: "ui-icon-cancel")))
                         .Div(
                             id: "SecondaryAuthenticationBottom",
                             action: () => hb.Raw(HtmlHtmls.ExtendedHtmls(
                                 context: context,
                                 id: "SecondaryAuthenticationGuideBottom"))))
+                .Val("#BackUrl", context.UrlReferrer, !context.UrlReferrer.IsNullOrEmpty())
                 .Focus("#SecondaryAuthenticationCode").ToJson();
         }
 
