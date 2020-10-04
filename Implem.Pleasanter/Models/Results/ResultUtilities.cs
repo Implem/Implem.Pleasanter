@@ -4696,40 +4696,42 @@ namespace Implem.Pleasanter.Models
             var toColumn = ss.GetColumn(
                 context: context,
                 columnName: view.GetCalendarToColumn(ss));
-            var month = view.CalendarMonth != null
-                ? view.CalendarMonth.ToDateTime()
-                : DateTime.Now;
+            var date = view.GetCalendarDate();
+            var groupBy = ss.GetColumn(
+                context: context,
+                columnName: view.GetCalendarGroupBy());
+            var choices = groupBy?.EditChoices(
+                context: context,
+                insertBlank: true,
+                view: view);
+            var inRangeY = Libraries.ViewModes
+                .CalendarUtilities.InRangeY(
+                    context: context,
+                    choices?.Count ?? 0);
             var begin = Calendars.BeginDate(
                 context: context,
-                date: month,
+                date: date,
                 timePeriod: timePeriod);
             var end = Calendars.EndDate(
                 context: context,
-                date: month,
+                date: date,
                 timePeriod: timePeriod);
-            var dataRows = CalendarDataRows(
-                context: context,
-                ss: ss,
-                view: view,
-                fromColumn: fromColumn,
-                toColumn: toColumn,
-                begin: Calendars.BeginDate(
+            var dataRows = inRangeY
+                ? CalendarDataRows(
                     context: context,
-                    date: month,
-                    timePeriod: timePeriod),
-                end: Calendars.EndDate(
-                    context: context,
-                    date: month,
-                    timePeriod: timePeriod));
-            var inRange = dataRows.Count() <= Parameters.General.CalendarLimit;
-            if (!inRange)
-            {
-                SessionUtilities.Set(
-                    context: context,
-                    message: Messages.TooManyCases(
+                    ss: ss,
+                    view: view,
+                    fromColumn: fromColumn,
+                    toColumn: toColumn,
+                    groupBy: groupBy,
+                    begin: begin,
+                    end: end)
+                : null;
+            var inRange = inRangeY
+                && Libraries.ViewModes
+                    .CalendarUtilities.InRange(
                         context: context,
-                        data: Parameters.General.CalendarLimit.ToString()));
-            }
+                        dataRows: dataRows);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
@@ -4740,10 +4742,12 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         timePeriod: timePeriod,
+                        groupBy: groupBy,
                         fromColumn: fromColumn,
                         toColumn: toColumn,
-                        month: month,
+                        date: date,
                         begin: begin,
+                        choices: choices,
                         dataRows: dataRows,
                         bodyOnly: false,
                         inRange: inRange));
@@ -4803,32 +4807,43 @@ namespace Implem.Pleasanter.Models
             var toColumn = ss.GetColumn(
                 context: context,
                 columnName: view.GetCalendarToColumn(ss));
-            var month = view.CalendarMonth != null
-                ? view.CalendarMonth.ToDateTime()
-                : DateTime.Now;
+            var date = view.GetCalendarDate();
+            var groupBy = ss.GetColumn(
+                context: context,
+                columnName: view.GetCalendarGroupBy());
+            var choices = groupBy?.EditChoices(
+                context: context,
+                insertBlank: true,
+                view: view);
+            var inRangeY = Libraries.ViewModes
+                .CalendarUtilities.InRangeY(
+                    context: context,
+                    choices?.Count ?? 0);
             var begin = Calendars.BeginDate(
                 context: context,
-                date: month,
+                date: date,
                 timePeriod: timePeriod);
             var end = Calendars.EndDate(
                 context: context,
-                date: month,
+                date: date,
                 timePeriod: timePeriod);
-            var dataRows = CalendarDataRows(
-                context: context,
-                ss: ss,
-                view: view,
-                fromColumn: fromColumn,
-                toColumn: toColumn,
-                begin: Calendars.BeginDate(
+            var dataRows = inRangeY 
+                ? CalendarDataRows(
                     context: context,
-                    date: month,
-                    timePeriod: timePeriod),
-                end: Calendars.EndDate(
-                    context: context,
-                    date: month,
-                    timePeriod: timePeriod));
-            return dataRows.Count() <= Parameters.General.CalendarLimit
+                    ss: ss,
+                    view: view,
+                    fromColumn: fromColumn,
+                    toColumn: toColumn,
+                    groupBy: groupBy,
+                    begin: begin,
+                    end: end)
+                :null;
+            var inRange = inRangeY
+                && Libraries.ViewModes
+                    .CalendarUtilities.InRange(
+                        context: context,
+                        dataRows: dataRows);
+            return inRange
                 ? new ResponseCollection()
                     .ViewMode(
                         context: context,
@@ -4844,10 +4859,12 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 timePeriod: timePeriod,
+                                groupBy: groupBy,
                                 fromColumn: fromColumn,
                                 toColumn: toColumn,
-                                month: month,
+                                date: date,
                                 begin: begin,
+                                choices: choices,
                                 dataRows: dataRows,
                                 bodyOnly: bodyOnly,
                                 inRange: true,
@@ -4858,9 +4875,13 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         view: view,
-                        message: Messages.TooManyCases(
-                            context: context,
-                            data: Parameters.General.CalendarLimit.ToString()),
+                        message: inRangeY
+                            ? Messages.TooManyCases(
+                                context: context,
+                                data: Parameters.General.CalendarLimit.ToString())
+                            : Messages.TooManyRowCases(
+                                context: context,
+                                data: Parameters.General.CalendarYLimit.ToString()),
                         bodyOnly: bodyOnly,
                         bodySelector: "#CalendarBody",
                         body: new HtmlBuilder()
@@ -4868,10 +4889,12 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 timePeriod: timePeriod,
+                                groupBy: groupBy,
                                 fromColumn: fromColumn,
                                 toColumn: toColumn,
-                                month: month,
+                                date: date,
                                 begin: begin,
+                                choices: choices,
                                 dataRows: dataRows,
                                 bodyOnly: bodyOnly,
                                 inRange: false,
@@ -4885,6 +4908,7 @@ namespace Implem.Pleasanter.Models
             View view,
             Column fromColumn,
             Column toColumn,
+            Column groupBy,
             DateTime begin,
             DateTime end)
         {
@@ -4903,7 +4927,7 @@ namespace Implem.Pleasanter.Models
                     .Add(raw: $"\"Results\".\"{fromColumn.ColumnName}\"<='{begin}' and \"Results\".\"{toColumn.ColumnName}\">='{end}'"));
             }
             where = view.Where(context: context, ss: ss, where: where);
-            return Repository.ExecuteTable(
+            return Rds.ExecuteTable(
                 context: context,
                 statements: Rds.SelectResults(
                     column: Rds.ResultsTitleColumn(
@@ -4917,7 +4941,10 @@ namespace Implem.Pleasanter.Models
                                 columnName: toColumn?.ColumnName,
                                 _as: "To")
                             .UpdatedTime()
-                            .ItemTitle(ss.ReferenceType),
+                            .ItemTitle(ss.ReferenceType)
+                            .Add(
+                                column: groupBy,
+                                function: Sqls.Functions.SingleColumn),
                     join: ss.Join(
                         context: context,
                         join: where),
@@ -4930,10 +4957,12 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             string timePeriod,
+            Column groupBy,
             Column fromColumn,
             Column toColumn,
-            DateTime month,
+            DateTime date,
             DateTime begin,
+            Dictionary<string, ControlData> choices,
             EnumerableRowCollection<DataRow> dataRows,
             bool bodyOnly,
             bool inRange,
@@ -4944,10 +4973,12 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     timePeriod: timePeriod,
+                    groupBy: groupBy,
                     fromColumn: fromColumn,
                     toColumn: toColumn,
-                    month: month,
+                    date: date,
                     begin: begin,
+                    choices: choices,
                     dataRows: dataRows,
                     inRange: inRange,
                     changedItemId: changedItemId)
@@ -4955,10 +4986,12 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     timePeriod: timePeriod,
+                    groupBy: groupBy,
                     fromColumn: fromColumn,
                     toColumn: toColumn,
-                    month: month,
+                    date: date,
                     begin: begin,
+                    choices: choices,
                     dataRows: dataRows,
                     inRange: inRange,
                     changedItemId: changedItemId);

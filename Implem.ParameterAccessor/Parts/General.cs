@@ -47,6 +47,7 @@ namespace Implem.ParameterAccessor.Parts
         public int CalendarBegin;
         public int CalendarEnd;
         public int CalendarLimit;
+        public int CalendarYLimit;
         public int CrosstabBegin;
         public int CrosstabEnd;
         public int CrosstabXLimit;
