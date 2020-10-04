@@ -1042,7 +1042,10 @@ namespace Implem.Pleasanter.Models
                         issueModel: this,
                         setDefault: true,
                         otherInitValue: otherInitValue)),
-                InsertLinks(ss, setIdentity: true),
+                InsertLinks(
+                    context: context,
+                    ss: ss,
+                    setIdentity: true),
             });
             statements.AddRange(UpdateAttachmentsStatements(context: context));
             statements.AddRange(PermissionUtilities.InsertStatements(
@@ -1294,7 +1297,9 @@ namespace Implem.Pleasanter.Models
                 _using: updateItems));
             statements.Add(Rds.PhysicalDeleteLinks(
                 where: Rds.LinksWhere().SourceId(IssueId)));
-            statements.Add(InsertLinks(ss));
+            statements.Add(InsertLinks(
+                context: context,
+                ss: ss));
             if (extendedSqls)
             {
                 statements.OnUpdatedExtendedSqls(
@@ -1304,10 +1309,16 @@ namespace Implem.Pleasanter.Models
             return statements;
         }
 
-        private SqlInsert InsertLinks(SiteSettings ss, bool setIdentity = false)
+        private SqlInsert InsertLinks(Context context, SiteSettings ss, bool setIdentity = false)
         {
             var link = new Dictionary<long, long>();
-            ss.Columns.Where(o => o.Link.ToBool()).ForEach(column =>
+            ss.Links
+                .Where(o => ss.Destinations.ContainsKey(o.SiteId))
+                .Select(o => ss.GetColumn(
+                    context: context,
+                    columnName: o.ColumnName))
+                .Where(o => o != null)
+                .ForEach(column =>
             {
                 var id = Class(column).ToLong();
                 if (id != 0 && !link.ContainsKey(id))
