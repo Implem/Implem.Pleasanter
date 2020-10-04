@@ -80,6 +80,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public Dictionary<long, SiteSettings> JoinedSsHash;
         [NonSerialized]
+        public Dictionary<long, DataSet> LinkedSsDataSetHash;
+        [NonSerialized]
         public long SiteId;
         [NonSerialized]
         public long ReferenceId;
@@ -311,6 +313,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 return;
             }
+            cache = cache ?? LinkedSsDataSetHash;
             var dataSet = cache == null
                 ? Repository.ExecuteDataSet(
                     context: context,

@@ -15,9 +15,7 @@ using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
 using System.Linq;
-using System.Threading.Tasks;
 namespace Implem.Pleasanter.Libraries.Search
 {
     public static class Indexes
