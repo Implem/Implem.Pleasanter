@@ -33,8 +33,8 @@ namespace Implem.Pleasanter.Libraries.ViewModes
 
         public static bool InRangeY(Context context, int choicesCount)
         {
-            var inRange = Parameters.General.CalendarYLimit != 0
-                && choicesCount <= Parameters.General.CalendarYLimit;
+            var inRange = Parameters.General.CalendarYLimit == 0
+                || choicesCount <= Parameters.General.CalendarYLimit;
             if (!inRange)
             {
                 SessionUtilities.Set(

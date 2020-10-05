@@ -243,7 +243,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 _using: groupBy != null);
                             for (var x = 0; x < 12; x++)
                             {
-                                var currentDate = begin.AddMonths(x);
+                                var currentDate = begin.ToLocal(context: context).AddMonths(x);
                                 hb.Th(action: () => hb
                                     .A(
                                         css: "calendar-to-monthly",
@@ -267,7 +267,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     _using: choice.Value != null);
                                 for (var x = 0; x < 12; x++)
                                 {
-                                    var date = begin.AddMonths(x);
+                                    var date = begin.ToLocal(context: context).AddMonths(x);
                                     hb.Td(
                                         attributes: new HtmlAttributes()
                                             .Class("container")
@@ -302,7 +302,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 _using: groupBy != null);
                             for (var x = 0; x < 7; x++)
                             {
-                                hb.Th(css: DayOfWeekCss(x), action: () => hb
+                                hb.Th(css: DayOfWeekCss(x) + " calendar-header", action: () => hb
                                     .Text(text: DayOfWeekString(
                                         context: context,
                                         x: x)));
@@ -373,7 +373,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 _using: groupBy != null);
                             for (var x = 0; x < 7; x++)
                             {
-                                hb.Th(css: DayOfWeekCss(x), action: () => hb
+                                hb.Th(css: DayOfWeekCss(x) + " calendar-header", action: () => hb
                                     .Text(text: DayOfWeekString(
                                         context: context,
                                         x: x)));

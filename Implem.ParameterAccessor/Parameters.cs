@@ -44,6 +44,11 @@ namespace Implem.DefinitionAccessor
             return License.Check();
         }
 
+        public static int LicensedUsers()
+        {
+            return License.Users;
+        }
+
         public static DateTime LicenseDeadline()
         {
             return License.Deadline;

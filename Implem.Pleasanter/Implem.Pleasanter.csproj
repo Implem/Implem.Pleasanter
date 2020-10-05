@@ -1629,6 +1629,7 @@
     <Content Include="App_Data\Displays\DigitGrouping.json" />
     <Content Include="App_Data\Displays\PhysicalBulkDeleted.json" />
     <Content Include="App_Data\Displays\ExtendedCellCss.json" />
+    <Content Include="App_Data\Displays\ExcessLicenseWarning.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />
