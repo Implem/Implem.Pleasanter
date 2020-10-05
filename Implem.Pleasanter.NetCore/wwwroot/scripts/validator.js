@@ -30,6 +30,25 @@
             }
         }
     );
+    $.validator.addMethod(
+        'maxlength',
+        function (value, element, params) {
+            try {
+                if ($('#data-validation-maxlength-type').val() === 'Regex') {
+                    return (value.length
+                        + value.replace(
+                            new RegExp('['
+                                + $('#data-validation-maxlength-regex').val()
+                                + ']', 'g'), '').length) <= parseFloat(params);
+                } else {
+                    return value.length <= parseFloat(params);
+                }
+            }
+            catch(e){
+                return false;
+            }
+        }
+    );
 
     $p.setValidationError = function ($form) {
         $form.find('.ui-tabs li').each(function () {

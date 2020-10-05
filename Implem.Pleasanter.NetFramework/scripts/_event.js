@@ -12,9 +12,12 @@
 
 $p.execEvents = function (event, args) {
     var result = exec(event);
-    if (args.$control) {
-        result = exec(event + '_' + args.$control.attr('id')) && result;
-        result = exec(event + '_' + args.$control.attr('data-action')) && result;
+    var $control = args.$control;
+    if ($control) {
+        result = exec(event + '_' + $control.attr('id')) && result;
+        if ($control.attr('id') !== $control.attr('data-action')) {
+            result = exec(event + '_' + $control.attr('data-action')) && result;
+        }
     }
     return result;
     function exec(name) {

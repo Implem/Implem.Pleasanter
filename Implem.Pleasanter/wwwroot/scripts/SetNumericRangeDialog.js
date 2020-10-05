@@ -15,10 +15,10 @@
 $p.openSiteSetNumericRangeDialog = function ($control) {
     $control.blur();
     $p.openSiteSettingsDialog($control, '#SetNumericRangeDialog', 'auto');
-    $target = $('#' + $control.attr('id').replace("_NumericRange", ""));
-    var initValue = JSON.parse($target.val() || "null");
-    var startValue = "";
-    var endValue = "";
+    $target = $('[id="' + $control.attr('id').replace('_NumericRange', '') + '"]');
+    var initValue = JSON.parse($target.val() || 'null');
+    var startValue = '';
+    var endValue = '';
     if (Array.isArray(initValue) && initValue.length > 0) {
         var values = initValue[0].split(',');
         if (values.length > 0) {
@@ -40,23 +40,24 @@ $p.openSetNumericRangeOK = function ($controlID) {
         $p.setErrorMessage('ValidationError');
         return false;
     }
-    $control = $('#' + $controlID);
-    $target = $('#' + $controlID.replace("_NumericRange", ""));
-    var sdval = $("#numericRangeStart").val();
-    var edval = $("#numericRangeEnd").val();
-    var setval = "";
-    var dispval = "";
+    $control = $('[id="' + $controlID + '"]');
+    $target = $('[id="' + $controlID.replace('_NumericRange', '') + '"]');
+    console.log($control.length + ' ' + $target.length);
+    var sdval = $('#numericRangeStart').val();
+    var edval = $('#numericRangeEnd').val();
+    var setval = '';
+    var dispval = '';
     if (sdval || edval) {
-        dispval = sdval + " - " + edval;
+        dispval = sdval + ' - ' + edval;
         setval = '["' + sdval + ',' + edval + '"]';
     }
     $control.val(dispval);
     $p.set($target, setval);
-    $('#SetNumericRangeDialog').dialog("close");
+    $('#SetNumericRangeDialog').dialog('close');
     $p.send($target);
 }
 $p.openSetNumericRangeClear = function ($control) {
-    $("#numericRangeStart").val("");
-    $("#numericRangeEnd").val("");
+    $('#numericRangeStart').val('');
+    $('#numericRangeEnd').val('');
     $p.clearMessage();
 }

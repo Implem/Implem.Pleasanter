@@ -34,9 +34,7 @@
     var xAxis = d3.axisBottom(xScale)
         .tickFormat(d3.timeFormat('%m/%d'))
         .tickSizeInner(10);
-    var yAxis = d3.axisLeft(yScale)
-        .tickSizeInner(0)
-        .tickFormat("");
+    var yAxis = d3.axisLeft(yScale);
     svg.append('g')
         .attr('class', 'axis')
         .attr('transform', 'translate(' + axisPadding + ', ' + (height - axisPadding) + ')')
@@ -70,7 +68,7 @@
                     + axisPadding + padding;
             })
             .y(function (d) {
-                return yScale(prop(d)) - 100;
+                return yScale(prop(d));
             });
         var g = svg.append('g').attr('class', css);
         g.append('path').attr('d', line(ds));
@@ -79,7 +77,7 @@
             .enter()
             .append('circle')
             .attr('cx', function (d, i) { return i * dayWidth + axisPadding + padding })
-            .attr('cy', function (d) { return yScale(prop(d)) - 100; })
+            .attr('cy', function (d) { return yScale(prop(d)); })
             .attr('r', 4)
             .append('title')
             .text(function (d) { return prop(d); });
