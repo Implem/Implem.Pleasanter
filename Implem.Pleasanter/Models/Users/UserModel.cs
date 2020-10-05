@@ -2960,11 +2960,15 @@ namespace Implem.Pleasanter.Models
         public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column, int? tabIndex)
         {
             return UserId != 0
-                ? hb.Td(action: () => hb
-                    .HtmlUser(
-                        context: context,
-                        text: column.ChoiceHash.Get(UserId.ToString())?.Text))
-                : hb.Td(action: () => { });
+                ? hb.Td(
+                    css: column.CellCss(),
+                    action: () => hb
+                        .HtmlUser(
+                            context: context,
+                            text: column.ChoiceHash.Get(UserId.ToString())?.Text))
+                : hb.Td(
+                    css: column.CellCss(),
+                    action: () => { });
         }
 
         /// <summary>

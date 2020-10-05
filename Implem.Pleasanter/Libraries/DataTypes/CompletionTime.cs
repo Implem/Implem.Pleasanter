@@ -86,9 +86,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             int? tabIndex)
         {
             return hb.Td(
-                css: column.TextAlign == SiteSettings.TextAlignTypes.Right
-                    ? " right-align "
-                    : string.Empty,
+                css: column.CellCss(),
                 action: () =>
                 {
                     hb.P(css: "time", action: () => hb

@@ -1657,7 +1657,7 @@ th.calendar-header{
     float:right;
 }
 
-.field-normal .container-normal{
+:not(td) > div.field-normal .container-normal{
     width:auto;
     margin-left:120px;
 }
@@ -1691,7 +1691,7 @@ th.calendar-header{
     float:right;
 }
 
-.field-wide .container-normal{
+:not(td) > div.field-wide .container-normal{
     margin-left:120px;
 }
 
@@ -1716,7 +1716,7 @@ th.calendar-header{
     float:right;
 }
 
-.field-markdown .container-normal{
+:not(td) > div.field-markdown .container-normal{
     margin-left:120px;
 }
 
@@ -3011,7 +3011,7 @@ h3.title-header{
     margin:0px 5px 0px 0px;
 }
 
-.menu-sort > li > div.field-control > *{
+.menu-sort > li div.field-control > *{
     color:black;
     background-color:white;
     border:solid 1px silver;

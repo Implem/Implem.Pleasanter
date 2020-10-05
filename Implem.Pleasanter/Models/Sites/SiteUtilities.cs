@@ -4054,6 +4054,11 @@ namespace Implem.Pleasanter.Models
                                 selectedValue: column.GridFormat);
                     }
                     hb
+                        .FieldTextBox(
+                            controlId: "ExtendedCellCss",
+                            fieldCss: "field-normal",
+                            labelText: Displays.ExtendedCellCss(context: context),
+                            text: column.ExtendedCellCss)
                         .FieldCheckBox(
                             controlId: "UseGridDesign",
                             labelText: Displays.UseCustomDesign(context: context),

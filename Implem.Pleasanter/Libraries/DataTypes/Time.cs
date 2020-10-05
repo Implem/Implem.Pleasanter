@@ -71,7 +71,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Column column,
             int? tabIndex)
         {
-            return hb.Td(action: () => hb
+            return hb.Td(
+                css: column.CellCss(),
+                action: () => hb
                 .P(css: "time", action: () => hb
                     .Text(column.DisplayGrid(
                         context: context,
