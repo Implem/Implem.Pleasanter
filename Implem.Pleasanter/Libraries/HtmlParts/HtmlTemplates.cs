@@ -324,6 +324,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Div(id: "Warnings", action: () => hb
                 .SwitchUserInfo(context: context)
+                .ExcessLicenseWarning(context: context)
                 .PublishWarning(
                     context: context,
                     ss: ss))
@@ -348,6 +349,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .DataConfirm("ConfirmSwitchUser"),
                         action: () => hb
                             .Text(text: Displays.SwitchUserInfo(context: context))))
+                : hb;
+        }
+
+        private static HtmlBuilder ExcessLicenseWarning(this HtmlBuilder hb, Context context)
+        {
+            return UserUtilities.ExcessLicense(context: context)
+                ? hb.Div(id: "ExcessLicenseWarning", action: () => hb
+                    .Div(action: () => hb
+                        .Text(text: Displays.ExcessLicenseWarning(
+                            context: context,
+                            data: Parameters.LicensedUsers().ToString()))))
                 : hb;
         }
 

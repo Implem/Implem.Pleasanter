@@ -1,0 +1,29 @@
+﻿{
+    "Id": "ExcessLicenseWarning",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "The number of users exceeds {0} licensed users."
+        },
+        {
+            "Language": "zh",
+            "Body": "用户数量超过了{0}个许可用户。"
+        },
+        {
+            "Language": "ja",
+            "Body": "ユーザー数がライセンスされたユーザ数 {0} を超えています。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die Anzahl der Benutzer überschreitet {0} lizenzierte Benutzer."
+        },
+        {
+            "Language": "ko",
+            "Body": "사용자 수가 라이선스 사용자 {0} 명을 초과합니다."
+        },
+        {
+            "Language": "es",
+            "Body": "El número de usuarios supera los {0} usuarios con licencia."
+        }
+    ]
+}

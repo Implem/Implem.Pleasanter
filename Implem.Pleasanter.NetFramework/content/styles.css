@@ -366,6 +366,17 @@ pre{
     text-decoration:none;
 }
 
+#ExcessLicenseWarning{
+    width:100%;
+    display:block;
+    float:left;
+    margin:0px 10px 5px 0px;
+    padding:5px 10px;
+    color:white;
+    background:red;
+    border-radius:7px;
+}
+
 #PublishWarning{
     width:100%;
     display:block;

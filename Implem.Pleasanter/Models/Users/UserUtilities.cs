@@ -3967,5 +3967,21 @@ namespace Implem.Pleasanter.Models
                         errorData: errorData);
             }
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static bool ExcessLicense(Context context)
+        {
+            return Parameters.CommercialLicense()
+                && Parameters.LicensedUsers() > 0
+                && Rds.ExecuteScalar_int(
+                    context: context,
+                    statements: Rds.SelectUsers(
+                        column: Rds.UsersColumn().UsersCount(),
+                        where: Rds.UsersWhere()
+                            .TenantId(context.TenantId)
+                            .Disabled(false))) > Parameters.LicensedUsers();
+        }
     }
 }
