@@ -2208,6 +2208,62 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public System.Web.Mvc.ContentResult BulkDeleteByApi(Context context)
+        {
+            SetSite(context: context);
+            if (!Site.WithinApiLimits())
+            {
+                return ApiResults.Get(ApiResponses.OverLimitApi(
+                    context: context,
+                    siteId: Site.SiteId,
+                    limitPerSite: Parameters.Api.LimitPerSite));
+            }
+            if (context.RequestDataString.Deserialize<ApiDeleteOption>()?.PhysicalDelete == true)
+            {
+                switch (Site.ReferenceType)
+                {
+                    case "Issues":
+                        return IssueUtilities.PhysicalBulkDeleteByApi(
+                            context: context,
+                            ss: Site.IssuesSiteSettings(
+                                context: context,
+                                referenceId: ReferenceId,
+                                setSiteIntegration: true,
+                                tableType: Sqls.TableTypes.Deleted));
+                    case "Results":
+                        return ResultUtilities.PhysicalBulkDeleteByApi(
+                            context: context,
+                            ss: Site.ResultsSiteSettings(
+                                context: context,
+                                referenceId: ReferenceId,
+                                setSiteIntegration: true,
+                                tableType: Sqls.TableTypes.Deleted));
+                    default:
+                        return ApiResults.Get(ApiResponses.NotFound(context: context));
+                }
+            }
+            else
+            {
+                switch (Site.ReferenceType)
+                {
+                    case "Issues":
+                        return IssueUtilities.BulkDeleteByApi(
+                            context: context,
+                            ss: Site.IssuesSiteSettings(
+                                context: context,
+                                referenceId: ReferenceId));
+                    case "Results":
+                        return ResultUtilities.BulkDeleteByApi(
+                            context: context,
+                            ss: Site.ResultsSiteSettings(
+                                context: context,
+                                referenceId: ReferenceId));
+                    default:
+                        return ApiResults.Get(ApiResponses.NotFound(context: context));
+                }
+            }
+        }
+
         public string DeleteHistory(Context context)
         {
             SetSite(
@@ -2246,13 +2302,13 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public string PhysicalDelete(Context context)
+        public string PhysicalBulkDelete(Context context)
         {
             SetSite(context: context, tableType: Sqls.TableTypes.Deleted);
             switch (Site.ReferenceType)
             {
                 case "Sites":
-                    return SiteUtilities.PhysicalDelete(
+                    return SiteUtilities.PhysicalBulkDelete(
                         context: context,
                         ss: Site.SitesSiteSettings(
                             context: context,
@@ -2260,7 +2316,7 @@ namespace Implem.Pleasanter.Models
                             setSiteIntegration: true,
                             tableType: Sqls.TableTypes.Deleted));
                 case "Issues":
-                    return IssueUtilities.PhysicalDelete(
+                    return IssueUtilities.PhysicalBulkDelete(
                         context: context,
                         ss: Site.IssuesSiteSettings(
                             context: context,
@@ -2268,7 +2324,7 @@ namespace Implem.Pleasanter.Models
                             setSiteIntegration: true,
                             tableType: Sqls.TableTypes.Deleted));
                 case "Results":
-                    return ResultUtilities.PhysicalDelete(
+                    return ResultUtilities.PhysicalBulkDelete(
                         context: context,
                         ss: Site.ResultsSiteSettings(
                             context: context,

@@ -1,0 +1,29 @@
+﻿{
+    "Id": "PhysicalBulkDeletedFromRecycleBin",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "\" {0} \" items have been deleted from recycle bin."
+        },
+        {
+            "Language": "zh",
+            "Body": "“{0}”条目已从回收站中删除。"
+        },
+        {
+            "Language": "ja",
+            "Body": "ごみ箱から {0} 件 削除しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "„ {0} “ Elemente wurden aus dem Papierkorb gelöscht."
+        },
+        {
+            "Language": "ko",
+            "Body": "휴지통에서 \" {0} \"개의 항목이 삭제되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se han eliminado \" {0} \" elementos de la papelera de reciclaje."
+        }
+    ]
+}
