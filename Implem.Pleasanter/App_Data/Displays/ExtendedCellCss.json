@@ -1,29 +1,29 @@
 ﻿{
-    "Id": "ExtendedFieldCss",
+    "Id": "ExtendedCellCss",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Field css"
+            "Body": "Cell css"
         },
         {
             "Language": "zh",
-            "Body": "外地css"
+            "Body": "单元CSS"
         },
         {
             "Language": "ja",
-            "Body": "フィールドCSS"
+            "Body": "セルCSS"
         },
         {
             "Language": "de",
-            "Body": "Feld CSS"
+            "Body": "Cell css"
         },
         {
             "Language": "ko",
-            "Body": "필드 CSS"
+            "Body": "셀 CSS"
         },
         {
             "Language": "es",
-            "Body": "CSS de campo"
+            "Body": "CSS celular"
         }
     ]
 }

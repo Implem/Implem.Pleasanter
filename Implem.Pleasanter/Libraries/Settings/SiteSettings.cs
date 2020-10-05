@@ -1008,6 +1008,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.Hide = column.Hide;
                     }
+                    if (column.ExtendedCellCss?.Trim().IsNullOrEmpty() == false)
+                    {
+                        enabled = true;
+                        newColumn.ExtendedCellCss = column.ExtendedCellCss;
+                    }
                     if (column.ExtendedFieldCss?.Trim().IsNullOrEmpty() == false)
                     {
                         enabled = true;
@@ -3101,6 +3106,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "Format": column.Format = value; break;
                 case "NoWrap": column.NoWrap = value.ToBool(); break;
                 case "Hide": column.Hide = value.ToBool(); break;
+                case "ExtendedCellCss": column.ExtendedCellCss = value; break;
                 case "ExtendedFieldCss": column.ExtendedFieldCss = value; break;
                 case "Section": column.Section = value; break;
                 case "GridDesign":

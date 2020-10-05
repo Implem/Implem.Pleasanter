@@ -845,10 +845,12 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column, int? tabIndex)
         {
-            return hb.Td(action: () => hb
-                .HtmlDept(
-                    context: context,
-                    id: DeptId));
+            return hb.Td(
+                css: column.CellCss(),
+                action: () => hb
+                    .HtmlDept(
+                        context: context,
+                        id: DeptId));
         }
 
         /// <summary>

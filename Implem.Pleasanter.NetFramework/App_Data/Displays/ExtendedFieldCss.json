@@ -1,29 +1,29 @@
-{
+﻿{
     "Id": "ExtendedFieldCss",
     "Type": 110,
     "Languages": [
         {
-            "Body": "CSS class name"
+            "Body": "Field css"
         },
         {
             "Language": "zh",
-            "Body": "CSS类名称"
+            "Body": "外地css"
         },
         {
             "Language": "ja",
-            "Body": "CSSクラス名"
+            "Body": "フィールドCSS"
         },
         {
             "Language": "de",
-            "Body": "CSS-Klassenname"
+            "Body": "Feld CSS"
         },
         {
             "Language": "ko",
-            "Body": "CSS 클래스 이름"
+            "Body": "필드 CSS"
         },
         {
             "Language": "es",
-            "Body": "Nombre de clase CSS"
+            "Body": "CSS de campo"
         }
     ]
 }
