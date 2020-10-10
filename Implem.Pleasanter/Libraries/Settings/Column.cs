@@ -6,6 +6,7 @@ using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using System;
 using System.Collections.Generic;
@@ -626,9 +627,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 context: context,
                 value: value,
                 format: format)
-                    + (EditorReadOnly == true || !CanUpdate
-                        ? Unit
-                        : string.Empty);
+                    + (EditorReadOnly == true
+                        || this.ColumnPermissionType(context: context) != Permissions.ColumnPermissionTypes.Update
+                            ? Unit
+                            : string.Empty);
         }
 
         public string DisplayGrid(Context context, DateTime value)

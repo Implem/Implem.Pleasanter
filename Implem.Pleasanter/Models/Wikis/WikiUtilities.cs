@@ -661,6 +661,9 @@ namespace Implem.Pleasanter.Models
                             controlId: "BaseUrl",
                             value: Locations.BaseUrl(context: context))
                         .Hidden(
+                            controlId: "Ver",
+                            value: wikiModel.Ver.ToString())
+                        .Hidden(
                             controlId: "MethodType",
                             value: "edit")
                         .Hidden(
@@ -1411,6 +1414,7 @@ namespace Implem.Pleasanter.Models
                     .Timestamp(context: context, ss: ss)
                     .FieldResponse(context: context, ss: ss, wikiModel: wikiModel)
                     .Val("#VerUp", verUp)
+                    .Val("#Ver", wikiModel.Ver)
                     .Disabled("#VerUp", verUp)
                     .Html("#HeaderTitle", wikiModel.Title.DisplayValue)
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(

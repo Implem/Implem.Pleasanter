@@ -1098,6 +1098,7 @@ namespace Implem.Pleasanter.Models
                     .Ver(context: context, ss: ss)
                     .Timestamp(context: context, ss: ss)
                     .Val("#VerUp", verUp)
+                    .Val("#Ver", siteModel.Ver)
                     .Disabled("#VerUp", verUp)
                     .Html("#HeaderTitle", siteModel.Title.Value)
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
@@ -3461,6 +3462,9 @@ namespace Implem.Pleasanter.Models
                     .Hidden(
                         controlId: "BaseUrl",
                         value: Locations.BaseUrl(context: context))
+                    .Hidden(
+                        controlId: "Ver",
+                        value: siteModel.Ver.ToString())
                     .Hidden(
                         controlId: "SwitchTargets",
                         css: "always-send",

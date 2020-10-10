@@ -1185,7 +1185,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         private DateTime ConvertDateTimeParam(string dateTimeString, Column column)
         {
             var dt = dateTimeString.ToDateTime();
-            switch (column.ColumnName)
+            switch (column.Name)
             {
                 case "CompletionTime":
                     return column.DateTimepicker() ? dt : dt.AddDays(1);

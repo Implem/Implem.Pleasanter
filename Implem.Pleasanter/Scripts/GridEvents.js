@@ -119,7 +119,7 @@ $(function () {
         }
         timer = setTimeout(function ($control) {   
             var dataName = $control.attr('data-name');
-            $menuSort = $(".menu-sort[id='GridHeaderMenu__" + dataName+ "']");
+            $menuSort = $(".menu-sort[id='GridHeaderMenu__" + dataName + "']");
             $menuSort.css('width', '');
             $menuSort
                 .css('position', 'fixed')

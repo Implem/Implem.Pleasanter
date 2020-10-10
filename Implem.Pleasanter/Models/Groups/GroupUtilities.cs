@@ -954,6 +954,9 @@ namespace Implem.Pleasanter.Models
                             controlId: "BaseUrl",
                             value: Locations.BaseUrl(context: context))
                         .Hidden(
+                            controlId: "Ver",
+                            value: groupModel.Ver.ToString())
+                        .Hidden(
                             controlId: "MethodType",
                             value: groupModel.MethodType.ToString().ToLower())
                         .Hidden(
@@ -1479,6 +1482,7 @@ namespace Implem.Pleasanter.Models
                     .Timestamp(context: context, ss: ss)
                     .FieldResponse(context: context, ss: ss, groupModel: groupModel)
                     .Val("#VerUp", verUp)
+                    .Val("#Ver", groupModel.Ver)
                     .Disabled("#VerUp", verUp)
                     .Html("#HeaderTitle", groupModel.Title.Value)
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(

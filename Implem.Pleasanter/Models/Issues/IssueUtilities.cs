@@ -1449,6 +1449,9 @@ namespace Implem.Pleasanter.Models
                             controlId: "BaseUrl",
                             value: Locations.BaseUrl(context: context))
                         .Hidden(
+                            controlId: "Ver",
+                            value: issueModel.Ver.ToString())
+                        .Hidden(
                             controlId: "LockedTable",
                             value: ss.LockedTable()
                                 ? "1"
@@ -2749,6 +2752,7 @@ namespace Implem.Pleasanter.Models
                     .Timestamp(context: context, ss: ss)
                     .FieldResponse(context: context, ss: ss, issueModel: issueModel)
                     .Val("#VerUp", verUp)
+                    .Val("#Ver", issueModel.Ver)
                     .Disabled("#VerUp", verUp)
                     .Html("#HeaderTitle", issueModel.Title.DisplayValue)
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(

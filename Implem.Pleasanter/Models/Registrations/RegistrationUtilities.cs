@@ -934,6 +934,9 @@ namespace Implem.Pleasanter.Models
                             controlId: "BaseUrl",
                             value: Locations.BaseUrl(context: context))
                         .Hidden(
+                            controlId: "Ver",
+                            value: registrationModel.Ver.ToString())
+                        .Hidden(
                             controlId: "MethodType",
                             value: registrationModel.MethodType.ToString().ToLower())
                         .Hidden(
@@ -1690,6 +1693,7 @@ namespace Implem.Pleasanter.Models
                     .Timestamp(context: context, ss: ss)
                     .FieldResponse(context: context, ss: ss, registrationModel: registrationModel)
                     .Val("#VerUp", verUp)
+                    .Val("#Ver", registrationModel.Ver)
                     .Disabled("#VerUp", verUp)
                     .Html("#HeaderTitle", registrationModel.Title.Value)
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(

@@ -1321,7 +1321,6 @@
     <Content Include="Scripts\BulkUpdate.js" />
     <Content Include="Scripts\LockEvents.js" />
     <Content Include="Scripts\Plugins\jquery-3.1.0.min.js" />
-    <Content Include="Scripts\Plugins\jquery-3.5.1.min.js" />
     <Content Include="Scripts\SetDateRangeDialog.js" />
     <Content Include="Scripts\RelatingColumns.js" />
     <Content Include="Scripts\SetNumericRangeDialog.js" />

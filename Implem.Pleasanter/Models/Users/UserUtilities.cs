@@ -1287,6 +1287,9 @@ namespace Implem.Pleasanter.Models
                             controlId: "BaseUrl",
                             value: Locations.BaseUrl(context: context))
                         .Hidden(
+                            controlId: "Ver",
+                            value: userModel.Ver.ToString())
+                        .Hidden(
                             controlId: "MethodType",
                             value: userModel.MethodType.ToString().ToLower())
                         .Hidden(
@@ -2182,6 +2185,7 @@ namespace Implem.Pleasanter.Models
                     .Timestamp(context: context, ss: ss)
                     .FieldResponse(context: context, ss: ss, userModel: userModel)
                     .Val("#VerUp", verUp)
+                    .Val("#Ver", userModel.Ver)
                     .Disabled("#VerUp", verUp)
                     .Html("#HeaderTitle", userModel.Title.Value)
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
@@ -4018,6 +4022,9 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static bool ExcessLicense(Context context)
         {
             return Parameters.CommercialLicense()
