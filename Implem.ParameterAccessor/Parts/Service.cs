@@ -9,6 +9,7 @@
         public string AbsoluteUri;
         public bool RequireHttps;
         public bool ShowProfiles;
+        public bool ShowChangePassword;
         public bool ShowStartGuide;
         public bool Demo;
         public int DemoUsagePeriod;

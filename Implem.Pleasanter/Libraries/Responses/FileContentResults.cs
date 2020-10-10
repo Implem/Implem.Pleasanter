@@ -16,7 +16,7 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public static FileContentResult Download(Context context, string guid)
         {
-            DataRow dataRow = GetBinariesTable(context, guid);
+            var dataRow = GetBinariesTable(context, guid);
             switch (dataRow.String("BinaryType"))
             {
                 case "Images":
@@ -155,7 +155,7 @@ namespace Implem.Pleasanter.Libraries.Responses
             }
         }
 
-        private static byte[] BytesforLocal(DataRow dataRow, bool thumbnail = false)
+        private static byte[] BytesforLocal(DataRow dataRow, bool thumbnail)
         {
             return Files.Bytes(Path.Combine(
                 Directories.BinaryStorage(),

@@ -182,6 +182,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .ForEach(action => hb
                         .ViewModeMenu(
                             context: context,
+                            id: "ViewModelMenu_" + action,
                             siteId: ss.SiteId,
                             action: action,
                             postBack: PostBack(context: context, ss: ss)));
@@ -205,11 +206,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder ViewModeMenu(
             this HtmlBuilder hb,
             Context context,
+            string id,
             long siteId,
             string action,
             bool postBack)
         {
-            return hb.Li(action: () => hb
+            return hb.Li(
+                id: id,
+                action: () => hb
                 .A(
                     attributes: postBack
                         ? new HtmlAttributes().OnClick(
@@ -245,6 +249,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 css: "menu",
                 action: () => hb
                     .Li(
+                        id: "SettingsMenu_SiteSettings",
                         action: () => hb
                             .A(
                                 href: Locations.ItemEdit(
@@ -261,6 +266,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         ss: ss,
                         canManageSite: canManageSite)
                     .Li(
+                        id: "SettingsMenu_TenantAdmin",
                         action: () => hb
                             .A(
                                 href: Locations.Edit(
@@ -271,6 +277,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     .Text(text: Displays.TenantAdmin(context: context))),
                         _using: canManageTenants)
                     .Li(
+                        id: "SettingsMenu_DeptAdmin",
                         action: () => hb
                             .A(
                                 href: Locations.Index(
@@ -281,6 +288,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     .Text(text: Displays.DeptAdmin(context: context))),
                         _using: canManageDepts)
                     .Li(
+                        id: "SettingsMenu_GroupAdmin",
                         action: () => hb
                             .A(
                                 href: Locations.Index(
@@ -291,6 +299,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     .Text(text: Displays.GroupAdmin(context: context))),
                         _using: canManageGroups)
                     .Li(
+                        id: "SettingsMenu_UserAdmin",
                         action: () => hb
                             .A(
                                 href: Locations.Index(
@@ -301,6 +310,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     .Text(text: Displays.UserAdmin(context: context))),
                         _using: canManageUsers)
                     .Li(
+                        id: "SettingsMenu_ImportSitePackage",
                         action: () => hb
                             .A(
                                 href: "javascript:void(0);",
@@ -318,6 +328,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             || (ss.SiteId == 0
                                 && context.UserSettings.DisableTopSiteCreation != true))
                     .Li(
+                        id: "SettingsMenu_ExportSitePackage",
                         action: () => hb
                             .A(
                                 href: "javascript:void(0);",
@@ -332,6 +343,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             && canManageSite
                             && ss.IsSite(context: context))
                     .Li(
+                        id: "SettingsMenu_Registrations",
                         action: () => hb
                             .A(
                                 href: Locations.Index(
@@ -342,6 +354,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     .Text(text: Displays.Registrations(context: context))),
                         _using: canManageRegistrations)
                     .Li(
+                        id: "SettingsMenu_TrashBox",
                         action: () => hb
                             .A(
                                 href: Locations.ItemTrashBox(
@@ -361,49 +374,63 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 id: "HelpMenu",
                 css: "menu",
                 action: () => hb
-                    .Li(action: () => hb
+                    .Li(
+                        id: "HelpMenu_UserManual",
+                        action: () => hb
                         .A(
                             href: Parameters.General.HtmlUserManualUrl,
                             target: "_blank",
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-help")
                                 .Text(text: Displays.UserManual(context: context))))
-                    .Li(action: () => hb
+                    .Li(
+                        id: "HelpMenu_AnnualSupportService",
+                        action: () => hb
                         .A(
                             href: Parameters.General.HtmlAnnualSupportServiceUrl,
                             target: "_blank",
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-clipboard")
                                 .Text(text: Displays.AnnualSupportService(context: context))))
-                    .Li(action: () => hb
+                    .Li(
+                        id: "HelpMenu_EnterpriseEdition",
+                        action: () => hb
                         .A(
                             href: Parameters.General.HtmlEnterPriseEditionUrl,
                             target: "_blank",
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-lightbulb")
                                 .Text(text: Displays.EnterpriseEdition(context: context))))
-                    .Li(action: () => hb
+                    .Li(
+                        id: "HelpMenu_Blog",
+                        action: () => hb
                         .A(
                             href: Parameters.General.HtmlBlogUrl,
                             target: "_blank",
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-info")
                                 .Text(text: Displays.Blog(context: context))))
-                    .Li(action: () => hb
+                    .Li(
+                        id: "HelpMenu_Contact",
+                        action: () => hb
                         .A(
                             href: Parameters.General.HtmlContactUrl,
                             target: "_blank",
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-contact")
                                 .Text(text: Displays.Contact(context: context))))
-                    .Li(action: () => hb
+                    .Li(
+                        id: "HelpMenu_Portal",
+                        action: () => hb
                         .A(
                             href: Parameters.General.HtmlPortalUrl,
                             target: "_blank",
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-cart")
                                 .Text(text: Displays.Portal(context: context))))
-                    .Li(action: () => hb
+                    .Li(
+                        id: "HelpMenu_Version",
+                        action: () => hb
                         .A(
                             href: Locations.Get(
                                 context: context,
@@ -441,7 +468,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 if (!ss.Locked())
                 {
-                    return hb.Li(action: () => hb
+                    return hb.Li(
+                        id: "LockTableMenu_LockTable",
+                        action: () => hb
                         .A(
                             href: "javascript:void(0);",
                             attributes: new HtmlAttributes()
@@ -455,7 +484,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 }
                 else if (ss.LockedTableUser.Id == context.UserId)
                 {
-                    return hb.Li(action: () => hb
+                    return hb.Li(
+                        id: "LockTableMenu_UnlockTable",
+                        action: () => hb
                         .A(
                             href: "javascript:void(0);",
                             attributes: new HtmlAttributes()
@@ -469,7 +500,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 }
                 else if (context.HasPrivilege)
                 {
-                    return hb.Li(action: () => hb
+                    return hb.Li(
+                        id: "LockTableMenu_ForceUnlockTable",
+                        action: () => hb
                         .A(
                             href: "javascript:void(0);",
                             attributes: new HtmlAttributes()
@@ -489,6 +522,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Ul(id: "AccountMenu", css: "menu", action: () => hb
                 .Li(
+                    id: "AccountMenu_Logout",
                     action: () => hb
                     .A(
                         href: Locations.Logout(context: context),
@@ -496,6 +530,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Span(css: "ui-icon ui-icon-locked")
                             .Text(text: Displays.Logout(context: context))))
                 .Li(
+                    id: "AccountMenu_ShowStartGuide",
                     action: () => hb
                         .A(
                             href: "javascript:void(0);",
@@ -506,6 +541,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Text(text: Displays.ShowStartGuide(context: context))),
                     _using: context.UserSettings.ShowStartGuideAvailable(context: context))
                 .Li(
+                    id: "AccountMenu_EditProfile",
                     action: () => hb
                         .A(
                             href: Locations.Edit(
@@ -517,6 +553,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Text(text: Displays.EditProfile(context: context))),
                     _using: Parameters.Service.ShowProfiles)
                 .Li(
+                    id: "AccountMenu_ChangePassword",
+                    action: () => hb
+                        .A(
+                            href: "javascript:void(0);",
+                            attributes: new HtmlAttributes()
+                                .OnClick("$p.openChangePasswordDialog($(this), 'ChangePasswordForm');")
+                                .DataMethod("post")
+                                .DataAction("OpenChangePasswordDialog"),
+                            action: () => hb
+                                .Span(css: "ui-icon ui-icon-person")
+                                .Text(text: Displays.ChangePassword(context: context))),
+                    _using: !Parameters.Service.ShowProfiles
+                        && Parameters.Service.ShowChangePassword)
+                .Li(
+                    id: "AccountMenu_ApiSettings",
                     action: () => hb
                         .A(
                             href: Locations.Get(

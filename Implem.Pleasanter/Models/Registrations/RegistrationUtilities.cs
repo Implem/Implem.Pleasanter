@@ -347,8 +347,8 @@ namespace Implem.Pleasanter.Models
             RecordSelector recordSelector)
         {
             return !recordSelector.Nothing
-                ? Rds.IssuesWhere().IssueId_In(
-                    value: recordSelector.Selected?.Select(o => o.ToLong()) ?? new List<long>(),
+                ? Rds.RegistrationsWhere().RegistrationId_In(
+                    value: recordSelector.Selected?.Select(o => o.ToInt()) ?? new List<int>(),
                     negative: recordSelector.All)
                 : null;
         }
@@ -1690,6 +1690,7 @@ namespace Implem.Pleasanter.Models
                     .Timestamp(context: context, ss: ss)
                     .FieldResponse(context: context, ss: ss, registrationModel: registrationModel)
                     .Val("#VerUp", verUp)
+                    .Val("#Ver", registrationModel.Ver)
                     .Disabled("#VerUp", verUp)
                     .Html("#HeaderTitle", registrationModel.Title.Value)
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(

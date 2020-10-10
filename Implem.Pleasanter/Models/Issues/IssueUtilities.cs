@@ -1449,6 +1449,9 @@ namespace Implem.Pleasanter.Models
                             controlId: "BaseUrl",
                             value: Locations.BaseUrl(context: context))
                         .Hidden(
+                            controlId: "Ver",
+                            value: issueModel.Ver.ToString())
+                        .Hidden(
                             controlId: "LockedTable",
                             value: ss.LockedTable()
                                 ? "1"
@@ -2749,6 +2752,7 @@ namespace Implem.Pleasanter.Models
                     .Timestamp(context: context, ss: ss)
                     .FieldResponse(context: context, ss: ss, issueModel: issueModel)
                     .Val("#VerUp", verUp)
+                    .Val("#Ver", issueModel.Ver)
                     .Disabled("#VerUp", verUp)
                     .Html("#HeaderTitle", issueModel.Title.DisplayValue)
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
@@ -3073,6 +3077,7 @@ namespace Implem.Pleasanter.Models
                     .Where(o => o.SiteId == ss.SiteId)
                     .ToList();
             var statements = new List<SqlStatement>();
+            statements.OnUpdatingByGridExtendedSqls(siteId: ss.SiteId);
             var issueCollection = new IssueCollection(
                 context: context,
                 ss: ss,
@@ -3154,6 +3159,7 @@ namespace Implem.Pleasanter.Models
                             .ToJson();
                 }
             }
+            statements.OnUpdatedByGridExtendedSqls(siteId: ss.SiteId);
             var responses = Repository.ExecuteDataSet_responses(
                 context: context,
                 transactional: true,
@@ -4704,6 +4710,7 @@ namespace Implem.Pleasanter.Models
                 {
                     var column = ss.Columns
                         .Where(o => o.LabelText == data.Header)
+                        .Where(o => o.TypeCs != "Attachments")
                         .FirstOrDefault();
                     if (column?.ColumnName == "IssueId")
                     {

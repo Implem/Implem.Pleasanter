@@ -967,7 +967,7 @@ namespace Implem.Pleasanter.Models
         {
             ReferenceId = referenceId;
             BinaryType = binaryType;
-            if(Parameters.BinaryStorage.Provider == "Local")
+            if (Parameters.BinaryStorage.Provider == "Local")
             {
                 return;
             }

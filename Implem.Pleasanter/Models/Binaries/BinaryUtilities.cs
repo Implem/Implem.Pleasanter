@@ -139,7 +139,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static (byte[] bytes,string contentType) SiteImageThumbnail(Context context, SiteModel siteModel)
+        public static (byte[] bytes, string contentType) SiteImageThumbnail(Context context, SiteModel siteModel)
         {
             siteModel.SiteSettings = SiteSettingsUtilities.Get(
                 context: context,

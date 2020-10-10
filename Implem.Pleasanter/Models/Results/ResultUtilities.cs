@@ -512,7 +512,7 @@ namespace Implem.Pleasanter.Models
             RecordSelector recordSelector)
         {
             return !recordSelector.Nothing
-                ? Rds.IssuesWhere().IssueId_In(
+                ? Rds.ResultsWhere().ResultId_In(
                     value: recordSelector.Selected?.Select(o => o.ToLong()) ?? new List<long>(),
                     negative: recordSelector.All)
                 : null;
@@ -1348,6 +1348,9 @@ namespace Implem.Pleasanter.Models
                         .Hidden(
                             controlId: "BaseUrl",
                             value: Locations.BaseUrl(context: context))
+                        .Hidden(
+                            controlId: "Ver",
+                            value: resultModel.Ver.ToString())
                         .Hidden(
                             controlId: "LockedTable",
                             value: ss.LockedTable()
@@ -2570,6 +2573,7 @@ namespace Implem.Pleasanter.Models
                     .Timestamp(context: context, ss: ss)
                     .FieldResponse(context: context, ss: ss, resultModel: resultModel)
                     .Val("#VerUp", verUp)
+                    .Val("#Ver", resultModel.Ver)
                     .Disabled("#VerUp", verUp)
                     .Html("#HeaderTitle", resultModel.Title.DisplayValue)
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
@@ -2882,6 +2886,7 @@ namespace Implem.Pleasanter.Models
                     .Where(o => o.SiteId == ss.SiteId)
                     .ToList();
             var statements = new List<SqlStatement>();
+            statements.OnUpdatingByGridExtendedSqls(siteId: ss.SiteId);
             var resultCollection = new ResultCollection(
                 context: context,
                 ss: ss,
@@ -2963,6 +2968,7 @@ namespace Implem.Pleasanter.Models
                             .ToJson();
                 }
             }
+            statements.OnUpdatedByGridExtendedSqls(siteId: ss.SiteId);
             var responses = Repository.ExecuteDataSet_responses(
                 context: context,
                 transactional: true,
@@ -4372,6 +4378,7 @@ namespace Implem.Pleasanter.Models
                 {
                     var column = ss.Columns
                         .Where(o => o.LabelText == data.Header)
+                        .Where(o => o.TypeCs != "Attachments")
                         .FirstOrDefault();
                     if (column?.ColumnName == "ResultId")
                     {
