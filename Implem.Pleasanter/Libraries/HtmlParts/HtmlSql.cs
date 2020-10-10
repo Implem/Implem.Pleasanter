@@ -12,7 +12,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlSql
     {
-        public static HtmlBuilder ExtendedSql(this HtmlBuilder hb, Context context)
+        public static HtmlBuilder ExtendedSql(
+        	this HtmlBuilder hb,
+        	Context context)
         {
             ExtensionUtilities.ExtensionWhere<ExtendedSql>(
                 context: context,

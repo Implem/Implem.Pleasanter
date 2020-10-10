@@ -2,6 +2,10 @@
     return parseInt($('#Id').val());
 }
 
+$p.ver = function () {
+    return parseInt($('#Ver').val());
+}
+
 $p.siteId = function (title) {
     if (title === undefined) {
         return parseInt($('#SiteId').val());

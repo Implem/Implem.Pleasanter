@@ -4464,6 +4464,7 @@ namespace Implem.Pleasanter.Models
             if (ApiCountDate.Date < DateTime.Now.Date)
             {
                 ApiCountDate = DateTime.Now;
+                ApiCount = 0;
             }
             return !(Parameters.Api.LimitPerSite != 0
                 && ApiCount >= Parameters.Api.LimitPerSite);

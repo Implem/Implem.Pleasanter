@@ -6,6 +6,7 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Resources;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
@@ -267,7 +268,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 labelText: column.LabelText,
                                 controlOnly: controlOnly,
                                 text: column.HasChoices() && !value.IsNullOrEmpty()
-                                    ? optionCollection.Get(value)?.Text ?? "? " + value
+                                    ? column.Type != Column.Types.Normal
+                                        ? SiteInfo.Name(
+                                            context: context,
+                                            id: value.ToInt(),
+                                            type: column.Type)
+                                        : optionCollection.Get(value)?.Text ?? "? " + value
                                     : value,
                                 dataValue: column.HasChoices()
                                     ? value
@@ -628,23 +634,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool _using = true)
         {
             return _using
-                ? controlOnly
-                    ? hb.Control(
-                        controlAction: controlAction,
-                        fieldDescription: fieldDescription,
-                        controlContainerCss: controlContainerCss,
-                        tagControlContainer: tagControlContainer)
-                    : hb.Field(
+                ? hb.Field(
                         fieldId: fieldId,
                         fieldCss: fieldCss,
                         fieldDescription: fieldDescription,
+                    controlOnly: controlOnly,
                         actionLabel: () => hb
                             .Label(
                                 controlId: controlId,
                                 labelCss: labelCss,
                                 labelText: labelText,
                                 labelTitle: labelTitle,
-                                labelRequired: labelRequired),
+                            labelRequired: labelRequired,
+                            _using: !controlOnly),
                         actionControl: () => hb
                             .Control(
                                 controlAction: controlAction,
@@ -677,6 +679,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string fieldId = null,
             string fieldCss = null,
             string fieldDescription = null,
+            bool controlOnly = false,
             Action actionLabel = null,
             Action actionControl = null,
             Action actionOptions = null,
@@ -686,12 +689,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ? hb.Div(
                     attributes: new HtmlAttributes()
                         .Id(fieldId)
-                        .Class(Css.Class("field-normal", fieldCss))
+                        .Class(!controlOnly
+                            ? Css.Class("field-normal", fieldCss)
+                            : fieldCss)
                         .Title(fieldDescription),
                     action: () =>
                     {
-                        actionLabel();
-                        actionControl();
+                        actionLabel?.Invoke();
+                        actionControl?.Invoke();
                         actionOptions?.Invoke();
                     })
                 : hb;
@@ -703,9 +708,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelCss = null,
             string labelText = null,
             string labelTitle = null,
-            bool labelRequired = false)
+            bool labelRequired = false,
+            bool _using = true)
         {
-            return labelText != string.Empty
+            return _using && labelText != string.Empty
                 ? hb.P(css: "field-label", action: () => hb
                     .Label(
                         attributes: new HtmlAttributes()

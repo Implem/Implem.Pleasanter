@@ -165,10 +165,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlId: "CalendarJson",
                         value: choices == null
                             ? Json(
-                            context: context,
-                            from: fromColumn,
-                            to: toColumn,
-                            dataRows: dataRows,
+                                context: context,
+                                from: fromColumn,
+                                to: toColumn,
+                                dataRows: dataRows,
                                 changedItemId: changedItemId)
                             : GroupingJson(
                                 context: context,
@@ -176,7 +176,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 to: toColumn,
                                 groupBy: groupBy,
                                 dataRows: dataRows,
-                            changedItemId: changedItemId))
+                                changedItemId: changedItemId))
                     .CalendarBodyTable(
                         context: context,
                         timePeriod: timePeriod,
@@ -234,29 +234,29 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 id: "Grid",
                 css: "grid fixed",
                 action: () => hb
-                .THead(action: () => hb
-                    .Tr(action: () =>
-                    {
+                    .THead(action: () => hb
+                        .Tr(action: () =>
+                        {
                             hb.Th(
                                 css: "ui-widget-header",
                                 action: () => hb.Text(groupBy.LabelText),
                                 _using: groupBy != null);
-                        for (var x = 0; x < 12; x++)
-                        {
+                            for (var x = 0; x < 12; x++)
+                            {
                                 var currentDate = begin.ToLocal(context: context).AddMonths(x);
-                            hb.Th(action: () => hb
-                                .A(
-                                    css: "calendar-to-monthly",
-                                    href: "javascript:void(0);",
-                                    attributes: new HtmlAttributes()
+                                hb.Th(action: () => hb
+                                    .A(
+                                        css: "calendar-to-monthly",
+                                        href: "javascript:void(0);",
+                                        attributes: new HtmlAttributes()
                                             .DataId(currentDate.ToString()),
-                                    action: () => hb
+                                        action: () => hb
                                             .Text(text: currentDate.ToString(
-                                            "Y", context.CultureInfo()))));
-                        }
-                    }))
-                .TBody(action: () =>
-                {
+                                                "Y", context.CultureInfo()))));
+                            }
+                        }))
+                    .TBody(action: () =>
+                    {
                         choices = choices ?? new Dictionary<string, ControlData>() { [string.Empty] = null };
                         choices?.ForEach(choice =>
                         {
@@ -265,20 +265,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 hb.Th(action: () => hb.Text(
                                     choice.Value.DisplayValue(context: context)),
                                     _using: choice.Value != null);
-                    for (var x = 0; x < 12; x++)
-                    {
+                                for (var x = 0; x < 12; x++)
+                                {
                                     var date = begin.ToLocal(context: context).AddMonths(x);
-                        hb.Td(
-                            attributes: new HtmlAttributes()
-                                .Class("container")
+                                    hb.Td(
+                                        attributes: new HtmlAttributes()
+                                            .Class("container")
                                             .DataValue(value: choice.Key, _using: choice.Value != null)
-                                .DataId(date.ToString("yyyy/M/d")),
-                            action: () => hb
-                                .Div());
-                    }
+                                            .DataId(date.ToString("yyyy/M/d")),
+                                        action: () => hb
+                                            .Div());
+                                }
                             });
                         });
-                }));
+                    }));
         }
 
         private static HtmlBuilder MonthlyTable(
@@ -293,23 +293,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 id: "Grid",
                 css: "grid fixed",
                 action: () => hb
-                .THead(action: () => hb
-                    .Tr(action: () =>
-                    {
+                    .THead(action: () => hb
+                        .Tr(action: () =>
+                        {
                             hb.Th(
                                 css: "ui-widget-header",
                                 action: () => hb.Text(groupBy.LabelText),
                                 _using: groupBy != null);
-                        for (var x = 0; x < 7; x++)
-                        {
+                            for (var x = 0; x < 7; x++)
+                            {
                                 hb.Th(css: DayOfWeekCss(x) + " calendar-header", action: () => hb
-                                .Text(text: DayOfWeekString(
-                                    context: context,
-                                    x: x)));
-                        }
-                    }))
-                .TBody(action: () =>
-                {
+                                    .Text(text: DayOfWeekString(
+                                        context: context,
+                                        x: x)));
+                            }
+                        }))
+                    .TBody(action: () =>
+                    {
                         choices = choices ?? new Dictionary<string, ControlData>() { [string.Empty] = null };
                         choices.ForEach(choice =>
                         {
@@ -319,37 +319,37 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     attributes: new HtmlAttributes().Add("rowspan", "7"),
                                     action: () => hb.Text(choice.Value.DisplayValue(context: context)),
                                     _using: choice.Value != null);
-                    for (var y = 0; y < 6; y++)
-                    {
-                        hb.Tr(action: () =>
-                        {
-                            for (var x = 0; x < 7; x++)
-                            {
+                                for (var y = 0; y < 6; y++)
+                                {
+                                    hb.Tr(action: () =>
+                                    {
+                                        for (var x = 0; x < 7; x++)
+                                        {
                                             var currentDate = begin.ToLocal(context: context).AddDays(y * 7 + x);
-                                hb.Td(
-                                    attributes: new HtmlAttributes()
-                                        .Class("container" +
+                                            hb.Td(
+                                                attributes: new HtmlAttributes()
+                                                    .Class("container" +
                                                         (currentDate == DateTime.Now.ToLocal(context: context).Date
-                                                ? " today"
-                                                : string.Empty) +
+                                                            ? " today"
+                                                            : string.Empty) +
                                                         (date.ToLocal(context: context).Month
                                                             != currentDate.ToLocal(context: context).Month
-                                                    ? " other-month"
-                                                    : string.Empty))
+                                                                ? " other-month"
+                                                                : string.Empty))
                                                     .DataValue(value: choice.Key, _using: choice.Value != null)
                                                     .DataId(currentDate.ToString("yyyy/M/d")),
-                                    action: () => hb
-                                        .Div(action: () => hb
-                                            .Div(
-                                                css: "day",
                                                 action: () => hb
+                                                    .Div(action: () => hb
+                                                        .Div(
+                                                            css: "day",
+                                                            action: () => hb
                                                                 .Text(currentDate.Day.ToString()))));
-                            }
-                        });
-                    }
+                                        }
+                                    });
+                                }
                             });
                         });
-                }));
+                    }));
         }
 
         private static HtmlBuilder WeeklyTable(
@@ -484,9 +484,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ? dataRow.DateTime("From").ToLocal(context: context).ToString("t") + " "
                     : null),
                 from: ConvertIfCompletionTime(
-                    context: context,
-                    column: from,
-                    dateTime: dataRow.DateTime("from")),
+                context: context,
+                column: from,
+                dateTime: dataRow.DateTime("from")),
                 to: ConvertIfCompletionTime(
                     context: context,
                     column: to,

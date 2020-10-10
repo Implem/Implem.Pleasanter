@@ -393,8 +393,8 @@ namespace Implem.Pleasanter.Models
             RecordSelector recordSelector)
         {
             return !recordSelector.Nothing
-                ? Rds.IssuesWhere().IssueId_In(
-                    value: recordSelector.Selected?.Select(o => o.ToLong()) ?? new List<long>(),
+                ? Rds.DeptsWhere().DeptId_In(
+                    value: recordSelector.Selected?.Select(o => o.ToInt()) ?? new List<int>(),
                     negative: recordSelector.All)
                 : null;
         }
@@ -954,6 +954,9 @@ namespace Implem.Pleasanter.Models
                             controlId: "BaseUrl",
                             value: Locations.BaseUrl(context: context))
                         .Hidden(
+                            controlId: "Ver",
+                            value: deptModel.Ver.ToString())
+                        .Hidden(
                             controlId: "MethodType",
                             value: deptModel.MethodType.ToString().ToLower())
                         .Hidden(
@@ -1478,6 +1481,7 @@ namespace Implem.Pleasanter.Models
                     .Timestamp(context: context, ss: ss)
                     .FieldResponse(context: context, ss: ss, deptModel: deptModel)
                     .Val("#VerUp", verUp)
+                    .Val("#Ver", deptModel.Ver)
                     .Disabled("#VerUp", verUp)
                     .Html("#HeaderTitle", deptModel.Title.Value)
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(

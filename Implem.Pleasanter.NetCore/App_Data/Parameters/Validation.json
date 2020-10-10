@@ -1,3 +1,6 @@
 ﻿{
-    "MaxLength": null
+    "MaxLength": null,
+    "MaxLengthCountType": "Character",
+    "SingleByteCharactorRegexClient": "\\x01-\\x7E\\uFF65-\\uFF9F",
+    "SingleSyteCharactorRegexServer": "\\u0001-\\u007E\\uFF65-\\uFF9F"
 }

@@ -472,6 +472,9 @@ namespace Implem.Pleasanter.Models
                             controlId: "BaseUrl",
                             value: Locations.BaseUrl(context: context))
                         .Hidden(
+                            controlId: "Ver",
+                            value: tenantModel.Ver.ToString())
+                        .Hidden(
                             controlId: "MethodType",
                             value: tenantModel.MethodType.ToString().ToLower())
                         .Hidden(
@@ -1074,6 +1077,7 @@ namespace Implem.Pleasanter.Models
                     .Timestamp(context: context, ss: ss)
                     .FieldResponse(context: context, ss: ss, tenantModel: tenantModel)
                     .Val("#VerUp", verUp)
+                    .Val("#Ver", tenantModel.Ver)
                     .Disabled("#VerUp", verUp)
                     .Html("#HeaderTitle", tenantModel.Title.Value)
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(

@@ -352,8 +352,8 @@ namespace Implem.Pleasanter.Models
             RecordSelector recordSelector)
         {
             return !recordSelector.Nothing
-                ? Rds.IssuesWhere().IssueId_In(
-                    value: recordSelector.Selected?.Select(o => o.ToLong()) ?? new List<long>(),
+                ? Rds.UsersWhere().UserId_In(
+                    value: recordSelector.Selected?.Select(o => o.ToInt()) ?? new List<int>(),
                     negative: recordSelector.All)
                 : null;
         }
@@ -1287,6 +1287,9 @@ namespace Implem.Pleasanter.Models
                             controlId: "BaseUrl",
                             value: Locations.BaseUrl(context: context))
                         .Hidden(
+                            controlId: "Ver",
+                            value: userModel.Ver.ToString())
+                        .Hidden(
                             controlId: "MethodType",
                             value: userModel.MethodType.ToString().ToLower())
                         .Hidden(
@@ -2182,6 +2185,7 @@ namespace Implem.Pleasanter.Models
                     .Timestamp(context: context, ss: ss)
                     .FieldResponse(context: context, ss: ss, userModel: userModel)
                     .Val("#VerUp", verUp)
+                    .Val("#Ver", userModel.Ver)
                     .Disabled("#VerUp", verUp)
                     .Html("#HeaderTitle", userModel.Title.Value)
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
@@ -3089,6 +3093,37 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static HtmlBuilder ChangePasswordDialog(
             this HtmlBuilder hb, Context context, SiteSettings ss, long userId)
+        {
+            return hb.Div(
+                attributes: new HtmlAttributes()
+                    .Id("ChangePasswordDialog")
+                    .Class("dialog")
+                    .Title(Displays.ChangePassword(context: context)),
+                action: () => hb.ChangePasswordDialog(
+                    context: context,
+                    ss: ss,
+                    userId: userId,
+                    content: true));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder ChangePasswordDialog(
+            this HtmlBuilder hb, Context context, SiteSettings ss, bool content = true)
+        {
+            return hb.ChangePasswordDialog(
+                context: context,
+                ss: ss,
+                userId: context.UserId,
+                content: content);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder ChangePasswordDialog(
+            this HtmlBuilder hb, Context context, SiteSettings ss, long userId, bool content)
         {
             return hb.Div(
                 attributes: new HtmlAttributes()

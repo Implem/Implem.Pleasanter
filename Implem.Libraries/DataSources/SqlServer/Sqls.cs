@@ -104,8 +104,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 tableName: tableName,
                 name: name,
                 value: searchTextCollection,
-                raw: $"(@{name}#ParamCount#_#CommandCount# = '' or (" +
-                    clauseCollection.Join(" or ") + "))",
+                raw: $"({clauseCollection.Join(" or ")})",
                 _using: searchTextCollection.Any());
         }
 
