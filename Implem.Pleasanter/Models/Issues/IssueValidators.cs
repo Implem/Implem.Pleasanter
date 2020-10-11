@@ -695,12 +695,28 @@ namespace Implem.Pleasanter.Models
                     }
                     if (!value.IsNullOrEmpty())
                     {
-                        if (column.MaxLength > 0 && value?.Length > column.MaxLength)
+                        if (column.MaxLength > 0)
                         {
-                            errors.Add(new ErrorData(
-                                type: Error.Types.TooLongText,
-                                columnName: column.ColumnName,
-                                data: column.MaxLength?.ToLong().ToStr()));
+                            int length = 0;
+                            switch (Parameters.Validation.MaxLengthCountType)
+                            {
+                                case "Regex":
+                                    length = value?.Length + Regex.Replace(
+                                        value,
+                                        $"[{Parameters.Validation.SingleSyteCharactorRegexServer}]",
+                                        string.Empty)?.Length ?? 0;
+                                    break;
+                                default:
+                                    length = value?.Length ?? 0;
+                                    break;
+                            }
+                            if (length > column.MaxLength)
+                            {
+                                errors.Add(new ErrorData(
+                                    type: Error.Types.TooLongText,
+                                    columnName: column.ColumnName,
+                                    data: column.MaxLength?.ToLong().ToStr()));
+                            }
                         }
                         if (!column.ServerRegexValidation.IsNullOrEmpty())
                         {

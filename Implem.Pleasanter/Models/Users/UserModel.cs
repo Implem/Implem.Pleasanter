@@ -1502,7 +1502,9 @@ namespace Implem.Pleasanter.Models
             var where = Rds.UsersWhere().UserId(UserId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteUsers(factory: context, where: where),
+                Rds.DeleteUsers(
+                    factory: context,
+                    where: where),
                 StatusUtilities.UpdateStatus(
                     tenantId: context.TenantId,
                     type: StatusUtilities.Types.UsersUpdated),
@@ -2572,7 +2574,7 @@ namespace Implem.Pleasanter.Models
         private void UpdateSecondaryAuthenticationCode(Context context)
         {
             SecondaryAuthenticationCode = CreateSecondaryAuthenticationCode();
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateUsers(
                     where: Rds.UsersWhereDefault(this),
@@ -2609,7 +2611,7 @@ namespace Implem.Pleasanter.Models
             switch (Parameters.Security?.SecondaryAuthentication?.NotificationType)
             {
                 case "Mail":
-                    Rds.ExecuteTable(
+                    Repository.ExecuteTable(
                         context: context,
                         statements: Rds.SelectMailAddresses(
                             column: Rds.MailAddressesColumn().MailAddress(),
@@ -2828,7 +2830,7 @@ namespace Implem.Pleasanter.Models
             statements.ForEach(statement => statement.SqlParamCollection = new SqlParamCollection()
                 .Add("TenantId", this.TenantId)
                 .Add("UserId", this.UserId));
-            var dataTables = statements.Select(statement => Rds.ExecuteTable(
+            var dataTables = statements.Select(statement => Repository.ExecuteTable(
                 context: context,
                 statements: statement));
             foreach (DataTable table in dataTables)

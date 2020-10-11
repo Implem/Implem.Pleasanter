@@ -468,7 +468,9 @@ namespace Implem.Pleasanter.Models
             var where = Rds.DeptsWhere().DeptId(DeptId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteDepts(factory: context, where: where),
+                Rds.DeleteDepts(
+                    factory: context,
+                    where: where),
                 StatusUtilities.UpdateStatus(
                     tenantId: context.TenantId,
                     type: StatusUtilities.Types.DeptsUpdated),

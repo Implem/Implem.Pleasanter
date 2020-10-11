@@ -376,7 +376,9 @@ namespace Implem.Pleasanter.Models
             var where = Rds.ExtensionsWhere().ExtensionId(ExtensionId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteExtensions(factory: context, where: where)
+                Rds.DeleteExtensions(
+                    factory: context,
+                    where: where)
             });
             Repository.ExecuteNonQuery(
                 context: context,

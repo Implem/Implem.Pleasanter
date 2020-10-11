@@ -170,7 +170,7 @@ namespace Implem.Pleasanter.Models
             Dictionary<long, long[]> sourceIds)
         {
             var dataSets = new Dictionary<long, DataSet>();
-            var dataTable = Rds.ExecuteTable(
+            var dataTable = Repository.ExecuteTable(
                 context: context,
                 statements:
                     Rds.SelectSites(
@@ -245,7 +245,7 @@ namespace Implem.Pleasanter.Models
             {
                 return (destinationIds, sourceIds);
             }
-            var dataTable = Rds.ExecuteTable(
+            var dataTable = Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectLinks(
                     column: Rds.LinksColumn()
@@ -284,7 +284,7 @@ namespace Implem.Pleasanter.Models
             {
                 return (destinationIds, sourceIds);
             }
-            var dataTable = Rds.ExecuteTable(
+            var dataTable = Repository.ExecuteTable(
                 context: context,
                 statements:
                     Rds.SelectLinks(

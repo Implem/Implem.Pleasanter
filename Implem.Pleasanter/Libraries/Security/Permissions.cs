@@ -195,7 +195,7 @@ namespace Implem.Pleasanter.Libraries.Security
                         .PermissionType(function: Sqls.Functions.Max),
                     where: Rds.PermissionsWhere()
                         .ReferenceId(siteId)
-                        .Or(Rds.PermissionsWhere()
+                        .Add(or: Rds.PermissionsWhere()
                             .DeptId(raw: deptRaw)
                             .Add(
                                 subLeft: Rds.SelectGroupMembers(
@@ -203,7 +203,7 @@ namespace Implem.Pleasanter.Libraries.Security
                                         .GroupMembersCount(),
                                     where: Rds.GroupMembersWhere()
                                         .GroupId(raw: "\"Permissions\".\"GroupId\"")
-                                        .Or(Rds.GroupMembersWhere()
+                                        .Add(or: Rds.GroupMembersWhere()
                                             .DeptId(raw: deptRaw)
                                             .UserId(raw: userRaw))
                                         .Add(raw: "\"Permissions\".\"GroupId\">0")),

@@ -4565,7 +4565,7 @@ namespace Implem.Pleasanter.Models
                     .IssueId(tableName: "Issues" + tableName),
                 where: where);
             var guid = Strings.NewGuid();
-            return Rds.ExecuteScalar_response(
+            return Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: new SqlStatement[]

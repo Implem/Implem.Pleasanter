@@ -23,7 +23,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Where(o => !o.CommandText.IsNullOrEmpty()))
                 .ForEach(extendedSql =>
                 {
-                    var dataSet = DataSources.Rds.ExecuteDataSet(
+                    var dataSet = DataSources.Repository.ExecuteDataSet(
                         context: context,
                         statements: new SqlStatement(commandText: extendedSql.CommandText
                             .Replace("{{SiteId}}", context.SiteId.ToString())

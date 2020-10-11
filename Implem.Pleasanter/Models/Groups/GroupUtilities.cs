@@ -2002,5 +2002,144 @@ namespace Implem.Pleasanter.Models
                 }
             }.ToJson());
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static System.Web.Mvc.ContentResult CreateByApi(Context context, SiteSettings ss)
+        {
+            var groupModel = new GroupModel(context, ss, 0, setByApi: true);
+            var invalid = GroupValidators.OnCreating(
+                context: context,
+                ss: ss,
+                groupModel: groupModel,
+                api: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+               context: context,
+               errorData: invalid);
+            }
+            foreach (var column in ss.Columns
+                .Where(o => o.ValidateRequired ?? false)
+                .Where(o => typeof(GroupApiModel).GetField(o.ColumnName) != null))
+            {
+                if (groupModel.GetType().GetField(column.ColumnName).GetValue(groupModel).ToString().IsNullOrEmpty())
+                {
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: new ErrorData(type: Error.Types.NotRequiredColumn),
+                        data: column.ColumnName);
+                }
+            }
+            var errorData = groupModel.Create(context: context, ss: ss);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    return ApiResults.Success(
+                        groupModel.GroupId,
+                        Displays.Created(
+                            context: context,
+                            data: groupModel.Title.Value));
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: errorData);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static System.Web.Mvc.ContentResult UpdateByApi(Context context, SiteSettings ss, int groupId)
+        {
+            var groupModel = new GroupModel(context, ss, groupId: groupId, setByApi: true);
+            if (groupModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return ApiResults.Get(ApiResponses.NotFound(context: context));
+            }
+            var invalid = GroupValidators.OnUpdating(
+                context: context,
+                ss: ss,
+                groupModel: groupModel,
+                api: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                       context: context,
+                       errorData: invalid);
+            }
+            foreach (var column in ss.Columns
+                .Where(o => o.ValidateRequired ?? false)
+                .Where(o => typeof(GroupApiModel).GetField(o.ColumnName) != null))
+            {
+                if (groupModel.GetType().GetField(column.ColumnName).GetValue(groupModel).ToString().IsNullOrEmpty())
+                {
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: new ErrorData(type: Error.Types.NotRequiredColumn),
+                        data: column.ColumnName);
+                }
+            }
+            var errorData = groupModel.Update(
+                context: context,
+                ss: ss);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    return ApiResults.Success(
+                        groupModel.GroupId,
+                        Displays.Updated(
+                            context: context,
+                            data: groupModel.Title.Value));
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: errorData);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static System.Web.Mvc.ContentResult DeleteByApi(Context context, SiteSettings ss, int groupId)
+        {
+            var groupModel = new GroupModel(context, ss, groupId: groupId, setByApi: true);
+            if (groupModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return ApiResults.Get(ApiResponses.NotFound(context: context));
+            }
+            var invalid = GroupValidators.OnDeleting(
+                context: context,
+                ss: ss,
+                groupModel: groupModel,
+                api: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                       context: context,
+                       errorData: invalid);
+            }
+            var errorData = groupModel.Delete(context: context, ss: ss);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    return ApiResults.Success(
+                        groupModel.GroupId,
+                        Displays.Deleted(
+                            context: context,
+                            data: groupModel.Title.Value));
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: errorData);
+            }
+        }
     }
 }

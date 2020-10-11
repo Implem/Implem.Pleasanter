@@ -2514,6 +2514,7 @@ namespace Implem.Pleasanter.Models
                 {
                     var column = ss.Columns
                         .Where(o => o.LabelText == data.Header)
+                        .Where(o => o.TypeCs != "Attachments")
                         .FirstOrDefault();
                     if (column?.ColumnName == "LoginId")
                     {
@@ -2865,7 +2866,29 @@ namespace Implem.Pleasanter.Models
                 fileDownloadName: ExportUtilities.FileName(
                     context: context,
                     title: ss.Title,
-                    name: Displays.Users(context: context)));
+                    name: Displays.Users(context: context)),
+                encoding: context.QueryStrings.Data("encoding"));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string OpenChangePasswordDialog(Context context, SiteSettings ss)
+        {
+            var invalid = UserValidators.OnPasswordChange(
+                context: context);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson(context: context);
+            }
+            return new ResponseCollection()
+                .Html(
+                    "#ChangePasswordDialog",
+                    new HtmlBuilder().ChangePasswordDialog(
+                        context: context,
+                        ss: ss))
+                .ToJson();
         }
 
         /// <summary>
@@ -3125,13 +3148,7 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder ChangePasswordDialog(
             this HtmlBuilder hb, Context context, SiteSettings ss, long userId, bool content)
         {
-            return hb.Div(
-                attributes: new HtmlAttributes()
-                    .Id("ChangePasswordDialog")
-                    .Class("dialog")
-                    .Title(Displays.ChangePassword(context: context)),
-                action: () => hb
-                    .Form(
+            hb.Form(
                         attributes: new HtmlAttributes()
                             .Id("ChangePasswordForm")
                             .Action(Locations.Action(
@@ -3139,7 +3156,8 @@ namespace Implem.Pleasanter.Models
                                 controller: "Users",
                                 id: userId))
                             .DataEnter("#ChangePassword"),
-                        action: () => hb
+                action: content
+                    ? () => hb
                             .Field(
                                 context: context,
                                 ss: ss,
@@ -3172,7 +3190,9 @@ namespace Implem.Pleasanter.Models
                                     text: Displays.Cancel(context: context),
                                     controlCss: "button-icon",
                                     onClick: "$p.closeDialog($(this));",
-                                    icon: "ui-icon-cancel"))));
+                                icon: "ui-icon-cancel"))
+                    : (Action)null);
+            return hb;
         }
 
         /// <summary>

@@ -355,7 +355,9 @@ namespace Implem.Pleasanter.Models
             var where = Rds.MailAddressesWhere().MailAddressId(MailAddressId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteMailAddresses(factory: context, where: where)
+                Rds.DeleteMailAddresses(
+                    factory: context,
+                    where: where)
             });
             Repository.ExecuteNonQuery(
                 context: context,

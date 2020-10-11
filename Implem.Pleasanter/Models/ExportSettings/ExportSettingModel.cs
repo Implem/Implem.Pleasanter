@@ -417,7 +417,9 @@ namespace Implem.Pleasanter.Models
             var where = Rds.ExportSettingsWhere().ExportSettingId(ExportSettingId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteExportSettings(factory: context, where: where)
+                Rds.DeleteExportSettings(
+                    factory: context,
+                    where: where)
             });
             Repository.ExecuteNonQuery(
                 context: context,
