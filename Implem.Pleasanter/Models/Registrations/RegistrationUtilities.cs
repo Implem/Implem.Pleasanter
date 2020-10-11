@@ -934,6 +934,9 @@ namespace Implem.Pleasanter.Models
                             controlId: "BaseUrl",
                             value: Locations.BaseUrl(context: context))
                         .Hidden(
+                            controlId: "Ver",
+                            value: registrationModel.Ver.ToString())
+                        .Hidden(
                             controlId: "MethodType",
                             value: registrationModel.MethodType.ToString().ToLower())
                         .Hidden(
@@ -2272,7 +2275,9 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: new SqlStatement[]
                 {
-                    Rds.DeleteRegistrations(factory: context, where: where),
+                    Rds.DeleteRegistrations(
+                        factory: context,
+                        where: where),
                     Rds.RowCount()
                 }).Count.ToInt();
         }

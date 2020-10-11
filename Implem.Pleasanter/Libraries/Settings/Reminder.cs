@@ -173,7 +173,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     });
             if (!test)
             {
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     statements: Rds.UpdateReminderSchedules(
                         param: Rds.ReminderSchedulesParam()

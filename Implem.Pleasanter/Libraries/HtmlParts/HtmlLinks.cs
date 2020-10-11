@@ -274,7 +274,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Task.WaitAll(tasks.ToArray());
             var statements = new List<SqlStatement>(tasks.Select(task => task.Result));
             return statements.Any()
-                ? Rds.ExecuteDataSet(
+                ? Repository.ExecuteDataSet(
                     context: context,
                     statements: statements.ToArray())
                 : null;

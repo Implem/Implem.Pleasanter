@@ -2781,7 +2781,7 @@ namespace Implem.Pleasanter.Models
                 resultModel.ColumnNames()));
             statements.Add(Rds.UpdateResults(
                 where: verUpWhere,
-                param: Rds.IssuesParam().Ver(raw: "\"Ver\"+1"),
+                param: Rds.ResultsParam().Ver(raw: "\"Ver\"+1"),
                 addUpdatorParam: false,
                 addUpdatedTimeParam: false));
             var param = new Rds.ResultsParamCollection();
@@ -4233,7 +4233,7 @@ namespace Implem.Pleasanter.Models
                     .ResultId(tableName: "Results" + tableName),
                 where: where);
             var guid = Strings.NewGuid();
-            return Rds.ExecuteScalar_response(
+            return Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: new SqlStatement[]

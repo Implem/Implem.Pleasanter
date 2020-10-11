@@ -440,7 +440,9 @@ namespace Implem.Pleasanter.Models
             var where = Rds.OutgoingMailsWhere().OutgoingMailId(OutgoingMailId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteOutgoingMails(factory: context, where: where)
+                Rds.DeleteOutgoingMails(
+                    factory: context,
+                    where: where)
             });
             Repository.ExecuteNonQuery(
                 context: context,

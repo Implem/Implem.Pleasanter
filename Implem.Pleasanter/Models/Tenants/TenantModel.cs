@@ -517,7 +517,9 @@ namespace Implem.Pleasanter.Models
             var where = Rds.TenantsWhere().TenantId(TenantId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteTenants(factory: context, where: where)
+                Rds.DeleteTenants(
+                    factory: context,
+                    where: where)
             });
             Repository.ExecuteNonQuery(
                 context: context,

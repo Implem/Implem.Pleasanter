@@ -483,7 +483,9 @@ namespace Implem.Pleasanter.Models
             var where = Rds.GroupsWhere().GroupId(GroupId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteGroups(factory: context, where: where),
+                Rds.DeleteGroups(
+                    factory: context,
+                    where: where),
                 Rds.PhysicalDeleteGroupMembers(
                     where: Rds.GroupMembersWhere()
                         .GroupId(GroupId)),
@@ -839,6 +841,38 @@ namespace Implem.Pleasanter.Models
             return GroupUtilities.GetByApi(
                 context: context,
                 ss: SiteSettingsUtilities.ApiGroupsSiteSettings(context));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public System.Web.Mvc.ContentResult CreateByApi(Context context)
+        {
+            return GroupUtilities.CreateByApi(
+                context: context,
+                ss: SiteSettingsUtilities.ApiGroupsSiteSettings(context));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public System.Web.Mvc.ContentResult UpdateByApi(Context context, int groupId)
+        {
+            return GroupUtilities.UpdateByApi(
+                context: context,
+                ss: SiteSettingsUtilities.ApiGroupsSiteSettings(context),
+                groupId: groupId);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public System.Web.Mvc.ContentResult DeleteByApi(Context context, int groupId)
+        {
+            return GroupUtilities.DeleteByApi(
+                context: context,
+                ss: SiteSettingsUtilities.ApiGroupsSiteSettings(context),
+                groupId: groupId);
         }
     }
 }

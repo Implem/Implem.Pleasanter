@@ -1419,7 +1419,9 @@ namespace Implem.Pleasanter.Models
                     where: Rds.BinariesWhere()
                         .TenantId(context.TenantId)
                         .ReferenceId(IssueId)),
-                Rds.DeleteIssues(factory: context, where: where)
+                Rds.DeleteIssues(
+                    factory: context,
+                    where: where)
             });
             statements.OnDeletedExtendedSqls(SiteId, IssueId);
             Repository.ExecuteNonQuery(

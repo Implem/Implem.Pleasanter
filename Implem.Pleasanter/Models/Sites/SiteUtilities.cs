@@ -1309,7 +1309,9 @@ namespace Implem.Pleasanter.Models
                     Rds.RestoreItems(
                         factory: context,
                         where: Rds.ItemsWhere().ReferenceId_In(sub: sub)),
-                    Rds.RestoreSites(factory: context, where: where),
+                    Rds.RestoreSites(
+                        factory: context,
+                        where: where),
                     Rds.RowCount()
                 }).Count.ToInt();
         }
@@ -1630,7 +1632,7 @@ namespace Implem.Pleasanter.Models
                 column: Rds.SitesColumn()
                     .SiteId(tableName: "Sites" + tableName),
                 where: where);
-            return Rds.ExecuteScalar_response(
+            return Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: new SqlStatement[]
@@ -5197,7 +5199,7 @@ namespace Implem.Pleasanter.Models
                                                     controlId: "AllowImage",
                                                     labelText: Displays.AllowImage(context: context),
                                                     _checked: column.AllowImage == true,
-                                                    _using:context.ContractSettings.Images()
+                                                    _using: context.ContractSettings.Images()
                                                         && (column.ControlType == "MarkDown"
                                                         || column.ColumnName == "Comments"))
                                                 .FieldSpinner(
@@ -7102,6 +7104,14 @@ namespace Implem.Pleasanter.Models
         {
             return _using
                 ? hb.FieldSet(id: "ViewCalendarTab", action: () => hb
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "CalendarGroupBy",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.GroupBy(context: context),
+                        optionCollection: ss.CalendarGroupByOptions(),
+                        selectedValue: view.GetCalendarGroupBy(),
+                        insertBlank: true)
                     .FieldDropDown(
                         context: context,
                         controlId: "CalendarTimePeriod",
