@@ -37,8 +37,16 @@ namespace Implem.Pleasanter.Libraries.Responses
 
         public static string Get(Context context, string id, params string[] data)
         {
+            return Get(
+                id: id,
+                language: context.Language,
+                data: data);
+        }
+
+        public static string Get(string id, string language, params string[] data)
+        {
             var screen = id;
-            var kay = id + "_" + context.Language;
+            var kay = id + "_" + language;
             if (DisplayHash.ContainsKey(kay))
             {
                 screen = DisplayHash[kay];

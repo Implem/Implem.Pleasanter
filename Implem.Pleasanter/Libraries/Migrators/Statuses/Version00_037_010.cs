@@ -9,7 +9,7 @@ namespace Implem.Pleasanter.Libraries.Migrators.Statuses
     {
         public static void Migrate(Context context)
         {
-            Rds.ExecuteTable(
+            Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectUsers(
                     column: Rds.UsersColumn()
@@ -29,7 +29,7 @@ namespace Implem.Pleasanter.Libraries.Migrators.Statuses
                             })
                             .Where(o => o.Name == string.Empty)
                             .ForEach(user =>
-                                Rds.ExecuteNonQuery(
+                                Repository.ExecuteNonQuery(
                                     context: context,
                                     statements: Rds.UpdateUsers(
                                         where: Rds.UsersWhere().UserId(user.UserId),

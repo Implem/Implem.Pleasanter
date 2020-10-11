@@ -1667,7 +1667,7 @@ namespace Implem.Pleasanter.Models
         {
             if (userModel.VerType == Versions.VerTypes.Latest &&
                 userModel.MethodType != BaseModel.MethodTypes.New &&
-                Rds.ExecuteScalar_bool(
+                Repository.ExecuteScalar_bool(
                     context: context,
                     statements: Rds.SelectUsers(
                         column: Rds.UsersColumn().UsersCount(),
@@ -1770,12 +1770,12 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     where: Rds.UsersWhere().TenantId(context.TenantId));
-                var switchTargets = Rds.ExecuteScalar_int(
+                var switchTargets = Repository.ExecuteScalar_int(
                     context: context,
                     statements: Rds.SelectUsers(
                         column: Rds.UsersColumn().UsersCount(),
                         where: where)) <= Parameters.General.SwitchTargetsLimit
-                            ? Rds.ExecuteTable(
+                            ? Repository.ExecuteTable(
                                 context: context,
                                 statements: Rds.SelectUsers(
                                     column: Rds.UsersColumn().UserId(),
@@ -2370,7 +2370,7 @@ namespace Implem.Pleasanter.Models
                 {
                     return Messages.ResponseSelectTargets(context: context).ToJson();
                 }
-                if (Rds.ExecuteScalar_int(
+                if (Repository.ExecuteScalar_int(
                     context: context,
                     statements: Rds.SelectUsers(
                         column: Rds.UsersColumn().UsersCount(),
@@ -2427,18 +2427,19 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 selected: selected,
                 negative: negative);
-            return Rds.ExecuteScalar_response(
+            return Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
                     Rds.DeleteMailAddresses(
+                        factory: context,
                         where: Rds.MailAddressesWhere()
                             .OwnerId_In(sub: Rds.SelectUsers(
                                 column: Rds.UsersColumn().UserId(),
                                 where: where))
                             .OwnerType("Users")),
-                    Rds.DeleteUsers(where: where),
+                    Rds.DeleteUsers(factory: context, where: where),
                     Rds.RowCount()
                 }).Count.ToInt();
         }
@@ -2745,7 +2746,7 @@ namespace Implem.Pleasanter.Models
                                 .OwnerId(userModel.UserId)
                                 .OwnerType("Users")
                                 .MailAddress(mailAddress))));
-                    Rds.ExecuteNonQuery(
+                    Repository.ExecuteNonQuery(
                         context: context,
                         transactional: true,
                         statements: statements.ToArray());
@@ -2849,7 +2850,7 @@ namespace Implem.Pleasanter.Models
                                         exportColumn: exportColumn,
                                         mine: userModel.Mine(context: context))).Join(),
                                 ",",
-                                "\"" + Rds.ExecuteTable(
+                                "\"" + Repository.ExecuteTable(
                                     context: context,
                                     statements: Rds.SelectMailAddresses(
                                         column: Rds.MailAddressesColumn().MailAddress(),
@@ -3342,8 +3343,8 @@ namespace Implem.Pleasanter.Models
                                             css: " command-center",
                                             action: () => hb
                                                 .P(
-                                                    css:"ssoLoginMessage",
-                                                    action: ()=>hb
+                                                    css: "ssoLoginMessage",
+                                                    action: () => hb
                                                         .Text(Displays.SsoLoginMessage(context: context)))
                                                 .Button(
                                                     controlId: "SSOLogin",
@@ -3356,7 +3357,7 @@ namespace Implem.Pleasanter.Models
                                         .Div(
                                             id: "LoginGuideBottom",
                                             action: () => hb.Raw(HtmlHtmls.ExtendedHtmls(
-                                                context:context,
+                                                context: context,
                                                 id: "LoginGuideBottom"))))
                                 .Div(id: "SecondaryAuthentications")))
                     .Form(
@@ -3469,7 +3470,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, UserModel userModel)
         {
             if (userModel.MethodType == BaseModel.MethodTypes.New) return hb;
-            var listItemCollection = Rds.ExecuteTable(
+            var listItemCollection = Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectMailAddresses(
                     column: Rds.MailAddressesColumn()
@@ -3730,13 +3731,13 @@ namespace Implem.Pleasanter.Models
                         ?.FirstOrDefault(),
                     clauseCollection: new List<string>()
                     {
-                        Rds.Users_LoginId_WhereLike(),
-                        Rds.Users_Name_WhereLike(),
-                        Rds.Users_UserCode_WhereLike(),
-                        Rds.Users_Body_WhereLike(),
-                        Rds.Depts_DeptCode_WhereLike(),
-                        Rds.Depts_DeptName_WhereLike(),
-                        Rds.Depts_Body_WhereLike()
+                        Rds.Users_LoginId_WhereLike(factory: context),
+                        Rds.Users_Name_WhereLike(factory: context),
+                        Rds.Users_UserCode_WhereLike(factory: context),
+                        Rds.Users_Body_WhereLike(factory: context),
+                        Rds.Depts_DeptCode_WhereLike(factory: context),
+                        Rds.Depts_DeptName_WhereLike(factory: context),
+                        Rds.Depts_Body_WhereLike(factory: context)
                     }),
                 orderBy: view.OrderBy(
                     context: context,
@@ -3846,7 +3847,7 @@ namespace Implem.Pleasanter.Models
         public static string SetStartGuide(Context context)
         {
             context.UserSettings.DisableStartGuide = context.Forms.Bool("DisableStartGuide");
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateUsers(
                     where: Rds.UsersWhere()

@@ -125,7 +125,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 {
                     return;
                 }
-                var addressCount = Rds.ExecuteScalar_long(
+                var addressCount = Repository.ExecuteScalar_long(
                     context: context,
                     statements: new[]
                     {
@@ -219,7 +219,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 tenantId: tenantId, type: StatusUtilities.Types.DeptsUpdated));
             statements.Add(StatusUtilities.UpdateStatus(
                 tenantId: tenantId, type: StatusUtilities.Types.UsersUpdated));
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());

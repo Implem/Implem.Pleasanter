@@ -80,7 +80,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             }
             if (context.UserId == ConvertUserId)
             {
-                var check = Rds.ExecuteTable(
+                var check = Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectPermissions(
                         column: Rds.PermissionsColumn().PermissionType(),

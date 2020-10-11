@@ -41,7 +41,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             if (userId != 0 && userId != 2)
             {
-                var dataTable = Rds.ExecuteTable(
+                var dataTable = Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectUsers(
                         column: Rds.UsersColumn()

@@ -106,7 +106,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             }
             if (deptIds.Any())
             {
-                var deptTable = Rds.ExecuteTable(
+                var deptTable = Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectDepts(
                         column: Rds.DeptsColumn()
@@ -126,7 +126,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             }
             if (groupIds.Count() > 0)
             {
-                var groupTable = Rds.ExecuteTable(
+                var groupTable = Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectGroups(
                         column: Rds.GroupsColumn()
@@ -147,7 +147,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             }
             if (userIds.Count() > 0)
             {
-                var userTable = Rds.ExecuteTable(
+                var userTable = Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectUsers(
                         column: Rds.UsersColumn()

@@ -121,7 +121,7 @@ namespace Implem.Pleasanter.Models
                     join: join ?? Rds.LinksJoinDefault(),
                     where: where)
             };
-            var dataSet = Rds.ExecuteDataSet(
+            var dataSet = Repository.ExecuteDataSet(
                 context: context,
                 transactional: false,
                 statements: statements.ToArray());

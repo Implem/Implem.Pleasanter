@@ -314,7 +314,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             cache = cache ?? LinkedSsDataSetHash;
             var dataSet = cache == null
-                ? Rds.ExecuteDataSet(
+                ? Repository.ExecuteDataSet(
                     context: context,
                     statements: new SqlStatement[]
                     {
@@ -2410,7 +2410,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, ControlData> MoveTargetsSelectableOptions(
             Context context, bool enabled = true)
         {
-            var options = MoveTargetsOptions(sites: Rds.ExecuteTable(
+            var options = MoveTargetsOptions(sites: Repository.ExecuteTable(
                 context: context,
                 statements: new SqlStatement(
                     commandText: Def.Sql.MoveTarget,
@@ -3331,7 +3331,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         private EnumerableRowCollection<DataRow> LinkedItemTitles(
             Context context, IEnumerable<long> idList, IEnumerable<long> siteIdList = null)
         {
-            return Rds.ExecuteTable(
+            return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectItems(
                     column: Rds.ItemsColumn()
@@ -3450,7 +3450,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Select(o => o.SiteId)
                 .Distinct()
                 .ToList();
-            var dataSet = Rds.ExecuteDataSet(
+            var dataSet = Repository.ExecuteDataSet(
                 context: context,
                 statements: siteIdList.Select(siteId =>
                     Rds.SelectItems(
@@ -3560,13 +3560,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ReferenceId_In(
                     selectedValues,
                     _using: selectedValues?.Any() == true
-                        && Rds.ExecuteScalar_string(
+                        && Repository.ExecuteScalar_string(
                             context: context,
                             statements: Rds.SelectSites(
                                 column: Rds.SitesColumn().ReferenceType(),
                                 where: Rds.SitesWhere().SiteId(link.SiteId))) != "Wikis")
                 .ReferenceId_In(
                     sub: new SqlStatement(LinkHashRelatingColumnsSubQuery(
+                        context: context,
                         referenceType: referenceType,
                         parentColumn: parentColumn,
                         parentIds: parentIds)),
@@ -3604,7 +3605,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         join: join,
                         where: where));
             }
-            var dataSet = Rds.ExecuteDataSet(
+            var dataSet = Repository.ExecuteDataSet(
                 context: context,
                 statements: statements.ToArray());
 
@@ -3633,7 +3634,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return dataRows.Any(dataRow =>
                 dataRow.Long("SiteId") == siteId &&
                 dataRow.String("ReferenceType") == "Wikis")
-                    ? Rds.ExecuteScalar_string(
+                    ? Repository.ExecuteScalar_string(
                         context: context,
                         statements: Rds.SelectWikis(
                             column: Rds.WikisColumn().Body(),
@@ -3880,7 +3881,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     if (hash == null)
                     {
-                        hash = Rds.ExecuteTable(
+                        hash = Repository.ExecuteTable(
                             context: context,
                             statements: Rds.SelectSites(
                                 column: Rds.SitesColumn()
@@ -4202,7 +4203,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Where(o => o.StartsWith("Class")).ToList<string>());
         }
 
-        private static string LinkHashRelatingColumnsSubQuery(string referenceType, Column parentColumn, IEnumerable<long> parentIds)
+        private static string LinkHashRelatingColumnsSubQuery(Context context, string referenceType, Column parentColumn, IEnumerable<long> parentIds)
         {
             if (parentColumn == null
                 || referenceType == "Wikis"

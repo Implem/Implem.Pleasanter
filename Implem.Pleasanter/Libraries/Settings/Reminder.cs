@@ -173,7 +173,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     });
             if (!test)
             {
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     statements: Rds.UpdateReminderSchedules(
                         param: Rds.ReminderSchedulesParam()
@@ -384,7 +384,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Add(
                     column: orderByColumn,
                     orderType: SqlOrderBy.Types.desc);
-            var dataTable = Rds.ExecuteTable(
+            var dataTable = Repository.ExecuteTable(
                 context: context,
                 statements: Rds.Select(
                     tableName: ss.ReferenceType,

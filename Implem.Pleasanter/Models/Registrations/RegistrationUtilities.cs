@@ -1345,14 +1345,14 @@ namespace Implem.Pleasanter.Models
             var switchTargets = new List<int>();
             if (Parameters.General.SwitchTargetsLimit > 0)
             {
-                if (Rds.ExecuteScalar_long(
+                if (Repository.ExecuteScalar_int(
                     context: context,
                     statements: Rds.SelectRegistrations(
                         column: Rds.RegistrationsColumn().RegistrationsCount(),
                         join: join,
                         where: where)) <= Parameters.General.SwitchTargetsLimit)
                 {
-                    switchTargets = Rds.ExecuteTable(
+                    switchTargets = Repository.ExecuteTable(
                         context: context,
                         statements: Rds.SelectRegistrations(
                             column: Rds.RegistrationsColumn().RegistrationId(),
@@ -1534,13 +1534,13 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            var mailAddress = Rds.ExecuteScalar_string(
+            var mailAddress = Repository.ExecuteScalar_string(
                 context: context,
                 statements: Rds.SelectMailAddresses(
                 column: Rds.MailAddressesColumn().MailAddress(),
                 where: Rds.MailAddressesWhere().OwnerId(context.UserId)));
             if (mailAddress.IsNullOrEmpty()) { return Messages.ResponseMailAddressHasNotSet(context: context, data: null).ToJson();}
-            var username = Rds.ExecuteScalar_string(
+            var username = Repository.ExecuteScalar_string(
                 context: context,
                 statements: Rds.SelectUsers(
                 column: Rds.UsersColumn().Name(),
@@ -1555,7 +1555,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             data: registrationModel.Title.Value));
                     var passphrase = Strings.NewGuid();
-                    Rds.ExecuteNonQuery(
+                    Repository.ExecuteNonQuery(
                         context: context,
                         statements: Rds.UpdateRegistrations(
                             param: Rds.RegistrationsParam()
@@ -2060,7 +2060,7 @@ namespace Implem.Pleasanter.Models
                     return policy.ResponseMessage(context: context).ToJson();
                 }
             }
-            var existsId = Rds.ExecuteScalar_int(
+            var existsId = Repository.ExecuteScalar_int(
                 context: context,
                 statements: Rds.SelectUsers(
                 column: Rds.UsersColumn().UserId(),
@@ -2078,7 +2078,7 @@ namespace Implem.Pleasanter.Models
             switch (errorData.Type)
             {
                 case Error.Types.None:
-                    var tenantTitle = Rds.ExecuteScalar_string(
+                    var tenantTitle = Repository.ExecuteScalar_string(
                         context: context,
                         statements: Rds.SelectTenants(
                         column: Rds.TenantsColumn().Title(),
@@ -2156,12 +2156,12 @@ namespace Implem.Pleasanter.Models
                 default:
                     break;
             }
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateRegistrations(
                     param: Rds.RegistrationsParam().Invitingflg("2"),
                     where: Rds.RegistrationsWhere().RegistrationId(registrationId)));
-            var mailAddress = Rds.ExecuteScalar_string(
+            var mailAddress = Repository.ExecuteScalar_string(
                 context: context,
                 statements: Rds.SelectMailAddresses(
                 column: Rds.MailAddressesColumn().MailAddress(),
@@ -2270,12 +2270,14 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 selected: selected,
                 negative: negative);
-            return Rds.ExecuteScalar_response(
+            return Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
-                    Rds.DeleteRegistrations(where: where),
+                    Rds.DeleteRegistrations(
+                        factory: context,
+                        where: where),
                     Rds.RowCount()
                 }).Count.ToInt();
         }

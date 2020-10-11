@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
@@ -126,7 +127,7 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(context, Rds.ExecuteTable(
+            Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectItems(
                     tableType: tableType,
@@ -169,7 +170,7 @@ namespace Implem.Pleasanter.Models
             Dictionary<long, long[]> sourceIds)
         {
             var dataSets = new Dictionary<long, DataSet>();
-            var dataTable = Rds.ExecuteTable(
+            var dataTable = Repository.ExecuteTable(
                 context: context,
                 statements:
                     Rds.SelectSites(
@@ -244,7 +245,7 @@ namespace Implem.Pleasanter.Models
             {
                 return (destinationIds, sourceIds);
             }
-            var dataTable = Rds.ExecuteTable(
+            var dataTable = Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectLinks(
                     column: Rds.LinksColumn()
@@ -283,7 +284,7 @@ namespace Implem.Pleasanter.Models
             {
                 return (destinationIds, sourceIds);
             }
-            var dataTable = Rds.ExecuteTable(
+            var dataTable = Repository.ExecuteTable(
                 context: context,
                 statements:
                     Rds.SelectLinks(

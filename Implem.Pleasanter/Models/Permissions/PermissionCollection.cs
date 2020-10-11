@@ -121,7 +121,7 @@ namespace Implem.Pleasanter.Models
                     join: join ?? Rds.PermissionsJoinDefault(),
                     where: where)
             };
-            var dataSet = Rds.ExecuteDataSet(
+            var dataSet = Repository.ExecuteDataSet(
                 context: context,
                 transactional: false,
                 statements: statements.ToArray());
@@ -159,7 +159,7 @@ namespace Implem.Pleasanter.Models
             var depts = this.Where(o => o.DeptId > 0).Select(o => o.DeptId);
             var groups = this.Where(o => o.GroupId > 0).Select(o => o.GroupId);
             var users = this.Where(o => o.UserId > 0).Select(o => o.UserId);
-            var dataSet = Rds.ExecuteDataSet(
+            var dataSet = Repository.ExecuteDataSet(
                 context: context,
                 statements: new SqlStatement[]
                 {

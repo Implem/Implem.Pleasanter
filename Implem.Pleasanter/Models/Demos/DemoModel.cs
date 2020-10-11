@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
@@ -181,7 +182,7 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(context, Rds.ExecuteTable(
+            Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectDemos(
                     tableType: tableType,
@@ -210,7 +211,7 @@ namespace Implem.Pleasanter.Models
                 tableType: tableType,
                 param: param,
                 otherInitValue: otherInitValue));
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 selectIdentity: true,
@@ -264,7 +265,7 @@ namespace Implem.Pleasanter.Models
                 param: param,
                 otherInitValue: otherInitValue,
                 additionalStatements: additionalStatements));
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
@@ -334,7 +335,10 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         demoModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(DemoId))
+                new SqlStatement(Def.Sql.IfConflicted.Params(DemoId)) {
+                    IfConflicted = true,
+                    Id = DemoId
+                }
             };
         }
 
@@ -365,7 +369,7 @@ namespace Implem.Pleasanter.Models
                     param: param ?? Rds.DemosParamDefault(
                         context: context, demoModel: this, setDefault: true))
             };
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 selectIdentity: true,
@@ -381,9 +385,11 @@ namespace Implem.Pleasanter.Models
             var where = Rds.DemosWhere().DemoId(DemoId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteDemos(where: where)
+                Rds.DeleteDemos(
+                    factory: context,
+                    where: where)
             });
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
@@ -393,13 +399,14 @@ namespace Implem.Pleasanter.Models
         public ErrorData Restore(Context context, int demoId)
         {
             DemoId = demoId;
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
                     Rds.RestoreDemos(
+                        factory: context,
                         where: Rds.DemosWhere().DemoId(DemoId))
                 });
             return new ErrorData(type: Error.Types.None);
@@ -408,7 +415,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData PhysicalDelete(
             Context context, Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: Rds.PhysicalDeleteDemos(

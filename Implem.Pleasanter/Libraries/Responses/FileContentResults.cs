@@ -67,7 +67,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         private static DataRow GetBinariesTable(Context context, string guid)
         {
             if (guid.IsNullOrEmpty()) return null;
-            return Rds.ExecuteTable(
+            return Repository.ExecuteTable(
                 context: context,
                 statements: new SqlStatement[]
                 {

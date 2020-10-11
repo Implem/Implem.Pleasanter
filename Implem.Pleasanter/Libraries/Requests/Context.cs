@@ -187,7 +187,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 {
                     case "items":
                     case "publishes":
-                        Rds.ExecuteTable(
+                        Repository.ExecuteTable(
                             context: this,
                             statements: Rds.SelectItems(
                                 column: Rds.ItemsColumn()
@@ -295,7 +295,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         {
             if (HasRoute)
             {
-                var dataRow = Rds.ExecuteTable(
+                var dataRow = Repository.ExecuteTable(
                     context: this,
                     statements: Rds.SelectTenants(
                         column: Rds.TenantsColumn()
@@ -399,7 +399,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 {
                     case "publishes":
                     case "publishbinaries":
-                        var dataRow = Rds.ExecuteTable(
+                        var dataRow = Repository.ExecuteTable(
                             context: this,
                             statements: Rds.SelectSites(
                                 column: Rds.SitesColumn()

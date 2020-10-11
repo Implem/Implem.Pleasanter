@@ -87,7 +87,7 @@ namespace Implem.Pleasanter.Libraries.Security
         public static Dictionary<long, Types> Get(Context context)
         {
             return Hash(
-                dataRows: Rds.ExecuteTable(
+                dataRows: Repository.ExecuteTable(
                 context: context,
                 statements: new SqlStatement[]
                 {
@@ -149,7 +149,7 @@ namespace Implem.Pleasanter.Libraries.Security
                            .Where(siteId => !ss.AllowedIntegratedSites.Contains(siteId))
                            .ToList();
                         denySites = denySites.Any()
-                            ? Rds.ExecuteTable(
+                            ? Repository.ExecuteTable(
                                 context: context,
                                 statements: Rds.SelectSites(
                                     column: Rds.SitesColumn().SiteId(),
@@ -308,7 +308,7 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static long InheritPermission(Context context, long id)
         {
-            return Rds.ExecuteScalar_long(
+            return Repository.ExecuteScalar_long(
                 context: context,
                 statements: Rds.SelectSites(
                     column: Rds.SitesColumn().InheritPermission(),
@@ -321,7 +321,7 @@ namespace Implem.Pleasanter.Libraries.Security
         public static IEnumerable<long> AllowSites(
             Context context, IEnumerable<long> sites, string referenceType = null)
         {
-            return Rds.ExecuteTable(
+            return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectSites(
                     column: Rds.SitesColumn().SiteId(),
@@ -475,7 +475,7 @@ namespace Implem.Pleasanter.Libraries.Security
                         && context.UserId != context.Id;
                 case "registrations":
                     return PrivilegedUsers(loginId: context.LoginId);
-                default :
+                default:
                     if (ss.ReferenceType == "Sites")
                     {
                         return context.CanManageSite(ss: ss);
@@ -559,7 +559,7 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static ColumnPermissionTypes ColumnPermissionType(this Column self, Context context)
         {
-            switch(context.Action)
+            switch (context.Action)
             {
                 case "new":
                     return self.CanCreate
@@ -629,7 +629,7 @@ namespace Implem.Pleasanter.Libraries.Security
 
         private static EnumerableRowCollection<DataRow> Groups(Context context)
         {
-            return Rds.ExecuteTable(
+            return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectGroupMembers(
                     column: Rds.GroupMembersColumn().Admin(),
@@ -641,7 +641,7 @@ namespace Implem.Pleasanter.Libraries.Security
 
         private static EnumerableRowCollection<DataRow> Registrations(Context context)
         {
-            return Rds.ExecuteTable(
+            return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectRegistrations(
                     column: Rds.RegistrationsColumn(),

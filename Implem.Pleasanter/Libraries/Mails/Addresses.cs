@@ -1,13 +1,13 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.Requests;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net.Mail;
-using System.Data;
-using Implem.Pleasanter.Libraries.Requests;
-using Implem.Libraries.DataSources.SqlServer;
-using System;
 namespace Implem.Pleasanter.Libraries.Mails
 {
     public static class Addresses
@@ -39,7 +39,7 @@ namespace Implem.Pleasanter.Libraries.Mails
         {
             var userId = address?.RegexFirst(@"(?<=\[User)[0-9]+(?=\])").ToInt();
             return userId > 0
-                ? Rds.ExecuteTable(
+                ? Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectMailAddresses(
                         column: Rds.MailAddressesColumn()

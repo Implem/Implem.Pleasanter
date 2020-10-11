@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
@@ -645,7 +646,7 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(context, ss, Rds.ExecuteTable(
+            Set(context, ss, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectResults(
                     tableType: tableType,
@@ -791,7 +792,7 @@ namespace Implem.Pleasanter.Models
                 tableType: tableType,
                 param: param,
                 otherInitValue: otherInitValue));
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 selectIdentity: true,
@@ -851,7 +852,7 @@ namespace Implem.Pleasanter.Models
                     siteId: SiteId,
                     id: ResultId);
             }
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
@@ -954,7 +955,7 @@ namespace Implem.Pleasanter.Models
                 param: param,
                 otherInitValue: otherInitValue,
                 additionalStatements: additionalStatements));
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
@@ -1067,7 +1068,10 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         resultModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(ResultId))
+                new SqlStatement(Def.Sql.IfConflicted.Params(ResultId)) {
+                    IfConflicted = true,
+                    Id = ResultId
+                }
             };
         }
 
@@ -1094,7 +1098,7 @@ namespace Implem.Pleasanter.Models
             bool addUpdatorParam = true,
             bool updateItems = true)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: UpdateRelatedRecordsStatements(
@@ -1197,7 +1201,7 @@ namespace Implem.Pleasanter.Models
                     param: param ?? Rds.ResultsParamDefault(
                         context: context, resultModel: this, setDefault: true))
             };
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 selectIdentity: true,
@@ -1226,7 +1230,7 @@ namespace Implem.Pleasanter.Models
                     where: Rds.ResultsWhere().ResultId(ResultId),
                     param: Rds.ResultsParam().SiteId(SiteId))
             });
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
@@ -1260,15 +1264,19 @@ namespace Implem.Pleasanter.Models
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.DeleteItems(
+                    factory: context,
                     where: Rds.ItemsWhere().ReferenceId(ResultId)),
                 Rds.DeleteBinaries(
+                    factory: context,
                     where: Rds.BinariesWhere()
                         .TenantId(context.TenantId)
                         .ReferenceId(ResultId)),
-                Rds.DeleteResults(where: where)
+                Rds.DeleteResults(
+                    factory: context,
+                    where: where)
             });
             statements.OnDeletedExtendedSqls(SiteId, ResultId);
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
@@ -1287,15 +1295,17 @@ namespace Implem.Pleasanter.Models
         public ErrorData Restore(Context context, SiteSettings ss,long resultId)
         {
             ResultId = resultId;
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
                     Rds.RestoreItems(
+                        factory: context,
                         where: Rds.ItemsWhere().ReferenceId(ResultId)),
                     Rds.RestoreResults(
+                        factory: context,
                         where: Rds.ResultsWhere().ResultId(ResultId))
                 });
             return new ErrorData(type: Error.Types.None);
@@ -1304,7 +1314,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData PhysicalDelete(
             Context context, SiteSettings ss,Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: Rds.PhysicalDeleteResults(
@@ -1769,7 +1779,7 @@ namespace Implem.Pleasanter.Models
                             break;
                     }
                 });
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateResults(
                     param: param,
@@ -1945,7 +1955,7 @@ namespace Implem.Pleasanter.Models
                 ss: ss);
             if (notifications?.Any() == true)
             {
-                var dataSet = Rds.ExecuteDataSet(
+                var dataSet = Repository.ExecuteDataSet(
                     context: context,
                     statements: notifications.Select(notification =>
                     {
@@ -1988,7 +1998,7 @@ namespace Implem.Pleasanter.Models
                 if (notification.HasRelatedUsers())
                 {
                     var users = new List<int>();
-                    Rds.ExecuteTable(
+                    Repository.ExecuteTable(
                         context: context,
                         statements: Rds.SelectResults(
                             tableType: Sqls.TableTypes.All,

@@ -105,6 +105,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             else if (Deleted == true)
             {
                 statements.Add(Rds.DeleteBinaries(
+                    factory: context,
                     where: Rds.BinariesWhere().Guid(Guid)));
             }
         }

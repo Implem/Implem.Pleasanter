@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
@@ -152,7 +153,7 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(context, Rds.ExecuteTable(
+            Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectMailAddresses(
                     tableType: tableType,
@@ -180,7 +181,7 @@ namespace Implem.Pleasanter.Models
                 tableType: tableType,
                 param: param,
                 otherInitValue: otherInitValue));
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 selectIdentity: true,
@@ -234,7 +235,7 @@ namespace Implem.Pleasanter.Models
                 param: param,
                 otherInitValue: otherInitValue,
                 additionalStatements: additionalStatements));
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
@@ -304,7 +305,10 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         mailAddressModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(MailAddressId))
+                new SqlStatement(Def.Sql.IfConflicted.Params(MailAddressId)) {
+                    IfConflicted = true,
+                    Id = MailAddressId
+                }
             };
         }
 
@@ -335,7 +339,7 @@ namespace Implem.Pleasanter.Models
                     param: param ?? Rds.MailAddressesParamDefault(
                         context: context, mailAddressModel: this, setDefault: true))
             };
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 selectIdentity: true,
@@ -351,9 +355,11 @@ namespace Implem.Pleasanter.Models
             var where = Rds.MailAddressesWhere().MailAddressId(MailAddressId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteMailAddresses(where: where)
+                Rds.DeleteMailAddresses(
+                    factory: context,
+                    where: where)
             });
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
@@ -363,13 +369,14 @@ namespace Implem.Pleasanter.Models
         public ErrorData Restore(Context context, long mailAddressId)
         {
             MailAddressId = mailAddressId;
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
                     Rds.RestoreMailAddresses(
+                        factory: context,
                         where: Rds.MailAddressesWhere().MailAddressId(MailAddressId))
                 });
             return new ErrorData(type: Error.Types.None);
@@ -378,7 +385,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData PhysicalDelete(
             Context context, Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: Rds.PhysicalDeleteMailAddresses(

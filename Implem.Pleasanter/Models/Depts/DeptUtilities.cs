@@ -1217,14 +1217,14 @@ namespace Implem.Pleasanter.Models
             var switchTargets = new List<int>();
             if (Parameters.General.SwitchTargetsLimit > 0)
             {
-                if (Rds.ExecuteScalar_long(
+                if (Repository.ExecuteScalar_int(
                     context: context,
                     statements: Rds.SelectDepts(
                         column: Rds.DeptsColumn().DeptsCount(),
                         join: join,
                         where: where)) <= Parameters.General.SwitchTargetsLimit)
                 {
-                    switchTargets = Rds.ExecuteTable(
+                    switchTargets = Repository.ExecuteTable(
                         context: context,
                         statements: Rds.SelectDepts(
                             column: Rds.DeptsColumn().DeptId(),
@@ -1721,9 +1721,9 @@ namespace Implem.Pleasanter.Models
                         ?.FirstOrDefault(),
                     clauseCollection: new List<string>()
                     {
-                        Rds.Depts_DeptId_WhereLike(),
-                        Rds.Depts_DeptName_WhereLike(),
-                        Rds.Depts_Body_WhereLike()
+                        Rds.Depts_DeptId_WhereLike(factory: context),
+                        Rds.Depts_DeptName_WhereLike(factory: context),
+                        Rds.Depts_Body_WhereLike(factory: context)
                     })
                 .Add(
                     tableName: "Users",

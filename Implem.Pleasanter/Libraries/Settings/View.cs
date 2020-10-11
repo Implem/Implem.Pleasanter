@@ -835,6 +835,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ss: ss,
                 where: where);
             SetSearchWhere(
+                context: context,
                 ss: ss,
                 where: where,
                 itemJoin: itemJoin);
@@ -1021,6 +1022,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 break;
                             case Types.CsString:
                                 CsStringColumns(
+                                    context: context,
                                     column: data.Column,
                                     value: data.Value,
                                     where: where);
@@ -1214,7 +1216,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : null;
         }
 
-        private void CsStringColumns(Column column, string value, SqlWhereCollection where)
+        private void CsStringColumns(Context context, Column column, string value, SqlWhereCollection where)
         {
             if (column.HasChoices())
             {
@@ -1306,6 +1308,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         private void SetSearchWhere(
+            Context context,
             SiteSettings ss,
             SqlWhereCollection where,
             bool itemJoin)
@@ -1318,6 +1321,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => !o.IsNullOrEmpty())
                 .ForEach(search =>
                     or.Add(and: new SqlWhereCollection().FullTextWhere(
+                        context: context,
                         ss: ss,
                         searchText: search,
                         itemJoin: itemJoin)));

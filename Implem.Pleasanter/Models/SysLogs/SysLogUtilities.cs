@@ -32,7 +32,7 @@ namespace Implem.Pleasanter.Models
             if (Parameters.SysLog.RetentionPeriod > 0 &&
                 (DateTime.Now - Applications.SysLogsMaintenanceDate).Days > 0)
             { 
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     statements: Rds.PhysicalDeleteSysLogs(
                         where: Rds.SysLogsWhere().CreatedTime(

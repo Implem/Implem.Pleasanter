@@ -28,7 +28,7 @@ namespace Implem.Pleasanter.Libraries.Server
             var monitor = tenantCache.GetUpdateMonitor(context: context);
             if (monitor.DeptsUpdated || monitor.GroupsUpdated || monitor.UsersUpdated || force)
             {
-                var dataSet = Rds.ExecuteDataSet(
+                var dataSet = Repository.ExecuteDataSet(
                     context: context,
                     statements: new SqlStatement[]
                     {
@@ -277,7 +277,7 @@ namespace Implem.Pleasanter.Libraries.Server
         private static DataTable SiteDeptDataTable(Context context, long siteId)
         {
             var deptRaw = "[Depts].[DeptId] and [Depts].[DeptId]>0";
-            return Rds.ExecuteTable(
+            return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectDepts(
                     distinct: true,
@@ -297,7 +297,7 @@ namespace Implem.Pleasanter.Libraries.Server
         private static DataTable SiteGroupDataTable(Context context, long siteId)
         {
             var groupRaw = "[Groups].[GroupId] and [Groups].[GroupId]>0";
-            return Rds.ExecuteTable(
+            return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectGroups(
                     distinct: true,
@@ -316,7 +316,7 @@ namespace Implem.Pleasanter.Libraries.Server
 
         private static DataTable SiteUserDataTable(Context context, long siteId)
         {
-            return Rds.ExecuteTable(
+            return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectUsers(
                     distinct: true,

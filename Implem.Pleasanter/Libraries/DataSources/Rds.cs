@@ -642,6 +642,23 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlColumnCollection Add(
+            this SqlColumnCollection self,
+            Context context,
+            Column column,
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            bool _using = true)
+        {
+            if (column == null || !_using) return self;
+            self.Add(
+               tableName: column.TableName(),
+               columnBracket: ColumnBracket(column),
+               _as: _as ?? column.ColumnName,
+               function: function);
+            return self;
+        }
+
         public static SqlColumnCollection ItemTitle(
             this SqlColumnCollection self,
             string tableName,
@@ -659,6 +676,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static SqlColumnCollection WithItemTitle(
             this SqlColumnCollection sqlColumn,
+            Context context,
             SiteSettings ss,
             Column column)
         {
@@ -685,6 +703,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static SqlGroupByCollection WithItemTitle(
             this SqlGroupByCollection groupBy,
+            Context context,
             SiteSettings ss,
             Column column)
         {
@@ -5570,21 +5589,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertTenants(bool on)
+        public static SqlStatement IdentityInsertTenants(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Tenants] on;")
                 : new SqlStatement("set identity_insert [Tenants] off;");
         }
 
-        public static SqlStatement IdentityInsertTenants_Deleted(bool on)
+        public static SqlStatement IdentityInsertTenants_Deleted(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Tenants_Deleted] on;")
                 : new SqlStatement("set identity_insert [Tenants_Deleted] off;");
         }
 
-        public static SqlStatement IdentityInsertTenants_History(bool on)
+        public static SqlStatement IdentityInsertTenants_History(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Tenants_History] on;")
@@ -5617,21 +5642,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertDemos(bool on)
+        public static SqlStatement IdentityInsertDemos(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Demos] on;")
                 : new SqlStatement("set identity_insert [Demos] off;");
         }
 
-        public static SqlStatement IdentityInsertDemos_Deleted(bool on)
+        public static SqlStatement IdentityInsertDemos_Deleted(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Demos_Deleted] on;")
                 : new SqlStatement("set identity_insert [Demos_Deleted] off;");
         }
 
-        public static SqlStatement IdentityInsertDemos_History(bool on)
+        public static SqlStatement IdentityInsertDemos_History(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Demos_History] on;")
@@ -5664,21 +5695,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertExtensions(bool on)
+        public static SqlStatement IdentityInsertExtensions(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Extensions] on;")
                 : new SqlStatement("set identity_insert [Extensions] off;");
         }
 
-        public static SqlStatement IdentityInsertExtensions_Deleted(bool on)
+        public static SqlStatement IdentityInsertExtensions_Deleted(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Extensions_Deleted] on;")
                 : new SqlStatement("set identity_insert [Extensions_Deleted] off;");
         }
 
-        public static SqlStatement IdentityInsertExtensions_History(bool on)
+        public static SqlStatement IdentityInsertExtensions_History(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Extensions_History] on;")
@@ -5711,21 +5748,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertSessions(bool on)
+        public static SqlStatement IdentityInsertSessions(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Sessions] on;")
                 : new SqlStatement("set identity_insert [Sessions] off;");
         }
 
-        public static SqlStatement IdentityInsertSessions_Deleted(bool on)
+        public static SqlStatement IdentityInsertSessions_Deleted(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Sessions_Deleted] on;")
                 : new SqlStatement("set identity_insert [Sessions_Deleted] off;");
         }
 
-        public static SqlStatement IdentityInsertSessions_History(bool on)
+        public static SqlStatement IdentityInsertSessions_History(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Sessions_History] on;")
@@ -5758,21 +5801,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertSysLogs(bool on)
+        public static SqlStatement IdentityInsertSysLogs(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [SysLogs] on;")
                 : new SqlStatement("set identity_insert [SysLogs] off;");
         }
 
-        public static SqlStatement IdentityInsertSysLogs_Deleted(bool on)
+        public static SqlStatement IdentityInsertSysLogs_Deleted(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [SysLogs_Deleted] on;")
                 : new SqlStatement("set identity_insert [SysLogs_Deleted] off;");
         }
 
-        public static SqlStatement IdentityInsertSysLogs_History(bool on)
+        public static SqlStatement IdentityInsertSysLogs_History(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [SysLogs_History] on;")
@@ -5805,21 +5854,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertStatuses(bool on)
+        public static SqlStatement IdentityInsertStatuses(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Statuses] on;")
                 : new SqlStatement("set identity_insert [Statuses] off;");
         }
 
-        public static SqlStatement IdentityInsertStatuses_Deleted(bool on)
+        public static SqlStatement IdentityInsertStatuses_Deleted(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Statuses_Deleted] on;")
                 : new SqlStatement("set identity_insert [Statuses_Deleted] off;");
         }
 
-        public static SqlStatement IdentityInsertStatuses_History(bool on)
+        public static SqlStatement IdentityInsertStatuses_History(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Statuses_History] on;")
@@ -5852,21 +5907,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertReminderSchedules(bool on)
+        public static SqlStatement IdentityInsertReminderSchedules(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [ReminderSchedules] on;")
                 : new SqlStatement("set identity_insert [ReminderSchedules] off;");
         }
 
-        public static SqlStatement IdentityInsertReminderSchedules_Deleted(bool on)
+        public static SqlStatement IdentityInsertReminderSchedules_Deleted(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [ReminderSchedules_Deleted] on;")
                 : new SqlStatement("set identity_insert [ReminderSchedules_Deleted] off;");
         }
 
-        public static SqlStatement IdentityInsertReminderSchedules_History(bool on)
+        public static SqlStatement IdentityInsertReminderSchedules_History(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [ReminderSchedules_History] on;")
@@ -5899,21 +5960,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertDepts(bool on)
+        public static SqlStatement IdentityInsertDepts(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Depts] on;")
                 : new SqlStatement("set identity_insert [Depts] off;");
         }
 
-        public static SqlStatement IdentityInsertDepts_Deleted(bool on)
+        public static SqlStatement IdentityInsertDepts_Deleted(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Depts_Deleted] on;")
                 : new SqlStatement("set identity_insert [Depts_Deleted] off;");
         }
 
-        public static SqlStatement IdentityInsertDepts_History(bool on)
+        public static SqlStatement IdentityInsertDepts_History(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Depts_History] on;")
@@ -5946,21 +6013,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertGroups(bool on)
+        public static SqlStatement IdentityInsertGroups(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Groups] on;")
                 : new SqlStatement("set identity_insert [Groups] off;");
         }
 
-        public static SqlStatement IdentityInsertGroups_Deleted(bool on)
+        public static SqlStatement IdentityInsertGroups_Deleted(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Groups_Deleted] on;")
                 : new SqlStatement("set identity_insert [Groups_Deleted] off;");
         }
 
-        public static SqlStatement IdentityInsertGroups_History(bool on)
+        public static SqlStatement IdentityInsertGroups_History(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Groups_History] on;")
@@ -5993,21 +6066,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertGroupMembers(bool on)
+        public static SqlStatement IdentityInsertGroupMembers(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [GroupMembers] on;")
                 : new SqlStatement("set identity_insert [GroupMembers] off;");
         }
 
-        public static SqlStatement IdentityInsertGroupMembers_Deleted(bool on)
+        public static SqlStatement IdentityInsertGroupMembers_Deleted(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [GroupMembers_Deleted] on;")
                 : new SqlStatement("set identity_insert [GroupMembers_Deleted] off;");
         }
 
-        public static SqlStatement IdentityInsertGroupMembers_History(bool on)
+        public static SqlStatement IdentityInsertGroupMembers_History(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [GroupMembers_History] on;")
@@ -6040,21 +6119,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertRegistrations(bool on)
+        public static SqlStatement IdentityInsertRegistrations(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Registrations] on;")
                 : new SqlStatement("set identity_insert [Registrations] off;");
         }
 
-        public static SqlStatement IdentityInsertRegistrations_Deleted(bool on)
+        public static SqlStatement IdentityInsertRegistrations_Deleted(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Registrations_Deleted] on;")
                 : new SqlStatement("set identity_insert [Registrations_Deleted] off;");
         }
 
-        public static SqlStatement IdentityInsertRegistrations_History(bool on)
+        public static SqlStatement IdentityInsertRegistrations_History(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Registrations_History] on;")
@@ -6087,21 +6172,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertUsers(bool on)
+        public static SqlStatement IdentityInsertUsers(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Users] on;")
                 : new SqlStatement("set identity_insert [Users] off;");
         }
 
-        public static SqlStatement IdentityInsertUsers_Deleted(bool on)
+        public static SqlStatement IdentityInsertUsers_Deleted(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Users_Deleted] on;")
                 : new SqlStatement("set identity_insert [Users_Deleted] off;");
         }
 
-        public static SqlStatement IdentityInsertUsers_History(bool on)
+        public static SqlStatement IdentityInsertUsers_History(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Users_History] on;")
@@ -6134,21 +6225,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertLoginKeys(bool on)
+        public static SqlStatement IdentityInsertLoginKeys(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [LoginKeys] on;")
                 : new SqlStatement("set identity_insert [LoginKeys] off;");
         }
 
-        public static SqlStatement IdentityInsertLoginKeys_Deleted(bool on)
+        public static SqlStatement IdentityInsertLoginKeys_Deleted(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [LoginKeys_Deleted] on;")
                 : new SqlStatement("set identity_insert [LoginKeys_Deleted] off;");
         }
 
-        public static SqlStatement IdentityInsertLoginKeys_History(bool on)
+        public static SqlStatement IdentityInsertLoginKeys_History(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [LoginKeys_History] on;")
@@ -6181,21 +6278,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertMailAddresses(bool on)
+        public static SqlStatement IdentityInsertMailAddresses(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [MailAddresses] on;")
                 : new SqlStatement("set identity_insert [MailAddresses] off;");
         }
 
-        public static SqlStatement IdentityInsertMailAddresses_Deleted(bool on)
+        public static SqlStatement IdentityInsertMailAddresses_Deleted(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [MailAddresses_Deleted] on;")
                 : new SqlStatement("set identity_insert [MailAddresses_Deleted] off;");
         }
 
-        public static SqlStatement IdentityInsertMailAddresses_History(bool on)
+        public static SqlStatement IdentityInsertMailAddresses_History(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [MailAddresses_History] on;")
@@ -6228,21 +6331,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertOutgoingMails(bool on)
+        public static SqlStatement IdentityInsertOutgoingMails(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [OutgoingMails] on;")
                 : new SqlStatement("set identity_insert [OutgoingMails] off;");
         }
 
-        public static SqlStatement IdentityInsertOutgoingMails_Deleted(bool on)
+        public static SqlStatement IdentityInsertOutgoingMails_Deleted(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [OutgoingMails_Deleted] on;")
                 : new SqlStatement("set identity_insert [OutgoingMails_Deleted] off;");
         }
 
-        public static SqlStatement IdentityInsertOutgoingMails_History(bool on)
+        public static SqlStatement IdentityInsertOutgoingMails_History(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [OutgoingMails_History] on;")
@@ -6275,21 +6384,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertItems(bool on)
+        public static SqlStatement IdentityInsertItems(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Items] on;")
                 : new SqlStatement("set identity_insert [Items] off;");
         }
 
-        public static SqlStatement IdentityInsertItems_Deleted(bool on)
+        public static SqlStatement IdentityInsertItems_Deleted(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Items_Deleted] on;")
                 : new SqlStatement("set identity_insert [Items_Deleted] off;");
         }
 
-        public static SqlStatement IdentityInsertItems_History(bool on)
+        public static SqlStatement IdentityInsertItems_History(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Items_History] on;")
@@ -6322,21 +6437,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertSites(bool on)
+        public static SqlStatement IdentityInsertSites(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Sites] on;")
                 : new SqlStatement("set identity_insert [Sites] off;");
         }
 
-        public static SqlStatement IdentityInsertSites_Deleted(bool on)
+        public static SqlStatement IdentityInsertSites_Deleted(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Sites_Deleted] on;")
                 : new SqlStatement("set identity_insert [Sites_Deleted] off;");
         }
 
-        public static SqlStatement IdentityInsertSites_History(bool on)
+        public static SqlStatement IdentityInsertSites_History(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Sites_History] on;")
@@ -6369,21 +6490,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertOrders(bool on)
+        public static SqlStatement IdentityInsertOrders(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Orders] on;")
                 : new SqlStatement("set identity_insert [Orders] off;");
         }
 
-        public static SqlStatement IdentityInsertOrders_Deleted(bool on)
+        public static SqlStatement IdentityInsertOrders_Deleted(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Orders_Deleted] on;")
                 : new SqlStatement("set identity_insert [Orders_Deleted] off;");
         }
 
-        public static SqlStatement IdentityInsertOrders_History(bool on)
+        public static SqlStatement IdentityInsertOrders_History(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Orders_History] on;")
@@ -6416,21 +6543,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertExportSettings(bool on)
+        public static SqlStatement IdentityInsertExportSettings(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [ExportSettings] on;")
                 : new SqlStatement("set identity_insert [ExportSettings] off;");
         }
 
-        public static SqlStatement IdentityInsertExportSettings_Deleted(bool on)
+        public static SqlStatement IdentityInsertExportSettings_Deleted(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [ExportSettings_Deleted] on;")
                 : new SqlStatement("set identity_insert [ExportSettings_Deleted] off;");
         }
 
-        public static SqlStatement IdentityInsertExportSettings_History(bool on)
+        public static SqlStatement IdentityInsertExportSettings_History(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [ExportSettings_History] on;")
@@ -6463,21 +6596,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertLinks(bool on)
+        public static SqlStatement IdentityInsertLinks(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Links] on;")
                 : new SqlStatement("set identity_insert [Links] off;");
         }
 
-        public static SqlStatement IdentityInsertLinks_Deleted(bool on)
+        public static SqlStatement IdentityInsertLinks_Deleted(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Links_Deleted] on;")
                 : new SqlStatement("set identity_insert [Links_Deleted] off;");
         }
 
-        public static SqlStatement IdentityInsertLinks_History(bool on)
+        public static SqlStatement IdentityInsertLinks_History(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Links_History] on;")
@@ -6510,21 +6649,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertBinaries(bool on)
+        public static SqlStatement IdentityInsertBinaries(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Binaries] on;")
                 : new SqlStatement("set identity_insert [Binaries] off;");
         }
 
-        public static SqlStatement IdentityInsertBinaries_Deleted(bool on)
+        public static SqlStatement IdentityInsertBinaries_Deleted(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Binaries_Deleted] on;")
                 : new SqlStatement("set identity_insert [Binaries_Deleted] off;");
         }
 
-        public static SqlStatement IdentityInsertBinaries_History(bool on)
+        public static SqlStatement IdentityInsertBinaries_History(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Binaries_History] on;")
@@ -6557,21 +6702,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertPermissions(bool on)
+        public static SqlStatement IdentityInsertPermissions(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Permissions] on;")
                 : new SqlStatement("set identity_insert [Permissions] off;");
         }
 
-        public static SqlStatement IdentityInsertPermissions_Deleted(bool on)
+        public static SqlStatement IdentityInsertPermissions_Deleted(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Permissions_Deleted] on;")
                 : new SqlStatement("set identity_insert [Permissions_Deleted] off;");
         }
 
-        public static SqlStatement IdentityInsertPermissions_History(bool on)
+        public static SqlStatement IdentityInsertPermissions_History(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Permissions_History] on;")
@@ -6604,21 +6755,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertIssues(bool on)
+        public static SqlStatement IdentityInsertIssues(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Issues] on;")
                 : new SqlStatement("set identity_insert [Issues] off;");
         }
 
-        public static SqlStatement IdentityInsertIssues_Deleted(bool on)
+        public static SqlStatement IdentityInsertIssues_Deleted(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Issues_Deleted] on;")
                 : new SqlStatement("set identity_insert [Issues_Deleted] off;");
         }
 
-        public static SqlStatement IdentityInsertIssues_History(bool on)
+        public static SqlStatement IdentityInsertIssues_History(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Issues_History] on;")
@@ -6651,21 +6808,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertResults(bool on)
+        public static SqlStatement IdentityInsertResults(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Results] on;")
                 : new SqlStatement("set identity_insert [Results] off;");
         }
 
-        public static SqlStatement IdentityInsertResults_Deleted(bool on)
+        public static SqlStatement IdentityInsertResults_Deleted(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Results_Deleted] on;")
                 : new SqlStatement("set identity_insert [Results_Deleted] off;");
         }
 
-        public static SqlStatement IdentityInsertResults_History(bool on)
+        public static SqlStatement IdentityInsertResults_History(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Results_History] on;")
@@ -6698,21 +6861,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertWikis(bool on)
+        public static SqlStatement IdentityInsertWikis(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Wikis] on;")
                 : new SqlStatement("set identity_insert [Wikis] off;");
         }
 
-        public static SqlStatement IdentityInsertWikis_Deleted(bool on)
+        public static SqlStatement IdentityInsertWikis_Deleted(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Wikis_Deleted] on;")
                 : new SqlStatement("set identity_insert [Wikis_Deleted] off;");
         }
 
-        public static SqlStatement IdentityInsertWikis_History(bool on)
+        public static SqlStatement IdentityInsertWikis_History(
+            Context factory,
+            bool on)
         {
             return on
                 ? new SqlStatement("set identity_insert [Wikis_History] on;")
@@ -8070,6 +8239,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlDelete DeleteTenants(
+            Context factory,
             string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -8091,6 +8261,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlDelete DeleteDemos(
+            Context factory,
             string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -8112,6 +8283,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlDelete DeleteExtensions(
+            Context factory,
             string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -8133,6 +8305,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlDelete DeleteSessions(
+            Context factory,
             string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -8154,6 +8327,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlDelete DeleteSysLogs(
+            Context factory,
             string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -8175,6 +8349,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlDelete DeleteStatuses(
+            Context factory,
             string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -8196,6 +8371,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlDelete DeleteReminderSchedules(
+            Context factory,
             string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -8217,6 +8393,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlDelete DeleteDepts(
+            Context factory,
             string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -8238,6 +8415,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlDelete DeleteGroups(
+            Context factory,
             string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -8259,6 +8437,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlDelete DeleteGroupMembers(
+            Context factory,
             string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -8280,6 +8459,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlDelete DeleteRegistrations(
+            Context factory,
             string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -8301,6 +8481,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlDelete DeleteUsers(
+            Context factory,
             string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -8322,6 +8503,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlDelete DeleteLoginKeys(
+            Context factory,
             string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -8343,6 +8525,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlDelete DeleteMailAddresses(
+            Context factory,
             string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -8364,6 +8547,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlDelete DeleteOutgoingMails(
+            Context factory,
             string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -8385,6 +8569,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlDelete DeleteItems(
+            Context factory,
             string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -8406,6 +8591,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlDelete DeleteSites(
+            Context factory,
             string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -8427,6 +8613,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlDelete DeleteOrders(
+            Context factory,
             string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -8448,6 +8635,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlDelete DeleteExportSettings(
+            Context factory,
             string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -8469,6 +8657,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlDelete DeleteLinks(
+            Context factory,
             string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -8490,6 +8679,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlDelete DeleteBinaries(
+            Context factory,
             string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -8511,6 +8701,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlDelete DeletePermissions(
+            Context factory,
             string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -8532,6 +8723,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlDelete DeleteIssues(
+            Context factory,
             string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -8553,6 +8745,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlDelete DeleteResults(
+            Context factory,
             string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -8574,6 +8767,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlDelete DeleteWikis(
+            Context factory,
             string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -9095,6 +9289,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlRestore RestoreTenants(
+            Context factory,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             string _if = null,
@@ -9114,6 +9309,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlRestore RestoreDemos(
+            Context factory,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             string _if = null,
@@ -9133,6 +9329,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlRestore RestoreExtensions(
+            Context factory,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             string _if = null,
@@ -9152,6 +9349,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlRestore RestoreSessions(
+            Context factory,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             string _if = null,
@@ -9171,6 +9369,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlRestore RestoreSysLogs(
+            Context factory,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             string _if = null,
@@ -9190,6 +9389,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlRestore RestoreStatuses(
+            Context factory,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             string _if = null,
@@ -9209,6 +9409,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlRestore RestoreReminderSchedules(
+            Context factory,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             string _if = null,
@@ -9228,6 +9429,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlRestore RestoreDepts(
+            Context factory,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             string _if = null,
@@ -9247,6 +9449,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlRestore RestoreGroups(
+            Context factory,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             string _if = null,
@@ -9266,6 +9469,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlRestore RestoreGroupMembers(
+            Context factory,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             string _if = null,
@@ -9285,6 +9489,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlRestore RestoreRegistrations(
+            Context factory,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             string _if = null,
@@ -9304,6 +9509,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlRestore RestoreUsers(
+            Context factory,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             string _if = null,
@@ -9323,6 +9529,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlRestore RestoreLoginKeys(
+            Context factory,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             string _if = null,
@@ -9342,6 +9549,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlRestore RestoreMailAddresses(
+            Context factory,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             string _if = null,
@@ -9361,6 +9569,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlRestore RestoreOutgoingMails(
+            Context factory,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             string _if = null,
@@ -9380,6 +9589,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlRestore RestoreItems(
+            Context factory,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             string _if = null,
@@ -9399,6 +9609,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlRestore RestoreSites(
+            Context factory,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             string _if = null,
@@ -9418,6 +9629,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlRestore RestoreOrders(
+            Context factory,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             string _if = null,
@@ -9437,6 +9649,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlRestore RestoreExportSettings(
+            Context factory,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             string _if = null,
@@ -9456,6 +9669,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlRestore RestoreLinks(
+            Context factory,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             string _if = null,
@@ -9475,6 +9689,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlRestore RestoreBinaries(
+            Context factory,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             string _if = null,
@@ -9494,6 +9709,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlRestore RestorePermissions(
+            Context factory,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             string _if = null,
@@ -9513,6 +9729,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlRestore RestoreIssues(
+            Context factory,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             string _if = null,
@@ -9532,6 +9749,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlRestore RestoreResults(
+            Context factory,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             string _if = null,
@@ -9551,6 +9769,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlRestore RestoreWikis(
+            Context factory,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             string _if = null,
@@ -14753,6 +14972,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Tenants_TenantName_WhereLike(
+            Context factory,
             string tableName = "Tenants",
             string name = "SearchText",
             bool forward = false)
@@ -14765,6 +14985,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Tenants_Title_WhereLike(
+            Context factory,
             string tableName = "Tenants",
             string name = "SearchText",
             bool forward = false)
@@ -14777,6 +14998,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Tenants_Body_WhereLike(
+            Context factory,
             string tableName = "Tenants",
             string name = "SearchText",
             bool forward = false)
@@ -14789,6 +15011,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Tenants_HtmlTitleTop_WhereLike(
+            Context factory,
             string tableName = "Tenants",
             string name = "SearchText",
             bool forward = false)
@@ -14801,6 +15024,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Tenants_HtmlTitleSite_WhereLike(
+            Context factory,
             string tableName = "Tenants",
             string name = "SearchText",
             bool forward = false)
@@ -14813,6 +15037,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Tenants_HtmlTitleRecord_WhereLike(
+            Context factory,
             string tableName = "Tenants",
             string name = "SearchText",
             bool forward = false)
@@ -18652,6 +18877,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Demos_Title_WhereLike(
+            Context factory,
             string tableName = "Demos",
             string name = "SearchText",
             bool forward = false)
@@ -39605,6 +39831,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Depts_DeptId_WhereLike(
+            Context factory,
             string tableName = "Depts",
             string name = "SearchText",
             bool forward = false)
@@ -39617,6 +39844,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Depts_DeptCode_WhereLike(
+            Context factory,
             string tableName = "Depts",
             string name = "SearchText",
             bool forward = false)
@@ -39629,6 +39857,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Depts_DeptName_WhereLike(
+            Context factory,
             string tableName = "Depts",
             string name = "SearchText",
             bool forward = false)
@@ -39641,6 +39870,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Depts_Body_WhereLike(
+            Context factory,
             string tableName = "Depts",
             string name = "SearchText",
             bool forward = false)
@@ -42382,6 +42612,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Groups_TenantId_WhereLike(
+            Context factory,
             string tableName = "Groups",
             string name = "SearchText",
             bool forward = false)
@@ -42394,6 +42625,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Groups_GroupId_WhereLike(
+            Context factory,
             string tableName = "Groups",
             string name = "SearchText",
             bool forward = false)
@@ -42406,6 +42638,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Groups_GroupName_WhereLike(
+            Context factory,
             string tableName = "Groups",
             string name = "SearchText",
             bool forward = false)
@@ -42418,6 +42651,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Groups_Body_WhereLike(
+            Context factory,
             string tableName = "Groups",
             string name = "SearchText",
             bool forward = false)
@@ -47352,6 +47586,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Registrations_MailAddress_WhereLike(
+            Context factory,
             string tableName = "Registrations",
             string name = "SearchText",
             bool forward = false)
@@ -47364,6 +47599,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Registrations_Name_WhereLike(
+            Context factory,
             string tableName = "Registrations",
             string name = "SearchText",
             bool forward = false)
@@ -51799,6 +52035,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Users_LoginId_WhereLike(
+            Context factory,
             string tableName = "Users",
             string name = "SearchText",
             bool forward = false)
@@ -51811,6 +52048,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Users_Name_WhereLike(
+            Context factory,
             string tableName = "Users",
             string name = "SearchText",
             bool forward = false)
@@ -51823,6 +52061,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Users_UserCode_WhereLike(
+            Context factory,
             string tableName = "Users",
             string name = "SearchText",
             bool forward = false)
@@ -51835,6 +52074,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Users_Body_WhereLike(
+            Context factory,
             string tableName = "Users",
             string name = "SearchText",
             bool forward = false)
@@ -62794,6 +63034,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string MailAddresses_MailAddress_WhereLike(
+            Context factory,
             string tableName = "MailAddresses",
             string name = "SearchText",
             bool forward = false)
@@ -69373,6 +69614,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Items_Title_WhereLike(
+            Context factory,
             string tableName = "Items",
             string name = "SearchText",
             bool forward = false)
@@ -69385,6 +69627,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Items_FullText_WhereLike(
+            Context factory,
             string tableName = "Items",
             string name = "SearchText",
             bool forward = false)
@@ -72198,6 +72441,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Sites_Title_WhereLike(
+            Context factory,
             string tableName = "Sites",
             string name = "SearchText",
             bool forward = false)
@@ -72210,6 +72454,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Sites_Body_WhereLike(
+            Context factory,
             string tableName = "Sites",
             string name = "SearchText",
             bool forward = false)
@@ -85050,6 +85295,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Binaries_Body_WhereLike(
+            Context factory,
             string tableName = "Binaries",
             string name = "SearchText",
             bool forward = false)
@@ -92750,6 +92996,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Issues_Title_WhereLike(
+            Context factory,
             string tableName = "Issues",
             string name = "SearchText",
             bool forward = false)
@@ -92762,6 +93009,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Issues_Body_WhereLike(
+            Context factory,
             string tableName = "Issues",
             string name = "SearchText",
             bool forward = false)
@@ -97585,6 +97833,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Results_Title_WhereLike(
+            Context factory,
             string tableName = "Results",
             string name = "SearchText",
             bool forward = false)
@@ -97597,6 +97846,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Results_Body_WhereLike(
+            Context factory,
             string tableName = "Results",
             string name = "SearchText",
             bool forward = false)
@@ -101277,6 +101527,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Wikis_Title_WhereLike(
+            Context factory,
             string tableName = "Wikis",
             string name = "SearchText",
             bool forward = false)
@@ -101289,6 +101540,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Wikis_Body_WhereLike(
+            Context factory,
             string tableName = "Wikis",
             string name = "SearchText",
             bool forward = false)

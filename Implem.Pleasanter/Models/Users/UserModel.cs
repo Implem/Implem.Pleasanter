@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
@@ -1200,7 +1201,7 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(context, ss, Rds.ExecuteTable(
+            Set(context, ss, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectUsers(
                     tableType: tableType,
@@ -1296,7 +1297,7 @@ namespace Implem.Pleasanter.Models
                 otherInitValue: otherInitValue));
             try
             {
-                var response = Rds.ExecuteScalar_response(
+                var response = Repository.ExecuteScalar_response(
                     context: context,
                     transactional: true,
                     selectIdentity: true,
@@ -1373,7 +1374,7 @@ namespace Implem.Pleasanter.Models
                 additionalStatements: additionalStatements));
             try
             {
-                var response = Rds.ExecuteScalar_response(
+                var response = Repository.ExecuteScalar_response(
                     context: context,
                     transactional: true,
                     statements: statements.ToArray());
@@ -1462,7 +1463,10 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         userModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(UserId)),
+                new SqlStatement(Def.Sql.IfConflicted.Params(UserId)) {
+                    IfConflicted = true,
+                    Id = UserId
+                },
                 StatusUtilities.UpdateStatus(
                     tenantId: context.TenantId,
                     type: StatusUtilities.Types.UsersUpdated),
@@ -1489,12 +1493,14 @@ namespace Implem.Pleasanter.Models
             var where = Rds.UsersWhere().UserId(UserId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteUsers(where: where),
+                Rds.DeleteUsers(
+                    factory: context,
+                    where: where),
                 StatusUtilities.UpdateStatus(
                     tenantId: context.TenantId,
                     type: StatusUtilities.Types.UsersUpdated),
             });
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
@@ -1509,13 +1515,14 @@ namespace Implem.Pleasanter.Models
         public ErrorData Restore(Context context, SiteSettings ss,int userId)
         {
             UserId = userId;
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
                     Rds.RestoreUsers(
+                        factory: context,
                         where: Rds.UsersWhere().UserId(UserId)),
                     StatusUtilities.UpdateStatus(
                         tenantId: context.TenantId,
@@ -1527,7 +1534,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData PhysicalDelete(
             Context context, SiteSettings ss,Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: Rds.PhysicalDeleteUsers(
@@ -2118,7 +2125,7 @@ namespace Implem.Pleasanter.Models
                     where: Rds.MailAddressesWhere()
                         .OwnerId(UserId)
                         .OwnerType("Users")));
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     transactional: true,
                     statements: statements.ToArray());
@@ -2349,7 +2356,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private bool DisabledUser(Context context)
         {
-            return Rds.ExecuteScalar_int(
+            return Repository.ExecuteScalar_int(
                     context: context,
                     statements: Rds.SelectUsers(
                         column: Rds.UsersColumn().UsersCount(),
@@ -2364,7 +2371,7 @@ namespace Implem.Pleasanter.Models
         private bool RejectUnregisteredUser(Context context)
         {
             return Parameters.Authentication.RejectUnregisteredUser &&
-                Rds.ExecuteScalar_int(
+                Repository.ExecuteScalar_int(
                     context: context,
                     statements: Rds.SelectUsers(
                         column: Rds.UsersColumn().UsersCount(),
@@ -2392,7 +2399,7 @@ namespace Implem.Pleasanter.Models
                 {
                     if (!Lockout)
                     {
-                        Rds.ExecuteNonQuery(
+                        Repository.ExecuteNonQuery(
                             context: context,
                             statements: Rds.UpdateUsers(
                                 where: Rds.UsersWhere().LoginId(LoginId),
@@ -2403,7 +2410,7 @@ namespace Implem.Pleasanter.Models
                 }
                 else
                 {
-                    Rds.ExecuteNonQuery(
+                    Repository.ExecuteNonQuery(
                         context: context,
                         statements: Rds.UpdateUsers(
                             where: Rds.UsersWhere().LoginId(LoginId),
@@ -2439,7 +2446,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private Dictionary<string, string> TenantOptions(Context context)
         {
-            return Rds.ExecuteScalar_string(
+            return Repository.ExecuteScalar_string(
                 context: context,
                 statements: Rds.SelectLoginKeys(
                     column: Rds.LoginKeysColumn().TenantNames(),
@@ -2537,7 +2544,7 @@ namespace Implem.Pleasanter.Models
         private void UpdateSecondaryAuthenticationCode(Context context)
         {
             SecondaryAuthenticationCode = CreateSecondaryAuthenticationCode();
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateUsers(
                     where: Rds.UsersWhereDefault(this),
@@ -2576,7 +2583,7 @@ namespace Implem.Pleasanter.Models
             switch (Parameters.Security?.SecondaryAuthentication?.NotificationType)
             {
                 case "Mail":
-                    Rds.ExecuteTable(
+                    Repository.ExecuteTable(
                         context: context,
                         statements: Rds.SelectMailAddresses(
                             column: Rds.MailAddressesColumn().MailAddress(),
@@ -2690,7 +2697,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void IncrementsNumberOfLogins(Context context)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateUsers(
                     where: Rds.UsersWhereDefault(this),
@@ -2706,7 +2713,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void IncrementsNumberOfDenial(Context context)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateUsers(
                     where: Rds.UsersWhere().LoginId(LoginId),
@@ -2788,28 +2795,28 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private bool EnabledSecondaryAuthentication(Context context)
         {
-            if(Parameters.Security?.SecondaryAuthentication?.Enabled != true)
+            if (Parameters.Security?.SecondaryAuthentication?.Enabled != true)
             {
                 return false;
             }
             var statements = new List<SqlStatement>().OnUseSecondaryAuthentication().ToArray();
-            if(!(statements?.Any() == true))
+            if (!(statements?.Any() == true))
             {
                 return true;
             }
             statements.ForEach(statement => statement.SqlParamCollection = new SqlParamCollection()
                 .Add("TenantId", this.TenantId)
                 .Add("UserId", this.UserId));
-            var dataTables = statements.Select(statement => Rds.ExecuteTable(
+            var dataTables = statements.Select(statement => Repository.ExecuteTable(
                 context: context,
                 statements: statement));
-            foreach(DataTable table in dataTables)
+            foreach (DataTable table in dataTables)
             {
-                if(table.Rows.Count == 0)
+                if (table.Rows.Count == 0)
                 {
                     return true;
                 }
-                if(!table.AsEnumerable().All(dataRow => dataRow[0]?.ToBool() == false))
+                if (!table.AsEnumerable().All(dataRow => dataRow[0]?.ToBool() == false))
                 {
                     return true;
                 }
@@ -2848,7 +2855,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public Error.Types ChangePassword(Context context)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateUsers(
                     where: Rds.UsersWhereDefault(this),
@@ -2866,7 +2873,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public Error.Types ChangePasswordAtLogin(Context context)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateUsers(
                     where: Rds.UsersWhereDefault(this),
@@ -2882,7 +2889,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public Error.Types ResetPassword(Context context)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateUsers(
                     where: Rds.UsersWhereDefault(this),

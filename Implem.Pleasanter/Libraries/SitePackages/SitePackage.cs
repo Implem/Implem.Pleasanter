@@ -71,7 +71,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         siteId: site.SiteId));
                     if (packageSiteModel.ReferenceType == "Wikis")
                     {
-                        var wikiId = Rds.ExecuteScalar_long(
+                        var wikiId = Repository.ExecuteScalar_long(
                             context: context,
                             statements: Rds.SelectWikis(
                                 top: 1,

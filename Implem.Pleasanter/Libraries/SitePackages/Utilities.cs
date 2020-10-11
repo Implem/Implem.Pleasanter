@@ -104,7 +104,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 sitePackage.HeaderInfo.SavedInheritPermission = ss.InheritPermission;
                 foreach (var conv in sitePackage.HeaderInfo.Convertors)
                 {
-                    var response = Rds.ExecuteScalar_response(
+                    var response = Repository.ExecuteScalar_response(
                         context: context,
                         transactional: true,
                         selectIdentity: true,
@@ -138,7 +138,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         header: sitePackage.HeaderInfo,
                         includeColumnPermission: includeColumnPermission,
                         permissionIdList: sitePackage.PermissionIdList);
-                    Rds.ExecuteScalar_response(
+                    Repository.ExecuteScalar_response(
                         context: context,
                         transactional: true,
                         statements: new SqlStatement[]
@@ -177,7 +177,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     var fullText = siteModel.FullText(
                         context: context,
                         ss: siteModel.SiteSettings);
-                    Rds.ExecuteNonQuery(
+                    Repository.ExecuteNonQuery(
                         context: context,
                         transactional: true,
                         statements: Rds.UpdateItems(
@@ -208,7 +208,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                             wikiModel.Create(
                                 context: context,
                                 ss: siteModel.SiteSettings);
-                            var wikiId = Rds.ExecuteScalar_long(
+                            var wikiId = Repository.ExecuteScalar_long(
                                 context: context,
                                 statements: Rds.SelectWikis(
                                     top: 1,
@@ -267,7 +267,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                             }
                         }
                     }
-                    var response = Rds.ExecuteScalar_response(
+                    var response = Repository.ExecuteScalar_response(
                     context: context,
                     transactional: true,
                     statements: StatusUtilities.UpdateStatus(
@@ -308,7 +308,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                                 convertSiteId: idHash[permissionShortModel.ReferenceId]);
                             if (idConverter.Convert == true)
                             {
-                                Rds.ExecuteNonQuery(
+                                Repository.ExecuteNonQuery(
                                     context: context,
                                     transactional: true,
                                     statements: Rds.InsertPermissions(
@@ -322,7 +322,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         }
                     }
                 }
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     statements: StatusUtilities.UpdateStatus(
                         tenantId: context.TenantId,
@@ -357,7 +357,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     {
                         case "Issues":
                             var issuesExportModel = body as IssueExportModel;
-                            savedReferenceId = Rds.ExecuteScalar_response(
+                            savedReferenceId = Repository.ExecuteScalar_response(
                                 context: context,
                                 selectIdentity: true,
                                 statements: Rds.InsertItems(
@@ -370,7 +370,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                             break;
                         case "Results":
                             var resultExportModel = body as ResultExportModel;
-                            savedReferenceId = Rds.ExecuteScalar_response(
+                            savedReferenceId = Repository.ExecuteScalar_response(
                                 context: context,
                                 selectIdentity: true,
                                 statements: Rds.InsertItems(
@@ -459,7 +459,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     columnBracket: o.Key,
                     name: o.Key,
                     value: o.Value));
-            Rds.ExecuteScalar_response(
+            Repository.ExecuteScalar_response(
                 context: context,
                 selectIdentity: false,
                 statements: Rds.InsertIssues(param: param));
@@ -519,7 +519,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     columnBracket: o.Key,
                     name: o.Key,
                     value: o.Value));
-            Rds.ExecuteScalar_response(
+            Repository.ExecuteScalar_response(
                 context: context,
                 selectIdentity: false,
                 statements: Rds.InsertResults(param: param));
@@ -580,7 +580,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             {
                 return listItemCollection;
             }
-            var dataRaws = Rds.ExecuteTable(
+            var dataRaws = Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectSites(
                     column: Rds.SitesColumn()
@@ -682,7 +682,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 .ToList();
             return Parameters.SitePackage.ExportLimit > 0
                 && includeDataSites.Any()
-                    ? Rds.ExecuteScalar_long(
+                    ? Repository.ExecuteScalar_long(
                         context: context,
                         statements: Rds.SelectItems(
                         column: Rds.ItemsColumn().ItemsCount(),
@@ -704,7 +704,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 .FirstOrDefault(x => x.DeptId == deptId)
                 ?.DeptCode;
             return !deptCode.IsNullOrEmpty()
-                ? Rds.ExecuteTable(
+                ? Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectDepts(
                         column: Rds.DeptsColumn().DeptId(),
@@ -726,7 +726,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 .FirstOrDefault(x => x.GroupId == groupId)
                 ?.GroupName;
             return !groupName.IsNullOrEmpty()
-                ? Rds.ExecuteTable(
+                ? Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectGroups(
                         column: Rds.GroupsColumn().GroupId(),
@@ -748,7 +748,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 .FirstOrDefault(x => x.UserId == userId)
                 ?.LoginId;
             return !loginId.IsNullOrEmpty()
-                ? Rds.ExecuteTable(
+                ? Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectUsers(
                         column: Rds.UsersColumn().UserId(),

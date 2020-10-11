@@ -171,7 +171,7 @@ namespace Implem.Pleasanter.Models
 
         private static bool Authenticate(Context context)
         {
-            return Authentications.SSO() 
+            return Authentications.SSO(context: context)
                 || Authentications.Try(
                     context: context,
                     loginId: context.Forms.Data("Users_LoginId"),

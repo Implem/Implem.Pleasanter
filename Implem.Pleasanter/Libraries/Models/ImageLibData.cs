@@ -46,7 +46,7 @@ namespace Implem.Pleasanter.Libraries.Models
                         tableName: "Binaries",
                         joinType: SqlJoin.JoinTypes.Inner,
                         joinExpression: joinExpression);
-            var dataSet = Rds.ExecuteDataSet(
+            var dataSet = Repository.ExecuteDataSet(
                 context: context,
                 statements: new SqlStatement[]
                 {

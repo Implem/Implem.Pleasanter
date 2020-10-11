@@ -457,7 +457,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string EditorNew(Context context, SiteSettings ss)
         {
-            var wikiId = Rds.ExecuteScalar_long(
+            var wikiId = Repository.ExecuteScalar_long(
                 context: context,
                 statements: Rds.SelectWikis(
                     column: Rds.WikisColumn().WikiId(),
@@ -1552,7 +1552,7 @@ namespace Implem.Pleasanter.Models
                     .Select(o => o.ColumnName)
                     .ForEach(columnName =>
                         column.Add($"[{columnName}]"));
-                var attachments = Rds.ExecuteTable(
+                var attachments = Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectWikis(
                         tableType: Sqls.TableTypes.Deleted,
@@ -1577,7 +1577,7 @@ namespace Implem.Pleasanter.Models
                     })
                     .Where(o => o.attachments.Length > 0);
             var guid = Strings.NewGuid();
-            var count = Rds.ExecuteScalar_response(
+            var count = Repository.ExecuteScalar_response(
                 context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
@@ -1590,11 +1590,15 @@ namespace Implem.Pleasanter.Models
                             .ReferenceId_In(sub: sub),
                         param: Rds.ItemsParam()
                             .ReferenceType(guid)),
-                    Rds.RestoreWikis(where: where),
+                    Rds.RestoreWikis(
+                        factory: context,
+                        where: where),
                     Rds.RowCount(),
-                    Rds.RestoreItems(where: Rds.ItemsWhere()
-                        .SiteId(ss.SiteId)
-                        .ReferenceType(guid)),
+                    Rds.RestoreItems(
+                        factory: context,
+                        where: Rds.ItemsWhere()
+                            .SiteId(ss.SiteId)
+                            .ReferenceType(guid)),
                     Rds.UpdateItems(
                         where: Rds.ItemsWhere()
                             .SiteId(ss.SiteId)
@@ -1612,11 +1616,12 @@ namespace Implem.Pleasanter.Models
         private static void RestoreAttachments(Context context, long wikiId, IList<string> attachments)
         {
             var raw = $" ({string.Join(", ", attachments.Select(o => $"'{o}'"))}) ";
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 statements: new SqlStatement[] {
                     Rds.DeleteBinaries(
+                        factory: context,
                         where: Rds.BinariesWhere()
                             .ReferenceId(wikiId)
                             .BinaryType("Attachments")
@@ -1625,6 +1630,7 @@ namespace Implem.Pleasanter.Models
                                 raw: raw,
                                 _using: attachments.Any())),
                     Rds.RestoreBinaries(
+                        factory: context,
                         where: Rds.BinariesWhere()
                             .ReferenceId(wikiId)
                             .BinaryType("Attachments")
@@ -1667,7 +1673,7 @@ namespace Implem.Pleasanter.Models
                 where: Rds.WikisWhere()
                     .SiteId(ss.SiteId)
                     .WikiId(wikiId)
-                    .Ver(ver.First())));
+                    .Ver(ver.First().ToInt())));
             wikiModel.VerUp = true;
             var errorData = wikiModel.Update(
                 context: context,
@@ -1884,7 +1890,7 @@ namespace Implem.Pleasanter.Models
             List<int> selected,
             bool negative = false)
         {
-            return Rds.ExecuteScalar_response(
+            return Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: new SqlStatement[]

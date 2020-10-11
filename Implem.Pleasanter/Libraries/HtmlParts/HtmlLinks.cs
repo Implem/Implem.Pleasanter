@@ -274,7 +274,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Task.WaitAll(tasks.ToArray());
             var statements = new List<SqlStatement>(tasks.Select(task => task.Result));
             return statements.Any()
-                ? Rds.ExecuteDataSet(
+                ? Repository.ExecuteDataSet(
                     context: context,
                     statements: statements.ToArray())
                 : null;
@@ -565,7 +565,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             switch (ss.ReferenceType)
             {
                 case "Issues":
-                    return Rds.ExecuteTable(
+                    return Repository.ExecuteTable(
                         context: context,
                         statements: SelectIssues(
                             context: context,
@@ -575,7 +575,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             direction: direction))
                                 .AsEnumerable();
                 case "Results":
-                    return Rds.ExecuteTable(
+                    return Repository.ExecuteTable(
                         context: context,
                         statements: SelectResults(
                             context: context,

@@ -582,7 +582,7 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        [HttpPut]
+        [HttpPost]
         public string BulkUpdate(long id)
         {
             var context = new Context();

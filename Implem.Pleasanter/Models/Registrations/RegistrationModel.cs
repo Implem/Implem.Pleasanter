@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
@@ -285,7 +286,7 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(context, ss, Rds.ExecuteTable(
+            Set(context, ss, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectRegistrations(
                     tableType: tableType,
@@ -359,7 +360,7 @@ namespace Implem.Pleasanter.Models
                 tableType: tableType,
                 param: param,
                 otherInitValue: otherInitValue));
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 selectIdentity: true,
@@ -418,7 +419,7 @@ namespace Implem.Pleasanter.Models
                 param: param,
                 otherInitValue: otherInitValue,
                 additionalStatements: additionalStatements));
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
@@ -490,7 +491,10 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         registrationModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(RegistrationId)),
+                new SqlStatement(Def.Sql.IfConflicted.Params(RegistrationId)) {
+                    IfConflicted = true,
+                    Id = RegistrationId
+                },
             };
         }
 
@@ -522,7 +526,7 @@ namespace Implem.Pleasanter.Models
                     param: param ?? Rds.RegistrationsParamDefault(
                         context: context, registrationModel: this, setDefault: true)),
             };
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 selectIdentity: true,
@@ -538,9 +542,11 @@ namespace Implem.Pleasanter.Models
             var where = Rds.RegistrationsWhere().RegistrationId(RegistrationId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteRegistrations(where: where),
+                Rds.DeleteRegistrations(
+                    factory: context,
+                    where: where),
             });
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
@@ -550,13 +556,14 @@ namespace Implem.Pleasanter.Models
         public ErrorData Restore(Context context, SiteSettings ss,int registrationId)
         {
             RegistrationId = registrationId;
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
                     Rds.RestoreRegistrations(
+                        factory: context,
                         where: Rds.RegistrationsWhere().RegistrationId(RegistrationId)),
                 });
             return new ErrorData(type: Error.Types.None);
@@ -565,7 +572,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData PhysicalDelete(
             Context context, SiteSettings ss,Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: Rds.PhysicalDeleteRegistrations(
@@ -972,7 +979,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public void Approval(Context context)
         {
-            Rds.ExecuteScalar_response(
+            Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 selectIdentity: true,

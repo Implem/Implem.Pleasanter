@@ -18,7 +18,7 @@ namespace Implem.Pleasanter.Libraries.Migrators.Statuses
 
         private static void Migrate(Context context, ExportSettingModel exportSettingModel)
         {
-            var ss = Rds.ExecuteScalar_string(
+            var ss = Repository.ExecuteScalar_string(
                 context: context,
                 statements: Rds.SelectSites(
                     column: Rds.SitesColumn().SiteSettings(),
@@ -45,7 +45,7 @@ namespace Implem.Pleasanter.Libraries.Migrators.Statuses
                             id: i + 1))
                         .ToList(),
                     executionType: Export.ExecutionTypes.Direct));
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     statements: Rds.UpdateSites(
                         param: Rds.SitesParam().SiteSettings(ss.RecordingJson(context: context)),

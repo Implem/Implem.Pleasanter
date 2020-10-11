@@ -10,7 +10,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
     {
         public static void Initialize(Context context)
         {
-            if (Rds.ExecuteScalar_int(
+            if (Repository.ExecuteScalar_int(
                 context: context,
                 statements: Rds.SelectUsers(
                     column: Rds.UsersColumn().UsersCount())) == 0)
@@ -44,7 +44,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
             Time passwordExpirationTime = null,
             bool tenantManager = false)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.InsertUsers(
                     param: Rds.UsersParam()

@@ -354,16 +354,16 @@ namespace Implem.Pleasanter.Models
                 methodType: BaseModel.MethodTypes.Edit);
             if (tenantModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     connectionString: Parameters.Rds.OwnerConnectionString,
                     statements: new[] {
-                        Rds.IdentityInsertTenants(on:true),
+                        Rds.IdentityInsertTenants(factory: context, on: true),
                         Rds.InsertTenants(
                             param: Rds.TenantsParam()
                                 .TenantId(tenantId)
                                 .TenantName("DefaultTenant")),
-                        Rds.IdentityInsertTenants(on: false)
+                        Rds.IdentityInsertTenants(factory: context, on: false)
                     });
                 tenantModel.Get(context, ss);
             }
@@ -783,14 +783,14 @@ namespace Implem.Pleasanter.Models
             var switchTargets = new List<int>();
             if (Parameters.General.SwitchTargetsLimit > 0)
             {
-                if (Rds.ExecuteScalar_long(
+                if (Repository.ExecuteScalar_int(
                     context: context,
                     statements: Rds.SelectTenants(
                         column: Rds.TenantsColumn().TenantsCount(),
                         join: join,
                         where: where)) <= Parameters.General.SwitchTargetsLimit)
                 {
-                    switchTargets = Rds.ExecuteTable(
+                    switchTargets = Repository.ExecuteTable(
                         context: context,
                         statements: Rds.SelectTenants(
                             column: Rds.TenantsColumn().TenantId(),
@@ -1340,7 +1340,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static ContractSettings GetContractSettings(Context context, int tenantId)
         {
-            var dataRow = Rds.ExecuteTable(
+            var dataRow = Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectTenants(
                     column: Rds.TenantsColumn()

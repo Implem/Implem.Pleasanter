@@ -32,7 +32,7 @@ namespace Implem.Pleasanter.Models
             var now = DateTime.Now;
             while ((DateTime.Now - now).Seconds <= Parameters.Reminder.Span)
             {
-                var targets = Rds.ExecuteTable(
+                var targets = Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectReminderSchedules(
                         column: Rds.ReminderSchedulesColumn()

@@ -28,7 +28,7 @@ namespace Implem.Pleasanter.Libraries.Server
             CreatedTime = DateTime.Now;
             if (HasOnlyOneChild())
             {
-                OnlyOneChildId = Rds.ExecuteScalar_long(
+                OnlyOneChildId = Repository.ExecuteScalar_long(
                     context: context,
                     statements: Rds.SelectWikis(
                         column: Rds.WikisColumn().WikiId(),

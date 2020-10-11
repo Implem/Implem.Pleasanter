@@ -114,7 +114,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             try
             {
-                return Rds.ExecuteTable(
+                return Repository.ExecuteTable(
                     context: context,
                     connectionString: Parameters.Rds.OwnerConnectionString,
                     statements: new SqlStatement(

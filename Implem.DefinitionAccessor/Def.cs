@@ -2733,6 +2733,7 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_Search": Css._sharp_Search = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Search, definitionRow, CssXls); break;
                     case "_sharp_SwitchUserInfo": Css._sharp_SwitchUserInfo = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SwitchUserInfo, definitionRow, CssXls); break;
                     case "_sharp_SwitchUserInfo_space___space_a": Css._sharp_SwitchUserInfo_space___space_a = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SwitchUserInfo_space___space_a, definitionRow, CssXls); break;
+                    case "_sharp_ExcessLicenseWarning": Css._sharp_ExcessLicenseWarning = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ExcessLicenseWarning, definitionRow, CssXls); break;
                     case "_sharp_PublishWarning": Css._sharp_PublishWarning = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_PublishWarning, definitionRow, CssXls); break;
                     case "_sharp_PublishWarning_space___space_a": Css._sharp_PublishWarning_space___space_a = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_PublishWarning_space___space_a, definitionRow, CssXls); break;
                     case "_sharp_LockedWarning": Css._sharp_LockedWarning = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_LockedWarning, definitionRow, CssXls); break;
@@ -2769,9 +2770,10 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_Aggregations_space_em": Css._sharp_Aggregations_space_em = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Aggregations_space_em, definitionRow, CssXls); break;
                     case "_sharp_Aggregations_space___space__dot_display_control": Css._sharp_Aggregations_space___space__dot_display_control = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Aggregations_space___space__dot_display_control, definitionRow, CssXls); break;
                     case "_sharp_SitePackagesSelectable_space_span_dot_include_data": Css._sharp_SitePackagesSelectable_space_span_dot_include_data = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SitePackagesSelectable_space_span_dot_include_data, definitionRow, CssXls); break;
-                    case "_sharp_CalendarMonth": Css._sharp_CalendarMonth = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarMonth, definitionRow, CssXls); break;
+                    case "_sharp_CalendarDate": Css._sharp_CalendarDate = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarDate, definitionRow, CssXls); break;
                     case "_sharp_CalendarBody_space_table": Css._sharp_CalendarBody_space_table = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space_table, definitionRow, CssXls); break;
-                    case "_sharp_CalendarBody_space_th": Css._sharp_CalendarBody_space_th = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space_th, definitionRow, CssXls); break;
+                    case "_sharp_CalendarBody_space_thead_space_th": Css._sharp_CalendarBody_space_thead_space_th = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space_thead_space_th, definitionRow, CssXls); break;
+                    case "th_dot_calendar_header": Css.th_dot_calendar_header = definitionRow[1].ToString(); SetCssTable(CssTable.th_dot_calendar_header, definitionRow, CssXls); break;
                     case "_sharp_CalendarBody_space__dot_saturday": Css._sharp_CalendarBody_space__dot_saturday = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_saturday, definitionRow, CssXls); break;
                     case "_sharp_CalendarBody_space__dot_sunday": Css._sharp_CalendarBody_space__dot_sunday = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_sunday, definitionRow, CssXls); break;
                     case "_sharp_CalendarBody_space_td": Css._sharp_CalendarBody_space_td = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space_td, definitionRow, CssXls); break;
@@ -10235,6 +10237,7 @@ namespace Implem.DefinitionAccessor
         public string _sharp_Search;
         public string _sharp_SwitchUserInfo;
         public string _sharp_SwitchUserInfo_space___space_a;
+        public string _sharp_ExcessLicenseWarning;
         public string _sharp_PublishWarning;
         public string _sharp_PublishWarning_space___space_a;
         public string _sharp_LockedWarning;
@@ -10271,9 +10274,10 @@ namespace Implem.DefinitionAccessor
         public string _sharp_Aggregations_space_em;
         public string _sharp_Aggregations_space___space__dot_display_control;
         public string _sharp_SitePackagesSelectable_space_span_dot_include_data;
-        public string _sharp_CalendarMonth;
+        public string _sharp_CalendarDate;
         public string _sharp_CalendarBody_space_table;
-        public string _sharp_CalendarBody_space_th;
+        public string _sharp_CalendarBody_space_thead_space_th;
+        public string th_dot_calendar_header;
         public string _sharp_CalendarBody_space__dot_saturday;
         public string _sharp_CalendarBody_space__dot_sunday;
         public string _sharp_CalendarBody_space_td;
@@ -10750,6 +10754,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_Search = new CssDefinition();
         public CssDefinition _sharp_SwitchUserInfo = new CssDefinition();
         public CssDefinition _sharp_SwitchUserInfo_space___space_a = new CssDefinition();
+        public CssDefinition _sharp_ExcessLicenseWarning = new CssDefinition();
         public CssDefinition _sharp_PublishWarning = new CssDefinition();
         public CssDefinition _sharp_PublishWarning_space___space_a = new CssDefinition();
         public CssDefinition _sharp_LockedWarning = new CssDefinition();
@@ -10786,9 +10791,10 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_Aggregations_space_em = new CssDefinition();
         public CssDefinition _sharp_Aggregations_space___space__dot_display_control = new CssDefinition();
         public CssDefinition _sharp_SitePackagesSelectable_space_span_dot_include_data = new CssDefinition();
-        public CssDefinition _sharp_CalendarMonth = new CssDefinition();
+        public CssDefinition _sharp_CalendarDate = new CssDefinition();
         public CssDefinition _sharp_CalendarBody_space_table = new CssDefinition();
-        public CssDefinition _sharp_CalendarBody_space_th = new CssDefinition();
+        public CssDefinition _sharp_CalendarBody_space_thead_space_th = new CssDefinition();
+        public CssDefinition th_dot_calendar_header = new CssDefinition();
         public CssDefinition _sharp_CalendarBody_space__dot_saturday = new CssDefinition();
         public CssDefinition _sharp_CalendarBody_space__dot_sunday = new CssDefinition();
         public CssDefinition _sharp_CalendarBody_space_td = new CssDefinition();

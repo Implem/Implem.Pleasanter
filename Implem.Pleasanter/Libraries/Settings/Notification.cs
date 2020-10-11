@@ -220,7 +220,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             Address = Address.Replace(
                 "[RelatedUsers]",
-                Rds.ExecuteTable(
+                Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectMailAddresses(
                         column: Rds.MailAddressesColumn()

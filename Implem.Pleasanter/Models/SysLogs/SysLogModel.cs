@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
@@ -417,7 +418,7 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(context, Rds.ExecuteTable(
+            Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectSysLogs(
                     tableType: tableType,
@@ -734,7 +735,7 @@ namespace Implem.Pleasanter.Models
         {
             if (Parameters.SysLog.NotLoggingIp?.Contains(UserHostAddress) != true)
             {
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     transactional: true,
                     writeSqlToDebugLog: writeSqlToDebugLog,
@@ -816,7 +817,7 @@ namespace Implem.Pleasanter.Models
             SetProperties(context: context);
             if (Parameters.SysLog.NotLoggingIp?.Contains(UserHostAddress) != true)
             {
-                SysLogId = Rds.ExecuteScalar_response(
+                SysLogId = Repository.ExecuteScalar_response(
                     context: context,
                     selectIdentity: true,
                     statements: Rds.InsertSysLogs(

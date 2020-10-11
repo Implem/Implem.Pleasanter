@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
@@ -520,7 +521,7 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(context, Rds.ExecuteTable(
+            Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectSites(
                     tableType: tableType,
@@ -632,7 +633,7 @@ namespace Implem.Pleasanter.Models
                     where: Rds.ReminderSchedulesWhere()
                         .SiteId(SiteId)
                         .Id(reminder.Id))));
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
@@ -715,7 +716,10 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         siteModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(SiteId)),
+                new SqlStatement(Def.Sql.IfConflicted.Params(SiteId)) {
+                    IfConflicted = true,
+                    Id = SiteId
+                },
                 StatusUtilities.UpdateStatus(
                     tenantId: TenantId,
                     type: StatusUtilities.Types.SitesUpdated),
@@ -743,7 +747,7 @@ namespace Implem.Pleasanter.Models
             bool addUpdatorParam = true,
             bool updateItems = true)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: UpdateRelatedRecordsStatements(
@@ -803,7 +807,7 @@ namespace Implem.Pleasanter.Models
                     tenantId: TenantId,
                     type: StatusUtilities.Types.SitesUpdated),
             };
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 selectIdentity: true,
@@ -821,26 +825,31 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     siteId: ss.SiteId,
                     withParent: true);
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
                     Rds.DeleteItems(
+                        factory: context,
                         where: Rds.ItemsWhere().SiteId_In(siteMenu.Select(o => o.SiteId))),
                     Rds.DeleteIssues(
+                        factory: context,
                         where: Rds.IssuesWhere().SiteId_In(siteMenu
                             .Where(o => o.ReferenceType == "Issues")
                             .Select(o => o.SiteId))),
                     Rds.DeleteResults(
+                        factory: context,
                         where: Rds.ResultsWhere().SiteId_In(siteMenu
                             .Where(o => o.ReferenceType == "Results")
                             .Select(o => o.SiteId))),
                     Rds.DeleteWikis(
+                        factory: context,
                         where: Rds.WikisWhere().SiteId_In(siteMenu
                             .Where(o => o.ReferenceType == "Wikis")
                             .Select(o => o.SiteId))),
                     Rds.DeleteSites(
+                        factory: context,
                         where: Rds.SitesWhere()
                             .TenantId(TenantId)
                             .SiteId_In(siteMenu.Select(o => o.SiteId)))
@@ -851,15 +860,17 @@ namespace Implem.Pleasanter.Models
         public ErrorData Restore(Context context, long siteId)
         {
             SiteId = siteId;
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
                     Rds.RestoreItems(
+                        factory: context,
                         where: Rds.ItemsWhere().ReferenceId(SiteId)),
                     Rds.RestoreSites(
+                        factory: context,
                         where: Rds.SitesWhere().SiteId(SiteId)),
                     StatusUtilities.UpdateStatus(
                         tenantId: TenantId,
@@ -871,7 +882,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData PhysicalDelete(
             Context context, Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: Rds.PhysicalDeleteSites(
@@ -1345,7 +1356,7 @@ namespace Implem.Pleasanter.Models
                 SiteSettings = new SiteSettings(context: context, referenceType: ReferenceType);
             }
             TenantId = context.TenantId;
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 selectIdentity: true,

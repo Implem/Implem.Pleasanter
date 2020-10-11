@@ -27,9 +27,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static Dictionary<string, string> Get(Context context, bool includeUserArea = false, string sessionGuid=null)
+        public static Dictionary<string, string> Get(Context context, bool includeUserArea = false, string sessionGuid = null)
         {
-            return Rds.ExecuteTable(
+            return Repository.ExecuteTable(
                 context: context,
                 statements: new SqlStatement[]
                 {
@@ -45,8 +45,8 @@ namespace Implem.Pleasanter.Models
                                 .Page(raw: "''"))),
                     Rds.PhysicalDeleteSessions(
                         where: Rds.SessionsWhere()
-                            .SessionGuid(sessionGuid?? context.SessionGuid)
-                            .ReadOnce(1)),
+                            .SessionGuid(sessionGuid ?? context.SessionGuid)
+                            .ReadOnce(true)),
                     Rds.PhysicalDeleteSessions(
                         where: Rds.SessionsWhere()
                             .UpdatedTime(
@@ -65,7 +65,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static bool Bool(Context context, string key)
         {
-            return Rds.ExecuteScalar_bool(
+            return Repository.ExecuteScalar_bool(
                 context: context,
                 statements: Rds.SelectSessions(
                     column: Rds.SessionsColumn().Value(),
@@ -137,11 +137,11 @@ namespace Implem.Pleasanter.Models
         {
             if (value != null)
             {
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     statements: Rds.UpdateOrInsertSessions(
                         param: Rds.SessionsParam()
-                            .SessionGuid(sessionGuid?? context.SessionGuid)
+                            .SessionGuid(sessionGuid ?? context.SessionGuid)
                             .Key(key)
                             .Page(page
                                 ? context.Page ?? string.Empty
@@ -216,7 +216,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static void Remove(Context context, string key, bool page, string sessionGuid = null)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.PhysicalDeleteSessions(
                     where: Rds.SessionsWhere()
@@ -230,7 +230,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static void RemoveAll(Context context, string sessionGuid = null)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.PhysicalDeleteSessions(
                     where: Rds.SessionsWhere()
@@ -298,7 +298,7 @@ namespace Implem.Pleasanter.Models
                 return ApiResults.Get(ApiResponses.BadRequest(context: context));
             }
             var value = GetUserArea(
-                context:context,
+                context: context,
                 key: api.SessionKey,
                 useUserSessionData: api.SavePerUser);
             if (value == null)

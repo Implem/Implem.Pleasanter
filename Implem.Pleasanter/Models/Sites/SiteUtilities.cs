@@ -961,7 +961,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             controller: context.Controller,
                             id: siteModel.ReferenceType == "Wikis"
-                                ? Rds.ExecuteScalar_long(
+                                ? Repository.ExecuteScalar_long(
                                     context: context,
                                     statements: Rds.SelectWikis(
                                         column: Rds.WikisColumn().WikiId(),
@@ -1136,7 +1136,7 @@ namespace Implem.Pleasanter.Models
             var errorData = siteModel.Create(context: context, otherInitValue: true);
             if (siteModel.SiteSettings.Exports?.Any() == true)
             {
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     statements: Rds.UpdateSites(
                         where: Rds.SitesWhere()
@@ -1148,7 +1148,7 @@ namespace Implem.Pleasanter.Models
             }
             if (beforeSiteId == beforeInheritPermission)
             {
-                var dataTable = Rds.ExecuteTable(
+                var dataTable = Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectPermissions(
                         column: Rds.PermissionsColumn()
@@ -1177,7 +1177,7 @@ namespace Implem.Pleasanter.Models
                             .SiteId(siteModel.SiteId),
                         param: Rds.SitesParam()
                             .InheritPermission(siteModel.SiteId)));
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     transactional: true,
                     statements: statements.ToArray());
@@ -1289,22 +1289,29 @@ namespace Implem.Pleasanter.Models
                 column: Rds.SitesColumn()
                     .SiteId(tableName: "Sites_Deleted"),
                 where: where);
-            return Rds.ExecuteScalar_response(
+            return Repository.ExecuteScalar_response(
                 context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
-                    Rds.RestoreItems(where: Rds.ItemsWhere()
-                        .ReferenceId_In(sub:
-                            Rds.SelectWikis(
+                    Rds.RestoreItems(
+                        factory: context,
+                        where: Rds.ItemsWhere()
+                            .ReferenceId_In(sub: Rds.SelectWikis(
                                 tableType: Sqls.TableTypes.Deleted,
                                 column: Rds.WikisColumn().WikiId(),
                                 where: Rds.WikisWhere().SiteId_In(sub: sub)))
-                        .ReferenceType("Wikis")),
-                    Rds.RestoreWikis(where: Rds.WikisWhere().SiteId_In(sub: sub)),
-                    Rds.RestoreItems(where: Rds.ItemsWhere().ReferenceId_In(sub: sub)),
-                    Rds.RestoreSites(where: where),
+                            .ReferenceType("Wikis")),
+                    Rds.RestoreWikis(
+                        factory: context,
+                        where: Rds.WikisWhere().SiteId_In(sub: sub)),
+                    Rds.RestoreItems(
+                        factory: context,
+                        where: Rds.ItemsWhere().ReferenceId_In(sub: sub)),
+                    Rds.RestoreSites(
+                        factory: context,
+                        where: where),
                     Rds.RowCount()
                 }).Count.ToInt();
         }
@@ -1341,7 +1348,7 @@ namespace Implem.Pleasanter.Models
                 where: Rds.SitesWhere()
                     .SiteId(ss.SiteId)
                     .SiteId(siteId)
-                    .Ver(ver.First())));
+                    .Ver(ver.First().ToInt())));
             siteModel.VerUp = true;
             var errorData = siteModel.Update(
                 context: context, ss: ss, setBySession: false, otherInitValue: true);
@@ -1519,7 +1526,7 @@ namespace Implem.Pleasanter.Models
             List<int> selected,
             bool negative = false)
         {
-            return Rds.ExecuteScalar_response(
+            return Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: new SqlStatement[]
@@ -1625,7 +1632,7 @@ namespace Implem.Pleasanter.Models
                 column: Rds.SitesColumn()
                     .SiteId(tableName: "Sites" + tableName),
                 where: where);
-            return Rds.ExecuteScalar_response(
+            return Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: new SqlStatement[]
@@ -2312,7 +2319,7 @@ namespace Implem.Pleasanter.Models
         private static void MoveSiteMenu(
             Context context, SiteSettings ss, long sourceId, long destinationId)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: new SqlStatement[]
@@ -2416,7 +2423,7 @@ namespace Implem.Pleasanter.Models
                     ?.Get(sourceSiteModel.SiteSettings.TabName(0))
                     .Add(column.ColumnName);
             }
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: new SqlStatement[]
@@ -3011,7 +3018,7 @@ namespace Implem.Pleasanter.Models
                 case "Wikis":
                     return Locations.ItemEdit(
                         context: context,
-                        id: Rds.ExecuteScalar_long(
+                        id: Repository.ExecuteScalar_long(
                             context: context,
                             statements: Rds.SelectWikis(
                                 column: Rds.WikisColumn().WikiId(),
@@ -6025,7 +6032,7 @@ namespace Implem.Pleasanter.Models
         {
             if (ss.Summaries?.Any() == true)
             {
-                var dataRows = Rds.ExecuteTable(
+                var dataRows = Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectSites(
                         column: Rds.SitesColumn()
@@ -9337,12 +9344,12 @@ namespace Implem.Pleasanter.Models
                     .FieldTextBox(
                         controlId: "Users_LoginId",
                         labelText: Displays.Users_LoginId(context: context),
-                        _using: !Authentications.SSO())
+                        _using: !Authentications.SSO(context: context))
                     .FieldTextBox(
                         textType: HtmlTypes.TextTypes.Password,
                         controlId: "Users_Password",
                         labelText: Displays.Users_Password(context: context),
-                        _using: !Authentications.SSO())
+                        _using: !Authentications.SSO(context: context))
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
@@ -9642,7 +9649,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateSites(
                     where: Rds.SitesWhere()
@@ -9671,7 +9678,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateSites(
                     where: Rds.SitesWhere()
@@ -9700,7 +9707,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateSites(
                     where: Rds.SitesWhere()
@@ -9723,7 +9730,7 @@ namespace Implem.Pleasanter.Models
         {
             if (Parameters.Api.LimitPerSite > 0)
             {
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     statements: Rds.UpdateSites(
                         where: Rds.SitesWhere()

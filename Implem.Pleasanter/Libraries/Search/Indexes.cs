@@ -111,7 +111,7 @@ namespace Implem.Pleasanter.Libraries.Search
         {
             if (fullText != null)
             {
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     statements: Rds.UpdateItems(
                         where: Rds.ItemsWhere().ReferenceId(id),
@@ -204,7 +204,7 @@ namespace Implem.Pleasanter.Libraries.Search
                             .Where(o => o.String("ReferenceType") == "Wikis")
                             .Select(o => o.Long("ReferenceId")))));
             }
-            return Rds.ExecuteDataSet(
+            return Repository.ExecuteDataSet(
                 context: context,
                 statements: statements.ToArray());
         }
@@ -421,7 +421,9 @@ namespace Implem.Pleasanter.Libraries.Search
                     ss: ss,
                     searchText: searchText,
                     siteIdList: siteIdList,
-                    like: Rds.Items_FullText_WhereLike(forward: false));
+                    like: Rds.Items_FullText_WhereLike(
+                        factory: context,
+                        forward: false));
             }
             switch (ss?.SearchType)
             {
@@ -439,20 +441,26 @@ namespace Implem.Pleasanter.Libraries.Search
                         ss: ss,
                         searchText: searchText,
                         siteIdList: siteIdList,
-                        like: Rds.Items_Title_WhereLike(forward: true));
+                        like: Rds.Items_Title_WhereLike(
+                            factory: context,
+                            forward: true));
                 case SiteSettings.SearchTypes.BroadMatchOfTitle:
                     return Select(
                         ss: ss,
                         searchText: searchText,
                         siteIdList: siteIdList,
-                        like: Rds.Items_Title_WhereLike(forward: false));
+                        like: Rds.Items_Title_WhereLike(
+                            factory: context,
+                            forward: false));
                 case SiteSettings.SearchTypes.PartialMatch:
                 default:
                     return Select(
                         ss: ss,
                         searchText: searchText.SearchIndexes().Join(" "),
                         siteIdList: siteIdList,
-                        like: Rds.Items_FullText_WhereLike(forward: false));
+                        like: Rds.Items_FullText_WhereLike(
+                            factory: context,
+                            forward: false));
             }
         }
 
@@ -479,6 +487,7 @@ namespace Implem.Pleasanter.Libraries.Search
         /// </summary>
         public static SqlWhereCollection FullTextWhere(
             this SqlWhereCollection where,
+            Context context,
             SiteSettings ss,
             string searchText,
             bool itemJoin)
@@ -487,6 +496,7 @@ namespace Implem.Pleasanter.Libraries.Search
             if (ss != null && ss.TableType != Sqls.TableTypes.Normal)
             {
                 return where.ItemWhereLike(
+                    context: context,
                     ss: ss,
                     columnName: "FullText",
                     searchText: searchText,
@@ -502,12 +512,14 @@ namespace Implem.Pleasanter.Libraries.Search
                     if (itemJoin)
                     {
                         where.FullTextWhere(
+                            context:context,
                             words: words,
                             itemsTableName: ss.ReferenceType + "_Items");
                     }
                     else
                     {
                         where.FullTextWhere(
+                            context: context,
                             words: words,
                             idColumnBracket: ss.IdColumnBracket(),
                             tableType: ss.TableType);
@@ -515,6 +527,7 @@ namespace Implem.Pleasanter.Libraries.Search
                     return where;
                 case SiteSettings.SearchTypes.MatchInFrontOfTitle:
                     return where.ItemWhereLike(
+                        context: context,
                         ss: ss,
                         columnName: "Title",
                         searchText: searchText,
@@ -523,6 +536,7 @@ namespace Implem.Pleasanter.Libraries.Search
                         itemJoin: itemJoin);
                 case SiteSettings.SearchTypes.BroadMatchOfTitle:
                     return where.ItemWhereLike(
+                        context: context,
                         ss: ss,
                         columnName: "Title",
                         searchText: searchText,
@@ -532,6 +546,7 @@ namespace Implem.Pleasanter.Libraries.Search
                 case SiteSettings.SearchTypes.PartialMatch:
                 default:
                     return where.ItemWhereLike(
+                        context: context,
                         ss: ss,
                         columnName: "FullText",
                         searchText: searchText,
@@ -546,6 +561,7 @@ namespace Implem.Pleasanter.Libraries.Search
         /// </summary>
         private static SqlWhereCollection ItemWhereLike(
             this SqlWhereCollection where,
+            Context context,
             SiteSettings ss,
             string columnName,
             string searchText,
@@ -562,12 +578,14 @@ namespace Implem.Pleasanter.Libraries.Search
                 searchText: searchText,
                 clauseCollection: itemJoin
                     ? ItemWhereLike(
+                        context: context,
                         tableName: tableName,
                         columnName: columnName,
                         name: name,
                         forward: forward)
                             .ToSingleList()
                     : SelectItemWhereLike(
+                        context: context,
                         ss: ss,
                         tableName: tableName,
                         columnName: columnName,
@@ -601,6 +619,7 @@ namespace Implem.Pleasanter.Libraries.Search
         /// Fixed:
         /// </summary>
         private static string ItemWhereLike(
+            Context context,
             string tableName,
             string columnName,
             string name,
@@ -610,11 +629,13 @@ namespace Implem.Pleasanter.Libraries.Search
             {
                 case "Title":
                     return Rds.Items_Title_WhereLike(
+                        factory: context,
                         tableName: tableName,
                         name: name,
                         forward: forward);
                 case "FullText":
                     return Rds.Items_FullText_WhereLike(
+                        factory: context,
                         tableName: tableName,
                         name: name,
                         forward: forward);
@@ -627,6 +648,7 @@ namespace Implem.Pleasanter.Libraries.Search
         /// Fixed:
         /// </summary>
         private static string SelectItemWhereLike(
+            Context context,
             SiteSettings ss,
             string tableName,
             string columnName,
@@ -634,6 +656,7 @@ namespace Implem.Pleasanter.Libraries.Search
             bool forward = false)
         {
             var like = ItemWhereLike(
+                context: context,
                 tableName: tableName,
                 columnName: columnName,
                 name: name,
@@ -697,7 +720,7 @@ namespace Implem.Pleasanter.Libraries.Search
                     words: words,
                     countRecord: true));
             }
-            return Rds.ExecuteDataSet(
+            return Repository.ExecuteDataSet(
                 context: context,
                 statements: statements.ToArray());
         }
@@ -743,7 +766,9 @@ namespace Implem.Pleasanter.Libraries.Search
                             joinType: SqlJoin.JoinTypes.Inner,
                             joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
                     where: Rds.ItemsWhere()
-                        .FullTextWhere(words)
+                        .FullTextWhere(
+                            context: context,
+                            words: words)
                         .Add(
                             raw: Def.Sql.CanRead,
                             _using: !context.HasPrivilege && !context.Publish)
@@ -762,7 +787,9 @@ namespace Implem.Pleasanter.Libraries.Search
                             joinType: SqlJoin.JoinTypes.Inner,
                             joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
                     where: Rds.ItemsWhere()
-                        .FullTextWhere(words)
+                        .FullTextWhere(
+                            context: context,
+                            words: words)
                         .Add(
                             raw: Def.Sql.CanRead,
                             _using: !context.HasPrivilege && !context.Publish)
@@ -777,6 +804,7 @@ namespace Implem.Pleasanter.Libraries.Search
         /// </summary>
         private static SqlWhereCollection FullTextWhere(
             this SqlWhereCollection where,
+            Context context,
             Dictionary<string, string> words,
             string itemsTableName = "Items")
         {
@@ -784,6 +812,7 @@ namespace Implem.Pleasanter.Libraries.Search
                 name: data.Key,
                 value: data.Value,
                 raw: FullTextWhere(
+                    factory: context,
                     name: data.Key,
                     itemsTableName: itemsTableName)));
             return where;
@@ -792,7 +821,7 @@ namespace Implem.Pleasanter.Libraries.Search
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static string FullTextWhere(string name, string itemsTableName = "Items")
+        private static string FullTextWhere(Context factory, string name, string itemsTableName = "Items")
         {
             var item = $"contains([{itemsTableName}].[FullText], @{name}#CommandCount#)";
             var binary = $"exists(select * from [Binaries] where [Binaries].[ReferenceId]=[{itemsTableName}].[ReferenceId] and contains([Bin], @{name}#CommandCount#))";
@@ -806,6 +835,7 @@ namespace Implem.Pleasanter.Libraries.Search
         /// </summary>
         private static SqlWhereCollection FullTextWhere(
             this SqlWhereCollection where,
+            Context context,
             Dictionary<string, string> words,
             string idColumnBracket,
             Sqls.TableTypes tableType)
@@ -814,6 +844,7 @@ namespace Implem.Pleasanter.Libraries.Search
                 name: data.Key,
                 value: data.Value,
                 raw: FullTextWhere(
+                    factory: context,
                     name: data.Key,
                     idColumnBracket: idColumnBracket,
                     tableType: tableType)));
@@ -824,6 +855,7 @@ namespace Implem.Pleasanter.Libraries.Search
         /// Fixed:
         /// </summary>
         private static string FullTextWhere(
+            Context factory,
             string name,
             string idColumnBracket,
             Sqls.TableTypes tableType)
@@ -928,7 +960,7 @@ namespace Implem.Pleasanter.Libraries.Search
         public static void RebuildSearchIndexes(Context context, long siteId = -1)
         {
             var hash = new Dictionary<long, SiteModel>();
-            Rds.ExecuteTable(
+            Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectItems(
                     column: Rds.ItemsColumn()
@@ -986,7 +1018,7 @@ namespace Implem.Pleasanter.Libraries.Search
                                 ss: siteModel.SiteSettings,
                                 id: data.ReferenceId,
                                 force: true);
-                            Rds.ExecuteNonQuery(
+                            Repository.ExecuteNonQuery(
                                 context: currentContext,
                                 statements: Rds.UpdateItems(
                                     where: Rds.ItemsWhere()

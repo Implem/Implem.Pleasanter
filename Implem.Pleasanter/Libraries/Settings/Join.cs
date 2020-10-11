@@ -10,6 +10,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public List<string> Title;
 
+        public Join()
+        {
+        }
+
         public Join(string title)
         {
             Title = new List<string>() { title };

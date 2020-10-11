@@ -19,7 +19,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
         {
             SiteId = siteModel.SiteId;
             recordIdList.Add(SiteId);
-            var dataTable = Rds.ExecuteTable(
+            var dataTable = Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectPermissions(
                     column: Rds.PermissionsColumn()

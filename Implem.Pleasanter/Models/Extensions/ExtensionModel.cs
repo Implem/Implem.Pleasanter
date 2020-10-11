@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
@@ -173,7 +174,7 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(context, Rds.ExecuteTable(
+            Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectExtensions(
                     tableType: tableType,
@@ -201,7 +202,7 @@ namespace Implem.Pleasanter.Models
                 tableType: tableType,
                 param: param,
                 otherInitValue: otherInitValue));
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 selectIdentity: true,
@@ -255,7 +256,7 @@ namespace Implem.Pleasanter.Models
                 param: param,
                 otherInitValue: otherInitValue,
                 additionalStatements: additionalStatements));
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
@@ -325,7 +326,10 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         extensionModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(ExtensionId))
+                new SqlStatement(Def.Sql.IfConflicted.Params(ExtensionId)) {
+                    IfConflicted = true,
+                    Id = ExtensionId
+                }
             };
         }
 
@@ -356,7 +360,7 @@ namespace Implem.Pleasanter.Models
                     param: param ?? Rds.ExtensionsParamDefault(
                         context: context, extensionModel: this, setDefault: true))
             };
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 selectIdentity: true,
@@ -372,9 +376,11 @@ namespace Implem.Pleasanter.Models
             var where = Rds.ExtensionsWhere().ExtensionId(ExtensionId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteExtensions(where: where)
+                Rds.DeleteExtensions(
+                    factory: context,
+                    where: where)
             });
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
@@ -384,13 +390,14 @@ namespace Implem.Pleasanter.Models
         public ErrorData Restore(Context context, int extensionId)
         {
             ExtensionId = extensionId;
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
                     Rds.RestoreExtensions(
+                        factory: context,
                         where: Rds.ExtensionsWhere().ExtensionId(ExtensionId))
                 });
             return new ErrorData(type: Error.Types.None);
@@ -399,7 +406,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData PhysicalDelete(
             Context context, Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: Rds.PhysicalDeleteExtensions(

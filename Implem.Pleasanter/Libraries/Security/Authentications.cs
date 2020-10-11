@@ -43,7 +43,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 .GetSection("system.web/authentication")).Mode.ToString() == "Windows";
         }
 
-        public static bool SSO()
+        public static bool SSO(Context context)
         {
             return Windows() || SAML();
         }

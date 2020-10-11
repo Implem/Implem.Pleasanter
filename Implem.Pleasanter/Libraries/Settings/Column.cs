@@ -796,7 +796,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     Rds.IdColumn(SiteSettings.ReferenceType),
                     referenceId,
                     ColumnName),
-                param);
+                param)
+            { IfDuplicated = true };
         }
 
         public string TableName()

@@ -48,7 +48,7 @@ namespace Implem.Pleasanter.Models
                         referenceId, Libraries.Images.ImageData.Types.SiteImage)
                             .Exists(sizeType);
                 default:
-                    return Rds.ExecuteScalar_int(
+                    return Repository.ExecuteScalar_int(
                         context: context,
                         statements: Rds.SelectBinaries(
                             column: Rds.BinariesColumn().BinariesCount(),
@@ -82,7 +82,7 @@ namespace Implem.Pleasanter.Models
                         referenceId, Libraries.Images.ImageData.Types.TenantImage)
                             .Exists(sizeType);
                 default:
-                    return Rds.ExecuteScalar_int(
+                    return Repository.ExecuteScalar_int(
                         context: context,
                         statements: Rds.SelectBinaries(
                             column: Rds.BinariesColumn().BinariesCount(),
@@ -182,7 +182,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return (null,null);
+                default: return (null, null);
             }
             var binaryModel = new BinaryModel(
                 context: context,
@@ -213,7 +213,7 @@ namespace Implem.Pleasanter.Models
                 default: return (null, null);
             }
             var binaryModel = new BinaryModel(
-                context:context,
+                context: context,
                 referenceId: tenantModel.TenantId,
                 binaryType: "TenantImage");
             return  (
@@ -448,7 +448,7 @@ namespace Implem.Pleasanter.Models
                         file.Guid + "_thumbnail"));
                 }
             }
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.InsertBinaries(
                     param: Rds.BinariesParam()
@@ -482,7 +482,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     where: Rds.BinariesWhere()
                         .TenantId(context.TenantId)
-                        .Guid(guid));
+                        .Guid(guid.ToUpper()));
             var ss = new ItemModel(
                 context: context,
                 referenceId: binaryModel.ReferenceId)
@@ -588,7 +588,7 @@ namespace Implem.Pleasanter.Models
             {
                 return null;
             }
-            return FileContentResults.Download(context: context, guid: guid);
+            return FileContentResults.Download(context: context, guid: guid.ToUpper());
         }
 
         /// <summary>
@@ -600,7 +600,7 @@ namespace Implem.Pleasanter.Models
             {
                 return null;
             }
-            return FileContentResults.DownloadByApi(context: context, guid: guid);
+            return FileContentResults.DownloadByApi(context: context, guid: guid.ToUpper());
         }
 
         /// <summary>
@@ -612,7 +612,7 @@ namespace Implem.Pleasanter.Models
             {
                 return null;
             }
-            return FileContentResults.DownloadTemp(guid);
+            return FileContentResults.DownloadTemp(guid.ToUpper());
         }
 
         /// <summary>
@@ -633,7 +633,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static decimal UsedTenantStorageSize(Context context)
         {
-            return Rds.ExecuteScalar_decimal(
+            return Repository.ExecuteScalar_decimal(
                 context: context,
                 statements: Rds.SelectBinaries(
                     column: Rds.BinariesColumn().Size(function: Sqls.Functions.Sum),

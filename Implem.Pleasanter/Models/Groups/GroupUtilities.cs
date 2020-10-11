@@ -1218,14 +1218,14 @@ namespace Implem.Pleasanter.Models
             var switchTargets = new List<int>();
             if (Parameters.General.SwitchTargetsLimit > 0)
             {
-                if (Rds.ExecuteScalar_long(
+                if (Repository.ExecuteScalar_int(
                     context: context,
                     statements: Rds.SelectGroups(
                         column: Rds.GroupsColumn().GroupsCount(),
                         join: join,
                         where: where)) <= Parameters.General.SwitchTargetsLimit)
                 {
-                    switchTargets = Rds.ExecuteTable(
+                    switchTargets = Repository.ExecuteTable(
                         context: context,
                         statements: Rds.SelectGroups(
                             column: Rds.GroupsColumn().GroupId(),
@@ -1727,7 +1727,7 @@ namespace Implem.Pleasanter.Models
             Context context, GroupModel groupModel)
         {
             var data = new Dictionary<string, ControlData>();
-            Rds.ExecuteTable(
+            Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectGroupMembers(
                     column: Rds.GroupMembersColumn()
@@ -1804,7 +1804,7 @@ namespace Implem.Pleasanter.Models
             if (!searchText.IsNullOrEmpty())
             {
                 var currentMembers = context.Forms.List("CurrentMembersAll");
-                Rds.ExecuteTable(
+                Repository.ExecuteTable(
                     context: context,
                     statements: new SqlStatement[]
                     {
@@ -1828,8 +1828,8 @@ namespace Implem.Pleasanter.Models
                                     searchText: searchText,
                                     clauseCollection: new List<string>()
                                     {
-                                        Rds.Depts_DeptCode_WhereLike(),
-                                        Rds.Depts_DeptName_WhereLike()
+                                        Rds.Depts_DeptCode_WhereLike(factory: context),
+                                        Rds.Depts_DeptName_WhereLike(factory: context)
                                     })),
                         Rds.SelectUsers(
                             unionType: Sqls.UnionTypes.Union,
@@ -1857,15 +1857,15 @@ namespace Implem.Pleasanter.Models
                                     searchText: searchText,
                                     clauseCollection: new List<string>()
                                     {
-                                        Rds.Users_LoginId_WhereLike(),
-                                        Rds.Users_Name_WhereLike(),
-                                        Rds.Users_UserCode_WhereLike(),
-                                        Rds.Users_Body_WhereLike(),
-                                        Rds.Depts_DeptCode_WhereLike(),
-                                        Rds.Depts_DeptName_WhereLike(),
-                                        Rds.Depts_Body_WhereLike()
+                                        Rds.Users_LoginId_WhereLike(factory: context),
+                                        Rds.Users_Name_WhereLike(factory: context),
+                                        Rds.Users_UserCode_WhereLike(factory: context),
+                                        Rds.Users_Body_WhereLike(factory: context),
+                                        Rds.Depts_DeptCode_WhereLike(factory: context),
+                                        Rds.Depts_DeptName_WhereLike(factory: context),
+                                        Rds.Depts_Body_WhereLike(factory: context)
                                     })
-                                .Users_Disabled(0))
+                                .Users_Disabled(false))
                     })
                         .AsEnumerable()
                         .OrderBy(dataRow => dataRow.Bool("IsUser"))
@@ -1969,9 +1969,9 @@ namespace Implem.Pleasanter.Models
                     ?.FirstOrDefault(),
                     clauseCollection: new List<string>()
                     {
-                        Rds.Groups_GroupId_WhereLike(),
-                        Rds.Groups_GroupName_WhereLike(),
-                        Rds.Groups_Body_WhereLike()
+                        Rds.Groups_GroupId_WhereLike(factory: context),
+                        Rds.Groups_GroupName_WhereLike(factory: context),
+                        Rds.Groups_Body_WhereLike(factory: context)
                     })
                 .Add(
                     tableName: "Groups",

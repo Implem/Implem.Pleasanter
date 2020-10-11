@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
@@ -264,7 +265,7 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(context, Rds.ExecuteTable(
+            Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectBinaries(
                     tableType: tableType,
@@ -294,7 +295,7 @@ namespace Implem.Pleasanter.Models
                 tableType: tableType,
                 param: param,
                 otherInitValue: otherInitValue));
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 selectIdentity: true,
@@ -348,7 +349,7 @@ namespace Implem.Pleasanter.Models
                 param: param,
                 otherInitValue: otherInitValue,
                 additionalStatements: additionalStatements));
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
@@ -418,7 +419,10 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         binaryModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(BinaryId))
+                new SqlStatement(Def.Sql.IfConflicted.Params(BinaryId)) {
+                    IfConflicted = true,
+                    Id = BinaryId
+                }
             };
         }
 
@@ -449,7 +453,7 @@ namespace Implem.Pleasanter.Models
                     param: param ?? Rds.BinariesParamDefault(
                         context: context, binaryModel: this, setDefault: true))
             };
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 selectIdentity: true,
@@ -465,9 +469,11 @@ namespace Implem.Pleasanter.Models
             var where = Rds.BinariesWhere().BinaryId(BinaryId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteBinaries(where: where)
+                Rds.DeleteBinaries(
+                    factory: context,
+                    where: where)
             });
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
@@ -477,13 +483,14 @@ namespace Implem.Pleasanter.Models
         public ErrorData Restore(Context context, long binaryId)
         {
             BinaryId = binaryId;
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
                     Rds.RestoreBinaries(
+                        factory: context,
                         where: Rds.BinariesWhere().BinaryId(BinaryId))
                 });
             return new ErrorData(type: Error.Types.None);
@@ -492,7 +499,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData PhysicalDelete(
             Context context, Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: Rds.PhysicalDeleteBinaries(
@@ -741,7 +748,7 @@ namespace Implem.Pleasanter.Models
                         ReferenceId, Libraries.Images.ImageData.Types.SiteImage)
                             .UrlPrefix(sizeType);
                 default:
-                    return Rds.ExecuteScalar_datetime(
+                    return Repository.ExecuteScalar_datetime(
                         context: context,
                         statements: Rds.SelectBinaries(
                             column: Rds.BinariesColumn()
@@ -766,7 +773,7 @@ namespace Implem.Pleasanter.Models
                         ReferenceId, Libraries.Images.ImageData.Types.TenantImage)
                             .UrlPrefix(sizeType);
                 default:
-                    return Rds.ExecuteScalar_datetime(
+                    return Repository.ExecuteScalar_datetime(
                         context: context,
                         statements: Rds.SelectBinaries(
                             column: Rds.BinariesColumn()
@@ -793,7 +800,7 @@ namespace Implem.Pleasanter.Models
                         ReferenceId, Libraries.Images.ImageData.Types.SiteImage)
                             .Read(sizeType);
                 default:
-                    return Rds.ExecuteScalar_bytes(
+                    return Repository.ExecuteScalar_bytes(
                         context: context,
                         statements: Rds.SelectBinaries(
                             column: column,
@@ -818,7 +825,7 @@ namespace Implem.Pleasanter.Models
                         ReferenceId, Libraries.Images.ImageData.Types.TenantImage)
                             .Read(sizeType);
                 default:
-                    return Rds.ExecuteScalar_bytes(
+                    return Repository.ExecuteScalar_bytes(
                         context: context,
                         statements: Rds.SelectBinaries(
                             column: column,
@@ -847,7 +854,7 @@ namespace Implem.Pleasanter.Models
                         Libraries.Images.ImageData.SizeTypes.Thumbnail);
                     Icon = imageData.ReSizeBytes(Libraries.Images.ImageData.SizeTypes.Icon);
                     ContentType = "image/png";
-                    Rds.ExecuteNonQuery(
+                    Repository.ExecuteNonQuery(
                         context: context,
                         transactional: true,
                         statements: Rds.UpdateOrInsertBinaries(
@@ -879,7 +886,7 @@ namespace Implem.Pleasanter.Models
                 default:
                     Bin = imageData.ReSizeBytes(Libraries.Images.ImageData.SizeTypes.Logo);
                     ContentType = "image/png";
-                    Rds.ExecuteNonQuery(
+                    Repository.ExecuteNonQuery(
                         context: context,
                         transactional: true,
                         statements: Rds.UpdateOrInsertBinaries(
@@ -910,7 +917,7 @@ namespace Implem.Pleasanter.Models
                             .DeleteLocalFiles();
                     break;
                 default:
-                    Rds.ExecuteNonQuery(
+                    Repository.ExecuteNonQuery(
                         context: context,
                         statements: Rds.PhysicalDeleteBinaries(
                             where: Rds.BinariesWhere()
@@ -936,7 +943,7 @@ namespace Implem.Pleasanter.Models
                             .DeleteLocalFiles();
                     break;
                 default:
-                    Rds.ExecuteNonQuery(
+                    Repository.ExecuteNonQuery(
                         context: context,
                         statements: Rds.PhysicalDeleteBinaries(
                             where: Rds.BinariesWhere()

@@ -67,7 +67,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool UsersLimit(Context context, int number = 1)
         {
             return Users > 0
-                && Rds.ExecuteScalar_int(
+                && Repository.ExecuteScalar_int(
                     context: context,
                     statements: Rds.SelectUsers(
                     column: Rds.UsersColumn().UsersCount(),
@@ -77,7 +77,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool SitesLimit(Context context, int number = 1)
         {
             return Sites > 0
-                && Rds.ExecuteScalar_int(
+                && Repository.ExecuteScalar_int(
                     context: context,
                     statements: Rds.SelectSites(
                         column: Rds.SitesColumn().SitesCount(),
@@ -87,7 +87,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool ItemsLimit(Context context, long siteId, int number = 1)
         {
             return Items > 0
-                && Rds.ExecuteScalar_int(
+                && Repository.ExecuteScalar_int(
                     context: context,
                     statements: Rds.SelectItems(
                         column: Rds.ItemsColumn().ItemsCount(),

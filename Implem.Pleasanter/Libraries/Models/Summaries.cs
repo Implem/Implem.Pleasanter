@@ -134,7 +134,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     where: Where(
                         context: context, ss: destinationSs, view: null, where: where));
                 var matchingConditions = destinationCondition != null
-                    ? Rds.ExecuteTable(
+                    ? Repository.ExecuteTable(
                         context: context,
                         statements: Rds.SelectIssues(
                             column: Rds.IssuesColumn().IssueId(),
@@ -204,7 +204,7 @@ namespace Implem.Pleasanter.Libraries.Models
             switch (destinationColumn)
             {
                 case "WorkValue":
-                    return Rds.ExecuteTable(
+                    return Repository.ExecuteTable(
                         context: context,
                         statements: Select(
                             context: context,
@@ -220,7 +220,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     switch (Def.ExtendedColumnTypes.Get(destinationColumn))
                     {
                         case "Num":
-                            return Rds.ExecuteTable(
+                            return Repository.ExecuteTable(
                                 context: context,
                                 statements: Select(
                                     context: context,
@@ -284,7 +284,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     where: Where(
                         context: context, ss: destinationSs, view: null, where: where));
                 var matchingConditions = destinationCondition != null
-                    ? Rds.ExecuteTable(
+                    ? Repository.ExecuteTable(
                         context: context,
                         statements: Rds.SelectResults(
                             column: Rds.ResultsColumn().ResultId(),
@@ -357,7 +357,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     switch (Def.ExtendedColumnTypes.Get(destinationColumn))
                     {
                         case "Num":
-                            return Rds.ExecuteTable(
+                            return Repository.ExecuteTable(
                                 context: context,
                                 statements: Select(
                                     context: context,

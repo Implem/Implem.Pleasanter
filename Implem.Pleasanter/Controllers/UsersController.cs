@@ -318,16 +318,20 @@ namespace Implem.Pleasanter.Controllers
                     where: Rds.TenantsWhere().TenantId(Parameters.Authentication.SamlParameters.SamlTenantId));
                 if (tenant.AccessStatus != Databases.AccessStatuses.Selected)
                 {
-                    Rds.ExecuteNonQuery(
+                    Repository.ExecuteNonQuery(
                         context: context,
                         connectionString: Parameters.Rds.OwnerConnectionString,
                         statements: new[] {
-                        Rds.IdentityInsertTenants(on:true),
+                        Rds.IdentityInsertTenants(
+                            factory: context,
+                            on:true),
                         Rds.InsertTenants(
                             param: Rds.TenantsParam()
                                 .TenantId(Parameters.Authentication.SamlParameters.SamlTenantId)
                                 .TenantName("DefaultTenant")),
-                        Rds.IdentityInsertTenants(on: false)
+                        Rds.IdentityInsertTenants(
+                            factory: context,
+                            on: false)
                         });
                     tenant.TenantId = Parameters.Authentication.SamlParameters.SamlTenantId;
                 }

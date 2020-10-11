@@ -20,7 +20,7 @@ namespace Implem.Pleasanter.Libraries.Server
 
         private void Get(Context context)
         {
-            Rds.ExecuteTable(
+            Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectSites(
                     column: Rds.SitesColumn()
@@ -139,7 +139,7 @@ namespace Implem.Pleasanter.Libraries.Server
         public IEnumerable<SiteCondition> SiteConditions(Context context, SiteSettings ss)
         {
             var hash = ChildHash(context: context, ss: ss);
-            var sites = Rds.ExecuteTable(
+            var sites = Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectSites(
                     column: Rds.SitesColumn()
@@ -156,7 +156,7 @@ namespace Implem.Pleasanter.Libraries.Server
             var issues = sites
                 .Where(o => o.String("ReferenceType") == "Issues")
                 .Select(o => o["SiteId"].ToLong());
-            var dataSet = Rds.ExecuteDataSet(
+            var dataSet = Repository.ExecuteDataSet(
                 context: context,
                 statements: new SqlStatement[]
                 {
@@ -231,7 +231,7 @@ namespace Implem.Pleasanter.Libraries.Server
 
         private DataRow SiteMenuElementDataRow(Context context, long siteId)
         {
-            return Rds.ExecuteTable(
+            return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectSites(
                     column: Rds.SitesColumn()

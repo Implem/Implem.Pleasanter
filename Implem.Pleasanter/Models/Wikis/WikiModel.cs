@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
@@ -276,7 +277,7 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(context, ss, Rds.ExecuteTable(
+            Set(context, ss, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectWikis(
                     tableType: tableType,
@@ -408,7 +409,7 @@ namespace Implem.Pleasanter.Models
                 tableType: tableType,
                 param: param,
                 otherInitValue: otherInitValue));
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 selectIdentity: true,
@@ -448,7 +449,7 @@ namespace Implem.Pleasanter.Models
                     siteId: SiteId,
                     id: WikiId);
             }
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
@@ -534,7 +535,7 @@ namespace Implem.Pleasanter.Models
                 param: param,
                 otherInitValue: otherInitValue,
                 additionalStatements: additionalStatements));
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
@@ -546,7 +547,7 @@ namespace Implem.Pleasanter.Models
             }
             if (Title_Updated(context: context))
             {
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     statements: new SqlStatement[]
                     {
@@ -651,7 +652,10 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         wikiModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(WikiId))
+                new SqlStatement(Def.Sql.IfConflicted.Params(WikiId)) {
+                    IfConflicted = true,
+                    Id = WikiId
+                }
             };
         }
 
@@ -678,7 +682,7 @@ namespace Implem.Pleasanter.Models
             bool addUpdatorParam = true,
             bool updateItems = true)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: UpdateRelatedRecordsStatements(
@@ -759,7 +763,7 @@ namespace Implem.Pleasanter.Models
                     param: param ?? Rds.WikisParamDefault(
                         context: context, wikiModel: this, setDefault: true))
             };
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 selectIdentity: true,
@@ -779,16 +783,20 @@ namespace Implem.Pleasanter.Models
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.DeleteItems(
+                    factory: context,
                     where: Rds.ItemsWhere().ReferenceId(WikiId)),
                 Rds.DeleteWikis(
+                    factory: context,
                     where: Rds.WikisWhere().SiteId(SiteId).WikiId(WikiId)),
                 Rds.DeleteItems(
+                    factory: context,
                     where: Rds.ItemsWhere().ReferenceId(SiteId)),
                 Rds.DeleteSites(
+                    factory: context,
                     where: Rds.SitesWhere().SiteId(SiteId))
             });
             statements.OnDeletedExtendedSqls(SiteId, WikiId);
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
@@ -809,15 +817,17 @@ namespace Implem.Pleasanter.Models
         public ErrorData Restore(Context context, SiteSettings ss,long wikiId)
         {
             WikiId = wikiId;
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
                     Rds.RestoreItems(
+                        factory: context,
                         where: Rds.ItemsWhere().ReferenceId(WikiId)),
                     Rds.RestoreWikis(
+                        factory: context,
                         where: Rds.WikisWhere().WikiId(WikiId))
                 });
             return new ErrorData(type: Error.Types.None);
@@ -826,7 +836,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData PhysicalDelete(
             Context context, SiteSettings ss,Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: Rds.PhysicalDeleteWikis(
@@ -1009,7 +1019,7 @@ namespace Implem.Pleasanter.Models
                             break;
                     }
                 });
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateWikis(
                     param: param,
@@ -1160,7 +1170,7 @@ namespace Implem.Pleasanter.Models
                 ss: ss);
             if (notifications?.Any() == true)
             {
-                var dataSet = Rds.ExecuteDataSet(
+                var dataSet = Repository.ExecuteDataSet(
                     context: context,
                     statements: notifications.Select(notification =>
                     {
@@ -1203,7 +1213,7 @@ namespace Implem.Pleasanter.Models
                 if (notification.HasRelatedUsers())
                 {
                     var users = new List<int>();
-                    Rds.ExecuteTable(
+                    Repository.ExecuteTable(
                         context: context,
                         statements: Rds.SelectWikis(
                             tableType: Sqls.TableTypes.All,

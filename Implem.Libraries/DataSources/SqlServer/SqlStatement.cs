@@ -1,4 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -27,6 +28,12 @@ namespace Implem.Libraries.DataSources.SqlServer
         public bool Terminate = true;
         public bool Using = true;
         public Sqls.UnionTypes UnionType;
+        public string IdentityColumnName;
+        public bool IfConflicted = false;
+        public bool IfDuplicated = false;
+        public bool IsRowCount = false;
+        public long? Id;
+        public IEnumerable<SqlParam> AdditionalParams;
 
         public SqlStatement()
         {

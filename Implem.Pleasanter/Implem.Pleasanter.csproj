@@ -254,6 +254,7 @@
     <Compile Include="Interfaces\IExportModel.cs" />
     <Compile Include="Interfaces\ISettingListItem.cs" />
     <Compile Include="Libraries\DataSources\Line.cs" />
+    <Compile Include="Libraries\DataSources\Repository.cs" />
     <Compile Include="Libraries\DataSources\Saml.cs" />
     <Compile Include="Libraries\DataSources\Teams.cs" />
     <Compile Include="Libraries\DataTypes\Group.cs" />
