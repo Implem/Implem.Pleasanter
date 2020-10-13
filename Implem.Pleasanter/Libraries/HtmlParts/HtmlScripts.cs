@@ -20,7 +20,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             if (!context.Ajax)
             {
-                var extendedScripts = ExtendedScripts(context: context); ;
+                var extendedScripts = ExtendedScripts(context: context);
                 return hb
                     .Script(src: Responses.Locations.Get(
                         context: context,

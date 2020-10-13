@@ -15,6 +15,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string RecordingJson()
         {
             var us = new UserSettings();
+            if (EnableManageTenant == true)
+            {
+                us.EnableManageTenant = EnableManageTenant;
+            }
             if (DisableTopSiteCreation == true)
             {
                 us.DisableTopSiteCreation = DisableTopSiteCreation;

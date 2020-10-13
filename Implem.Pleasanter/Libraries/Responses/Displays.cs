@@ -2309,6 +2309,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ExcessLicenseWarning(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ExcessLicenseWarning",
+                data: data);
+        }
+
         public static string ExcludeData(
             Context context,
             params string[] data)
@@ -2486,6 +2496,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Expression",
+                data: data);
+        }
+
+        public static string ExtendedCellCss(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ExtendedCellCss",
                 data: data);
         }
 
@@ -5169,13 +5189,23 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string PhysicalDeleted(
+        public static string PhysicalBulkDeleted(
             Context context,
             params string[] data)
         {
             return Get(
                 context: context,
-                id: "PhysicalDeleted",
+                id: "PhysicalBulkDeleted",
+                data: data);
+        }
+
+        public static string PhysicalBulkDeletedFromRecycleBin(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "PhysicalBulkDeletedFromRecycleBin",
                 data: data);
         }
 

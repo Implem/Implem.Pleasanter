@@ -30,7 +30,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, SqlOrderBy.Types> ColumnSorterHash;
         public string CalendarTimePeriod;
         public string CalendarFromTo;
-        public DateTime? CalendarMonth;
+        public DateTime? CalendarDate;
+        public string CalendarGroupBy;
         public string CrosstabGroupByX;
         public string CrosstabGroupByY;
         public string CrosstabColumns;
@@ -102,6 +103,18 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string GetCalendarToColumn(SiteSettings ss)
         {
             return GetCalendarFromTo(ss).Split_2nd('-');
+        }
+
+        public DateTime GetCalendarDate()
+        {
+            return CalendarDate ?? DateTime.Now;
+        }
+
+        public string GetCalendarGroupBy()
+        {
+            return !CalendarGroupBy.IsNullOrEmpty()
+                ? CalendarGroupBy
+                : string.Empty;
         }
 
         public string GetCrosstabGroupByX(Context context, SiteSettings ss)
@@ -379,8 +392,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     context: context,
                                     controlId: controlId);
                                 break;
-                            case "CalendarMonth":
-                                CalendarMonth = Time(
+                            case "CalendarDate":
+                                CalendarDate = Time(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "CalendarGroupBy":
+                                CalendarGroupBy = String(
                                     context: context,
                                     controlId: controlId);
                                 break;
@@ -713,9 +731,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 view.CalendarFromTo = CalendarFromTo;
             }
-            if (CalendarMonth?.InRange() == true)
+            if (CalendarDate?.InRange() == true)
             {
-                view.CalendarMonth = CalendarMonth;
+                view.CalendarDate = CalendarDate;
+            }
+            if (!CalendarGroupBy.IsNullOrEmpty())
+            {
+                view.CalendarGroupBy = CalendarGroupBy;
             }
             if (!CrosstabGroupByX.IsNullOrEmpty())
             {
@@ -1165,7 +1187,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         private DateTime ConvertDateTimeParam(string dateTimeString, Column column)
         {
             var dt = dateTimeString.ToDateTime();
-            switch (column.ColumnName)
+            switch (column.Name)
             {
                 case "CompletionTime":
                     return column.DateTimepicker() ? dt : dt.AddDays(1);

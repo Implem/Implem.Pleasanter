@@ -15,9 +15,7 @@ using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
 using System.Linq;
-using System.Threading.Tasks;
 namespace Implem.Pleasanter.Libraries.Search
 {
     public static class Indexes
@@ -847,7 +845,7 @@ namespace Implem.Pleasanter.Libraries.Search
                 name: data.Key,
                 value: data.Value,
                 raw: FullTextWhere(
-                    factory:context,
+                    factory: context,
                     name: data.Key,
                     idColumnBracket: idColumnBracket,
                     tableType: tableType)));
@@ -992,6 +990,8 @@ namespace Implem.Pleasanter.Libraries.Search
                         {
                             ReferenceId = o["ReferenceId"].ToLong(),
                             SiteId = o["SiteId"].ToLong(),
+                            UpdatedTime = o.Field<DateTime>("UpdatedTime")
+                                .ToString("yyyy/M/d H:m:s.fff"),
                             TenantId = o.Int("TenantId"),
                             DeptId = o.Int("DeptId"),
                             UserId = o.Int("UserId")

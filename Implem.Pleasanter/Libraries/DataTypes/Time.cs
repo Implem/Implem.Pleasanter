@@ -65,9 +65,15 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return DisplayValue.Date != DateTime.Now.ToLocal(context: context).Date;
         }
 
-        public virtual HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
+        public virtual HtmlBuilder Td(
+            HtmlBuilder hb,
+            Context context,
+            Column column,
+            int? tabIndex)
         {
-            return hb.Td(action: () => hb
+            return hb.Td(
+                css: column.CellCss(),
+                action: () => hb
                 .P(css: "time", action: () => hb
                     .Text(column.DisplayGrid(
                         context: context,

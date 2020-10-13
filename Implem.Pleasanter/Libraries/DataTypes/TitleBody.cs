@@ -28,15 +28,33 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return Value + "\r\n" + Body;
         }
 
-        public override HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
+        public override HtmlBuilder Td(
+            HtmlBuilder hb,
+            Context context,
+            Column column,
+            int? tabIndex)
         {
-            return hb.Td(action: () => TdTitleBody(hb: hb, context: context, column: column));
+            return hb.Td(
+                css: column.CellCss(),
+                action: () => TdTitleBody(
+                    hb: hb,
+                    context: context,
+                    column: column,
+                    tabIndex: tabIndex));
         }
 
-        private HtmlBuilder TdTitleBody(HtmlBuilder hb, Context context, Column column)
+        private HtmlBuilder TdTitleBody(
+            HtmlBuilder hb,
+            Context context,
+            Column column,
+            int? tabIndex = null)
         {
             return hb.Div(css: "grid-title-body", action: () => hb
-                .P(css: "title", action: () => TdTitle(hb: hb, context: context, column: column))
+                .P(css: "title", action: () => TdTitle(
+                    hb: hb,
+                    context: context,
+                    column: column,
+                    tabIndex: tabIndex))
                 .P(css: "body markup", action: () => hb
                         .Text(text: Body)));
         }

@@ -8,6 +8,8 @@
         public bool OnCreated;
         public bool OnUpdating;
         public bool OnUpdated;
+        public bool OnUpdatingByGrid;
+        public bool OnUpdatedByGrid;
         public bool OnDeleting;
         public bool OnDeleted;
         public bool OnBulkUpdating;

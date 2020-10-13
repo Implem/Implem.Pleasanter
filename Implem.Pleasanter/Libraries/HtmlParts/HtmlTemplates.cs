@@ -43,6 +43,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ss: ss,
                 body: body,
                 action: () => hb
+                    .Raw(HtmlHtmls.ExtendedHtmls(
+                        context: context,
+                        id: "HtmlBodyTop"))
                     .MainContainer(
                         context: context,
                         ss: ss,
@@ -59,6 +62,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         useSearch: useSearch,
                         useNavigationMenu: useNavigationMenu,
                         action: action)
+                    .TemplateDialogs(
+                        context: context,
+                        ss: ss,
+                        useNavigationMenu: useNavigationMenu)
                     .HiddenData(
                         context: context,
                         ss: ss)
@@ -73,7 +80,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         context: context,
                         ss: ss,
                         script: script,
-                        userScript: userScript));
+                        userScript: userScript)
+                    .Raw(HtmlHtmls.ExtendedHtmls(
+                        context: context,
+                        id: "HtmlBodyBottom")));
         }
 
         private static HtmlBuilder Container(
@@ -318,6 +328,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Div(id: "Warnings", action: () => hb
                 .SwitchUserInfo(context: context)
+                .ExcessLicenseWarning(context: context)
                 .PublishWarning(
                     context: context,
                     ss: ss))
@@ -342,6 +353,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .DataConfirm("ConfirmSwitchUser"),
                         action: () => hb
                             .Text(text: Displays.SwitchUserInfo(context: context))))
+                : hb;
+        }
+
+        private static HtmlBuilder ExcessLicenseWarning(this HtmlBuilder hb, Context context)
+        {
+            return UserUtilities.ExcessLicense(context: context)
+                ? hb.Div(id: "ExcessLicenseWarning", action: () => hb
+                    .Div(action: () => hb
+                        .Text(text: Displays.ExcessLicenseWarning(
+                            context: context,
+                            data: Parameters.LicensedUsers().ToString()))))
                 : hb;
         }
 
@@ -476,6 +498,30 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     : hb;
         }
 
+        private static HtmlBuilder TemplateDialogs(
+            this HtmlBuilder hb, Context context, SiteSettings ss, bool useNavigationMenu = true)
+        {
+            return !context.Ajax
+                ? hb.Div(
+                    id: "TemplateDialogs",
+                    action: () => hb.Div(
+                        id: "ChangePassword",
+                        action: () => hb.Div(
+                            attributes: new HtmlAttributes()
+                                .Id("ChangePasswordDialog")
+                                .Class("dialog")
+                                .Title(Displays.ChangePassword(context: context)),
+                            action: () => hb.ChangePasswordDialog(
+                                context: context,
+                                ss: ss,
+                                content: false)),
+                        _using: useNavigationMenu
+                            && !Parameters.Service.ShowProfiles
+                            && Parameters.Service.ShowChangePassword))
+                : hb;
+        }
+
+
         private static HtmlBuilder HiddenData(
             this HtmlBuilder hb, Context context, SiteSettings ss = null)
         {
@@ -503,6 +549,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .ToJson())
                     .HiddenSiteSettings(context: context, ss: ss)
                     .ExtendedSql(context: context)
+                    .Hidden(
+                        controlId: "data-validation-maxlength-type", 
+                        value: Parameters.Validation.MaxLengthCountType)
+                    .Hidden(
+                        controlId: "data-validation-maxlength-regex", 
+                        value: Parameters.Validation.SingleByteCharactorRegexClient)
                 : hb;
         }
 

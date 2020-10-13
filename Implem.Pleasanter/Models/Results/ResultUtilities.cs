@@ -409,7 +409,7 @@ namespace Implem.Pleasanter.Models
                         dataRows: gridData.DataRows,
                         columns: columns,
                         formDataSet: formDataSet,
-                        gridSelector: null,
+                        recordSelector: null,
                         editRow: editRow,
                         checkRow: checkRow));
         }
@@ -496,13 +496,25 @@ namespace Implem.Pleasanter.Models
         }
 
         private static SqlWhereCollection SelectedWhere(
-            Context context, SiteSettings ss)
+            Context context,
+            SiteSettings ss)
         {
-            var selector = new GridSelector(context: context);
+            var selector = new RecordSelector(context: context);
             return !selector.Nothing
                 ? Rds.ResultsWhere().ResultId_In(
                     value: selector.Selected.Select(o => o.ToLong()),
                     negative: selector.All)
+                : null;
+        }
+
+        private static SqlWhereCollection SelectedWhereByApi(
+            SiteSettings ss,
+            RecordSelector recordSelector)
+        {
+            return !recordSelector.Nothing
+                ? Rds.ResultsWhere().ResultId_In(
+                    value: recordSelector.Selected?.Select(o => o.ToLong()) ?? new List<long>(),
+                    negative: recordSelector.All)
                 : null;
         }
 
@@ -542,7 +554,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 view: view,
                                 checkPermission: true),
-                            gridSelector: null,
+                            recordSelector: null,
                             editRow: true,
                             checkRow: false,
                             idColumn: "ResultId"))
@@ -598,7 +610,8 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             Column column,
-            ResultModel resultModel)
+            ResultModel resultModel,
+            int? tabIndex = null)
         {
             if (!column.GridDesign.IsNullOrEmpty())
             {
@@ -623,11 +636,13 @@ namespace Implem.Pleasanter.Models
                                 ? hb.Td(
                                     context: context,
                                     column: column,
-                                    value: resultModel.SiteId)
+                                    value: resultModel.SiteId,
+                                    tabIndex: tabIndex)
                                 : hb.Td(
                                     context: context,
                                     column: column,
-                                    value: string.Empty);
+                                    value: string.Empty,
+                                    tabIndex: tabIndex);
                     case "UpdatedTime":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -638,11 +653,13 @@ namespace Implem.Pleasanter.Models
                                 ? hb.Td(
                                     context: context,
                                     column: column,
-                                    value: resultModel.UpdatedTime)
+                                    value: resultModel.UpdatedTime,
+                                    tabIndex: tabIndex)
                                 : hb.Td(
                                     context: context,
                                     column: column,
-                                    value: string.Empty);
+                                    value: string.Empty,
+                                    tabIndex: tabIndex);
                     case "ResultId":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -653,11 +670,13 @@ namespace Implem.Pleasanter.Models
                                 ? hb.Td(
                                     context: context,
                                     column: column,
-                                    value: resultModel.ResultId)
+                                    value: resultModel.ResultId,
+                                    tabIndex: tabIndex)
                                 : hb.Td(
                                     context: context,
                                     column: column,
-                                    value: string.Empty);
+                                    value: string.Empty,
+                                    tabIndex: tabIndex);
                     case "Ver":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -668,11 +687,13 @@ namespace Implem.Pleasanter.Models
                                 ? hb.Td(
                                     context: context,
                                     column: column,
-                                    value: resultModel.Ver)
+                                    value: resultModel.Ver,
+                                    tabIndex: tabIndex)
                                 : hb.Td(
                                     context: context,
                                     column: column,
-                                    value: string.Empty);
+                                    value: string.Empty,
+                                    tabIndex: tabIndex);
                     case "Title":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -683,11 +704,13 @@ namespace Implem.Pleasanter.Models
                                 ? hb.Td(
                                     context: context,
                                     column: column,
-                                    value: resultModel.Title)
+                                    value: resultModel.Title,
+                                    tabIndex: tabIndex)
                                 : hb.Td(
                                     context: context,
                                     column: column,
-                                    value: string.Empty);
+                                    value: string.Empty,
+                                    tabIndex: tabIndex);
                     case "Body":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -698,11 +721,13 @@ namespace Implem.Pleasanter.Models
                                 ? hb.Td(
                                     context: context,
                                     column: column,
-                                    value: resultModel.Body)
+                                    value: resultModel.Body,
+                                    tabIndex: tabIndex)
                                 : hb.Td(
                                     context: context,
                                     column: column,
-                                    value: string.Empty);
+                                    value: string.Empty,
+                                    tabIndex: tabIndex);
                     case "TitleBody":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -713,11 +738,13 @@ namespace Implem.Pleasanter.Models
                                 ? hb.Td(
                                     context: context,
                                     column: column,
-                                    value: resultModel.TitleBody)
+                                    value: resultModel.TitleBody,
+                                    tabIndex: tabIndex)
                                 : hb.Td(
                                     context: context,
                                     column: column,
-                                    value: string.Empty);
+                                    value: string.Empty,
+                                    tabIndex: tabIndex);
                     case "Status":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -728,11 +755,13 @@ namespace Implem.Pleasanter.Models
                                 ? hb.Td(
                                     context: context,
                                     column: column,
-                                    value: resultModel.Status)
+                                    value: resultModel.Status,
+                                    tabIndex: tabIndex)
                                 : hb.Td(
                                     context: context,
                                     column: column,
-                                    value: string.Empty);
+                                    value: string.Empty,
+                                    tabIndex: tabIndex);
                     case "Manager":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -743,11 +772,13 @@ namespace Implem.Pleasanter.Models
                                 ? hb.Td(
                                     context: context,
                                     column: column,
-                                    value: resultModel.Manager)
+                                    value: resultModel.Manager,
+                                    tabIndex: tabIndex)
                                 : hb.Td(
                                     context: context,
                                     column: column,
-                                    value: string.Empty);
+                                    value: string.Empty,
+                                    tabIndex: tabIndex);
                     case "Owner":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -758,11 +789,13 @@ namespace Implem.Pleasanter.Models
                                 ? hb.Td(
                                     context: context,
                                     column: column,
-                                    value: resultModel.Owner)
+                                    value: resultModel.Owner,
+                                    tabIndex: tabIndex)
                                 : hb.Td(
                                     context: context,
                                     column: column,
-                                    value: string.Empty);
+                                    value: string.Empty,
+                                    tabIndex: tabIndex);
                     case "Locked":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -773,11 +806,13 @@ namespace Implem.Pleasanter.Models
                                 ? hb.Td(
                                     context: context,
                                     column: column,
-                                    value: resultModel.Locked)
+                                    value: resultModel.Locked,
+                                    tabIndex: tabIndex)
                                 : hb.Td(
                                     context: context,
                                     column: column,
-                                    value: string.Empty);
+                                    value: string.Empty,
+                                    tabIndex: tabIndex);
                     case "SiteTitle":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -788,11 +823,13 @@ namespace Implem.Pleasanter.Models
                                 ? hb.Td(
                                     context: context,
                                     column: column,
-                                    value: resultModel.SiteTitle)
+                                    value: resultModel.SiteTitle,
+                                    tabIndex: tabIndex)
                                 : hb.Td(
                                     context: context,
                                     column: column,
-                                    value: string.Empty);
+                                    value: string.Empty,
+                                    tabIndex: tabIndex);
                     case "Comments":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -803,11 +840,13 @@ namespace Implem.Pleasanter.Models
                                 ? hb.Td(
                                     context: context,
                                     column: column,
-                                    value: resultModel.Comments)
+                                    value: resultModel.Comments,
+                                    tabIndex: tabIndex)
                                 : hb.Td(
                                     context: context,
                                     column: column,
-                                    value: string.Empty);
+                                    value: string.Empty,
+                                    tabIndex: tabIndex);
                     case "Creator":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -818,11 +857,13 @@ namespace Implem.Pleasanter.Models
                                 ? hb.Td(
                                     context: context,
                                     column: column,
-                                    value: resultModel.Creator)
+                                    value: resultModel.Creator,
+                                    tabIndex: tabIndex)
                                 : hb.Td(
                                     context: context,
                                     column: column,
-                                    value: string.Empty);
+                                    value: string.Empty,
+                                    tabIndex: tabIndex);
                     case "Updator":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -833,11 +874,13 @@ namespace Implem.Pleasanter.Models
                                 ? hb.Td(
                                     context: context,
                                     column: column,
-                                    value: resultModel.Updator)
+                                    value: resultModel.Updator,
+                                    tabIndex: tabIndex)
                                 : hb.Td(
                                     context: context,
                                     column: column,
-                                    value: string.Empty);
+                                    value: string.Empty,
+                                    tabIndex: tabIndex);
                     case "CreatedTime":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -848,11 +891,13 @@ namespace Implem.Pleasanter.Models
                                 ? hb.Td(
                                     context: context,
                                     column: column,
-                                    value: resultModel.CreatedTime)
+                                    value: resultModel.CreatedTime,
+                                    tabIndex: tabIndex)
                                 : hb.Td(
                                     context: context,
                                     column: column,
-                                    value: string.Empty);
+                                    value: string.Empty,
+                                    tabIndex: tabIndex);
                     default:
                         switch (Def.ExtendedColumnTypes.Get(column.Name))
                         {
@@ -866,11 +911,13 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: resultModel.Class(columnName: column.Name))
+                                            value: resultModel.Class(columnName: column.Name),
+                                            tabIndex: tabIndex)
                                         : hb.Td(
                                             context: context,
                                             column: column,
-                                            value: string.Empty);
+                                            value: string.Empty,
+                                            tabIndex: tabIndex);
                             case "Num":
                                 return ss.ReadColumnAccessControls.Allowed(
                                     context: context,
@@ -881,11 +928,13 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: resultModel.Num(columnName: column.Name))
+                                            value: resultModel.Num(columnName: column.Name),
+                                            tabIndex: tabIndex)
                                         : hb.Td(
                                             context: context,
                                             column: column,
-                                            value: string.Empty);
+                                            value: string.Empty,
+                                            tabIndex: tabIndex);
                             case "Date":
                                 return ss.ReadColumnAccessControls.Allowed(
                                     context: context,
@@ -896,11 +945,13 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: resultModel.Date(columnName: column.Name))
+                                            value: resultModel.Date(columnName: column.Name),
+                                            tabIndex: tabIndex)
                                         : hb.Td(
                                             context: context,
                                             column: column,
-                                            value: string.Empty);
+                                            value: string.Empty,
+                                            tabIndex: tabIndex);
                             case "Description":
                                 return ss.ReadColumnAccessControls.Allowed(
                                     context: context,
@@ -911,11 +962,13 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: resultModel.Description(columnName: column.Name))
+                                            value: resultModel.Description(columnName: column.Name),
+                                            tabIndex: tabIndex)
                                         : hb.Td(
                                             context: context,
                                             column: column,
-                                            value: string.Empty);
+                                            value: string.Empty,
+                                            tabIndex: tabIndex);
                             case "Check":
                                 return ss.ReadColumnAccessControls.Allowed(
                                     context: context,
@@ -926,11 +979,13 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: resultModel.Check(columnName: column.Name))
+                                            value: resultModel.Check(columnName: column.Name),
+                                            tabIndex: tabIndex)
                                         : hb.Td(
                                             context: context,
                                             column: column,
-                                            value: string.Empty);
+                                            value: string.Empty,
+                                            tabIndex: tabIndex);
                             case "Attachments":
                                 return ss.ReadColumnAccessControls.Allowed(
                                     context: context,
@@ -941,11 +996,13 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: resultModel.Attachments(columnName: column.Name))
+                                            value: resultModel.Attachments(columnName: column.Name),
+                                            tabIndex: tabIndex)
                                         : hb.Td(
                                             context: context,
                                             column: column,
-                                            value: string.Empty);
+                                            value: string.Empty,
+                                            tabIndex: tabIndex);
                             default:
                                 return hb;
                         }
@@ -1291,6 +1348,9 @@ namespace Implem.Pleasanter.Models
                         .Hidden(
                             controlId: "BaseUrl",
                             value: Locations.BaseUrl(context: context))
+                        .Hidden(
+                            controlId: "Ver",
+                            value: resultModel.Ver.ToString())
                         .Hidden(
                             controlId: "LockedTable",
                             value: ss.LockedTable()
@@ -2480,7 +2540,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             dataRows: gridData.DataRows,
                             columns: columns,
-                            gridSelector: null))
+                            recordSelector: null))
                     .CloseDialog()
                     .Message(Messages.Updated(
                         context: context,
@@ -2513,6 +2573,7 @@ namespace Implem.Pleasanter.Models
                     .Timestamp(context: context, ss: ss)
                     .FieldResponse(context: context, ss: ss, resultModel: resultModel)
                     .Val("#VerUp", verUp)
+                    .Val("#Ver", resultModel.Ver)
                     .Disabled("#VerUp", verUp)
                     .Html("#HeaderTitle", resultModel.Title.DisplayValue)
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
@@ -2720,7 +2781,7 @@ namespace Implem.Pleasanter.Models
                 resultModel.ColumnNames()));
             statements.Add(Rds.UpdateResults(
                 where: verUpWhere,
-                param: Rds.IssuesParam().Ver(raw: "\"Ver\"+1"),
+                param: Rds.ResultsParam().Ver(raw: "\"Ver\"+1"),
                 addUpdatorParam: false,
                 addUpdatedTimeParam: false));
             var param = new Rds.ResultsParamCollection();
@@ -2825,6 +2886,7 @@ namespace Implem.Pleasanter.Models
                     .Where(o => o.SiteId == ss.SiteId)
                     .ToList();
             var statements = new List<SqlStatement>();
+            statements.OnUpdatingByGridExtendedSqls(siteId: ss.SiteId);
             var resultCollection = new ResultCollection(
                 context: context,
                 ss: ss,
@@ -2906,6 +2968,7 @@ namespace Implem.Pleasanter.Models
                             .ToJson();
                 }
             }
+            statements.OnUpdatedByGridExtendedSqls(siteId: ss.SiteId);
             var responses = Repository.ExecuteDataSet_responses(
                 context: context,
                 transactional: true,
@@ -3051,7 +3114,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         dataRow: dataRow,
                         columns: columns,
-                        gridSelector: null,
+                        recordSelector: null,
                         editRow: true,
                         checkRow: false,
                         idColumn: "ResultId")));
@@ -3359,7 +3422,7 @@ namespace Implem.Pleasanter.Models
             }
             else if (context.CanManageSite(ss: ss))
             {
-                var selector = new GridSelector(context: context);
+                var selector = new RecordSelector(context: context);
                 var count = 0;
                 if (selector.All)
                 {
@@ -3917,6 +3980,69 @@ namespace Implem.Pleasanter.Models
                     .Count.ToInt();
         }
 
+        public static System.Web.Mvc.ContentResult BulkDeleteByApi(
+            Context context,
+            SiteSettings ss)
+        {
+            if (context.CanDelete(ss: ss))
+            {
+                var recordSelector = context.RequestDataString.Deserialize<RecordSelector>();
+                if (recordSelector == null)
+                {
+                    return ApiResults.Get(ApiResponses.BadRequest(context: context));
+                }
+                var selectedWhere = SelectedWhereByApi(
+                    ss: ss,
+                    recordSelector: recordSelector);
+                if (selectedWhere == null && recordSelector.View == null)
+                {
+                    return ApiResults.Get(ApiResponses.BadRequest(context: context));
+                }
+                var view = recordSelector.View ?? Views.GetBySession(
+                    context: context,
+                    ss: ss);
+                var where = view.Where(
+                    context: context,
+                    ss: ss,
+                    where: selectedWhere,
+                    itemJoin: false);
+                var invalid = ExistsLockedRecord(
+                    context: context,
+                    ss: ss,
+                    where: where,
+                    orderBy: view.OrderBy(
+                        context: context,
+                        ss: ss));
+                switch (invalid.Type)
+                {
+                    case Error.Types.None:
+                        break;
+                    default:
+                        return ApiResults.Error(
+                            context: context,
+                            errorData: invalid);
+                }
+                var count = BulkDelete(
+                    context: context,
+                    ss: ss,
+                    where: where);
+                Summaries.Synchronize(
+                    context: context,
+                    ss: ss);
+                return ApiResults.Success(
+                    id: context.SiteId,
+                    limitPerDate: Parameters.Api.LimitPerSite,
+                    limitRemaining: Parameters.Api.LimitPerSite - ss.ApiCount,
+                    message: Displays.BulkDeleted(
+                        context: context,
+                        data: count.ToString()));
+            }
+            else
+            {
+                return ApiResults.Get(ApiResponses.Forbidden(context: context));
+            }
+        }
+
         public static string DeleteHistory(Context context, SiteSettings ss, long resultId)
         {
             var resultModel = new ResultModel(
@@ -3934,7 +4060,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: invalid);
             }
-            var selector = new GridSelector(context: context);
+            var selector = new RecordSelector(context: context);
             var selected = selector
                 .Selected
                 .Select(o => o.ToInt())
@@ -4013,7 +4139,7 @@ namespace Implem.Pleasanter.Models
                 }).Count.ToInt();
         }
 
-        public static string PhysicalDelete(Context context, SiteSettings ss)
+        public static string PhysicalBulkDelete(Context context, SiteSettings ss)
         {
             if (!Parameters.Deleted.PhysicalDelete)
             {
@@ -4021,11 +4147,11 @@ namespace Implem.Pleasanter.Models
             }
             if (context.CanManageSite(ss: ss))
             {
-                var selector = new GridSelector(context: context);
+                var selector = new RecordSelector(context: context);
                 var count = 0;
                 if (selector.All)
                 {
-                    count = PhysicalDelete(
+                    count = PhysicalBulkDelete(
                         context: context,
                         ss: ss,
                         selected: selector.Selected,
@@ -4035,7 +4161,7 @@ namespace Implem.Pleasanter.Models
                 {
                     if (selector.Selected.Any())
                     {
-                        count = PhysicalDelete(
+                        count = PhysicalBulkDelete(
                             context: context,
                             ss: ss,
                             selected: selector.Selected);
@@ -4049,7 +4175,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     clearCheck: true,
-                    message: Messages.PhysicalDeleted(
+                    message: Messages.PhysicalBulkDeletedFromRecycleBin(
                         context: context,
                         data: count.ToString()));
             }
@@ -4059,25 +4185,39 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private static int PhysicalDelete(
+        private static int PhysicalBulkDelete(
             Context context,
             SiteSettings ss,
-            List<long> selected,
-            bool negative = false)
+            List<long> selected = null,
+            SqlWhereCollection where = null,
+            bool negative = false,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Deleted)
         {
-            var where = Rds.ResultsWhere()
+            var tableName = string.Empty;
+            switch (tableType)
+            {
+                case Sqls.TableTypes.History:
+                    tableName = "_History";
+                    break;
+                case Sqls.TableTypes.Deleted:
+                    tableName = "_Deleted";
+                    break;
+                default:
+                    break;
+            }
+            where = where ?? Rds.ResultsWhere()
                 .SiteId(
                     value: ss.SiteId,
-                    tableName: "Results_Deleted")
+                    tableName: "Results" + tableName)
                 .ResultId_In(
                     value: selected,
-                    tableName: "Results_Deleted",
+                    tableName: "Results" + tableName,
                     negative: negative,
                     _using: selected.Any())
                 .ResultId_In(
-                    tableName: "Results_Deleted",
+                    tableName: "Results" + tableName,
                     sub: Rds.SelectResults(
-                        tableType: Sqls.TableTypes.Deleted,
+                        tableType: tableType,
                         column: Rds.ResultsColumn().ResultId(),
                         where: Views.GetBySession(
                             context: context,
@@ -4087,10 +4227,10 @@ namespace Implem.Pleasanter.Models
                                     ss: ss,
                                     itemJoin: false)));
             var sub = Rds.SelectResults(
-                tableType: Sqls.TableTypes.Deleted,
-                _as: "Results_Deleted",
+                tableType: tableType,
+                _as: "Results" + tableName,
                 column: Rds.ResultsColumn()
-                    .ResultId(tableName: "Results_Deleted"),
+                    .ResultId(tableName: "Results" + tableName),
                 where: where);
             var guid = Strings.NewGuid();
             return Repository.ExecuteScalar_response(
@@ -4099,25 +4239,93 @@ namespace Implem.Pleasanter.Models
                 statements: new SqlStatement[]
                 {
                     Rds.UpdateItems(
-                        tableType: Sqls.TableTypes.Deleted,
+                        tableType: tableType,
                         where: Rds.ItemsWhere()
                             .SiteId(ss.SiteId)
                             .ReferenceId_In(sub: sub),
                         param: Rds.ItemsParam()
                             .ReferenceType(guid)),
                     Rds.PhysicalDeleteBinaries(
-                        tableType: Sqls.TableTypes.Deleted,
+                        tableType: tableType,
                         where: Rds.ItemsWhere().ReferenceId_In(sub: sub)),
                     Rds.PhysicalDeleteResults(
-                        tableType: Sqls.TableTypes.Deleted,
+                        tableType: tableType,
                         where: where),
                     Rds.RowCount(),
                     Rds.PhysicalDeleteItems(
-                        tableType: Sqls.TableTypes.Deleted,
+                        tableType: tableType,
                         where: Rds.ItemsWhere()
                             .SiteId(ss.SiteId)
                             .ReferenceType(guid)),
                 }).Count.ToInt();
+        }
+
+        public static System.Web.Mvc.ContentResult PhysicalBulkDeleteByApi(
+            Context context,
+            SiteSettings ss)
+        {
+            if (!Parameters.Deleted.PhysicalDelete)
+            {
+                return ApiResults.Get(ApiResponses.BadRequest(context: context));
+            }
+            if (context.CanManageSite(ss: ss))
+            {
+                var recordSelector = context.RequestDataString.Deserialize<RecordSelector>();
+                if (recordSelector == null)
+                {
+                    return ApiResults.Get(ApiResponses.BadRequest(context: context));
+                }
+                var selectedWhere = SelectedWhereByApi(
+                    ss: ss,
+                    recordSelector: recordSelector);
+                if (selectedWhere == null && recordSelector.View == null)
+                {
+                    return ApiResults.Get(ApiResponses.BadRequest(context: context));
+                }
+                var view = recordSelector.View ?? Views.GetBySession(
+                    context: context,
+                    ss: ss);
+                var where = view.Where(
+                    context: context,
+                    ss: ss,
+                    where: selectedWhere,
+                    itemJoin: false);
+                var invalid = ExistsLockedRecord(
+                    context: context,
+                    ss: ss,
+                    where: where,
+                    orderBy: view.OrderBy(
+                        context: context,
+                        ss: ss));
+                switch (invalid.Type)
+                {
+                    case Error.Types.None:
+                        break;
+                    default:
+                        return ApiResults.Error(
+                            context: context,
+                            errorData: invalid);
+                }
+                var count = PhysicalBulkDelete(
+                    context: context,
+                    ss: ss,
+                    where: where,
+                    tableType: Sqls.TableTypes.Normal);
+                Summaries.Synchronize(
+                    context: context,
+                    ss: ss);
+                return ApiResults.Success(
+                    id: context.SiteId,
+                    limitPerDate: Parameters.Api.LimitPerSite,
+                    limitRemaining: Parameters.Api.LimitPerSite - ss.ApiCount,
+                    message: Displays.PhysicalBulkDeleted(
+                        context: context,
+                        data: count.ToString()));
+            }
+            else
+            {
+                return ApiResults.Get(ApiResponses.Forbidden(context: context));
+            }
         }
 
         public static string Import(Context context, SiteModel siteModel)
@@ -4170,6 +4378,7 @@ namespace Implem.Pleasanter.Models
                 {
                     var column = ss.Columns
                         .Where(o => o.LabelText == data.Header)
+                        .Where(o => o.TypeCs != "Attachments")
                         .FirstOrDefault();
                     if (column?.ColumnName == "ResultId")
                     {
@@ -4651,40 +4860,42 @@ namespace Implem.Pleasanter.Models
             var toColumn = ss.GetColumn(
                 context: context,
                 columnName: view.GetCalendarToColumn(ss));
-            var month = view.CalendarMonth != null
-                ? view.CalendarMonth.ToDateTime()
-                : DateTime.Now;
+            var date = view.GetCalendarDate();
+            var groupBy = ss.GetColumn(
+                context: context,
+                columnName: view.GetCalendarGroupBy());
+            var choices = groupBy?.EditChoices(
+                context: context,
+                insertBlank: true,
+                view: view);
+            var inRangeY = Libraries.ViewModes
+                .CalendarUtilities.InRangeY(
+                    context: context,
+                    choices?.Count ?? 0);
             var begin = Calendars.BeginDate(
                 context: context,
-                date: month,
+                date: date,
                 timePeriod: timePeriod);
             var end = Calendars.EndDate(
                 context: context,
-                date: month,
+                date: date,
                 timePeriod: timePeriod);
-            var dataRows = CalendarDataRows(
-                context: context,
-                ss: ss,
-                view: view,
-                fromColumn: fromColumn,
-                toColumn: toColumn,
-                begin: Calendars.BeginDate(
+            var dataRows = inRangeY
+                ? CalendarDataRows(
                     context: context,
-                    date: month,
-                    timePeriod: timePeriod),
-                end: Calendars.EndDate(
-                    context: context,
-                    date: month,
-                    timePeriod: timePeriod));
-            var inRange = dataRows.Count() <= Parameters.General.CalendarLimit;
-            if (!inRange)
-            {
-                SessionUtilities.Set(
-                    context: context,
-                    message: Messages.TooManyCases(
+                    ss: ss,
+                    view: view,
+                    fromColumn: fromColumn,
+                    toColumn: toColumn,
+                    groupBy: groupBy,
+                    begin: begin,
+                    end: end)
+                : null;
+            var inRange = inRangeY
+                && Libraries.ViewModes
+                    .CalendarUtilities.InRange(
                         context: context,
-                        data: Parameters.General.CalendarLimit.ToString()));
-            }
+                        dataRows: dataRows);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
@@ -4695,10 +4906,12 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         timePeriod: timePeriod,
+                        groupBy: groupBy,
                         fromColumn: fromColumn,
                         toColumn: toColumn,
-                        month: month,
+                        date: date,
                         begin: begin,
+                        choices: choices,
                         dataRows: dataRows,
                         bodyOnly: false,
                         inRange: inRange));
@@ -4758,32 +4971,43 @@ namespace Implem.Pleasanter.Models
             var toColumn = ss.GetColumn(
                 context: context,
                 columnName: view.GetCalendarToColumn(ss));
-            var month = view.CalendarMonth != null
-                ? view.CalendarMonth.ToDateTime()
-                : DateTime.Now;
+            var date = view.GetCalendarDate();
+            var groupBy = ss.GetColumn(
+                context: context,
+                columnName: view.GetCalendarGroupBy());
+            var choices = groupBy?.EditChoices(
+                context: context,
+                insertBlank: true,
+                view: view);
+            var inRangeY = Libraries.ViewModes
+                .CalendarUtilities.InRangeY(
+                    context: context,
+                    choices?.Count ?? 0);
             var begin = Calendars.BeginDate(
                 context: context,
-                date: month,
+                date: date,
                 timePeriod: timePeriod);
             var end = Calendars.EndDate(
                 context: context,
-                date: month,
+                date: date,
                 timePeriod: timePeriod);
-            var dataRows = CalendarDataRows(
-                context: context,
-                ss: ss,
-                view: view,
-                fromColumn: fromColumn,
-                toColumn: toColumn,
-                begin: Calendars.BeginDate(
+            var dataRows = inRangeY 
+                ? CalendarDataRows(
                     context: context,
-                    date: month,
-                    timePeriod: timePeriod),
-                end: Calendars.EndDate(
-                    context: context,
-                    date: month,
-                    timePeriod: timePeriod));
-            return dataRows.Count() <= Parameters.General.CalendarLimit
+                    ss: ss,
+                    view: view,
+                    fromColumn: fromColumn,
+                    toColumn: toColumn,
+                    groupBy: groupBy,
+                    begin: begin,
+                    end: end)
+                :null;
+            var inRange = inRangeY
+                && Libraries.ViewModes
+                    .CalendarUtilities.InRange(
+                        context: context,
+                        dataRows: dataRows);
+            return inRange
                 ? new ResponseCollection()
                     .ViewMode(
                         context: context,
@@ -4799,10 +5023,12 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 timePeriod: timePeriod,
+                                groupBy: groupBy,
                                 fromColumn: fromColumn,
                                 toColumn: toColumn,
-                                month: month,
+                                date: date,
                                 begin: begin,
+                                choices: choices,
                                 dataRows: dataRows,
                                 bodyOnly: bodyOnly,
                                 inRange: true,
@@ -4813,9 +5039,13 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         view: view,
-                        message: Messages.TooManyCases(
-                            context: context,
-                            data: Parameters.General.CalendarLimit.ToString()),
+                        message: inRangeY
+                            ? Messages.TooManyCases(
+                                context: context,
+                                data: Parameters.General.CalendarLimit.ToString())
+                            : Messages.TooManyRowCases(
+                                context: context,
+                                data: Parameters.General.CalendarYLimit.ToString()),
                         bodyOnly: bodyOnly,
                         bodySelector: "#CalendarBody",
                         body: new HtmlBuilder()
@@ -4823,10 +5053,12 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 timePeriod: timePeriod,
+                                groupBy: groupBy,
                                 fromColumn: fromColumn,
                                 toColumn: toColumn,
-                                month: month,
+                                date: date,
                                 begin: begin,
+                                choices: choices,
                                 dataRows: dataRows,
                                 bodyOnly: bodyOnly,
                                 inRange: false,
@@ -4840,6 +5072,7 @@ namespace Implem.Pleasanter.Models
             View view,
             Column fromColumn,
             Column toColumn,
+            Column groupBy,
             DateTime begin,
             DateTime end)
         {
@@ -4858,7 +5091,7 @@ namespace Implem.Pleasanter.Models
                     .Add(raw: $"\"Results\".\"{fromColumn.ColumnName}\"<='{begin}' and \"Results\".\"{toColumn.ColumnName}\">='{end}'"));
             }
             where = view.Where(context: context, ss: ss, where: where);
-            return Repository.ExecuteTable(
+            return Rds.ExecuteTable(
                 context: context,
                 statements: Rds.SelectResults(
                     column: Rds.ResultsTitleColumn(
@@ -4872,7 +5105,10 @@ namespace Implem.Pleasanter.Models
                                 columnName: toColumn?.ColumnName,
                                 _as: "To")
                             .UpdatedTime()
-                            .ItemTitle(ss.ReferenceType),
+                            .ItemTitle(ss.ReferenceType)
+                            .Add(
+                                column: groupBy,
+                                function: Sqls.Functions.SingleColumn),
                     join: ss.Join(
                         context: context,
                         join: where),
@@ -4885,10 +5121,12 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             string timePeriod,
+            Column groupBy,
             Column fromColumn,
             Column toColumn,
-            DateTime month,
+            DateTime date,
             DateTime begin,
+            Dictionary<string, ControlData> choices,
             EnumerableRowCollection<DataRow> dataRows,
             bool bodyOnly,
             bool inRange,
@@ -4899,10 +5137,12 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     timePeriod: timePeriod,
+                    groupBy: groupBy,
                     fromColumn: fromColumn,
                     toColumn: toColumn,
-                    month: month,
+                    date: date,
                     begin: begin,
+                    choices: choices,
                     dataRows: dataRows,
                     inRange: inRange,
                     changedItemId: changedItemId)
@@ -4910,10 +5150,12 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     timePeriod: timePeriod,
+                    groupBy: groupBy,
                     fromColumn: fromColumn,
                     toColumn: toColumn,
-                    month: month,
+                    date: date,
                     begin: begin,
+                    choices: choices,
                     dataRows: dataRows,
                     inRange: inRange,
                     changedItemId: changedItemId);

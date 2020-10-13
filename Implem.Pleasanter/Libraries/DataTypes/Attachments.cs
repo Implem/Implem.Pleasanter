@@ -17,12 +17,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
         }
 
-        public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
+        public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column, int? tabIndex)
         {
             return hb.Td(
-                css: column.TextAlign == SiteSettings.TextAlignTypes.Right
-                    ? " right-align "
-                    : string.Empty,
+                css: column.CellCss(),
                 action: () => hb
                     .Ol(action: () => ForEach(item => hb
                         .Li(action: () => hb

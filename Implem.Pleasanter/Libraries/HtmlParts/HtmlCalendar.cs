@@ -11,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Web.WebPages;
+
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlCalendar
@@ -20,15 +22,27 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context,
             SiteSettings ss,
             string timePeriod,
+            Column groupBy,
             Column fromColumn,
             Column toColumn,
-            DateTime month,
+            DateTime date,
             DateTime begin,
+            Dictionary<string, ControlData> choices,
             IEnumerable<DataRow> dataRows,
             bool inRange,
             long changedItemId)
         {
             return hb.Div(id: "Calendar", css: "both", action: () => hb
+                .FieldDropDown(
+                    context: context,
+                    controlId: "CalendarGroupBy",
+                    fieldCss: "field-auto-thin",
+                    controlCss: " auto-postback",
+                    labelText: Displays.GroupBy(context: context),
+                    optionCollection: ss.CalendarGroupByOptions(),
+                    selectedValue: groupBy?.ColumnName,
+                    insertBlank: true,
+                    method: "post")
                 .FieldDropDown(
                     context: context,
                     controlId: "CalendarTimePeriod",
@@ -50,13 +64,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         : $"{fromColumn.ColumnName}-{toColumn.ColumnName}",
                     action: "Calendar",
                     method: "post")
-                .DropDown(
-                    context: context,
-                    controlId: "CalendarMonth",
-                    controlCss: " w100 auto-postback",
-                    optionCollection: CalendarMonth(context: context),
-                    selectedValue: new DateTime(month.Year, month.Month, 1).ToString(),
-                    action: "Calendar",
+                .FieldTextBox(
+                    textType: HtmlTypes.TextTypes.DateTime,
+                    fieldCss: "field-auto-thin",
+                    controlId: "CalendarDate",
+                    controlCss: " w100 auto-postback always-send",
+                    labelText: "",
+                    text: date
+                        .ToLocal(context: context)
+                        .ToString(Displays.YmdFormat(context: context)),
+                    format: Displays.YmdDatePickerFormat(context: context),
                     method: "post")
                 .Button(
                     text: Displays.Previous(context: context),
@@ -71,9 +88,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     onClick: "$p.moveCalendar('Next');",
                     icon: "ui-icon-seek-next")
                 .Button(
-                    text: Displays.ThisMonth(context: context),
+                    text: Displays.Today(context: context),
                     controlCss: "button-icon",
-                    onClick: "$p.moveCalendar('ThisMonth');",
+                    onClick: "$p.moveCalendar('Today');",
                     icon: "ui-icon-calendar")
                 .Div(
                     attributes: new HtmlAttributes()
@@ -85,29 +102,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             context: context,
                             ss: ss,
                             timePeriod: timePeriod,
+                            groupBy: groupBy,
                             fromColumn: fromColumn,
                             toColumn: toColumn,
-                            month: month,
+                            date: date,
                             begin: begin,
+                            choices: choices,
                             dataRows: dataRows,
                             inRange: inRange,
                             changedItemId: changedItemId)));
-        }
-
-        private static Dictionary<string, ControlData> CalendarMonth(Context context)
-        {
-            var now = DateTime.Now;
-            var month = new DateTime(
-                year: now.ToLocal(context: context).Year,
-                month: now.ToLocal(context: context).Month,
-                day: 1);
-            return Enumerable.Range(
-                Parameters.General.CalendarBegin,
-                Parameters.General.CalendarEnd - Parameters.General.CalendarBegin)
-                    .ToDictionary(
-                        o => month.AddMonths(o).ToString(),
-                        o => new ControlData(month.AddMonths(o).ToString(
-                            "Y", context.CultureInfo())));
         }
 
         public static HtmlBuilder CalendarBody(
@@ -115,10 +118,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context,
             SiteSettings ss,
             string timePeriod,
+            Column groupBy,
             Column fromColumn,
             Column toColumn,
-            DateTime month,
+            DateTime date,
             DateTime begin,
+            Dictionary<string, ControlData> choices,
             IEnumerable<DataRow> dataRows,
             bool inRange,
             long changedItemId)
@@ -130,20 +135,24 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         !fromColumn.RecordedTime
                         && fromColumn.EditorReadOnly != true
                         && fromColumn.CanUpdate
-                        && timePeriod == "Monthly").ToOneOrZeroString())
+                        && timePeriod != "Yearly"
+                        && groupBy == null).ToOneOrZeroString())
                 .Hidden(
                     controlId: "CalendarPrevious",
-                    value: Times.PreviousMonth(
+                    value: Times.PreviousCalendar(
                         context: context,
-                        month: month))
+                        month: date,
+                        timePeriod: timePeriod))
                 .Hidden(
                     controlId: "CalendarNext",
-                    value: Times.NextMonth(
+                    value: Times.NextCalendar(
                         context: context,
-                        month: month))
+                        month: date,
+                        timePeriod: timePeriod))
                 .Hidden(
-                    controlId: "CalendarThisMonth",
-                    value: Times.ThisMonth(context: context))
+                    controlId: "CalendarToday",
+                    value: Times.Today(
+                        context: context))
                 .Hidden(
                     controlId: "CalendarFromDefaultInput",
                     value: fromColumn.DefaultInput)
@@ -154,18 +163,27 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ? hb
                     .Hidden(
                         controlId: "CalendarJson",
-                        value: Json(
-                            context: context,
-                            ss: ss,
-                            from: fromColumn,
-                            to: toColumn,
-                            dataRows: dataRows,
-                            changedItemId: changedItemId))
+                        value: choices == null
+                            ? Json(
+                                context: context,
+                                from: fromColumn,
+                                to: toColumn,
+                                dataRows: dataRows,
+                                changedItemId: changedItemId)
+                            : GroupingJson(
+                                context: context,
+                                from: fromColumn,
+                                to: toColumn,
+                                groupBy: groupBy,
+                                dataRows: dataRows,
+                                changedItemId: changedItemId))
                     .CalendarBodyTable(
                         context: context,
                         timePeriod: timePeriod,
-                        month: month,
-                        begin: begin)
+                        date: date,
+                        begin: begin,
+                        groupBy: groupBy,
+                        choices: choices)
                 : hb;
         }
 
@@ -173,139 +191,309 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Context context,
             string timePeriod,
-            DateTime month,
-            DateTime begin)
+            Column groupBy,
+            DateTime date,
+            DateTime begin,
+            Dictionary<string, ControlData> choices)
         {
             switch (timePeriod)
             {
                 case "Yearly":
                     return hb.YearlyTable(
                         context: context,
-                        month: month,
-                        begin: begin);
+                        begin: begin,
+                        groupBy:groupBy,
+                        choices: choices);
                 case "Monthly":
                     return hb.MonthlyTable(
                         context: context,
-                        month: month,
-                        begin: begin);
+                        date: date,
+                        begin: begin,
+                        groupBy: groupBy,
+                        choices: choices);
+                case "Weekly":
+                    return hb.WeeklyTable(
+                        context: context,
+                        date: date,
+                        begin: begin,
+                        groupBy: groupBy,
+                        choices: choices);
                 default:
                     return hb;
             }
         }
 
         private static HtmlBuilder YearlyTable(
-            this HtmlBuilder hb, Context context, DateTime month, DateTime begin)
+            this HtmlBuilder hb,
+            Context context,
+            Column groupBy,
+            DateTime begin,
+            Dictionary<string, ControlData> choices)
         {
-            return hb.Table(id: "Grid", action: () => hb
-                .THead(action: () => hb
-                    .Tr(action: () =>
-                    {
-                        for (var x = 0; x < 12; x++)
+            return hb.Table(
+                id: "Grid",
+                css: "grid fixed",
+                action: () => hb
+                    .THead(action: () => hb
+                        .Tr(action: () =>
                         {
-                            var date = begin.AddMonths(x);
-                            hb.Th(action: () => hb
-                                .A(
-                                    css: "calendar-to-monthly",
-                                    href: "javascript:void(0);",
-                                    attributes: new HtmlAttributes()
-                                        .DataId(date.ToString()),
-                                    action: () => hb
-                                        .Text(text: date.ToString(
-                                            "Y", context.CultureInfo()))));
-                        }
-                    }))
-                .TBody(action: () =>
-                {
-                    for (var x = 0; x < 12; x++)
+                            hb.Th(
+                                css: "ui-widget-header",
+                                action: () => hb.Text(groupBy.LabelText),
+                                _using: groupBy != null);
+                            for (var x = 0; x < 12; x++)
+                            {
+                                var currentDate = begin.ToLocal(context: context).AddMonths(x);
+                                hb.Th(action: () => hb
+                                    .A(
+                                        css: "calendar-to-monthly",
+                                        href: "javascript:void(0);",
+                                        attributes: new HtmlAttributes()
+                                            .DataId(currentDate.ToString()),
+                                        action: () => hb
+                                            .Text(text: currentDate.ToString(
+                                                "Y", context.CultureInfo()))));
+                            }
+                        }))
+                    .TBody(action: () =>
                     {
-                        var date = begin.AddMonths(x);
-                        hb.Td(
-                            attributes: new HtmlAttributes()
-                                .Class("container")
-                                .DataId(date.ToString("yyyy/M/d")),
-                            action: () => hb
-                                .Div());
-                    }
-                }));
+                        choices = choices ?? new Dictionary<string, ControlData>() { [string.Empty] = null };
+                        choices?.ForEach(choice =>
+                        {
+                            hb.Tr(css: "calendar-row", action: () =>
+                            {
+                                hb.Th(action: () => hb.Text(
+                                    choice.Value.DisplayValue(context: context)),
+                                    _using: choice.Value != null);
+                                for (var x = 0; x < 12; x++)
+                                {
+                                    var date = begin.ToLocal(context: context).AddMonths(x);
+                                    hb.Td(
+                                        attributes: new HtmlAttributes()
+                                            .Class("container")
+                                            .DataValue(value: choice.Key, _using: choice.Value != null)
+                                            .DataId(date.ToString("yyyy/M/d")),
+                                        action: () => hb
+                                            .Div());
+                                }
+                            });
+                        });
+                    }));
         }
 
         private static HtmlBuilder MonthlyTable(
-            this HtmlBuilder hb, Context context, DateTime month, DateTime begin)
+            this HtmlBuilder hb,
+            Context context,
+            Column groupBy,
+            DateTime date,
+            DateTime begin,
+            Dictionary<string, ControlData> choices)
         {
-            return hb.Table(id: "Grid", action: () => hb
-                .THead(action: () => hb
-                    .Tr(action: () =>
-                    {
-                        for (var x = 0; x < 7; x++)
+            return hb.Table(
+                id: "Grid",
+                css: "grid fixed",
+                action: () => hb
+                    .THead(action: () => hb
+                        .Tr(action: () =>
                         {
-                            hb.Th(css: DayOfWeekCss(x), action: () => hb
-                                .Text(text: DayOfWeekString(
-                                    context: context,
-                                    x: x)));
-                        }
-                    }))
-                .TBody(action: () =>
-                {
-                    for (var y = 0; y < 6; y++)
-                    {
-                        hb.Tr(action: () =>
-                        {
+                            hb.Th(
+                                css: "ui-widget-header",
+                                action: () => hb.Text(groupBy.LabelText),
+                                _using: groupBy != null);
                             for (var x = 0; x < 7; x++)
                             {
-                                var date = begin.ToLocal(context: context).AddDays(y * 7 + x);
-                                hb.Td(
-                                    attributes: new HtmlAttributes()
-                                        .Class("container" +
-                                            (date == DateTime.Now.ToLocal(context: context).Date
-                                                ? " today"
-                                                : string.Empty) +
-                                            (month.ToLocal(context: context).Month
-                                                != date.ToLocal(context: context).Month
-                                                    ? " other-month"
-                                                    : string.Empty))
-                                        .DataId(date.ToString("yyyy/M/d")),
-                                    action: () => hb
-                                        .Div(action: () => hb
-                                            .Div(
-                                                css: "day",
-                                                action: () => hb
-                                                    .Text(date.Day.ToString()))));
+                                hb.Th(css: DayOfWeekCss(x) + " calendar-header", action: () => hb
+                                    .Text(text: DayOfWeekString(
+                                        context: context,
+                                        x: x)));
                             }
+                        }))
+                    .TBody(action: () =>
+                    {
+                        choices = choices ?? new Dictionary<string, ControlData>() { [string.Empty] = null };
+                        choices.ForEach(choice =>
+                        {
+                            hb.Tr(css: "calendar-row", action: () =>
+                            {
+                                hb.Th(
+                                    attributes: new HtmlAttributes().Add("rowspan", "7"),
+                                    action: () => hb.Text(choice.Value.DisplayValue(context: context)),
+                                    _using: choice.Value != null);
+                                for (var y = 0; y < 6; y++)
+                                {
+                                    hb.Tr(action: () =>
+                                    {
+                                        for (var x = 0; x < 7; x++)
+                                        {
+                                            var currentDate = begin.ToLocal(context: context).AddDays(y * 7 + x);
+                                            hb.Td(
+                                                attributes: new HtmlAttributes()
+                                                    .Class("container" +
+                                                        (currentDate == DateTime.Now.ToLocal(context: context).Date
+                                                            ? " today"
+                                                            : string.Empty) +
+                                                        (date.ToLocal(context: context).Month
+                                                            != currentDate.ToLocal(context: context).Month
+                                                                ? " other-month"
+                                                                : string.Empty))
+                                                    .DataValue(value: choice.Key, _using: choice.Value != null)
+                                                    .DataId(currentDate.ToString("yyyy/M/d")),
+                                                action: () => hb
+                                                    .Div(action: () => hb
+                                                        .Div(
+                                                            css: "day",
+                                                            action: () => hb
+                                                                .Text(currentDate.Day.ToString()))));
+                                        }
+                                    });
+                                }
+                            });
                         });
-                    }
-                }));
+                    }));
+        }
+
+        private static HtmlBuilder WeeklyTable(
+            this HtmlBuilder hb,
+            Context context,
+            Column groupBy,
+            DateTime date,
+            DateTime begin,
+            Dictionary<string, ControlData> choices)
+        {
+            return hb.Table(
+                id: "Grid",
+                css: "grid fixed",
+                action: () => hb
+                    .THead(action: () => hb
+                        .Tr(action: () =>
+                        {
+                            hb.Th(
+                                css: "ui-widget-header",
+                                action: () => hb.Text(groupBy.LabelText),
+                                _using: groupBy != null);
+                            for (var x = 0; x < 7; x++)
+                            {
+                                hb.Th(css: DayOfWeekCss(x) + " calendar-header", action: () => hb
+                                    .Text(text: DayOfWeekString(
+                                        context: context,
+                                        x: x)));
+                            }
+                        }))
+                    .TBody(action: () =>
+                    {
+                        choices = choices ?? new Dictionary<string, ControlData>() { [string.Empty] = null };
+                        choices.ForEach(choice =>
+                        {
+                            hb.Tr(css: "calendar-row", action: () =>
+                            {
+                                hb.Th(action: () =>
+                                    hb.Text(choice.Value.DisplayValue(context: context)),
+                                    _using: choice.Value != null);
+                                for (var x = 0; x < 7; x++)
+                                {
+                                    var currentDate = begin.ToLocal(context: context).AddDays(x);
+                                    hb.Td(
+                                        attributes: new HtmlAttributes()
+                                            .Class("container" +
+                                                (currentDate == DateTime.Now.ToLocal(context: context).Date
+                                                    ? " today"
+                                                    : string.Empty) +
+                                                (date.ToLocal(context: context).Month
+                                                    != currentDate.ToLocal(context: context).Month
+                                                        ? " other-month"
+                                                        : string.Empty))
+                                            .DataValue(value: choice.Key, _using: choice.Value != null)
+                                            .DataId(currentDate.ToString("yyyy/M/d")),
+                                        action: () => hb
+                                            .Div(action: () => hb
+                                                .Div(
+                                                    css: "day",
+                                                    action: () => hb
+                                                        .Text(currentDate.Day.ToString()))));
+                                }
+                            });
+
+                        });
+                    }));
+        }
+
+        private static string GroupingJson(
+            Context context,
+            Column from,
+            Column to,
+            Column groupBy,
+            IEnumerable<DataRow> dataRows,
+            long changedItemId)
+        {
+            return dataRows
+                .GroupBy(
+                    dataRow => dataRow.String(groupBy.ColumnName),
+                    dataRow =>
+                        CreateCalendarElement(
+                            context: context,
+                            from: from,
+                            to: to,
+                            changedItemId: changedItemId,
+                            dataRow: dataRow))
+                .Select(group => new
+                {
+                    group = group.Key,
+                    items = group
+                        .OrderBy(o => o.From)
+                        .ThenBy(o => o.To)
+                        .ThenBy(o => o.UpdatedTime)
+                })
+                .ToJson();
         }
 
         private static string Json(
             Context context,
-            SiteSettings ss,
             Column from,
             Column to,
             IEnumerable<DataRow> dataRows,
             long changedItemId)
         {
-            return dataRows.Select(dataRow => new CalendarElement
-            (
+            return new [] { new
+            {
+                group = (string)null,
+                items = dataRows.Select(dataRow =>
+                    CreateCalendarElement(
+                        context: context,
+                        from: from,
+                        to: to,
+                        changedItemId: changedItemId,
+                        dataRow: dataRow))
+                            .OrderBy(o => o.From)
+                            .ThenBy(o => o.To)
+                            .ThenBy(o => o.UpdatedTime)
+            }}
+            .ToJson();
+        }
+
+        private static CalendarElement CreateCalendarElement(
+            Context context,
+            Column from,
+            Column to,
+            long changedItemId,
+            DataRow dataRow)
+        {
+            return new CalendarElement(
                 id: dataRow.Long("Id"),
                 title: dataRow.String("ItemTitle"),
                 time: (from.EditorFormat == "Ymdhm"
                     ? dataRow.DateTime("From").ToLocal(context: context).ToString("t") + " "
                     : null),
                 from: ConvertIfCompletionTime(
-                    context: context,
-                    column: from,
-                    dateTime: dataRow.DateTime("from")),
+                context: context,
+                column: from,
+                dateTime: dataRow.DateTime("from")),
                 to: ConvertIfCompletionTime(
                     context: context,
                     column: to,
                     dateTime: dataRow.DateTime("to")),
                 changedItemId: changedItemId,
                 updatedTime: dataRow.DateTime("UpdatedTime")
-            ))
-                .OrderBy(o => o.From)
-                .ThenBy(o => o.To)
-                .ThenBy(o => o.UpdatedTime)
-                .ToJson();
+            );
         }
 
         private static DateTime ConvertIfCompletionTime(

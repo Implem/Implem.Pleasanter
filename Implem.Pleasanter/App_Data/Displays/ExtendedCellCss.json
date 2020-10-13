@@ -1,0 +1,29 @@
+﻿{
+    "Id": "ExtendedCellCss",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Cell css"
+        },
+        {
+            "Language": "zh",
+            "Body": "单元CSS"
+        },
+        {
+            "Language": "ja",
+            "Body": "セルCSS"
+        },
+        {
+            "Language": "de",
+            "Body": "Cell css"
+        },
+        {
+            "Language": "ko",
+            "Body": "셀 CSS"
+        },
+        {
+            "Language": "es",
+            "Body": "CSS celular"
+        }
+    ]
+}

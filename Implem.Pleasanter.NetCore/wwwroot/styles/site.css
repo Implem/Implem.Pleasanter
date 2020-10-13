@@ -366,6 +366,17 @@ pre{
     text-decoration:none;
 }
 
+#ExcessLicenseWarning{
+    width:100%;
+    display:block;
+    float:left;
+    margin:0px 10px 5px 0px;
+    padding:5px 10px;
+    color:white;
+    background:red;
+    border-radius:7px;
+}
+
 #PublishWarning{
     width:100%;
     display:block;
@@ -623,7 +634,7 @@ pre{
     color:red;
 }
 
-#CalendarMonth{
+#CalendarDate{
     margin-right:10px;
 }
 
@@ -631,10 +642,15 @@ pre{
     table-layout:fixed;
 }
 
-#CalendarBody th{
+#CalendarBody thead th{
     padding:5px;
     text-align:center;
     border:solid 1px silver;
+}
+
+th.calendar-header{
+    text-align:center;
+    background-color:white;
 }
 
 #CalendarBody .saturday{
@@ -1641,7 +1657,7 @@ pre{
     float:right;
 }
 
-.field-normal .container-normal{
+:not(td) > div.field-normal .container-normal{
     width:auto;
     margin-left:120px;
 }
@@ -1675,7 +1691,7 @@ pre{
     float:right;
 }
 
-.field-wide .container-normal{
+:not(td) > div.field-wide .container-normal{
     margin-left:120px;
 }
 
@@ -1700,7 +1716,7 @@ pre{
     float:right;
 }
 
-.field-markdown .container-normal{
+:not(td) > div.field-markdown .container-normal{
     margin-left:120px;
 }
 
@@ -2995,7 +3011,7 @@ h3.title-header{
     margin:0px 5px 0px 0px;
 }
 
-.menu-sort > li > div.field-control > *{
+.menu-sort > li div.field-control > *{
     color:black;
     background-color:white;
     border:solid 1px silver;

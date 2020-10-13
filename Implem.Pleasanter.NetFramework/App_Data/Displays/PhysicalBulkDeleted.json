@@ -1,0 +1,29 @@
+﻿{
+    "Id": "PhysicalBulkDeleted",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "\" {0} \" items have been physically deleted"
+        },
+        {
+            "Language": "zh",
+            "Body": "物理删除了“{0}”个项目"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} 件 物理削除しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "„ {0} “ Elemente wurden physisch gelöscht."
+        },
+        {
+            "Language": "ko",
+            "Body": "\" {0} \" 개의 항목이 물리적으로 삭제되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se han eliminado físicamente \" {0} \" elementos de la papelera de reciclaje."
+        }
+    ]
+}

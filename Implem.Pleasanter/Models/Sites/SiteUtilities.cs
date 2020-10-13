@@ -331,18 +331,30 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         dataRows: gridData.DataRows,
                         columns: columns,
-                        gridSelector: null,
+                        recordSelector: null,
                         checkRow: checkRow));
         }
 
         private static SqlWhereCollection SelectedWhere(
-            Context context, SiteSettings ss)
+            Context context,
+            SiteSettings ss)
         {
-            var selector = new GridSelector(context: context);
+            var selector = new RecordSelector(context: context);
             return !selector.Nothing
                 ? Rds.SitesWhere().SiteId_In(
                     value: selector.Selected.Select(o => o.ToLong()),
                     negative: selector.All)
+                : null;
+        }
+
+        private static SqlWhereCollection SelectedWhereByApi(
+            SiteSettings ss,
+            RecordSelector recordSelector)
+        {
+            return !recordSelector.Nothing
+                ? Rds.SitesWhere().SiteId_In(
+                    value: recordSelector.Selected?.Select(o => o.ToLong()) ?? new List<long>(),
+                    negative: recordSelector.All)
                 : null;
         }
 
@@ -382,7 +394,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 view: view,
                                 checkPermission: true),
-                            gridSelector: null,
+                            recordSelector: null,
                             editRow: true,
                             checkRow: false,
                             idColumn: "SiteId"))
@@ -438,7 +450,8 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             Column column,
-            SiteModel siteModel)
+            SiteModel siteModel,
+            int? tabIndex = null)
         {
             if (!column.GridDesign.IsNullOrEmpty())
             {
@@ -463,11 +476,13 @@ namespace Implem.Pleasanter.Models
                                 ? hb.Td(
                                     context: context,
                                     column: column,
-                                    value: siteModel.SiteId)
+                                    value: siteModel.SiteId,
+                                    tabIndex: tabIndex)
                                 : hb.Td(
                                     context: context,
                                     column: column,
-                                    value: string.Empty);
+                                    value: string.Empty,
+                                    tabIndex: tabIndex);
                     case "UpdatedTime":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -478,11 +493,13 @@ namespace Implem.Pleasanter.Models
                                 ? hb.Td(
                                     context: context,
                                     column: column,
-                                    value: siteModel.UpdatedTime)
+                                    value: siteModel.UpdatedTime,
+                                    tabIndex: tabIndex)
                                 : hb.Td(
                                     context: context,
                                     column: column,
-                                    value: string.Empty);
+                                    value: string.Empty,
+                                    tabIndex: tabIndex);
                     case "Ver":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -493,11 +510,13 @@ namespace Implem.Pleasanter.Models
                                 ? hb.Td(
                                     context: context,
                                     column: column,
-                                    value: siteModel.Ver)
+                                    value: siteModel.Ver,
+                                    tabIndex: tabIndex)
                                 : hb.Td(
                                     context: context,
                                     column: column,
-                                    value: string.Empty);
+                                    value: string.Empty,
+                                    tabIndex: tabIndex);
                     case "Title":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -508,11 +527,13 @@ namespace Implem.Pleasanter.Models
                                 ? hb.Td(
                                     context: context,
                                     column: column,
-                                    value: siteModel.Title)
+                                    value: siteModel.Title,
+                                    tabIndex: tabIndex)
                                 : hb.Td(
                                     context: context,
                                     column: column,
-                                    value: string.Empty);
+                                    value: string.Empty,
+                                    tabIndex: tabIndex);
                     case "Body":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -523,11 +544,13 @@ namespace Implem.Pleasanter.Models
                                 ? hb.Td(
                                     context: context,
                                     column: column,
-                                    value: siteModel.Body)
+                                    value: siteModel.Body,
+                                    tabIndex: tabIndex)
                                 : hb.Td(
                                     context: context,
                                     column: column,
-                                    value: string.Empty);
+                                    value: string.Empty,
+                                    tabIndex: tabIndex);
                     case "TitleBody":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -538,11 +561,13 @@ namespace Implem.Pleasanter.Models
                                 ? hb.Td(
                                     context: context,
                                     column: column,
-                                    value: siteModel.TitleBody)
+                                    value: siteModel.TitleBody,
+                                    tabIndex: tabIndex)
                                 : hb.Td(
                                     context: context,
                                     column: column,
-                                    value: string.Empty);
+                                    value: string.Empty,
+                                    tabIndex: tabIndex);
                     case "Comments":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -553,11 +578,13 @@ namespace Implem.Pleasanter.Models
                                 ? hb.Td(
                                     context: context,
                                     column: column,
-                                    value: siteModel.Comments)
+                                    value: siteModel.Comments,
+                                    tabIndex: tabIndex)
                                 : hb.Td(
                                     context: context,
                                     column: column,
-                                    value: string.Empty);
+                                    value: string.Empty,
+                                    tabIndex: tabIndex);
                     case "Creator":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -568,11 +595,13 @@ namespace Implem.Pleasanter.Models
                                 ? hb.Td(
                                     context: context,
                                     column: column,
-                                    value: siteModel.Creator)
+                                    value: siteModel.Creator,
+                                    tabIndex: tabIndex)
                                 : hb.Td(
                                     context: context,
                                     column: column,
-                                    value: string.Empty);
+                                    value: string.Empty,
+                                    tabIndex: tabIndex);
                     case "Updator":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -583,11 +612,13 @@ namespace Implem.Pleasanter.Models
                                 ? hb.Td(
                                     context: context,
                                     column: column,
-                                    value: siteModel.Updator)
+                                    value: siteModel.Updator,
+                                    tabIndex: tabIndex)
                                 : hb.Td(
                                     context: context,
                                     column: column,
-                                    value: string.Empty);
+                                    value: string.Empty,
+                                    tabIndex: tabIndex);
                     case "CreatedTime":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -598,11 +629,13 @@ namespace Implem.Pleasanter.Models
                                 ? hb.Td(
                                     context: context,
                                     column: column,
-                                    value: siteModel.CreatedTime)
+                                    value: siteModel.CreatedTime,
+                                    tabIndex: tabIndex)
                                 : hb.Td(
                                     context: context,
                                     column: column,
-                                    value: string.Empty);
+                                    value: string.Empty,
+                                    tabIndex: tabIndex);
                     default:
                         switch (Def.ExtendedColumnTypes.Get(column.Name))
                         {
@@ -616,11 +649,13 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: siteModel.Class(columnName: column.Name))
+                                            value: siteModel.Class(columnName: column.Name),
+                                            tabIndex: tabIndex)
                                         : hb.Td(
                                             context: context,
                                             column: column,
-                                            value: string.Empty);
+                                            value: string.Empty,
+                                            tabIndex: tabIndex);
                             case "Num":
                                 return ss.ReadColumnAccessControls.Allowed(
                                     context: context,
@@ -631,11 +666,13 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: siteModel.Num(columnName: column.Name))
+                                            value: siteModel.Num(columnName: column.Name),
+                                            tabIndex: tabIndex)
                                         : hb.Td(
                                             context: context,
                                             column: column,
-                                            value: string.Empty);
+                                            value: string.Empty,
+                                            tabIndex: tabIndex);
                             case "Date":
                                 return ss.ReadColumnAccessControls.Allowed(
                                     context: context,
@@ -646,11 +683,13 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: siteModel.Date(columnName: column.Name))
+                                            value: siteModel.Date(columnName: column.Name),
+                                            tabIndex: tabIndex)
                                         : hb.Td(
                                             context: context,
                                             column: column,
-                                            value: string.Empty);
+                                            value: string.Empty,
+                                            tabIndex: tabIndex);
                             case "Description":
                                 return ss.ReadColumnAccessControls.Allowed(
                                     context: context,
@@ -661,11 +700,13 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: siteModel.Description(columnName: column.Name))
+                                            value: siteModel.Description(columnName: column.Name),
+                                            tabIndex: tabIndex)
                                         : hb.Td(
                                             context: context,
                                             column: column,
-                                            value: string.Empty);
+                                            value: string.Empty,
+                                            tabIndex: tabIndex);
                             case "Check":
                                 return ss.ReadColumnAccessControls.Allowed(
                                     context: context,
@@ -676,11 +717,13 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: siteModel.Check(columnName: column.Name))
+                                            value: siteModel.Check(columnName: column.Name),
+                                            tabIndex: tabIndex)
                                         : hb.Td(
                                             context: context,
                                             column: column,
-                                            value: string.Empty);
+                                            value: string.Empty,
+                                            tabIndex: tabIndex);
                             case "Attachments":
                                 return ss.ReadColumnAccessControls.Allowed(
                                     context: context,
@@ -691,11 +734,13 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: siteModel.Attachments(columnName: column.Name))
+                                            value: siteModel.Attachments(columnName: column.Name),
+                                            tabIndex: tabIndex)
                                         : hb.Td(
                                             context: context,
                                             column: column,
-                                            value: string.Empty);
+                                            value: string.Empty,
+                                            tabIndex: tabIndex);
                             default:
                                 return hb;
                         }
@@ -1037,7 +1082,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             dataRows: gridData.DataRows,
                             columns: columns,
-                            gridSelector: null))
+                            recordSelector: null))
                     .CloseDialog()
                     .Message(Messages.Updated(
                         context: context,
@@ -1053,6 +1098,7 @@ namespace Implem.Pleasanter.Models
                     .Ver(context: context, ss: ss)
                     .Timestamp(context: context, ss: ss)
                     .Val("#VerUp", verUp)
+                    .Val("#Ver", siteModel.Ver)
                     .Disabled("#VerUp", verUp)
                     .Html("#HeaderTitle", siteModel.Title.Value)
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
@@ -1185,7 +1231,7 @@ namespace Implem.Pleasanter.Models
             }
             else if (context.CanManageSite(ss: ss))
             {
-                var selector = new GridSelector(context: context);
+                var selector = new RecordSelector(context: context);
                 var count = 0;
                 if (selector.All)
                 {
@@ -1263,7 +1309,9 @@ namespace Implem.Pleasanter.Models
                     Rds.RestoreItems(
                         factory: context,
                         where: Rds.ItemsWhere().ReferenceId_In(sub: sub)),
-                    Rds.RestoreSites(factory: context, where: where),
+                    Rds.RestoreSites(
+                        factory: context,
+                        where: where),
                     Rds.RowCount()
                 }).Count.ToInt();
         }
@@ -1422,7 +1470,7 @@ namespace Implem.Pleasanter.Models
             }
             if (context.CanManageSite(ss: ss))
             {
-                var selector = new GridSelector(context: context);
+                var selector = new RecordSelector(context: context);
                 var selected = selector
                     .Selected
                     .Select(o => o.ToInt())
@@ -1501,7 +1549,7 @@ namespace Implem.Pleasanter.Models
                 }).Count.ToInt();
         }
 
-        public static string PhysicalDelete(Context context, SiteSettings ss)
+        public static string PhysicalBulkDelete(Context context, SiteSettings ss)
         {
             if (!Parameters.Deleted.PhysicalDelete)
             {
@@ -1509,11 +1557,11 @@ namespace Implem.Pleasanter.Models
             }
             if (context.CanManageSite(ss: ss))
             {
-                var selector = new GridSelector(context: context);
+                var selector = new RecordSelector(context: context);
                 var count = 0;
                 if (selector.All)
                 {
-                    count = PhysicalDelete(
+                    count = PhysicalBulkDelete(
                         context: context,
                         ss: ss,
                         selected: selector.Selected,
@@ -1523,7 +1571,7 @@ namespace Implem.Pleasanter.Models
                 {
                     if (selector.Selected.Any())
                     {
-                        count = PhysicalDelete(
+                        count = PhysicalBulkDelete(
                             context: context,
                             ss: ss,
                             selected: selector.Selected);
@@ -1537,7 +1585,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     clearCheck: true,
-                    message: Messages.PhysicalDeleted(
+                    message: Messages.PhysicalBulkDeletedFromRecycleBin(
                         context: context,
                         data: count.ToString()));
             }
@@ -1547,26 +1595,42 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private static int PhysicalDelete(
-            Context context, SiteSettings ss, List<long> selected, bool negative = false)
+        private static int PhysicalBulkDelete(
+            Context context, 
+            SiteSettings ss, 
+            List<long> selected, 
+            bool negative = false,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Deleted)
         {
+            var tableName = string.Empty;
+            switch (tableType)
+            {
+                case Sqls.TableTypes.History:
+                    tableName = "_History";
+                    break;
+                case Sqls.TableTypes.Deleted:
+                    tableName = "_Deleted";
+                    break;
+                default:
+                    break;
+            }
             var where = Rds.SitesWhere()
                 .TenantId(
                     value: context.TenantId,
-                    tableName: "Sites_Deleted")
+                    tableName: "Sites" + tableName)
                 .ParentId(
                     value: ss.SiteId,
-                    tableName: "Sites_Deleted")
+                    tableName: "Sites" + tableName)
                 .SiteId_In(
                     value: selected,
-                    tableName: "Sites_Deleted",
+                    tableName: "Sites" + tableName,
                     negative: negative,
                     _using: selected.Any());
             var sub = Rds.SelectSites(
-                tableType: Sqls.TableTypes.Deleted,
-                _as: "Sites_Deleted",
+                tableType: tableType,
+                _as: "Sites" + tableName,
                 column: Rds.SitesColumn()
-                    .SiteId(tableName: "Sites_Deleted"),
+                    .SiteId(tableName: "Sites" + tableName),
                 where: where);
             return Repository.ExecuteScalar_response(
                 context: context,
@@ -1574,22 +1638,25 @@ namespace Implem.Pleasanter.Models
                 statements: new SqlStatement[]
                 {
                     Rds.PhysicalDeleteItems(
-                        tableType: Sqls.TableTypes.Deleted,
+                        tableType: tableType,
                         where: Rds.ItemsWhere()
                             .ReferenceId_In(sub:
                                 Rds.SelectWikis(
-                                    tableType: Sqls.TableTypes.Deleted,
+                                    tableType: tableType,
                                     column: Rds.WikisColumn().WikiId(),
                                     where: Rds.WikisWhere().SiteId_In(sub: sub)))
                             .ReferenceType("Wikis")),
                     Rds.PhysicalDeleteWikis(
-                        tableType: Sqls.TableTypes.Deleted,
+                        tableType: tableType,
                         where: Rds.WikisWhere().SiteId_In(sub: sub)),
                     Rds.PhysicalDeleteItems(
-                        tableType: Sqls.TableTypes.Deleted,
+                        tableType: tableType,
+                        where: Rds.ItemsWhere().ReferenceId_In(sub: sub)),
+                    Rds.PhysicalDeleteBinaries(
+                        tableType: tableType,
                         where: Rds.ItemsWhere().ReferenceId_In(sub: sub)),
                     Rds.PhysicalDeleteSites(
-                        tableType: Sqls.TableTypes.Deleted,
+                        tableType: tableType,
                         where: where),
                     Rds.RowCount()
                 }).Count.ToInt();
@@ -3403,6 +3470,9 @@ namespace Implem.Pleasanter.Models
                         controlId: "BaseUrl",
                         value: Locations.BaseUrl(context: context))
                     .Hidden(
+                        controlId: "Ver",
+                        value: siteModel.Ver.ToString())
+                    .Hidden(
                         controlId: "SwitchTargets",
                         css: "always-send",
                         value: siteModel.SiteId.ToString(),
@@ -3990,6 +4060,11 @@ namespace Implem.Pleasanter.Models
                                 selectedValue: column.GridFormat);
                     }
                     hb
+                        .FieldTextBox(
+                            controlId: "ExtendedCellCss",
+                            fieldCss: "field-normal",
+                            labelText: Displays.ExtendedCellCss(context: context),
+                            text: column.ExtendedCellCss)
                         .FieldCheckBox(
                             controlId: "UseGridDesign",
                             labelText: Displays.UseCustomDesign(context: context),
@@ -5124,7 +5199,7 @@ namespace Implem.Pleasanter.Models
                                                     controlId: "AllowImage",
                                                     labelText: Displays.AllowImage(context: context),
                                                     _checked: column.AllowImage == true,
-                                                    _using:context.ContractSettings.Images()
+                                                    _using: context.ContractSettings.Images()
                                                         && (column.ControlType == "MarkDown"
                                                         || column.ColumnName == "Comments"))
                                                 .FieldSpinner(
@@ -7029,6 +7104,14 @@ namespace Implem.Pleasanter.Models
         {
             return _using
                 ? hb.FieldSet(id: "ViewCalendarTab", action: () => hb
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "CalendarGroupBy",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.GroupBy(context: context),
+                        optionCollection: ss.CalendarGroupByOptions(),
+                        selectedValue: view.GetCalendarGroupBy(),
+                        insertBlank: true)
                     .FieldDropDown(
                         context: context,
                         controlId: "CalendarTimePeriod",

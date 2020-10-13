@@ -50,7 +50,7 @@ namespace Implem.Pleasanter.Models
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
-            if (!Parameters.Service.ShowProfiles)
+            if (!Parameters.Service.ShowProfiles && !context.HasPrivilege)
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
@@ -80,7 +80,7 @@ namespace Implem.Pleasanter.Models
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
-            if (!Parameters.Service.ShowProfiles)
+            if (!Parameters.Service.ShowProfiles && !context.HasPrivilege)
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
@@ -340,6 +340,10 @@ namespace Implem.Pleasanter.Models
             Context context, SiteSettings ss, UserModel userModel, bool api = false)
         {
             if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+            {
+                return new ErrorData(type: Error.Types.InvalidRequest);
+            }
+            if (!Parameters.Service.ShowProfiles && !context.HasPrivilege)
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
@@ -606,7 +610,7 @@ namespace Implem.Pleasanter.Models
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
-            if (!Parameters.Service.ShowProfiles)
+            if (!Parameters.Service.ShowProfiles && !context.HasPrivilege)
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
@@ -623,7 +627,7 @@ namespace Implem.Pleasanter.Models
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
-            if (!Parameters.Service.ShowProfiles)
+            if (!Parameters.Service.ShowProfiles && !context.HasPrivilege)
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
@@ -638,7 +642,7 @@ namespace Implem.Pleasanter.Models
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
-            if (!Parameters.Service.ShowProfiles)
+            if (!Parameters.Service.ShowProfiles && !context.HasPrivilege)
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
@@ -655,7 +659,7 @@ namespace Implem.Pleasanter.Models
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
-            if (!Parameters.Service.ShowProfiles)
+            if (!Parameters.Service.ShowProfiles && !context.HasPrivilege)
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
@@ -679,9 +683,23 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static ErrorData OnPasswordChange(Context context)
+        {
+            if (Parameters.Service.ShowProfiles || !Parameters.Service.ShowChangePassword)
+            {
+                return new ErrorData(type: Error.Types.InvalidRequest);
+            }
+            return new ErrorData(type: Error.Types.None);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static ErrorData OnPasswordChanging(Context context, UserModel userModel)
         {
-            if (!Parameters.Service.ShowProfiles)
+            if (!Parameters.Service.ShowProfiles
+                && !Parameters.Service.ShowChangePassword
+                && !context.HasPrivilege)
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
@@ -712,7 +730,7 @@ namespace Implem.Pleasanter.Models
         public static ErrorData OnPasswordChangingAtLogin(
             Context context, UserModel userModel)
         {
-            if (!Parameters.Service.ShowProfiles)
+            if (!Parameters.Service.ShowProfiles && !Parameters.Service.ShowChangePassword)
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
@@ -736,7 +754,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static ErrorData OnPasswordResetting(Context context)
         {
-            if (!Parameters.Service.ShowProfiles)
+            if (!Parameters.Service.ShowProfiles && !context.HasPrivilege)
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
@@ -753,8 +771,10 @@ namespace Implem.Pleasanter.Models
         public static ErrorData OnAddingMailAddress(
             Context context, UserModel userModel, string mailAddress)
         {
-            var errorData = MailAddressValidators.BadMailAddress(addresses: mailAddress);
-            if (!Parameters.Service.ShowProfiles)
+            var errorData = MailAddressValidators.BadMailAddress(
+                addresses: mailAddress,
+                only: true);
+            if (!Parameters.Service.ShowProfiles && !context.HasPrivilege)
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }

@@ -161,7 +161,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         "d", context.CultureInfo()))
                 .Hidden(
                     controlId: "GanttToday",
-                    value: DateTime.Today.ToLocal(context: context).ToString(
+                    value: DateTime.Now.ToLocal(context: context).ToString(
                         "d", context.CultureInfo()))
                 .Hidden(
                     controlId: "ShowGanttProgressRate",

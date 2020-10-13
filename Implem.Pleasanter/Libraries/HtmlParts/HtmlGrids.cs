@@ -60,7 +60,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         if (sort)
                         {
                             hb.Th(
-                                css: "sortable",
+                                css: column.CellCss(css: "sortable"),
                                 attributes: new HtmlAttributes()
                                     .DataName(column.ColumnName),
                                 action: () => hb
@@ -82,7 +82,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         }
                         else
                         {
-                            hb.Th(action: () => hb
+                            hb.Th(
+                                css: column.CellCss(),
+                                action: () => hb
                                 .Text(text: Displays.Get(
                                     context: context,
                                     id: column.GridLabelText)));
@@ -173,7 +175,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             IEnumerable<Column> columns,
             EnumerableRowCollection<DataRow> dataRows,
             FormDataSet formDataSet = null,
-            GridSelector gridSelector = null,
+            RecordSelector recordSelector = null,
             bool editRow = false,
             bool checkRow = true)
         {
@@ -183,7 +185,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ss: ss,
                     dataRow: dataRow,
                     columns: columns,
-                    gridSelector: new GridSelector(context),
+                    recordSelector: new RecordSelector(context),
                     editRow: editRow,
                     checkRow: checkRow,
                     idColumn: Rds.IdColumn(ss.ReferenceType),
@@ -200,7 +202,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool editRow,
             bool checkRow,
             string idColumn,
-            GridSelector gridSelector = null,
+            RecordSelector recordSelector = null,
             FormDataSet formDataSet = null)
         {
             var dataId = dataRow.Long(idColumn);
@@ -254,7 +256,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         hb.Td(action: () => hb
                             .CheckBox(
                                 controlCss: "grid-check",
-                                _checked: gridSelector.Checked(dataId),
+                                _checked: recordSelector.Checked(dataId),
                                 dataId: dataId.ToString(),
                                 _using: !isHistory));
                     }

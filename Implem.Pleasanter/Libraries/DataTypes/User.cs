@@ -1,16 +1,16 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
-using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Data;
-using Implem.Pleasanter.Libraries.Requests;
-using Implem.Pleasanter.Libraries.Security;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
     [Serializable]
@@ -59,9 +59,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                             .UserId(userId)));
                 if (dataTable.Rows.Count == 1)
                 {
-                    Set(
-                        context: context,
-                        dataRow: dataTable.Rows[0]);
+                    Set(dataRow: dataTable.Rows[0]);
                 }
                 else
                 {
@@ -76,12 +74,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public User(Context context, DataRow dataRow)
         {
-            Set(
-                context: context,
-                dataRow: dataRow);
+            Set(dataRow: dataRow);
         }
 
-        private void Set(Context context, DataRow dataRow)
+        private void Set(DataRow dataRow)
         {
             TenantId = dataRow.Int("TenantId");
             Id = dataRow.Int("UserId");
@@ -122,13 +118,11 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     userId: Id);
         }
 
-        public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
+        public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column, int? tabIndex)
         {
             return Id != UserTypes.Anonymous.ToInt()
                 ? hb.Td(
-                    css: column.TextAlign == SiteSettings.TextAlignTypes.Right
-                        ? " right-align "
-                        : string.Empty,
+                    css: column.CellCss(),
                     action: () => hb
                         .HtmlUser(
                             context: context,

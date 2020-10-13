@@ -46,6 +46,16 @@ namespace Implem.Pleasanter.Controllers.Api
             return result;
         }
 
+        public ContentResult BulkDelete(Context context, long id)
+        {
+            var log = new SysLogModel(context: context);
+            var result = context.Authenticated
+                ? new ItemModel(context: context, referenceId: id).BulkDeleteByApi(context: context)
+                : ApiResults.Unauthorized(context: context);
+            log.Finish(context: context, responseSize: result.Content.Length);
+            return result;
+        }
+
         public ContentResult Export(Context context, long id)
         {
             var log = new SysLogModel(context: context);

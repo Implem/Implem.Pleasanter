@@ -84,13 +84,11 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return string.Empty;
         }
 
-        public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
+        public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column, int? tabIndex)
         {
             var css = GridCss(context: context);
             return hb.Td(
-                css: column.TextAlign == SiteSettings.TextAlignTypes.Right
-                    ? " right-align "
-                    : string.Empty,
+                css: column.CellCss(),
                 action: () => this?
                     .Take(DisplayCount(context: context))
                     .ForEach(comment => comment

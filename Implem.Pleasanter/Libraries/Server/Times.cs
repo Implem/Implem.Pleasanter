@@ -1,6 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -81,6 +82,50 @@ namespace Implem.Pleasanter.Libraries.Server
             return !times.ToList().Any(o =>
                 o < Parameters.General.MinTime ||
                 o > Parameters.General.MaxTime);
+        }
+
+        public static string PreviousCalendar(Context context, DateTime month, string timePeriod)
+        {
+            switch (timePeriod)
+            {
+                case "Yearly":
+                case "Monthly":
+                    return month.ToLocal(context:context)
+                        .AddMonths(-1)
+                        .ToString(Displays.YmdFormat(context:context));
+                case "Weekly":
+                    return month.ToLocal(context: context)
+                        .AddDays(-7)
+                        .ToString(Displays.YmdFormat(context: context));
+                default:
+                    return month.ToLocal(context: context)
+                        .ToString(Displays.YmdFormat(context: context));
+            }   
+        }
+
+        public static string NextCalendar(Context context, DateTime month, string timePeriod)
+        {
+            switch (timePeriod)
+            {
+                case "Yearly":
+                case "Monthly":
+                    return month.ToLocal(context: context)
+                        .AddMonths(1)
+                        .ToString(Displays.YmdFormat(context: context));
+                case "Weekly":
+                    return month.ToLocal(context: context)
+                        .AddDays(7)
+                        .ToString(Displays.YmdFormat(context: context));
+                default:
+                    return month.ToLocal(context: context)
+                        .ToString(Displays.YmdFormat(context: context));
+            }
+        }
+
+        public static string Today(Context context)
+        {
+            return DateTime.Now.ToLocal(context: context)
+                .ToString(Displays.YmdFormat(context: context));
         }
 
         public static string PreviousMonth(Context context, DateTime month)

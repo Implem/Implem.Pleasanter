@@ -12,7 +12,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlSql
     {
-        public static HtmlBuilder ExtendedSql(this HtmlBuilder hb, Context context)
+        public static HtmlBuilder ExtendedSql(
+        	this HtmlBuilder hb,
+        	Context context)
         {
             ExtensionUtilities.ExtensionWhere<ExtendedSql>(
                 context: context,
@@ -21,7 +23,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Where(o => !o.CommandText.IsNullOrEmpty()))
                 .ForEach(extendedSql =>
                 {
-                    var dataSet = DataSources.Rds.ExecuteDataSet(
+                    var dataSet = DataSources.Repository.ExecuteDataSet(
                         context: context,
                         statements: new SqlStatement(commandText: extendedSql.CommandText
                             .Replace("{{SiteId}}", context.SiteId.ToString())

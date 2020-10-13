@@ -3910,6 +3910,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return statements;
         }
 
+        public static List<SqlStatement> OnUpdatingByGridExtendedSqls(
+            this List<SqlStatement> statements, long siteId)
+        {
+            Parameters.ExtendedSqls?
+                .Where(o => o.OnUpdatingByGrid)
+                .ExtendedSqls(statements, siteId);
+            return statements;
+        }
+
+        public static List<SqlStatement> OnUpdatedByGridExtendedSqls(
+            this List<SqlStatement> statements, long siteId)
+        {
+            Parameters.ExtendedSqls?
+                .Where(o => o.OnUpdatedByGrid)
+                .ExtendedSqls(statements, siteId);
+            return statements;
+        }
+
         public static List<SqlStatement> OnBulkUpdatingExtendedSqls(
             this List<SqlStatement> statements, long siteId)
         {
@@ -4056,8 +4074,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             IssueModel issueModel)
         {
             Parameters.ExtendedSqls?
-                    .Where(o => o.OnSelectingWhere)
-                    .ExtendedSqlsWhereIssues(Where, issueModel);
+                .Where(o => o.OnSelectingWhere)
+                .ExtendedSqlsWhereIssues(Where, issueModel);
             return Where;
         }
 
@@ -4087,8 +4105,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             ResultModel resultModel)
         {
             Parameters.ExtendedSqls?
-                    .Where(o => o.OnSelectingWhere)
-                    .ExtendedSqlsWhereResults(Where, resultModel);
+                .Where(o => o.OnSelectingWhere)
+                .ExtendedSqlsWhereResults(Where, resultModel);
             return Where;
         }
 

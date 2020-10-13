@@ -80,6 +80,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public Dictionary<long, SiteSettings> JoinedSsHash;
         [NonSerialized]
+        public Dictionary<long, DataSet> LinkedSsDataSetHash;
+        [NonSerialized]
         public long SiteId;
         [NonSerialized]
         public long ReferenceId;
@@ -311,6 +313,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 return;
             }
+            cache = cache ?? LinkedSsDataSetHash;
             var dataSet = cache == null
                 ? Repository.ExecuteDataSet(
                     context: context,
@@ -1004,6 +1007,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         enabled = true;
                         newColumn.Hide = column.Hide;
+                    }
+                    if (column.ExtendedCellCss?.Trim().IsNullOrEmpty() == false)
+                    {
+                        enabled = true;
+                        newColumn.ExtendedCellCss = column.ExtendedCellCss;
                     }
                     if (column.ExtendedFieldCss?.Trim().IsNullOrEmpty() == false)
                     {
@@ -2629,7 +2637,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             return new Dictionary<string, string>
             {
                 { "Yearly", Displays.Year(context: context) },
-                { "Monthly", Displays.Month(context: context) }
+                { "Monthly", Displays.Month(context: context) },
+                { "Weekly", Displays.Week(context: context) }
             };
         }
 
@@ -2747,6 +2756,16 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public Dictionary<string, string> GanttGroupByOptions()
+        {
+            return Columns
+                .Where(o => o.HasChoices())
+                .Where(o => !o.Joined)
+                .Where(o => o.CanRead)
+                .OrderBy(o => o.No)
+                .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
+        }
+
+        public Dictionary<string, string> CalendarGroupByOptions()
         {
             return Columns
                 .Where(o => o.HasChoices())
@@ -3087,6 +3106,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "Format": column.Format = value; break;
                 case "NoWrap": column.NoWrap = value.ToBool(); break;
                 case "Hide": column.Hide = value.ToBool(); break;
+                case "ExtendedCellCss": column.ExtendedCellCss = value; break;
                 case "ExtendedFieldCss": column.ExtendedFieldCss = value; break;
                 case "Section": column.Section = value; break;
                 case "GridDesign":
@@ -3767,6 +3787,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<ExportColumn> ExportColumns(Context context, string join = null)
         {
             return GetJoinedSs(join: join)?.ColumnDefinitionHash.ExportDefinitions()
+                .Where(o => o.TypeCs != "Attachments")
                 .OrderBy(o => o.EditorColumn)
                 .Select((o, i) => new ExportColumn(
                     context: context,
@@ -3970,12 +3991,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 var siteId = part.Split('~').Last().ToLong();
                 var currentSs = JoinedSsHash.Get(siteId);
                 var tableName = currentSs?.ReferenceType;
-                var name = currentSs?.GetColumn(
-                    context: context,
-                    columnName: part.Split_1st('~'))?.Name;
+                var name = part.Split_1st('~').RegexFirst("[A-Za-z0-9]+");
                 path.Add(part);
                 var alias = path.Join("-");
-                if (tableName != null && name != null)
+                if (!tableName.IsNullOrEmpty() && !name.IsNullOrEmpty())
                 {
                     if (alias.Contains("~~"))
                     {

@@ -47,13 +47,11 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return Value.ToString();
         }
 
-        public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
+        public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column, int? tabIndex)
         {
             var choice = column.Choice(Value.ToString());
             return hb.Td(
-                css: column.TextAlign == SiteSettings.TextAlignTypes.Right
-                    ? " right-align "
-                    : string.Empty,
+                css: column.CellCss(),
                 action: () => hb
                     .P(
                         attributes: new HtmlAttributes()

@@ -469,7 +469,9 @@ namespace Implem.Pleasanter.Models
             var where = Rds.BinariesWhere().BinaryId(BinaryId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteBinaries(factory: context, where: where)
+                Rds.DeleteBinaries(
+                    factory: context,
+                    where: where)
             });
             Repository.ExecuteNonQuery(
                 context: context,
@@ -967,7 +969,7 @@ namespace Implem.Pleasanter.Models
         {
             ReferenceId = referenceId;
             BinaryType = binaryType;
-            if(Parameters.BinaryStorage.Provider == "Local")
+            if (Parameters.BinaryStorage.Provider == "Local")
             {
                 return;
             }

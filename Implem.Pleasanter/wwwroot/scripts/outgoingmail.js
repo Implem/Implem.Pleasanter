@@ -33,7 +33,7 @@ $p.openOutgoingMailReplyDialog = function ($control) {
 
 $p.sendMail = function ($control) {
     var data = $p.getData($('#OutgoingMailForm'));
-    data.Ver = $('._Ver')[0].innerHTML;
+    data.Ver = $p.ver();
     data.Controller = $('#Controller').val();
     data.Id = $('#Id').val();
     $p.send($control);

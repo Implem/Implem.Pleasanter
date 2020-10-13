@@ -510,8 +510,10 @@ namespace Implem.DefinitionAccessor
                     case "Model_DeleteCases": Code.Model_DeleteCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteCases, definitionRow, CodeXls); break;
                     case "Model_DeleteByApiCases": Code.Model_DeleteByApiCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteByApiCases, definitionRow, CodeXls); break;
                     case "Model_BulkDeleteCases": Code.Model_BulkDeleteCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BulkDeleteCases, definitionRow, CodeXls); break;
+                    case "Model_BulkDeleteByApiCases": Code.Model_BulkDeleteByApiCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BulkDeleteByApiCases, definitionRow, CodeXls); break;
                     case "Model_DeleteHistoryCases": Code.Model_DeleteHistoryCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteHistoryCases, definitionRow, CodeXls); break;
                     case "Model_PhysicalDeleteCases": Code.Model_PhysicalDeleteCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PhysicalDeleteCases, definitionRow, CodeXls); break;
+                    case "Model_PhysicalDeleteByApiCases": Code.Model_PhysicalDeleteByApiCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PhysicalDeleteByApiCases, definitionRow, CodeXls); break;
                     case "Model_RestoreCases": Code.Model_RestoreCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_RestoreCases, definitionRow, CodeXls); break;
                     case "Model_RestoreFromHistoryCases": Code.Model_RestoreFromHistoryCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_RestoreFromHistoryCases, definitionRow, CodeXls); break;
                     case "Model_EditSeparateSettingsCases": Code.Model_EditSeparateSettingsCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_EditSeparateSettingsCases, definitionRow, CodeXls); break;
@@ -546,7 +548,10 @@ namespace Implem.DefinitionAccessor
                     case "Model_SiteSettingsContext": Code.Model_SiteSettingsContext = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsContext, definitionRow, CodeXls); break;
                     case "Model_ExtendedSqls": Code.Model_ExtendedSqls = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExtendedSqls, definitionRow, CodeXls); break;
                     case "Model_ExtendedSqlsParameter": Code.Model_ExtendedSqlsParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExtendedSqlsParameter, definitionRow, CodeXls); break;
+                    case "Model_LinkedSsDataSetHashBeforeComma": Code.Model_LinkedSsDataSetHashBeforeComma = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_LinkedSsDataSetHashBeforeComma, definitionRow, CodeXls); break;
+                    case "Model_LinkedSsDataSetHashParameter": Code.Model_LinkedSsDataSetHashParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_LinkedSsDataSetHashParameter, definitionRow, CodeXls); break;
                     case "Model_ToLocal": Code.Model_ToLocal = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToLocal, definitionRow, CodeXls); break;
+                    case "Model_LinkedSsDataSetHash": Code.Model_LinkedSsDataSetHash = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_LinkedSsDataSetHash, definitionRow, CodeXls); break;
                     case "Model_ExportByApi": Code.Model_ExportByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportByApi, definitionRow, CodeXls); break;
                     case "Collection": Code.Collection = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection, definitionRow, CodeXls); break;
                     case "Collection_FormDataSetParameter": Code.Collection_FormDataSetParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection_FormDataSetParameter, definitionRow, CodeXls); break;
@@ -670,10 +675,12 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_Separate": Code.Model_Utilities_Separate = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Separate, definitionRow, CodeXls); break;
                     case "Model_Utilities_BulkMove": Code.Model_Utilities_BulkMove = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_BulkMove, definitionRow, CodeXls); break;
                     case "Model_Utilities_BulkDelete": Code.Model_Utilities_BulkDelete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_BulkDelete, definitionRow, CodeXls); break;
+                    case "Model_Utilities_BulkDeleteByApi": Code.Model_Utilities_BulkDeleteByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_BulkDeleteByApi, definitionRow, CodeXls); break;
                     case "Model_Utilities_DeleteHistory_Sites": Code.Model_Utilities_DeleteHistory_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DeleteHistory_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_DeleteHistory_Items": Code.Model_Utilities_DeleteHistory_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DeleteHistory_Items, definitionRow, CodeXls); break;
-                    case "Model_Utilities_PhysicalDelete_Sites": Code.Model_Utilities_PhysicalDelete_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_PhysicalDelete_Sites, definitionRow, CodeXls); break;
-                    case "Model_Utilities_PhysicalDelete_Items": Code.Model_Utilities_PhysicalDelete_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_PhysicalDelete_Items, definitionRow, CodeXls); break;
+                    case "Model_Utilities_PhysicalBulkDelete_Sites": Code.Model_Utilities_PhysicalBulkDelete_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_PhysicalBulkDelete_Sites, definitionRow, CodeXls); break;
+                    case "Model_Utilities_PhysicalBulkDelete_Items": Code.Model_Utilities_PhysicalBulkDelete_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_PhysicalBulkDelete_Items, definitionRow, CodeXls); break;
+                    case "Model_Utilities_PhysicalBulkDeleteByApi_Items": Code.Model_Utilities_PhysicalBulkDeleteByApi_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_PhysicalBulkDeleteByApi_Items, definitionRow, CodeXls); break;
                     case "Model_Utilities_Import": Code.Model_Utilities_Import = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Import, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImportColumnCases": Code.Model_Utilities_ImportColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportColumnCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImportUserColumnCases": Code.Model_Utilities_ImportUserColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportUserColumnCases, definitionRow, CodeXls); break;
@@ -735,6 +742,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_ExportClassPropertyCases": Code.Model_ExportClassPropertyCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportClassPropertyCases, definitionRow, CodeXls); break;
                     case "Model_ExportSet": Code.Model_ExportSet = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportSet, definitionRow, CodeXls); break;
                     case "Rds": Code.Rds = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds, definitionRow, CodeXls); break;
+                    case "Rds_ExtendedSql": Code.Rds_ExtendedSql = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_ExtendedSql, definitionRow, CodeXls); break;
                     case "Rds_IdColumnCases": Code.Rds_IdColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_IdColumnCases, definitionRow, CodeXls); break;
                     case "Rds_SqlStatement": Code.Rds_SqlStatement = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SqlStatement, definitionRow, CodeXls); break;
                     case "Rds_ColumnBracketTableCases": Code.Rds_ColumnBracketTableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_ColumnBracketTableCases, definitionRow, CodeXls); break;
@@ -2738,6 +2746,7 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_Search": Css._sharp_Search = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Search, definitionRow, CssXls); break;
                     case "_sharp_SwitchUserInfo": Css._sharp_SwitchUserInfo = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SwitchUserInfo, definitionRow, CssXls); break;
                     case "_sharp_SwitchUserInfo_space___space_a": Css._sharp_SwitchUserInfo_space___space_a = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SwitchUserInfo_space___space_a, definitionRow, CssXls); break;
+                    case "_sharp_ExcessLicenseWarning": Css._sharp_ExcessLicenseWarning = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ExcessLicenseWarning, definitionRow, CssXls); break;
                     case "_sharp_PublishWarning": Css._sharp_PublishWarning = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_PublishWarning, definitionRow, CssXls); break;
                     case "_sharp_PublishWarning_space___space_a": Css._sharp_PublishWarning_space___space_a = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_PublishWarning_space___space_a, definitionRow, CssXls); break;
                     case "_sharp_LockedWarning": Css._sharp_LockedWarning = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_LockedWarning, definitionRow, CssXls); break;
@@ -2774,9 +2783,10 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_Aggregations_space_em": Css._sharp_Aggregations_space_em = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Aggregations_space_em, definitionRow, CssXls); break;
                     case "_sharp_Aggregations_space___space__dot_display_control": Css._sharp_Aggregations_space___space__dot_display_control = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Aggregations_space___space__dot_display_control, definitionRow, CssXls); break;
                     case "_sharp_SitePackagesSelectable_space_span_dot_include_data": Css._sharp_SitePackagesSelectable_space_span_dot_include_data = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SitePackagesSelectable_space_span_dot_include_data, definitionRow, CssXls); break;
-                    case "_sharp_CalendarMonth": Css._sharp_CalendarMonth = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarMonth, definitionRow, CssXls); break;
+                    case "_sharp_CalendarDate": Css._sharp_CalendarDate = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarDate, definitionRow, CssXls); break;
                     case "_sharp_CalendarBody_space_table": Css._sharp_CalendarBody_space_table = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space_table, definitionRow, CssXls); break;
-                    case "_sharp_CalendarBody_space_th": Css._sharp_CalendarBody_space_th = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space_th, definitionRow, CssXls); break;
+                    case "_sharp_CalendarBody_space_thead_space_th": Css._sharp_CalendarBody_space_thead_space_th = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space_thead_space_th, definitionRow, CssXls); break;
+                    case "th_dot_calendar_header": Css.th_dot_calendar_header = definitionRow[1].ToString(); SetCssTable(CssTable.th_dot_calendar_header, definitionRow, CssXls); break;
                     case "_sharp_CalendarBody_space__dot_saturday": Css._sharp_CalendarBody_space__dot_saturday = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_saturday, definitionRow, CssXls); break;
                     case "_sharp_CalendarBody_space__dot_sunday": Css._sharp_CalendarBody_space__dot_sunday = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space__dot_sunday, definitionRow, CssXls); break;
                     case "_sharp_CalendarBody_space_td": Css._sharp_CalendarBody_space_td = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space_td, definitionRow, CssXls); break;
@@ -2952,17 +2962,17 @@ namespace Implem.DefinitionAccessor
                     case "_dot_field_normal": Css._dot_field_normal = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_normal, definitionRow, CssXls); break;
                     case "_dot_field_normal_space___space__dot_field_label": Css._dot_field_normal_space___space__dot_field_label = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_normal_space___space__dot_field_label, definitionRow, CssXls); break;
                     case "_dot_field_normal_space___space__dot_field_control": Css._dot_field_normal_space___space__dot_field_control = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_normal_space___space__dot_field_control, definitionRow, CssXls); break;
-                    case "_dot_field_normal_space__dot_container_normal": Css._dot_field_normal_space__dot_container_normal = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_normal_space__dot_container_normal, definitionRow, CssXls); break;
+                    case "_colon_not_td__space___space_div_dot_field_normal_space__dot_container_normal": Css._colon_not_td__space___space_div_dot_field_normal_space__dot_container_normal = definitionRow[1].ToString(); SetCssTable(CssTable._colon_not_td__space___space_div_dot_field_normal_space__dot_container_normal, definitionRow, CssXls); break;
                     case "_dot_field_normal_space___space__dot_buttons": Css._dot_field_normal_space___space__dot_buttons = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_normal_space___space__dot_buttons, definitionRow, CssXls); break;
                     case "_dot_field_normal_space__dot_control_text": Css._dot_field_normal_space__dot_control_text = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_normal_space__dot_control_text, definitionRow, CssXls); break;
                     case "_dot_field_wide": Css._dot_field_wide = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_wide, definitionRow, CssXls); break;
                     case "_dot_field_wide_space___space__dot_field_label": Css._dot_field_wide_space___space__dot_field_label = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_wide_space___space__dot_field_label, definitionRow, CssXls); break;
                     case "_dot_field_wide_space___space__dot_field_control": Css._dot_field_wide_space___space__dot_field_control = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_wide_space___space__dot_field_control, definitionRow, CssXls); break;
-                    case "_dot_field_wide_space__dot_container_normal": Css._dot_field_wide_space__dot_container_normal = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_wide_space__dot_container_normal, definitionRow, CssXls); break;
+                    case "_colon_not_td__space___space_div_dot_field_wide_space__dot_container_normal": Css._colon_not_td__space___space_div_dot_field_wide_space__dot_container_normal = definitionRow[1].ToString(); SetCssTable(CssTable._colon_not_td__space___space_div_dot_field_wide_space__dot_container_normal, definitionRow, CssXls); break;
                     case "_dot_field_markdown": Css._dot_field_markdown = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_markdown, definitionRow, CssXls); break;
                     case "_dot_field_markdown_space___space__dot_field_label": Css._dot_field_markdown_space___space__dot_field_label = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_markdown_space___space__dot_field_label, definitionRow, CssXls); break;
                     case "_dot_field_markdown_space___space__dot_field_control": Css._dot_field_markdown_space___space__dot_field_control = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_markdown_space___space__dot_field_control, definitionRow, CssXls); break;
-                    case "_dot_field_markdown_space__dot_container_normal": Css._dot_field_markdown_space__dot_container_normal = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_markdown_space__dot_container_normal, definitionRow, CssXls); break;
+                    case "_colon_not_td__space___space_div_dot_field_markdown_space__dot_container_normal": Css._colon_not_td__space___space_div_dot_field_markdown_space__dot_container_normal = definitionRow[1].ToString(); SetCssTable(CssTable._colon_not_td__space___space_div_dot_field_markdown_space__dot_container_normal, definitionRow, CssXls); break;
                     case "_dot_field_auto": Css._dot_field_auto = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_auto, definitionRow, CssXls); break;
                     case "_dot_field_auto_space___space__dot_field_label": Css._dot_field_auto_space___space__dot_field_label = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_auto_space___space__dot_field_label, definitionRow, CssXls); break;
                     case "_dot_field_auto_space___space__dot_field_label_space___space_label": Css._dot_field_auto_space___space__dot_field_label_space___space_label = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_auto_space___space__dot_field_label_space___space_label, definitionRow, CssXls); break;
@@ -3197,7 +3207,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_menu_sort_space___space_li": Css._dot_menu_sort_space___space_li = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_sort_space___space_li, definitionRow, CssXls); break;
                     case "_dot_menu_sort_space___space_li_colon_hover": Css._dot_menu_sort_space___space_li_colon_hover = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_sort_space___space_li_colon_hover, definitionRow, CssXls); break;
                     case "_dot_menu_sort_space___space_li_space___space__asterisk_": Css._dot_menu_sort_space___space_li_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_sort_space___space_li_space___space__asterisk_, definitionRow, CssXls); break;
-                    case "_dot_menu_sort_space___space_li_space___space_div_dot_field_control_space___space__asterisk_": Css._dot_menu_sort_space___space_li_space___space_div_dot_field_control_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_sort_space___space_li_space___space_div_dot_field_control_space___space__asterisk_, definitionRow, CssXls); break;
+                    case "_dot_menu_sort_space___space_li_space_div_dot_field_control_space___space__asterisk_": Css._dot_menu_sort_space___space_li_space_div_dot_field_control_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_sort_space___space_li_space_div_dot_field_control_space___space__asterisk_, definitionRow, CssXls); break;
                     case "input_colon_focus": Css.input_colon_focus = definitionRow[1].ToString(); SetCssTable(CssTable.input_colon_focus, definitionRow, CssXls); break;
                     case "select_colon_focus_colon_not__dot_has_css_": Css.select_colon_focus_colon_not__dot_has_css_ = definitionRow[1].ToString(); SetCssTable(CssTable.select_colon_focus_colon_not__dot_has_css_, definitionRow, CssXls); break;
                     case "textarea_colon_focus": Css.textarea_colon_focus = definitionRow[1].ToString(); SetCssTable(CssTable.textarea_colon_focus, definitionRow, CssXls); break;
@@ -6774,6 +6784,100 @@ namespace Implem.DefinitionAccessor
         }
     }
 
+    /// <summary>
+    /// Fixed:
+    /// </summary>
+    public interface ISqlDefinitionFile
+    {
+        string Id { get; }
+        string Body { get; }
+        string FullPath { get; }
+        Files.AccessStatuses AccessStatus { get; }
+        void Read();
+    }
+
+    /// <summary>
+    /// Fixed:
+    /// </summary>
+    public interface ISqlDefinitionFiles : IReadOnlyCollection<ISqlDefinitionFile>
+    {
+        string FullPath { get; set; }
+        void Read();
+        void ReadAppend(string path, string searchPattern);
+    }
+
+    public class SqlDefinitionFileText : ISqlDefinitionFile
+	{
+        public string Id { get; }
+        public string Body { get; private set; }
+        public string FullPath { get; }
+        public Files.AccessStatuses AccessStatus { get; private set; }
+        public SqlDefinitionFileText(string fullPath)
+        {
+            FullPath = fullPath;
+            Id = Path.GetFileNameWithoutExtension(FullPath);
+        }
+        public void Read()
+        {
+            try
+            {
+                if (!File.Exists(FullPath))
+                {
+                    AccessStatus = Files.AccessStatuses.NotFound;
+                    return;
+                }
+                var tempFile = new FileInfo(Files.CopyToTemp(
+                    FullPath, Directories.Temp()));
+                Body = Files.Read(tempFile.FullName);
+                tempFile.Delete();
+                AccessStatus = Files.AccessStatuses.Read;
+            }
+            catch (Exception e)
+            {
+                AccessStatus = Files.AccessStatuses.Failed;
+                Consoles.Write(e.Message, Consoles.Types.Error, abort: true);
+                return;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Fixed:
+    /// </summary>
+    public class SqlDefinitionFiles : ISqlDefinitionFiles
+    {
+        private static readonly string SearchPattern = "*.sql";
+        private IList<ISqlDefinitionFile> sqls = new List<ISqlDefinitionFile>();
+        public string FullPath { get; set; }
+        public int Count => sqls.Count;
+        public IEnumerator<ISqlDefinitionFile> GetEnumerator() => sqls.GetEnumerator();
+
+        public void Read()
+        {
+            sqls.Clear();
+            AddFiles(path: FullPath, searchPattern: SearchPattern);
+        }
+
+        public void ReadAppend(string path, string searchPattern)
+        {
+            AddFiles(path: path, searchPattern: searchPattern);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() => sqls.GetEnumerator();
+
+        private void AddFiles(string path, string searchPattern)
+        {
+            if (!Directory.Exists(path)) return;
+            Directory.EnumerateFiles(path, searchPattern)
+                .ForEach(f =>
+                {
+                    var file = new SqlDefinitionFileText(f);
+                    file.Read();
+                    sqls.Add(file);
+                });
+        }
+    }
+
     public class CodeDefinition
     {
         public string Id; public string SavedId;
@@ -7369,8 +7473,10 @@ namespace Implem.DefinitionAccessor
         public string Model_DeleteCases;
         public string Model_DeleteByApiCases;
         public string Model_BulkDeleteCases;
+        public string Model_BulkDeleteByApiCases;
         public string Model_DeleteHistoryCases;
         public string Model_PhysicalDeleteCases;
+        public string Model_PhysicalDeleteByApiCases;
         public string Model_RestoreCases;
         public string Model_RestoreFromHistoryCases;
         public string Model_EditSeparateSettingsCases;
@@ -7405,7 +7511,10 @@ namespace Implem.DefinitionAccessor
         public string Model_SiteSettingsContext;
         public string Model_ExtendedSqls;
         public string Model_ExtendedSqlsParameter;
+        public string Model_LinkedSsDataSetHashBeforeComma;
+        public string Model_LinkedSsDataSetHashParameter;
         public string Model_ToLocal;
+        public string Model_LinkedSsDataSetHash;
         public string Model_ExportByApi;
         public string Collection;
         public string Collection_FormDataSetParameter;
@@ -7529,10 +7638,12 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_Separate;
         public string Model_Utilities_BulkMove;
         public string Model_Utilities_BulkDelete;
+        public string Model_Utilities_BulkDeleteByApi;
         public string Model_Utilities_DeleteHistory_Sites;
         public string Model_Utilities_DeleteHistory_Items;
-        public string Model_Utilities_PhysicalDelete_Sites;
-        public string Model_Utilities_PhysicalDelete_Items;
+        public string Model_Utilities_PhysicalBulkDelete_Sites;
+        public string Model_Utilities_PhysicalBulkDelete_Items;
+        public string Model_Utilities_PhysicalBulkDeleteByApi_Items;
         public string Model_Utilities_Import;
         public string Model_Utilities_ImportColumnCases;
         public string Model_Utilities_ImportUserColumnCases;
@@ -7594,6 +7705,7 @@ namespace Implem.DefinitionAccessor
         public string Model_ExportClassPropertyCases;
         public string Model_ExportSet;
         public string Rds;
+        public string Rds_ExtendedSql;
         public string Rds_IdColumnCases;
         public string Rds_SqlStatement;
         public string Rds_ColumnBracketTableCases;
@@ -8006,8 +8118,10 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_DeleteCases = new CodeDefinition();
         public CodeDefinition Model_DeleteByApiCases = new CodeDefinition();
         public CodeDefinition Model_BulkDeleteCases = new CodeDefinition();
+        public CodeDefinition Model_BulkDeleteByApiCases = new CodeDefinition();
         public CodeDefinition Model_DeleteHistoryCases = new CodeDefinition();
         public CodeDefinition Model_PhysicalDeleteCases = new CodeDefinition();
+        public CodeDefinition Model_PhysicalDeleteByApiCases = new CodeDefinition();
         public CodeDefinition Model_RestoreCases = new CodeDefinition();
         public CodeDefinition Model_RestoreFromHistoryCases = new CodeDefinition();
         public CodeDefinition Model_EditSeparateSettingsCases = new CodeDefinition();
@@ -8042,7 +8156,10 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SiteSettingsContext = new CodeDefinition();
         public CodeDefinition Model_ExtendedSqls = new CodeDefinition();
         public CodeDefinition Model_ExtendedSqlsParameter = new CodeDefinition();
+        public CodeDefinition Model_LinkedSsDataSetHashBeforeComma = new CodeDefinition();
+        public CodeDefinition Model_LinkedSsDataSetHashParameter = new CodeDefinition();
         public CodeDefinition Model_ToLocal = new CodeDefinition();
+        public CodeDefinition Model_LinkedSsDataSetHash = new CodeDefinition();
         public CodeDefinition Model_ExportByApi = new CodeDefinition();
         public CodeDefinition Collection = new CodeDefinition();
         public CodeDefinition Collection_FormDataSetParameter = new CodeDefinition();
@@ -8166,10 +8283,12 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_Separate = new CodeDefinition();
         public CodeDefinition Model_Utilities_BulkMove = new CodeDefinition();
         public CodeDefinition Model_Utilities_BulkDelete = new CodeDefinition();
+        public CodeDefinition Model_Utilities_BulkDeleteByApi = new CodeDefinition();
         public CodeDefinition Model_Utilities_DeleteHistory_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_DeleteHistory_Items = new CodeDefinition();
-        public CodeDefinition Model_Utilities_PhysicalDelete_Sites = new CodeDefinition();
-        public CodeDefinition Model_Utilities_PhysicalDelete_Items = new CodeDefinition();
+        public CodeDefinition Model_Utilities_PhysicalBulkDelete_Sites = new CodeDefinition();
+        public CodeDefinition Model_Utilities_PhysicalBulkDelete_Items = new CodeDefinition();
+        public CodeDefinition Model_Utilities_PhysicalBulkDeleteByApi_Items = new CodeDefinition();
         public CodeDefinition Model_Utilities_Import = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImportColumnCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImportUserColumnCases = new CodeDefinition();
@@ -8231,6 +8350,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_ExportClassPropertyCases = new CodeDefinition();
         public CodeDefinition Model_ExportSet = new CodeDefinition();
         public CodeDefinition Rds = new CodeDefinition();
+        public CodeDefinition Rds_ExtendedSql = new CodeDefinition();
         public CodeDefinition Rds_IdColumnCases = new CodeDefinition();
         public CodeDefinition Rds_SqlStatement = new CodeDefinition();
         public CodeDefinition Rds_ColumnBracketTableCases = new CodeDefinition();
@@ -10197,6 +10317,7 @@ namespace Implem.DefinitionAccessor
         public string _sharp_Search;
         public string _sharp_SwitchUserInfo;
         public string _sharp_SwitchUserInfo_space___space_a;
+        public string _sharp_ExcessLicenseWarning;
         public string _sharp_PublishWarning;
         public string _sharp_PublishWarning_space___space_a;
         public string _sharp_LockedWarning;
@@ -10233,9 +10354,10 @@ namespace Implem.DefinitionAccessor
         public string _sharp_Aggregations_space_em;
         public string _sharp_Aggregations_space___space__dot_display_control;
         public string _sharp_SitePackagesSelectable_space_span_dot_include_data;
-        public string _sharp_CalendarMonth;
+        public string _sharp_CalendarDate;
         public string _sharp_CalendarBody_space_table;
-        public string _sharp_CalendarBody_space_th;
+        public string _sharp_CalendarBody_space_thead_space_th;
+        public string th_dot_calendar_header;
         public string _sharp_CalendarBody_space__dot_saturday;
         public string _sharp_CalendarBody_space__dot_sunday;
         public string _sharp_CalendarBody_space_td;
@@ -10411,17 +10533,17 @@ namespace Implem.DefinitionAccessor
         public string _dot_field_normal;
         public string _dot_field_normal_space___space__dot_field_label;
         public string _dot_field_normal_space___space__dot_field_control;
-        public string _dot_field_normal_space__dot_container_normal;
+        public string _colon_not_td__space___space_div_dot_field_normal_space__dot_container_normal;
         public string _dot_field_normal_space___space__dot_buttons;
         public string _dot_field_normal_space__dot_control_text;
         public string _dot_field_wide;
         public string _dot_field_wide_space___space__dot_field_label;
         public string _dot_field_wide_space___space__dot_field_control;
-        public string _dot_field_wide_space__dot_container_normal;
+        public string _colon_not_td__space___space_div_dot_field_wide_space__dot_container_normal;
         public string _dot_field_markdown;
         public string _dot_field_markdown_space___space__dot_field_label;
         public string _dot_field_markdown_space___space__dot_field_control;
-        public string _dot_field_markdown_space__dot_container_normal;
+        public string _colon_not_td__space___space_div_dot_field_markdown_space__dot_container_normal;
         public string _dot_field_auto;
         public string _dot_field_auto_space___space__dot_field_label;
         public string _dot_field_auto_space___space__dot_field_label_space___space_label;
@@ -10656,7 +10778,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_menu_sort_space___space_li;
         public string _dot_menu_sort_space___space_li_colon_hover;
         public string _dot_menu_sort_space___space_li_space___space__asterisk_;
-        public string _dot_menu_sort_space___space_li_space___space_div_dot_field_control_space___space__asterisk_;
+        public string _dot_menu_sort_space___space_li_space_div_dot_field_control_space___space__asterisk_;
         public string input_colon_focus;
         public string select_colon_focus_colon_not__dot_has_css_;
         public string textarea_colon_focus;
@@ -10712,6 +10834,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_Search = new CssDefinition();
         public CssDefinition _sharp_SwitchUserInfo = new CssDefinition();
         public CssDefinition _sharp_SwitchUserInfo_space___space_a = new CssDefinition();
+        public CssDefinition _sharp_ExcessLicenseWarning = new CssDefinition();
         public CssDefinition _sharp_PublishWarning = new CssDefinition();
         public CssDefinition _sharp_PublishWarning_space___space_a = new CssDefinition();
         public CssDefinition _sharp_LockedWarning = new CssDefinition();
@@ -10748,9 +10871,10 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_Aggregations_space_em = new CssDefinition();
         public CssDefinition _sharp_Aggregations_space___space__dot_display_control = new CssDefinition();
         public CssDefinition _sharp_SitePackagesSelectable_space_span_dot_include_data = new CssDefinition();
-        public CssDefinition _sharp_CalendarMonth = new CssDefinition();
+        public CssDefinition _sharp_CalendarDate = new CssDefinition();
         public CssDefinition _sharp_CalendarBody_space_table = new CssDefinition();
-        public CssDefinition _sharp_CalendarBody_space_th = new CssDefinition();
+        public CssDefinition _sharp_CalendarBody_space_thead_space_th = new CssDefinition();
+        public CssDefinition th_dot_calendar_header = new CssDefinition();
         public CssDefinition _sharp_CalendarBody_space__dot_saturday = new CssDefinition();
         public CssDefinition _sharp_CalendarBody_space__dot_sunday = new CssDefinition();
         public CssDefinition _sharp_CalendarBody_space_td = new CssDefinition();
@@ -10926,17 +11050,17 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_field_normal = new CssDefinition();
         public CssDefinition _dot_field_normal_space___space__dot_field_label = new CssDefinition();
         public CssDefinition _dot_field_normal_space___space__dot_field_control = new CssDefinition();
-        public CssDefinition _dot_field_normal_space__dot_container_normal = new CssDefinition();
+        public CssDefinition _colon_not_td__space___space_div_dot_field_normal_space__dot_container_normal = new CssDefinition();
         public CssDefinition _dot_field_normal_space___space__dot_buttons = new CssDefinition();
         public CssDefinition _dot_field_normal_space__dot_control_text = new CssDefinition();
         public CssDefinition _dot_field_wide = new CssDefinition();
         public CssDefinition _dot_field_wide_space___space__dot_field_label = new CssDefinition();
         public CssDefinition _dot_field_wide_space___space__dot_field_control = new CssDefinition();
-        public CssDefinition _dot_field_wide_space__dot_container_normal = new CssDefinition();
+        public CssDefinition _colon_not_td__space___space_div_dot_field_wide_space__dot_container_normal = new CssDefinition();
         public CssDefinition _dot_field_markdown = new CssDefinition();
         public CssDefinition _dot_field_markdown_space___space__dot_field_label = new CssDefinition();
         public CssDefinition _dot_field_markdown_space___space__dot_field_control = new CssDefinition();
-        public CssDefinition _dot_field_markdown_space__dot_container_normal = new CssDefinition();
+        public CssDefinition _colon_not_td__space___space_div_dot_field_markdown_space__dot_container_normal = new CssDefinition();
         public CssDefinition _dot_field_auto = new CssDefinition();
         public CssDefinition _dot_field_auto_space___space__dot_field_label = new CssDefinition();
         public CssDefinition _dot_field_auto_space___space__dot_field_label_space___space_label = new CssDefinition();
@@ -11171,7 +11295,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_menu_sort_space___space_li = new CssDefinition();
         public CssDefinition _dot_menu_sort_space___space_li_colon_hover = new CssDefinition();
         public CssDefinition _dot_menu_sort_space___space_li_space___space__asterisk_ = new CssDefinition();
-        public CssDefinition _dot_menu_sort_space___space_li_space___space_div_dot_field_control_space___space__asterisk_ = new CssDefinition();
+        public CssDefinition _dot_menu_sort_space___space_li_space_div_dot_field_control_space___space__asterisk_ = new CssDefinition();
         public CssDefinition input_colon_focus = new CssDefinition();
         public CssDefinition select_colon_focus_colon_not__dot_has_css_ = new CssDefinition();
         public CssDefinition textarea_colon_focus = new CssDefinition();
@@ -13526,107 +13650,6 @@ namespace Implem.DefinitionAccessor
         public SqlDefinition Spaceused = new SqlDefinition();
         public SqlDefinition SelectPkName = new SqlDefinition();
         public SqlDefinition CreateFullText = new SqlDefinition();
-    }
-
-    /// <summary>
-    /// Fixed:
-    /// </summary>
-    public interface ISqlDefinitionFile
-    {
-        string Id { get; }
-        string Body { get; }
-        string FullPath { get; }
-        Files.AccessStatuses AccessStatus { get; }
-        void Read();
-    }
-
-    /// <summary>
-    /// Fixed:
-    /// </summary>
-    public interface ISqlDefinitionFiles : IReadOnlyCollection<ISqlDefinitionFile>
-    {
-        string FullPath { get; set; }
-        void Read();
-        void ReadAppend(string path, string searchPattern);
-    }
-
-    /// <summary>
-    /// Fixed:
-    /// </summary>
-    public class SqlDefinitionFileText : ISqlDefinitionFile
-    {
-        public string Id { get; }
-        public string Body { get; private set; }
-
-        public string FullPath { get; }
-        public Files.AccessStatuses AccessStatus { get; private set; }
-
-        public SqlDefinitionFileText(string fullPath)
-        {
-            FullPath = fullPath;
-            Id = Path.GetFileNameWithoutExtension(FullPath);
-        }
-
-        public void Read()
-        {
-            try
-            {
-                if (!File.Exists(FullPath))
-                {
-                    AccessStatus = Files.AccessStatuses.NotFound;
-                    return;
-                }
-                var tempFile = new FileInfo(Files.CopyToTemp(
-                    FullPath, Directories.Temp()));
-                Body = Files.Read(tempFile.FullName);
-                tempFile.Delete();
-                AccessStatus = Files.AccessStatuses.Read;
-            }
-            catch (Exception e)
-            {
-                AccessStatus = Files.AccessStatuses.Failed;
-                Consoles.Write(e.Message, Consoles.Types.Error, abort: true);
-                return;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Fixed:
-    /// </summary>
-    public class SqlDefinitionFiles : ISqlDefinitionFiles
-    {
-        private static readonly string SearchPattern = "*.sql";
-        private IList<ISqlDefinitionFile> sqls = new List<ISqlDefinitionFile>();
-
-        public string FullPath { get; set; }
-        public int Count => sqls.Count;
-        public IEnumerator<ISqlDefinitionFile> GetEnumerator() => sqls.GetEnumerator();
-
-        public void Read()
-        {
-            sqls.Clear();
-            AddFiles(path: FullPath, searchPattern: SearchPattern);
-        }
-
-        public void ReadAppend(string path, string searchPattern)
-        {
-            AddFiles(path: path, searchPattern: searchPattern);
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() => sqls.GetEnumerator();
-
-        private void AddFiles(string path, string searchPattern)
-        {
-            if (!Directory.Exists(path)) return;
-            Directory.EnumerateFiles(path, searchPattern)
-                .ForEach(f =>
-                {
-                    var file = new SqlDefinitionFileText(f);
-                    file.Read();
-                    sqls.Add(file);
-                });
-        }
     }
 
     public class TemplateDefinition

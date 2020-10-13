@@ -542,7 +542,9 @@ namespace Implem.Pleasanter.Models
             var where = Rds.RegistrationsWhere().RegistrationId(RegistrationId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteRegistrations(factory: context, where: where),
+                Rds.DeleteRegistrations(
+                    factory: context,
+                    where: where),
             });
             Repository.ExecuteNonQuery(
                 context: context,

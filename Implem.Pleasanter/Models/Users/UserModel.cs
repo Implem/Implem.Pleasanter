@@ -1502,7 +1502,9 @@ namespace Implem.Pleasanter.Models
             var where = Rds.UsersWhere().UserId(UserId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteUsers(factory: context, where: where),
+                Rds.DeleteUsers(
+                    factory: context,
+                    where: where),
                 StatusUtilities.UpdateStatus(
                     tenantId: context.TenantId,
                     type: StatusUtilities.Types.UsersUpdated),
@@ -2572,7 +2574,7 @@ namespace Implem.Pleasanter.Models
         private void UpdateSecondaryAuthenticationCode(Context context)
         {
             SecondaryAuthenticationCode = CreateSecondaryAuthenticationCode();
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateUsers(
                     where: Rds.UsersWhereDefault(this),
@@ -2609,7 +2611,7 @@ namespace Implem.Pleasanter.Models
             switch (Parameters.Security?.SecondaryAuthentication?.NotificationType)
             {
                 case "Mail":
-                    Rds.ExecuteTable(
+                    Repository.ExecuteTable(
                         context: context,
                         statements: Rds.SelectMailAddresses(
                             column: Rds.MailAddressesColumn().MailAddress(),
@@ -2672,21 +2674,27 @@ namespace Implem.Pleasanter.Models
                         .Div(
                             id: "SecondaryAuthenticationCommands",
                             css: "both",
-                            action: () => hb
+                            action: () => hb.Div(css: "command-right", action: () => hb
                                 .Button(
                                     controlId: "SecondaryAuthenticate",
-                                    controlCss: "button-icon button-right-justified validate",
+                                    controlCss: " button-icon validate",
                                     text: Displays.Confirm(context: context),
                                     onClick: "$p.send($(this));",
                                     icon: "ui-icon-unlocked",
                                     action: "Authenticate",
                                     method: "post",
-                                    type: "submit"))
+                                    type: "submit")
+                                .Button(
+                                        text: Displays.Cancel(context: context),
+                                        controlCss: "button-icon ",
+                                        onClick: "$p.back();",
+                                        icon: "ui-icon-cancel")))
                         .Div(
                             id: "SecondaryAuthenticationBottom",
                             action: () => hb.Raw(HtmlHtmls.ExtendedHtmls(
                                 context: context,
                                 id: "SecondaryAuthenticationGuideBottom"))))
+                .Val("#BackUrl", context.UrlReferrer, !context.UrlReferrer.IsNullOrEmpty())
                 .Focus("#SecondaryAuthenticationCode").ToJson();
         }
 
@@ -2822,7 +2830,7 @@ namespace Implem.Pleasanter.Models
             statements.ForEach(statement => statement.SqlParamCollection = new SqlParamCollection()
                 .Add("TenantId", this.TenantId)
                 .Add("UserId", this.UserId));
-            var dataTables = statements.Select(statement => Rds.ExecuteTable(
+            var dataTables = statements.Select(statement => Repository.ExecuteTable(
                 context: context,
                 statements: statement));
             foreach (DataTable table in dataTables)
@@ -2951,14 +2959,18 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
+        public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column, int? tabIndex)
         {
             return UserId != 0
-                ? hb.Td(action: () => hb
-                    .HtmlUser(
-                        context: context,
-                        text: column.ChoiceHash.Get(UserId.ToString())?.Text))
-                : hb.Td(action: () => { });
+                ? hb.Td(
+                    css: column.CellCss(),
+                    action: () => hb
+                        .HtmlUser(
+                            context: context,
+                            text: column.ChoiceHash.Get(UserId.ToString())?.Text))
+                : hb.Td(
+                    css: column.CellCss(),
+                    action: () => { });
         }
 
         /// <summary>

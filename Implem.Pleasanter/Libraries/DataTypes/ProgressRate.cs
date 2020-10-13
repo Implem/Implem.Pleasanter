@@ -77,12 +77,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 value: Value);
         }
 
-        public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
+        public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column, int? tabIndex)
         {
             return hb.Td(
-                css: column.TextAlign == SiteSettings.TextAlignTypes.Right
-                    ? " right-align "
-                    : string.Empty,
+                css: column.CellCss(),
                 action: () => Svg(hb, context, column));
         }
 

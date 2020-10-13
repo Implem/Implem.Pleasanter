@@ -141,6 +141,171 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
+        private Dictionary<long, DataSet> LinkedSsDataSetHash(Context context)
+        {
+            return LinkedSsDataSetHash(context: context, siteId: SiteId);
+        }
+
+        public static Dictionary<long, DataSet> LinkedSsDataSetHash(Context context, long siteId)
+        {
+            var (destinationIds, sourceIds) = LinkIds(
+                context: context,
+                siteIds: new[] { siteId },
+                destinationIds: new Dictionary<long, long[]>(),
+                sourceIds: new Dictionary<long, long[]>());
+            return SiteSettingsCache(
+                context: context,
+                siteIds: new[] { siteId }
+                    .Union(destinationIds.SelectMany(ids => ids.Value))
+                    .Union(sourceIds.SelectMany(ids => ids.Value))
+                    .ToArray(),
+                destinationIds: destinationIds,
+                sourceIds: sourceIds);
+        }
+
+        private static Dictionary<long, DataSet> SiteSettingsCache(
+            Context context,
+            long[] siteIds,
+            Dictionary<long, long[]> destinationIds,
+            Dictionary<long, long[]> sourceIds)
+        {
+            var dataSets = new Dictionary<long, DataSet>();
+            var dataTable = Repository.ExecuteTable(
+                context: context,
+                statements:
+                    Rds.SelectSites(
+                        column: Rds.SitesColumn()
+                            .SiteId()
+                            .Title()
+                            .Body()
+                            .GridGuide()
+                            .EditorGuide()
+                            .ReferenceType()
+                            .ParentId()
+                            .InheritPermission()
+                            .SiteSettings(),
+                        where: Rds.SitesWhere()
+                            .TenantId(context.TenantId)
+                            .SiteId_In(siteIds)
+                            .ReferenceType("Wikis", _operator: "<>")));
+            var dataRows = dataTable.AsEnumerable().ToDictionary(r => r.Field<long>(0), r => r);
+            siteIds.ForEach(siteId =>
+            {
+                var dataSet = new DataSet();
+                dataSets.Add(siteId, dataSet);
+                new[]
+                {
+                    (direction: "Destinations", links: sourceIds),
+                    (direction: "Sources", links: destinationIds)
+                }.ForEach(ids =>
+                {
+                    var clonedDataTable = dataTable.Clone();
+                    clonedDataTable.TableName = ids.direction;
+                    dataSet.Tables.Add(clonedDataTable);
+                    ids
+                        .links
+                        .Get(siteId)?
+                        .Select(id => dataRows.Get(id))
+                        .Where(row => row != null)
+                        .ForEach(row => clonedDataTable
+                            .Rows
+                            .Add(row.ItemArray));
+                });
+            });
+            return dataSets;
+        }
+
+        private static  (Dictionary<long, long[]> destinationIds, Dictionary<long, long[]> sourceIds) LinkIds(
+            Context context,
+            long[] siteIds,
+            Dictionary<long, long[]> destinationIds,
+            Dictionary<long, long[]> sourceIds)
+        {
+            (destinationIds, sourceIds) = DestinationIds(
+                context: context,
+                siteIds: siteIds,
+                destinationIds: destinationIds,
+                sourceIds: sourceIds);
+            (destinationIds, sourceIds) = SourceIds(
+                context: context,
+                siteIds: siteIds,
+                destinationIds: destinationIds,
+                sourceIds: sourceIds);
+            return (destinationIds, sourceIds);
+        }
+
+        private static  (Dictionary<long, long[]> destinationIds, Dictionary<long, long[]> sourceIds) DestinationIds(
+            Context context,
+            long[] siteIds,
+            Dictionary<long, long[]> destinationIds,
+            Dictionary<long, long[]> sourceIds)
+        {
+            var ids = siteIds.Where(id => destinationIds.Get(id) == null).ToArray();
+            if (!ids.Any())
+            {
+                return (destinationIds, sourceIds);
+            }
+            var dataTable = Repository.ExecuteTable(
+                context: context,
+                statements: Rds.SelectLinks(
+                    column: Rds.LinksColumn()
+                        .SourceId()
+                        .DestinationId(),
+                    join: new SqlJoinCollection(new SqlJoin(
+                        tableBracket: "\"Sites\"",
+                        joinType: SqlJoin.JoinTypes.Inner,
+                        joinExpression: "\"Links\".\"DestinationId\"=\"Sites\".\"SiteId\"")),
+                    where: Rds.LinksWhere()
+                        .DestinationId_In(ids)
+                        .Sites_TenantId(context.TenantId)
+                        .Sites_ReferenceType(
+                            _operator: " in ",
+                            raw: "('Issues','Results')")));
+            var newLinks = dataTable.AsEnumerable()
+                .Select(r => (sourceId: r.Field<long>(0), destinationId: r.Field<long>(1)))
+                .GroupBy(r => r.destinationId, r => r.sourceId)
+                .ToDictionary(r => r.Key, r => r.ToArray());
+            destinationIds.AddRange(newLinks);
+            return LinkIds(
+                context: context,
+                siteIds: newLinks.SelectMany(o => o.Value).Distinct().ToArray(),
+                destinationIds: destinationIds,
+                sourceIds: sourceIds);
+        }
+
+        private static  (Dictionary<long, long[]> destinationIds, Dictionary<long, long[]> sourceIds) SourceIds(
+            Context context,
+            long[] siteIds,
+            Dictionary<long, long[]> destinationIds,
+            Dictionary<long, long[]> sourceIds)
+        {
+            var ids = siteIds.Where(id => sourceIds.Get(id) == null).ToArray();
+            if (!ids.Any())
+            {
+                return (destinationIds, sourceIds);
+            }
+            var dataTable = Repository.ExecuteTable(
+                context: context,
+                statements:
+                    Rds.SelectLinks(
+                        column: Rds.LinksColumn()
+                            .DestinationId()
+                            .SourceId(),
+                        where: Rds.LinksWhere()
+                            .SourceId_In(ids))
+                );
+            var newLinks = dataTable.AsEnumerable()
+                .Select(r => (destinationId: r.Field<long>(0), sourceId: r.Field<long>(1)))
+                .GroupBy(r => r.sourceId, r => r.destinationId)
+                .ToDictionary(r => r.Key, r => r.ToArray());
+            sourceIds.AddRange(newLinks);
+            return LinkIds(
+                context: context,
+                siteIds: newLinks.SelectMany(o => o.Value).Distinct().ToArray(),
+                destinationIds: destinationIds,
+                sourceIds: sourceIds);
+        }
+
         public System.Web.Mvc.ContentResult ExportByApi(Context context)
         {
             SetSite(context: context);
@@ -196,7 +361,8 @@ namespace Implem.Pleasanter.Models
             SetSite(
                 context: context,
                 initSiteSettings: true,
-                setSiteIntegration: true);
+                setSiteIntegration: true,
+                linkedSsDataSetHash: LinkedSsDataSetHash(context: context));
             ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
@@ -676,7 +842,8 @@ namespace Implem.Pleasanter.Models
             SetSite(
                 context: context,
                 siteOnly: true,
-                initSiteSettings: true);
+                initSiteSettings: true,
+                linkedSsDataSetHash: LinkedSsDataSetHash(context: context));
             switch (Site.ReferenceType)
             {
                 case "Issues":
@@ -764,7 +931,7 @@ namespace Implem.Pleasanter.Models
 
         public string Editor(Context context)
         {
-            SetSite(context: context);
+            SetSite(context: context, linkedSsDataSetHash: LinkedSsDataSetHash(context: context));
             switch (ReferenceType)
             {
                 case "Sites":
@@ -1667,7 +1834,7 @@ namespace Implem.Pleasanter.Models
 
         public string Update(Context context)
         {
-            SetSite(context: context);
+            SetSite(context: context, linkedSsDataSetHash: LinkedSsDataSetHash(context: context));
             switch (ReferenceType)
             {
                 case "Sites":
@@ -2041,6 +2208,62 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public System.Web.Mvc.ContentResult BulkDeleteByApi(Context context)
+        {
+            SetSite(context: context);
+            if (!Site.WithinApiLimits())
+            {
+                return ApiResults.Get(ApiResponses.OverLimitApi(
+                    context: context,
+                    siteId: Site.SiteId,
+                    limitPerSite: Parameters.Api.LimitPerSite));
+            }
+            if (context.RequestDataString.Deserialize<ApiDeleteOption>()?.PhysicalDelete == true)
+            {
+                switch (Site.ReferenceType)
+                {
+                    case "Issues":
+                        return IssueUtilities.PhysicalBulkDeleteByApi(
+                            context: context,
+                            ss: Site.IssuesSiteSettings(
+                                context: context,
+                                referenceId: ReferenceId,
+                                setSiteIntegration: true,
+                                tableType: Sqls.TableTypes.Deleted));
+                    case "Results":
+                        return ResultUtilities.PhysicalBulkDeleteByApi(
+                            context: context,
+                            ss: Site.ResultsSiteSettings(
+                                context: context,
+                                referenceId: ReferenceId,
+                                setSiteIntegration: true,
+                                tableType: Sqls.TableTypes.Deleted));
+                    default:
+                        return ApiResults.Get(ApiResponses.NotFound(context: context));
+                }
+            }
+            else
+            {
+                switch (Site.ReferenceType)
+                {
+                    case "Issues":
+                        return IssueUtilities.BulkDeleteByApi(
+                            context: context,
+                            ss: Site.IssuesSiteSettings(
+                                context: context,
+                                referenceId: ReferenceId));
+                    case "Results":
+                        return ResultUtilities.BulkDeleteByApi(
+                            context: context,
+                            ss: Site.ResultsSiteSettings(
+                                context: context,
+                                referenceId: ReferenceId));
+                    default:
+                        return ApiResults.Get(ApiResponses.NotFound(context: context));
+                }
+            }
+        }
+
         public string DeleteHistory(Context context)
         {
             SetSite(
@@ -2079,13 +2302,13 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public string PhysicalDelete(Context context)
+        public string PhysicalBulkDelete(Context context)
         {
             SetSite(context: context, tableType: Sqls.TableTypes.Deleted);
             switch (Site.ReferenceType)
             {
                 case "Sites":
-                    return SiteUtilities.PhysicalDelete(
+                    return SiteUtilities.PhysicalBulkDelete(
                         context: context,
                         ss: Site.SitesSiteSettings(
                             context: context,
@@ -2093,7 +2316,7 @@ namespace Implem.Pleasanter.Models
                             setSiteIntegration: true,
                             tableType: Sqls.TableTypes.Deleted));
                 case "Issues":
-                    return IssueUtilities.PhysicalDelete(
+                    return IssueUtilities.PhysicalBulkDelete(
                         context: context,
                         ss: Site.IssuesSiteSettings(
                             context: context,
@@ -2101,7 +2324,7 @@ namespace Implem.Pleasanter.Models
                             setSiteIntegration: true,
                             tableType: Sqls.TableTypes.Deleted));
                 case "Results":
-                    return ResultUtilities.PhysicalDelete(
+                    return ResultUtilities.PhysicalBulkDelete(
                         context: context,
                         ss: Site.ResultsSiteSettings(
                             context: context,
@@ -2570,14 +2793,16 @@ namespace Implem.Pleasanter.Models
             bool siteOnly = false,
             bool initSiteSettings = false,
             bool setSiteIntegration = false,
-            Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            Dictionary<long, DataSet> linkedSsDataSetHash = null)
         {
             Site = GetSite(
                 context: context,
                 siteOnly: siteOnly,
                 initSiteSettings: initSiteSettings,
                 setSiteIntegration: setSiteIntegration,
-                tableType: tableType);
+                tableType: tableType,
+                linkedSsDataSetHash: linkedSsDataSetHash);
         }
 
         public SiteModel GetSite(
@@ -2585,7 +2810,8 @@ namespace Implem.Pleasanter.Models
             bool siteOnly = false,
             bool initSiteSettings = false,
             bool setSiteIntegration = false,
-            Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            Dictionary<long, DataSet> linkedSsDataSetHash = null)
         {
             SiteModel siteModel;
             if (ReferenceType == "Sites" && context.Forms.Exists("Ver"))
@@ -2607,12 +2833,14 @@ namespace Implem.Pleasanter.Models
                 siteModel = siteOnly
                     ? new SiteModel(
                         context: context,
-                        siteId: ReferenceId)
+                        siteId: ReferenceId,
+                        linkedSsDataSetHash: linkedSsDataSetHash)
                     : new SiteModel(
                         context: context,
                         siteId: ReferenceType == "Sites"
                             ? ReferenceId
-                            : SiteId);
+                            : SiteId,
+                        linkedSsDataSetHash: linkedSsDataSetHash);
             }
             if (initSiteSettings)
             {

@@ -468,7 +468,9 @@ namespace Implem.Pleasanter.Models
             var where = Rds.DeptsWhere().DeptId(DeptId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteDepts(factory: context, where: where),
+                Rds.DeleteDepts(
+                    factory: context,
+                    where: where),
                 StatusUtilities.UpdateStatus(
                     tenantId: context.TenantId,
                     type: StatusUtilities.Types.DeptsUpdated),
@@ -843,12 +845,14 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
+        public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column, int? tabIndex)
         {
-            return hb.Td(action: () => hb
-                .HtmlDept(
-                    context: context,
-                    id: DeptId));
+            return hb.Td(
+                css: column.CellCss(),
+                action: () => hb
+                    .HtmlDept(
+                        context: context,
+                        id: DeptId));
         }
 
         /// <summary>

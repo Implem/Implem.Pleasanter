@@ -556,8 +556,8 @@ namespace Implem.Pleasanter.Models
                             .SiteUserWhere(siteId: referenceId)
                             .MailAddresses_OwnerType("Users")
                             .SearchText(
-                            context: context,
-                            searchText: searchText)
+                                context: context,
+                                searchText: searchText)
                             .Users_TenantId(context.TenantId));
                 case "All":
                 default:
@@ -570,8 +570,8 @@ namespace Implem.Pleasanter.Models
                             where: Rds.UsersWhere()
                                 .MailAddresses_OwnerType("Users")
                                 .SearchText(
-                                context: context,
-                                searchText: searchText)
+                                    context: context,
+                                    searchText: searchText)
                                 .Users_TenantId(context.TenantId))
                         : new Dictionary<string, ControlData>();
             }

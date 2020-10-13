@@ -11,16 +11,16 @@
             resizable: false,
             position: { of: window }
         });
-        $('#SetDateRangeDialog').dialog("open");
+        $('#SetDateRangeDialog').dialog('open');
     }
 }
 $p.openSiteSetDateRangeDialog = function ($control, timepicker) {
     $control.blur();
     $p.openSiteSettingsDialog($control, '#SetDateRangeDialog', 'auto');
-    $target = $('#' + $control.attr('id').replace("_DateRange", ""));
-    var initValue = JSON.parse($target.val() || "null");
-    var startValue = "";
-    var endValue = "";
+    $target = $('[id="' + $control.attr('id').replace('_DateRange', '') + '"]');
+    var initValue = JSON.parse($target.val() || 'null');
+    var startValue = '';
+    var endValue = '';
     if (Array.isArray(initValue) && initValue.length > 0) {
         var values = initValue[0].split(',');
         if (values.length > 0) {
@@ -36,22 +36,22 @@ $p.openSiteSetDateRangeDialog = function ($control, timepicker) {
 $p.openSetDateRangeOK = function ($controlID, timepicker) {
     var sdval = $('#dateRangeStart').val();
     var edval = $('#dateRangeEnd').val();
-    var setval = "";
-    var dispval = "";
+    var setval = '';
+    var dispval = '';
     if (sdval || edval) {
-        dispval = sdval + "-" + edval;
-        if (!timepicker && sdval) { sdval += " 00:00:00.000"; }
-        if (!timepicker && edval) { edval += " 23:59:59.997"; }
+        dispval = sdval + '-' + edval;
+        if (!timepicker && sdval) { sdval += ' 00:00:00.000'; }
+        if (!timepicker && edval) { edval += ' 23:59:59.997'; }
         setval = '["' + sdval + ',' + edval + '"]';
     }
-    $control = $('#' + $controlID);
-    $target = $('#' + $controlID.replace("_DateRange", ""));
+    $control = $('[id="' + $controlID + '"]');
+    $target = $('[id="' + $controlID.replace('_DateRange', '') + '"]');
     $control.val(dispval);
     $p.set($target, setval);
-    $('#SetDateRangeDialog').dialog("close");
+    $('#SetDateRangeDialog').dialog('close');
     $p.send($target);
 }
 $p.openSetDateRangeClear = function () {
-    $('#dateRangeStart').val("");
-    $('#dateRangeEnd').val("");
+    $('#dateRangeStart').val('');
+    $('#dateRangeEnd').val('');
 }

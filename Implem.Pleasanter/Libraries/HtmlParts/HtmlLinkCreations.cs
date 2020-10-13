@@ -112,8 +112,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Add("data-to-site-id", sourceId.ToString())
                     .Add(
                         name: "from-tab-index",
-                        value: tabIndex.ToString(),
-                        _using: tabIndex != 0),
+                        value: tabIndex.ToString()),
                 action: () => hb
                     .Text(text: text));
         }
