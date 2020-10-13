@@ -5,8 +5,8 @@
     <Copyright>Copyright © Implem Inc 2014 - 2019</Copyright>
     <Description>Business application platform</Description>
     <AssemblyName>Implem.Pleasanter</AssemblyName>
-    <AssemblyVersion>1.1.6.0</AssemblyVersion>
-    <FileVersion>1.1.6.0</FileVersion>
+    <AssemblyVersion>1.1.7.0</AssemblyVersion>
+    <FileVersion>1.1.7.0</FileVersion>
     <LangVersion>7.2</LangVersion>
   </PropertyGroup>
 
