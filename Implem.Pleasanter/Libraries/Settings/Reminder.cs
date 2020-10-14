@@ -173,7 +173,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     });
             if (!test)
             {
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     statements: Rds.UpdateReminderSchedules(
                         param: Rds.ReminderSchedulesParam()
@@ -359,7 +359,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             DateTime.Now.ToLocal(context: context).Date.AddDays(Range)))
                     .Add(
                         tableName: ss.ReferenceType,
-                        columnBrackets: "\"CompletionTime\"".ToSingleArray(),
+                        columnBrackets: ($"\"{orderByColumn.ColumnName}\"").ToSingleArray(),
                         _operator: $">{context.Sqls.CurrentDateTime}",
                         _using: ExcludeOverdue == true)
                     .Add(or: new SqlWhereCollection()
