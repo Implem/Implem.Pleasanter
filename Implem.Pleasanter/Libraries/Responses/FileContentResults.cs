@@ -20,20 +20,30 @@ namespace Implem.Pleasanter.Libraries.Responses
             switch (dataRow.String("BinaryType"))
             {
                 case "Images":
-                    return dataRow != null
-                        ? new ResponseFile(
-                            fileContent: new MemoryStream(
-                                Bytes(
-                                    dataRow: dataRow,
-                                    thumbnail: context.QueryStrings.Bool("thumbnail")),
-                                false),
-                            fileDownloadName: dataRow.String("FileName"),
-                            contentType: dataRow.String("ContentType")).FileStream()
-                        : null;
+                    if (dataRow == null)
+                    {
+                        return null;
+                    }
+                    var (bytes, isThumbnail) = Bytes(
+                        dataRow: dataRow,
+                        thumbnail: context.QueryStrings.Bool("thumbnail"));
+                    var contentType = dataRow.String("ContentType");
+                    if (isThumbnail)
+                    {
+                        contentType = contentType.IsNullOrEmpty()
+                            ? "image/bmp"
+                            : "image/png";
+                    }
+                    return new ResponseFile(
+                        fileContent: new MemoryStream(
+                            bytes,
+                            false),
+                        fileDownloadName: dataRow.String("FileName"),
+                        contentType: contentType).FileStream();
                 default:
                     return dataRow != null
                         ? new ResponseFile(
-                            fileContent: new MemoryStream(Bytes(dataRow: dataRow), false),
+                            fileContent: new MemoryStream(Bytes(dataRow: dataRow).bytes, false),
                             fileDownloadName: dataRow.String("FileName"),
                             contentType: dataRow.String("ContentType")).FileStream()
                         : null;
@@ -45,7 +55,7 @@ namespace Implem.Pleasanter.Libraries.Responses
             var dataRow = GetBinariesTable(context, guid);
             return dataRow != null
                 ? new ResponseFile(
-                    new MemoryStream(Bytes(dataRow: dataRow), false),
+                    new MemoryStream(Bytes(dataRow: dataRow).bytes, false),
                     dataRow.String("FileName"),
                     dataRow.String("ContentType"))
                         .ToContentResult(
@@ -137,21 +147,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                             .FirstOrDefault();
         }
 
-        private static byte[] Bytes(DataRow dataRow, bool thumbnail = false)
+        private static (byte[] bytes, bool isThumbnail) Bytes(DataRow dataRow, bool thumbnail = false)
         {
             switch (Parameters.BinaryStorage.Provider)
             {
                 case "Local":
-                    return BytesforLocal(
+                    var bytes = BytesforLocal(
                         dataRow: dataRow,
-                        thumbnail: thumbnail)
-                            ?? BytesforLocal(
-                                dataRow: dataRow,
-                                thumbnail: false);
+                        thumbnail: thumbnail);
+                    if(bytes != null)
+                    {
+                        return (bytes, true);
+                    }
+                    return (
+                        BytesforLocal(
+                            dataRow: dataRow,
+                            thumbnail: false), false);
                 default:
                     return thumbnail && dataRow["Thumbnail"] != DBNull.Value
-                        ? dataRow.Bytes("Thumbnail")
-                        : dataRow.Bytes("Bin");
+                        ? (dataRow.Bytes("Thumbnail"), true)
+                        : (dataRow.Bytes("Bin"), false);
             }
         }
 

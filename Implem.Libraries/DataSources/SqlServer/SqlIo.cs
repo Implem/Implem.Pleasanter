@@ -84,12 +84,16 @@ namespace Implem.Libraries.DataSources.SqlServer
         public void ExecuteNonQuery()
         {
             SetCommand();
-            SqlCommand.Connection.Open();
-            Try(action: () =>
+            using (SqlCommand)
+            using (SqlCommand.Connection)
             {
-                SqlCommand.ExecuteNonQuery();
-            });
-            SqlCommand.Connection.Close();
+                SqlCommand.Connection.Open();
+                Try(action: () =>
+                {
+                    SqlCommand.ExecuteNonQuery();
+                });
+                SqlCommand.Connection.Close();
+            }
             Clear();
         }
 
@@ -97,12 +101,16 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             object value = null;
             SetCommand();
-            SqlCommand.Connection.Open();
-            Try(action: () =>
+            using (SqlCommand)
+            using (SqlCommand.Connection)
             {
-                value = SqlCommand.ExecuteScalar();
-            });
-            SqlCommand.Connection.Close();
+                SqlCommand.Connection.Open();
+                Try(action: () =>
+                {
+                    value = SqlCommand.ExecuteScalar();
+                });
+                SqlCommand.Connection.Close();
+            }
             Clear();
             return value;
         }
@@ -111,10 +119,16 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             var dataTable = new DataTable();
             SetCommand();
-            Try(action: () =>
+            using (SqlCommand) 
+            using (SqlCommand.Connection)
             {
-                new SqlDataAdapter(SqlCommand).Fill(dataTable);
-            });
+                SqlCommand.Connection.Open();
+                Try(action: () =>
+                {
+                    new SqlDataAdapter(SqlCommand).Fill(dataTable);
+                });
+                SqlCommand.Connection.Close();
+            }
             Clear();
             return dataTable;
         }
@@ -123,10 +137,16 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             var dataSet = new DataSet();
             SetCommand();
-            Try(action: () =>
+            using (SqlCommand)
+            using (SqlCommand.Connection)
             {
-                SqlContainer.SqlDataAdapter(SqlCommand).Fill(dataSet);
-            });
+                SqlCommand.Connection.Open();
+                Try(action: () =>
+                {
+                    SqlContainer.SqlDataAdapter(SqlCommand).Fill(dataSet);
+                });
+                SqlCommand.Connection.Close();
+            }
             Clear();
             return dataSet;
         }

@@ -359,7 +359,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             DateTime.Now.ToLocal(context: context).Date.AddDays(Range)))
                     .Add(
                         tableName: ss.ReferenceType,
-                        columnBrackets: "[CompletionTime]".ToSingleArray(),
+                        columnBrackets: ($"[{orderByColumn.ColumnName}]").ToSingleArray(),
                         _operator: ">getdate()",
                         _using: ExcludeOverdue == true)
                     .Add(or: new SqlWhereCollection()
