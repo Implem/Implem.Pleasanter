@@ -48,15 +48,20 @@ $p.apiBulkDeleteExec = function (url, args) {
 }
 
 $p.apiExec = function (url, args) {
+    if (args === undefined) {
+        args = {};
+    }
     if (args.async !== undefined) {
         $.ajaxSetup({ async: args.async });
     }
     return $.ajax({
         type: 'Post',
         url: url,
+        cache: false,
+        contentType: 'application/json',
         data: args.data !== undefined
             ? JSON.stringify(args.data)
-            : "",
+            : '{}',
         dataType: 'json'
     })
         .done(args.done)
