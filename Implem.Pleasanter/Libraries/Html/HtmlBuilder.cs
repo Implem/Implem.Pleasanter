@@ -11,6 +11,11 @@ namespace Implem.Pleasanter.Libraries.Html
         public HtmlElement Top;
         public HtmlElement Current;
 
+        public HtmlBuilder()
+        {
+            Top = Current = new HtmlElement();
+        }
+
         public HtmlBuilder Append(string tag, int closeLevel = 0, HtmlAttributes attributes = null)
         {
             var element = new HtmlElement
@@ -162,7 +167,12 @@ namespace Implem.Pleasanter.Libraries.Html
                 builder = builder ?? new StringBuilder();
                 if (string.IsNullOrWhiteSpace(Tag))
                 {
-                    return builder.Append(RawText).Append(HttpUtility.HtmlEncode(Text));
+                    builder.Append(RawText).Append(HttpUtility.HtmlEncode(Text));
+                    foreach (var child in Children)
+                    {
+                        child.ToHtml(builder);
+                    }
+                    return builder;
                 }
                 builder.Append("<").Append(Tag);
                 if (!string.IsNullOrWhiteSpace(Css))
