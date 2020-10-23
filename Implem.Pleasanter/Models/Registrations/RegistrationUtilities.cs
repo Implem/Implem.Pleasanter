@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Web;
 namespace Implem.Pleasanter.Models
 {
     public static class RegistrationUtilities
@@ -1695,7 +1696,7 @@ namespace Implem.Pleasanter.Models
                     .Val("#VerUp", verUp)
                     .Val("#Ver", registrationModel.Ver)
                     .Disabled("#VerUp", verUp)
-                    .Html("#HeaderTitle", registrationModel.Title.Value)
+                    .Html("#HeaderTitle", HttpUtility.HtmlEncode(registrationModel.Title.Value))
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
                         context: context,
                         baseModel: registrationModel,
@@ -1912,7 +1913,7 @@ namespace Implem.Pleasanter.Models
                     .FieldResponse(context: context, ss: ss, registrationModel: registrationModel)
                     .Val("#VerUp", false)
                     .Disabled("#VerUp", false)
-                    .Html("#HeaderTitle", registrationModel.Title.Value)
+                    .Html("#HeaderTitle", HttpUtility.HtmlEncode(registrationModel.Title.Value))
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
                         context: context,
                         baseModel: registrationModel,
@@ -1978,7 +1979,7 @@ namespace Implem.Pleasanter.Models
                     .FieldResponse(context: context, ss: ss, registrationModel: registrationModel)
                     .Val("#VerUp", false)
                     .Disabled("#VerUp", false)
-                    .Html("#HeaderTitle", registrationModel.Title.Value)
+                    .Html("#HeaderTitle", HttpUtility.HtmlEncode(registrationModel.Title.Value))
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
                         context: context,
                         baseModel: registrationModel,
