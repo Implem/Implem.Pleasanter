@@ -33,6 +33,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     statements: statements))
                 {
                     io.ExecuteNonQuery();
+                    return;
                 }
             }
         }
@@ -51,7 +52,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements))
             {
-                return io.ExecuteScalar_bool();
+                var returnValue = io.ExecuteScalar_bool();
+                return returnValue;
             }
         }
 
@@ -69,7 +71,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements))
             {
-                return io.ExecuteScalar_int();
+                var returnValue = io.ExecuteScalar_int();
+                return returnValue;
             }
         }
 
@@ -87,7 +90,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements))
             {
-                return io.ExecuteScalar_long();
+                var returnValue = io.ExecuteScalar_long();
+                return returnValue;
             }
         }
 
@@ -105,7 +109,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements))
             {
-                return io.ExecuteScalar_decimal();
+                var returnValue = io.ExecuteScalar_decimal();
+                return returnValue;
             }
         }
 
@@ -123,7 +128,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements))
             {
-                return io.ExecuteScalar_datetime();
+                var returnValue = io.ExecuteScalar_datetime();
+                return returnValue;
             }
         }
 
@@ -141,7 +147,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements))
             {
-                return io.ExecuteScalar_string();
+                var returnValue = io.ExecuteScalar_string();
+                return returnValue;
             }
         }
 
@@ -159,7 +166,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements))
             {
-                return io.ExecuteScalar_bytes();
+                var returnValue = io.ExecuteScalar_bytes();
+                return returnValue;
             }
         }
 
@@ -179,7 +187,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements))
             {
-                return io.ExecuteScalar_response();
+                var returnValue = io.ExecuteScalar_response();
+                return returnValue;
             }
         }
 
@@ -197,7 +206,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements))
             {
-                return io.ExecuteTable();
+                var returnValue = io.ExecuteTable();
+                return returnValue;
             }
         }
 
@@ -215,7 +225,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements))
             {
-                return io.ExecuteDataSet();
+                var returnValue = io.ExecuteDataSet();
+                return returnValue;
             }
         }
 
@@ -233,7 +244,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements))
             {
-                return io.ExecuteDataSet_responses();
+                var returnValue = io.ExecuteDataSet_responses();
+                return returnValue;
             }
         }
 

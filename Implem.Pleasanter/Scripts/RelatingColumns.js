@@ -47,37 +47,46 @@
                     }, interval);
                 };
             };
-            c_change(tablename);
-            $(document).on(
-                'change',
-                '#' + tablename + '_' + prnt,
-                debounce(function () {
-                    c_change(tablename);
-                }, 500));
+            if ($childElement.prop('tagName') === 'SELECT') {
+                c_change(tablename);
+                $(document).on(
+                    'change',
+                    '#' + tablename + '_' + prnt,
+                    debounce(function () {
+                        c_change(tablename);
+                    }, 500));
+            }
         });
+        var $parentElement = $('#' + tablename + '_' + prnt);
+        var $childElement = $('#' + tablename + '_' + chld);
         var c_change = function (tablename) {
             var parentIds = [];
-            var $parent = $('#' + tablename + '_' + prnt + ' option:selected');
-            $parent.each(function (index, element) {
-                var value = $(element).val();
-                if (value === '\t') {
-                    value = '-1';
-                } 
-                parentIds.push(value);
-            });
+            if ($parentElement.prop('tagName') === 'SELECT') {
+                var $parent = $('#' + tablename + '_' + prnt + ' option:selected');
+                $parent.each(function (index, element) {
+                    var value = $(element).val();
+                    if (value === '\t') {
+                        value = '-1';
+                    }
+                    parentIds.push(value);
+                });
+            }
+            else {
+                parentIds.push($parentElement.attr('data-value'));
+            }
             var childIds = [];
             var $child = $('#' + tablename + '_' + chld + ' option:selected');
             $child.each(function (index, element) {
                 childIds.push($(element).val());
             });
-            $('#' + tablename + '_' + chld).attr('parent-data-class', linkedClass);
-            $('#' + tablename + '_' + chld).attr('parent-data-id', JSON.stringify(parentIds));
-            $('#' + tablename + '_' + chld).attr('selected-options', JSON.stringify(childIds));
+            $childElement.attr('parent-data-class', linkedClass);
+            $childElement.attr('parent-data-id', JSON.stringify(parentIds));
+            $childElement.attr('selected-options', JSON.stringify(childIds));
             var formData = $p.getData($trigger.closest('form'));
-            formData["RelatingDropDownControlId"] = tablename + '_' + chld;
-            formData["RelatingDropDownSelected"] = JSON.stringify(childIds);
-            formData["RelatingDropDownParentClass"] = linkedClass;
-            formData["RelatingDropDownParentDataId"] = JSON.stringify(parentIds);
+            formData['RelatingDropDownControlId'] = tablename + '_' + chld;
+            formData['RelatingDropDownSelected'] = JSON.stringify(childIds);
+            formData['RelatingDropDownParentClass'] = linkedClass;
+            formData['RelatingDropDownParentDataId'] = JSON.stringify(parentIds);
             $trigger.attr('parent-data-class', linkedClass);
             $trigger.attr('parent-data-id', JSON.stringify(parentIds));
             $trigger.attr('data-action', 'RelatingDropDown');

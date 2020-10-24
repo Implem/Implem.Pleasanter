@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Web;
 namespace Implem.Pleasanter.Models
 {
     public static class ResultUtilities
@@ -2575,7 +2576,7 @@ namespace Implem.Pleasanter.Models
                     .Val("#VerUp", verUp)
                     .Val("#Ver", resultModel.Ver)
                     .Disabled("#VerUp", verUp)
-                    .Html("#HeaderTitle", resultModel.Title.DisplayValue)
+                    .Html("#HeaderTitle", HttpUtility.HtmlEncode(resultModel.Title.DisplayValue))
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
                         context: context,
                         baseModel: resultModel,

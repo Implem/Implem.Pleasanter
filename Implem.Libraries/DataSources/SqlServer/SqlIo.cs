@@ -13,6 +13,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         public SqlContainer SqlContainer;
         public SqlCommand SqlCommand = new SqlCommand();
         public StringBuilder CommandText = new StringBuilder();
+        public String DebugCommandText = "";
 
         public SqlIo()
         {
@@ -30,7 +31,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             SetSqlCommand();
             if (SqlContainer.WriteSqlToDebugLog)
             {
-                SqlDebugs.WriteSqlLog(SqlContainer.RdsName, SqlCommand, Sqls.LogsPath);
+                SqlDebugs.WriteSqlLog(SqlContainer.RdsName, SqlCommand, Sqls.LogsPath, ref DebugCommandText);
             }
         }
 

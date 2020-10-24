@@ -53,6 +53,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ClientRegexValidation;
         public string ServerRegexValidation;
         public string RegexValidationMessage;
+        public string ExtendedHtmlBeforeField;
+        public string ExtendedHtmlAfterField;
         public int? DecimalPlaces;
         public SiteSettings.RoundingTypes? RoundingType;
         public decimal? Min;

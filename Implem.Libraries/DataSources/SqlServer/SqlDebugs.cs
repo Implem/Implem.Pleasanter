@@ -13,18 +13,19 @@ namespace Implem.Libraries.DataSources.SqlServer
         private static object WriteLockObject = new object();
 
         [Conditional("DEBUG")]
-        public static void WriteSqlLog(string rdsName, SqlCommand sqlCommand, string logsPath)
+        public static void WriteSqlLog(string rdsName, SqlCommand sqlCommand, string logsPath, ref string commandText)
         {
             var commandTextForDebugging = new StringBuilder();
             commandTextForDebugging.Append("use [", rdsName, "];\r\n");
             commandTextForDebugging.Append(DeclareParametersText(sqlCommand));
             commandTextForDebugging.Append(FormattedCommandText(sqlCommand));
+            var commandTextStringForDebugging = commandTextForDebugging.ToString();
+            commandText = commandTextStringForDebugging;
             Task.Run(() =>
             {
                 lock (WriteLockObject)
                 {
-                    commandTextForDebugging.ToString()
-                        .Write(Path.Combine(logsPath, "CommandTextForDebugging.sql"));
+                    commandTextStringForDebugging.Write(Path.Combine(logsPath, "CommandTextForDebugging.sql"));
                 }
             });
         }

@@ -325,7 +325,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             && canManageSite
                             && ss.IsSite(context: context)
                             && ss.ReferenceType == "Sites"
-                            || (ss.SiteId == 0
+                            || (context.Controller == "items"
+                                && ss.SiteId == 0
                                 && context.UserSettings.DisableTopSiteCreation != true))
                     .Li(
                         id: "SettingsMenu_ExportSitePackage",

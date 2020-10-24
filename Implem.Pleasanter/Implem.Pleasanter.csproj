@@ -1630,6 +1630,9 @@
     <Content Include="App_Data\Displays\PhysicalBulkDeleted.json" />
     <Content Include="App_Data\Displays\ExtendedCellCss.json" />
     <Content Include="App_Data\Displays\ExcessLicenseWarning.json" />
+    <Content Include="App_Data\Displays\ExtendedHtml.json" />
+    <Content Include="App_Data\Displays\ExtendedHtmlAfterField.json" />
+    <Content Include="App_Data\Displays\ExtendedHtmlBeforeField.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />
