@@ -176,7 +176,7 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
                 Controller = RouteData.Get("controller")?.ToLower() ?? string.Empty;
                 Action = RouteData.Get("action")?.ToLower() ?? string.Empty;
                 Id = RouteData.Get("id")?.ToLong() ?? 0;
-                Guid = RouteData.Get("guid");
+                Guid = RouteData.Get("guid")?.ToUpper();
                 UserHostName = GetUserHostAddress(request?.HttpContext?.Connection);
                 UserHostAddress = CreateUserHostAddress(AspNetCoreHttpContext.Current.Request);
                 UserAgent = CreateUserAgent(AspNetCoreHttpContext.Current.Request);
