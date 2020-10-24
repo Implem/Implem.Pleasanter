@@ -188,14 +188,14 @@ namespace Implem.Pleasanter.NetCore
                 );
                 endpoints.MapControllerRoute(
                     name: "Binaries",
-                    pattern: "binaries/{guid}/{action}",
+                    pattern: "{controller}/{guid}/{action}",
                     defaults: new
                     {
                         Controller = "Binaries"
                     },
                     constraints: new
                     {
-                        Guid = "[A-Z0-9]+",
+                        Guid = "[A-Za-z0-9]+",
                         Action = "[A-Za-z][A-Za-z0-9_]*"
                     }
                 );
