@@ -1074,6 +1074,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.RegexValidationMessage = column.RegexValidationMessage;
                     }
+                    if (column.ExtendedHtmlBeforeField?.Trim().IsNullOrEmpty() == false)
+                    {
+                        enabled = true;
+                        newColumn.ExtendedHtmlBeforeField = column.ExtendedHtmlBeforeField;
+                    }
+                    if (column.ExtendedHtmlAfterField?.Trim().IsNullOrEmpty() == false)
+                    {
+                        enabled = true;
+                        newColumn.ExtendedHtmlAfterField = column.ExtendedHtmlAfterField;
+                    }
                     if (column.DecimalPlaces != columnDefinition.DecimalPlaces)
                     {
                         enabled = true;
@@ -3122,6 +3132,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ClientRegexValidation": column.ClientRegexValidation = value; break;
                 case "ServerRegexValidation": column.ServerRegexValidation = value; break;
                 case "RegexValidationMessage": column.RegexValidationMessage = value; break;
+                case "ExtendedHtmlBeforeField": column.ExtendedHtmlBeforeField = value; break;
+                case "ExtendedHtmlAfterField": column.ExtendedHtmlAfterField = value; break;
                 case "DecimalPlaces": column.DecimalPlaces = value.ToInt(); break;
                 case "RoundingType": column.RoundingType = (RoundingTypes)value.ToInt(); break;
                 case "Max": column.Max = value.ToDecimal(); break;

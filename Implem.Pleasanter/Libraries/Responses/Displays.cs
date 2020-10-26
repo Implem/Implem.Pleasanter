@@ -2519,6 +2519,36 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ExtendedHtml(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ExtendedHtml",
+                data: data);
+        }
+
+        public static string ExtendedHtmlAfterField(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ExtendedHtmlAfterField",
+                data: data);
+        }
+
+        public static string ExtendedHtmlBeforeField(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ExtendedHtmlBeforeField",
+                data: data);
+        }
+
         public static string ExternalMailAddress(
             Context context,
             params string[] data)

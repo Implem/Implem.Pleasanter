@@ -1,0 +1,29 @@
+﻿{
+    "Id": "ExtendedHtmlAfterField",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "After the field"
+        },
+        {
+            "Language": "zh",
+            "Body": "后场"
+        },
+        {
+            "Language": "ja",
+            "Body": "フィールドの後"
+        },
+        {
+            "Language": "de",
+            "Body": "Nach dem Feld"
+        },
+        {
+            "Language": "ko",
+            "Body": "필드 후"
+        },
+        {
+            "Language": "es",
+            "Body": "Después del campo"
+        }
+    ]
+}
