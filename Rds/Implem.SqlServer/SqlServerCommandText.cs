@@ -43,9 +43,9 @@ namespace Implem.SqlServer
             return top > 0 ? $" top {top} " : string.Empty;
         }
 
-        public string CreateTryCast(string left, string name, string type)
+        public string CreateTryCast(string left, string name, string from, string to)
         {
-            return $"try_cast(\"{left}\".\"{name}\" as {type})";
+            return $"try_cast(\"{left}\".\"{name}\" as {to})";
         }
 
         public string CreateUpdateOrInsert(

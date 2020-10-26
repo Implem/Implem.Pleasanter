@@ -3992,6 +3992,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 var currentSs = JoinedSsHash.Get(siteId);
                 var tableName = currentSs?.ReferenceType;
                 var name = part.Split_1st('~').RegexFirst("[A-Za-z0-9]+");
+                var column = currentSs?.GetColumn(
+                    context: context,
+                    columnName: name);
                 path.Add(part);
                 var alias = path.Join("-");
                 if (!tableName.IsNullOrEmpty() && !name.IsNullOrEmpty())
@@ -4001,7 +4004,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         join.Add(new SqlJoin(
                             tableBracket: "\"" + tableName + "\"",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
-                            joinExpression: $"\"{leftAlias}\".\"{Rds.IdColumn(leftTableName)}\"={context.SqlCommandText.CreateTryCast(alias, name, "bigint")} and \"{alias}\".\"SiteId\"={siteId}",
+                            joinExpression: $"\"{leftAlias}\".\"{Rds.IdColumn(leftTableName)}\"={context.SqlCommandText.CreateTryCast(alias, name, column.TypeName, "bigint")} and \"{alias}\".\"SiteId\"={siteId}",
                             _as: alias));
                         join.Add(
                             tableName: "\"Items\"",
@@ -4014,7 +4017,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         join.Add(
                             tableName: "\"Items\"",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
-                            joinExpression: $"{context.SqlCommandText.CreateTryCast(left.Any() ? left.Join("-") : ReferenceType, name, "bigint")}=\"{alias}_Items\".\"ReferenceId\" and \"{alias}_Items\".\"SiteId\"={siteId}",
+                            joinExpression: $"{context.SqlCommandText.CreateTryCast(left.Any() ? left.Join("-") : ReferenceType, name, column.TypeName, "bigint")}=\"{alias}_Items\".\"ReferenceId\" and \"{alias}_Items\".\"SiteId\"={siteId}",
                             _as: alias + "_Items");
                         join.Add(new SqlJoin(
                             tableBracket: "\"" + tableName + "\"",
@@ -4218,7 +4221,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var whereNullorEmpty = parentIds?.Contains(-1) == true
                 ? $"\"{parentColumn.ColumnName}\" is null or \"{parentColumn.ColumnName}\" = '' " : string.Empty;
             var whereIn = parentIds.Where(n => n >= 0).Any()
-                ? $"{context.SqlCommandText.CreateTryCast(referenceType, parentColumn.ColumnName, "bigint")} in ({parentIds.Where(n => n >= 0).Join()})"
+                ? $"{context.SqlCommandText.CreateTryCast(referenceType, parentColumn.ColumnName, parentColumn.TypeName, "bigint")} in ({parentIds.Where(n => n >= 0).Join()})"
                 : string.Empty;
             var Or = (whereNullorEmpty == string.Empty || whereIn == string.Empty) ? string.Empty : " or ";
             return $"select \"{Rds.IdColumn(referenceType)}\" from \"{referenceType}\" where " + whereNullorEmpty + Or + whereIn;
