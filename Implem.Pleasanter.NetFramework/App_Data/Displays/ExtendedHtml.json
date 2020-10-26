@@ -1,0 +1,29 @@
+﻿{
+    "Id": "ExtendedHtml",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Extended html"
+        },
+        {
+            "Language": "zh",
+            "Body": "扩展HTML"
+        },
+        {
+            "Language": "ja",
+            "Body": "拡張Html"
+        },
+        {
+            "Language": "de",
+            "Body": "Erweitertes HTML"
+        },
+        {
+            "Language": "ko",
+            "Body": "확장 된 HTML"
+        },
+        {
+            "Language": "es",
+            "Body": "Html extendido"
+        }
+    ]
+}

@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Web;
 namespace Implem.Pleasanter.Models
 {
     public static class SiteUtilities
@@ -1100,7 +1101,7 @@ namespace Implem.Pleasanter.Models
                     .Val("#VerUp", verUp)
                     .Val("#Ver", siteModel.Ver)
                     .Disabled("#VerUp", verUp)
-                    .Html("#HeaderTitle", siteModel.Title.Value)
+                    .Html("#HeaderTitle", HttpUtility.HtmlEncode(siteModel.Title.Value))
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
                         context: context,
                         baseModel: siteModel,
@@ -4787,7 +4788,12 @@ namespace Implem.Pleasanter.Models
                             .Li(action: () => hb
                                 .A(
                                     href: "#EditorDetailsettingTab",
-                                    text: Displays.ValidateInput(context: context))))
+                                    text: Displays.ValidateInput(context: context)))
+                            .Li(action: () => hb
+                                .A(
+                                    href: "#ExtendedHtmlSettingTab",
+                                    text: Displays.ExtendedHtml(context: context))))
+                        .ExtendedHtmlSettingTab(context: context, ss: ss, column: column)
                         .EditorDetailsettingTab(context: context, ss: ss, column: column)
                         .EditorColumnDialog(context: context, ss: ss, column: column, titleColumns: titleColumns))
                     .Hidden(
@@ -4831,7 +4837,12 @@ namespace Implem.Pleasanter.Models
                                 .Li(action: () => hb
                                     .A(
                                         href: "#EditorColumnDialog",
-                                        text: Displays.General(context: context))))
+                                        text: Displays.General(context: context)))
+                                .Li(action: () => hb
+                                    .A(
+                                        href: "#ExtendedHtmlSettingTab",
+                                        text: Displays.ExtendedHtml(context: context))))
+                            .ExtendedHtmlSettingTab(context: context, ss: ss, column: column)
                             .EditorColumnDialog(
                                 context: context,
                                 ss: ss,
@@ -4865,6 +4876,33 @@ namespace Implem.Pleasanter.Models
                             controlCss: "button-icon",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder ExtendedHtmlSettingTab(
+            this HtmlBuilder hb, Column column, Context context, SiteSettings ss)
+        {
+            return hb.FieldSet(
+                id: "ExtendedHtmlSettingTab",
+                action: () => hb
+                    .FieldSet(
+                        css: " enclosed",
+                        legendText: column.LabelTextDefault,
+                        action: () => hb
+                            .FieldTextBox(
+                                textType: HtmlTypes.TextTypes.MultiLine,
+                                controlId: "ExtendedHtmlBeforeField",
+                                fieldCss: "field-wide",
+                                labelText: Displays.ExtendedHtmlBeforeField(context: context),
+                                text: column.ExtendedHtmlBeforeField)
+                            .FieldTextBox(
+                                textType: HtmlTypes.TextTypes.MultiLine,
+                                controlId: "ExtendedHtmlAfterField",
+                                fieldCss: "field-wide",
+                                labelText: Displays.ExtendedHtmlAfterField(context: context),
+                                text: column.ExtendedHtmlAfterField)));
         }
 
         /// <summary>

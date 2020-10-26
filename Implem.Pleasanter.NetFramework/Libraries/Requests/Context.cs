@@ -173,7 +173,7 @@ namespace Implem.Pleasanter.NetFramework.Libraries.Requests
                 Controller = RouteData.Get("controller")?.ToLower() ?? string.Empty;
                 Action = RouteData.Get("action")?.ToLower() ?? string.Empty;
                 Id = RouteData.Get("id")?.ToLong() ?? 0;
-                Guid = RouteData.Get("guid");
+                Guid = RouteData.Get("guid")?.ToUpper();
                 UserHostName = request.UserHostName;
                 UserHostAddress = GetUserHostAddress(request);
                 UserAgent = request.UserAgent;

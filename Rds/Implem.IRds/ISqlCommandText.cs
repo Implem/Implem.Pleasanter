@@ -28,7 +28,7 @@ namespace Implem.IRds
 
         string CreateIdentityInsert(string template);
 
-        string CreateTryCast(string left, string name, string type);
+        string CreateTryCast(string left, string name, string from, string to);
 
         string CreateFullTextWhereItem(string itemsTableName, string paramName);
 

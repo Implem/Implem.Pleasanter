@@ -75,6 +75,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         context: context,
                         id: "ColumnTop",
                         columnName: column.ColumnName))
+                    .Raw(column.ExtendedHtmlBeforeField)
                     .SwitchField(
                         context: context,
                         ss: ss,
@@ -107,6 +108,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlOnly: controlOnly,
                         alwaysSend: alwaysSend,
                         preview: preview)
+                    .Raw(column.ExtendedHtmlAfterField)
                     .Raw(HtmlHtmls.ExtendedHtmls(
                         context: context,
                         id: "ColumnBottom",
