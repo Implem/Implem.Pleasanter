@@ -15,7 +15,8 @@ namespace Implem.Pleasanter.NetFramework.Controllers.Api
             var context = new ContextImplement(
                 sessionStatus: User?.Identity?.IsAuthenticated == true,
                 sessionData: User?.Identity?.IsAuthenticated == true,
-                apiRequestBody: body);
+                apiRequestBody: body,
+                contentType: Request.Content.Headers.ContentType.MediaType);
             var controller = new Pleasanter.Controllers.Api.OutgoingMailsController();
             var result = controller.Send(context: context, reference: reference, id: id);
             return result.ToHttpResponse(Request);

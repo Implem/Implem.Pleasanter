@@ -18,7 +18,8 @@ namespace Implem.Pleasanter.NetCore.Controllers.Api
             var context = new ContextImplement(
                 sessionStatus: User?.Identity?.IsAuthenticated == true,
                 sessionData: User?.Identity?.IsAuthenticated == true,
-                apiRequestBody: body);
+                apiRequestBody: body,
+                contentType: Request.ContentType);
             var controller = new Pleasanter.Controllers.Api.ItemsController();
             var result = controller.Get(context: context, id: id);
             return result.ToHttpResponse(request: Request);
@@ -32,7 +33,8 @@ namespace Implem.Pleasanter.NetCore.Controllers.Api
             var context = new ContextImplement(
                 sessionStatus: User?.Identity?.IsAuthenticated == true,
                 sessionData: User?.Identity?.IsAuthenticated == true,
-                apiRequestBody: body);
+                apiRequestBody: body,
+                contentType: Request.ContentType);
             var controller = new Pleasanter.Controllers.Api.ItemsController();
             var result = controller.Create(context: context, id: id);
             return result.ToHttpResponse(request: Request);
@@ -46,7 +48,8 @@ namespace Implem.Pleasanter.NetCore.Controllers.Api
             var context = new ContextImplement(
                 sessionStatus: User?.Identity?.IsAuthenticated == true,
                 sessionData: User?.Identity?.IsAuthenticated == true,
-                apiRequestBody: body);
+                apiRequestBody: body,
+                contentType: Request.ContentType);
             var controller = new Pleasanter.Controllers.Api.ItemsController();
             var result = controller.Update(context: context, id: id);
             return result.ToHttpResponse(request: Request);
@@ -60,7 +63,8 @@ namespace Implem.Pleasanter.NetCore.Controllers.Api
             var context = new ContextImplement(
                 sessionStatus: User?.Identity?.IsAuthenticated == true,
                 sessionData: User?.Identity?.IsAuthenticated == true,
-                apiRequestBody: body);
+                apiRequestBody: body,
+                contentType: Request.ContentType);
             var controller = new Pleasanter.Controllers.Api.ItemsController();
             var result = controller.Delete(context: context, id: id);
             return result.ToHttpResponse(request: Request);
@@ -74,7 +78,8 @@ namespace Implem.Pleasanter.NetCore.Controllers.Api
             var context = new ContextImplement(
                 sessionStatus: User?.Identity?.IsAuthenticated == true,
                 sessionData: User?.Identity?.IsAuthenticated == true,
-                apiRequestBody: body);
+                apiRequestBody: body,
+                contentType: Request.ContentType);
             var controller = new Pleasanter.Controllers.Api.ItemsController();
             var result = controller.BulkDelete(context: context, id: id);
             return result.ToHttpResponse(request: Request);
@@ -88,7 +93,8 @@ namespace Implem.Pleasanter.NetCore.Controllers.Api
             var context = new ContextImplement(
                 sessionStatus: User?.Identity?.IsAuthenticated == true,
                 sessionData: User?.Identity?.IsAuthenticated == true,
-                apiRequestBody: body);
+                apiRequestBody: body,
+                contentType: Request.ContentType);
             var controller = new Pleasanter.Controllers.Api.ItemsController();
             var result = controller.Export(context: context, id: id);
             return result.ToHttpResponse(request: Request);

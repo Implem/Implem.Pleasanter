@@ -25,5 +25,16 @@ namespace Implem.Pleasanter.Libraries.Web
                 return string.Empty;
             }
         }
+
+        public static bool ValidateOnApi(string contentType)
+        {
+            switch (contentType?.ToLower())
+            {
+                case "application/json":
+                    return true;
+                default:
+                    return false;
+            }
+        }
     }
 }

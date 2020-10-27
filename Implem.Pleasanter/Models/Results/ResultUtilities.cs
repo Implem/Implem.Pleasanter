@@ -16,6 +16,7 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Libraries.Web;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -2257,6 +2258,10 @@ namespace Implem.Pleasanter.Models
 
         public static System.Web.Mvc.ContentResult GetByApi(Context context, SiteSettings ss, bool internalRequest)
         {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
             var invalid = ResultValidators.OnEntry(
                 context: context,
                 ss: ss,
@@ -2307,6 +2312,10 @@ namespace Implem.Pleasanter.Models
         public static System.Web.Mvc.ContentResult GetByApi(
             Context context, SiteSettings ss, long resultId, bool internalRequest)
         {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
             var resultModel = new ResultModel(
                 context: context,
                 ss: ss,
@@ -2402,6 +2411,10 @@ namespace Implem.Pleasanter.Models
 
         public static System.Web.Mvc.ContentResult CreateByApi(Context context, SiteSettings ss)
         {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
             if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId))
             {
                 return ApiResults.Error(
@@ -3133,6 +3146,10 @@ namespace Implem.Pleasanter.Models
         public static System.Web.Mvc.ContentResult UpdateByApi(
             Context context, SiteSettings ss, long resultId)
         {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
             var resultModel = new ResultModel(
                 context: context,
                 ss: ss,
@@ -3370,6 +3387,10 @@ namespace Implem.Pleasanter.Models
         public static System.Web.Mvc.ContentResult DeleteByApi(
             Context context, SiteSettings ss, long resultId)
         {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
             var resultModel = new ResultModel(
                 context: context,
                 ss: ss,
@@ -3985,6 +4006,10 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss)
         {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
             if (context.CanDelete(ss: ss))
             {
                 var recordSelector = context.RequestDataString.Deserialize<RecordSelector>();
@@ -4265,6 +4290,10 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss)
         {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
             if (!Parameters.Deleted.PhysicalDelete)
             {
                 return ApiResults.Get(ApiResponses.BadRequest(context: context));
@@ -4735,6 +4764,10 @@ namespace Implem.Pleasanter.Models
         public static System.Web.Mvc.ContentResult ExportByApi(
             Context context, SiteSettings ss, SiteModel siteModel)
         {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
             if (context.ContractSettings.Export == false)
             {
                 return null;
