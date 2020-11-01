@@ -2516,47 +2516,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToDictionary(o => o.ColumnName, o => new ControlData(o.LabelText));
         }
 
-        public Dictionary<string, string> ExportJoinOptions(Context context)
-        {
-            return TableJoins(
-                context: context,
-                links: Links,
-                join: new Join(Title),
-                joins: new List<Join> { new Join(Title) })
-                    .ToDictionary(o => o.ToJson(), o => o.GetTitle());
-        }
-
-        private List<Join> TableJoins(
-            Context context, List<Link> links, Join join, List<Join> joins)
-        {
-            links?
-                .Where(o =>
-                    o.SiteId != SiteId &&
-                    !join.Any(p => p.SiteId == o.SiteId))
-                .ForEach(link =>
-                {
-                    var ss = JoinedSsHash.Get(link.SiteId);
-                    if (ss != null)
-                    {
-                        var column = ss.GetColumn(
-                            context: context,
-                            columnName: link.ColumnName);
-                        if (column != null)
-                        {
-                            var copy = join.ToList();
-                            copy.Add(link, ss.Title);
-                            joins.Add(copy);
-                            TableJoins(
-                                context: context,
-                                links: ss?.Links,
-                                join: copy,
-                                joins: joins);
-                        }
-                    }
-                });
-            return joins;
-        }
-
         public SiteSettings GetJoinedSs(string join)
         {
             return join?.Contains("~") == true

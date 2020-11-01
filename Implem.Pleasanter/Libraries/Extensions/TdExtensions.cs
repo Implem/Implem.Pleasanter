@@ -54,17 +54,9 @@ namespace Implem.Pleasanter.Libraries.Extensions
                     css: column.CellCss(),
                     action: () =>
                     {
-                        if (column.Type != Column.Types.Normal
-                            && !value.IsNullOrEmpty()
-                            && !column.ChoiceHash.ContainsKey(value))
-                        {
-                            column.ChoiceHash.AddIfNotConainsKey(
-                                value,
-                                new Choice(SiteInfo.Name(
-                                    context: context,
-                                    id: value.ToInt(),
-                                    type: column.Type)));
-                        }
+                        column.AddToChoiceHash(
+                            context: context,
+                            value: value);
                         var choice = column.Choice(
                             value,
                             nullCase: value.IsNullOrEmpty()
