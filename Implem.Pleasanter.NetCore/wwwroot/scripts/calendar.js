@@ -209,7 +209,7 @@ $p.setCalendar = function () {
                 }
             })
             .addClass(sub ? 'sub' : '')
-            .attr('title', element.Title + ' -- ' +
+            .attr('title', htmlEncode(element.Title) + ' -- ' +
                 $p.dateTimeString(new Date(element.From)) +
                     (element.To !== undefined && element.To !== element.From
                         ? ' - ' + $p.dateTimeString(new Date(element.To))
@@ -218,7 +218,7 @@ $p.setCalendar = function () {
             .append((element.Time !== undefined
                 ? element.Time + ' '
                 : '') +
-                    element.Title));
+                    htmlEncode(element.Title)));
         $cell.append(item);
         hash[id]++;
     }
@@ -231,5 +231,13 @@ $p.setCalendar = function () {
             dateTime.getHours() + ':' +
             dateTime.getMinutes() + ':' +
             dateTime.getSeconds();
+    }
+
+    function htmlEncode(str) {
+        return String(str)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;");
     }
 };
