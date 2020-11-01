@@ -455,9 +455,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     case Types.Normal:
                         if (Linked()
-                            && SiteSettings.Links.All(o => Permissions.CanRead(
-                                context: context,
-                                siteId: o.SiteId)))
+                            && SiteSettings.Links
+                                .Where(o => o.ColumnName == ColumnName)
+                                .All(o => Permissions.CanRead(
+	                                context: context,
+	                                siteId: o.SiteId)))
                         {
                             var dataRow = Rds.ExecuteTable(
                                 context: context,
