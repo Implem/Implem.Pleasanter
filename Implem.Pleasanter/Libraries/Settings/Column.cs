@@ -446,6 +446,45 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
+        public void AddToChoiceHash(Context context, string value)
+        {
+            if (!value.IsNullOrEmpty()
+                && !ChoiceHash.ContainsKey(value))
+            {
+                switch (Type)
+                {
+                    case Types.Normal:
+                        if (Linked()
+                            && SiteSettings.Links.All(o => Permissions.CanRead(
+                                context: context,
+                                siteId: o.SiteId)))
+                        {
+                            var dataRow = Rds.ExecuteTable(
+                                context: context,
+                                statements: Rds.SelectItems(
+                                    column: Rds.ItemsColumn().Title(),
+                                    where: Rds.ItemsWhere()
+                                        .SiteId_In(SiteSettings.Links.Select(o => o.SiteId).ToList())
+                                        .ReferenceId(value.ToLong())))
+                                            .AsEnumerable()
+                                            .FirstOrDefault();
+                            ChoiceHash.AddIfNotConainsKey(
+                                value,
+                                new Choice(dataRow?.String("Title") ?? "? " + value));
+                        }
+                        break;
+                    default:
+                        ChoiceHash.AddIfNotConainsKey(
+                            value,
+                            new Choice(SiteInfo.Name(
+                                context: context,
+                                id: value.ToInt(),
+                                type: Type)));
+                        break;
+                }
+            }
+        }
+
         public Dictionary<string, ControlData> EditChoices(
             Context context,
             bool insertBlank = false,
@@ -505,12 +544,9 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public string ChoicePart(Context context, string selectedValue, ExportColumn.Types? type)
         {
-            if (Type != Types.Normal)
-            {
-                AddNotIncludedValue(
-                    context: context,
-                    selectedValue: selectedValue);
-            }
+            AddToChoiceHash(
+                context: context,
+                value: selectedValue);
             var choice = Choice(selectedValue, nullCase: selectedValue);
             switch (type)
             {
