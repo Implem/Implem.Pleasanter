@@ -2745,6 +2745,12 @@ namespace Implem.Pleasanter.Models
                                 .Li(
                                     action: () => hb
                                         .A(
+                                            href: "#ServerScriptsSettingsEditor",
+                                            text: Displays.ServerScript(context: context)),
+                                    _using: context.ContractSettings.Script != false)
+                                .Li(
+                                    action: () => hb
+                                        .A(
                                             href: "#PublishSettingsEditor",
                                             text: Displays.Publish(context: context)),
                                     _using: context.ContractSettings.Extensions.Get("Publish"));
@@ -3675,6 +3681,12 @@ namespace Implem.Pleasanter.Models
                     _using: context.ContractSettings.Script != false)
                 .Div(
                     attributes: new HtmlAttributes()
+                        .Id("ServerScriptDialog")
+                        .Class("dialog")
+                        .Title(Displays.ServerScript(context: context)),
+                    _using: context.ContractSettings.Script != false)
+                .Div(
+                    attributes: new HtmlAttributes()
                         .Id("RelatingColumnDialog")
                         .Class("dialog")
                         .Title(Displays.RelatingColumn(context: context)))
@@ -3833,6 +3845,7 @@ namespace Implem.Pleasanter.Models
                             .SiteIntegrationEditor(context: context, ss: siteModel.SiteSettings)
                             .StylesSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .ScriptsSettingsEditor(context: context, ss: siteModel.SiteSettings)
+                            .ServerScriptsSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .PublishSettingsEditor(
                                 context: context,
                                 ss: siteModel.SiteSettings,
@@ -9338,6 +9351,227 @@ namespace Implem.Pleasanter.Models
                             action: "SetSiteSettings",
                             method: "post",
                             _using: controlId == "EditScript")
+                        .Button(
+                            text: Displays.Cancel(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ServerScriptsSettingsEditor(
+            this HtmlBuilder hb, Context context, SiteSettings ss)
+        {
+            if (context.ContractSettings.Script == false) return hb;
+            return hb.FieldSet(id: "ServerScriptsSettingsEditor", action: () => hb
+                .Div(css: "command-left", action: () => hb
+                    .Button(
+                        controlId: "MoveUpServerScripts",
+                        controlCss: "button-icon",
+                        text: Displays.MoveUp(context: context),
+                        onClick: "$p.setAndSend('#EditServerScript', $(this));",
+                        icon: "ui-icon-circle-triangle-n",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "MoveDownServerScripts",
+                        controlCss: "button-icon",
+                        text: Displays.MoveDown(context: context),
+                        onClick: "$p.setAndSend('#EditServerScript', $(this));",
+                        icon: "ui-icon-circle-triangle-s",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "NewServerScript",
+                        text: Displays.New(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.openServerScriptDialog($(this));",
+                        icon: "ui-icon-gear",
+                        action: "SetSiteSettings",
+                        method: "put")
+                    .Button(
+                        controlId: "DeleteServerScripts",
+                        text: Displays.Delete(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditServerScript', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "delete",
+                        confirm: Displays.ConfirmDelete(context: context)))
+                .EditServerScript(
+                    context: context,
+                    ss: ss));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder EditServerScript(this HtmlBuilder hb, Context context, SiteSettings ss)
+        {
+            var selected = context.Forms.Data("EditServerScript").Deserialize<IEnumerable<int>>();
+            return hb.Table(
+                id: "EditServerScript",
+                css: "grid",
+                attributes: new HtmlAttributes()
+                    .DataName("ServerScriptId")
+                    .DataFunc("openServerScriptDialog")
+                    .DataAction("SetSiteSettings")
+                    .DataMethod("post"),
+                action: () => hb
+                    .EditServerScriptHeader(
+                        context: context,
+                        ss: ss,
+                        selected: selected)
+                    .EditServerScriptBody(
+                        ss: ss,
+                        selected: selected));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditServerScriptHeader(
+            this HtmlBuilder hb, Context context, SiteSettings ss, IEnumerable<int> selected)
+        {
+            return hb.THead(action: () => hb
+                .Tr(css: "ui-widget-header", action: () => hb
+                    .Th(action: () => hb
+                        .CheckBox(
+                            controlCss: "select-all",
+                            _checked: ss.ServerScripts?.All(o =>
+                                selected?.Contains(o.Id) == true) == true))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Id(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Title(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.BeforeOpeningPages(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.BeforeFormulas(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.AfterFormulas(context: context)))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder EditServerScriptBody(
+            this HtmlBuilder hb, SiteSettings ss, IEnumerable<int> selected)
+        {
+            return hb.TBody(action: () => ss
+                .ServerScripts?.ForEach(script => hb
+                    .Tr(
+                        css: "grid-row",
+                        attributes: new HtmlAttributes()
+                            .DataId(script.Id.ToString()),
+                        action: () => hb
+                            .Td(action: () => hb
+                                .CheckBox(
+                                    controlCss: "select",
+                                    _checked: selected?
+                                        .Contains(script.Id) == true))
+                            .Td(action: () => hb
+                                .Text(text: script.Id.ToString()))
+                            .Td(action: () => hb
+                                .Text(text: script.Title))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.BeforeOpeningPage == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.BeforeFormula == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.AfterFormula == true)))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder ServerScriptDialog(
+            Context context, SiteSettings ss, string controlId, ServerScript script)
+        {
+            var hb = new HtmlBuilder();
+            var conditions = ss.ViewSelectableOptions();
+            var outputDestinationCss = " output-destination-script";
+            var enclosedCss = " enclosed" +
+                (ss.ReferenceType == "Sites"
+                    ? " hidden"
+                    : string.Empty);
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("ServerScriptForm")
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
+                action: () => hb
+                    .FieldText(
+                        controlId: "ServerScriptId",
+                        controlCss: " always-send",
+                        labelText: Displays.Id(context: context),
+                        text: script.Id.ToString(),
+                        _using: controlId == "EditServerScript")
+                    .FieldTextBox(
+                        controlId: "ServerScriptTitle",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Title(context: context),
+                        text: script.Title,
+                        validateRequired: true)
+                    .FieldTextBox(
+                        textType: HtmlTypes.TextTypes.MultiLine,
+                        controlId: "ServerScriptBody",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Script(context: context),
+                        text: script.Body)
+                    .FieldSet(
+                        css: enclosedCss,
+                        legendText: Displays.Condition(context: context),
+                        action: () => hb
+                            .FieldCheckBox(
+                                controlId: "ServerScriptBeforeOpeningPage",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.BeforeOpeningPages(context: context),
+                                _checked: script.BeforeOpeningPage == true)
+                            .FieldCheckBox(
+                                controlId: "ServerScriptBeforeFormula",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.BeforeFormulas(context: context),
+                                _checked: script.BeforeFormula == true)
+                            .FieldCheckBox(
+                                controlId: "ServerScriptAfterFormula",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.AfterFormulas(context: context),
+                                _checked: script.AfterFormula == true))
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "AddServerScript",
+                            text: Displays.Add(context: context),
+                            controlCss: "button-icon validate",
+                            icon: "ui-icon-disk",
+                            onClick: "$p.setServerScript($(this));",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "NewServerScript")
+                        .Button(
+                            controlId: "UpdateServerScript",
+                            text: Displays.Change(context: context),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.setServerScript($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "EditServerScript")
                         .Button(
                             text: Displays.Cancel(context: context),
                             controlCss: "button-icon",

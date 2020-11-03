@@ -157,6 +157,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SettingList<Export> Exports;
         public SettingList<Style> Styles;
         public SettingList<Script> Scripts;
+        public SettingList<ServerScript> ServerScripts;
         public SettingList<RelatingColumn> RelatingColumns;
         public string ExtendedHeader;
         public Versions.AutoVerUpTypes? AutoVerUpType;
@@ -277,6 +278,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Exports == null) Exports = new SettingList<Export>();
             if (Styles == null) Styles = new SettingList<Style>();
             if (Scripts == null) Scripts = new SettingList<Script>();
+            if (ServerScripts == null) ServerScripts = new SettingList<ServerScript>();
             if (RelatingColumns == null) RelatingColumns = new SettingList<RelatingColumn>();
             AutoVerUpType = AutoVerUpType ?? Versions.AutoVerUpTypes.Default;
             AllowEditingComments = AllowEditingComments ?? false;
@@ -853,6 +855,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss.Scripts = new SettingList<Script>();
                 }
                 ss.Scripts.Add(script.GetRecordingData());
+            });
+            ServerScripts?.ForEach(script =>
+            {
+                if (ss.ServerScripts == null)
+                {
+                    ss.ServerScripts = new SettingList<ServerScript>();
+                }
+                ss.ServerScripts.Add(script.GetRecordingData());
             });
             RelatingColumns?.ForEach(relatingColumn =>
             {

@@ -37,6 +37,7 @@ namespace Implem.Pleasanter.Libraries.General
             ImportMax,
             IncorrectCurrentPassword,
             IncorrectFileFormat,
+            IncorrectServerScript,
             IncorrectSiteDeleting,
             InputMailAddress,
             InternalServerError,
@@ -82,6 +83,7 @@ namespace Implem.Pleasanter.Libraries.General
             TooManyColumnCases,
             TooManyRowCases,
             Unauthorized,
+            UnauthorizedRequest,
             UpdateConflicts,
             UserDisabled,
             UserLockout,
@@ -212,6 +214,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.IncorrectFileFormat:
                     return Messages.IncorrectFileFormat(
+                        context: context,
+                        data: data);
+                case Types.IncorrectServerScript:
+                    return Messages.IncorrectServerScript(
                         context: context,
                         data: data);
                 case Types.IncorrectSiteDeleting:
@@ -392,6 +398,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.Unauthorized:
                     return Messages.Unauthorized(
+                        context: context,
+                        data: data);
+                case Types.UnauthorizedRequest:
+                    return Messages.UnauthorizedRequest(
                         context: context,
                         data: data);
                 case Types.UpdateConflicts:

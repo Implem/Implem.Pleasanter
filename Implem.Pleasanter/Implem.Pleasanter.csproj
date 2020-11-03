@@ -34,6 +34,8 @@
     <TargetFrameworkProfile />
     <UseGlobalApplicationHostFile />
     <Use64BitIISExpress />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -57,6 +59,9 @@
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="ClearScript, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ClearScript.7.0.0-rc2\lib\net45\ClearScript.dll</HintPath>
     </Reference>
     <Reference Include="ClosedXML, Version=0.95.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ClosedXML.0.95.0\lib\net40\ClosedXML.dll</HintPath>
@@ -244,6 +249,7 @@
     <Compile Include="Controllers\TenantsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\VersionsController.cs" />
+    <Compile Include="Filters\AjaxAuthorizeAttribute.cs" />
     <Compile Include="Filters\PublishesAttributes.cs" />
     <Compile Include="Filters\CheckContextAttributes.cs" />
     <Compile Include="Filters\HandleErrorExAttribute.cs" />
@@ -367,6 +373,7 @@
     <Compile Include="Libraries\Server\TenantCache.cs" />
     <Compile Include="Libraries\Server\UpdateMonitor.cs" />
     <Compile Include="Libraries\Requests\Context.cs" />
+    <Compile Include="Libraries\Settings\ServerScript.cs" />
     <Compile Include="Libraries\Settings\Section.cs" />
     <Compile Include="Libraries\Settings\JoinStack.cs" />
     <Compile Include="Libraries\Settings\NotificationColumnFormat.cs" />
@@ -586,6 +593,9 @@
     <Compile Include="Models\Results\ResultModel.cs" />
     <Compile Include="Models\Results\ResultUtilities.cs" />
     <Compile Include="Models\Results\ResultValidators.cs" />
+    <Compile Include="Models\ServerScript\ServerScriptModel.cs" />
+    <Compile Include="Models\ServerScript\ServerScriptUtilities.cs" />
+    <Compile Include="Models\ServerScript\ServerScriptValidators.cs" />
     <Compile Include="Models\Sessions\SessionCollection.cs" />
     <Compile Include="Models\Sessions\SessionModel.cs" />
     <Compile Include="Models\Sessions\SessionUtilities.cs" />
@@ -1633,6 +1643,12 @@
     <Content Include="App_Data\Displays\ExtendedHtml.json" />
     <Content Include="App_Data\Displays\ExtendedHtmlAfterField.json" />
     <Content Include="App_Data\Displays\ExtendedHtmlBeforeField.json" />
+    <Content Include="App_Data\Displays\ServerScript.json" />
+    <Content Include="App_Data\Displays\BeforeFormulas.json" />
+    <Content Include="App_Data\Displays\AfterFormulas.json" />
+    <Content Include="App_Data\Displays\IncorrectServerScript.json" />
+    <Content Include="App_Data\Displays\BeforeOpeningPages.json" />
+    <Content Include="App_Data\Displays\UnauthorizedRequest.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />
@@ -1688,6 +1704,13 @@
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>
+  <Import Project="..\packages\Microsoft.ClearScript.7.0.0-rc2\build\Microsoft.ClearScript.targets" Condition="Exists('..\packages\Microsoft.ClearScript.7.0.0-rc2\build\Microsoft.ClearScript.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.ClearScript.7.0.0-rc2\build\Microsoft.ClearScript.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ClearScript.7.0.0-rc2\build\Microsoft.ClearScript.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -36,11 +36,15 @@
         $p.execEvents('ajax_after_done', $p.eventArgs(url, methodType, data, $control, _async, ret, json));
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
-        $p.execEvents('ajax_before_fail', $p.eventArgs(url, methodType, data, $control, _async, ret, null));
-        alert(textStatus + '\n' +
-            $(jqXHR.responseText).text().trim().replace('\n', ''));
         ret = -1;
-        $p.execEvents('ajax_after_fail', $p.eventArgs(url, methodType, data, $control, _async, ret, null));
+        if (jqXHR.status === 403) {
+            alert(jqXHR.responseJSON.Message);
+        } else {
+            $p.execEvents('ajax_before_fail', $p.eventArgs(url, methodType, data, $control, _async, ret, null));
+            alert(jqXHR.statusCode + '\n' + textStatus + '\n' +
+                $(jqXHR.responseText).text().trim().replace('\n', ''));
+            $p.execEvents('ajax_after_fail', $p.eventArgs(url, methodType, data, $control, _async, ret, null));
+        }
     })
     .always(function (jqXHR, textStatus) {
         $p.execEvents('ajax_before_always', $p.eventArgs(url, methodType, data, $control, _async, ret, null));

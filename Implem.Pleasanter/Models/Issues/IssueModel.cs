@@ -1989,6 +1989,9 @@ namespace Implem.Pleasanter.Models
 
         public void SetByFormula(Context context, SiteSettings ss)
         {
+            SetByBeforeFormulaServerScript(
+                context: context,
+                ss: ss);
             ss.Formulas?.ForEach(formulaSet =>
             {
                 var columnName = formulaSet.Target;
@@ -2032,6 +2035,9 @@ namespace Implem.Pleasanter.Models
                         break;
                 }
             });
+            SetByAfterFormulaServerScript(
+                context: context,
+                ss: ss);
         }
 
         public void SetTitle(Context context, SiteSettings ss)

@@ -9,7 +9,7 @@ namespace Implem.Pleasanter
         {
             filters.Add(new HandleErrorAttribute());
             filters.Add(new HandleErrorExAttribute());
-            filters.Add(new AuthorizeAttribute());
+            filters.Add(new AjaxAuthorizeAttribute());
             filters.Add(new CheckContextAttributes());
             if (Parameters.Service.RequireHttps)
             {

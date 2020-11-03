@@ -1273,6 +1273,9 @@ namespace Implem.Pleasanter.Models
             ss.SetColumnAccessControls(
                 context: context,
                 mine: issueModel.Mine(context: context));
+            issueModel.SetByBeforeOpeningPageServerScript(
+                context: context,
+                ss: ss);
             return editInDialog
                 ? hb.DialogEditorForm(
                     context: context,
