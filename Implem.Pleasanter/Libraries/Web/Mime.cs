@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using Implem.DefinitionAccessor;
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.Web
 {
     public static class Mime
@@ -28,13 +29,17 @@ namespace Implem.Pleasanter.Libraries.Web
 
         public static bool ValidateOnApi(string contentType)
         {
-            switch (contentType?.ToLower())
+            if (Parameters.Security.MimeTypeCheckOnApi)
             {
-                case "application/json":
-                    return true;
-                default:
-                    return false;
+                switch (contentType?.ToLower())
+                {
+                    case "application/json":
+                        return true;
+                    default:
+                        return false;
+                }
             }
+            return true;
         }
     }
 }
