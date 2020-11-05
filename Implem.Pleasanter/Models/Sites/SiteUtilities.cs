@@ -8155,8 +8155,7 @@ namespace Implem.Pleasanter.Models
                     .EditExportBody(
                         context: context,
                         ss: ss,
-                        selected: selected,
-                        tables: ss.ExportJoinOptions(context: context)));
+                        selected: selected));
         }
 
         /// <summary>
@@ -8194,8 +8193,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
-            IEnumerable<int> selected,
-            Dictionary<string, string> tables)
+            IEnumerable<int> selected)
         {
             return hb.TBody(action: () => ss.Exports?
                 .ForEach(export => hb
