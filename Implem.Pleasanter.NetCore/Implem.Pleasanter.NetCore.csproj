@@ -7,8 +7,8 @@
     <Product>Implem.Pleasanter</Product>
     <PackageId>Implem.Pleasanter.NetCore</PackageId>
     <Description>Web tool that helps the efficiency of business</Description>
-    <AssemblyVersion>1.1.8.0</AssemblyVersion>
-    <FileVersion>1.1.8.0</FileVersion>
+    <AssemblyVersion>1.1.8.1</AssemblyVersion>
+    <FileVersion>1.1.8.1</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
