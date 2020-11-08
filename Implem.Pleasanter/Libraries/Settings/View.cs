@@ -1275,7 +1275,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SqlOrderByCollection OrderBy(
             Context context,
             SiteSettings ss,
-            string itemsTableName = "Items",
             SqlOrderByCollection orderBy = null)
         {
             orderBy = orderBy ?? new SqlOrderByCollection();
@@ -1283,17 +1282,34 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ColumnSorterHash?.ForEach(data =>
                 {
-                    switch (data.Key)
+                    var column = ss.GetColumn(
+                        context: context,
+                        columnName: data.Key);
+                    switch (column.Name)
                     {
+                        case "Title":
                         case "ItemTitle":
                             orderBy.Add(new SqlOrderBy(
                                 columnBracket: "[Title]",
                                 orderType: data.Value,
-                                tableName: itemsTableName));
+                                tableName: $"{column.TableName()}_Items"));
+                            break;
+                        case "TitleBody":
+                            orderBy.Add(new SqlOrderBy(
+                                columnBracket: "[Title]",
+                                orderType: data.Value,
+                                tableName: $"{column.TableName()}_Items"));
+                            orderBy.Add(
+                                column: ss.GetColumn(
+                                    context: context,
+                                    columnName: column.Joined
+                                        ? $"{column.TableName()},Body"
+                                        : "Body"),
+                                orderType: data.Value);
                             break;
                         default:
                             orderBy.Add(
-                                column: ss.GetColumn(context: context, columnName: data.Key),
+                                column: column,
                                 orderType: data.Value);
                             break;
                     }

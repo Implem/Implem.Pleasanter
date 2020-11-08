@@ -19,6 +19,7 @@ namespace Implem.Pleasanter.Libraries.General
             BadRequest,
             CanNotChangeInheritance,
             CanNotDelete,
+            CannotDeletePermissionInherited,
             CanNotDisabled,
             CanNotInherit,
             CanNotLink,
@@ -142,6 +143,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.CanNotDelete:
                     return Messages.CanNotDelete(
+                        context: context,
+                        data: data);
+                case Types.CannotDeletePermissionInherited:
+                    return Messages.CannotDeletePermissionInherited(
                         context: context,
                         data: data);
                 case Types.CanNotDisabled:
