@@ -825,6 +825,23 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     siteId: ss.SiteId,
                     withParent: true);
+            var outside = Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectSites(
+                    column: Rds.SitesColumn()
+                        .SiteId()
+                        .Title(),
+                    where: Rds.SitesWhere()
+                        .TenantId(context.TenantId)
+                        .InheritPermission_In(siteMenu.Select(o => o.SiteId))))
+                            .AsEnumerable()
+                            .FirstOrDefault(o => !siteMenu.Any(p => p.SiteId == o.Long("SiteId")));
+            if (outside != null)
+            {
+                return new ErrorData(
+                    type: Error.Types.CannotDeletePermissionInherited,
+                    data: $"{outside.Long("SiteId")} {outside.String("Title")}");
+            }
             Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
