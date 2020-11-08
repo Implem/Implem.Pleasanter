@@ -2283,8 +2283,7 @@ namespace Implem.Pleasanter.Models
                 where: view.Where(context: context, ss: ss),
                 orderBy: view.OrderBy(
                     context: context,
-                    ss: ss,
-                    itemsTableName: "Results_Items"),
+                    ss: ss),
                 offset: api?.Offset ?? 0,
                 pageSize: pageSize,
                 tableType: tableType);
@@ -6140,6 +6139,13 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.SelectResults(
                     column: Rds.ResultsColumn().ResultId(),
+                    join: ss.Join(
+                        context: context,
+                        join: new IJoin[]
+                        {
+                            where,
+                            orderBy
+                        }),
                     where: lockedRecordWhere,
                     orderBy: orderBy,
                     top: 1));
