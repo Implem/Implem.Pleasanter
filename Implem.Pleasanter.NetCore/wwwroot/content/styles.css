@@ -2532,7 +2532,7 @@ th.calendar-header{
 }
 
 .alert-error{
-    height:32px;
+    min-height:32px;
     display:block;
     padding:5px;
     color:white;
@@ -2541,7 +2541,7 @@ th.calendar-header{
 }
 
 .alert-success{
-    height:32px;
+    min-height:32px;
     display:block;
     padding:5px;
     color:white;
@@ -2550,7 +2550,7 @@ th.calendar-header{
 }
 
 .alert-warning{
-    height:32px;
+    min-height:32px;
     display:block;
     padding:5px;
     color:black;
@@ -2559,7 +2559,7 @@ th.calendar-header{
 }
 
 .alert-information{
-    height:32px;
+    min-height:32px;
     display:block;
     padding:5px;
     color:white;

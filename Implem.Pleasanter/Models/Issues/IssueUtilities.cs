@@ -2460,8 +2460,7 @@ namespace Implem.Pleasanter.Models
                 where: view.Where(context: context, ss: ss),
                 orderBy: view.OrderBy(
                     context: context,
-                    ss: ss,
-                    itemsTableName: "Issues_Items"),
+                    ss: ss),
                 offset: api?.Offset ?? 0,
                 pageSize: pageSize,
                 tableType: tableType);
@@ -4296,12 +4295,15 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     join: where),
                 where: where);
+            var sites = ss.IntegratedSites?.Any() == true
+                ? ss.AllowedIntegratedSites
+                : ss.SiteId.ToSingleList();
             var statements = new List<SqlStatement>();
             var guid = Strings.NewGuid();
             statements.OnBulkDeletingExtendedSqls(ss.SiteId);
             statements.Add(Rds.UpdateItems(
                 where: Rds.ItemsWhere()
-                    .SiteId(ss.SiteId)
+                    .SiteId_In(sites)
                     .ReferenceId_In(sub: sub),
                 param: Rds.ItemsParam()
                     .ReferenceType(guid)));
@@ -4317,12 +4319,12 @@ namespace Implem.Pleasanter.Models
             statements.Add(Rds.DeleteItems(
                 factory: context,
                 where: Rds.ItemsWhere()
-                    .SiteId(ss.SiteId)
+                    .SiteId_In(sites)
                     .ReferenceType(guid)));
             statements.Add(Rds.UpdateItems(
                 tableType: Sqls.TableTypes.Deleted,
                 where: Rds.ItemsWhere()
-                    .SiteId(ss.SiteId)
+                    .SiteId_In(sites)
                     .ReferenceType(guid),
                 param: Rds.ItemsParam()
                     .ReferenceType(ss.ReferenceType)));
@@ -6916,6 +6918,13 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.SelectIssues(
                     column: Rds.IssuesColumn().IssueId(),
+                    join: ss.Join(
+                        context: context,
+                        join: new IJoin[]
+                        {
+                            where,
+                            orderBy
+                        }),
                     where: lockedRecordWhere,
                     orderBy: orderBy,
                     top: 1));

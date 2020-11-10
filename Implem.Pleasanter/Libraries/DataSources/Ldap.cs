@@ -46,10 +46,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         }
                     }
                 }
-                catch (LdapException le)
+                catch (LdapException e)
                 {
-                    var logs = new Logs() { new Log("LdapErrorMessage", le.LdapErrorMessage.TrimEnd('\0')) };
-                    new SysLogModel(context: context, e: le, logs: logs);
+                    var logs = new Logs() { new Log("LdapErrorMessage", e.LdapErrorMessage?.TrimEnd('\0')) };
+                    new SysLogModel(context: context, e: e, logs: logs);
                 }
                 catch (Exception e)
                 {

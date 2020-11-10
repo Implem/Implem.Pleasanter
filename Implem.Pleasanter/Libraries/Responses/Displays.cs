@@ -869,6 +869,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CannotDeletePermissionInherited(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CannotDeletePermissionInherited",
+                data: data);
+        }
+
         public static string CanNotDisabled(
             Context context,
             params string[] data)
