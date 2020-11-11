@@ -265,7 +265,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     }
                     break;
                 case Types.CsNumeric:
-                    if (column.DateFilterSetMode == ColumnUtilities.DateFilterSetMode.Default)
+                    if (column.Id_Ver)
+                    {
+                        hb.FieldTextBox(
+                            controlId: idPrefix + column.ColumnName,
+                            fieldCss: "field-auto-thin",
+                            controlCss: " auto-postback",
+                            labelText: Displays.Get(
+                                context: context,
+                                id: column.GridLabelText),
+                            labelTitle: ss.LabelTitle(column),
+                            controlOnly: controlOnly,
+                            method: "post");
+                    }
+                    else if (column.DateFilterSetMode == ColumnUtilities.DateFilterSetMode.Default)
                     {
                         if (Visible(column))
                         {
