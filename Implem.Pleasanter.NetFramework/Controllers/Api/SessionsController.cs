@@ -12,7 +12,9 @@ namespace Implem.Pleasanter.NetFramework.Controllers.Api
         public async Task<HttpResponseMessage> Get()
         {
             var body = await Request.Content.ReadAsStringAsync();
-            var context = new ContextImplement(apiRequestBody: body);
+            var context = new ContextImplement(
+                apiRequestBody: body,
+                contentType: Request.Content.Headers.ContentType.MediaType);
             var controller = new Pleasanter.Controllers.Api.SessionsController();
             var result = controller.Get(context: context);
             return result.ToHttpResponse(Request);
@@ -22,7 +24,9 @@ namespace Implem.Pleasanter.NetFramework.Controllers.Api
         public async Task<HttpResponseMessage> Set()
         {
             var body = await Request.Content.ReadAsStringAsync();
-            var context = new ContextImplement(apiRequestBody: body);
+            var context = new ContextImplement(
+                apiRequestBody: body,
+                contentType: Request.Content.Headers.ContentType.MediaType);
             var controller = new Pleasanter.Controllers.Api.SessionsController();
             var result = controller.Set(context: context);
             return result.ToHttpResponse(Request);
@@ -32,7 +36,9 @@ namespace Implem.Pleasanter.NetFramework.Controllers.Api
         public async Task<HttpResponseMessage> Delete()
         {
             var body = await Request.Content.ReadAsStringAsync();
-            var context = new ContextImplement(apiRequestBody: body);
+            var context = new ContextImplement(
+                apiRequestBody: body,
+                contentType: Request.Content.Headers.ContentType.MediaType);
             var controller = new Pleasanter.Controllers.Api.SessionsController();
             var result = controller.Delete(context: context);
             return result.ToHttpResponse(Request);

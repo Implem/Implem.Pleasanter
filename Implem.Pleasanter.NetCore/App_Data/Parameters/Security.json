@@ -1,4 +1,5 @@
 ﻿{
+    "MimeTypeCheckOnApi": false,
     "RequestLimit": 0,
     "PrivilegedUsers": null,
     "RevealUserDisabled": false,

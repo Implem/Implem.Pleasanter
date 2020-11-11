@@ -74,10 +74,11 @@ namespace Implem.Pleasanter.Libraries.Requests
         public abstract decimal ApiVersion { get; set; }
         public abstract string ApiRequestBody { get; set; }
         public abstract string RequestDataString { get; }
+        public abstract string ContentType{ get; set; }
         public abstract string AuthenticationType { get; }
         public abstract bool? IsAuthenticated { get; }
         public abstract IEnumerable<Claim> UserClaims { get; }
-        public abstract void Set(bool request = true, bool sessionStatus = true, bool setData = true, bool user = true, bool item = true, string apiRequestBody = null);
+        public abstract void Set(bool request = true, bool sessionStatus = true, bool setData = true, bool user = true, bool item = true, string apiRequestBody = null, string contentType = null);
         public abstract RdsUser RdsUser();
         public abstract CultureInfo CultureInfo();
         public abstract Message Message();

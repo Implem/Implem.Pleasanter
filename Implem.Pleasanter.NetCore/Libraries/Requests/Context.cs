@@ -87,6 +87,7 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
         public override decimal ApiVersion { get; set; } = 1.000M;
         public override string ApiRequestBody { get; set; }
         public override string RequestDataString { get => !string.IsNullOrEmpty(ApiRequestBody) ? ApiRequestBody : FormString; }
+        public override string ContentType { get; set; }
 
         public override string AuthenticationType { get => AspNetCoreHttpContext.Current?.User?.Identity?.AuthenticationType; }
         public override bool? IsAuthenticated { get => AspNetCoreHttpContext.Current?.User?.Identity?.IsAuthenticated; }
@@ -99,7 +100,8 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
             bool sessionData = true,
             bool user = true,
             bool item = true,
-            string apiRequestBody = null)
+            string apiRequestBody = null,
+            string contentType = null)
         {
             Set(
                 request: request,
@@ -107,7 +109,8 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
                 setData: sessionData,
                 user: user,
                 item: item,
-                apiRequestBody: apiRequestBody);
+                apiRequestBody: apiRequestBody,
+                contentType: contentType);
             if (ApiRequestBody != null)
             {
                 SiteInfo.Reflesh(context: this);
@@ -142,9 +145,11 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
             bool setData = true,
             bool user = true,
             bool item = true,
-            string apiRequestBody = null)
+            string apiRequestBody = null,
+            string contentType = null)
         {
             ApiRequestBody = apiRequestBody;
+            ContentType = contentType;
             if (request) SetRequests();
             if (sessionStatus) SetSessionGuid();
             if (item) SetItemProperties();

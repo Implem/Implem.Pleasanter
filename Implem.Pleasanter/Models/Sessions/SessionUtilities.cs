@@ -16,6 +16,7 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Libraries.Web;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -289,6 +290,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static System.Web.Mvc.ContentResult GetByApi(Context context)
         {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
             var api = context.RequestDataString.Deserialize<SessionApi>();
             if (api == null || api.SessionKey.IsNullOrEmpty())
             {
@@ -319,6 +324,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static System.Web.Mvc.ContentResult SetByApi(Context context)
         {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
             var api = context.RequestDataString.Deserialize<SessionApi>();
             if (api == null || api.SessionKey.IsNullOrEmpty() || api.SessionValue.IsNullOrEmpty())
             {
@@ -354,6 +363,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static System.Web.Mvc.ContentResult DeleteByApi(Context context)
         {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
             var api = context.RequestDataString.Deserialize<SessionApi>();
             if (api == null || api.SessionKey.IsNullOrEmpty())
             {

@@ -18,7 +18,8 @@ namespace Implem.Pleasanter.NetCore.Controllers.Api
             var context = new ContextImplement(
                 sessionStatus: User?.Identity?.IsAuthenticated == true,
                 sessionData: User?.Identity?.IsAuthenticated == true,
-                apiRequestBody: body);
+                apiRequestBody: body,
+                contentType: Request.ContentType);
             var controller = new Pleasanter.Controllers.Api.DeptsController();
             var result = controller.Get(context: context);
             return result.ToHttpResponse(request: Request);
