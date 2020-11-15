@@ -1290,6 +1290,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     var column = ss.GetColumn(
                         context: context,
                         columnName: data.Key);
+                    var tableName = column.TableName();
                     switch (column.Name)
                     {
                         case "Title":
@@ -1297,25 +1298,40 @@ namespace Implem.Pleasanter.Libraries.Settings
                             orderBy.Add(new SqlOrderBy(
                                 columnBracket: "\"Title\"",
                                 orderType: data.Value,
-                                tableName: $"{column.TableName()}_Items"));
+                                tableName: $"{tableName}_Items"));
                             break;
                         case "TitleBody":
                             orderBy.Add(new SqlOrderBy(
                                 columnBracket: "\"Title\"",
                                 orderType: data.Value,
-                                tableName: $"{column.TableName()}_Items"));
+                                tableName: $"{tableName}_Items"));
                             orderBy.Add(
                                 column: ss.GetColumn(
                                     context: context,
                                     columnName: column.Joined
-                                        ? $"{column.TableName()},Body"
+                                        ? $"{tableName},Body"
                                         : "Body"),
                                 orderType: data.Value);
                             break;
                         default:
-                            orderBy.Add(
-                                column: column,
-                                orderType: data.Value);
+                            if (column.Linked())
+                            {
+                                orderBy.Add(new SqlOrderBy(
+                                    orderType: data.Value,
+                                    sub: Rds.SelectItems(
+                                        column: Rds.ItemsColumn().Title(),
+                                        where: Rds.ItemsWhere()
+                                            .SiteId_In(column.SiteSettings.Links
+                                                .Where(o => o.ColumnName == column.Name)
+                                                .Select(o => o.SiteId))
+                                            .ReferenceId(raw: $"{context.SqlCommandText.CreateTryCast(tableName, column.Name, column.TypeName, "bigint")}"))));
+                            }
+                            else
+                            {
+                                orderBy.Add(
+                                    column: column,
+                                    orderType: data.Value);
+                            }
                             break;
                     }
                 });
