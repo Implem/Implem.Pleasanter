@@ -2,6 +2,7 @@
 using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.Utilities;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 namespace Implem.Libraries.DataSources.SqlServer
@@ -32,6 +33,8 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         public void BuildCommandText(
+            SqlContainer sqlContainer,
+            SqlCommand sqlCommand,
             StringBuilder commandText,
             int pageSize,
             Sqls.TableTypes tableType,
@@ -45,6 +48,8 @@ namespace Implem.Libraries.DataSources.SqlServer
                         .GroupBy(o => o.ColumnBracket)
                         .Select(o => o.FirstOrDefault())
                         .Select(o => o.Sql(
+                            sqlContainer: sqlContainer,
+                            sqlCommand: sqlCommand,
                             tableBracket: Sqls.GetTableBracket(o.TableName),
                             tableType: tableType))
                         .Join(),

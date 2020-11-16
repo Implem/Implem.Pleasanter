@@ -61,8 +61,11 @@ namespace Implem.Pleasanter.Models
                 string controller,
                 string action)
             {
-                (UserId, DeptId, Groups, Controller, Action)
-                    = (userId, deptId, groupIds?.ToArray() ?? new int[0], controller, action);
+                UserId = userId;
+                DeptId = deptId;
+                Groups = groupIds?.ToArray() ?? new int[0];
+                Controller = controller;
+                Action = action;
             }
         }
     }

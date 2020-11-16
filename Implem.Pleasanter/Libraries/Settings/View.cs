@@ -1060,25 +1060,45 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private void CsNumericColumns(Column column, string value, SqlWhereCollection where)
         {
-            var param = value.Deserialize<List<string>>();
-            if (param.Count == 0) { return; }
+            long number = 0;
             var collection = new SqlWhereCollection();
-            collection.AddRange(param
-                .Where(o => o.RegexExists(@"^-?[0-9\.]*,-?[0-9\.]*$"))
-                .SelectMany(o => CsNumericRangeColumns(column, o)));
-            collection.AddRange(param
-                .Where(o => o == "\t")
-                .SelectMany(o => CsNumericColumnsWhereNull(column)));
-            var valueWhere = CsNumericColumnsWhere(
-                column,
-                param
-                    .Where(o => !o.RegexExists(@"^-?[0-9\.]*,-?[0-9\.]*$"))
-                    .Where(o => o != "\t"));
-            if (valueWhere != null)
+            if (long.TryParse(value, out number))
             {
-                collection.Add(valueWhere);
+                collection.Add(CsNumericColumnsWhere(column, number));
             }
-            where.Add(or: collection);
+            else
+            {
+                var param = value.Deserialize<List<string>>();
+                if (param?.Any() != true) return;
+                collection.AddRange(param
+                    .Where(o => o.RegexExists(@"^-?[0-9\.]*,-?[0-9\.]*$"))
+                    .SelectMany(o => CsNumericRangeColumns(column, o)));
+                collection.AddRange(param
+                    .Where(o => o == "\t")
+                    .SelectMany(o => CsNumericColumnsWhereNull(column)));
+                var valueWhere = CsNumericColumnsWhere(
+                    column,
+                    param
+                        .Where(o => !o.RegexExists(@"^-?[0-9\.]*,-?[0-9\.]*$"))
+                        .Where(o => o != "\t"));
+                if (valueWhere != null)
+                {
+                    collection.Add(valueWhere);
+                }
+            }
+            if (collection.Any())
+            {
+                where.Add(or: collection);
+            }
+        }
+
+        private SqlWhere CsNumericColumnsWhere(Column column, long param)
+        {
+            return new SqlWhere(
+                tableName: column.TableName(),
+                columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
+                name: column.Name,
+                value: param);
         }
 
         private SqlWhere CsNumericColumnsWhere(Column column, IEnumerable<string> param)
@@ -1285,6 +1305,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     var column = ss.GetColumn(
                         context: context,
                         columnName: data.Key);
+                    var tableName = column.TableName();
                     switch (column.Name)
                     {
                         case "Title":
@@ -1292,25 +1313,40 @@ namespace Implem.Pleasanter.Libraries.Settings
                             orderBy.Add(new SqlOrderBy(
                                 columnBracket: "[Title]",
                                 orderType: data.Value,
-                                tableName: $"{column.TableName()}_Items"));
+                                tableName: $"{tableName}_Items"));
                             break;
                         case "TitleBody":
                             orderBy.Add(new SqlOrderBy(
                                 columnBracket: "[Title]",
                                 orderType: data.Value,
-                                tableName: $"{column.TableName()}_Items"));
+                                tableName: $"{tableName}_Items"));
                             orderBy.Add(
                                 column: ss.GetColumn(
                                     context: context,
                                     columnName: column.Joined
-                                        ? $"{column.TableName()},Body"
+                                        ? $"{tableName},Body"
                                         : "Body"),
                                 orderType: data.Value);
                             break;
                         default:
-                            orderBy.Add(
-                                column: column,
-                                orderType: data.Value);
+                            if (column.Linked())
+                            {
+                                orderBy.Add(new SqlOrderBy(
+                                    orderType: data.Value,
+                                    sub: Rds.SelectItems(
+                                        column: Rds.ItemsColumn().Title(),
+                                        where: Rds.ItemsWhere()
+                                            .SiteId_In(column.SiteSettings.Links
+                                                .Where(o => o.ColumnName == column.Name)
+                                                .Select(o => o.SiteId))
+                                            .ReferenceId(raw: $"try_cast([{tableName}].[{column.Name}] as bigint)"))));
+                            }
+                            else
+                            {
+                                orderBy.Add(
+                                    column: column,
+                                    orderType: data.Value);
+                            }
                             break;
                     }
                 });

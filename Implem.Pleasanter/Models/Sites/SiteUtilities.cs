@@ -16,6 +16,7 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Libraries.Web;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -2747,7 +2748,8 @@ namespace Implem.Pleasanter.Models
                                         .A(
                                             href: "#ServerScriptsSettingsEditor",
                                             text: Displays.ServerScript(context: context)),
-                                    _using: context.ContractSettings.Script != false)
+                                    _using: context.ContractSettings.Script != false
+                                        && Parameters.Script.ServerScript != false)
                                 .Li(
                                     action: () => hb
                                         .A(
@@ -3684,7 +3686,8 @@ namespace Implem.Pleasanter.Models
                         .Id("ServerScriptDialog")
                         .Class("dialog")
                         .Title(Displays.ServerScript(context: context)),
-                    _using: context.ContractSettings.Script != false)
+                    _using: context.ContractSettings.Script != false
+                        && Parameters.Script.ServerScript != false)
                 .Div(
                     attributes: new HtmlAttributes()
                         .Id("RelatingColumnDialog")
@@ -9364,7 +9367,8 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder ServerScriptsSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            if (context.ContractSettings.Script == false) return hb;
+            if (context.ContractSettings.Script == false
+                || Parameters.Script.ServerScript == false) return hb;
             return hb.FieldSet(id: "ServerScriptsSettingsEditor", action: () => hb
                 .Div(css: "command-left", action: () => hb
                     .Button(

@@ -13,7 +13,9 @@ namespace Implem.Pleasanter.Controllers.Api
         public async Task<HttpResponseMessage> Get(string guid)
         {
             var body = await Request.Content.ReadAsStringAsync();
-            var context = new Context(apiRequestBody: body);
+            var context = new Context(
+                apiRequestBody: body,
+                contentType: Request.Content.Headers.ContentType.MediaType);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? BinaryUtilities.ApiDonwload(

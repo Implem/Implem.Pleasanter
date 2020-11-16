@@ -12,7 +12,9 @@ namespace Implem.Pleasanter.Controllers.Api
         public async Task<HttpResponseMessage> Get()
         {
             var body = await Request.Content.ReadAsStringAsync();
-            var context = new Context(apiRequestBody: body);
+            var context = new Context(
+                apiRequestBody: body,
+                contentType: Request.Content.Headers.ContentType.MediaType);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? SessionUtilities.GetByApi(context: context)
@@ -25,7 +27,9 @@ namespace Implem.Pleasanter.Controllers.Api
         public async Task<HttpResponseMessage> Set()
         {
             var body = await Request.Content.ReadAsStringAsync();
-            var context = new Context(apiRequestBody: body);
+            var context = new Context(
+                apiRequestBody: body,
+                contentType: Request.Content.Headers.ContentType.MediaType);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? SessionUtilities.SetByApi(context: context)
@@ -38,7 +42,9 @@ namespace Implem.Pleasanter.Controllers.Api
         public async Task<HttpResponseMessage> Delete()
         {
             var body = await Request.Content.ReadAsStringAsync();
-            var context = new Context(apiRequestBody: body);
+            var context = new Context(
+                apiRequestBody: body,
+                contentType: Request.Content.Headers.ContentType.MediaType);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? SessionUtilities.DeleteByApi(context: context)

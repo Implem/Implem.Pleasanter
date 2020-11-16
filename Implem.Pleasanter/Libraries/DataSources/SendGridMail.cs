@@ -62,10 +62,18 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             .ForEach(bcc => sendGridMessage.AddBcc(CreateMailAddress(bcc)));
                     sendGridMessage.Subject = Subject;
                     sendGridMessage.Text = Body;
-                    new SendGrid.Web(new System.Net.NetworkCredential(
-                        Parameters.Mail.SmtpUserName,
-                        Parameters.Mail.SmtpPassword))
+                    if (Parameters.Mail.SmtpUserName.ToLower() == "apikey")
+                    {
+                        new SendGrid.Web(apiKey: Parameters.Mail.SmtpPassword)
                             .DeliverAsync(sendGridMessage);
+                    }
+                    else
+                    {
+                        new SendGrid.Web(new System.Net.NetworkCredential(
+                            Parameters.Mail.SmtpUserName,
+                            Parameters.Mail.SmtpPassword))
+                                .DeliverAsync(sendGridMessage);
+                    }
                 }
                 catch(Exception e)
                 {

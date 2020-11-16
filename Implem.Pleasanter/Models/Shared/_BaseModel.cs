@@ -671,6 +671,16 @@ namespace Implem.Pleasanter.Models
                 }
             }
         }
+
+        public virtual void SetByAfterFormulaServerScript(Context context, SiteSettings ss)
+        {
+        }
+
+        public virtual void SetByBeforeOpeningPageServerScript(
+            Context context,
+            SiteSettings ss)
+        {
+        }
     }
 
     public class BaseItemModel : BaseModel
@@ -715,7 +725,7 @@ namespace Implem.Pleasanter.Models
                 where: script => script.BeforeFormula == true);
         }
 
-        public void SetByAfterFormulaServerScript(Context context, SiteSettings ss)
+        public override void SetByAfterFormulaServerScript(Context context, SiteSettings ss)
         {
             ServerScriptUtilities.Execute(
                 context: context,
@@ -724,7 +734,7 @@ namespace Implem.Pleasanter.Models
                 where: script => script.AfterFormula == true);
         }
 
-        public void SetByBeforeOpeningPageServerScript(
+        public override void SetByBeforeOpeningPageServerScript(
             Context context,
             SiteSettings ss)
         {

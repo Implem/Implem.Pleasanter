@@ -29,6 +29,7 @@ namespace Implem.DefinitionAccessor
         public static Rds Rds;
         public static Registration Registration;
         public static Reminder Reminder;
+        public static Script Script;
         public static Search Search;
         public static Security Security;
         public static Service Service;

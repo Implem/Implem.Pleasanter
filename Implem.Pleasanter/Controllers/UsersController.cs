@@ -243,6 +243,23 @@ namespace Implem.Pleasanter.Controllers
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
+            if ((Parameters.Authentication.Provider == "SAML-MultiTenant") && (ssocode != string.Empty))
+            {
+                var tenant = new TenantModel().Get(
+                    context: context,
+                    ss: SiteSettingsUtilities.TenantsSiteSettings(context),
+                    where: Rds.TenantsWhere().Comments(ssocode));
+                if (tenant.AccessStatus == Databases.AccessStatuses.Selected)
+                {
+                    Authentications.SignOut(context: context);
+                    var redirectUrl = Saml.SetIdpConfiguration(context, tenant.TenantId);
+                    if (redirectUrl != null)
+                    {
+                        return new RedirectResult(redirectUrl);
+                    }
+                }
+                return new RedirectResult(Locations.InvalidSsoCode(context));
+            }
             if (context.Authenticated)
             {
                 if (context.QueryStrings.Bool("new"))
@@ -253,22 +270,6 @@ namespace Implem.Pleasanter.Controllers
                 return base.Redirect(Url.IsLocalUrl(returnUrl)
                     ? returnUrl
                     : Locations.Top(context: context));
-            }
-            if ((Parameters.Authentication.Provider == "SAML-MultiTenant") && (ssocode != string.Empty))
-            {
-                var tenant = new TenantModel().Get(
-                    context: context,
-                    ss: SiteSettingsUtilities.TenantsSiteSettings(context), 
-                    where: Rds.TenantsWhere().Comments(ssocode));
-                if (tenant.AccessStatus == Databases.AccessStatuses.Selected)
-                {
-                    var redirectUrl = Saml.SetIdpConfiguration(context, tenant.TenantId);
-                    if (redirectUrl != null)
-                    {
-                        return new RedirectResult(redirectUrl);
-                    }
-                }
-                return new RedirectResult(Locations.InvalidSsoCode(context));
             }
             var html = UserUtilities.HtmlLogin(
                 context: context,

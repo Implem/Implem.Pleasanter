@@ -1,13 +1,16 @@
 ﻿$(document).ready(function () {
     var methodType = $('#MethodType').val();
+    $p.initRelatingColumnWhenViewChanged = function () {
+        initRelatingColumn(
+            $('#TriggerRelatingColumns_Filter'),
+            'ViewFilters_');
+    };
     if (methodType === 'edit' || methodType === 'new') {
         initRelatingColumn(
             $('#TriggerRelatingColumns_Editor'),
             $('#TableName').val());
     } else {
-        initRelatingColumn(
-            $('#TriggerRelatingColumns_Filter'),
-            'ViewFilters_');
+        $p.initRelatingColumnWhenViewChanged();
     }
     $p.initRelatingColumn = function () {
         initRelatingColumn(

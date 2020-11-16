@@ -1650,6 +1650,7 @@
     <Content Include="App_Data\Displays\BeforeOpeningPages.json" />
     <Content Include="App_Data\Displays\UnauthorizedRequest.json" />
     <Content Include="App_Data\Displays\CannotDeletePermissionInherited.json" />
+    <Content Include="App_Data\Parameters\Script.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

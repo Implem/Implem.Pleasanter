@@ -285,6 +285,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: deptModel.Mine(context: context));
+                                    deptModel.SetByBeforeOpeningPageServerScript(
+                                        context: context,
+                                        ss: ss);
                                 }
                                 hb.TdValue(
                                     context: context,
@@ -305,6 +308,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: groupModel.Mine(context: context));
+                                    groupModel.SetByBeforeOpeningPageServerScript(
+                                        context: context,
+                                        ss: ss);
                                 }
                                 hb.TdValue(
                                     context: context,
@@ -325,6 +331,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: registrationModel.Mine(context: context));
+                                    registrationModel.SetByBeforeOpeningPageServerScript(
+                                        context: context,
+                                        ss: ss);
                                 }
                                 hb.TdValue(
                                     context: context,
@@ -345,6 +354,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: userModel.Mine(context: context));
+                                    userModel.SetByBeforeOpeningPageServerScript(
+                                        context: context,
+                                        ss: ss);
                                 }
                                 hb.TdValue(
                                     context: context,
@@ -368,6 +380,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: siteModel.Mine(context: context));
+                                    siteModel.SetByBeforeOpeningPageServerScript(
+                                        context: context,
+                                        ss: ss);
                                 }
                                 hb.TdValue(
                                     context: context,
@@ -392,6 +407,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: issueModel.Mine(context: context));
+                                    issueModel.SetByBeforeOpeningPageServerScript(
+                                        context: context,
+                                        ss: ss);
                                 }
                                 if (!issueModel.Locked && EditColumns.Get(column.ColumnName))
                                 {
@@ -433,6 +451,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: resultModel.Mine(context: context));
+                                    resultModel.SetByBeforeOpeningPageServerScript(
+                                        context: context,
+                                        ss: ss);
                                 }
                                 if (!resultModel.Locked && EditColumns.Get(column.ColumnName))
                                 {

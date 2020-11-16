@@ -16,7 +16,8 @@ namespace Implem.Pleasanter.Controllers.Api
             var context = new Context(
                 sessionStatus: User?.Identity?.IsAuthenticated == true,
                 sessionData: User?.Identity?.IsAuthenticated == true,
-                apiRequestBody: body);
+                apiRequestBody: body,
+                contentType: Request.Content.Headers.ContentType.MediaType);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? new ItemModel(context: context, referenceId: id).GetByApi(context: context)
@@ -32,7 +33,8 @@ namespace Implem.Pleasanter.Controllers.Api
             var context = new Context(
                 sessionStatus: User?.Identity?.IsAuthenticated == true,
                 sessionData: User?.Identity?.IsAuthenticated == true,
-                apiRequestBody: body);
+                apiRequestBody: body,
+                contentType: Request.Content.Headers.ContentType.MediaType);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? new ItemModel(context: context, referenceId: id).CreateByApi(context: context)
@@ -48,7 +50,8 @@ namespace Implem.Pleasanter.Controllers.Api
             var context = new Context(
                 sessionStatus: User?.Identity?.IsAuthenticated == true,
                 sessionData: User?.Identity?.IsAuthenticated == true,
-                apiRequestBody: body);
+                apiRequestBody: body,
+                contentType: Request.Content.Headers.ContentType.MediaType);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? new ItemModel(context: context, referenceId: id).UpdateByApi(context: context)
@@ -64,7 +67,8 @@ namespace Implem.Pleasanter.Controllers.Api
             var context = new Context(
                 sessionStatus: User?.Identity?.IsAuthenticated == true,
                 sessionData: User?.Identity?.IsAuthenticated == true,
-                apiRequestBody: body);
+                apiRequestBody: body,
+                contentType: Request.Content.Headers.ContentType.MediaType);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? new ItemModel(context: context, referenceId: id).DeleteByApi(context: context)
@@ -80,7 +84,8 @@ namespace Implem.Pleasanter.Controllers.Api
             var context = new Context(
                 sessionStatus: User?.Identity?.IsAuthenticated == true,
                 sessionData: User?.Identity?.IsAuthenticated == true,
-                apiRequestBody: body);
+                apiRequestBody: body,
+                contentType: Request.Content.Headers.ContentType.MediaType);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? new ItemModel(context: context, referenceId: id).ExportByApi(context: context)
@@ -96,7 +101,8 @@ namespace Implem.Pleasanter.Controllers.Api
             var context = new Context(
                 sessionStatus: User?.Identity?.IsAuthenticated == true,
                 sessionData: User?.Identity?.IsAuthenticated == true,
-                apiRequestBody: body);
+                apiRequestBody: body,
+                contentType: Request.Content.Headers.ContentType.MediaType);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? new ItemModel(context: context, referenceId: id).BulkDeleteByApi(context: context)

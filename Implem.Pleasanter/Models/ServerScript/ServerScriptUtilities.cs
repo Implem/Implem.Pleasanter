@@ -259,6 +259,10 @@ namespace Implem.Pleasanter.Models
             BaseItemModel itemModel,
             Func<ServerScript, bool> where)
         {
+            if (!Parameters.Script.ServerScript)
+            {
+                return;
+            }
             var serverScripts = ss
                 ?.ServerScripts
                 ?.Where(where)

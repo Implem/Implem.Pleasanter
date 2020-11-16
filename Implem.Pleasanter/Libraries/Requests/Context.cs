@@ -80,6 +80,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public decimal ApiVersion = 1.000M;
         public string ApiRequestBody;
         public string RequestDataString { get => ApiRequestBody ?? FormString; }
+        public string ContentType;
 
         public Context(
             bool request = true,
@@ -87,7 +88,8 @@ namespace Implem.Pleasanter.Libraries.Requests
             bool sessionData = true,
             bool user = true,
             bool item = true,
-            string apiRequestBody = null)
+            string apiRequestBody = null,
+            string contentType = null)
         {
             Set(
                 request: request,
@@ -95,7 +97,8 @@ namespace Implem.Pleasanter.Libraries.Requests
                 setData: sessionData,
                 user: user,
                 item: item,
-                apiRequestBody: apiRequestBody);
+                apiRequestBody: apiRequestBody,
+                contentType: contentType);
             if (ApiRequestBody != null)
             {
                 SiteInfo.Reflesh(context: this);
@@ -130,9 +133,11 @@ namespace Implem.Pleasanter.Libraries.Requests
             bool setData = true,
             bool user = true,
             bool item = true,
-            string apiRequestBody = null)
+            string apiRequestBody = null,
+            string contentType = null)
         {
             ApiRequestBody = apiRequestBody;
+            ContentType = contentType;
             if (request) SetRequests();
             if (sessionStatus) SetSessionGuid();
             if (item) SetItemProperties();

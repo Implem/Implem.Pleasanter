@@ -16,6 +16,7 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Libraries.Web;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -3684,6 +3685,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static System.Web.Mvc.ContentResult GetByApi(Context context, SiteSettings ss)
         {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
             var api = context.RequestDataString.Deserialize<Api>();
             if (api == null)
             {
@@ -3866,6 +3871,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static System.Web.Mvc.ContentResult CreateByApi(Context context, SiteSettings ss)
         {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
             if (context.ContractSettings.UsersLimit(context: context))
             {
                 return ApiResults.Error(
@@ -3927,6 +3936,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static System.Web.Mvc.ContentResult UpdateByApi(Context context, SiteSettings ss, int userId)
         {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
             var userModel = new UserModel(context, ss, userId: userId, setByApi: true);
             if (userModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
@@ -3990,6 +4003,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static System.Web.Mvc.ContentResult DeleteByApi(Context context, SiteSettings ss, int userId)
         {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
             var userModel = new UserModel(context, ss, userId: userId, setByApi: true);
             if (userModel.AccessStatus != Databases.AccessStatuses.Selected)
             {

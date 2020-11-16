@@ -16,6 +16,7 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Libraries.Web;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -597,6 +598,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static System.Web.Mvc.ContentResult ApiDonwload(Context context, string guid)
         {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
             if (!context.ContractSettings.Attachments())
             {
                 return null;

@@ -25,6 +25,7 @@ namespace Implem.Pleasanter.Libraries.Responses
             return res
                 .Html(!bodyOnly ? "#ViewModeContainer" : bodySelector, body)
                 .View(context: context, ss: ss, view: view)
+                .Invoke("initRelatingColumnWhenViewChanged")
                 .ReplaceAll(
                     "#Breadcrumb",
                     new HtmlBuilder().Breadcrumb(

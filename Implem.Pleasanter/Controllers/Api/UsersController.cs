@@ -16,7 +16,8 @@ namespace Implem.Pleasanter.Controllers.Api
             var context = new Context(
                 sessionStatus: User?.Identity?.IsAuthenticated == true,
                 sessionData: User?.Identity?.IsAuthenticated == true,
-                apiRequestBody: body);
+                apiRequestBody: body,
+                contentType: Request.Content.Headers.ContentType.MediaType);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? new UserModel().GetByApi(context: context)
@@ -32,7 +33,8 @@ namespace Implem.Pleasanter.Controllers.Api
             var context = new Context(
                 sessionStatus: User?.Identity?.IsAuthenticated == true,
                 sessionData: User?.Identity?.IsAuthenticated == true,
-                apiRequestBody: body);
+                apiRequestBody: body,
+                contentType: Request.Content.Headers.ContentType.MediaType);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? new UserModel().CreateByApi(context: context)
@@ -48,7 +50,8 @@ namespace Implem.Pleasanter.Controllers.Api
             var context = new Context(
                 sessionStatus: User?.Identity?.IsAuthenticated == true,
                 sessionData: User?.Identity?.IsAuthenticated == true,
-                apiRequestBody: body);
+                apiRequestBody: body,
+                contentType: Request.Content.Headers.ContentType.MediaType);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? new UserModel().UpdateByApi(context: context, userId: id)
@@ -64,7 +67,8 @@ namespace Implem.Pleasanter.Controllers.Api
             var context = new Context(
                 sessionStatus: User?.Identity?.IsAuthenticated == true,
                 sessionData: User?.Identity?.IsAuthenticated == true,
-                apiRequestBody: body);
+                apiRequestBody: body,
+                contentType: Request.Content.Headers.ContentType.MediaType);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? new UserModel().DeleteByApi(context: context, userId: id)

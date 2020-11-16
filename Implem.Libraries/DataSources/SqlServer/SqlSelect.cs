@@ -246,6 +246,8 @@ namespace Implem.Libraries.DataSources.SqlServer
             if (orderBy)
             {
                 SqlOrderByCollection?.BuildCommandText(
+                    sqlContainer: sqlContainer,
+                    sqlCommand: sqlCommand,
                     commandText: commandText,
                     pageSize: PageSize,
                     tableType: TableType,
