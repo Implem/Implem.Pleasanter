@@ -3,7 +3,7 @@
     "Type": 110,
     "Languages": [
         {
-            "Body": "Html title"
+            "Body": "HTML title"
         },
         {
             "Language": "zh",
@@ -23,7 +23,7 @@
         },
         {
             "Language": "es",
-            "Body": "Título html"
+            "Body": "Título HTML"
         }
     ]
 }
