@@ -670,6 +670,40 @@ namespace Implem.Pleasanter.Models
                 }
             }
         }
+
+        public virtual void SetByAfterFormulaServerScript(Context context, SiteSettings ss)
+        {
+        }
+
+        public virtual void SetByBeforeOpeningPageServerScript(
+            Context context,
+            SiteSettings ss)
+        {
+        }
+
+        public void SetByWhenloadingSiteSettingsServerScript(
+            Context context,
+            SiteSettings ss)
+        {
+            if (context.Id == ss.SiteId)
+            {
+                switch (context.Action)
+                {
+                    case "createbytemplate":
+                    case "edit":
+                    case "update":
+                    case "copy":
+                    case "delete":
+                        return;
+                }
+            }
+            ServerScriptUtilities.Execute(
+                context: context,
+                ss: ss,
+                itemModel: null,
+                view: null,
+                where: script => script.WhenloadingSiteSettings == true);
+        }
     }
 
     public class BaseItemModel : BaseModel
@@ -703,6 +737,38 @@ namespace Implem.Pleasanter.Models
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.GetDefaultInput(context: context).ToString() != Body);
+        }
+
+        public void SetByBeforeFormulaServerScript(Context context, SiteSettings ss)
+        {
+            ServerScriptUtilities.Execute(
+                context: context,
+                ss: ss,
+                itemModel: this,
+                view: null,
+                where: script => script.BeforeFormula == true);
+        }
+
+        public override void SetByAfterFormulaServerScript(Context context, SiteSettings ss)
+        {
+            ServerScriptUtilities.Execute(
+                context: context,
+                ss: ss,
+                itemModel: this,
+                view: null,
+                where: script => script.AfterFormula == true);
+        }
+
+        public override void SetByBeforeOpeningPageServerScript(
+            Context context,
+            SiteSettings ss)
+        {
+            ServerScriptUtilities.Execute(
+                context: context,
+                ss: ss,
+                itemModel: this,
+                view: null,
+                where: script => script.BeforeOpeningPage == true);
         }
     }
 }

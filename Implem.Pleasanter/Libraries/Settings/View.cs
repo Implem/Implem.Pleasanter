@@ -7,6 +7,7 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Search;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -976,10 +977,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                 });
         }
 
-        private void SetColumnsWhere(Context context, SiteSettings ss, SqlWhereCollection where)
+        public void SetColumnsWhere(Context context, SiteSettings ss, SqlWhereCollection where)
         {
             var prefix = "ViewFilters_" + ss.ReferenceType + "_";
             var prefixLength = prefix.Length;
+            SetByWhenViewProcessingServerScript(
+                context: context,
+                ss: ss);
             ColumnFilterHash?
                 .Select(data => new
                 {
@@ -1295,6 +1299,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                         columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                         _operator: "=''")))
                 : null;
+        }
+
+        private void SetByWhenViewProcessingServerScript(
+            Context context,
+            SiteSettings ss)
+        {
+            ServerScriptUtilities.Execute(
+                context: context,
+                ss: ss,
+                itemModel: null,
+                view: this,
+                where: script => script.WhenViewProcessing == true);
         }
 
         public SqlOrderByCollection OrderBy(

@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Security.Claims;
-
 namespace Implem.Pleasanter.Libraries.Requests
 {
     public abstract class Context : ISqlObjectFactory
@@ -218,5 +217,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                     return false;
             }
         }
+
+        public abstract IScriptEngine CreateScriptEngin();
     }
 }

@@ -136,6 +136,16 @@ $p.setScript = function ($control) {
     $p.send($control);
 }
 
+$p.openServerScriptDialog = function ($control) {
+    $p.data.ServerScriptForm = {};
+    $p.openSiteSettingsDialog($control, '#ServerScriptDialog');
+}
+
+$p.setServerScript = function ($control) {
+    $p.setData($('#EditServerScript'), $p.getData($control));
+    $p.send($control);
+}
+
 $p.openStyleDialog = function ($control) {
     $p.data.StyleForm = {};
     $p.openSiteSettingsDialog($control, '#StyleDialog');

@@ -1,0 +1,29 @@
+﻿{
+    "Id": "BeforeFormulas",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Before formulas"
+        },
+        {
+            "Language": "zh",
+            "Body": "公式之前"
+        },
+        {
+            "Language": "ja",
+            "Body": "計算式の前"
+        },
+        {
+            "Language": "de",
+            "Body": "Vor Formeln"
+        },
+        {
+            "Language": "ko",
+            "Body": "수식 전"
+        },
+        {
+            "Language": "es",
+            "Body": "Antes de las fórmulas"
+        }
+    ]
+}

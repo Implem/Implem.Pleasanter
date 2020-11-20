@@ -577,5 +577,10 @@ namespace Implem.Pleasanter.NetFramework.Libraries.Requests
         {
             return _sqlObjectFactory.Value;
         }
+
+        public override IScriptEngine CreateScriptEngin()
+        {
+            return new ScriptEngine();
+        }
     }
 }

@@ -182,13 +182,14 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
+            where = where ?? Rds.DemosWhereDefault(this);
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectDemos(
                     tableType: tableType,
                     column: column ?? Rds.DemosDefaultColumns(),
                     join: join ??  Rds.DemosJoinDefault(),
-                    where: where ?? Rds.DemosWhereDefault(this),
+                    where: where,
                     orderBy: orderBy,
                     param: param,
                     distinct: distinct,

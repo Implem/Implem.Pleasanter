@@ -215,13 +215,14 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
+            where = where ?? Rds.ExportSettingsWhereDefault(this);
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectExportSettings(
                     tableType: tableType,
                     column: column ?? Rds.ExportSettingsDefaultColumns(),
                     join: join ??  Rds.ExportSettingsJoinDefault(),
-                    where: where ?? Rds.ExportSettingsWhereDefault(this),
+                    where: where,
                     orderBy: orderBy,
                     param: param,
                     distinct: distinct,

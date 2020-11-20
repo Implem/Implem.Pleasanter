@@ -1,0 +1,29 @@
+﻿{
+    "Id": "WhenloadingSiteSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "When loading site settings"
+        },
+        {
+            "Language": "zh",
+            "Body": "加载网站设置时"
+        },
+        {
+            "Language": "ja",
+            "Body": "サイト設定の読み込み時"
+        },
+        {
+            "Language": "de",
+            "Body": "Beim Laden von Site-Einstellungen"
+        },
+        {
+            "Language": "ko",
+            "Body": "사이트 설정을로드 할 때"
+        },
+        {
+            "Language": "es",
+            "Body": "Al cargar la configuración del sitio"
+        }
+    ]
+}

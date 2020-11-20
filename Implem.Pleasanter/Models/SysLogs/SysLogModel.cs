@@ -418,13 +418,14 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
+            where = where ?? Rds.SysLogsWhereDefault(this);
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectSysLogs(
                     tableType: tableType,
                     column: column ?? Rds.SysLogsDefaultColumns(),
                     join: join ??  Rds.SysLogsJoinDefault(),
-                    where: where ?? Rds.SysLogsWhereDefault(this),
+                    where: where,
                     orderBy: orderBy,
                     param: param,
                     distinct: distinct,

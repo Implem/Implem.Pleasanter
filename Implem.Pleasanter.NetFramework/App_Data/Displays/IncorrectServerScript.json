@@ -1,0 +1,29 @@
+﻿{
+    "Id": "IncorrectServerScript",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Incorrect server script.[{0}]"
+        },
+        {
+            "Language": "zh",
+            "Body": "服务器脚本不正确。[{0}]"
+        },
+        {
+            "Language": "ja",
+            "Body": "サーバスクリプトが正しくありません。[{0}]"
+        },
+        {
+            "Language": "de",
+            "Body": "Falsches Serverskript.[{0}]"
+        },
+        {
+            "Language": "ko",
+            "Body": "서버 스크립트가 잘못되었습니다.[{0}]"
+        },
+        {
+            "Language": "es",
+            "Body": "Secuencia de comandos de servidor incorrecta.[{0}]"
+        }
+    ]
+}
