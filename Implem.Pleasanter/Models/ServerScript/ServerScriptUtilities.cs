@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using Implem.Pleasanter.Models;
+using static Implem.Pleasanter.Models.ServerScriptModel;
 namespace Implem.Pleasanter.Models
 {
     public static class ServerScriptUtilities
@@ -101,7 +102,7 @@ namespace Implem.Pleasanter.Models
             return values.ToArray();
         }
 
-        public static IEnumerable<(string Name, ServerScriptModel.ServerScriptModelColumn Value)> Columns(SiteSettings ss)
+        public static IEnumerable<(string Name, ServerScriptModelColumn Value)> Columns(SiteSettings ss)
         {
             var columns = Def
                 .ColumnDefinitionCollection
@@ -111,7 +112,7 @@ namespace Implem.Pleasanter.Models
                     ss?.ColumnHash?.TryGetValue(definition.ColumnName, out column);
                     return (
                         definition.ColumnName,
-                        new ServerScriptModel.ServerScriptModelColumn
+                        new ServerScriptModelColumn
                         {
                             ReadOnly = !(column?.CanRead == true && column?.CanUpdate == true)
                         });
@@ -146,7 +147,7 @@ namespace Implem.Pleasanter.Models
                 {
                     return;
                 }
-                column.CanUpdate = (datam.Value as ServerScriptModel.ServerScriptModelColumn)?.ReadOnly == false;
+                column.CanUpdate = (datam.Value as ServerScriptModelColumn)?.ReadOnly == false;
             });
         }
 
@@ -205,14 +206,10 @@ namespace Implem.Pleasanter.Models
 
         private static void SetResultModelValues(
             Context context,
-            BaseItemModel model,
+            ResultModel resultModel,
             ExpandoObject data,
             Dictionary<string, Column> columns)
         {
-            if (!(model is ResultModel resultModel))
-            {
-                return;
-            }
             SetValue(
                 columnName: nameof(ResultModel.Title),
                 columns: columns,
@@ -256,14 +253,10 @@ namespace Implem.Pleasanter.Models
 
         private static void SetIssueModelValues(
             Context context,
-            BaseItemModel model,
+            IssueModel issueModel,
             ExpandoObject data,
             Dictionary<string, Column> columns)
         {
-            if (!(model is IssueModel issueModel))
-            {
-                return;
-            }
             SetValue(
                 columnName: nameof(IssueModel.Title),
                 columns: columns,
@@ -371,16 +364,23 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 view: view,
                 columnFilterHach: data.View.Filters);
-            SetResultModelValues(
-                context: context,
-                model: model,
-                data: data.Data,
-                columns: valueColumnDictionary);
-            SetIssueModelValues(
-                context: context,
-                model: model,
-                data: data.Data,
-                columns: valueColumnDictionary);
+            switch (ss?.ReferenceType)
+            {
+                case "Issues":
+                    SetIssueModelValues(
+                        context: context,
+                        issueModel: (IssueModel)model,
+                        data: data.Data,
+                        columns: valueColumnDictionary);
+                    break;
+                case "Results":
+                    SetResultModelValues(
+                        context: context,
+                        resultModel: (ResultModel)model,
+                        data: data.Data,
+                        columns: valueColumnDictionary);
+                    break;
+            }
             SetViewValues(
                 ss: ss,
                 data: data.SiteSettings);

@@ -61,7 +61,7 @@ namespace Implem.Pleasanter.Models
         {
             public readonly int UserId;
             public readonly int DeptId;
-            public readonly IEnumerable<int> Groups;
+            public readonly IList<int> Groups;
             public readonly string Controller;
             public readonly string Action;
 
