@@ -1,0 +1,29 @@
+{
+    "Id": "ServerScript",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Server script"
+        },
+        {
+            "Language": "zh",
+            "Body": "服务器脚本"
+        },
+        {
+            "Language": "ja",
+            "Body": "サーバスクリプト"
+        },
+        {
+            "Language": "de",
+            "Body": "Serverskript"
+        },
+        {
+            "Language": "ko",
+            "Body": "서버 스크립트"
+        },
+        {
+            "Language": "es",
+            "Body": "Secuencia de comandos del servidor"
+        }
+    ]
+}

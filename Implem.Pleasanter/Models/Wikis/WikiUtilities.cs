@@ -509,6 +509,9 @@ namespace Implem.Pleasanter.Models
             ss.SetColumnAccessControls(
                 context: context,
                 mine: wikiModel.Mine(context: context));
+            wikiModel.SetByBeforeOpeningPageServerScript(
+                context: context,
+                ss: ss);
             return editInDialog
                 ? hb.DialogEditorForm(
                     context: context,

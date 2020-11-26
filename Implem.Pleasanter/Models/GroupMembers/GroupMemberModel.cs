@@ -105,13 +105,14 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
+            where = where ?? Rds.GroupMembersWhereDefault(this);
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectGroupMembers(
                     tableType: tableType,
                     column: column ?? Rds.GroupMembersDefaultColumns(),
                     join: join ??  Rds.GroupMembersJoinDefault(),
-                    where: where ?? Rds.GroupMembersWhereDefault(this),
+                    where: where,
                     orderBy: orderBy,
                     param: param,
                     distinct: distinct,

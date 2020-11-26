@@ -95,13 +95,14 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
+            where = where ?? Rds.LinksWhereDefault(this);
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectLinks(
                     tableType: tableType,
                     column: column ?? Rds.LinksDefaultColumns(),
                     join: join ??  Rds.LinksJoinDefault(),
-                    where: where ?? Rds.LinksWhereDefault(this),
+                    where: where,
                     orderBy: orderBy,
                     param: param,
                     distinct: distinct,

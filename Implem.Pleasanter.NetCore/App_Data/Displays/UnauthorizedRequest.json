@@ -1,0 +1,29 @@
+﻿{
+    "Id": "UnauthorizedRequest",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "You must be logged in to do this."
+        },
+        {
+            "Language": "zh",
+            "Body": "您必须登录才能执行此操作。"
+        },
+        {
+            "Language": "ja",
+            "Body": "この操作を行うにはログインが必要です。"
+        },
+        {
+            "Language": "de",
+            "Body": "Sie müssen dazu angemeldet sein."
+        },
+        {
+            "Language": "ko",
+            "Body": "이 작업을 수행하려면 로그인이 필요합니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Debes iniciar sesión para hacer esto."
+        }
+    ]
+}

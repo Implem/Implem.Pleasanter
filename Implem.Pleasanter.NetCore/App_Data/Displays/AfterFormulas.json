@@ -1,0 +1,29 @@
+﻿{
+    "Id": "AfterFormulas",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "After formulas"
+        },
+        {
+            "Language": "zh",
+            "Body": "后公式"
+        },
+        {
+            "Language": "ja",
+            "Body": "計算式の後"
+        },
+        {
+            "Language": "de",
+            "Body": "Nach Formeln"
+        },
+        {
+            "Language": "ko",
+            "Body": "수식 후"
+        },
+        {
+            "Language": "es",
+            "Body": "Después de fórmulas"
+        }
+    ]
+}
