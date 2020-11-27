@@ -231,6 +231,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message CannotDeletePermissionInherited(Context context, params string[] data)
+        {
+            return Get(
+                id: "CannotDeletePermissionInherited",
+                text: Displays.CannotDeletePermissionInherited(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message CanNotDisabled(Context context, params string[] data)
         {
             return Get(
@@ -666,6 +676,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 id: "IncorrectFileFormat",
                 text: Displays.IncorrectFileFormat(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message IncorrectServerScript(Context context, params string[] data)
+        {
+            return Get(
+                id: "IncorrectServerScript",
+                text: Displays.IncorrectServerScript(
                     context: context,
                     data: data),
                 css: "alert-error");
@@ -1281,6 +1301,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message UnauthorizedRequest(Context context, params string[] data)
+        {
+            return Get(
+                id: "UnauthorizedRequest",
+                text: Displays.UnauthorizedRequest(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message UnlockedRecord(Context context, params string[] data)
         {
             return Get(
@@ -1566,6 +1596,16 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return ResponseMessage(
                 message: CanNotDelete(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseCannotDeletePermissionInherited(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: CannotDeletePermissionInherited(
                     context: context,
                     data: data),
                 target: target);
@@ -2006,6 +2046,16 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return ResponseMessage(
                 message: IncorrectFileFormat(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseIncorrectServerScript(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: IncorrectServerScript(
                     context: context,
                     data: data),
                 target: target);
@@ -2616,6 +2666,16 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return ResponseMessage(
                 message: Unauthorized(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseUnauthorizedRequest(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: UnauthorizedRequest(
                     context: context,
                     data: data),
                 target: target);

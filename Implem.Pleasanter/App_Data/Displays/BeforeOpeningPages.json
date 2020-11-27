@@ -1,0 +1,29 @@
+﻿{
+    "Id": "BeforeOpeningPages",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Before opening the page"
+        },
+        {
+            "Language": "zh",
+            "Body": "在打开页面之前"
+        },
+        {
+            "Language": "ja",
+            "Body": "画面表示の前"
+        },
+        {
+            "Language": "de",
+            "Body": "Vor dem Öffnen der Seite"
+        },
+        {
+            "Language": "ko",
+            "Body": "페이지를 열기 전에"
+        },
+        {
+            "Language": "es",
+            "Body": "Antes de abrir la página"
+        }
+    ]
+}

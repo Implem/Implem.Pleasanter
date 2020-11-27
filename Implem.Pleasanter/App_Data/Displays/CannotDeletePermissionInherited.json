@@ -1,0 +1,29 @@
+﻿{
+    "Id": "CannotDeletePermissionInherited",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "You cannot delete this site because the permission settings are inherited by site {0}."
+        },
+        {
+            "Language": "zh",
+            "Body": "您无法删除此站点，因为权限设置是由站点 {0} 继承的。"
+        },
+        {
+            "Language": "ja",
+            "Body": "権限設定がサイト {0} に継承されているため、このサイトを削除することはできません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Sie können diese Site nicht löschen, da die Berechtigungseinstellungen von Site {0} übernommen werden."
+        },
+        {
+            "Language": "ko",
+            "Body": "권한 설정이 사이트 {0} 에 상속되므로이 사이트를 삭제할 수 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No puede eliminar este sitio porque la configuración de permisos la hereda el sitio {0}."
+        }
+    ]
+}

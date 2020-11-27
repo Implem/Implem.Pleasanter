@@ -211,13 +211,14 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
+            where = where ?? Rds.DeptsWhereDefault(this);
             Set(context, ss, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectDepts(
                     tableType: tableType,
                     column: column ?? Rds.DeptsDefaultColumns(),
                     join: join ??  Rds.DeptsJoinDefault(),
-                    where: where ?? Rds.DeptsWhereDefault(this),
+                    where: where,
                     orderBy: orderBy,
                     param: param,
                     distinct: distinct,

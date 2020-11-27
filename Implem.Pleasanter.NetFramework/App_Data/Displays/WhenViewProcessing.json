@@ -1,0 +1,29 @@
+﻿{
+    "Id": "WhenViewProcessing",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "When view processing"
+        },
+        {
+            "Language": "zh",
+            "Body": "查看处理时"
+        },
+        {
+            "Language": "ja",
+            "Body": "ビュー処理時"
+        },
+        {
+            "Language": "de",
+            "Body": "Bei der Ansichtsverarbeitung"
+        },
+        {
+            "Language": "ko",
+            "Body": "조회 처리시"
+        },
+        {
+            "Language": "es",
+            "Body": "Al ver el procesamiento"
+        }
+    ]
+}

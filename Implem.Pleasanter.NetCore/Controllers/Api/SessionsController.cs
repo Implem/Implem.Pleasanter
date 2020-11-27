@@ -15,7 +15,9 @@ namespace Implem.Pleasanter.NetCore.Controllers.Api
         {
             var body = default(string);
             using (var reader = new StreamReader(Request.Body)) body = reader.ReadToEnd();
-            var context = new ContextImplement(apiRequestBody: body);
+            var context = new ContextImplement(
+                apiRequestBody: body,
+                contentType: Request.ContentType);
             var controller = new Pleasanter.Controllers.Api.SessionsController();
             var result = controller.Get(context: context);
             return result.ToHttpResponse(request: Request);
@@ -26,7 +28,9 @@ namespace Implem.Pleasanter.NetCore.Controllers.Api
         {
             var body = default(string);
             using (var reader = new StreamReader(Request.Body)) body = reader.ReadToEnd();
-            var context = new ContextImplement(apiRequestBody: body);
+            var context = new ContextImplement(
+                apiRequestBody: body,
+                contentType: Request.ContentType);
             var controller = new Pleasanter.Controllers.Api.SessionsController();
             var result = controller.Set(context: context);
             return result.ToHttpResponse(request: Request);
@@ -37,7 +41,9 @@ namespace Implem.Pleasanter.NetCore.Controllers.Api
         {
             var body = default(string);
             using (var reader = new StreamReader(Request.Body)) body = reader.ReadToEnd();
-            var context = new ContextImplement(apiRequestBody: body);
+            var context = new ContextImplement(
+                apiRequestBody: body,
+                contentType: Request.ContentType);
             var controller = new Pleasanter.Controllers.Api.SessionsController();
             var result = controller.Delete(context: context);
             return result.ToHttpResponse(request: Request);

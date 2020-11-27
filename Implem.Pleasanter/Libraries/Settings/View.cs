@@ -7,6 +7,7 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Search;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -976,10 +977,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                 });
         }
 
-        private void SetColumnsWhere(Context context, SiteSettings ss, SqlWhereCollection where)
+        public void SetColumnsWhere(Context context, SiteSettings ss, SqlWhereCollection where)
         {
             var prefix = "ViewFilters_" + ss.ReferenceType + "_";
             var prefixLength = prefix.Length;
+            SetByWhenViewProcessingServerScript(
+                context: context,
+                ss: ss);
             ColumnFilterHash?
                 .Select(data => new
                 {
@@ -1060,25 +1064,45 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private void CsNumericColumns(Column column, string value, SqlWhereCollection where)
         {
-            var param = value.Deserialize<List<string>>();
-            if (param.Count == 0) { return; }
+            long number = 0;
             var collection = new SqlWhereCollection();
-            collection.AddRange(param
-                .Where(o => o.RegexExists(@"^-?[0-9\.]*,-?[0-9\.]*$"))
-                .SelectMany(o => CsNumericRangeColumns(column, o)));
-            collection.AddRange(param
-                .Where(o => o == "\t")
-                .SelectMany(o => CsNumericColumnsWhereNull(column)));
-            var valueWhere = CsNumericColumnsWhere(
-                column,
-                param
-                    .Where(o => !o.RegexExists(@"^-?[0-9\.]*,-?[0-9\.]*$"))
-                    .Where(o => o != "\t"));
-            if (valueWhere != null)
+            if (long.TryParse(value, out number))
             {
-                collection.Add(valueWhere);
+                collection.Add(CsNumericColumnsWhere(column, number));
             }
-            where.Add(or: collection);
+            else
+            {
+                var param = value.Deserialize<List<string>>();
+                if (param?.Any() != true) return;
+                collection.AddRange(param
+                    .Where(o => o.RegexExists(@"^-?[0-9\.]*,-?[0-9\.]*$"))
+                    .SelectMany(o => CsNumericRangeColumns(column, o)));
+                collection.AddRange(param
+                    .Where(o => o == "\t")
+                    .SelectMany(o => CsNumericColumnsWhereNull(column)));
+                var valueWhere = CsNumericColumnsWhere(
+                    column,
+                    param
+                        .Where(o => !o.RegexExists(@"^-?[0-9\.]*,-?[0-9\.]*$"))
+                        .Where(o => o != "\t"));
+                if (valueWhere != null)
+                {
+                    collection.Add(valueWhere);
+                }
+            }
+            if (collection.Any())
+            {
+                where.Add(or: collection);
+            }
+        }
+
+        private SqlWhere CsNumericColumnsWhere(Column column, long param)
+        {
+            return new SqlWhere(
+                tableName: column.TableName(),
+                columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                name: column.Name,
+                value: param);
         }
 
         private SqlWhere CsNumericColumnsWhere(Column column, IEnumerable<string> param)
@@ -1277,10 +1301,21 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : null;
         }
 
+        private void SetByWhenViewProcessingServerScript(
+            Context context,
+            SiteSettings ss)
+        {
+            ServerScriptUtilities.Execute(
+                context: context,
+                ss: ss,
+                itemModel: null,
+                view: this,
+                where: script => script.WhenViewProcessing == true);
+        }
+
         public SqlOrderByCollection OrderBy(
             Context context,
             SiteSettings ss,
-            string itemsTableName = "Items",
             SqlOrderByCollection orderBy = null)
         {
             orderBy = orderBy ?? new SqlOrderByCollection();
@@ -1288,18 +1323,51 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ColumnSorterHash?.ForEach(data =>
                 {
-                    switch (data.Key)
+                    var column = ss.GetColumn(
+                        context: context,
+                        columnName: data.Key);
+                    var tableName = column.TableName();
+                    switch (column.Name)
                     {
+                        case "Title":
                         case "ItemTitle":
                             orderBy.Add(new SqlOrderBy(
                                 columnBracket: "\"Title\"",
                                 orderType: data.Value,
-                                tableName: itemsTableName));
+                                tableName: $"{tableName}_Items"));
+                            break;
+                        case "TitleBody":
+                            orderBy.Add(new SqlOrderBy(
+                                columnBracket: "\"Title\"",
+                                orderType: data.Value,
+                                tableName: $"{tableName}_Items"));
+                            orderBy.Add(
+                                column: ss.GetColumn(
+                                    context: context,
+                                    columnName: column.Joined
+                                        ? $"{tableName},Body"
+                                        : "Body"),
+                                orderType: data.Value);
                             break;
                         default:
-                            orderBy.Add(
-                                column: ss.GetColumn(context: context, columnName: data.Key),
-                                orderType: data.Value);
+                            if (column.Linked())
+                            {
+                                orderBy.Add(new SqlOrderBy(
+                                    orderType: data.Value,
+                                    sub: Rds.SelectItems(
+                                        column: Rds.ItemsColumn().Title(),
+                                        where: Rds.ItemsWhere()
+                                            .SiteId_In(column.SiteSettings.Links
+                                                .Where(o => o.ColumnName == column.Name)
+                                                .Select(o => o.SiteId))
+                                            .ReferenceId(raw: $"{context.SqlCommandText.CreateTryCast(tableName, column.Name, column.TypeName, "bigint")}"))));
+                            }
+                            else
+                            {
+                                orderBy.Add(
+                                    column: column,
+                                    orderType: data.Value);
+                            }
                             break;
                     }
                 });

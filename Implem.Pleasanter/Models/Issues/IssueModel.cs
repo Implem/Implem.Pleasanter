@@ -777,13 +777,18 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
+            where = where ?? Rds.IssuesWhereDefault(this);
+            new View().SetColumnsWhere(
+                context: context,
+                ss: ss,
+                where: where);
             Set(context, ss, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectIssues(
                     tableType: tableType,
                     column: column ?? Rds.IssuesEditorColumns(ss),
                     join: join ??  Rds.IssuesJoinDefault(),
-                    where: where ?? Rds.IssuesWhereDefault(this),
+                    where: where,
                     orderBy: orderBy,
                     param: param,
                     distinct: distinct,
@@ -1989,6 +1994,9 @@ namespace Implem.Pleasanter.Models
 
         public void SetByFormula(Context context, SiteSettings ss)
         {
+            SetByBeforeFormulaServerScript(
+                context: context,
+                ss: ss);
             ss.Formulas?.ForEach(formulaSet =>
             {
                 var columnName = formulaSet.Target;
@@ -2032,6 +2040,9 @@ namespace Implem.Pleasanter.Models
                         break;
                 }
             });
+            SetByAfterFormulaServerScript(
+                context: context,
+                ss: ss);
         }
 
         public void SetTitle(Context context, SiteSettings ss)

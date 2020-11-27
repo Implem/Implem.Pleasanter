@@ -85,6 +85,7 @@ namespace Implem.Pleasanter.NetFramework.Libraries.Requests
         public override decimal ApiVersion { get; set; } = 1.000M;
         public override string ApiRequestBody { get; set; }
         public override string RequestDataString { get => ApiRequestBody ?? FormString; }
+        public override string ContentType { get; set; }
         public override string AuthenticationType { get => HttpContext.Current?.User?.Identity?.AuthenticationType; }
         public override bool? IsAuthenticated { get => HttpContext.Current?.User?.Identity?.IsAuthenticated; }
         public override IEnumerable<Claim> UserClaims { get => ClaimsPrincipal.Current.Claims; }
@@ -94,7 +95,8 @@ namespace Implem.Pleasanter.NetFramework.Libraries.Requests
             bool sessionData = true,
             bool user = true,
             bool item = true,
-            string apiRequestBody = null)
+            string apiRequestBody = null,
+            string contentType = null)
         {
             Set(
                 request: request,
@@ -102,7 +104,8 @@ namespace Implem.Pleasanter.NetFramework.Libraries.Requests
                 setData: sessionData,
                 user: user,
                 item: item,
-                apiRequestBody: apiRequestBody);
+                apiRequestBody: apiRequestBody,
+                contentType: contentType);
             if (ApiRequestBody != null)
             {
                 SiteInfo.Reflesh(context: this);
@@ -137,9 +140,11 @@ namespace Implem.Pleasanter.NetFramework.Libraries.Requests
             bool setData = true,
             bool user = true,
             bool item = true,
-            string apiRequestBody = null)
+            string apiRequestBody = null,
+            string contentType = null)
         {
             ApiRequestBody = apiRequestBody;
+            ContentType = contentType;
             if (request) SetRequests();
             if (sessionStatus) SetSessionGuid();
             if (item) SetItemProperties();
@@ -571,6 +576,11 @@ namespace Implem.Pleasanter.NetFramework.Libraries.Requests
         protected override ISqlObjectFactory GetSqlObjectFactory()
         {
             return _sqlObjectFactory.Value;
+        }
+
+        public override IScriptEngine CreateScriptEngin()
+        {
+            return new ScriptEngine();
         }
     }
 }

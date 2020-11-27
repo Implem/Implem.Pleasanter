@@ -19,6 +19,7 @@ namespace Implem.Pleasanter.Libraries.General
             BadRequest,
             CanNotChangeInheritance,
             CanNotDelete,
+            CannotDeletePermissionInherited,
             CanNotDisabled,
             CanNotInherit,
             CanNotLink,
@@ -37,6 +38,7 @@ namespace Implem.Pleasanter.Libraries.General
             ImportMax,
             IncorrectCurrentPassword,
             IncorrectFileFormat,
+            IncorrectServerScript,
             IncorrectSiteDeleting,
             InputMailAddress,
             InternalServerError,
@@ -82,6 +84,7 @@ namespace Implem.Pleasanter.Libraries.General
             TooManyColumnCases,
             TooManyRowCases,
             Unauthorized,
+            UnauthorizedRequest,
             UpdateConflicts,
             UserDisabled,
             UserLockout,
@@ -140,6 +143,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.CanNotDelete:
                     return Messages.CanNotDelete(
+                        context: context,
+                        data: data);
+                case Types.CannotDeletePermissionInherited:
+                    return Messages.CannotDeletePermissionInherited(
                         context: context,
                         data: data);
                 case Types.CanNotDisabled:
@@ -212,6 +219,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.IncorrectFileFormat:
                     return Messages.IncorrectFileFormat(
+                        context: context,
+                        data: data);
+                case Types.IncorrectServerScript:
+                    return Messages.IncorrectServerScript(
                         context: context,
                         data: data);
                 case Types.IncorrectSiteDeleting:
@@ -392,6 +403,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.Unauthorized:
                     return Messages.Unauthorized(
+                        context: context,
+                        data: data);
+                case Types.UnauthorizedRequest:
+                    return Messages.UnauthorizedRequest(
                         context: context,
                         data: data);
                 case Types.UpdateConflicts:

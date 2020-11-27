@@ -1210,13 +1210,14 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
+            where = where ?? Rds.UsersWhereDefault(this);
             Set(context, ss, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectUsers(
                     tableType: tableType,
                     column: column ?? Rds.UsersDefaultColumns(),
                     join: join ??  Rds.UsersJoinDefault(),
-                    where: where ?? Rds.UsersWhereDefault(this),
+                    where: where,
                     orderBy: orderBy,
                     param: param,
                     distinct: distinct,

@@ -149,6 +149,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AfterFormulas(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AfterFormulas",
+                data: data);
+        }
+
         public static string AggregationDetails(
             Context context,
             params string[] data)
@@ -679,6 +689,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string BeforeFormulas(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BeforeFormulas",
+                data: data);
+        }
+
+        public static string BeforeOpeningPages(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BeforeOpeningPages",
+                data: data);
+        }
+
         public static string BinaryStorageProvider(
             Context context,
             params string[] data)
@@ -866,6 +896,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "CanNotDelete",
+                data: data);
+        }
+
+        public static string CannotDeletePermissionInherited(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CannotDeletePermissionInherited",
                 data: data);
         }
 
@@ -3226,6 +3266,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "IncorrectFileFormat",
+                data: data);
+        }
+
+        public static string IncorrectServerScript(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "IncorrectServerScript",
                 data: data);
         }
 
@@ -6059,6 +6109,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ServerScript(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ServerScript",
+                data: data);
+        }
+
         public static string Setting(
             Context context,
             params string[] data)
@@ -6919,6 +6979,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string UnauthorizedRequest(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UnauthorizedRequest",
+                data: data);
+        }
+
         public static string UncheckAll(
             Context context,
             params string[] data)
@@ -7416,6 +7486,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Weekly",
+                data: data);
+        }
+
+        public static string WhenloadingSiteSettings(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "WhenloadingSiteSettings",
+                data: data);
+        }
+
+        public static string WhenViewProcessing(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "WhenViewProcessing",
                 data: data);
         }
 

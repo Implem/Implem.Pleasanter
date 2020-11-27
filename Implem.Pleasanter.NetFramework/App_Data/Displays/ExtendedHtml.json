@@ -3,7 +3,7 @@
     "Type": 110,
     "Languages": [
         {
-            "Body": "Extended html"
+            "Body": "Extended HTML"
         },
         {
             "Language": "zh",
@@ -11,7 +11,7 @@
         },
         {
             "Language": "ja",
-            "Body": "拡張Html"
+            "Body": "拡張HTML"
         },
         {
             "Language": "de",
@@ -23,7 +23,7 @@
         },
         {
             "Language": "es",
-            "Body": "Html extendido"
+            "Body": "HTML extendido"
         }
     ]
 }

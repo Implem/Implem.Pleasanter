@@ -265,13 +265,14 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
+            where = where ?? Rds.BinariesWhereDefault(this);
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectBinaries(
                     tableType: tableType,
                     column: column ?? Rds.BinariesDefaultColumns(),
                     join: join ??  Rds.BinariesJoinDefault(),
-                    where: where ?? Rds.BinariesWhereDefault(this),
+                    where: where,
                     orderBy: orderBy,
                     param: param,
                     distinct: distinct,

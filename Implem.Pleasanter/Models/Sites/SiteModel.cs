@@ -521,13 +521,14 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
+            where = where ?? Rds.SitesWhereDefault(this);
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectSites(
                     tableType: tableType,
                     column: column ?? Rds.SitesDefaultColumns(),
                     join: join ??  Rds.SitesJoinDefault(),
-                    where: where ?? Rds.SitesWhereDefault(this),
+                    where: where,
                     orderBy: orderBy,
                     param: param,
                     distinct: distinct,
@@ -825,6 +826,23 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     siteId: ss.SiteId,
                     withParent: true);
+            var outside = Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectSites(
+                    column: Rds.SitesColumn()
+                        .SiteId()
+                        .Title(),
+                    where: Rds.SitesWhere()
+                        .TenantId(context.TenantId)
+                        .InheritPermission_In(siteMenu.Select(o => o.SiteId))))
+                            .AsEnumerable()
+                            .FirstOrDefault(o => !siteMenu.Any(p => p.SiteId == o.Long("SiteId")));
+            if (outside != null)
+            {
+                return new ErrorData(
+                    type: Error.Types.CannotDeletePermissionInherited,
+                    data: $"{outside.Long("SiteId")} {outside.String("Title")}");
+            }
             Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
@@ -1888,6 +1906,37 @@ namespace Implem.Pleasanter.Models
                     break;
                 case "DeleteScripts":
                     DeleteScripts(
+                        context: context,
+                        res: res);
+                    break;
+                case "MoveUpServerScripts":
+                case "MoveDownServerScripts":
+                    SetServerScriptsOrder(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "NewServerScript":
+                case "EditServerScript":
+                    OpenServerScriptDialog(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "AddServerScript":
+                    AddServerScript(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "UpdateServerScript":
+                    UpdateServerScript(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "DeleteServerScripts":
+                    DeleteServerScripts(
                         context: context,
                         res: res);
                     break;
@@ -4227,6 +4276,176 @@ namespace Implem.Pleasanter.Models
                 SiteSettings.Scripts.Delete(selected);
                 res.ReplaceAll("#EditScript", new HtmlBuilder()
                     .EditScript(
+                        context: context,
+                        ss: SiteSettings));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetServerScriptsOrder(Context context, ResponseCollection res, string controlId)
+        {
+            var selected = context.Forms.IntList("EditServerScript");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.ServerScripts.MoveUpOrDown(
+                    ColumnUtilities.ChangeCommand(controlId), selected);
+                res.Html("#EditServerScript", new HtmlBuilder()
+                    .EditServerScript(
+                        context: context,
+                        ss: SiteSettings));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenServerScriptDialog(Context context, ResponseCollection res, string controlId)
+        {
+            if (controlId == "NewServerScript")
+            {
+                var script = new ServerScript() { BeforeFormula = true };
+                OpenServerScriptDialog(
+                    context: context,
+                    res: res,
+                    script: script);
+            }
+            else
+            {
+                var script = SiteSettings.ServerScripts?.Get(context.Forms.Int("ServerScriptId"));
+                if (script == null)
+                {
+                    OpenDialogError(
+                        res: res,
+                        message: Messages.SelectOne(context: context));
+                }
+                else
+                {
+                    SiteSettingsUtilities.Get(
+                        context: context, siteModel: this, referenceId: SiteId);
+                    OpenServerScriptDialog(
+                        context: context,
+                        res: res,
+                        script: script);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenServerScriptDialog(Context context, ResponseCollection res, ServerScript script)
+        {
+            res.Html("#ServerScriptDialog", SiteUtilities.ServerScriptDialog(
+                context: context,
+                ss: SiteSettings,
+                controlId: context.Forms.ControlId(),
+                script: script));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void AddServerScript(Context context, ResponseCollection res, string controlId)
+        {
+            var script = new ServerScript(
+                id: context.Forms.Int("ServerScriptId"),
+                title: context.Forms.Data("ServerScriptTitle"),
+                beforeOpeningPage: context.Forms.Bool("ServerScriptBeforeOpeningPage"),
+                whenViewProcessing: context.Forms.Bool("ServerScriptWhenViewProcessing"),
+                beforeFormula: context.Forms.Bool("ServerScriptBeforeFormula"),
+                afterFormula: context.Forms.Bool("ServerScriptAfterFormula"),
+                whenloadingSiteSettings: context.Forms.Bool("ServerScriptWhenloadingSiteSettings"),
+                body: context.Forms.Data("ServerScriptBody"));
+            var invalid = ServerScriptValidators.OnCreating(
+                context: context,
+                serverScript: script);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    res.Message(invalid.Message(context: context));
+                    return;
+            }
+            SiteSettings.ServerScripts.Add(new ServerScript(
+                id: SiteSettings.ServerScripts.MaxOrDefault(o => o.Id) + 1,
+                title: script.Title,
+                beforeOpeningPage: script.BeforeOpeningPage ?? default,
+                whenViewProcessing: script.WhenViewProcessing ?? default,
+                beforeFormula: script.BeforeFormula ?? default,
+                afterFormula: script.AfterFormula ?? default,
+                whenloadingSiteSettings: script.WhenloadingSiteSettings ?? default,
+                body: script.Body));
+            res
+                .ReplaceAll("#EditServerScript", new HtmlBuilder()
+                    .EditServerScript(
+                        context: context,
+                        ss: SiteSettings))
+                .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateServerScript(Context context, ResponseCollection res, string controlId)
+        {
+            var script = new ServerScript(
+                id: context.Forms.Int("ServerScriptId"),
+                title: context.Forms.Data("ServerScriptTitle"),
+                beforeOpeningPage: context.Forms.Bool("ServerScriptBeforeOpeningPage"),
+                whenViewProcessing: context.Forms.Bool("ServerScriptWhenViewProcessing"),
+                beforeFormula: context.Forms.Bool("ServerScriptBeforeFormula"),
+                afterFormula: context.Forms.Bool("ServerScriptAfterFormula"),
+                whenloadingSiteSettings: context.Forms.Bool("ServerScriptWhenloadingSiteSettings"),
+                body: context.Forms.Data("ServerScriptBody"));
+            var invalid = ServerScriptValidators.OnUpdating(
+                context: context,
+                serverScript: script);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    res.Message(invalid.Message(context: context));
+                    return;
+            }
+            SiteSettings.ServerScripts?
+                .FirstOrDefault(o => o.Id == script.Id)?
+                .Update(
+                    title: script.Title,
+                    beforeOpeningPage: script.BeforeOpeningPage ?? default,
+                    whenViewProcessing: script.WhenViewProcessing ?? default,
+                    beforeFormula: script.BeforeFormula ?? default,
+                    afterFormula: script.AfterFormula ?? default,
+                    whenloadingSiteSettings: script.WhenloadingSiteSettings ?? default,
+                    body: script.Body);
+            res
+                .Html("#EditServerScript", new HtmlBuilder()
+                    .EditServerScript(
+                        context: context,
+                        ss: SiteSettings))
+                .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void DeleteServerScripts(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.IntList("EditServerScript");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.ServerScripts.Delete(selected);
+                res.ReplaceAll("#EditServerScript", new HtmlBuilder()
+                    .EditServerScript(
                         context: context,
                         ss: SiteSettings));
             }

@@ -16,6 +16,7 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Libraries.Web;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -1273,6 +1274,9 @@ namespace Implem.Pleasanter.Models
             ss.SetColumnAccessControls(
                 context: context,
                 mine: issueModel.Mine(context: context));
+            issueModel.SetByBeforeOpeningPageServerScript(
+                context: context,
+                ss: ss);
             return editInDialog
                 ? hb.DialogEditorForm(
                     context: context,
@@ -2429,6 +2433,10 @@ namespace Implem.Pleasanter.Models
 
         public static System.Web.Mvc.ContentResult GetByApi(Context context, SiteSettings ss, bool internalRequest)
         {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
             var invalid = IssueValidators.OnEntry(
                 context: context,
                 ss: ss,
@@ -2455,8 +2463,7 @@ namespace Implem.Pleasanter.Models
                 where: view.Where(context: context, ss: ss),
                 orderBy: view.OrderBy(
                     context: context,
-                    ss: ss,
-                    itemsTableName: "Issues_Items"),
+                    ss: ss),
                 offset: api?.Offset ?? 0,
                 pageSize: pageSize,
                 tableType: tableType);
@@ -2479,6 +2486,10 @@ namespace Implem.Pleasanter.Models
         public static System.Web.Mvc.ContentResult GetByApi(
             Context context, SiteSettings ss, long issueId, bool internalRequest)
         {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
             var issueModel = new IssueModel(
                 context: context,
                 ss: ss,
@@ -2574,6 +2585,10 @@ namespace Implem.Pleasanter.Models
 
         public static System.Web.Mvc.ContentResult CreateByApi(Context context, SiteSettings ss)
         {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
             if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId))
             {
                 return ApiResults.Error(
@@ -3324,6 +3339,10 @@ namespace Implem.Pleasanter.Models
         public static System.Web.Mvc.ContentResult UpdateByApi(
             Context context, SiteSettings ss, long issueId)
         {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
             var issueModel = new IssueModel(
                 context: context,
                 ss: ss,
@@ -3561,6 +3580,10 @@ namespace Implem.Pleasanter.Models
         public static System.Web.Mvc.ContentResult DeleteByApi(
             Context context, SiteSettings ss, long issueId)
         {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
             var issueModel = new IssueModel(
                 context: context,
                 ss: ss,
@@ -4275,12 +4298,15 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     join: where),
                 where: where);
+            var sites = ss.IntegratedSites?.Any() == true
+                ? ss.AllowedIntegratedSites
+                : ss.SiteId.ToSingleList();
             var statements = new List<SqlStatement>();
             var guid = Strings.NewGuid();
             statements.OnBulkDeletingExtendedSqls(ss.SiteId);
             statements.Add(Rds.UpdateItems(
                 where: Rds.ItemsWhere()
-                    .SiteId(ss.SiteId)
+                    .SiteId_In(sites)
                     .ReferenceId_In(sub: sub),
                 param: Rds.ItemsParam()
                     .ReferenceType(guid)));
@@ -4296,12 +4322,12 @@ namespace Implem.Pleasanter.Models
             statements.Add(Rds.DeleteItems(
                 factory: context,
                 where: Rds.ItemsWhere()
-                    .SiteId(ss.SiteId)
+                    .SiteId_In(sites)
                     .ReferenceType(guid)));
             statements.Add(Rds.UpdateItems(
                 tableType: Sqls.TableTypes.Deleted,
                 where: Rds.ItemsWhere()
-                    .SiteId(ss.SiteId)
+                    .SiteId_In(sites)
                     .ReferenceType(guid),
                 param: Rds.ItemsParam()
                     .ReferenceType(ss.ReferenceType)));
@@ -4317,6 +4343,10 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss)
         {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
             if (context.CanDelete(ss: ss))
             {
                 var recordSelector = context.RequestDataString.Deserialize<RecordSelector>();
@@ -4597,6 +4627,10 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss)
         {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
             if (!Parameters.Deleted.PhysicalDelete)
             {
                 return ApiResults.Get(ApiResponses.BadRequest(context: context));
@@ -5098,6 +5132,10 @@ namespace Implem.Pleasanter.Models
         public static System.Web.Mvc.ContentResult ExportByApi(
             Context context, SiteSettings ss, SiteModel siteModel)
         {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
             if (context.ContractSettings.Export == false)
             {
                 return null;
@@ -6883,6 +6921,13 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.SelectIssues(
                     column: Rds.IssuesColumn().IssueId(),
+                    join: ss.Join(
+                        context: context,
+                        join: new IJoin[]
+                        {
+                            where,
+                            orderBy
+                        }),
                     where: lockedRecordWhere,
                     orderBy: orderBy,
                     top: 1));

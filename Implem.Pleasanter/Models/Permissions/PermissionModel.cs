@@ -121,13 +121,14 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
+            where = where ?? Rds.PermissionsWhereDefault(this);
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectPermissions(
                     tableType: tableType,
                     column: column ?? Rds.PermissionsDefaultColumns(),
                     join: join ??  Rds.PermissionsJoinDefault(),
-                    where: where ?? Rds.PermissionsWhereDefault(this),
+                    where: where,
                     orderBy: orderBy,
                     param: param,
                     distinct: distinct,
