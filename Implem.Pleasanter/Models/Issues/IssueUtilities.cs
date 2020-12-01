@@ -2681,12 +2681,6 @@ namespace Implem.Pleasanter.Models
                                 ss: ss,
                                 value: issueModel.RemainingWorkValue));
                     return ResponseByUpdate(res, context, ss, issueModel)
-                        .PrependComment(
-                            context: context,
-                            ss: ss,
-                            column: ss.GetColumn(context: context, columnName: "Comments"),
-                            comments: issueModel.Comments,
-                            verType: issueModel.VerType)
                         .ToJson();
                 case Error.Types.Duplicated:
                     return Messages.ResponseDuplicated(
@@ -2759,42 +2753,13 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var verUp = Versions.VerUp(
+                return EditorResponse(
                     context: context,
                     ss: ss,
-                    verUp: false);
-                return res
-                    .Ver(context: context, ss: ss)
-                    .Timestamp(context: context, ss: ss)
-                    .FieldResponse(context: context, ss: ss, issueModel: issueModel)
-                    .Val("#VerUp", verUp)
-                    .Val("#Ver", issueModel.Ver)
-                    .Disabled("#VerUp", verUp)
-                    .Html("#HeaderTitle", HttpUtility.HtmlEncode(issueModel.Title.DisplayValue))
-                    .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
+                    issueModel: issueModel,
+                    message: Messages.Updated(
                         context: context,
-                        baseModel: issueModel,
-                        tableName: "Issues"))
-                    .Html("#Links", new HtmlBuilder().Links(
-                        context: context,
-                        ss: ss,
-                        id: issueModel.IssueId))
-                    .Links(
-                        context: context,
-                        ss: ss,
-                        id: issueModel.IssueId,
-                        methodType: issueModel.MethodType)
-                    .SetMemory("formChanged", false)
-                    .Message(Messages.Updated(
-                        context: context,
-                        data: issueModel.Title.DisplayValue))
-                    .Comment(
-                        context: context,
-                        ss: ss,
-                        column: ss.GetColumn(context: context, columnName: "Comments"),
-                        comments: issueModel.Comments,
-                        deleteCommentId: issueModel.DeleteCommentId)
-                    .ClearFormData();
+                        data: issueModel.Title.DisplayValue));
             }
         }
 
