@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.Libraries.DataSources.SqlServer;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
@@ -22,13 +23,18 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             IEnumerable<(string Name, object Value)> data,
             IEnumerable<(string Name, ServerScriptModelColumn Value)> columns,
-            IEnumerable<KeyValuePair<string, string>> columnFilterHach)
+            IEnumerable<KeyValuePair<string, string>> columnFilterHach,
+            IEnumerable<KeyValuePair<string, SqlOrderBy.Types>> columnSorterHach)
         {
             data?.ForEach(datam => ((IDictionary<string, object>)Data)[datam.Name] = datam.Value);
             columns?.ForEach(
                 datam => ((IDictionary<string, object>)Columns)[datam.Name] = datam.Value);
             columnFilterHach?.ForEach(columnFilter =>
                 ((IDictionary<string, object>)View.Filters)[columnFilter.Key] = columnFilter.Value);
+            columnSorterHach?.ForEach(columnSorter =>
+                ((IDictionary<string, object>)View.Sorters)[columnSorter.Key] = Enum.GetName(
+                    typeof(SqlOrderBy.Types),
+                    columnSorter.Value));
             ((INotifyPropertyChanged)Data).PropertyChanged += DataPropertyChanged;
             Context = new ServerScriptModelContext(
                 userId: context.UserId,
@@ -88,6 +94,7 @@ namespace Implem.Pleasanter.Models
         public class ServerScriptModelView
         {
             public readonly ExpandoObject Filters = new ExpandoObject();
+            public readonly ExpandoObject Sorters = new ExpandoObject();
         }
 
         public class ServerScriptModelSiteSettings
