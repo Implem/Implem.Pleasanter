@@ -9,6 +9,7 @@ using System.Dynamic;
 using System.Linq;
 using Implem.Pleasanter.Models;
 using static Implem.Pleasanter.Models.ServerScriptModel;
+using Implem.Libraries.DataSources.SqlServer;
 namespace Implem.Pleasanter.Models
 {
     public static class ServerScriptUtilities
@@ -182,6 +183,28 @@ namespace Implem.Pleasanter.Models
                     view.ColumnFilterHash = new Dictionary<string, string>();
                 }
                 view.ColumnFilterHash[columnFilter.Key] = String(columnFilterHach, columnFilter.Key);
+            });
+        }
+
+        private static void SetColumnSorterHachValues(
+            Context context,
+            View view,
+            ExpandoObject columnSorterHach)
+        {
+            if (view == null)
+            {
+                return;
+            }
+            columnSorterHach?.ForEach(columnFilter =>
+            {
+                if (view.ColumnSorterHash == null)
+                {
+                    view.ColumnSorterHash = new Dictionary<string, SqlOrderBy.Types>();
+                }
+                if (Enum.TryParse<SqlOrderBy.Types>(String(columnSorterHach, columnFilter.Key), out var value))
+                {
+                    view.ColumnSorterHash[columnFilter.Key] = value;
+                }
             });
         }
 
@@ -364,21 +387,31 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 view: view,
                 columnFilterHach: data.View.Filters);
+            SetColumnSorterHachValues(
+                context: context,
+                view: view,
+                columnSorterHach: data.View.Sorters);
             switch (ss?.ReferenceType)
             {
                 case "Issues":
-                    SetIssueModelValues(
-                        context: context,
-                        issueModel: (IssueModel)model,
-                        data: data.Data,
-                        columns: valueColumnDictionary);
+                    if (model is IssueModel issueModel)
+                    {
+                        SetIssueModelValues(
+                            context: context,
+                            issueModel: issueModel,
+                            data: data.Data,
+                            columns: valueColumnDictionary);
+                    }
                     break;
                 case "Results":
-                    SetResultModelValues(
-                        context: context,
-                        resultModel: (ResultModel)model,
-                        data: data.Data,
-                        columns: valueColumnDictionary);
+                    if (model is ResultModel resultModel)
+                    {
+                        SetResultModelValues(
+                            context: context,
+                            resultModel: resultModel,
+                            data: data.Data,
+                            columns: valueColumnDictionary);
+                    }
                     break;
             }
             SetViewValues(
@@ -404,7 +437,8 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 data: Values(itemModel),
                 columns: Columns(ss),
-                columnFilterHach: view?.ColumnFilterHash))
+                columnFilterHach: view?.ColumnFilterHash,
+                columnSorterHach: view?.ColumnSorterHash))
             {
                 //using (var engine = new Microsoft.ClearScript.V8.V8ScriptEngine(
                 //    Microsoft.ClearScript.V8.V8ScriptEngineFlags.EnableDateTimeConversion))
