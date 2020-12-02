@@ -89,6 +89,7 @@ namespace Implem.Pleasanter.Models
         public class ServerScriptModelColumn
         {
             public bool ReadOnly { get; set; }
+            public string ExtendedCellCss { get; set; }
         }
 
         public class ServerScriptModelView

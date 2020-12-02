@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
+using static Implem.Pleasanter.Models.ServerScriptModel;
 namespace Implem.Pleasanter.Models
 {
     public static class ResultUtilities
@@ -613,7 +614,8 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Column column,
             ResultModel resultModel,
-            int? tabIndex = null)
+            int? tabIndex = null,
+            ServerScriptModelColumn serverScriptValues = null)
         {
             if (!column.GridDesign.IsNullOrEmpty())
             {
@@ -639,12 +641,14 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column,
                                     value: resultModel.SiteId,
-                                    tabIndex: tabIndex)
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues)
                                 : hb.Td(
                                     context: context,
                                     column: column,
                                     value: string.Empty,
-                                    tabIndex: tabIndex);
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues);
                     case "UpdatedTime":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -656,12 +660,14 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column,
                                     value: resultModel.UpdatedTime,
-                                    tabIndex: tabIndex)
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues)
                                 : hb.Td(
                                     context: context,
                                     column: column,
                                     value: string.Empty,
-                                    tabIndex: tabIndex);
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues);
                     case "ResultId":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -673,12 +679,14 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column,
                                     value: resultModel.ResultId,
-                                    tabIndex: tabIndex)
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues)
                                 : hb.Td(
                                     context: context,
                                     column: column,
                                     value: string.Empty,
-                                    tabIndex: tabIndex);
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues);
                     case "Ver":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -690,12 +698,14 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column,
                                     value: resultModel.Ver,
-                                    tabIndex: tabIndex)
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues)
                                 : hb.Td(
                                     context: context,
                                     column: column,
                                     value: string.Empty,
-                                    tabIndex: tabIndex);
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues);
                     case "Title":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -707,12 +717,14 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column,
                                     value: resultModel.Title,
-                                    tabIndex: tabIndex)
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues)
                                 : hb.Td(
                                     context: context,
                                     column: column,
                                     value: string.Empty,
-                                    tabIndex: tabIndex);
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues);
                     case "Body":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -724,12 +736,14 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column,
                                     value: resultModel.Body,
-                                    tabIndex: tabIndex)
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues)
                                 : hb.Td(
                                     context: context,
                                     column: column,
                                     value: string.Empty,
-                                    tabIndex: tabIndex);
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues);
                     case "TitleBody":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -741,12 +755,14 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column,
                                     value: resultModel.TitleBody,
-                                    tabIndex: tabIndex)
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues)
                                 : hb.Td(
                                     context: context,
                                     column: column,
                                     value: string.Empty,
-                                    tabIndex: tabIndex);
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues);
                     case "Status":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -758,12 +774,14 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column,
                                     value: resultModel.Status,
-                                    tabIndex: tabIndex)
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues)
                                 : hb.Td(
                                     context: context,
                                     column: column,
                                     value: string.Empty,
-                                    tabIndex: tabIndex);
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues);
                     case "Manager":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -775,12 +793,14 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column,
                                     value: resultModel.Manager,
-                                    tabIndex: tabIndex)
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues)
                                 : hb.Td(
                                     context: context,
                                     column: column,
                                     value: string.Empty,
-                                    tabIndex: tabIndex);
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues);
                     case "Owner":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -792,12 +812,14 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column,
                                     value: resultModel.Owner,
-                                    tabIndex: tabIndex)
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues)
                                 : hb.Td(
                                     context: context,
                                     column: column,
                                     value: string.Empty,
-                                    tabIndex: tabIndex);
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues);
                     case "Locked":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -809,12 +831,14 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column,
                                     value: resultModel.Locked,
-                                    tabIndex: tabIndex)
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues)
                                 : hb.Td(
                                     context: context,
                                     column: column,
                                     value: string.Empty,
-                                    tabIndex: tabIndex);
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues);
                     case "SiteTitle":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -826,12 +850,14 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column,
                                     value: resultModel.SiteTitle,
-                                    tabIndex: tabIndex)
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues)
                                 : hb.Td(
                                     context: context,
                                     column: column,
                                     value: string.Empty,
-                                    tabIndex: tabIndex);
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues);
                     case "Comments":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -843,12 +869,14 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column,
                                     value: resultModel.Comments,
-                                    tabIndex: tabIndex)
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues)
                                 : hb.Td(
                                     context: context,
                                     column: column,
                                     value: string.Empty,
-                                    tabIndex: tabIndex);
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues);
                     case "Creator":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -860,12 +888,14 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column,
                                     value: resultModel.Creator,
-                                    tabIndex: tabIndex)
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues)
                                 : hb.Td(
                                     context: context,
                                     column: column,
                                     value: string.Empty,
-                                    tabIndex: tabIndex);
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues);
                     case "Updator":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -877,12 +907,14 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column,
                                     value: resultModel.Updator,
-                                    tabIndex: tabIndex)
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues)
                                 : hb.Td(
                                     context: context,
                                     column: column,
                                     value: string.Empty,
-                                    tabIndex: tabIndex);
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues);
                     case "CreatedTime":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -894,12 +926,14 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column,
                                     value: resultModel.CreatedTime,
-                                    tabIndex: tabIndex)
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues)
                                 : hb.Td(
                                     context: context,
                                     column: column,
                                     value: string.Empty,
-                                    tabIndex: tabIndex);
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues);
                     default:
                         switch (Def.ExtendedColumnTypes.Get(column.Name))
                         {
@@ -914,12 +948,14 @@ namespace Implem.Pleasanter.Models
                                             context: context,
                                             column: column,
                                             value: resultModel.Class(columnName: column.Name),
-                                            tabIndex: tabIndex)
+                                            tabIndex: tabIndex,
+                                            serverScriptValues: serverScriptValues)
                                         : hb.Td(
                                             context: context,
                                             column: column,
                                             value: string.Empty,
-                                            tabIndex: tabIndex);
+                                            tabIndex: tabIndex,
+                                            serverScriptValues: serverScriptValues);
                             case "Num":
                                 return ss.ReadColumnAccessControls.Allowed(
                                     context: context,
@@ -931,12 +967,14 @@ namespace Implem.Pleasanter.Models
                                             context: context,
                                             column: column,
                                             value: resultModel.Num(columnName: column.Name),
-                                            tabIndex: tabIndex)
+                                            tabIndex: tabIndex,
+                                            serverScriptValues: serverScriptValues)
                                         : hb.Td(
                                             context: context,
                                             column: column,
                                             value: string.Empty,
-                                            tabIndex: tabIndex);
+                                            tabIndex: tabIndex,
+                                            serverScriptValues: serverScriptValues);
                             case "Date":
                                 return ss.ReadColumnAccessControls.Allowed(
                                     context: context,
@@ -948,12 +986,14 @@ namespace Implem.Pleasanter.Models
                                             context: context,
                                             column: column,
                                             value: resultModel.Date(columnName: column.Name),
-                                            tabIndex: tabIndex)
+                                            tabIndex: tabIndex,
+                                            serverScriptValues: serverScriptValues)
                                         : hb.Td(
                                             context: context,
                                             column: column,
                                             value: string.Empty,
-                                            tabIndex: tabIndex);
+                                            tabIndex: tabIndex,
+                                            serverScriptValues: serverScriptValues);
                             case "Description":
                                 return ss.ReadColumnAccessControls.Allowed(
                                     context: context,
@@ -965,12 +1005,14 @@ namespace Implem.Pleasanter.Models
                                             context: context,
                                             column: column,
                                             value: resultModel.Description(columnName: column.Name),
-                                            tabIndex: tabIndex)
+                                            tabIndex: tabIndex,
+                                            serverScriptValues: serverScriptValues)
                                         : hb.Td(
                                             context: context,
                                             column: column,
                                             value: string.Empty,
-                                            tabIndex: tabIndex);
+                                            tabIndex: tabIndex,
+                                            serverScriptValues: serverScriptValues);
                             case "Check":
                                 return ss.ReadColumnAccessControls.Allowed(
                                     context: context,
@@ -982,12 +1024,14 @@ namespace Implem.Pleasanter.Models
                                             context: context,
                                             column: column,
                                             value: resultModel.Check(columnName: column.Name),
-                                            tabIndex: tabIndex)
+                                            tabIndex: tabIndex,
+                                            serverScriptValues: serverScriptValues)
                                         : hb.Td(
                                             context: context,
                                             column: column,
                                             value: string.Empty,
-                                            tabIndex: tabIndex);
+                                            tabIndex: tabIndex,
+                                            serverScriptValues: serverScriptValues);
                             case "Attachments":
                                 return ss.ReadColumnAccessControls.Allowed(
                                     context: context,
@@ -999,12 +1043,14 @@ namespace Implem.Pleasanter.Models
                                             context: context,
                                             column: column,
                                             value: resultModel.Attachments(columnName: column.Name),
-                                            tabIndex: tabIndex)
+                                            tabIndex: tabIndex,
+                                            serverScriptValues: serverScriptValues)
                                         : hb.Td(
                                             context: context,
                                             column: column,
                                             value: string.Empty,
-                                            tabIndex: tabIndex);
+                                            tabIndex: tabIndex,
+                                            serverScriptValues: serverScriptValues);
                             default:
                                 return hb;
                         }

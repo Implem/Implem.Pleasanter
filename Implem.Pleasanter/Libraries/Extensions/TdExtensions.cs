@@ -6,6 +6,7 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
+using static Implem.Pleasanter.Models.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.Extensions
 {
     public static class TdExtensions
@@ -15,16 +16,18 @@ namespace Implem.Pleasanter.Libraries.Extensions
             Context context,
             Column column,
             IConvertable value,
-            int? tabIndex)
+            int? tabIndex,
+            ServerScriptModelColumn serverScriptValues = null)
         {
             return column != null && value != null
                 ? value.Td(
                     hb: hb,
                     context: context,
                     column: column,
-                    tabIndex: tabIndex)
+                    tabIndex: tabIndex,
+                    serverScriptValues: serverScriptValues)
                 : hb.Td(
-                    css: column.CellCss(),
+                    css: column.CellCss(serverScriptValues?.ExtendedCellCss),
                     action: () => hb
                         .Text(string.Empty));
         }
@@ -34,10 +37,11 @@ namespace Implem.Pleasanter.Libraries.Extensions
             Context context,
             Column column,
             TimeZoneInfo value,
-            int? tabIndex)
+            int? tabIndex,
+            ServerScriptModelColumn serverScriptValues = null)
         {
             return hb.Td(
-                css: column.CellCss(),
+                css: column.CellCss(serverScriptValues?.ExtendedCellCss),
                 action: () => hb
                     .Text(text: value?.StandardName));
         }
@@ -47,11 +51,12 @@ namespace Implem.Pleasanter.Libraries.Extensions
             Context context,
             Column column,
             string value,
-            int? tabIndex)
+            int? tabIndex,
+            ServerScriptModelColumn serverScriptValues = null)
         {
             return column.HasChoices()
                 ? hb.Td(
-                    css: column.CellCss(),
+                    css: column.CellCss(serverScriptValues?.ExtendedCellCss),
                     action: () =>
                     {
                         column.AddToChoiceHash(
@@ -71,13 +76,13 @@ namespace Implem.Pleasanter.Libraries.Extensions
                     })
                 : column.ControlType == "MarkDown"
                     ? hb.Td(
-                        css: column.CellCss(),
+                        css: column.CellCss(serverScriptValues?.ExtendedCellCss),
                         action: () => hb
                             .Div(css: "grid-title-body", action: () => hb
                                 .P(css: "body markup", action: () => hb
                                     .Text(text: value))))
                     : hb.Td(
-                        css: column.CellCss(),
+                        css: column.CellCss(serverScriptValues?.ExtendedCellCss),
                         action: () => hb
                             .Text(text: value));
         }
@@ -87,10 +92,11 @@ namespace Implem.Pleasanter.Libraries.Extensions
             Context context,
             Column column,
             int value,
-            int? tabIndex)
+            int? tabIndex,
+            ServerScriptModelColumn serverScriptValues = null)
         {
             return hb.Td(
-                css: column.CellCss(),
+                css: column.CellCss(serverScriptValues?.ExtendedCellCss),
                 action: () => hb
                     .Text(text: value.ToString(column.StringFormat) + column.Unit));
         }
@@ -100,10 +106,11 @@ namespace Implem.Pleasanter.Libraries.Extensions
             Context context,
             Column column,
             long value,
-            int? tabIndex)
+            int? tabIndex,
+            ServerScriptModelColumn serverScriptValues = null)
         {
             return hb.Td(
-                css: column.CellCss(),
+                css: column.CellCss(serverScriptValues?.ExtendedCellCss),
                 action: () => hb
                     .Text(text: value.ToString(column.StringFormat) + column.Unit));
         }
@@ -113,10 +120,11 @@ namespace Implem.Pleasanter.Libraries.Extensions
             Context context,
             Column column,
             decimal value,
-            int? tabIndex)
+            int? tabIndex,
+            ServerScriptModelColumn serverScriptValues = null)
         {
             return hb.Td(
-                css: column.CellCss(),
+                css: column.CellCss(serverScriptValues?.ExtendedCellCss),
                 action: () => hb
                     .Text(text: column.Display(
                         context: context,
@@ -129,10 +137,11 @@ namespace Implem.Pleasanter.Libraries.Extensions
             Context context,
             Column column,
             DateTime value,
-            int? tabIndex)
+            int? tabIndex,
+            ServerScriptModelColumn serverScriptValues = null)
         {
             return hb.Td(
-                css: column.CellCss(),
+                css: column.CellCss(serverScriptValues?.ExtendedCellCss),
                 action: () => hb
                     .Text(text: column.DisplayGrid(
                         context: context,
@@ -144,20 +153,21 @@ namespace Implem.Pleasanter.Libraries.Extensions
             Context context,
             Column column,
             bool value,
-            int? tabIndex)
+            int? tabIndex,
+            ServerScriptModelColumn serverScriptValues = null)
         {
             return column.HasChoices()
                 ? value
                     ? hb.Td(
-                        css: column.CellCss(),
+                        css: column.CellCss(serverScriptValues?.ExtendedCellCss),
                         action: () => hb
                             .Text(text: column.ChoicesText.SplitReturn()._1st()))
                     : hb.Td(
-                        css: column.CellCss(),
+                        css: column.CellCss(serverScriptValues?.ExtendedCellCss),
                         action: () => hb
                             .Text(text: column.ChoicesText.SplitReturn()._2nd()))
                 : hb.Td(
-                    css: column.CellCss(),
+                    css: column.CellCss(serverScriptValues?.ExtendedCellCss),
                     action: () => hb
                         .Span(css: "ui-icon ui-icon-circle-check", _using: value));
         }
@@ -167,10 +177,11 @@ namespace Implem.Pleasanter.Libraries.Extensions
             Context context,
             Column column,
             Enum value,
-            int? tabIndex)
+            int? tabIndex,
+            ServerScriptModelColumn serverScriptValues = null)
         {
             return hb.Td(
-                css: column.CellCss(),
+                css: column.CellCss(serverScriptValues?.ExtendedCellCss),
                 action: () => hb
                     .Text(text: value.ToString()));
         }
