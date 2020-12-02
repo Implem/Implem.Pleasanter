@@ -679,7 +679,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public View GetRecordingData(SiteSettings ss)
+        public View GetRecordingData(Context context, SiteSettings ss)
         {
             var view = new View();
             view.Id = Id;
@@ -712,7 +712,34 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 view.ColumnFilterHash = new Dictionary<string, string>();
                 ColumnFilterHash
-                    .Where(o => o.Value != "[]")
+                    .Where(o =>
+                    {
+                        var column = ss.GetColumn(
+                            context: context,
+                            columnName: o.Key);
+                        if (column?.TypeName.CsTypeSummary() == Types.CsString
+                            && column?.HasChoices() != true)
+                        {
+                            return o.Value?.IsNullOrEmpty() != true;
+                        }
+                        else if (column?.TypeName.CsTypeSummary() == Types.CsBool)
+                        {
+                            switch (column.CheckFilterControlType)
+                            {
+                                case ColumnUtilities.CheckFilterControlTypes.OnOnly:
+                                    return o.Value?.ToBool() == true;
+                                default:
+                                    return o.Value?.ToInt() > 0;
+                            }
+                        }
+                        else
+                        {
+                            var data = o.Value?.Deserialize<List<object>>();
+                            return data != null
+                                ? data.Any()
+                                : o.Value?.IsNullOrEmpty() != true;
+                        }
+                    })
                     .ForEach(o => view.ColumnFilterHash.Add(o.Key, o.Value));
             }
             if (ColumnSorterHash?.Any() == true)

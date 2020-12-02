@@ -813,7 +813,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     ss.Views = new List<View>();
                 }
-                ss.Views.Add(view.GetRecordingData(ss: this));
+                ss.Views.Add(view.GetRecordingData(
+                    context: context,
+                    ss: this));
             });
             Notifications?.ForEach(notification =>
             {
