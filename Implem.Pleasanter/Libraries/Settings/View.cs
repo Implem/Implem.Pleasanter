@@ -1247,31 +1247,63 @@ namespace Implem.Pleasanter.Libraries.Settings
                 var param = value.Deserialize<List<string>>();
                 if (param?.Any() == true)
                 {
-                    where.Add(or: new SqlWhereCollection(
-                        CsStringColumnsWhere(column, param),
-                        CsStringColumnsWhereNull(column, param)));
+                    CreateCsStringSqlWhereCollection(column, where, param);
                 }
             }
-            else
+            else if (!value.IsNullOrEmpty())
             {
-                if (!value.IsNullOrEmpty())
+                switch (column.SearchType)
                 {
-                    var tableName = column.TableName();
-                    var name = Strings.NewGuid();
-                    where.SqlWhereLike(
-                        tableName: tableName,
-                        name: name,
-                        searchText: value,
-                        clauseCollection: "(\"{0}\".\"{1}\" like {2}@{3}{4}"
-                            .Params(
-                                tableName, 
-                                column.Name, 
-                                context.Sqls.WhereLikeTemplateForward, 
-                                name,
-                                context.Sqls.WhereLikeTemplate)
-                            .ToSingleList());
+                    case Column.SearchTypes.ExactMatch:
+                        var param = value.ToSingleList();
+                        if (param?.Any() == true)
+                        {
+                            CreateCsStringSqlWhereCollection(column, where, param);
+                        }
+                        break;
+                    case Column.SearchTypes.ForwardMatch:
+                        CreateCsStringSqlWhereLike(
+                            context: context,
+                            column: column,
+                            value: value,
+                            where: where,
+                            query: "(\"{0}\".\"{1}\" like @{3}{4}");
+                        break;
+                    default:
+                        CreateCsStringSqlWhereLike(
+                            context: context,
+                            column: column,
+                            value: value,
+                            where: where,
+                            query: "(\"{0}\".\"{1}\" like {2}@{3}{4}");
+                        break;
                 }
             }
+        }
+
+        private void CreateCsStringSqlWhereCollection(Column column, SqlWhereCollection where, List<string> param)
+        {
+            where.Add(or: new SqlWhereCollection(
+                CsStringColumnsWhere(column, param),
+                CsStringColumnsWhereNull(column, param)));
+        }
+
+        private void CreateCsStringSqlWhereLike(Context context, Column column, string value, SqlWhereCollection where, string query)
+        {
+            var tableName = column.TableName();
+            var name = Strings.NewGuid();
+            where.SqlWhereLike(
+                tableName: tableName,
+                name: name,
+                searchText: value,
+                clauseCollection: query
+                    .Params(
+                        tableName,
+                        column.Name,
+                        context.Sqls.WhereLikeTemplateForward,
+                        name,
+                        context.Sqls.WhereLikeTemplate)
+                    .ToSingleList());
         }
 
         private SqlWhere CsStringColumnsWhere(Column column, List<string> param)
