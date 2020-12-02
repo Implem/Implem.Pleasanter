@@ -67,7 +67,7 @@ $p.send = function ($control, formId, _async, clearMessage) {
             .attr('aria-controls') + '').match(/\d+$/))[0],
         10);
     if (!isNaN(fieldSetTab)) {
-        url += ((url + '').includes('?') ? '&' : '?') + "TabIndex=" + fieldSetTab;
+        url += ((url + '').indexOf('?') > -1 ? '&' : '?') + "TabIndex=" + fieldSetTab;
     }
     _async = _async !== undefined ? _async : true;
     if (methodType !== 'get') {
