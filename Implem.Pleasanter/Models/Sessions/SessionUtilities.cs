@@ -196,7 +196,10 @@ namespace Implem.Pleasanter.Models
             Set(
                 context: context,
                 key: key,
-                value: view.GetRecordingData(ss: ss).ToJson(),
+                value: view.GetRecordingData(
+                    context: context,
+                    ss: ss)
+                        .ToJson(),
                 page: true,
                 sessionGuid: sessionGuid);
         }
