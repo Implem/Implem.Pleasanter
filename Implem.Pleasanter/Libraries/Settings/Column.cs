@@ -24,6 +24,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             User
         }
 
+        public enum SearchTypes : int
+        {
+            PartialMatch = 1,
+            ExactMatch = 2,
+            ForwardMatch = 3
+        }
+
         public string Id;
         public string ColumnName;
         public string LabelText;
@@ -76,6 +83,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public decimal? NumFilterMax;
         public decimal? NumFilterStep;
         public ColumnUtilities.DateFilterSetMode? DateFilterSetMode;
+        public Column.SearchTypes? SearchType;
         public int? DateFilterMinSpan;
         public int? DateFilterMaxSpan;
         public bool? DateFilterFy;

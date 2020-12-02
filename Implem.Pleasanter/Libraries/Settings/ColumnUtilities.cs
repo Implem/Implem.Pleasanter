@@ -67,6 +67,16 @@ namespace Implem.Pleasanter.Libraries.Settings
             };
         }
 
+        public static Dictionary<string, string> SearchTypeOptions(Context context)
+        {
+            return new Dictionary<string, string>
+            {
+                { Column.SearchTypes.PartialMatch.ToInt().ToString(), Displays.PartialMatch(context: context) },
+                { Column.SearchTypes.ExactMatch.ToInt().ToString(), Displays.ExactMatch(context: context) },
+                { Column.SearchTypes.ForwardMatch.ToInt().ToString(), Displays.ForwardMatch(context: context) }
+            };
+        }
+
         public static IEnumerable<ColumnDefinition> GridDefinitions(
             this Dictionary<string, ColumnDefinition> definitions,
             Context context,

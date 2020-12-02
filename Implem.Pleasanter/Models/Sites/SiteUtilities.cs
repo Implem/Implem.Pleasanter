@@ -4353,6 +4353,15 @@ namespace Implem.Pleasanter.Models
                                         labelText: Displays.UseMonth(context: context),
                                         _checked: column.DateFilterMonth == true);
                                 break;
+                            case Types.CsString:
+                                hb.FieldDropDown(
+                                    context: context,
+                                    controlId: "SearchTypes",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.SearchTypes(context: context),
+                                    optionCollection: ColumnUtilities.SearchTypeOptions(context),
+                                    selectedValue: column.SearchType?.ToInt().ToString());
+                                break;
                         }
                     });
             return hb
