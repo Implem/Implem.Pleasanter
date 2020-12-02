@@ -1,0 +1,29 @@
+﻿{
+    "Id": "ExactMatch",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Exact match"
+        },
+        {
+            "Language": "zh",
+            "Body": "完全符合"
+        },
+        {
+            "Language": "ja",
+            "Body": "完全一致"
+        },
+        {
+            "Language": "de",
+            "Body": "Genaue Übereinstimmung"
+        },
+        {
+            "Language": "ko",
+            "Body": "정확히 일치"
+        },
+        {
+            "Language": "es",
+            "Body": "Coincidencia exacta"
+        }
+    ]
+}

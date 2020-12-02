@@ -20,7 +20,7 @@
         "Sites"."SiteId" <> @SiteId_ and
         (
             @HasPrivilege_ = 1 or
-            (exists(select * from "Permissions" where "Permissions"."ReferenceId" = "InheritPermission" and "Permissions"."PermissionType" & 4 = 4 and (("Permissions"."UserId" = @_U and @_U <> 0) or ("Permissions"."DeptId" = @_D and @_D <> 0) or (exists(select * from "GroupMembers" where "Permissions"."GroupId"="GroupMembers"."GroupId" and (("GroupMembers"."DeptId" = @_D and @_D <> 0) or ("GroupMembers"."UserId" = @_U and @_U <> 0)))))))
+            (exists(select * from "Permissions" where "Permissions"."ReferenceId" = "InheritPermission" and "Permissions"."PermissionType" & 4 = 4 and ((("Permissions"."UserId" = @_U or "Permissions"."UserId" = -1) and @_U <> 0) or ("Permissions"."DeptId" = @_D and @_D <> 0) or (exists(select * from "GroupMembers" where "Permissions"."GroupId"="GroupMembers"."GroupId" and (("GroupMembers"."DeptId" = @_D and @_D <> 0) or ("GroupMembers"."UserId" = @_U and @_U <> 0)))))))
         )
 
     union all
