@@ -72,5 +72,6 @@ bundles/
 Histories/
 Logs/
 Temp/
+packages/
 /Implem.CodeDefiner.NetCore/Properties/launchSettings.json
 /Implem.Pleasanter/App_Data/Temp/

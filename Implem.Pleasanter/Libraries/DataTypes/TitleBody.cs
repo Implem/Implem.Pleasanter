@@ -3,6 +3,7 @@ using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
+using static Implem.Pleasanter.Models.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
     public class TitleBody : Title, IConvertable
@@ -32,10 +33,11 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             HtmlBuilder hb,
             Context context,
             Column column,
-            int? tabIndex)
+            int? tabIndex,
+            ServerScriptModelColumn serverScriptValues)
         {
             return hb.Td(
-                css: column.CellCss(),
+                css: column.CellCss(serverScriptValues?.ExtendedCellCss),
                 action: () => TdTitleBody(
                     hb: hb,
                     context: context,

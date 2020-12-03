@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
+using static Implem.Pleasanter.Models.ServerScriptModel;
 namespace Implem.Pleasanter.Models
 {
     public static class SessionUtilities
@@ -196,7 +197,10 @@ namespace Implem.Pleasanter.Models
             Set(
                 context: context,
                 key: key,
-                value: view.GetRecordingData(ss: ss).ToJson(),
+                value: view.GetRecordingData(
+                    context: context,
+                    ss: ss)
+                        .ToJson(),
                 page: true,
                 sessionGuid: sessionGuid);
         }

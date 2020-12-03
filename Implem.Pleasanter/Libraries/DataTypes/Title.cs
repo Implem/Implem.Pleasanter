@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Implem.Libraries.DataSources.SqlServer;
+using static Implem.Pleasanter.Models.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
     [Serializable]
@@ -218,10 +219,11 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             HtmlBuilder hb,
             Context context,
             Column column,
-            int? tabIndex)
+            int? tabIndex,
+            ServerScriptModelColumn serverScriptValues)
         {
             return hb.Td(
-                css: column.CellCss(),
+                css: column.CellCss(serverScriptValues?.ExtendedCellCss),
                 action: () => hb
                     .P(action: () => TdTitle(
                         hb: hb,

@@ -679,7 +679,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public View GetRecordingData(SiteSettings ss)
+        public View GetRecordingData(Context context, SiteSettings ss)
         {
             var view = new View();
             view.Id = Id;
@@ -712,7 +712,34 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 view.ColumnFilterHash = new Dictionary<string, string>();
                 ColumnFilterHash
-                    .Where(o => o.Value != "[]")
+                    .Where(o =>
+                    {
+                        var column = ss.GetColumn(
+                            context: context,
+                            columnName: o.Key);
+                        if (column?.TypeName.CsTypeSummary() == Types.CsString
+                            && column?.HasChoices() != true)
+                        {
+                            return o.Value?.IsNullOrEmpty() != true;
+                        }
+                        else if (column?.TypeName.CsTypeSummary() == Types.CsBool)
+                        {
+                            switch (column.CheckFilterControlType)
+                            {
+                                case ColumnUtilities.CheckFilterControlTypes.OnOnly:
+                                    return o.Value?.ToBool() == true;
+                                default:
+                                    return o.Value?.ToInt() > 0;
+                            }
+                        }
+                        else
+                        {
+                            var data = o.Value?.Deserialize<List<object>>();
+                            return data != null
+                                ? data.Any()
+                                : o.Value?.IsNullOrEmpty() != true;
+                        }
+                    })
                     .ForEach(o => view.ColumnFilterHash.Add(o.Key, o.Value));
             }
             if (ColumnSorterHash?.Any() == true)
@@ -1247,31 +1274,63 @@ namespace Implem.Pleasanter.Libraries.Settings
                 var param = value.Deserialize<List<string>>();
                 if (param?.Any() == true)
                 {
-                    where.Add(or: new SqlWhereCollection(
-                        CsStringColumnsWhere(column, param),
-                        CsStringColumnsWhereNull(column, param)));
+                    CreateCsStringSqlWhereCollection(column, where, param);
                 }
             }
-            else
+            else if (!value.IsNullOrEmpty())
             {
-                if (!value.IsNullOrEmpty())
+                switch (column.SearchType)
                 {
-                    var tableName = column.TableName();
-                    var name = Strings.NewGuid();
-                    where.SqlWhereLike(
-                        tableName: tableName,
-                        name: name,
-                        searchText: value,
-                        clauseCollection: "(\"{0}\".\"{1}\" like {2}@{3}{4}"
-                            .Params(
-                                tableName, 
-                                column.Name, 
-                                context.Sqls.WhereLikeTemplateForward, 
-                                name,
-                                context.Sqls.WhereLikeTemplate)
-                            .ToSingleList());
+                    case Column.SearchTypes.ExactMatch:
+                        var param = value.ToSingleList();
+                        if (param?.Any() == true)
+                        {
+                            CreateCsStringSqlWhereCollection(column, where, param);
+                        }
+                        break;
+                    case Column.SearchTypes.ForwardMatch:
+                        CreateCsStringSqlWhereLike(
+                            context: context,
+                            column: column,
+                            value: value,
+                            where: where,
+                            query: "(\"{0}\".\"{1}\" like @{3}{4}");
+                        break;
+                    default:
+                        CreateCsStringSqlWhereLike(
+                            context: context,
+                            column: column,
+                            value: value,
+                            where: where,
+                            query: "(\"{0}\".\"{1}\" like {2}@{3}{4}");
+                        break;
                 }
             }
+        }
+
+        private void CreateCsStringSqlWhereCollection(Column column, SqlWhereCollection where, List<string> param)
+        {
+            where.Add(or: new SqlWhereCollection(
+                CsStringColumnsWhere(column, param),
+                CsStringColumnsWhereNull(column, param)));
+        }
+
+        private void CreateCsStringSqlWhereLike(Context context, Column column, string value, SqlWhereCollection where, string query)
+        {
+            var tableName = column.TableName();
+            var name = Strings.NewGuid();
+            where.SqlWhereLike(
+                tableName: tableName,
+                name: name,
+                searchText: value,
+                clauseCollection: query
+                    .Params(
+                        tableName,
+                        column.Name,
+                        context.Sqls.WhereLikeTemplateForward,
+                        name,
+                        context.Sqls.WhereLikeTemplate)
+                    .ToSingleList());
         }
 
         private SqlWhere CsStringColumnsWhere(Column column, List<string> param)

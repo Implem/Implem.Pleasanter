@@ -9,6 +9,7 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Collections.Generic;
 using System.Linq;
+using static Implem.Pleasanter.Models.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
     public class Attachments : List<Attachment>, IConvertable
@@ -17,10 +18,15 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
         }
 
-        public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column, int? tabIndex)
+        public HtmlBuilder Td(
+            HtmlBuilder hb,
+            Context context,
+            Column column,
+            int? tabIndex,
+            ServerScriptModelColumn serverScriptValues)
         {
             return hb.Td(
-                css: column.CellCss(),
+                css: column.CellCss(serverScriptValues?.ExtendedCellCss),
                 action: () => hb
                     .Ol(action: () => ForEach(item => hb
                         .Li(action: () => hb

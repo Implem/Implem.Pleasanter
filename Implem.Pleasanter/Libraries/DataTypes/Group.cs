@@ -5,6 +5,7 @@ using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Data;
+using static Implem.Pleasanter.Models.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
     public class Group : IConvertable
@@ -34,12 +35,17 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return Id.ToString();
         }
 
-        public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column, int? tabIndex)
+        public HtmlBuilder Td(
+            HtmlBuilder hb,
+            Context context,
+            Column column,
+            int? tabIndex,
+            ServerScriptModelColumn serverScriptValues)
         {
             return hb.Td(
-                css: column.CellCss(),
+                css: column.CellCss(serverScriptValues?.ExtendedCellCss),
                 action: () => hb
-                .Text(text: Name));
+                    .Text(text: Name));
         }
 
         public string GridText(Context context, Column column)

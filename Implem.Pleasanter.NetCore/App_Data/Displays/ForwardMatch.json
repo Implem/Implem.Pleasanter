@@ -1,0 +1,29 @@
+﻿{
+    "Id": "ForwardMatch",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Forward match"
+        },
+        {
+            "Language": "zh",
+            "Body": "向前比赛"
+        },
+        {
+            "Language": "ja",
+            "Body": "前方一致"
+        },
+        {
+            "Language": "de",
+            "Body": "Vorwärtsspiel"
+        },
+        {
+            "Language": "ko",
+            "Body": "포워드 매치"
+        },
+        {
+            "Language": "es",
+            "Body": "Adelante partido"
+        }
+    ]
+}

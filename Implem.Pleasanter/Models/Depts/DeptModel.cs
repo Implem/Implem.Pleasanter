@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
+using static Implem.Pleasanter.Models.ServerScriptModel;
 namespace Implem.Pleasanter.Models
 {
     [Serializable]
@@ -846,10 +847,15 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column, int? tabIndex)
+        public HtmlBuilder Td(
+            HtmlBuilder hb,
+            Context context,
+            Column column,
+            int? tabIndex,
+            ServerScriptModelColumn serverScriptValues)
         {
             return hb.Td(
-                css: column.CellCss(),
+                css: column.CellCss(serverScriptValues?.ExtendedCellCss),
                 action: () => hb
                     .HtmlDept(
                         context: context,
