@@ -62,43 +62,109 @@ namespace Implem.Pleasanter.Models
             return (int)Decimal(data, name);
         }
 
-        public static IEnumerable<(string Name, object Value)> Values(BaseItemModel model)
+        private static (string, object) ReadNameValue(SiteSettings ss, string columnName, object value)
+        {
+            return (
+                columnName,
+                ss?.ColumnHash.Get(columnName)?.CanRead == true
+                    ? value
+                    : null);
+        }
+
+        public static IEnumerable<(string Name, object Value)> Values(SiteSettings ss, BaseItemModel model)
         {
             var values = new List<(string, object)>();
             values.AddRange(model
                 .ClassHash
-                .Select(element => (element.Key, (object)element.Value)));
+                .Select(element => ReadNameValue(
+                    ss: ss,
+                    columnName: element.Key,
+                    value: element.Value)));
             values.AddRange(model
                 .NumHash
-                .Select(element => (element.Key, (object)element.Value)));
+                .Select(element => ReadNameValue(
+                    ss: ss,
+                    columnName: element.Key,
+                    value: element.Value)));
             values.AddRange(model
                 .DateHash
-                .Select(element => (element.Key, (object)element.Value)));
+                .Select(element => ReadNameValue(
+                    ss: ss,
+                    columnName: element.Key,
+                    value: element.Value)));
             values.AddRange(model
                 .DescriptionHash
-                .Select(element => (element.Key, (object)element.Value)));
+                .Select(element => ReadNameValue(
+                    ss: ss,
+                    columnName: element.Key,
+                    value: element.Value)));
             values.AddRange(model
                 .CheckHash
-                .Select(element => (element.Key, (object)element.Value)));
+                .Select(element => ReadNameValue(
+                    ss: ss,
+                    columnName: element.Key,
+                    value: element.Value)));
             if (model is ResultModel resultModel)
             {
-                values.Add((nameof(ResultModel.Title), resultModel.Title?.Value));
-                values.Add((nameof(ResultModel.Body), resultModel.Body));
-                values.Add((nameof(ResultModel.Status), resultModel.Status?.Value));
-                values.Add((nameof(ResultModel.Manager), resultModel.Manager.Id));
-                values.Add((nameof(ResultModel.Owner), resultModel.Owner.Id));
+                values.Add(ReadNameValue(
+                    ss: ss,
+                    columnName: nameof(ResultModel.Title),
+                    value: resultModel.Title?.Value));
+                values.Add(ReadNameValue(
+                    ss: ss,
+                    columnName: nameof(ResultModel.Body),
+                    value: resultModel.Body));
+                values.Add(ReadNameValue(
+                    ss: ss,
+                    columnName: nameof(ResultModel.Status),
+                    value: resultModel.Status?.Value));
+                values.Add(ReadNameValue(
+                    ss: ss,
+                    columnName: nameof(ResultModel.Manager),
+                    value: resultModel.Manager.Id));
+                values.Add(ReadNameValue(
+                    ss: ss,
+                    columnName: nameof(ResultModel.Owner),
+                    value: resultModel.Owner.Id));
             }
             if (model is IssueModel issueModel)
             {
-                values.Add((nameof(IssueModel.Title), issueModel.Title?.Value));
-                values.Add((nameof(IssueModel.Body), issueModel.Body));
-                values.Add((nameof(IssueModel.StartTime), issueModel.StartTime));
-                values.Add((nameof(IssueModel.CompletionTime), issueModel.CompletionTime.Value));
-                values.Add((nameof(IssueModel.WorkValue), issueModel.WorkValue.Value));
-                values.Add((nameof(IssueModel.ProgressRate), issueModel.ProgressRate.Value));
-                values.Add((nameof(IssueModel.Status), issueModel.Status?.Value));
-                values.Add((nameof(IssueModel.Manager), issueModel.Manager.Id));
-                values.Add((nameof(IssueModel.Owner), issueModel.Owner.Id));
+                values.Add(ReadNameValue(
+                    ss: ss,
+                    columnName: nameof(IssueModel.Title),
+                    value: issueModel.Title?.Value));
+                values.Add(ReadNameValue(
+                    ss: ss,
+                    columnName: nameof(IssueModel.Body),
+                    value: issueModel.Body));
+                values.Add(ReadNameValue(
+                    ss: ss,
+                    columnName: nameof(IssueModel.StartTime),
+                    value: issueModel.StartTime));
+                values.Add(ReadNameValue(
+                    ss: ss,
+                    columnName: nameof(IssueModel.CompletionTime),
+                    value: issueModel.CompletionTime.Value));
+                values.Add(ReadNameValue(
+                    ss: ss,
+                    columnName: nameof(IssueModel.WorkValue),
+                    value: issueModel.WorkValue.Value));
+                values.Add(ReadNameValue(
+                    ss: ss,
+                    columnName: nameof(IssueModel.ProgressRate),
+                    value: issueModel.ProgressRate.Value));
+                values.Add(ReadNameValue(
+                    ss: ss,
+                    columnName: nameof(IssueModel.Status),
+                    value: issueModel.Status?.Value));
+                values.Add(ReadNameValue(
+                    ss: ss,
+                    columnName: nameof(IssueModel.Manager),
+                    value: issueModel.Manager.Id));
+                values.Add(ReadNameValue(
+                    ss: ss,
+                    columnName: nameof(IssueModel.Owner),
+                    value: issueModel.Owner.Id));
             }
             return values.ToArray();
         }
@@ -444,7 +510,9 @@ namespace Implem.Pleasanter.Models
             using (var model = new ServerScriptModel(
                 context: context,
                 ss: ss,
-                data: Values(itemModel),
+                data: Values(
+                    ss: ss,
+                    model: itemModel),
                 columns: Columns(ss),
                 columnFilterHach: view?.ColumnFilterHash,
                 columnSorterHach: view?.ColumnSorterHash))
