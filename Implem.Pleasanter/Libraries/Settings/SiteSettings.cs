@@ -812,7 +812,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     ss.Views = new List<View>();
                 }
-                ss.Views.Add(view.GetRecordingData(ss: this));
+                ss.Views.Add(view.GetRecordingData(
+                    context: context,
+                    ss: this));
             });
             Notifications?.ForEach(notification =>
             {
@@ -1188,6 +1190,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.DateFilterSetMode = column.DateFilterSetMode;
                     }
+                    if (column.SearchType != Column.SearchTypes.PartialMatch)
+                    {
+                        enabled = true;
+                        newColumn.SearchType = column.SearchType;
+                    }
                     if (column.DateFilterMinSpan != Parameters.General.DateFilterMinSpan)
                     {
                         enabled = true;
@@ -1491,6 +1498,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.NumFilterMax = column.NumFilterMax ?? columnDefinition.NumFilterMax;
                 column.NumFilterStep = column.NumFilterStep ?? columnDefinition.NumFilterStep;
                 column.DateFilterSetMode = column.DateFilterSetMode ?? ColumnUtilities.DateFilterSetMode.Default;
+                column.SearchType = column.SearchType ?? Column.SearchTypes.PartialMatch;
                 column.DateFilterMinSpan = column.DateFilterMinSpan ?? Parameters.General.DateFilterMinSpan;
                 column.DateFilterMaxSpan = column.DateFilterMaxSpan ?? Parameters.General.DateFilterMaxSpan;
                 column.DateFilterFy = column.DateFilterFy ?? true;
@@ -2430,16 +2438,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, ControlData> MoveTargetsSelectableOptions(
             Context context, bool enabled = true)
         {
-            var options = MoveTargetsOptions(sites: Repository.ExecuteTable(
-                context: context,
-                statements: new SqlStatement(
-                    commandText: Def.Sql.MoveTarget,
-                    param: Rds.SitesParam()
-                        .TenantId(context.TenantId)
-                        .ReferenceType(ReferenceType)
-                        .SiteId(SiteId)
-                        .Add(name: "HasPrivilege", value: context.HasPrivilege)))
-                            .AsEnumerable());
+            var options = MoveTargetsOptions(sites: NumberOfMoveTargetsTable(context));
             return enabled
                 ? MoveTargets?.Any() == true
                     ? options
@@ -2451,7 +2450,21 @@ namespace Implem.Pleasanter.Libraries.Settings
                     .ToDictionary(o => o.Key, o => o.Value);
         }
 
-        private Dictionary<string, ControlData> MoveTargetsOptions(IEnumerable<DataRow> sites)
+        public EnumerableRowCollection<DataRow> NumberOfMoveTargetsTable(Context context)
+        {
+            return Repository.ExecuteTable(
+                context: context,
+                statements: new SqlStatement(
+                    commandText: Def.Sql.MoveTarget,
+                    param: Rds.SitesParam()
+                        .TenantId(context.TenantId)
+                        .ReferenceType(ReferenceType)
+                        .SiteId(SiteId)
+                        .Add(name: "HasPrivilege", value: context.HasPrivilege)))
+                            .AsEnumerable();
+        }
+
+        public Dictionary<string, ControlData> MoveTargetsOptions(IEnumerable<DataRow> sites)
         {
             var targets = new Dictionary<string, ControlData>();
             sites
@@ -3131,6 +3144,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "NumFilterStep": column.NumFilterStep = value.ToDecimal(); break;
                 case "DateFilterSetMode": column.DateFilterSetMode =
                     (ColumnUtilities.DateFilterSetMode)value.ToInt(); break;
+                case "SearchTypes": column.SearchType =
+                    (Column.SearchTypes)value.ToInt(); break;
                 case "DateFilterMinSpan": column.DateFilterMinSpan = value.ToInt(); break;
                 case "DateFilterMaxSpan": column.DateFilterMaxSpan = value.ToInt(); break;
                 case "DateFilterFy": column.DateFilterFy = value.ToBool(); break;

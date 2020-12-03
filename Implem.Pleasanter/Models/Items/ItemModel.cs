@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
+using static Implem.Pleasanter.Models.ServerScriptModel;
 namespace Implem.Pleasanter.Models
 {
     [Serializable]
@@ -127,13 +128,14 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
+            where = where ?? Rds.ItemsWhereDefault(this);
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectItems(
                     tableType: tableType,
                     column: column ?? Rds.ItemsDefaultColumns(),
                     join: join ??  Rds.ItemsJoinDefault(),
-                    where: where ?? Rds.ItemsWhereDefault(this),
+                    where: where,
                     orderBy: orderBy,
                     param: param,
                     distinct: distinct,
@@ -2803,6 +2805,9 @@ namespace Implem.Pleasanter.Models
                 setSiteIntegration: setSiteIntegration,
                 tableType: tableType,
                 linkedSsDataSetHash: linkedSsDataSetHash);
+            SetByWhenloadingSiteSettingsServerScript(
+                context: context,
+                ss: Site.SiteSettings);
         }
 
         public SiteModel GetSite(

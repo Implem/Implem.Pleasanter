@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using static Implem.Pleasanter.Models.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlGrids
@@ -267,6 +268,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     var sites = new Dictionary<string, SiteModel>();
                     var issues = new Dictionary<string, IssueModel>();
                     var results = new Dictionary<string, ResultModel>();
+                    Dictionary<string, ServerScriptModelColumn> serverScriptValues = null;
                     columns.ForEach(column =>
                     {
                         var key = column.TableName();
@@ -285,7 +287,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: deptModel.Mine(context: context));
-                                    deptModel.SetByBeforeOpeningPageServerScript(
+                                    serverScriptValues = deptModel.SetByBeforeOpeningPageServerScript(
                                         context: context,
                                         ss: ss);
                                 }
@@ -308,7 +310,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: groupModel.Mine(context: context));
-                                    groupModel.SetByBeforeOpeningPageServerScript(
+                                    serverScriptValues = groupModel.SetByBeforeOpeningPageServerScript(
                                         context: context,
                                         ss: ss);
                                 }
@@ -331,7 +333,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: registrationModel.Mine(context: context));
-                                    registrationModel.SetByBeforeOpeningPageServerScript(
+                                    serverScriptValues = registrationModel.SetByBeforeOpeningPageServerScript(
                                         context: context,
                                         ss: ss);
                                 }
@@ -354,7 +356,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: userModel.Mine(context: context));
-                                    userModel.SetByBeforeOpeningPageServerScript(
+                                    serverScriptValues = userModel.SetByBeforeOpeningPageServerScript(
                                         context: context,
                                         ss: ss);
                                 }
@@ -380,7 +382,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: siteModel.Mine(context: context));
-                                    siteModel.SetByBeforeOpeningPageServerScript(
+                                    serverScriptValues = siteModel.SetByBeforeOpeningPageServerScript(
                                         context: context,
                                         ss: ss);
                                 }
@@ -407,7 +409,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: issueModel.Mine(context: context));
-                                    issueModel.SetByBeforeOpeningPageServerScript(
+                                    serverScriptValues = issueModel.SetByBeforeOpeningPageServerScript(
                                         context: context,
                                         ss: ss);
                                 }
@@ -431,7 +433,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         context: context,
                                         ss: column.SiteSettings,
                                         column: column,
-                                        issueModel: issueModel);
+                                        issueModel: issueModel,
+                                        serverScriptValues: serverScriptValues
+                                            ?.Get(column?.ColumnName));
                                 }
                                 break;
                             case "Results":
@@ -451,7 +455,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: resultModel.Mine(context: context));
-                                    resultModel.SetByBeforeOpeningPageServerScript(
+                                    serverScriptValues = resultModel.SetByBeforeOpeningPageServerScript(
                                         context: context,
                                         ss: ss);
                                 }
@@ -475,7 +479,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         context: context,
                                         ss: column.SiteSettings,
                                         column: column,
-                                        resultModel: resultModel);
+                                        resultModel: resultModel,
+                                        serverScriptValues: serverScriptValues
+                                            ?.Get(column?.ColumnName));
                                 }
                                 break;
                         }

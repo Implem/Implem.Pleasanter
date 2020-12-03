@@ -1,29 +1,29 @@
 ﻿{
-    "Id": "HtmlTitle",
+    "Id": "ExactMatch",
     "Type": 110,
     "Languages": [
         {
-            "Body": "HTML title"
+            "Body": "Exact match"
         },
         {
             "Language": "zh",
-            "Body": "HTML标题"
+            "Body": "完全符合"
         },
         {
             "Language": "ja",
-            "Body": "HTMLタイトル"
+            "Body": "完全一致"
         },
         {
             "Language": "de",
-            "Body": "HTML-Titel"
+            "Body": "Genaue Übereinstimmung"
         },
         {
             "Language": "ko",
-            "Body": "HTML 제목"
+            "Body": "정확히 일치"
         },
         {
             "Language": "es",
-            "Body": "Título HTML"
+            "Body": "Coincidencia exacta"
         }
     ]
 }

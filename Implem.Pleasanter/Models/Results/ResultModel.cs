@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
+using static Implem.Pleasanter.Models.ServerScriptModel;
 namespace Implem.Pleasanter.Models
 {
     [Serializable]
@@ -646,13 +647,18 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
+            where = where ?? Rds.ResultsWhereDefault(this);
+            new View().SetColumnsWhere(
+                context: context,
+                ss: ss,
+                where: where);
             Set(context, ss, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectResults(
                     tableType: tableType,
                     column: column ?? Rds.ResultsEditorColumns(ss),
                     join: join ??  Rds.ResultsJoinDefault(),
-                    where: where ?? Rds.ResultsWhereDefault(this),
+                    where: where,
                     orderBy: orderBy,
                     param: param,
                     distinct: distinct,

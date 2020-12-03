@@ -58,7 +58,7 @@ namespace Implem.Pleasanter
                 },
                 constraints: new
                 {
-                    Guid = "[A-Z0-9]+",
+                    Guid = "[A-Za-z0-9]+",
                     Action = "[A-Za-z][A-Za-z0-9_]*"
                 }
             );

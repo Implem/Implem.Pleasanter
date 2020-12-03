@@ -10,6 +10,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static Implem.Pleasanter.Models.ServerScriptModel;
 namespace Implem.Pleasanter.Models
 {
     public class BaseModel
@@ -676,10 +677,35 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        public virtual void SetByBeforeOpeningPageServerScript(
+        public virtual Dictionary<string, ServerScriptModelColumn> SetByBeforeOpeningPageServerScript(
             Context context,
             SiteSettings ss)
         {
+            return null;
+        }
+
+        public void SetByWhenloadingSiteSettingsServerScript(
+            Context context,
+            SiteSettings ss)
+        {
+            if (context.Id == ss.SiteId)
+            {
+                switch (context.Action)
+                {
+                    case "createbytemplate":
+                    case "edit":
+                    case "update":
+                    case "copy":
+                    case "delete":
+                        return;
+                }
+            }
+            ServerScriptUtilities.Execute(
+                context: context,
+                ss: ss,
+                itemModel: null,
+                view: null,
+                where: script => script.WhenloadingSiteSettings == true);
         }
     }
 
@@ -722,6 +748,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 itemModel: this,
+                view: null,
                 where: script => script.BeforeFormula == true);
         }
 
@@ -731,18 +758,21 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 itemModel: this,
+                view: null,
                 where: script => script.AfterFormula == true);
         }
 
-        public override void SetByBeforeOpeningPageServerScript(
+        public override Dictionary<string, ServerScriptModelColumn> SetByBeforeOpeningPageServerScript(
             Context context,
             SiteSettings ss)
         {
-            ServerScriptUtilities.Execute(
+            var scriptValues = ServerScriptUtilities.Execute(
                 context: context,
                 ss: ss,
                 itemModel: this,
+                view: null,
                 where: script => script.BeforeOpeningPage == true);
+            return scriptValues;
         }
     }
 }

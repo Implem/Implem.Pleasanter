@@ -2339,6 +2339,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ExactMatch(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ExactMatch",
+                data: data);
+        }
+
         public static string Excel(
             Context context,
             params string[] data)
@@ -2736,6 +2746,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Formulas",
+                data: data);
+        }
+
+        public static string ForwardMatch(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ForwardMatch",
                 data: data);
         }
 
@@ -7486,6 +7506,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Weekly",
+                data: data);
+        }
+
+        public static string WhenloadingSiteSettings(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "WhenloadingSiteSettings",
+                data: data);
+        }
+
+        public static string WhenViewProcessing(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "WhenViewProcessing",
                 data: data);
         }
 

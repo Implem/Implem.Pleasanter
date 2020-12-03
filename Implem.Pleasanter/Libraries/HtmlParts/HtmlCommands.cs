@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Html;
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
@@ -209,7 +210,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                     method: "get",
                                                     _using: ss.MoveTargets?.Any() == true
                                                         && context.CanUpdate(ss: ss)
-                                                        && !ss.GridColumnsHasSources(gridColumns: view?.GridColumns))
+                                                        && !ss.GridColumnsHasSources(gridColumns: view?.GridColumns)
+                                                        && ss.MoveTargetsOptions(sites: ss.NumberOfMoveTargetsTable(context: context))
+                                                            .Any(o => ss.MoveTargets.Contains(o.Key.ToLong())))
                                                 .Button(
                                                     text: Displays.BulkDelete(context: context),
                                                     controlCss: "button-icon",
@@ -328,7 +331,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     method: "get",
                     _using: moveButton
                         && ss.MoveTargets?.Any() == true
-                        && context.CanUpdate(ss: ss))
+                        && context.CanUpdate(ss: ss)
+                        && ss.MoveTargetsOptions(sites: ss.NumberOfMoveTargetsTable(context: context))
+                            .Any(o => ss.MoveTargets.Contains(o.Key.ToLong())))
                 .Button(
                     controlId: "EditOutgoingMail",
                     text: Displays.Mail(context: context),

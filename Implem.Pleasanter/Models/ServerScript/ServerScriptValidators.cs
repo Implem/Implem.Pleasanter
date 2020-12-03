@@ -19,6 +19,7 @@ namespace Implem.Pleasanter.Models
                         ColumnHash = new Dictionary<string, Column>()
                     },
                     itemModel: new BaseItemModel(),
+                    view: null,
                     scripts: new ServerScript[]
                     {
                         serverScript

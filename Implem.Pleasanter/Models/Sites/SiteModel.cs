@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
+using static Implem.Pleasanter.Models.ServerScriptModel;
 namespace Implem.Pleasanter.Models
 {
     [Serializable]
@@ -521,13 +522,14 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
+            where = where ?? Rds.SitesWhereDefault(this);
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectSites(
                     tableType: tableType,
                     column: column ?? Rds.SitesDefaultColumns(),
                     join: join ??  Rds.SitesJoinDefault(),
-                    where: where ?? Rds.SitesWhereDefault(this),
+                    where: where,
                     orderBy: orderBy,
                     param: param,
                     distinct: distinct,
@@ -4356,8 +4358,10 @@ namespace Implem.Pleasanter.Models
                 id: context.Forms.Int("ServerScriptId"),
                 title: context.Forms.Data("ServerScriptTitle"),
                 beforeOpeningPage: context.Forms.Bool("ServerScriptBeforeOpeningPage"),
+                whenViewProcessing: context.Forms.Bool("ServerScriptWhenViewProcessing"),
                 beforeFormula: context.Forms.Bool("ServerScriptBeforeFormula"),
                 afterFormula: context.Forms.Bool("ServerScriptAfterFormula"),
+                whenloadingSiteSettings: context.Forms.Bool("ServerScriptWhenloadingSiteSettings"),
                 body: context.Forms.Data("ServerScriptBody"));
             var invalid = ServerScriptValidators.OnCreating(
                 context: context,
@@ -4373,8 +4377,10 @@ namespace Implem.Pleasanter.Models
                 id: SiteSettings.ServerScripts.MaxOrDefault(o => o.Id) + 1,
                 title: script.Title,
                 beforeOpeningPage: script.BeforeOpeningPage ?? default,
+                whenViewProcessing: script.WhenViewProcessing ?? default,
                 beforeFormula: script.BeforeFormula ?? default,
                 afterFormula: script.AfterFormula ?? default,
+                whenloadingSiteSettings: script.WhenloadingSiteSettings ?? default,
                 body: script.Body));
             res
                 .ReplaceAll("#EditServerScript", new HtmlBuilder()
@@ -4393,8 +4399,10 @@ namespace Implem.Pleasanter.Models
                 id: context.Forms.Int("ServerScriptId"),
                 title: context.Forms.Data("ServerScriptTitle"),
                 beforeOpeningPage: context.Forms.Bool("ServerScriptBeforeOpeningPage"),
+                whenViewProcessing: context.Forms.Bool("ServerScriptWhenViewProcessing"),
                 beforeFormula: context.Forms.Bool("ServerScriptBeforeFormula"),
                 afterFormula: context.Forms.Bool("ServerScriptAfterFormula"),
+                whenloadingSiteSettings: context.Forms.Bool("ServerScriptWhenloadingSiteSettings"),
                 body: context.Forms.Data("ServerScriptBody"));
             var invalid = ServerScriptValidators.OnUpdating(
                 context: context,
@@ -4411,8 +4419,10 @@ namespace Implem.Pleasanter.Models
                 .Update(
                     title: script.Title,
                     beforeOpeningPage: script.BeforeOpeningPage ?? default,
+                    whenViewProcessing: script.WhenViewProcessing ?? default,
                     beforeFormula: script.BeforeFormula ?? default,
                     afterFormula: script.AfterFormula ?? default,
+                    whenloadingSiteSettings: script.WhenloadingSiteSettings ?? default,
                     body: script.Body);
             res
                 .Html("#EditServerScript", new HtmlBuilder()

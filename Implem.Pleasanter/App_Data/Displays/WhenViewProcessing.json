@@ -1,29 +1,29 @@
 ﻿{
-    "Id": "HtmlTitle",
+    "Id": "WhenViewProcessing",
     "Type": 110,
     "Languages": [
         {
-            "Body": "HTML title"
+            "Body": "When view processing"
         },
         {
             "Language": "zh",
-            "Body": "HTML标题"
+            "Body": "查看处理时"
         },
         {
             "Language": "ja",
-            "Body": "HTMLタイトル"
+            "Body": "ビュー処理時"
         },
         {
             "Language": "de",
-            "Body": "HTML-Titel"
+            "Body": "Bei der Ansichtsverarbeitung"
         },
         {
             "Language": "ko",
-            "Body": "HTML 제목"
+            "Body": "조회 처리시"
         },
         {
             "Language": "es",
-            "Body": "Título HTML"
+            "Body": "Al ver el procesamiento"
         }
     ]
 }

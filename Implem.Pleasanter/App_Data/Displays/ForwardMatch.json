@@ -1,29 +1,29 @@
 ﻿{
-    "Id": "HtmlTitle",
+    "Id": "ForwardMatch",
     "Type": 110,
     "Languages": [
         {
-            "Body": "HTML title"
+            "Body": "Forward match"
         },
         {
             "Language": "zh",
-            "Body": "HTML标题"
+            "Body": "向前比赛"
         },
         {
             "Language": "ja",
-            "Body": "HTMLタイトル"
+            "Body": "前方一致"
         },
         {
             "Language": "de",
-            "Body": "HTML-Titel"
+            "Body": "Vorwärtsspiel"
         },
         {
             "Language": "ko",
-            "Body": "HTML 제목"
+            "Body": "포워드 매치"
         },
         {
             "Language": "es",
-            "Body": "Título HTML"
+            "Body": "Adelante partido"
         }
     ]
 }

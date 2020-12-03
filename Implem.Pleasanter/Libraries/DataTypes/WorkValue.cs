@@ -9,6 +9,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Data;
 using Implem.Pleasanter.Libraries.Requests;
+using static Implem.Pleasanter.Models.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
     [Serializable]
@@ -49,10 +50,15 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 value: Value);
         }
 
-        public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column, int? tabIndex)
+        public HtmlBuilder Td(
+            HtmlBuilder hb,
+            Context context,
+            Column column,
+            int? tabIndex,
+            ServerScriptModelColumn serverScriptValues)
         {
             return hb.Td(
-                css: column.CellCss(),
+                css: column.CellCss(serverScriptValues?.ExtendedCellCss),
                 action: () => Svg(
                     hb: hb,
                     context: context,

@@ -15,9 +15,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
     {
         public static bool Authenticate(Context context, string loginId, string password)
         {
-            DirectorySearcher searcher = null;
             foreach (var ldap in Parameters.Authentication.LdapParameters)
             {
+                DirectorySearcher searcher;
                 try
                 {
                     searcher = DirectorySearcher(
@@ -49,7 +49,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 {
                     UpdateOrInsert(
                         context: context,
-                        loginId: loginId,
                         result: result,
                         ldap: ldap,
                         synchronizedTime: DateTime.Now);
@@ -73,7 +72,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     SearchResult result = searcher.FindOne();
                     UpdateOrInsert(
                         context: context,
-                        loginId: loginId,
                         result: result,
                         ldap: ldap,
                         synchronizedTime: DateTime.Now);
@@ -87,7 +85,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         private static void UpdateOrInsert(
             Context context,
-            string loginId,
             SearchResult result,
             ParameterAccessor.Parts.Ldap ldap,
             DateTime synchronizedTime)
@@ -106,6 +103,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 context: context,
                 name: ldap.LdapUserCode,
                 pattern: ldap.LdapUserCodePattern);
+            var loginId = LoginId(
+                context: context,
+                ldap: ldap,
+                result: result);
             var name = Name(
                 context: context,
                 loginId: loginId,
@@ -253,29 +254,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     if (Enabled(result, ldap))
                     {
                         logs.Add("result", result.Path);
-                        if (Authentications.Windows())
-                        {
-                            UpdateOrInsert(
-                                context: context,
-                                loginId: NetBiosName(
-                                    context: context,
-                                    result: result,
-                                    ldap: ldap),
-                                result: result,
-                                ldap: ldap,
-                                synchronizedTime: synchronizedTime);
-                        }
-                        else
-                        {
-                            UpdateOrInsert(
-                                context: context,
-                                loginId: result.Property(
-                                    context: context,
-                                    name: ldap.LdapSearchProperty),
-                                result: result,
-                                ldap: ldap,
-                                synchronizedTime: synchronizedTime);
-                        }
+                        UpdateOrInsert(
+                            context: context,
+                            result: result,
+                            ldap: ldap,
+                            synchronizedTime: synchronizedTime);
                     }
                 }
             }
@@ -339,6 +322,22 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 }
             }
             return string.Empty;
+        }
+
+        private static string LoginId(
+            Context context,
+            ParameterAccessor.Parts.Ldap ldap,
+            SearchResult result)
+        {
+            var loginId = Authentications.Windows()
+                ? NetBiosName(
+                    context: context,
+                    result: result,
+                    ldap: ldap)
+                : result.Property(
+                    context: context,
+                    name: ldap.LdapSearchProperty);
+            return loginId;
         }
 
         private static string Name(
