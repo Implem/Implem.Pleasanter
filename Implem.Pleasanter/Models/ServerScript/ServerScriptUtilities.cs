@@ -115,7 +115,8 @@ namespace Implem.Pleasanter.Models
                         definition.ColumnName,
                         new ServerScriptModelColumn
                         {
-                            ReadOnly = !(column?.CanRead == true && column?.CanUpdate == true)
+                            ReadOnly = !(column?.CanRead == true && column?.CanUpdate == true),
+                            ExtendedCellCss = string.Empty
                         });
                 })
                 .ToArray();
@@ -136,20 +137,27 @@ namespace Implem.Pleasanter.Models
             return columns;
         }
 
-        private static void SetColumns(SiteSettings ss, ExpandoObject columns)
+        private static Dictionary<string, ServerScriptModelColumn> SetColumns(SiteSettings ss, ExpandoObject columns)
         {
+            var scriptValues = new Dictionary<string, ServerScriptModelColumn>();
             columns?.ForEach(datam =>
             {
                 if (!ss.ColumnHash.TryGetValue(datam.Key, out var column))
                 {
                     return;
                 }
+                var serverScriptColumn = datam.Value as ServerScriptModelColumn;
+                scriptValues[datam.Key] = new ServerScriptModelColumn
+                {
+                    ExtendedCellCss = serverScriptColumn?.ExtendedCellCss
+                };
                 if (!column.CanUpdate)
                 {
                     return;
                 }
-                column.CanUpdate = (datam.Value as ServerScriptModelColumn)?.ReadOnly == false;
+                column.CanUpdate = serverScriptColumn?.ReadOnly == false;
             });
+            return scriptValues;
         }
 
         private static void SetExtendedColumnValues(
@@ -361,7 +369,7 @@ namespace Implem.Pleasanter.Models
             ss.GridView = ss?.Views?.Any(v => v.Id == viewId) == true ? viewId : default;
         }
 
-        public static void SetValues(
+        public static Dictionary<string, ServerScriptModelColumn> SetValues(
             Context context,
             SiteSettings ss,
             BaseItemModel model,
@@ -375,7 +383,7 @@ namespace Implem.Pleasanter.Models
                 .ToDictionary(
                     column => column.ColumnName,
                     column => column);
-            SetColumns(
+            var scriptValues = SetColumns(
                 ss: ss,
                 columns: data.Columns);
             SetExtendedColumnValues(
@@ -417,9 +425,10 @@ namespace Implem.Pleasanter.Models
             SetViewValues(
                 ss: ss,
                 data: data.SiteSettings);
+            return scriptValues;
         }
 
-        public static void Execute(
+        public static Dictionary<string, ServerScriptModelColumn> Execute(
             Context context,
             SiteSettings ss,
             BaseItemModel itemModel,
@@ -429,7 +438,7 @@ namespace Implem.Pleasanter.Models
             if (!(Parameters.Script.ServerScript != false
                 && context.ContractSettings.Script != false))
             {
-                return;
+                return null;
             }
             itemModel = itemModel ?? new BaseItemModel();
             using (var model = new ServerScriptModel(
@@ -440,8 +449,6 @@ namespace Implem.Pleasanter.Models
                 columnFilterHach: view?.ColumnFilterHash,
                 columnSorterHach: view?.ColumnSorterHash))
             {
-                //using (var engine = new Microsoft.ClearScript.V8.V8ScriptEngine(
-                //    Microsoft.ClearScript.V8.V8ScriptEngineFlags.EnableDateTimeConversion))
                 using (var engine = context.CreateScriptEngin())
                 {
                     engine.AddHostObject("context", model.Context);
@@ -454,16 +461,17 @@ namespace Implem.Pleasanter.Models
                         engine.Execute(script.Body);
                     }
                 }
-                SetValues(
+                var scriptValues = SetValues(
                     context: context,
                     ss: ss,
                     model: itemModel,
                     view: view,
                     data: model);
+                return scriptValues;
             }
         }
 
-        public static void Execute(
+        public static Dictionary<string, ServerScriptModelColumn> Execute(
             Context context,
             SiteSettings ss,
             BaseItemModel itemModel,
@@ -473,7 +481,7 @@ namespace Implem.Pleasanter.Models
             if (!(Parameters.Script.ServerScript != false
                 && context.ContractSettings.Script != false))
             {
-                return;
+                return null;
             }
             var serverScripts = ss
                 ?.ServerScripts
@@ -481,7 +489,7 @@ namespace Implem.Pleasanter.Models
                 .ToArray();
             if (serverScripts?.Any() != true)
             {
-                return;
+                return null;
             }
             ss.SetColumnAccessControls(
                 context: context,
@@ -490,12 +498,13 @@ namespace Implem.Pleasanter.Models
                     : (itemModel is IssueModel issueModel)
                         ? issueModel.Mine(context: context)
                         : null);
-            Execute(
+            var scriptValues = Execute(
                 context: context,
                 ss: ss,
                 itemModel: itemModel,
                 view: view,
                 scripts: serverScripts);
+            return scriptValues;
         }
     }
 }

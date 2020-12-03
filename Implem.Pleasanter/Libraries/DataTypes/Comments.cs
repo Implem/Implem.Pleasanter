@@ -10,6 +10,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static Implem.Pleasanter.Models.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
     public class Comments : List<Comment>, IConvertable
@@ -84,11 +85,16 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return string.Empty;
         }
 
-        public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column, int? tabIndex)
+        public HtmlBuilder Td(
+            HtmlBuilder hb,
+            Context context,
+            Column column,
+            int? tabIndex,
+            ServerScriptModelColumn serverScriptValues)
         {
             var css = GridCss(context: context);
             return hb.Td(
-                css: column.CellCss(),
+                css: column.CellCss(serverScriptValues?.ExtendedCellCss),
                 action: () => this?
                     .Take(DisplayCount(context: context))
                     .ForEach(comment => comment

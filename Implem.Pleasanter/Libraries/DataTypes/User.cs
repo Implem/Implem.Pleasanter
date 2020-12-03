@@ -11,6 +11,7 @@ using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Data;
+using static Implem.Pleasanter.Models.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
     [Serializable]
@@ -118,11 +119,16 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     userId: Id);
         }
 
-        public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column, int? tabIndex)
+        public HtmlBuilder Td(
+            HtmlBuilder hb,
+            Context context,
+            Column column,
+            int? tabIndex,
+            ServerScriptModelColumn serverScriptValues)
         {
             return Id != UserTypes.Anonymous.ToInt()
                 ? hb.Td(
-                    css: column.CellCss(),
+                    css: column.CellCss(serverScriptValues?.ExtendedCellCss),
                     action: () => hb
                         .HtmlUser(
                             context: context,
