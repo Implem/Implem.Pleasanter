@@ -62,6 +62,13 @@ $p.send = function ($control, formId, _async, clearMessage) {
     var url = action !== undefined
         ? $form.attr('action').replace('_action_', action.toLowerCase())
         : location.href;
+    var fieldSetTab = parseInt(
+        [].concat(($('li[role="tab"][aria-selected=true][aria-controls^=FieldSetTab]')
+            .attr('aria-controls') + '').match(/\d+$/))[0],
+        10);
+    if (!isNaN(fieldSetTab)) {
+        url += ((url + '').indexOf('?') > -1 ? '&' : '?') + "TabIndex=" + fieldSetTab;
+    }
     _async = _async !== undefined ? _async : true;
     if (methodType !== 'get') {
         data.ControlId = $control.attr('id');
