@@ -226,6 +226,18 @@ namespace Implem.Pleasanter.Models
             return scriptValues;
         }
 
+        private static ServerScriptModelRow SetRow(SiteSettings ss, ExpandoObject model, ExpandoObject columns)
+        {
+            var row = new ServerScriptModelRow
+            {
+                ExtendedRowCss = String(model, nameof(ServerScriptModelRow.ExtendedRowCss)),
+                Columns = SetColumns(
+                    ss: ss,
+                    columns: columns)
+            };
+            return row;
+        }
+
         private static void SetExtendedColumnValues(
             Context context,
             BaseItemModel model,
@@ -435,7 +447,7 @@ namespace Implem.Pleasanter.Models
             ss.GridView = ss?.Views?.Any(v => v.Id == viewId) == true ? viewId : default;
         }
 
-        public static Dictionary<string, ServerScriptModelColumn> SetValues(
+        public static ServerScriptModelRow SetValues(
             Context context,
             SiteSettings ss,
             BaseItemModel model,
@@ -449,8 +461,9 @@ namespace Implem.Pleasanter.Models
                 .ToDictionary(
                     column => column.ColumnName,
                     column => column);
-            var scriptValues = SetColumns(
+            var scriptValues = SetRow(
                 ss: ss,
+                model: data.Data,
                 columns: data.Columns);
             SetExtendedColumnValues(
                 context: context,
@@ -494,7 +507,7 @@ namespace Implem.Pleasanter.Models
             return scriptValues;
         }
 
-        public static Dictionary<string, ServerScriptModelColumn> Execute(
+        public static ServerScriptModelRow Execute(
             Context context,
             SiteSettings ss,
             BaseItemModel itemModel,
@@ -539,7 +552,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static Dictionary<string, ServerScriptModelColumn> Execute(
+        public static ServerScriptModelRow Execute(
             Context context,
             SiteSettings ss,
             BaseItemModel itemModel,
