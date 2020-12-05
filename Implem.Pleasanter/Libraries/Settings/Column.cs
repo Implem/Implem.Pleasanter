@@ -603,7 +603,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (TypeCs == "Comments")
             {
                 return new Comments().Prepend(
-                    context: context, ss: SiteSettings, body: value).ToJson();
+                    context: context,
+                    ss: SiteSettings,
+                    body: value)
+                        .ToJson();
             }
             else if (TypeName == "datetime")
             {
@@ -619,23 +622,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Select(o => o.First())
                         .ToDictionary(o => o.Value.Text, o => o.Key);
                 }
-                recordingData = ChoiceValueHash.Get(value);
-                if (Type == Types.User && recordingData == null)
-                {
-                    if (SiteUserHash == null)
-                    {
-                        SiteUserHash = SiteInfo.SiteUsers(context: context, siteId: siteId)
-                            .Where(id => userHash.ContainsKey(id))
-                            .GroupBy(id => userHash.Get(id)?.Name)
-                            .Select(id => id.First())
-                            .ToDictionary(id => userHash.Get(id)?.Name, o => o);
-                    }
-                    var userId = SiteUserHash.Get(value);
-                    recordingData = userId != 0
-                        ? userId.ToString()
-                        : User.UserTypes.Anonymous.ToInt().ToString();
-                }
-                recordingData = recordingData ?? value;
+                recordingData = ChoiceValueHash.Get(value) ?? value;
             }
             return recordingData ?? string.Empty;
         }
