@@ -92,6 +92,12 @@ namespace Implem.Pleasanter.Models
             public string ExtendedCellCss { get; set; }
         }
 
+        public class ServerScriptModelRow
+        {
+            public string ExtendedRowCss { get; set; }
+            public Dictionary<string, ServerScriptModelColumn> Columns { get; set; }
+        }
+
         public class ServerScriptModelView
         {
             public readonly ExpandoObject Filters = new ExpandoObject();
