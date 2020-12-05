@@ -676,7 +676,7 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        public virtual Dictionary<string, ServerScriptModelColumn> SetByBeforeOpeningPageServerScript(
+        public virtual ServerScriptModelRow SetByBeforeOpeningPageServerScript(
             Context context,
             SiteSettings ss)
         {
@@ -761,7 +761,7 @@ namespace Implem.Pleasanter.Models
                 where: script => script.AfterFormula == true);
         }
 
-        public override Dictionary<string, ServerScriptModelColumn> SetByBeforeOpeningPageServerScript(
+        public override ServerScriptModelRow SetByBeforeOpeningPageServerScript(
             Context context,
             SiteSettings ss)
         {
