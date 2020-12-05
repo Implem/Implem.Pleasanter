@@ -161,8 +161,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public Dictionary<string, string> ChoiceValueHash;
         [NonSerialized]
-        public Dictionary<string, int> SiteUserHash;
-        [NonSerialized]
         public bool CanCreate = true;
         [NonSerialized]
         public bool CanRead = true;
@@ -564,35 +562,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case ExportColumn.Types.Text: return choice.Text;
                 case ExportColumn.Types.TextMini: return choice.TextMini;
                 default: return choice.Text;
-            }
-        }
-
-        private void AddNotIncludedValue(Context context, string selectedValue)
-        {
-            if (ChoiceHash?.ContainsKey(selectedValue) == false)
-            {
-                switch (Type)
-                {
-                    case Types.User:
-                        var user = SiteInfo.User(
-                            context: context,
-                            userId: selectedValue.ToInt());
-                        if (!user.Anonymous())
-                        {
-                            ChoiceHash.Add(selectedValue, new Choice(user.Name));
-                        }
-                        break;
-                    default:
-                        var name = SiteInfo.Name(
-                            context: context,
-                            id: selectedValue.ToInt(),
-                            type: Type);
-                        if (!name.IsNullOrEmpty())
-                        {
-                            ChoiceHash.Add(selectedValue, new Choice(name));
-                        }
-                        break;
-                }
             }
         }
 
