@@ -484,10 +484,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                     default:
                         ChoiceHash.AddIfNotConainsKey(
                             value,
-                            new Choice(SiteInfo.Name(
-                                context: context,
-                                id: value.ToInt(),
-                                type: Type)));
+                            new Choice(
+                                value: value,
+                                text: SiteInfo.Name(
+                                    context: context,
+                                    id: value.ToInt(),
+                                    type: Type)));
                         break;
                 }
             }
