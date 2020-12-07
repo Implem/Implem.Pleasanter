@@ -49,7 +49,8 @@ namespace Implem.Pleasanter.Models
                     Rds.PhysicalDeleteSessions(
                         where: Rds.SessionsWhere()
                             .SessionGuid(sessionGuid ?? context.SessionGuid)
-                            .ReadOnce(true)),
+                            .ReadOnce(true),
+                        _using: context.ApiRequestBody == null),
                     Rds.PhysicalDeleteSessions(
                         where: Rds.SessionsWhere()
                             .UpdatedTime(
