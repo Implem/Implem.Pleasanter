@@ -576,8 +576,10 @@ namespace Implem.Pleasanter.Models
                         fieldDescription: column.Description,
                         labelText: column.LabelText,
                         value: attachments.ToJson(),
-                        readOnly: column.ColumnPermissionType(context: context)
-                            != Permissions.ColumnPermissionTypes.Update))
+                        readOnly: column.ColumnPermissionType(
+                            context: context,
+                            baseModel: null)
+                                != Permissions.ColumnPermissionTypes.Update))
                 .SetData("#" + controlId)
                 .ToJson();
         }

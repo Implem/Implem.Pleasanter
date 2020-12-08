@@ -5,6 +5,7 @@ using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
@@ -450,7 +451,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         context: context,
                                         ss: ss);
                                 }
-                                if (!issueModel.Locked && EditColumns.Get(column.ColumnName))
+                                if (!issueModel.Locked && EditColumns.Get(column.ColumnName) && column.CanUpdate(baseModel: issueModel))
                                 {
                                     hb.Td(
                                         css: column.TextAlign == SiteSettings.TextAlignTypes.Right
@@ -497,7 +498,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         context: context,
                                         ss: ss);
                                 }
-                                if (!resultModel.Locked && EditColumns.Get(column.ColumnName))
+                                if (!resultModel.Locked && EditColumns.Get(column.ColumnName) && column.CanUpdate(baseModel: resultModel))
                                 {
                                     hb.Td(
                                         css: column.TextAlign == SiteSettings.TextAlignTypes.Right
