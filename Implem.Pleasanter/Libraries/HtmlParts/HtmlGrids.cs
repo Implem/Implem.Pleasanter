@@ -11,7 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using static Implem.Pleasanter.Models.ServerScriptModel;
+using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlGrids

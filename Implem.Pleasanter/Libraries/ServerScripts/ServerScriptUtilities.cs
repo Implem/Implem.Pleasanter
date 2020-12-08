@@ -8,9 +8,9 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using Implem.Pleasanter.Models;
-using static Implem.Pleasanter.Models.ServerScriptModel;
+using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 using Implem.Libraries.DataSources.SqlServer;
-namespace Implem.Pleasanter.Models
+namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public static class ServerScriptUtilities
     {
