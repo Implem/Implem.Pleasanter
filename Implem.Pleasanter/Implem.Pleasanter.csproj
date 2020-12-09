@@ -378,6 +378,9 @@
     <Compile Include="Libraries\Responses\ResponseViewModes.cs" />
     <Compile Include="Libraries\Security\Defenses.cs" />
     <Compile Include="Libraries\Security\Permission.cs" />
+    <Compile Include="Libraries\ServerScripts\ServerScriptModel.cs" />
+    <Compile Include="Libraries\ServerScripts\ServerScriptUtilities.cs" />
+    <Compile Include="Libraries\ServerScripts\ServerScriptValidators.cs" />
     <Compile Include="Libraries\Server\IpAddress.cs" />
     <Compile Include="Libraries\Server\IpRange.cs" />
     <Compile Include="Libraries\Server\Stopwatch.cs" />
@@ -604,9 +607,6 @@
     <Compile Include="Models\Results\ResultModel.cs" />
     <Compile Include="Models\Results\ResultUtilities.cs" />
     <Compile Include="Models\Results\ResultValidators.cs" />
-    <Compile Include="Models\ServerScript\ServerScriptModel.cs" />
-    <Compile Include="Models\ServerScript\ServerScriptUtilities.cs" />
-    <Compile Include="Models\ServerScript\ServerScriptValidators.cs" />
     <Compile Include="Models\Sessions\SessionCollection.cs" />
     <Compile Include="Models\Sessions\SessionModel.cs" />
     <Compile Include="Models\Sessions\SessionUtilities.cs" />

@@ -4,12 +4,13 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using static Implem.Pleasanter.Models.ServerScriptModel;
-namespace Implem.Pleasanter.Models
+using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
+namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public static class ServerScriptUtilities
     {
@@ -84,7 +85,7 @@ namespace Implem.Pleasanter.Models
                 .Select(element => ReadNameValue(
                     ss: ss,
                     columnName: element.Key,
-                    value: element.Value))) ;
+                    value: element.Value)));
             values.AddRange(model
                 .DateHash
                 .Select(element => ReadNameValue(
@@ -202,7 +203,9 @@ namespace Implem.Pleasanter.Models
             return columns;
         }
 
-        private static Dictionary<string, ServerScriptModelColumn> SetColumns(SiteSettings ss, ExpandoObject columns)
+        private static Dictionary<string, ServerScriptModelColumn> SetColumns(
+            SiteSettings ss,
+            ExpandoObject columns)
         {
             var scriptValues = new Dictionary<string, ServerScriptModelColumn>();
             columns?.ForEach(datam =>
@@ -214,18 +217,17 @@ namespace Implem.Pleasanter.Models
                 var serverScriptColumn = datam.Value as ServerScriptModelColumn;
                 scriptValues[datam.Key] = new ServerScriptModelColumn
                 {
-                    ExtendedCellCss = serverScriptColumn?.ExtendedCellCss
+                    ExtendedCellCss = serverScriptColumn?.ExtendedCellCss,
+                    ReadOnly = !(column.CanUpdate && serverScriptColumn?.ReadOnly != true)
                 };
-                if (!column.CanUpdate)
-                {
-                    return;
-                }
-                column.CanUpdate = serverScriptColumn?.ReadOnly == false;
             });
             return scriptValues;
         }
 
-        private static ServerScriptModelRow SetRow(SiteSettings ss, ExpandoObject model, ExpandoObject columns)
+        private static ServerScriptModelRow SetRow(
+            SiteSettings ss,
+            ExpandoObject model,
+            ExpandoObject columns)
         {
             var row = new ServerScriptModelRow
             {
@@ -257,13 +259,13 @@ namespace Implem.Pleasanter.Models
             View view,
             ExpandoObject columnFilterHach)
         {
-            if(view == null)
+            if (view == null)
             {
                 return;
             }
             columnFilterHach?.ForEach(columnFilter =>
             {
-                if(view.ColumnFilterHash == null)
+                if (view.ColumnFilterHash == null)
                 {
                     view.ColumnFilterHash = new Dictionary<string, string>();
                 }
@@ -286,7 +288,7 @@ namespace Implem.Pleasanter.Models
                 {
                     view.ColumnSorterHash = new Dictionary<string, SqlOrderBy.Types>();
                 }
-                if(Enum.TryParse<SqlOrderBy.Types>(String(columnSorterHach, columnFilter.Key), out var value))
+                if (Enum.TryParse<SqlOrderBy.Types>(String(columnSorterHach, columnFilter.Key), out var value))
                 {
                     view.ColumnSorterHash[columnFilter.Key] = value;
                 }
@@ -587,6 +589,35 @@ namespace Implem.Pleasanter.Models
                 view: view,
                 scripts: serverScripts);
             return scriptValues;
+        }
+
+        private static bool ReadOnly(
+            string columnName,
+            IEnumerable<ServerScriptModelRow> serverScriptModelRows)
+        {
+            var readOnly = serverScriptModelRows
+                ?.Select(row => row?.Columns?.Get(columnName))
+                ?.Any(column => column?.ReadOnly == true) == true;
+            return readOnly;
+        }
+
+        public static bool CanUpdate(
+            this Column column,
+            BaseModel baseModel)
+        {
+            if (column == null)
+            {
+                return false;
+            }
+            if (baseModel == null || baseModel.ServerScriptModelRows?.Any() != true)
+            {
+                return column.CanUpdate;
+            }
+            var serverScriptReadOnly = ReadOnly(
+                columnName: column.ColumnName,
+                serverScriptModelRows: baseModel?.ServerScriptModelRows);
+            var canUpdate = column.CanUpdate && !serverScriptReadOnly;
+            return canUpdate;
         }
     }
 }

@@ -96,8 +96,12 @@ $p.multiUpload = function (url, data, $control, statusBar) {
             return true;
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
-            alert(textStatus + '\n' +
-                $(jqXHR.responseText).text().trim().replace('\n', ''));
+            if (jqXHR.status === 403) {
+                alert(jqXHR.responseJSON.Message);
+            } else {
+                alert(textStatus + '\n' +
+                    $(jqXHR.responseText).text().trim().replace('\n', ''));
+            }
             return false;
         })
         .always(function (jqXHR, textStatus) {

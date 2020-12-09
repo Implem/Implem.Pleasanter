@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Dynamic;
 using System.Linq;
-namespace Implem.Pleasanter.Models
+namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public class ServerScriptModel : IDisposable
     {

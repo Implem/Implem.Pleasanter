@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
-using static Implem.Pleasanter.Models.ServerScriptModel;
+using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Models
 {
     public static class DeptUtilities
@@ -930,7 +930,9 @@ namespace Implem.Pleasanter.Models
         {
             var commentsColumn = ss.GetColumn(context: context, columnName: "Comments");
             var commentsColumnPermissionType = commentsColumn
-                .ColumnPermissionType(context: context);
+                .ColumnPermissionType(
+                    context: context,
+                    baseModel: deptModel);
             var showComments = ss.ShowComments(commentsColumnPermissionType);
             var tabsCss = showComments ? null : "max";
             return hb.Div(id: "Editor", action: () => hb
@@ -1098,7 +1100,9 @@ namespace Implem.Pleasanter.Models
                     column: column,
                     methodType: deptModel.MethodType,
                     value: value,
-                    columnPermissionType: column.ColumnPermissionType(context: context),
+                    columnPermissionType: column.ColumnPermissionType(
+                        context: context,
+                        baseModel: deptModel),
                     controlOnly: controlOnly,
                     alwaysSend: alwaysSend,
                     idSuffix: idSuffix,
@@ -1372,8 +1376,10 @@ namespace Implem.Pleasanter.Models
                                                 fieldDescription: column.Description,
                                                 labelText: column.LabelText,
                                                 value: deptModel.Attachments(columnName: column.Name).ToJson(),
-                                                readOnly: column.ColumnPermissionType(context: context)
-                                                    != Permissions.ColumnPermissionTypes.Update));
+                                                readOnly: column.ColumnPermissionType(
+                                                    context: context,
+                                                    baseModel: deptModel)
+                                                        != Permissions.ColumnPermissionTypes.Update));
                                     break;
                             }
                             break;

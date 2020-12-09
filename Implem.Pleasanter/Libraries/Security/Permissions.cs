@@ -3,6 +3,7 @@ using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Collections.Generic;
@@ -557,8 +558,12 @@ namespace Implem.Pleasanter.Libraries.Security
             return context.Can(ss: ss, type: Types.ManagePermission, site: site);
         }
 
-        public static ColumnPermissionTypes ColumnPermissionType(this Column self, Context context)
+        public static ColumnPermissionTypes ColumnPermissionType(
+            this Column self,
+            Context context,
+            BaseModel baseModel)
         {
+            var canUpdate = self.CanUpdate(baseModel: baseModel);
             switch (context.Action)
             {
                 case "new":
@@ -568,7 +573,7 @@ namespace Implem.Pleasanter.Libraries.Security
                             ? ColumnPermissionTypes.Read
                             : ColumnPermissionTypes.Deny;
                 default:
-                    return self.CanRead && self.CanUpdate
+                    return self.CanRead && canUpdate
                         ? ColumnPermissionTypes.Update
                         : self.CanRead
                             ? ColumnPermissionTypes.Read
@@ -593,7 +598,7 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool CanReadGroup(Context context)
         {
-            return 
+            return
                 context.UserSettings?.DisableGroupAdmin != true &&
                 (context.Id == 0 ||
                 CanManageTenant(context: context) ||

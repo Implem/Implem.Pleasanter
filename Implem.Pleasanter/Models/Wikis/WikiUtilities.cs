@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
-using static Implem.Pleasanter.Models.ServerScriptModel;
+using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Models
 {
     public static class WikiUtilities
@@ -641,7 +641,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 columnName: "Comments");
             var commentsColumnPermissionType = commentsColumn
-                .ColumnPermissionType(context: context);
+                .ColumnPermissionType(
+                    context: context,
+                    baseModel: wikiModel);
             var showComments = ss.ShowComments(commentsColumnPermissionType);
             var tabsCss = showComments ? null : "max";
             return hb.Div(id: "Editor", action: () => hb
@@ -842,7 +844,9 @@ namespace Implem.Pleasanter.Models
                     column: column,
                     methodType: wikiModel.MethodType,
                     value: value,
-                    columnPermissionType: column.ColumnPermissionType(context: context),
+                    columnPermissionType: column.ColumnPermissionType(
+                        context: context,
+                        baseModel: wikiModel),
                     controlOnly: controlOnly,
                     alwaysSend: alwaysSend,
                     idSuffix: idSuffix,
@@ -1334,8 +1338,10 @@ namespace Implem.Pleasanter.Models
                                                 fieldDescription: column.Description,
                                                 labelText: column.LabelText,
                                                 value: wikiModel.Attachments(columnName: column.Name).ToJson(),
-                                                readOnly: column.ColumnPermissionType(context: context)
-                                                    != Permissions.ColumnPermissionTypes.Update));
+                                                readOnly: column.ColumnPermissionType(
+                                                    context: context,
+                                                    baseModel: wikiModel)
+                                                        != Permissions.ColumnPermissionTypes.Update));
                                     break;
                             }
                             break;

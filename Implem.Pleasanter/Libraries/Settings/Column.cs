@@ -634,9 +634,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 value: value,
                 format: format)
                     + (EditorReadOnly == true
-                        || this.ColumnPermissionType(context: context) != Permissions.ColumnPermissionTypes.Update
-                            ? Unit
-                            : string.Empty);
+                        || this.ColumnPermissionType(
+                            context: context,
+                            baseModel: null) != Permissions.ColumnPermissionTypes.Update
+                                ? Unit
+                                : string.Empty);
         }
 
         public string DisplayGrid(Context context, DateTime value)

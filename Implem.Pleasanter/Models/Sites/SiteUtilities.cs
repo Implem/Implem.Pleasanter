@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
-using static Implem.Pleasanter.Models.ServerScriptModel;
+using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Models
 {
     public static class SiteUtilities
@@ -3533,7 +3533,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 columnName: "Comments");
             var commentsColumnPermissionType = commentsColumn
-                .ColumnPermissionType(context: context);
+                .ColumnPermissionType(
+                    context: context,
+                    baseModel: siteModel);
             var showComments = ss.GetEditorColumnNames()?.Contains("Comments") == true &&
                 commentsColumnPermissionType != Permissions.ColumnPermissionTypes.Deny;
             var tabsCss = showComments ? null : "max";

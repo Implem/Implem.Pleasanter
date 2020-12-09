@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
-using static Implem.Pleasanter.Models.ServerScriptModel;
+using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Models
 {
     public static class TenantUtilities
@@ -445,7 +445,9 @@ namespace Implem.Pleasanter.Models
         {
             var commentsColumn = ss.GetColumn(context: context, columnName: "Comments");
             var commentsColumnPermissionType = commentsColumn
-                .ColumnPermissionType(context: context);
+                .ColumnPermissionType(
+                    context: context,
+                    baseModel: tenantModel);
             var showComments = false;
             var tabsCss = showComments ? null : "max";
             return hb.Div(id: "Editor", action: () => hb
@@ -580,7 +582,9 @@ namespace Implem.Pleasanter.Models
                     methodType: tenantModel.MethodType,
                     value: tenantModel.Title
                         .ToControl(context: context, ss: ss, column: title),
-                            columnPermissionType: title.ColumnPermissionType(context: context))
+                    columnPermissionType: title.ColumnPermissionType(
+                        context: context,
+                        baseModel: tenantModel))
                 .FieldDropDown(
                     context: context,
                     controlId: "Tenants_LogoType",
@@ -620,21 +624,27 @@ namespace Implem.Pleasanter.Models
                             column: htmlTitleTop,
                             methodType: tenantModel.MethodType,
                             value: tenantModel.HtmlTitleTop.ToControl(context: context, ss: ss, column: title),
-                            columnPermissionType: htmlTitleTop.ColumnPermissionType(context: context))
+                            columnPermissionType: htmlTitleTop.ColumnPermissionType(
+                                context: context,
+                                baseModel: tenantModel))
                         .Field(
                             context: context,
                             ss: ss,
                             column: htmlTitleSite,
                             methodType: tenantModel.MethodType,
                             value: tenantModel.HtmlTitleSite.ToControl(context: context, ss: ss, column: title),
-                            columnPermissionType: htmlTitleSite.ColumnPermissionType(context: context))
+                            columnPermissionType: htmlTitleSite.ColumnPermissionType(
+                                context: context,
+                                baseModel: tenantModel))
                         .Field(
                             context: context,
                             ss: ss,
                             column: htmlTitleRecord,
                             methodType: tenantModel.MethodType,
                             value: tenantModel.HtmlTitleRecord.ToControl(context: context, ss: ss, column: title),
-                            columnPermissionType: htmlTitleRecord.ColumnPermissionType(context: context)))
+                            columnPermissionType: htmlTitleRecord.ColumnPermissionType(
+                                context: context,
+                                baseModel: tenantModel)))
                 .FieldSet(
                     id: "StorageCheckField",
                     css: " enclosed",
@@ -680,7 +690,9 @@ namespace Implem.Pleasanter.Models
                     column: column,
                     methodType: tenantModel.MethodType,
                     value: value,
-                    columnPermissionType: column.ColumnPermissionType(context: context),
+                    columnPermissionType: column.ColumnPermissionType(
+                        context: context,
+                        baseModel: tenantModel),
                     controlOnly: controlOnly,
                     alwaysSend: alwaysSend,
                     idSuffix: idSuffix,
@@ -960,8 +972,10 @@ namespace Implem.Pleasanter.Models
                                                 fieldDescription: column.Description,
                                                 labelText: column.LabelText,
                                                 value: tenantModel.Attachments(columnName: column.Name).ToJson(),
-                                                readOnly: column.ColumnPermissionType(context: context)
-                                                    != Permissions.ColumnPermissionTypes.Update));
+                                                readOnly: column.ColumnPermissionType(
+                                                    context: context,
+                                                    baseModel: tenantModel)
+                                                        != Permissions.ColumnPermissionTypes.Update));
                                     break;
                             }
                             break;
