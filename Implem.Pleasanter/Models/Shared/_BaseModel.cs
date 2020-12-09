@@ -45,6 +45,7 @@ namespace Implem.Pleasanter.Models
         public bool SavedVerUp = false;
         public string SavedTimestamp = string.Empty;
         public string SavedComments = "[]";
+        public IList<ServerScriptModelRow> ServerScriptModelRows = new List<ServerScriptModelRow>();
 
         public bool Ver_Updated(Context context, Column column = null)
         {
@@ -772,6 +773,10 @@ namespace Implem.Pleasanter.Models
                 itemModel: this,
                 view: null,
                 where: script => script.BeforeOpeningPage == true);
+            if (scriptValues != null)
+            {
+                ServerScriptModelRows.Add(scriptValues);
+            }
             return scriptValues;
         }
     }
