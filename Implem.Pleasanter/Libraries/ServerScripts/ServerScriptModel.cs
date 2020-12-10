@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Dynamic;
 using System.Linq;
-namespace Implem.Pleasanter.Models
+namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public class ServerScriptModel : IDisposable
     {
@@ -90,6 +90,12 @@ namespace Implem.Pleasanter.Models
         {
             public bool ReadOnly { get; set; }
             public string ExtendedCellCss { get; set; }
+        }
+
+        public class ServerScriptModelRow
+        {
+            public string ExtendedRowCss { get; set; }
+            public Dictionary<string, ServerScriptModelColumn> Columns { get; set; }
         }
 
         public class ServerScriptModelView

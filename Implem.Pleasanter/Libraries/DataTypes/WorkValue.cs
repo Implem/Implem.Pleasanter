@@ -9,7 +9,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Data;
 using Implem.Pleasanter.Libraries.Requests;
-using static Implem.Pleasanter.Models.ServerScriptModel;
+using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
     [Serializable]

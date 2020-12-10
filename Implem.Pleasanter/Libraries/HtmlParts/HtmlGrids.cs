@@ -5,13 +5,14 @@ using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using static Implem.Pleasanter.Models.ServerScriptModel;
+using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlGrids
@@ -216,9 +217,46 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         context: context,
                         column: column))
                 : new Dictionary<string, bool>();
+            BaseItemModel rowModel = null;
+            switch (ss.ReferenceType)
+            {
+                case "Issues":
+                    var issueModel = new IssueModel(
+                        context: context,
+                        ss: ss,
+                        dataRow: dataRow,
+                        formData: editRow
+                            ? formDataSet?.FirstOrDefault(o =>
+                                o.Id == dataRow.Long("IssueId"))?.Data
+                            : null);
+                    ss.SetColumnAccessControls(
+                        context: context,
+                        mine: issueModel.Mine(context: context));
+                    rowModel = issueModel;
+                    break;
+                case "Results":
+                    var resultModel = new ResultModel(
+                        context: context,
+                        ss: ss,
+                        dataRow: dataRow,
+                        formData: editRow
+                            ? formDataSet?.FirstOrDefault(o =>
+                                o.Id == dataRow.Long("ResultId"))?.Data
+                            : null);
+                    ss.SetColumnAccessControls(
+                        context: context,
+                        mine: resultModel.Mine(context: context));
+                    rowModel = resultModel;
+                    break;
+            };
+            var serverScriptRowValues = rowModel?.SetByBeforeOpeningPageServerScript(
+                context: context,
+                ss: ss);
+            var extendedRowCss = serverScriptRowValues?.ExtendedRowCss;
+            extendedRowCss = extendedRowCss.IsNullOrEmpty() ? string.Empty : " " + extendedRowCss;
             return hb.Tr(
                 attributes: new HtmlAttributes()
-                    .Class("grid-row")
+                    .Class("grid-row" + extendedRowCss)
                     .DataId(dataId.ToString())
                     .DataVer(dataVersion)
                     .DataLatest(1, _using: !isHistory)
@@ -268,7 +306,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     var sites = new Dictionary<string, SiteModel>();
                     var issues = new Dictionary<string, IssueModel>();
                     var results = new Dictionary<string, ResultModel>();
-                    Dictionary<string, ServerScriptModelColumn> serverScriptValues = null;
+                    ServerScriptModelRow serverScriptValues = null;
                     columns.ForEach(column =>
                     {
                         var key = column.TableName();
@@ -413,7 +451,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         context: context,
                                         ss: ss);
                                 }
-                                if (!issueModel.Locked && EditColumns.Get(column.ColumnName))
+                                if (!issueModel.Locked && EditColumns.Get(column.ColumnName) && column.CanUpdate(baseModel: issueModel))
                                 {
                                     hb.Td(
                                         css: column.TextAlign == SiteSettings.TextAlignTypes.Right
@@ -435,6 +473,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         column: column,
                                         issueModel: issueModel,
                                         serverScriptValues: serverScriptValues
+                                            ?.Columns
                                             ?.Get(column?.ColumnName));
                                 }
                                 break;
@@ -459,7 +498,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         context: context,
                                         ss: ss);
                                 }
-                                if (!resultModel.Locked && EditColumns.Get(column.ColumnName))
+                                if (!resultModel.Locked && EditColumns.Get(column.ColumnName) && column.CanUpdate(baseModel: resultModel))
                                 {
                                     hb.Td(
                                         css: column.TextAlign == SiteSettings.TextAlignTypes.Right
@@ -481,6 +520,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         column: column,
                                         resultModel: resultModel,
                                         serverScriptValues: serverScriptValues
+                                            ?.Columns
                                             ?.Get(column?.ColumnName));
                                 }
                                 break;

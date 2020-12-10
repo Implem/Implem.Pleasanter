@@ -161,8 +161,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public Dictionary<string, string> ChoiceValueHash;
         [NonSerialized]
-        public Dictionary<string, int> SiteUserHash;
-        [NonSerialized]
         public bool CanCreate = true;
         [NonSerialized]
         public bool CanRead = true;
@@ -486,10 +484,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                     default:
                         ChoiceHash.AddIfNotConainsKey(
                             value,
-                            new Choice(SiteInfo.Name(
-                                context: context,
-                                id: value.ToInt(),
-                                type: Type)));
+                            new Choice(
+                                value: value,
+                                text: SiteInfo.Name(
+                                    context: context,
+                                    id: value.ToInt(),
+                                    type: Type)));
                         break;
                 }
             }
@@ -567,35 +567,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        private void AddNotIncludedValue(Context context, string selectedValue)
-        {
-            if (ChoiceHash?.ContainsKey(selectedValue) == false)
-            {
-                switch (Type)
-                {
-                    case Types.User:
-                        var user = SiteInfo.User(
-                            context: context,
-                            userId: selectedValue.ToInt());
-                        if (!user.Anonymous())
-                        {
-                            ChoiceHash.Add(selectedValue, new Choice(user.Name));
-                        }
-                        break;
-                    default:
-                        var name = SiteInfo.Name(
-                            context: context,
-                            id: selectedValue.ToInt(),
-                            type: Type);
-                        if (!name.IsNullOrEmpty())
-                        {
-                            ChoiceHash.Add(selectedValue, new Choice(name));
-                        }
-                        break;
-                }
-            }
-        }
-
         public string RecordingData(Context context, string value, long siteId)
         {
             var userHash = SiteInfo.TenantCaches.Get(context.TenantId)?.UserHash;
@@ -603,7 +574,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (TypeCs == "Comments")
             {
                 return new Comments().Prepend(
-                    context: context, ss: SiteSettings, body: value).ToJson();
+                    context: context,
+                    ss: SiteSettings,
+                    body: value)
+                        .ToJson();
             }
             else if (TypeName == "datetime")
             {
@@ -619,23 +593,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Select(o => o.First())
                         .ToDictionary(o => o.Value.Text, o => o.Key);
                 }
-                recordingData = ChoiceValueHash.Get(value);
-                if (Type == Types.User && recordingData == null)
-                {
-                    if (SiteUserHash == null)
-                    {
-                        SiteUserHash = SiteInfo.SiteUsers(context: context, siteId: siteId)
-                            .Where(id => userHash.ContainsKey(id))
-                            .GroupBy(id => userHash.Get(id)?.Name)
-                            .Select(id => id.First())
-                            .ToDictionary(id => userHash.Get(id)?.Name, o => o);
-                    }
-                    var userId = SiteUserHash.Get(value);
-                    recordingData = userId != 0
-                        ? userId.ToString()
-                        : User.UserTypes.Anonymous.ToInt().ToString();
-                }
-                recordingData = recordingData ?? value;
+                recordingData = ChoiceValueHash.Get(value) ?? value;
             }
             return recordingData ?? string.Empty;
         }
@@ -675,7 +633,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 value: value,
                 format: format)
                     + (EditorReadOnly == true
-                        || this.ColumnPermissionType(context: context) != Permissions.ColumnPermissionTypes.Update
+                        || this.ColumnPermissionType(
+                            context: context,
+                            baseModel: null) != Permissions.ColumnPermissionTypes.Update
                         ? Unit
                         : string.Empty);
         }

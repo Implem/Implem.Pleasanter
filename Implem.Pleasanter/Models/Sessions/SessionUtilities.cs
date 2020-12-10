@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
-using static Implem.Pleasanter.Models.ServerScriptModel;
+using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Models
 {
     public static class SessionUtilities
@@ -49,7 +49,8 @@ namespace Implem.Pleasanter.Models
                     Rds.PhysicalDeleteSessions(
                         where: Rds.SessionsWhere()
                             .SessionGuid(sessionGuid ?? context.SessionGuid)
-                            .ReadOnce(true)),
+                            .ReadOnce(true),
+                        _using: context.ApiRequestBody == null),
                     Rds.PhysicalDeleteSessions(
                         where: Rds.SessionsWhere()
                             .UpdatedTime(

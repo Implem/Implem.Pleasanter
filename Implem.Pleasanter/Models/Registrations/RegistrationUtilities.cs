@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
-using static Implem.Pleasanter.Models.ServerScriptModel;
+using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Models
 {
     public static class RegistrationUtilities
@@ -909,7 +909,9 @@ namespace Implem.Pleasanter.Models
         {
             var commentsColumn = ss.GetColumn(context: context, columnName: "Comments");
             var commentsColumnPermissionType = commentsColumn
-                .ColumnPermissionType(context: context);
+                .ColumnPermissionType(
+                    context: context,
+                    baseModel: registrationModel);
             var showComments = ss.ShowComments(commentsColumnPermissionType);
             var tabsCss = showComments ? null : "max";
             return hb.Div(id: "Editor", action: () => hb
@@ -1054,7 +1056,9 @@ namespace Implem.Pleasanter.Models
                             methodType: registrationModel.MethodType,
                             value: registrationModel.Ver
                                 .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
+                            columnPermissionType: column.ColumnPermissionType(
+                                context: context,
+                                baseModel: registrationModel),
                             preview: preview);
                         break;
                     case "MailAddress":
@@ -1069,7 +1073,9 @@ namespace Implem.Pleasanter.Models
                         methodType: registrationModel.MethodType,
                         value: registrationModel.MailAddress
                             .ToControl(context: context, ss: ss, column: column),
-                        columnPermissionType: column.ColumnPermissionType(context: context),
+                        columnPermissionType: column.ColumnPermissionType(
+                            context: context,
+                            baseModel: registrationModel),
                         preview: preview);
                         break;
                     case "InviteeName":
@@ -1080,7 +1086,9 @@ namespace Implem.Pleasanter.Models
                             methodType: registrationModel.MethodType,
                             value: registrationModel.InviteeName
                                 .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
+                            columnPermissionType: column.ColumnPermissionType(
+                                context: context,
+                                baseModel: registrationModel),
                             preview: preview);
                         break;
                     case "LoginId":
@@ -1093,7 +1101,9 @@ namespace Implem.Pleasanter.Models
                                 methodType: registrationModel.MethodType,
                                 value: registrationModel.LoginId
                                     .ToControl(context: context, ss: ss, column: column),
-                                columnPermissionType: column.ColumnPermissionType(context: context),
+                                columnPermissionType: column.ColumnPermissionType(
+                                    context: context,
+                                    baseModel: registrationModel),
                                 preview: preview);
                         }
                         break;
@@ -1111,7 +1121,9 @@ namespace Implem.Pleasanter.Models
                                 methodType: registrationModel.MethodType,
                                 value: registrationModel.Name
                                     .ToControl(context: context, ss: ss, column: column),
-                                columnPermissionType: column.ColumnPermissionType(context: context),
+                                columnPermissionType: column.ColumnPermissionType(
+                                    context: context,
+                                    baseModel: registrationModel),
                                 preview: preview);
                         }
                         break;
@@ -1125,7 +1137,9 @@ namespace Implem.Pleasanter.Models
                                 methodType: registrationModel.MethodType,
                                 value: registrationModel.Password
                                     .ToControl(context: context, ss: ss, column: column),
-                                columnPermissionType: column.ColumnPermissionType(context: context),
+                                columnPermissionType: column.ColumnPermissionType(
+                                    context: context,
+                                    baseModel: registrationModel),
                                 preview: preview);
                         }
                         break;
@@ -1139,7 +1153,9 @@ namespace Implem.Pleasanter.Models
                                 methodType: registrationModel.MethodType,
                                 value: registrationModel.PasswordValidate
                                     .ToControl(context: context, ss: ss, column: column),
-                                columnPermissionType: column.ColumnPermissionType(context: context),
+                                columnPermissionType: column.ColumnPermissionType(
+                                    context: context,
+                                    baseModel: registrationModel),
                                 preview: preview);
                         }
                         break;
@@ -1153,7 +1169,9 @@ namespace Implem.Pleasanter.Models
                                 methodType: registrationModel.MethodType,
                                 value: registrationModel.Language
                                     .ToControl(context: context, ss: ss, column: column),
-                                columnPermissionType: column.ColumnPermissionType(context: context),
+                                columnPermissionType: column.ColumnPermissionType(
+                                    context: context,
+                                    baseModel: registrationModel),
                                 preview: preview);
                         }
                         break;
@@ -1165,7 +1183,9 @@ namespace Implem.Pleasanter.Models
                             methodType: registrationModel.MethodType,
                             value: registrationModel.Invitingflg
                                 .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
+                            columnPermissionType: column.ColumnPermissionType(
+                                context: context,
+                                baseModel: registrationModel),
                             preview: preview);
                         break;
                 }
@@ -1204,7 +1224,9 @@ namespace Implem.Pleasanter.Models
                     column: column,
                     methodType: registrationModel.MethodType,
                     value: value,
-                    columnPermissionType: column.ColumnPermissionType(context: context),
+                    columnPermissionType: column.ColumnPermissionType(
+                        context: context,
+                        baseModel: registrationModel),
                     controlOnly: controlOnly,
                     alwaysSend: alwaysSend,
                     idSuffix: idSuffix,
@@ -1547,8 +1569,10 @@ namespace Implem.Pleasanter.Models
                                                 fieldDescription: column.Description,
                                                 labelText: column.LabelText,
                                                 value: registrationModel.Attachments(columnName: column.Name).ToJson(),
-                                                readOnly: column.ColumnPermissionType(context: context)
-                                                    != Permissions.ColumnPermissionTypes.Update));
+                                                readOnly: column.ColumnPermissionType(
+                                                    context: context,
+                                                    baseModel: registrationModel)
+                                                        != Permissions.ColumnPermissionTypes.Update));
                                     break;
                             }
                             break;

@@ -5,11 +5,12 @@ using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static Implem.Pleasanter.Models.ServerScriptModel;
+using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Models
 {
     public class BaseModel
@@ -44,6 +45,7 @@ namespace Implem.Pleasanter.Models
         public bool SavedVerUp = false;
         public string SavedTimestamp = string.Empty;
         public string SavedComments = "[]";
+        public IList<ServerScriptModelRow> ServerScriptModelRows = new List<ServerScriptModelRow>();
 
         public bool Ver_Updated(Context context, Column column = null)
         {
@@ -676,7 +678,7 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        public virtual Dictionary<string, ServerScriptModelColumn> SetByBeforeOpeningPageServerScript(
+        public virtual ServerScriptModelRow SetByBeforeOpeningPageServerScript(
             Context context,
             SiteSettings ss)
         {
@@ -761,7 +763,7 @@ namespace Implem.Pleasanter.Models
                 where: script => script.AfterFormula == true);
         }
 
-        public override Dictionary<string, ServerScriptModelColumn> SetByBeforeOpeningPageServerScript(
+        public override ServerScriptModelRow SetByBeforeOpeningPageServerScript(
             Context context,
             SiteSettings ss)
         {
@@ -771,6 +773,10 @@ namespace Implem.Pleasanter.Models
                 itemModel: this,
                 view: null,
                 where: script => script.BeforeOpeningPage == true);
+            if (scriptValues != null)
+            {
+                ServerScriptModelRows.Add(scriptValues);
+            }
             return scriptValues;
         }
     }
