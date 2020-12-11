@@ -25,33 +25,29 @@
         data: data,
         dataType: 'json'
     })
-    .done(function (json, textStatus, jqXHR) {
+        .done(function (json, textStatus, jqXHR) {
         $p.execEvents('ajax_before_done', $p.eventArgs(url, methodType, data, $control, _async, ret, json));
-        $p.setByJson(url, methodType, data, $control, _async, json);
-        ret = json.filter(function (i) {
-            return i.Method === 'Message' && JSON.parse(i.Value).Css === 'alert-error';
-        }).length !== 0
-            ? -1
-            : 0;
+            $p.setByJson(url, methodType, data, $control, _async, json);
+            ret = json.filter(function (i) {
+                return i.Method === 'Message' && JSON.parse(i.Value).Css === 'alert-error';
+            }).length !== 0
+                ? -1
+                : 0;
         $p.execEvents('ajax_after_done', $p.eventArgs(url, methodType, data, $control, _async, ret, json));
-    })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-        ret = -1;
-        if (jqXHR.status === 403) {
-            alert(jqXHR.responseJSON.Message);
-        } else {
-            $p.execEvents('ajax_before_fail', $p.eventArgs(url, methodType, data, $control, _async, ret, null));
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+        $p.execEvents('ajax_before_fail', $p.eventArgs(url, methodType, data, $control, _async, ret, null));
             alert(textStatus + '\n' +
                 $(jqXHR.responseText).text().trim().replace('\n', ''));
-            $p.execEvents('ajax_after_fail', $p.eventArgs(url, methodType, data, $control, _async, ret, null));
-        }
-    })
-    .always(function (jqXHR, textStatus) {
+            ret = -1;
+        $p.execEvents('ajax_after_fail', $p.eventArgs(url, methodType, data, $control, _async, ret, null));
+        })
+        .always(function (jqXHR, textStatus) {
         $p.execEvents('ajax_before_always', $p.eventArgs(url, methodType, data, $control, _async, ret, null));
-        $p.clearData('ControlId', data);
-        $p.loaded();
+            $p.clearData('ControlId', data);
+            $p.loaded();
         $p.execEvents('ajax_after_always', $p.eventArgs(url, methodType, data, $control, _async, ret, null));
-    });
+        });
     $p.execEvents('ajax_after_send', $p.eventArgs(url, methodType, data, $control, _async, ret, null));
     $p.after_send($p.eventArgs(url, methodType, data, $control, _async, ret));
     return ret;
@@ -96,12 +92,8 @@ $p.multiUpload = function (url, data, $control, statusBar) {
             return true;
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
-            if (jqXHR.status === 403) {
-                alert(jqXHR.responseJSON.Message);
-            } else {
-                alert(textStatus + '\n' +
-                    $(jqXHR.responseText).text().trim().replace('\n', ''));
-            }
+            alert(textStatus + '\n' +
+                $(jqXHR.responseText).text().trim().replace('\n', ''));
             return false;
         })
         .always(function (jqXHR, textStatus) {
