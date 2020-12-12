@@ -2589,6 +2589,77 @@ namespace Implem.Pleasanter.Models
                 });
         }
 
+        public static IssueModel[] GetByServerScript(
+            Context context,
+            SiteSettings ss,
+            bool internalRequest)
+        {
+            var invalid = IssueValidators.OnEntry(
+                context: context,
+                ss: ss,
+                api: !internalRequest);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return null;
+            }
+            var api = context.RequestDataString.Deserialize<Api>();
+            var view = api?.View ?? new View();
+            var pageSize = Parameters.Api.PageSize;
+            var tableType = (api?.TableType) ?? Sqls.TableTypes.Normal;
+            var issueCollection = new IssueCollection(
+                context: context,
+                ss: ss,
+                join: Rds.ItemsJoin().Add(new SqlJoin(
+                    tableBracket: "\"Items\"",
+                    joinType: SqlJoin.JoinTypes.Inner,
+                    joinExpression: "\"Issues\".\"IssueId\"=\"Issues_Items\".\"ReferenceId\"",
+                    _as: "Issues_Items")),
+                where: view.Where(context: context, ss: ss),
+                orderBy: view.OrderBy(
+                    context: context,
+                    ss: ss),
+                offset: api?.Offset ?? 0,
+                pageSize: pageSize,
+                tableType: tableType);
+            SiteUtilities.UpdateApiCount(context, ss);
+            return issueCollection.ToArray();
+        }
+
+        public static IssueModel GetByServerScript(
+            Context context,
+            SiteSettings ss,
+            long issueId,
+            bool internalRequest)
+        {
+            var issueModel = new IssueModel(
+                context: context,
+                ss: ss,
+                issueId: issueId,
+                methodType: BaseModel.MethodTypes.Edit);
+            if (issueModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return null;
+            }
+            var invalid = IssueValidators.OnEditing(
+                context: context,
+                ss: ss,
+                issueModel: issueModel,
+                api: !internalRequest);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return null;
+            }
+            ss.SetColumnAccessControls(
+                context: context,
+                mine: issueModel.Mine(context: context));
+            SiteUtilities.UpdateApiCount(context, ss);
+            return issueModel;
+        }
+
         public static string Create(Context context, SiteSettings ss)
         {
             if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId))
