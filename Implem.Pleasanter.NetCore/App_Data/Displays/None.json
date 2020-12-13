@@ -1,0 +1,29 @@
+﻿{
+    "Id": "None",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "None"
+        },
+        {
+            "Language": "zh",
+            "Body": "没有"
+        },
+        {
+            "Language": "ja",
+            "Body": "無し"
+        },
+        {
+            "Language": "de",
+            "Body": "Keiner"
+        },
+        {
+            "Language": "ko",
+            "Body": "없음"
+        },
+        {
+            "Language": "es",
+            "Body": "Ninguno"
+        }
+    ]
+}

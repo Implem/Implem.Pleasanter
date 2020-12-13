@@ -1,0 +1,29 @@
+﻿{
+    "Id": "ValueAndDisplayName",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Value and display name"
+        },
+        {
+            "Language": "zh",
+            "Body": "值和显示名称"
+        },
+        {
+            "Language": "ja",
+            "Body": "値と表示名"
+        },
+        {
+            "Language": "de",
+            "Body": "Wert und Anzeigename"
+        },
+        {
+            "Language": "ko",
+            "Body": "값 및 표시 이름"
+        },
+        {
+            "Language": "es",
+            "Body": "Valor y nombre para mostrar"
+        }
+    ]
+}

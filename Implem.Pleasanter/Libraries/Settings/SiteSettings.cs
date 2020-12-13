@@ -1196,6 +1196,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.SearchType = column.SearchType;
                     }
+                    if (column.FullTextType != (Column.FullTextTypes)columnDefinition.FullTextType)
+                    {
+                        enabled = true;
+                        newColumn.FullTextType = column.FullTextType;
+                    }
                     if (column.DateFilterMinSpan != Parameters.General.DateFilterMinSpan)
                     {
                         enabled = true;
@@ -1500,6 +1505,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.NumFilterStep = column.NumFilterStep ?? columnDefinition.NumFilterStep;
                 column.DateFilterSetMode = column.DateFilterSetMode ?? ColumnUtilities.DateFilterSetMode.Default;
                 column.SearchType = column.SearchType ?? Column.SearchTypes.PartialMatch;
+                column.FullTextType = column.FullTextType ?? (Column.FullTextTypes)columnDefinition.FullTextType;
                 column.DateFilterMinSpan = column.DateFilterMinSpan ?? Parameters.General.DateFilterMinSpan;
                 column.DateFilterMaxSpan = column.DateFilterMaxSpan ?? Parameters.General.DateFilterMaxSpan;
                 column.DateFilterFy = column.DateFilterFy ?? true;
@@ -3147,6 +3153,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     (ColumnUtilities.DateFilterSetMode)value.ToInt(); break;
                 case "SearchTypes": column.SearchType =
                     (Column.SearchTypes)value.ToInt(); break;
+                case "FullTextTypes": column.FullTextType =
+                    (Column.FullTextTypes)value.ToInt(); break;
                 case "DateFilterMinSpan": column.DateFilterMinSpan = value.ToInt(); break;
                 case "DateFilterMaxSpan": column.DateFilterMaxSpan = value.ToInt(); break;
                 case "DateFilterFy": column.DateFilterFy = value.ToBool(); break;
