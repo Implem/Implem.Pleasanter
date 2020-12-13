@@ -133,7 +133,7 @@ $p.setAndSend = function (selector, $control) {
 
 $p.setMustData = function ($form, action) {
     if (action !== undefined && action.toLowerCase() === 'create') {
-        $form.find('[class*="control-"]').each(function () {
+        $form.find('[class*="control-"]:not(span)').each(function () {
             $p.setData($(this));
         });
     } else {
