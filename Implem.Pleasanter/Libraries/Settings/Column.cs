@@ -344,7 +344,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 linkHash.Get(key)?
                                     .ToDictionary(
                                         o => o.Split_1st(),
-                                        o => Strings.CoalesceEmpty(o.Split_2nd(), o.Split_1st()))
+                                        o => o.Contains(",")
+                                            ? o.Substring(o.IndexOf(",") + 1)
+                                            : o)
                                     .ForEach(o =>
                                         AddToChoiceHash(o.Key, o.Value));
                             }
