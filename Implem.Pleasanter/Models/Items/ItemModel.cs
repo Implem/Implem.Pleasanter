@@ -1735,6 +1735,68 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public BaseItemModel[] GetByServerScript(
+            Context context,
+            Context apiContext)
+        {
+            SetSite(context: context);
+            if (!Site.WithinApiLimits())
+            {
+                return null;
+            }
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    if (SiteId == ReferenceId)
+                    {
+                        return IssueUtilities.GetByServerScript(
+                            context: apiContext,
+                            ss: Site.IssuesSiteSettings(
+                                context: apiContext,
+                                referenceId: ReferenceId),
+                            internalRequest: true);
+                    }
+                    else
+                    {
+                        return new[]
+                        {
+                            IssueUtilities.GetByServerScript(
+                                context: apiContext,
+                                ss: Site.IssuesSiteSettings(
+                                    context: apiContext,
+                                    referenceId: ReferenceId),
+                                issueId: ReferenceId,
+                                internalRequest: true)
+                        }.Where(model => model != null).ToArray();
+                    }
+                case "Results":
+                    if (SiteId == ReferenceId)
+                    {
+                        return ResultUtilities.GetByServerScript(
+                            context: apiContext,
+                            ss: Site.ResultsSiteSettings(
+                                context: apiContext,
+                                referenceId: ReferenceId),
+                            internalRequest: true);
+                    }
+                    else
+                    {
+                        return new[]
+                        {
+                            ResultUtilities.GetByServerScript(
+                                context: apiContext,
+                                ss: Site.ResultsSiteSettings(
+                                    context: apiContext,
+                                    referenceId: ReferenceId),
+                                resultId: ReferenceId,
+                                internalRequest: true)
+                        }.Where(model => model != null).ToArray();
+                    }
+                default:
+                    return null;
+            }
+        }
+
         public string Create(Context context)
         {
             SetSite(context: context);

@@ -11,11 +11,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public class ServerScriptModel : IDisposable
     {
-        public readonly ExpandoObject Data = new ExpandoObject();
+        public readonly ExpandoObject Model = new ExpandoObject();
         public readonly ExpandoObject Columns = new ExpandoObject();
         public readonly ServerScriptModelContext Context;
         public readonly ServerScriptModelSiteSettings SiteSettings;
         public readonly ServerScriptModelView View = new ServerScriptModelView();
+        public readonly ServerScriptModelApiItems Items;
         private readonly List<string> ChangeItemNames = new List<string>();
 
         public ServerScriptModel(
@@ -24,9 +25,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             IEnumerable<(string Name, object Value)> data,
             IEnumerable<(string Name, ServerScriptModelColumn Value)> columns,
             IEnumerable<KeyValuePair<string, string>> columnFilterHach,
-            IEnumerable<KeyValuePair<string, SqlOrderBy.Types>> columnSorterHach)
+            IEnumerable<KeyValuePair<string, SqlOrderBy.Types>> columnSorterHach,
+            bool onTesting)
         {
-            data?.ForEach(datam => ((IDictionary<string, object>)Data)[datam.Name] = datam.Value);
+            data?.ForEach(datam => ((IDictionary<string, object>)Model)[datam.Name] = datam.Value);
             columns?.ForEach(
                 datam => ((IDictionary<string, object>)Columns)[datam.Name] = datam.Value);
             columnFilterHach?.ForEach(columnFilter =>
@@ -35,7 +37,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 ((IDictionary<string, object>)View.Sorters)[columnSorter.Key] = Enum.GetName(
                     typeof(SqlOrderBy.Types),
                     columnSorter.Value));
-            ((INotifyPropertyChanged)Data).PropertyChanged += DataPropertyChanged;
+            ((INotifyPropertyChanged)Model).PropertyChanged += DataPropertyChanged;
             Context = new ServerScriptModelContext(
                 userId: context.UserId,
                 deptId: context.DeptId,
@@ -46,6 +48,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             {
                 DefaultViewId = ss?.GridView
             };
+            Items = new ServerScriptModelApiItems(
+                context: context,
+                onTesting: onTesting);
         }
 
         private void DataPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -60,7 +65,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public void Dispose()
         {
-            ((INotifyPropertyChanged)Data).PropertyChanged -= DataPropertyChanged;
+            ((INotifyPropertyChanged)Model).PropertyChanged -= DataPropertyChanged;
         }
 
         public class ServerScriptModelContext
@@ -107,6 +112,31 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public class ServerScriptModelSiteSettings
         {
             public int? DefaultViewId { get; set; }
+        }
+
+        public class ServerScriptModelApiItems
+        {
+            private readonly Context Context;
+            private readonly bool OnTesting;
+
+            public ServerScriptModelApiItems(Context context, bool onTesting)
+            {
+                Context = context;
+                OnTesting = onTesting;
+            }
+
+            public ServerScriptModelApiModel[] Get(long id, string view = null)
+            {
+                if (OnTesting)
+                {
+                    return new ServerScriptModelApiModel[0];
+                }
+                return ServerScriptUtilities.Get(
+                    context: Context,
+                    id: id,
+                    view: view,
+                    onTesting: OnTesting);
+            }
         }
     }
 }
