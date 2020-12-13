@@ -129,6 +129,17 @@ namespace Implem.Pleasanter.NetCore
                 if (statusCode == 400) context.HttpContext.Response.Redirect("/errors/badrequest");
                 else if (statusCode == 404) context.HttpContext.Response.Redirect("/errors/notfound");
                 else if (statusCode == 500) context.HttpContext.Response.Redirect("/errors/internalservererror");
+                else if (statusCode == 401
+                    && !context.HttpContext.User.Identity.IsAuthenticated
+                    && context.HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                {
+                    context.HttpContext.Response.StatusCode = 403;
+                    context.HttpContext.Response.ContentType = "application/json";
+                    context.HttpContext.Response.WriteAsync(System.Text.Json.JsonSerializer.Serialize(new
+                    {
+                        Message = Implem.Pleasanter.Libraries.Responses.Displays.Unauthorized(context: new ContextImplement())
+                    }));
+                }
                 else context.HttpContext.Response.Redirect("/errors/internalservererror");
                 return Task.CompletedTask;
             });
