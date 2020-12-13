@@ -2,9 +2,11 @@
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Dynamic;
 using System.Linq;
+using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public class ServerScriptModelApiModel : DynamicObject
@@ -237,7 +239,87 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         return true;
                 }
             }
-            return false;
+            return true;
+        }
+
+        public string ToJsonString(Context context, SiteSettings ss)
+        {
+            if (Model.CreatedTime == null)
+            {
+                Model.CreatedTime = new DataTypes.Time();
+            }
+            if (Model.UpdatedTime == null)
+            {
+                Model.UpdatedTime = new DataTypes.Time();
+            }
+            if (Model is IssueModel issueModel)
+            {
+                var apiModel = issueModel.GetByApi(
+                    context: context,
+                    ss: ss);
+                apiModel.Comments = null;
+                return apiModel.ToJson();
+            }
+            else if (Model is ResultModel resultModel)
+            {
+                var apiModel = resultModel.GetByApi(
+                    context: context,
+                    ss: ss);
+                apiModel.Comments = null;
+                return apiModel.ToJson();
+            }
+            return null;
+        }
+
+        public bool Insert()
+        {
+            var serverScript = new ServerScriptModelApiItems(context: Context, onTesting: OnTesting);
+            if (Model is IssueModel issueModel)
+            {
+                return serverScript.Insert(issueModel.IssueId, this);
+            }
+            else if (Model is ResultModel resultModel)
+            {
+                return serverScript.Insert(resultModel.ResultId, this);
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool Update()
+        {
+            var serverScript = new ServerScriptModelApiItems(context: Context, onTesting: OnTesting);
+            if (Model is IssueModel issueModel)
+            {
+                return serverScript.Update(issueModel.IssueId, this);
+            }
+            else if (Model is ResultModel resultModel)
+            {
+                return serverScript.Update(resultModel.ResultId, this);
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool Delete()
+        {
+            var serverScript = new ServerScriptModelApiItems(context: Context, onTesting: OnTesting);
+            if (Model is IssueModel issueModel)
+            {
+                return serverScript.Delete(issueModel.IssueId);
+            }
+            else if (Model is ResultModel resultModel)
+            {
+                return serverScript.Delete(resultModel.ResultId);
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

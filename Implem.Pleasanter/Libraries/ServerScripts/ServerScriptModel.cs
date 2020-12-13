@@ -2,6 +2,7 @@
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -136,6 +137,73 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     id: id,
                     view: view,
                     onTesting: OnTesting);
+            }
+
+            public ServerScriptModelApiModel New()
+            {
+                var itemModel = new IssueModel();
+                var apiContext = ServerScriptUtilities.CreateContext(
+                    context: Context,
+                    id: 0,
+                    apiRequestBody: string.Empty);
+                var ss = new SiteSettings(
+                    context: apiContext,
+                    referenceType: "Issues");
+                itemModel.SetDefault(
+                    context: apiContext,
+                    ss: ss);
+                var apiModel = new ServerScriptModelApiModel(
+                    context: Context,
+                    model: itemModel,
+                    onTesting: OnTesting);
+                return apiModel;
+            }
+
+            public bool Insert(long id, object model)
+            {
+                if (OnTesting)
+                {
+                    return false;
+                }
+                return ServerScriptUtilities.Insert(
+                    context: Context,
+                    id: id,
+                    model: model);
+            }
+
+            public bool Update(long id, object model)
+            {
+                if (OnTesting)
+                {
+                    return false;
+                }
+                return ServerScriptUtilities.Update(
+                    context: Context,
+                    id: id,
+                    model: model);
+            }
+
+            public bool Delete(long id)
+            {
+                if (OnTesting)
+                {
+                    return false;
+                }
+                return ServerScriptUtilities.Delete(
+                    context: Context,
+                    id: id);
+            }
+
+            public long BulkDelete(long id, string json)
+            {
+                if (OnTesting)
+                {
+                    return 0;
+                }
+                return ServerScriptUtilities.BulkDelete(
+                    context: Context,
+                    id: id,
+                    apiRequestBody: json);
             }
         }
     }
