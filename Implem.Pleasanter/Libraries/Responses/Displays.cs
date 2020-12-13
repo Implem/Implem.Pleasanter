@@ -2789,6 +2789,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string FullTextTypes(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "FullTextTypes",
+                data: data);
+        }
+
         public static string Fy(
             Context context,
             params string[] data)
@@ -4646,6 +4656,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "NoLinks",
+                data: data);
+        }
+
+        public static string None(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "None",
                 data: data);
         }
 
@@ -7426,6 +7446,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Value",
+                data: data);
+        }
+
+        public static string ValueAndDisplayName(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ValueAndDisplayName",
                 data: data);
         }
 
