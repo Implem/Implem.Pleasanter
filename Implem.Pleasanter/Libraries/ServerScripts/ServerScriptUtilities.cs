@@ -622,11 +622,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return canUpdate;
         }
 
-        private static Context CreateContext(Context context, long id, string view)
+        public static Context CreateContext(Context context, long id, string apiRequestBody)
         {
             var createdContext = context.CreateContext();
             createdContext.Id = id;
-            createdContext.ApiRequestBody = view;
+            createdContext.ApiRequestBody = apiRequestBody;
             createdContext.PermissionHash = Security.Permissions.Get(context: createdContext);
             return createdContext;
         }
@@ -642,12 +642,54 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 apiContext: CreateContext(
                     context: context,
                     id: id,
-                    view: view)) ?? new BaseItemModel[0];
+                    apiRequestBody: view)) ?? new BaseItemModel[0];
             var items = itemModels.Select(model => new ServerScriptModelApiModel(
                 context: context,
                 model: model,
                 onTesting: onTesting)).ToArray();
             return items;
+        }
+
+        public static bool Insert(Context context, long id, object model)
+        {
+            return new ItemModel(context: context, referenceId: id).CreateByServerScript(
+                context: context,
+                apiContext: CreateContext(
+                    context: context,
+                    id: id,
+                    apiRequestBody: string.Empty),
+                model: model);
+        }
+
+        public static bool Update(Context context, long id, object model)
+        {
+            return new ItemModel(context: context, referenceId: id).UpdateByServerScript(
+                context: context,
+                apiContext: CreateContext(
+                    context: context,
+                    id: id,
+                    apiRequestBody: string.Empty),
+                model: model);
+        }
+
+        public static bool Delete(Context context, long id)
+        {
+            return new ItemModel(context: context, referenceId: id).DeleteByServerScript(
+                context: context,
+                apiContext: CreateContext(
+                    context: context,
+                    id: id,
+                    apiRequestBody: string.Empty));
+        }
+
+        public static long BulkDelete(Context context, long id, string apiRequestBody)
+        {
+            return new ItemModel(context: context, referenceId: id).BulkDeleteByServerScript(
+                context: context,
+                apiContext: CreateContext(
+                    context: context,
+                    id: id,
+                    apiRequestBody: apiRequestBody));
         }
     }
 }

@@ -2594,6 +2594,46 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static bool CreateByServerScript(Context context, SiteSettings ss)
+        {
+            if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId))
+            {
+                return false;
+            }
+            var resultModel = new ResultModel(
+                context: context,
+                ss: ss,
+                resultId: 0,
+                setByApi: true);
+            var invalid = ResultValidators.OnCreating(
+                context: context,
+                ss: ss,
+                resultModel: resultModel,
+                api: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return false;
+            }
+            resultModel.SiteId = ss.SiteId;
+            resultModel.SetTitle(context: context, ss: ss);
+            var errorData = resultModel.Create(
+                context: context,
+                ss: ss,
+                notice: true);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    SiteUtilities.UpdateApiCount(context: context, ss: ss);
+                    return true;
+                case Error.Types.Duplicated:
+                    return false;
+                default:
+                    return false;
+            }
+        }
+
         public static string Update(Context context, SiteSettings ss, long resultId)
         {
             var resultModel = new ResultModel(
@@ -3294,6 +3334,51 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static bool UpdateByServerScript(
+            Context context,
+            SiteSettings ss,
+            long resultId)
+        {
+            var resultModel = new ResultModel(
+                context: context,
+                ss: ss,
+                resultId: resultId,
+                setByApi: true);
+            if (resultModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return false;
+            }
+            var invalid = ResultValidators.OnUpdating(
+                context: context,
+                ss: ss,
+                resultModel: resultModel,
+                api: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return false;
+            }
+            resultModel.SiteId = ss.SiteId;
+            resultModel.SetTitle(
+                context: context,
+                ss: ss);
+            var errorData = resultModel.Update(
+                context: context,
+                ss: ss,
+                notice: true);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    SiteUtilities.UpdateApiCount(context: context, ss: ss);
+                    return true;
+                case Error.Types.Duplicated:
+                    return false;
+                default:
+                    return false;
+            }
+        }
+
         public static string Copy(Context context, SiteSettings ss, long resultId)
         {
             if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId))
@@ -3523,6 +3608,47 @@ namespace Implem.Pleasanter.Models
                     return ApiResults.Error(
                         context: context,
                         errorData: errorData);
+            }
+        }
+
+        public static bool DeleteByServerScript(
+            Context context,
+            SiteSettings ss,
+            long resultId)
+        {
+            var resultModel = new ResultModel(
+                context: context,
+                ss: ss,
+                resultId: resultId,
+                methodType: BaseModel.MethodTypes.Edit);
+            if (resultModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return false;
+            }
+            var invalid = ResultValidators.OnDeleting(
+                context: context,
+                ss: ss,
+                resultModel: resultModel,
+                api: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return false;
+            }
+            resultModel.SiteId = ss.SiteId;
+            resultModel.SetTitle(context: context, ss: ss);
+            var errorData = resultModel.Delete(
+                context: context,
+                ss: ss,
+                notice: true);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    SiteUtilities.UpdateApiCount(context: context, ss: ss);
+                    return true;
+                default:
+                    return false;
             }
         }
 
@@ -4162,6 +4288,61 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static long BulkDeleteByServerScript(
+            Context context,
+            SiteSettings ss)
+        {
+            if (context.CanDelete(ss: ss))
+            {
+                var recordSelector = context.RequestDataString.Deserialize<RecordSelector>();
+                if (recordSelector == null)
+                {
+                    return 0;
+                }
+                var selectedWhere = SelectedWhereByApi(
+                    ss: ss,
+                    recordSelector: recordSelector);
+                if (selectedWhere == null && recordSelector.View == null)
+                {
+                    return 0;
+                }
+                var view = recordSelector.View ?? Views.GetBySession(
+                    context: context,
+                    ss: ss);
+                var where = view.Where(
+                    context: context,
+                    ss: ss,
+                    where: selectedWhere,
+                    itemJoin: false);
+                var invalid = ExistsLockedRecord(
+                    context: context,
+                    ss: ss,
+                    where: where,
+                    orderBy: view.OrderBy(
+                        context: context,
+                        ss: ss));
+                switch (invalid.Type)
+                {
+                    case Error.Types.None:
+                        break;
+                    default:
+                        return 0;
+                }
+                var count = BulkDelete(
+                    context: context,
+                    ss: ss,
+                    where: where);
+                Summaries.Synchronize(
+                    context: context,
+                    ss: ss);
+                return count;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
         public static string DeleteHistory(Context context, SiteSettings ss, long resultId)
         {
             var resultModel = new ResultModel(
@@ -4448,6 +4629,66 @@ namespace Implem.Pleasanter.Models
             else
             {
                 return ApiResults.Get(ApiResponses.Forbidden(context: context));
+            }
+        }
+
+        public static long PhysicalBulkDeleteByServerScript(
+            Context context,
+            SiteSettings ss)
+        {
+            if (!Parameters.Deleted.PhysicalDelete)
+            {
+                return 0;
+            }
+            if (context.CanManageSite(ss: ss))
+            {
+                var recordSelector = context.RequestDataString.Deserialize<RecordSelector>();
+                if (recordSelector == null)
+                {
+                    return 0;
+                }
+                var selectedWhere = SelectedWhereByApi(
+                    ss: ss,
+                    recordSelector: recordSelector);
+                if (selectedWhere == null && recordSelector.View == null)
+                {
+                    return 0;
+                }
+                var view = recordSelector.View ?? Views.GetBySession(
+                    context: context,
+                    ss: ss);
+                var where = view.Where(
+                    context: context,
+                    ss: ss,
+                    where: selectedWhere,
+                    itemJoin: false);
+                var invalid = ExistsLockedRecord(
+                    context: context,
+                    ss: ss,
+                    where: where,
+                    orderBy: view.OrderBy(
+                        context: context,
+                        ss: ss));
+                switch (invalid.Type)
+                {
+                    case Error.Types.None:
+                        break;
+                    default:
+                        return 0;
+                }
+                var count = PhysicalBulkDelete(
+                    context: context,
+                    ss: ss,
+                    where: where,
+                    tableType: Sqls.TableTypes.Normal);
+                Summaries.Synchronize(
+                    context: context,
+                    ss: ss);
+                return count;
+            }
+            else
+            {
+                return 0;
             }
         }
 
