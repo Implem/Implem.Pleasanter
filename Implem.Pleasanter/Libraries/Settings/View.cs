@@ -561,7 +561,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private string String(Context context, string controlId)
         {
-            var data = context.Forms.Data(controlId);
+            var data = context.Forms.Data(controlId).Trim();
             if (data != string.Empty)
             {
                 return data;
