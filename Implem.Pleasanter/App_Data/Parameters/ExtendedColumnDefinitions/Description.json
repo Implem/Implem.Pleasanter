@@ -17,6 +17,7 @@
     "FieldCss": "field-markdown",
     "ControlType": "MarkDown",
     "ExtendedColumnType": "Description",
+    "FullTextType": 1,
     "LabelText_en": "Description",
     "LabelText_zh": "说明",
     "LabelText_de": "Beschreibung",
