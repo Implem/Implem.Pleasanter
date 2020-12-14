@@ -1410,7 +1410,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 orderType: data.Value);
                             break;
                         default:
-                            if (column.Linked())
+                            if (column.Linked(withoutWiki: true))
                             {
                                 orderBy.Add(new SqlOrderBy(
                                     orderType: data.Value,
