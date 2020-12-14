@@ -54,16 +54,19 @@ $p.apiExec = function (url, args) {
     if (args.async !== undefined) {
         $.ajaxSetup({ async: args.async });
     }
-    return $.ajax({
+    var ajaxSetings = {
         type: 'Post',
         url: url,
         cache: false,
-        contentType: 'application/json',
         data: args.data !== undefined
             ? JSON.stringify(args.data)
             : '{}',
         dataType: 'json'
-    })
+    };
+    if (/(?:^|\/)api\//.test(url)) {
+        ajaxSetings.contentType = 'application/json';
+    }
+    return $.ajax(ajaxSetings)
         .done(args.done)
         .fail(args.fail)
         .always(args.always);

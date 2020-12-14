@@ -464,12 +464,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     column => column);
             var scriptValues = SetRow(
                 ss: ss,
-                model: data.Data,
+                model: data.Model,
                 columns: data.Columns);
             SetExtendedColumnValues(
                 context: context,
                 model: model,
-                data: data.Data,
+                data: data.Model,
                 columns: valueColumns);
             SetColumnFilterHachValues(
                 context: context,
@@ -487,7 +487,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         SetIssueModelValues(
                             context: context,
                             issueModel: issueModel,
-                            data: data.Data,
+                            data: data.Model,
                             columns: valueColumnDictionary);
                     }
                     break;
@@ -497,7 +497,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         SetResultModelValues(
                             context: context,
                             resultModel: resultModel,
-                            data: data.Data,
+                            data: data.Model,
                             columns: valueColumnDictionary);
                     }
                     break;
@@ -513,7 +513,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             SiteSettings ss,
             BaseItemModel itemModel,
             View view,
-            ServerScript[] scripts)
+            ServerScript[] scripts,
+            bool onTesting = false)
         {
             if (!(Parameters.Script.ServerScript != false
                 && context.ContractSettings.Script != false))
@@ -530,16 +531,18 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     model: itemModel),
                 columns: Columns(ss),
                 columnFilterHach: view?.ColumnFilterHash,
-                columnSorterHach: view?.ColumnSorterHash))
+                columnSorterHach: view?.ColumnSorterHash,
+                onTesting: onTesting))
             {
                 using (var engine = new Microsoft.ClearScript.V8.V8ScriptEngine(
                     Microsoft.ClearScript.V8.V8ScriptEngineFlags.EnableDateTimeConversion))
                 {
                     engine.AddHostObject("context", model.Context);
-                    engine.AddHostObject("model", model.Data);
+                    engine.AddHostObject("model", model.Model);
                     engine.AddHostObject("columns", model.Columns);
                     engine.AddHostObject("siteSettings", model.SiteSettings);
                     engine.AddHostObject("view", model.View);
+                    engine.AddHostObject("items", model.Items);
                     foreach (var script in scripts)
                     {
                         engine.Execute(script.Body);
@@ -618,6 +621,76 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 serverScriptModelRows: baseModel?.ServerScriptModelRows);
             var canUpdate = column.CanUpdate && !serverScriptReadOnly;
             return canUpdate;
+        }
+
+        public static Context CreateContext(Context context, long id, string apiRequestBody)
+        {
+            var createdContext = new Context();
+            createdContext.Id = id;
+            createdContext.ApiRequestBody = apiRequestBody;
+            createdContext.PermissionHash = Security.Permissions.Get(context: createdContext);
+            return createdContext;
+        }
+
+        public static ServerScriptModelApiModel[] Get(
+            Context context,
+            long id,
+            string view,
+            bool onTesting)
+        {
+            var itemModels = new ItemModel(context: context, referenceId: id).GetByServerScript(
+                context: context,
+                apiContext: CreateContext(
+                    context: context,
+                    id: id,
+                    apiRequestBody: view)) ?? new BaseItemModel[0];
+            var items = itemModels.Select(model => new ServerScriptModelApiModel(
+                context: context,
+                model: model,
+                onTesting: onTesting)).ToArray();
+            return items;
+        }
+
+        public static bool Insert(Context context, long id, object model)
+        {
+            return new ItemModel(context: context, referenceId: id).CreateByServerScript(
+                context: context,
+                apiContext: CreateContext(
+                    context: context,
+                    id: id,
+                    apiRequestBody: string.Empty),
+                model: model);
+        }
+
+        public static bool Update(Context context, long id, object model)
+        {
+            return new ItemModel(context: context, referenceId: id).UpdateByServerScript(
+                context: context,
+                apiContext: CreateContext(
+                    context: context,
+                    id: id,
+                    apiRequestBody: string.Empty),
+                model: model);
+        }
+
+        public static bool Delete(Context context, long id)
+        {
+            return new ItemModel(context: context, referenceId: id).DeleteByServerScript(
+                context: context,
+                apiContext: CreateContext(
+                    context: context,
+                    id: id,
+                    apiRequestBody: string.Empty));
+        }
+
+        public static long BulkDelete(Context context, long id, string apiRequestBody)
+        {
+            return new ItemModel(context: context, referenceId: id).BulkDeleteByServerScript(
+                context: context,
+                apiContext: CreateContext(
+                    context: context,
+                    id: id,
+                    apiRequestBody: apiRequestBody));
         }
     }
 }

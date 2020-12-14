@@ -24,7 +24,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     scripts: new ServerScript[]
                     {
                         serverScript
-                    });
+                    },
+                    onTesting: true);
             }
             catch (Exception ex)
             {

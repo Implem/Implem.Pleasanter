@@ -5373,6 +5373,13 @@ namespace Implem.Pleasanter.Models
                                         labelText: Displays.ExtendedFieldCss(context: context),
                                         text: column.ExtendedFieldCss);
                             }
+                            hb.FieldDropDown(
+                                context: context,
+                                controlId: "FullTextTypes",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.FullTextTypes(context: context),
+                                optionCollection: ColumnUtilities.FullTextTypeOptions(context),
+                                selectedValue: column.FullTextType?.ToInt().ToString());
                         }));
         }
 

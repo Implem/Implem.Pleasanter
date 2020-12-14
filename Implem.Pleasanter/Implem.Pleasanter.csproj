@@ -379,6 +379,7 @@
     <Compile Include="Libraries\Security\Defenses.cs" />
     <Compile Include="Libraries\Security\Permission.cs" />
     <Compile Include="Libraries\ServerScripts\ServerScriptModel.cs" />
+    <Compile Include="Libraries\ServerScripts\ServerScriptModelApiModel.cs" />
     <Compile Include="Libraries\ServerScripts\ServerScriptUtilities.cs" />
     <Compile Include="Libraries\ServerScripts\ServerScriptValidators.cs" />
     <Compile Include="Libraries\Server\IpAddress.cs" />

@@ -31,6 +31,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             ForwardMatch = 3
         }
 
+        public enum FullTextTypes : int
+        {
+            None = 0,
+            DisplayName = 1,
+            Value = 2,
+            ValueAndDisplayName = 3
+        }
+
         public string Id;
         public string ColumnName;
         public string LabelText;
@@ -84,6 +92,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public decimal? NumFilterStep;
         public ColumnUtilities.DateFilterSetMode? DateFilterSetMode;
         public Column.SearchTypes? SearchType;
+        public FullTextTypes? FullTextType;
         public int? DateFilterMinSpan;
         public int? DateFilterMaxSpan;
         public bool? DateFilterFy;
@@ -335,7 +344,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 linkHash.Get(key)?
                                     .ToDictionary(
                                         o => o.Split_1st(),
-                                        o => Strings.CoalesceEmpty(o.Split_2nd(), o.Split_1st()))
+                                        o => o.Contains(",")
+                                            ? o.Substring(o.IndexOf(",") + 1)
+                                            : o)
                                     .ForEach(o =>
                                         AddToChoiceHash(o.Key, o.Value));
                             }

@@ -1735,6 +1735,68 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public BaseItemModel[] GetByServerScript(
+            Context context,
+            Context apiContext)
+        {
+            SetSite(context: context);
+            if (!Site.WithinApiLimits())
+            {
+                return null;
+            }
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    if (SiteId == ReferenceId)
+                    {
+                        return IssueUtilities.GetByServerScript(
+                            context: apiContext,
+                            ss: Site.IssuesSiteSettings(
+                                context: apiContext,
+                                referenceId: ReferenceId),
+                            internalRequest: true);
+                    }
+                    else
+                    {
+                        return new[]
+                        {
+                            IssueUtilities.GetByServerScript(
+                                context: apiContext,
+                                ss: Site.IssuesSiteSettings(
+                                    context: apiContext,
+                                    referenceId: ReferenceId),
+                                issueId: ReferenceId,
+                                internalRequest: true)
+                        }.Where(model => model != null).ToArray();
+                    }
+                case "Results":
+                    if (SiteId == ReferenceId)
+                    {
+                        return ResultUtilities.GetByServerScript(
+                            context: apiContext,
+                            ss: Site.ResultsSiteSettings(
+                                context: apiContext,
+                                referenceId: ReferenceId),
+                            internalRequest: true);
+                    }
+                    else
+                    {
+                        return new[]
+                        {
+                            ResultUtilities.GetByServerScript(
+                                context: apiContext,
+                                ss: Site.ResultsSiteSettings(
+                                    context: apiContext,
+                                    referenceId: ReferenceId),
+                                resultId: ReferenceId,
+                                internalRequest: true)
+                        }.Where(model => model != null).ToArray();
+                    }
+                default:
+                    return null;
+            }
+        }
+
         public string Create(Context context)
         {
             SetSite(context: context);
@@ -1788,6 +1850,62 @@ namespace Implem.Pleasanter.Models
                             referenceId: ReferenceId));
                 default:
                     return ApiResults.Get(ApiResponses.NotFound(context: context));
+            }
+        }
+
+        public bool CreateByServerScript(Context context, Context apiContext, object model)
+        {
+            SetSite(context: context);
+            if (!Site.WithinApiLimits())
+            {
+                return false;
+            }
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    var issueSs = Site.IssuesSiteSettings(
+                            context: apiContext,
+                            referenceId: ReferenceId);
+                    if (model is string issueRequestString)
+                    {
+                        apiContext.ApiRequestBody = issueRequestString;
+                    }
+                    else if (model is ServerScriptModelApiModel issueApiModel)
+                    {
+                        apiContext.ApiRequestBody = issueApiModel.ToJsonString(
+                            context: apiContext,
+                            ss: issueSs);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                    return IssueUtilities.CreateByServerScript(
+                        context: apiContext,
+                        ss: issueSs);
+                case "Results":
+                    var resultSs = Site.IssuesSiteSettings(
+                            context: apiContext,
+                            referenceId: ReferenceId);
+                    if (model is string resultRequestString)
+                    {
+                        apiContext.ApiRequestBody = resultRequestString;
+                    }
+                    else if (model is ServerScriptModelApiModel resultApiModel)
+                    {
+                        apiContext.ApiRequestBody = resultApiModel.ToJsonString(
+                            context: apiContext,
+                            ss: resultSs);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                    return ResultUtilities.CreateByServerScript(
+                        context: apiContext,
+                        ss: resultSs);
+                default:
+                    return false;
             }
         }
 
@@ -1994,6 +2112,64 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public bool UpdateByServerScript(Context context, Context apiContext, object model)
+        {
+            SetSite(context: context);
+            if (!Site.WithinApiLimits())
+            {
+                return false;
+            }
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    var issueSs = Site.IssuesSiteSettings(
+                            context: apiContext,
+                            referenceId: ReferenceId);
+                    if(model is string issueRequestString)
+                    {
+                        apiContext.ApiRequestBody = issueRequestString;
+                    }
+                    else if(model is ServerScriptModelApiModel issueApiModel)
+                    {
+                        apiContext.ApiRequestBody = issueApiModel.ToJsonString(
+                            context: apiContext,
+                            ss: issueSs);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                    return IssueUtilities.UpdateByServerScript(
+                        context: apiContext,
+                        ss: issueSs,
+                        issueId: ReferenceId);
+                case "Results":
+                    var resultSs = Site.IssuesSiteSettings(
+                            context: apiContext,
+                            referenceId: ReferenceId);
+                    if (model is string resultRequestString)
+                    {
+                        apiContext.ApiRequestBody = resultRequestString;
+                    }
+                    else if (model is ServerScriptModelApiModel resultApiModel)
+                    {
+                        apiContext.ApiRequestBody = resultApiModel.ToJsonString(
+                            context: apiContext,
+                            ss: resultSs);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                    return ResultUtilities.UpdateByServerScript(
+                        context: apiContext,
+                        ss: resultSs,
+                        resultId: ReferenceId);
+                default:
+                    return false;
+            }
+        }
+
         public string DeleteComment(Context context)
         {
             SetSite(context: context);
@@ -2187,6 +2363,34 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public bool DeleteByServerScript(Context context, Context apiContext)
+        {
+            SetSite(context: context);
+            if (!Site.WithinApiLimits())
+            {
+                return false;
+            }
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.DeleteByServerScript(
+                        context: apiContext,
+                        ss: Site.IssuesSiteSettings(
+                            context: apiContext,
+                            referenceId: ReferenceId),
+                        issueId: ReferenceId);
+                case "Results":
+                    return ResultUtilities.DeleteByServerScript(
+                        context: apiContext,
+                        ss: Site.ResultsSiteSettings(
+                            context: apiContext,
+                            referenceId: ReferenceId),
+                        resultId: ReferenceId);
+                default:
+                    return false;
+            }
+        }
+
         public string BulkDelete(Context context)
         {
             SetSite(context: context);
@@ -2263,6 +2467,59 @@ namespace Implem.Pleasanter.Models
                                 referenceId: ReferenceId));
                     default:
                         return ApiResults.Get(ApiResponses.NotFound(context: context));
+                }
+            }
+        }
+
+        public long BulkDeleteByServerScript(Context context, Context apiContext)
+        {
+            SetSite(context: context);
+            if (!Site.WithinApiLimits())
+            {
+                return 0;
+            }
+            if (apiContext.RequestDataString.Deserialize<ApiDeleteOption>()?.PhysicalDelete == true)
+            {
+                switch (Site.ReferenceType)
+                {
+                    case "Issues":
+                        return IssueUtilities.PhysicalBulkDeleteByServerScript(
+                            context: apiContext,
+                            ss: Site.IssuesSiteSettings(
+                                context: apiContext,
+                                referenceId: ReferenceId,
+                                setSiteIntegration: true,
+                                tableType: Sqls.TableTypes.Deleted));
+                    case "Results":
+                        return ResultUtilities.PhysicalBulkDeleteByServerScript(
+                            context: apiContext,
+                            ss: Site.ResultsSiteSettings(
+                                context: apiContext,
+                                referenceId: ReferenceId,
+                                setSiteIntegration: true,
+                                tableType: Sqls.TableTypes.Deleted));
+                    default:
+                        return 0;
+                }
+            }
+            else
+            {
+                switch (Site.ReferenceType)
+                {
+                    case "Issues":
+                        return IssueUtilities.BulkDeleteByServerScript(
+                            context: apiContext,
+                            ss: Site.IssuesSiteSettings(
+                                context: apiContext,
+                                referenceId: ReferenceId));
+                    case "Results":
+                        return ResultUtilities.BulkDeleteByServerScript(
+                            context: apiContext,
+                            ss: Site.ResultsSiteSettings(
+                                context: apiContext,
+                                referenceId: ReferenceId));
+                    default:
+                        return 0;
                 }
             }
         }

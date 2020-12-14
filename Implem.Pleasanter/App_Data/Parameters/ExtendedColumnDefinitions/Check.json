@@ -13,6 +13,7 @@
     "TypeName": "bit",
     "Nullable": "1",
     "ExtendedColumnType": "Check",
+    "FullTextType": 0,
     "LabelText_en": "Check",
     "LabelText_zh": "选择",
     "LabelText_de": "Prüfen",

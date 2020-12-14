@@ -548,41 +548,81 @@ namespace Implem.Pleasanter.Models
             if (!Parameters.Search.CreateIndexes && !backgroundTask) return null;
             if (AccessStatus == Databases.AccessStatuses.NotFound) return null;
             if (ReferenceType == "Wikis") return null;
-            var fullText = new List<string>();
+            var fullText = new System.Text.StringBuilder();
             SiteInfo.TenantCaches
                 .Get(context.TenantId)?
-                .SiteMenu.Breadcrumb(context: context, siteId: SiteId)
-                .FullText(context, fullText);
-            SiteId.FullText(context, fullText);
+                .SiteMenu.Breadcrumb(
+                    context: context,
+                    siteId: SiteId)
+                .FullText(
+                    context: context,
+                    fullText: fullText);
+            SiteId.FullText(
+                context: context,
+                column: ss.GetColumn(
+                    context: context,
+                    columnName: "SiteId"),
+                fullText: fullText);
             ss.GetEditorColumnNames(
                 context: context,
-                columnOnly: true).ForEach(columnName =>
-                {
-                    switch (columnName)
+                columnOnly: true)
+                    .Select(columnName => ss.GetColumn(
+                        context: context,
+                        columnName: columnName))
+                    .ForEach(column =>
                     {
-                        case "Title":
-                            Title.FullText(context, fullText);
-                            break;
-                        case "Body":
-                            Body.FullText(context, fullText);
-                            break;
-                        case "Comments":
-                            Comments.FullText(context, fullText);
-                            break;
-                        default:
-                            FullText(
-                                context: context,
-                                column: ss.GetColumn(
+                        switch (column.ColumnName)
+                        {
+                            case "Title":
+                                Title.FullText(
                                     context: context,
-                                    columnName: columnName),
-                                fullText: fullText);
-                            break;
-                    }
-                });
-            Creator.FullText(context, fullText);
-            Updator.FullText(context, fullText);
-            CreatedTime.FullText(context, fullText);
-            UpdatedTime.FullText(context, fullText);
+                                    column: column,
+                                    fullText: fullText);
+                                break;
+                            case "Body":
+                                Body.FullText(
+                                    context: context,
+                                    column: column,
+                                    fullText: fullText);
+                                break;
+                            case "Comments":
+                                Comments.FullText(
+                                    context: context,
+                                    column: column,
+                                    fullText: fullText);
+                                break;
+                            default:
+                                BaseFullText(
+                                    context: context,
+                                    column: column,
+                                    fullText: fullText);
+                                break;
+                        }
+                    });
+            Creator.FullText(
+                context,
+                column: ss.GetColumn(
+                    context: context,
+                    columnName: "Creator"),
+                fullText);
+            Updator.FullText(
+                context,
+                column: ss.GetColumn(
+                    context: context,
+                    columnName: "Updator"),
+                fullText);
+            CreatedTime.FullText(
+                context,
+                column: ss.GetColumn(
+                    context: context,
+                    columnName: "CreatedTime"),
+                fullText);
+            UpdatedTime.FullText(
+                context,
+                column: ss.GetColumn(
+                    context: context,
+                    columnName: "UpdatedTime"),
+                fullText);
             if (!onCreating)
             {
                 FullTextExtensions.OutgoingMailsFullText(
@@ -592,8 +632,13 @@ namespace Implem.Pleasanter.Models
                     referenceId: SiteId);
             }
             return fullText
-                .Where(o => !o.IsNullOrEmpty())
+                .ToString()
+                .Replace("　", " ")
+                .Replace("\r", " ")
+                .Replace("\n", " ")
+                .Split(' ')
                 .Select(o => o.Trim())
+                .Where(o => o != string.Empty)
                 .Distinct()
                 .Join(" ");
         }
@@ -1100,6 +1145,11 @@ namespace Implem.Pleasanter.Models
                     {
                         case "UpdatedTime":
                             match = UpdatedTime.Value.Matched(
+                                column: column,
+                                condition: filter.Value);
+                            break;
+                        case "Ver":
+                            match = Ver.Matched(
                                 column: column,
                                 condition: filter.Value);
                             break;

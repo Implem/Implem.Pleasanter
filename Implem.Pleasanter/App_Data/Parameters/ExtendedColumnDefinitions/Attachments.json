@@ -15,6 +15,7 @@
     "FieldCss": "field-wide",
     "ControlType": "Attachments",
     "ExtendedColumnType": "Attachments",
+    "FullTextType": 1,
     "LabelText_en": "Attachments",
     "LabelText_zh": "附件",
     "LabelText_de": "Anhänge",

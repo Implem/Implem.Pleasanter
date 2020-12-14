@@ -22,6 +22,7 @@
     "NumFilterMax": "10000",
     "NumFilterStep": "1000",
     "ExtendedColumnType": "Num",
+    "FullTextType": 0,
     "LabelText_en": "Numeric value",
     "LabelText_zh": "数字值",
     "LabelText_de": "Numerischer Wert",

@@ -1,0 +1,29 @@
+﻿{
+    "Id": "FullTextTypes",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Fulltext types"
+        },
+        {
+            "Language": "zh",
+            "Body": "全文类型"
+        },
+        {
+            "Language": "ja",
+            "Body": "フルテキストの種類"
+        },
+        {
+            "Language": "de",
+            "Body": "Volltexttypen"
+        },
+        {
+            "Language": "ko",
+            "Body": "전체 텍스트 유형"
+        },
+        {
+            "Language": "es",
+            "Body": "Tipos de texto completo"
+        }
+    ]
+}

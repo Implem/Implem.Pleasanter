@@ -78,6 +78,17 @@ namespace Implem.Pleasanter.Libraries.Settings
             };
         }
 
+        public static Dictionary<string, string> FullTextTypeOptions(Context context)
+        {
+            return new Dictionary<string, string>
+            {
+                { Column.FullTextTypes.None.ToInt().ToString(), Displays.None(context: context) },
+                { Column.FullTextTypes.DisplayName.ToInt().ToString(), Displays.DisplayName(context: context) },
+                { Column.FullTextTypes.Value.ToInt().ToString(), Displays.Value(context: context) },
+                { Column.FullTextTypes.ValueAndDisplayName.ToInt().ToString(), Displays.ValueAndDisplayName(context: context) }
+            };
+        }
+
         public static IEnumerable<ColumnDefinition> GridDefinitions(
             this Dictionary<string, ColumnDefinition> definitions,
             Context context,
