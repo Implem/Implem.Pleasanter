@@ -159,13 +159,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 return apiModel;
             }
 
-            public bool Insert(long id, object model)
+            public bool Create(long id, object model)
             {
                 if (OnTesting)
                 {
                     return false;
                 }
-                return ServerScriptUtilities.Insert(
+                return ServerScriptUtilities.Create(
                     context: Context,
                     id: id,
                     model: model);

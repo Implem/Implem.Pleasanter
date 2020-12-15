@@ -676,7 +676,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return items;
         }
 
-        public static bool Insert(Context context, long id, object model)
+        public static bool Create(Context context, long id, object model)
         {
             return new ItemModel(context: context, referenceId: id).CreateByServerScript(
                 context: context,
