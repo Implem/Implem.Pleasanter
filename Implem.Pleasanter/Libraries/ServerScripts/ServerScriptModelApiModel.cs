@@ -13,9 +13,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
     {
         private static readonly string[] MethodNames = new string[]
         {
+            "Create",
             "Delete",
             "Get",
-            "Insert",
             "New",
             "Update",
         };
@@ -271,16 +271,16 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return null;
         }
 
-        public bool Insert()
+        public bool Create()
         {
             var serverScript = new ServerScriptModelApiItems(context: Context, onTesting: OnTesting);
             if (Model is IssueModel issueModel)
             {
-                return serverScript.Insert(issueModel.IssueId, this);
+                return serverScript.Create(issueModel.IssueId, this);
             }
             else if (Model is ResultModel resultModel)
             {
-                return serverScript.Insert(resultModel.ResultId, this);
+                return serverScript.Create(resultModel.ResultId, this);
             }
             else
             {
