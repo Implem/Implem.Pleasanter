@@ -68,7 +68,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 apiVersion: context.ApiVersion,
                 apiRequestBody: context.ApiRequestBody,
                 requestDataString: context.RequestDataString,
-                contentType: context.ContentType);
+                contentType: context.ContentType,
+                onTesting: onTesting);
             SiteSettings = new ServerScriptModelSiteSettings
             {
                 DefaultViewId = ss?.GridView
@@ -95,6 +96,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public class ServerScriptModelContext
         {
+            public readonly ServerScriptModelContextServerScript ServerScript;
             public readonly string FormStringRaw;
             public readonly string FormString;
             public readonly bool Ajax;
@@ -154,8 +156,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 decimal apiVersion,
                 string apiRequestBody,
                 string requestDataString,
-                string contentType)
+                string contentType,
+                bool onTesting)
             {
+                ServerScript = new ServerScriptModelContextServerScript(onTesting: onTesting);
                 FormStringRaw = formStringRaw;
                 FormString = formString;
                 Ajax = ajax;
@@ -185,6 +189,16 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 ApiRequestBody = apiRequestBody;
                 RequestDataString = requestDataString;
                 ContentType = contentType;
+            }
+        }
+
+        public class ServerScriptModelContextServerScript
+        {
+            public readonly bool OnTesting;
+
+            public ServerScriptModelContextServerScript(bool onTesting)
+            {
+                OnTesting = onTesting;
             }
         }
 
