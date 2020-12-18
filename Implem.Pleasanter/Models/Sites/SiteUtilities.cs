@@ -4703,7 +4703,7 @@ namespace Implem.Pleasanter.Models
                                         text: Displays.MoveUp(context: context),
                                         controlCss: "button-icon",
                                         onClick: "$p.send($(this));",
-                                        icon: "ui-icon-trash",
+                                        icon: "ui-icon-circle-triangle-n",
                                         action: "SetSiteSettings",
                                         method: "put")
                                     .Button(
@@ -4711,7 +4711,7 @@ namespace Implem.Pleasanter.Models
                                         text: Displays.MoveDown(context: context),
                                         controlCss: "button-icon",
                                         onClick: "$p.send($(this));",
-                                        icon: "ui-icon-trash",
+                                        icon: "ui-icon-circle-triangle-s",
                                         action: "SetSiteSettings",
                                         method: "put")
                                     .Button(

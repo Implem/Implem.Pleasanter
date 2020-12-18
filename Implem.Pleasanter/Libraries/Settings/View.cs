@@ -1371,13 +1371,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             SqlOrderByCollection orderBy = null)
         {
             orderBy = orderBy ?? new SqlOrderByCollection();
-            if (ColumnSorterHash?.Any() == true)
+            ColumnSorterHash?.ForEach(data =>
             {
-                ColumnSorterHash?.ForEach(data =>
+                var column = ss.GetColumn(
+                    context: context,
+                    columnName: data.Key);
+                if (column != null)
                 {
-                    var column = ss.GetColumn(
-                        context: context,
-                        columnName: data.Key);
                     var tableName = column.TableName();
                     switch (column.Name)
                     {
@@ -1402,7 +1402,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 orderType: data.Value);
                             break;
                         default:
-                            if (column.Linked())
+                            if (column.Linked(withoutWiki: true))
                             {
                                 orderBy.Add(new SqlOrderBy(
                                     orderType: data.Value,
@@ -1422,8 +1422,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                             }
                             break;
                     }
-                });
-            }
+                }
+            });
             return orderBy?.Any() != true
                 ? new SqlOrderByCollection().Add(
                     tableName: ss.ReferenceType,

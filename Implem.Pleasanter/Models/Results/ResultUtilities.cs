@@ -2062,6 +2062,7 @@ namespace Implem.Pleasanter.Models
                     .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
                     .SetMemory("formChanged", false)
                     .Invoke("setCurrentIndex")
+                    .Invoke("initRelatingColumnEditor")
                     .Message(message)
                     .ClearFormData()
                     .Events("on_editor_load");

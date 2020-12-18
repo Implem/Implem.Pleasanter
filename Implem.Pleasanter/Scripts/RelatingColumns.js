@@ -5,18 +5,21 @@
             $('#TriggerRelatingColumns_Filter'),
             'ViewFilters_');
     };
-    if (methodType === 'edit' || methodType === 'new') {
-        initRelatingColumn(
-            $('#TriggerRelatingColumns_Editor'),
-            $('#TableName').val());
-    } else {
-        $p.initRelatingColumnWhenViewChanged();
-    }
     $p.initRelatingColumn = function () {
         initRelatingColumn(
             $('#TriggerRelatingColumns_Dialog'),
             $('#TableName').val());
     };
+    $p.initRelatingColumnEditor = function () {
+        initRelatingColumn(
+            $('#TriggerRelatingColumns_Editor'),
+            $('#TableName').val());
+    };
+    if (methodType === 'edit' || methodType === 'new') {
+        $p.initRelatingColumnEditor();
+    } else {
+        $p.initRelatingColumnWhenViewChanged();
+    }
 
     function initRelatingColumn($trigger, tablename) {
         var param = $trigger.val();
@@ -95,7 +98,7 @@
             $trigger.attr('data-action', 'RelatingDropDown');
             $trigger.attr('data-method', 'post');
             const formId = undefined;
-            const _async = true;
+            const _async = false;
             const clearMessage = false;
             $p.send($trigger, formId, _async, clearMessage);
         };
@@ -106,6 +109,7 @@
             return;
         }
         $p.RefreshMultiSelectRelatingColum($target);
+        $target.addClass('always-send');
         $target.addClass('not-set-form-changed');
         $target.trigger('change');
         $target.removeClass('not-set-form-changed');

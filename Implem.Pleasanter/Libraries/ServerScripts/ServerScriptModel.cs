@@ -40,11 +40,36 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     columnSorter.Value));
             ((INotifyPropertyChanged)Model).PropertyChanged += DataPropertyChanged;
             Context = new ServerScriptModelContext(
-                userId: context.UserId,
-                deptId: context.DeptId,
-                groupIds: context.Groups,
+                formStringRaw: context.FormStringRaw,
+                formString: context.FormString,
+                ajax: context.Ajax,
+                mobile: context.Mobile,
+                applicationPath: context.ApplicationPath,
+                absoluteUri: context.AbsoluteUri,
+                absolutePath: context.AbsolutePath,
+                url: context.Url,
+                urlReferrer: context.UrlReferrer,
                 controller: context.Controller,
-                action: context.Action);
+                query: context.Query,
+                action: context.Action,
+                tenantId: context.TenantId,
+                siteId: context.SiteId,
+                id: context.Id,
+                groupIds: context.Groups,
+                tenantTitle: context.TenantTitle,
+                siteTitle: context.SiteTitle,
+                recordTitle: context.RecordTitle,
+                deptId: context.DeptId,
+                userId: context.UserId,
+                loginId: context.LoginId,
+                language: context.Language,
+                timeZoneInfo: context.TimeZoneInfo.ToString(),
+                hasPrivilege: context.HasPrivilege,
+                apiVersion: context.ApiVersion,
+                apiRequestBody: context.ApiRequestBody,
+                requestDataString: context.RequestDataString,
+                contentType: context.ContentType,
+                onTesting: onTesting);
             SiteSettings = new ServerScriptModelSiteSettings
             {
                 DefaultViewId = ss?.GridView
@@ -71,24 +96,109 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public class ServerScriptModelContext
         {
-            public readonly int UserId;
-            public readonly int DeptId;
-            public readonly IList<int> Groups;
+            public readonly ServerScriptModelContextServerScript ServerScript;
+            public readonly string FormStringRaw;
+            public readonly string FormString;
+            public readonly bool Ajax;
+            public readonly bool Mobile;
+            public readonly string ApplicationPath;
+            public readonly string AbsoluteUri;
+            public readonly string AbsolutePath;
+            public readonly string Url;
+            public readonly string UrlReferrer;
             public readonly string Controller;
+            public readonly string Query;
             public readonly string Action;
+            public readonly int TenantId;
+            public readonly long SiteId;
+            public readonly long Id;
+            public readonly IList<int> Groups;
+            public readonly string TenantTitle;
+            public readonly string SiteTitle;
+            public readonly string RecordTitle;
+            public readonly int DeptId;
+            public readonly int UserId;
+            public readonly string LoginId;
+            public readonly string Language;
+            public readonly string TimeZoneInfo;
+            public readonly bool HasPrivilege;
+            public readonly decimal ApiVersion;
+            public readonly string ApiRequestBody;
+            public readonly string RequestDataString;
+            public readonly string ContentType;
 
             public ServerScriptModelContext(
-                int userId,
-                int deptId,
-                IEnumerable<int> groupIds,
+                string formStringRaw,
+                string formString,
+                bool ajax,
+                bool mobile,
+                string applicationPath,
+                string absoluteUri,
+                string absolutePath,
+                string url,
+                string urlReferrer,
                 string controller,
-                string action)
+                string query,
+                string action,
+                int tenantId,
+                long siteId,
+                long id,
+                IEnumerable<int> groupIds,
+                string tenantTitle,
+                string siteTitle,
+                string recordTitle,
+                int deptId,
+                int userId,
+                string loginId,
+                string language,
+                string timeZoneInfo,
+                bool hasPrivilege,
+                decimal apiVersion,
+                string apiRequestBody,
+                string requestDataString,
+                string contentType,
+                bool onTesting)
             {
-                UserId = userId;
-                DeptId = deptId;
-                Groups = groupIds?.ToArray() ?? new int[0];
+                ServerScript = new ServerScriptModelContextServerScript(onTesting: onTesting);
+                FormStringRaw = formStringRaw;
+                FormString = formString;
+                Ajax = ajax;
+                Mobile = mobile;
+                ApplicationPath = applicationPath;
+                AbsoluteUri = absoluteUri;
+                AbsolutePath = absolutePath;
+                Url = url;
+                UrlReferrer = urlReferrer;
                 Controller = controller;
+                Query = query;
                 Action = action;
+                TenantId = tenantId;
+                SiteId = siteId;
+                Id = id;
+                Groups = groupIds?.ToArray() ?? new int[0];
+                TenantTitle = tenantTitle;
+                SiteTitle = siteTitle;
+                RecordTitle = recordTitle;
+                DeptId = deptId;
+                UserId = userId;
+                LoginId = loginId;
+                Language = language;
+                TimeZoneInfo = timeZoneInfo;
+                HasPrivilege = hasPrivilege;
+                ApiVersion = apiVersion;
+                ApiRequestBody = apiRequestBody;
+                RequestDataString = requestDataString;
+                ContentType = contentType;
+            }
+        }
+
+        public class ServerScriptModelContextServerScript
+        {
+            public readonly bool OnTesting;
+
+            public ServerScriptModelContextServerScript(bool onTesting)
+            {
+                OnTesting = onTesting;
             }
         }
 
@@ -159,13 +269,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 return apiModel;
             }
 
-            public bool Insert(long id, object model)
+            public bool Create(long id, object model)
             {
                 if (OnTesting)
                 {
                     return false;
                 }
-                return ServerScriptUtilities.Insert(
+                return ServerScriptUtilities.Create(
                     context: Context,
                     id: id,
                     model: model);

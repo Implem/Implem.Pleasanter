@@ -832,9 +832,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Replace("~", "_");
         }
 
-        public bool Linked()
+        public bool Linked(bool withoutWiki = false)
         {
-            return SiteSettings?.Links?.Any(o => o.ColumnName == Name) == true;
+            return SiteSettings?.Links?
+                .Any(o => o.ColumnName == Name
+                    && (!withoutWiki
+                        || SiteSettings?.JoinedSsHash.Keys.Contains(o.SiteId) == true)) == true;
         }
 
         public string ConvertIfUserColumn(DataRow dataRow)

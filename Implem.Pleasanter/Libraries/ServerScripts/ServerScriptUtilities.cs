@@ -62,6 +62,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return (int)Decimal(data, name);
         }
 
+        private static bool Bool(ExpandoObject data, string name)
+        {
+            return Value(data, name).ToBool();
+        }
+
         private static (string, object) ReadNameValue(SiteSettings ss, string columnName, object value)
         {
             return (
@@ -126,6 +131,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ss: ss,
                     columnName: nameof(ResultModel.Owner),
                     value: resultModel.Owner.Id));
+                values.Add(ReadNameValue(ss: ss,
+                    columnName: nameof(ResultModel.Locked),
+                    value: resultModel.Locked));
             }
             if (model is IssueModel issueModel)
             {
@@ -165,6 +173,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ss: ss,
                     columnName: nameof(IssueModel.Owner),
                     value: issueModel.Owner.Id));
+                values.Add(ReadNameValue(
+                    ss: ss,
+                    columnName: nameof(IssueModel.Locked),
+                    value: issueModel.Locked));
             }
             return values.ToArray();
         }
@@ -299,14 +311,14 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             string columnName,
             Dictionary<string, Column> columns,
             Action<T> setter,
-            Func<Column,T> getter)
+            Func<Column, T> getter)
         {
             if (!columns.TryGetValue(columnName, out var column))
             {
                 return;
             }
             var value = getter(column);
-            if(column.ChoiceHash?.Any() == true
+            if (column.ChoiceHash?.Any() == true
                 && !column.ChoiceHash.ContainsKey(value?.ToString()))
             {
                 return;
@@ -324,7 +336,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 columnName: nameof(ResultModel.Title),
                 columns: columns,
                 setter: value => resultModel.Title.Value = value,
-                getter: column =>  String(
+                getter: column => String(
                     data: data,
                     columnName: column.ColumnName));
             SetValue(
@@ -359,6 +371,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 getter: column => Int(
                     data: data,
                     name: column.ColumnName));
+            SetValue(
+                columnName: nameof(ResultModel.Locked),
+                columns: columns,
+                setter: value => resultModel.Locked = value,
+                getter: column => Bool(
+                    data: data,
+                    name: column.Name));
         }
 
         private static void SetIssueModelValues(
@@ -434,13 +453,20 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 getter: column => Int(
                     data: data,
                     name: column.Name));
+            SetValue(
+                columnName: nameof(IssueModel.Locked),
+                columns: columns,
+                setter: value => issueModel.Locked = value,
+                getter: column => Bool(
+                    data: data,
+                    name: column.Name));
         }
 
         private static void SetViewValues(
             SiteSettings ss,
             ServerScriptModel.ServerScriptModelSiteSettings data)
         {
-            if(ss == null)
+            if (ss == null)
             {
                 return;
             }
@@ -651,7 +677,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return items;
         }
 
-        public static bool Insert(Context context, long id, object model)
+        public static bool Create(Context context, long id, object model)
         {
             return new ItemModel(context: context, referenceId: id).CreateByServerScript(
                 context: context,
