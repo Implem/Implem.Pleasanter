@@ -37,6 +37,9 @@
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
         ret = -1;
+        if (!jqXHR.getAllResponseHeaders()) {
+            return;
+        }
         if (jqXHR.status === 403) {
             alert(jqXHR.responseJSON.Message);
         } else {
