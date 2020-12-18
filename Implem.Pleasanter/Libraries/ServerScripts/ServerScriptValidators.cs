@@ -10,31 +10,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
     {
         public static ErrorData OnCreating(Context context, ServerScript serverScript)
         {
-            try
-            {
-                ServerScriptUtilities.Execute(
-                    context: context,
-                    ss: new SiteSettings
-                    {
-                        EditorColumnHash = new Dictionary<string, List<string>>(),
-                        ColumnHash = new Dictionary<string, Column>()
-                    },
-                    itemModel: new BaseItemModel(),
-                    view: null,
-                    scripts: new ServerScript[]
-                    {
-                        serverScript
-                    },
-                    onTesting: true);
-            }
-            catch (Exception ex)
-            {
-                while (ex.InnerException != null)
-                {
-                    ex = ex.InnerException;
-                }
-                return new ErrorData(type: Error.Types.IncorrectServerScript, data: ex.Message);
-            }
             return new ErrorData(type: Error.Types.None);
         }
 
