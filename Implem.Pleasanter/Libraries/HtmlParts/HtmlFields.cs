@@ -12,6 +12,7 @@ using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlFields
@@ -36,6 +37,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context,
             SiteSettings ss,
             Column column,
+            IEnumerable<ServerScriptModelColumn> serverScriptModelColumns = null,
             BaseModel.MethodTypes methodType = BaseModel.MethodTypes.NotSet,
             string value = null,
             Permissions.ColumnPermissionTypes columnPermissionType =
@@ -75,7 +77,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         context: context,
                         id: "ColumnTop",
                         columnName: column.ColumnName))
-                    .Raw(column.ExtendedHtmlBeforeField)
+                    .Raw(column.ExtendedHtmlBeforeField
+                        + serverScriptModelColumns
+                            ?.Select(scriptColumn => scriptColumn.ExtendedHtmlBeforeField)
+                            .Join())
                     .SwitchField(
                         context: context,
                         ss: ss,
@@ -108,7 +113,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlOnly: controlOnly,
                         alwaysSend: alwaysSend,
                         preview: preview)
-                    .Raw(column.ExtendedHtmlAfterField)
+                    .Raw(column.ExtendedHtmlAfterField
+                        + serverScriptModelColumns
+                            ?.Select(scriptColumn => scriptColumn.ExtendedHtmlAfterField)
+                            .Join())
                     .Raw(HtmlHtmls.ExtendedHtmls(
                         context: context,
                         id: "ColumnBottom",
