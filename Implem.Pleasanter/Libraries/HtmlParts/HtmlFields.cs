@@ -92,10 +92,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             ? $"{column.Id}{idSuffix}"
                             : null,
                         columnName: $"{column.ColumnName}{idSuffix}",
-                        fieldCss: FieldCss(column, fieldCss)
-                            + (column.TextAlign == SiteSettings.TextAlignTypes.Right
-                                ? " right-align"
-                                : string.Empty),
+                        fieldCss: FieldCss(
+                            column: column,
+                            serverScriptModelColumns: serverScriptModelColumns,
+                            fieldCss: fieldCss)
+                                + (column.TextAlign == SiteSettings.TextAlignTypes.Right
+                                    ? " right-align"
+                                    : string.Empty),
                         labelCss: labelCss,
                         controlContainerCss: controlContainerCss,
                         controlCss: Strings.CoalesceEmpty(controlCss, column.ControlCss)
@@ -128,7 +131,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
         }
 
-        private static string FieldCss(Column column, string fieldCss)
+        private static string FieldCss(
+            Column column,
+            IEnumerable<ServerScriptModelColumn> serverScriptModelColumns,
+            string fieldCss)
         {
             return Strings.CoalesceEmpty(fieldCss, column.FieldCss)
                 + (column.NoWrap == true
@@ -139,6 +145,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     : string.Empty)
                 + (!column.ExtendedFieldCss.IsNullOrEmpty()
                     ? " " + column.ExtendedFieldCss
+                    : string.Empty)
+                + (serverScriptModelColumns
+                    ?.Any(scriptColumn => scriptColumn
+                        ?.ExtendedFieldCss
+                        ?.IsNullOrEmpty() == false) == true
+                    ? " " + serverScriptModelColumns
+                        ?.Select(scriptColumn => scriptColumn?.ExtendedFieldCss)
+                        .Where(css => css?.IsNullOrEmpty() == false)
+                        .Join(" ")
                     : string.Empty);
         }
 

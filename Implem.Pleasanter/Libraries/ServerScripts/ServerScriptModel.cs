@@ -205,6 +205,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public class ServerScriptModelColumn
         {
             public bool ReadOnly { get; set; }
+            public string ExtendedFieldCss { get; set; }
             public string ExtendedCellCss { get; set; }
             public string ExtendedHtmlBeforeField { get; set; }
             public string ExtendedHtmlAfterField { get; set; }
