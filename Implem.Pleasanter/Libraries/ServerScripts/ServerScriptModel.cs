@@ -206,6 +206,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             public bool ReadOnly { get; set; }
             public string ExtendedCellCss { get; set; }
+            public string ExtendedHtmlBeforeField { get; set; }
+            public string ExtendedHtmlAfterField { get; set; }
         }
 
         public class ServerScriptModelRow

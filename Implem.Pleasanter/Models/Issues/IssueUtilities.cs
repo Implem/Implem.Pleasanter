@@ -1742,6 +1742,10 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     column: column,
+                    serverScriptModelColumns: issueModel
+                        ?.ServerScriptModelRows
+                        ?.Select(row => row.Columns.Get(column.ColumnName))
+                        .ToArray(),
                     methodType: issueModel.MethodType,
                     value: value,
                     columnPermissionType: column.ColumnPermissionType(

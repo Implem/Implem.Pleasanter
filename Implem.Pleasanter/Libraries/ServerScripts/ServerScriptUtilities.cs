@@ -194,7 +194,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         new ServerScriptModelColumn
                         {
                             ReadOnly = !(column?.CanRead == true && column?.CanUpdate == true),
-                            ExtendedCellCss = string.Empty
+                            ExtendedCellCss = string.Empty,
+                            ExtendedHtmlBeforeField = string.Empty,
+                            ExtendedHtmlAfterField = string.Empty
                         });
                 })
                 .ToArray();
@@ -230,6 +232,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 scriptValues[datam.Key] = new ServerScriptModelColumn
                 {
                     ExtendedCellCss = serverScriptColumn?.ExtendedCellCss,
+                    ExtendedHtmlBeforeField = serverScriptColumn?.ExtendedHtmlBeforeField,
+                    ExtendedHtmlAfterField = serverScriptColumn?.ExtendedHtmlAfterField,
                     ReadOnly = !(column.CanUpdate && serverScriptColumn?.ReadOnly != true)
                 };
             });
