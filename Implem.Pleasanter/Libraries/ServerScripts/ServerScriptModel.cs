@@ -239,7 +239,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 OnTesting = onTesting;
             }
 
-            public ServerScriptModelApiModel[] Get(long id, string view = null)
+            public ServerScriptModelApiModel[] Get(object id, string view = null)
             {
                 if (OnTesting)
                 {
@@ -247,7 +247,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }
                 return ServerScriptUtilities.Get(
                     context: Context,
-                    id: id,
+                    id: id.ToLong(),
                     view: view,
                     onTesting: OnTesting);
             }
@@ -272,7 +272,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 return apiModel;
             }
 
-            public bool Create(long id, object model)
+            public bool Create(object id, object model)
             {
                 if (OnTesting)
                 {
@@ -280,11 +280,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }
                 return ServerScriptUtilities.Create(
                     context: Context,
-                    id: id,
+                    id: id.ToLong(),
                     model: model);
             }
 
-            public bool Update(long id, object model)
+            public bool Update(object id, object model)
             {
                 if (OnTesting)
                 {
@@ -292,11 +292,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }
                 return ServerScriptUtilities.Update(
                     context: Context,
-                    id: id,
+                    id: id.ToLong(),
                     model: model);
             }
 
-            public bool Delete(long id)
+            public bool Delete(object id)
             {
                 if (OnTesting)
                 {
@@ -304,10 +304,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }
                 return ServerScriptUtilities.Delete(
                     context: Context,
-                    id: id);
+                    id: id.ToLong());
             }
 
-            public long BulkDelete(long id, string json)
+            public long BulkDelete(object id, string json)
             {
                 if (OnTesting)
                 {
@@ -315,7 +315,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }
                 return ServerScriptUtilities.BulkDelete(
                     context: Context,
-                    id: id,
+                    id: id.ToLong(),
                     apiRequestBody: json);
             }
         }
