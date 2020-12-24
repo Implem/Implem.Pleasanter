@@ -197,7 +197,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             ExtendedFieldCss = string.Empty,
                             ExtendedCellCss = string.Empty,
                             ExtendedHtmlBeforeField = string.Empty,
-                            ExtendedHtmlAfterField = string.Empty
+                            ExtendedHtmlAfterField = string.Empty,
+                            RawText = string.Empty
                         });
                 })
                 .ToArray();
@@ -236,6 +237,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ExtendedCellCss = serverScriptColumn?.ExtendedCellCss,
                     ExtendedHtmlBeforeField = serverScriptColumn?.ExtendedHtmlBeforeField,
                     ExtendedHtmlAfterField = serverScriptColumn?.ExtendedHtmlAfterField,
+                    RawText = serverScriptColumn?.RawText,
                     ReadOnly = !(column.CanUpdate && serverScriptColumn?.ReadOnly != true)
                 };
             });

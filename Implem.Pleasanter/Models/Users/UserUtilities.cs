@@ -413,7 +413,16 @@ namespace Implem.Pleasanter.Models
             int? tabIndex = null,
             ServerScriptModelColumn serverScriptValues = null)
         {
-            if (!column.GridDesign.IsNullOrEmpty())
+            if (serverScriptValues?.RawText.IsNullOrEmpty() == false)
+            {
+                return hb.Td(
+                    context: context,
+                    column: column,
+                    action: () => hb.Raw(serverScriptValues?.RawText),
+                    tabIndex: tabIndex,
+                    serverScriptValues: serverScriptValues);
+            }
+            else if (!column.GridDesign.IsNullOrEmpty())
             {
                 return hb.TdCustomValue(
                     context: context,
