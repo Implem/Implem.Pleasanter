@@ -555,6 +555,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             {
                 return null;
             }
+            if (!(context?.ServerScriptDepth < 10))
+            {
+                return null;
+            }
             itemModel = itemModel ?? new BaseItemModel();
             ServerScriptModelRow scriptValues = null;
             using (var model = new ServerScriptModel(
@@ -570,15 +574,23 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             {
                 using (var engine = context.CreateScriptEngin())
                 {
-                    engine.AddHostObject("context", model.Context);
-                    engine.AddHostObject("model", model.Model);
-                    engine.AddHostObject("columns", model.Columns);
-                    engine.AddHostObject("siteSettings", model.SiteSettings);
-                    engine.AddHostObject("view", model.View);
-                    engine.AddHostObject("items", model.Items);
-                    foreach (var script in scripts)
+                    try
                     {
-                        engine.Execute(script.Body);
+                        engine.ContinuationCallback = model.ContinuationCallback;
+                        engine.AddHostObject("context", model.Context);
+                        engine.AddHostObject("model", model.Model);
+                        engine.AddHostObject("columns", model.Columns);
+                        engine.AddHostObject("siteSettings", model.SiteSettings);
+                        engine.AddHostObject("view", model.View);
+                        engine.AddHostObject("items", model.Items);
+                        foreach (var script in scripts)
+                        {
+                            engine.Execute(script.Body);
+                        }
+                    }
+                    finally
+                    {
+                        engine.ContinuationCallback = null;
                     }
                 }
                 scriptValues = SetValues(
@@ -662,6 +674,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             createdContext.Id = id;
             createdContext.ApiRequestBody = apiRequestBody;
             createdContext.PermissionHash = Security.Permissions.Get(context: createdContext);
+            createdContext.ServerScriptDepth = context.ServerScriptDepth + 1;
             return createdContext;
         }
 

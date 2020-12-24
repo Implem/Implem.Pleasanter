@@ -1,10 +1,20 @@
-﻿using Implem.Pleasanter.Models;
-using Microsoft.ClearScript.V8;
+﻿using Microsoft.ClearScript.V8;
+using System;
 namespace Implem.Pleasanter.Models
 {
     public class ScriptEngine : IScriptEngine
     {
         private V8ScriptEngine v8ScriptEngine;
+
+        public Func<bool> ContinuationCallback
+        {
+            set
+            {
+                v8ScriptEngine.ContinuationCallback = value == null
+                    ? null
+                    : new Microsoft.ClearScript.ContinuationCallback(value);
+            }
+        }
 
         public ScriptEngine()
         {

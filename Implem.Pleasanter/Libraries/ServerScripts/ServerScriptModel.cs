@@ -19,6 +19,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public readonly ServerScriptModelView View = new ServerScriptModelView();
         public readonly ServerScriptModelApiItems Items;
         private readonly List<string> ChangeItemNames = new List<string>();
+        private DateTime TimeOut;
 
         public ServerScriptModel(
             Context context,
@@ -69,7 +70,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 apiRequestBody: context.ApiRequestBody,
                 requestDataString: context.RequestDataString,
                 contentType: context.ContentType,
-                onTesting: onTesting);
+                onTesting: onTesting,
+                scriptDepth: context.ServerScriptDepth);
             SiteSettings = new ServerScriptModelSiteSettings
             {
                 DefaultViewId = ss?.GridView
@@ -77,6 +79,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             Items = new ServerScriptModelApiItems(
                 context: context,
                 onTesting: onTesting);
+            TimeOut = DateTime.Now.AddSeconds(2);
         }
 
         private void DataPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -92,6 +95,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public void Dispose()
         {
             ((INotifyPropertyChanged)Model).PropertyChanged -= DataPropertyChanged;
+        }
+
+        public bool ContinuationCallback()
+        {
+            return TimeOut > DateTime.Now;
         }
 
         public class ServerScriptModelContext
@@ -157,9 +165,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 string apiRequestBody,
                 string requestDataString,
                 string contentType,
-                bool onTesting)
+                bool onTesting,
+                long scriptDepth)
             {
-                ServerScript = new ServerScriptModelContextServerScript(onTesting: onTesting);
+                ServerScript = new ServerScriptModelContextServerScript(
+                    onTesting: onTesting,
+                    scriptDepth: scriptDepth);
                 FormStringRaw = formStringRaw;
                 FormString = formString;
                 Ajax = ajax;
@@ -195,10 +206,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public class ServerScriptModelContextServerScript
         {
             public readonly bool OnTesting;
+            public readonly long ScriptDepth;
 
-            public ServerScriptModelContextServerScript(bool onTesting)
+            public ServerScriptModelContextServerScript(bool onTesting, long scriptDepth)
             {
                 OnTesting = onTesting;
+                ScriptDepth = scriptDepth;
             }
         }
 

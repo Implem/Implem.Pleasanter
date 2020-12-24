@@ -74,6 +74,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public abstract string ApiRequestBody { get; set; }
         public abstract string RequestDataString { get; }
         public abstract string ContentType{ get; set; }
+        public long ServerScriptDepth { get; set; } = 0;
         public abstract string AuthenticationType { get; }
         public abstract bool? IsAuthenticated { get; }
         public abstract IEnumerable<Claim> UserClaims { get; }
