@@ -198,6 +198,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             ExtendedCellCss = string.Empty,
                             ExtendedHtmlBeforeField = string.Empty,
                             ExtendedHtmlAfterField = string.Empty,
+                            Hide = column?.Hide == true,
                             RawText = string.Empty
                         });
                 })
@@ -237,6 +238,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ExtendedCellCss = serverScriptColumn?.ExtendedCellCss,
                     ExtendedHtmlBeforeField = serverScriptColumn?.ExtendedHtmlBeforeField,
                     ExtendedHtmlAfterField = serverScriptColumn?.ExtendedHtmlAfterField,
+                    Hide = serverScriptColumn?.Hide == true,
                     RawText = serverScriptColumn?.RawText,
                     ReadOnly = !(column.CanUpdate && serverScriptColumn?.ReadOnly != true)
                 };
@@ -635,6 +637,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 ?.Select(row => row?.Columns?.Get(columnName))
                 ?.Any(column => column?.ReadOnly == true) == true;
             return readOnly;
+        }
+
+        public static bool Hide(IEnumerable<ServerScriptModelColumn> serverScriptModelColumns)
+        {
+            var hide = serverScriptModelColumns
+                ?.Any(column => column?.Hide == true) == true;
+            return hide;
         }
 
         public static bool CanUpdate(

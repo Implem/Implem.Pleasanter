@@ -209,6 +209,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             public string ExtendedCellCss { get; set; }
             public string ExtendedHtmlBeforeField { get; set; }
             public string ExtendedHtmlAfterField { get; set; }
+            public bool Hide { get; set; }
             public string RawText { get; set; }
         }
 

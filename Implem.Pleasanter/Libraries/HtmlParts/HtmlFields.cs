@@ -7,6 +7,7 @@ using Implem.Pleasanter.Libraries.Resources;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
@@ -141,8 +142,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ? " both"
                     : string.Empty)
                 + (column.Hide == true
-                    ? " hidden"
-                    : string.Empty)
+                    || ServerScriptUtilities.Hide(
+                        serverScriptModelColumns: serverScriptModelColumns)
+                            ? " hidden"
+                            : string.Empty)
                 + (!column.ExtendedFieldCss.IsNullOrEmpty()
                     ? " " + column.ExtendedFieldCss
                     : string.Empty)
