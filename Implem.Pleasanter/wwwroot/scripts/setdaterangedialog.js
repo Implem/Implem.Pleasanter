@@ -9,7 +9,10 @@
             height: 'auto',
             width: '700px',
             resizable: false,
-            position: { of: window }
+            position: { of: window },
+            close: function () {
+                $(this).find('.datepicker').datetimepicker('remove');
+            }
         });
         $('#SetDateRangeDialog').dialog('open');
     }
