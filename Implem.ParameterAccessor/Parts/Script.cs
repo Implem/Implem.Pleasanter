@@ -3,5 +3,6 @@
     public class Script
     {
         public bool ServerScript;
+        public long ServerScriptTimeOut;
     }
 }

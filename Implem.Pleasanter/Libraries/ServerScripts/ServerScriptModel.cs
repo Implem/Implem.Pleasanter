@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.DataSources.SqlServer;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
@@ -79,7 +80,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             Items = new ServerScriptModelApiItems(
                 context: context,
                 onTesting: onTesting);
-            TimeOut = DateTime.Now.AddSeconds(2);
+            TimeOut = Parameters.Script.ServerScriptTimeOut == 0
+                ? DateTime.MaxValue
+                : DateTime.Now.AddMilliseconds(Parameters.Script.ServerScriptTimeOut);
         }
 
         private void DataPropertyChanged(object sender, PropertyChangedEventArgs e)
