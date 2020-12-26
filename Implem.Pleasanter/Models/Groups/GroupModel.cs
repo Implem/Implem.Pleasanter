@@ -122,8 +122,10 @@ namespace Implem.Pleasanter.Models
             {
                 Get(context: context,
                     tableType: Sqls.TableTypes.NormalAndHistory,
-                    where: Rds.GroupsWhereDefault(this)
-                        .Groups_Ver(context.QueryStrings.Int("ver")), ss: ss);
+                    where: Rds.GroupsWhereDefault(
+                        context: context,
+                        groupModel: this)
+                            .Groups_Ver(context.QueryStrings.Int("ver")), ss: ss);
             }
             else
             {
@@ -195,7 +197,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.GroupsWhereDefault(this);
+            where = where ?? Rds.GroupsWhereDefault(
+                context: context,
+                groupModel: this);
             Set(context, ss, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectGroups(
@@ -386,8 +390,10 @@ namespace Implem.Pleasanter.Models
         {
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
-            var where = Rds.GroupsWhereDefault(this)
-                .UpdatedTime(timestamp, _using: timestamp.InRange());
+            var where = Rds.GroupsWhereDefault(
+                context: context,
+                groupModel: this)
+                    .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (Versions.VerUp(
                 context: context,
                 ss: ss,
@@ -463,7 +469,9 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>
             {
                 Rds.UpdateOrInsertGroups(
-                    where: where ?? Rds.GroupsWhereDefault(this),
+                    where: where ?? Rds.GroupsWhereDefault(
+                        context: context,
+                        groupModel: this),
                     param: param ?? Rds.GroupsParamDefault(
                         context: context, groupModel: this, setDefault: true)),
                 StatusUtilities.UpdateStatus(

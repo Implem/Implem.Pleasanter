@@ -699,8 +699,10 @@ namespace Implem.Pleasanter.Models
             {
                 Get(context: context,
                     tableType: Sqls.TableTypes.NormalAndHistory,
-                    where: Rds.IssuesWhereDefault(this)
-                        .Issues_Ver(context.QueryStrings.Int("ver")), ss: ss);
+                    where: Rds.IssuesWhereDefault(
+                        context: context,
+                        issueModel: this)
+                            .Issues_Ver(context.QueryStrings.Int("ver")), ss: ss);
             }
             else
             {
@@ -779,7 +781,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.IssuesWhereDefault(this);
+            where = where ?? Rds.IssuesWhereDefault(
+                context: context,
+                issueModel: this);
             new View().SetColumnsWhere(
                 context: context,
                 ss: ss,
@@ -1005,10 +1009,15 @@ namespace Implem.Pleasanter.Models
             bool otherInitValue = false,
             bool get = true)
         {
+            SetByBeforeCreateServerScript(
+                context: context,
+                ss: ss);
             var statements = new List<SqlStatement>();
             if (extendedSqls)
             {
-                statements.OnCreatingExtendedSqls(SiteId);
+                statements.OnCreatingExtendedSqls(
+                    context: context,
+                    siteId: SiteId);
             }
             statements.AddRange(CreateStatements(
                 context: context,
@@ -1073,6 +1082,7 @@ namespace Implem.Pleasanter.Models
             if (extendedSqls)
             {
                 statements.OnCreatedExtendedSqls(
+                    context: context,
                     siteId: SiteId,
                     id: IssueId);
             }
@@ -1081,6 +1091,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: statements.ToArray());
             if (get && Rds.ExtendedSqls(
+                context: context,
                 siteId: SiteId,
                 id: IssueId)
                     ?.Any(o => o.OnCreated) == true)
@@ -1089,6 +1100,9 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss);
             }
+            SetByAfterCreateServerScript(
+                context: context,
+                ss: ss);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -1154,6 +1168,9 @@ namespace Implem.Pleasanter.Models
             bool setBySession = true,
             bool get = true)
         {
+            SetByBeforeUpdateServerScript(
+                context: context,
+                ss: ss);
             var notifications = GetNotifications(
                 context: context,
                 ss: ss,
@@ -1167,6 +1184,7 @@ namespace Implem.Pleasanter.Models
             if (extendedSqls)
             {
                 statements.OnUpdatingExtendedSqls(
+                    context: context,
                     siteId: SiteId,
                     id: IssueId,
                     timestamp: Timestamp.ToDateTime());
@@ -1229,6 +1247,9 @@ namespace Implem.Pleasanter.Models
                 addUpdatedTimeParam: true,
                 addUpdatorParam: true,
                 updateItems: true);
+            SetByAfterUpdateServerScript(
+                context: context,
+                ss: ss);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -1244,8 +1265,10 @@ namespace Implem.Pleasanter.Models
         {
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
-            var where = Rds.IssuesWhereDefault(this)
-                .UpdatedTime(timestamp, _using: timestamp.InRange());
+            var where = Rds.IssuesWhereDefault(
+                context: context,
+                issueModel: this)
+                    .UpdatedTime(timestamp, _using: timestamp.InRange());
             statements.AddRange(IfDuplicatedStatements(ss: ss));
             if (Versions.VerUp(
                 context: context,
@@ -1334,6 +1357,7 @@ namespace Implem.Pleasanter.Models
                     updateItems: updateItems)
                         .ToArray());
             if (get && Rds.ExtendedSqls(
+                context: context,
                 siteId: SiteId,
                 id: IssueId)
                     ?.Any(o => o.OnUpdated) == true)
@@ -1379,6 +1403,7 @@ namespace Implem.Pleasanter.Models
             if (extendedSqls)
             {
                 statements.OnUpdatedExtendedSqls(
+                    context: context,
                     siteId: SiteId,
                     id: IssueId);
             }
@@ -1421,7 +1446,9 @@ namespace Implem.Pleasanter.Models
                         .SiteId(SiteId)
                         .Title(Title.DisplayValue)),
                 Rds.UpdateOrInsertIssues(
-                    where: where ?? Rds.IssuesWhereDefault(this),
+                    where: where ?? Rds.IssuesWhereDefault(
+                        context: context,
+                        issueModel: this),
                     param: param ?? Rds.IssuesParamDefault(
                         context: context, issueModel: this, setDefault: true))
             };
@@ -1476,6 +1503,9 @@ namespace Implem.Pleasanter.Models
 
         public ErrorData Delete(Context context, SiteSettings ss, bool notice = false)
         {
+            SetByBeforeDeleteServerScript(
+                context: context,
+                ss: ss);
             var notifications = context.ContractSettings.Notice != false && notice
                 ? GetNotifications(
                     context: context,
@@ -1484,7 +1514,10 @@ namespace Implem.Pleasanter.Models
                 : null;
             var statements = new List<SqlStatement>();
             var where = Rds.IssuesWhere().SiteId(SiteId).IssueId(IssueId);
-            statements.OnDeletingExtendedSqls(SiteId, IssueId);
+            statements.OnDeletingExtendedSqls(
+                context: context,
+                siteId: SiteId,
+                id: IssueId);
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.DeleteItems(
@@ -1499,7 +1532,10 @@ namespace Implem.Pleasanter.Models
                     factory: context,
                     where: where)
             });
-            statements.OnDeletedExtendedSqls(SiteId, IssueId);
+            statements.OnDeletedExtendedSqls(
+                context: context,
+                siteId: SiteId,
+                id: IssueId);
             Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
@@ -1513,6 +1549,9 @@ namespace Implem.Pleasanter.Models
                     notifications: notifications,
                     type: "Deleted");
             }
+            SetByAfterDeleteServerScript(
+                context: context,
+                ss: ss);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -2058,7 +2097,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.UpdateIssues(
                     param: param,
-                    where: Rds.IssuesWhereDefault(this),
+                    where: Rds.IssuesWhereDefault(
+                        context: context,
+                        issueModel: this),
                     addUpdatedTimeParam: false,
                     addUpdatorParam: false));
         }

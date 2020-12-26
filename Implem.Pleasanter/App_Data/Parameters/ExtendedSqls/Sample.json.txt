@@ -1,6 +1,8 @@
 ﻿{
     "Name": null,
     "Description": "Sample",
+    "DeptIdList": null,
+    "UserIdList": null,
     "SiteIdList": [2],
     "IdList": null,
     "Controllers": null,

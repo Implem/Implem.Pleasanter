@@ -420,7 +420,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.SysLogsWhereDefault(this);
+            where = where ?? Rds.SysLogsWhereDefault(
+                context: context,
+                sysLogModel: this);
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectSysLogs(
@@ -743,7 +745,9 @@ namespace Implem.Pleasanter.Models
                     transactional: true,
                     writeSqlToDebugLog: writeSqlToDebugLog,
                     statements: Rds.UpdateSysLogs(
-                        where: Rds.SysLogsWhereDefault(this),
+                        where: Rds.SysLogsWhereDefault(
+                            context: context,
+                            sysLogModel: this),
                         param: Rds.SysLogsParamDefault(
                             context: context,
                             sysLogModel: this)));

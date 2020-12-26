@@ -7,11 +7,13 @@ using Implem.Pleasanter.Libraries.Resources;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlFields
@@ -36,6 +38,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context,
             SiteSettings ss,
             Column column,
+            IEnumerable<ServerScriptModelColumn> serverScriptModelColumns = null,
             BaseModel.MethodTypes methodType = BaseModel.MethodTypes.NotSet,
             string value = null,
             Permissions.ColumnPermissionTypes columnPermissionType =
@@ -75,7 +78,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         context: context,
                         id: "ColumnTop",
                         columnName: column.ColumnName))
-                    .Raw(column.ExtendedHtmlBeforeField)
+                    .Raw(column.ExtendedHtmlBeforeField
+                        + serverScriptModelColumns
+                            ?.Select(scriptColumn => scriptColumn.ExtendedHtmlBeforeField)
+                            .Join())
                     .SwitchField(
                         context: context,
                         ss: ss,
@@ -87,10 +93,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             ? $"{column.Id}{idSuffix}"
                             : null,
                         columnName: $"{column.ColumnName}{idSuffix}",
-                        fieldCss: FieldCss(column, fieldCss)
-                            + (column.TextAlign == SiteSettings.TextAlignTypes.Right
-                                ? " right-align"
-                                : string.Empty),
+                        fieldCss: FieldCss(
+                            column: column,
+                            serverScriptModelColumns: serverScriptModelColumns,
+                            fieldCss: fieldCss)
+                                + (column.TextAlign == SiteSettings.TextAlignTypes.Right
+                                    ? " right-align"
+                                    : string.Empty),
                         labelCss: labelCss,
                         controlContainerCss: controlContainerCss,
                         controlCss: Strings.CoalesceEmpty(controlCss, column.ControlCss)
@@ -108,7 +117,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlOnly: controlOnly,
                         alwaysSend: alwaysSend,
                         preview: preview)
-                    .Raw(column.ExtendedHtmlAfterField)
+                    .Raw(column.ExtendedHtmlAfterField
+                        + serverScriptModelColumns
+                            ?.Select(scriptColumn => scriptColumn.ExtendedHtmlAfterField)
+                            .Join())
                     .Raw(HtmlHtmls.ExtendedHtmls(
                         context: context,
                         id: "ColumnBottom",
@@ -120,17 +132,31 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
         }
 
-        private static string FieldCss(Column column, string fieldCss)
+        private static string FieldCss(
+            Column column,
+            IEnumerable<ServerScriptModelColumn> serverScriptModelColumns,
+            string fieldCss)
         {
             return Strings.CoalesceEmpty(fieldCss, column.FieldCss)
                 + (column.NoWrap == true
                     ? " both"
                     : string.Empty)
                 + (column.Hide == true
-                    ? " hidden"
-                    : string.Empty)
+                    || ServerScriptUtilities.Hide(
+                        serverScriptModelColumns: serverScriptModelColumns)
+                            ? " hidden"
+                            : string.Empty)
                 + (!column.ExtendedFieldCss.IsNullOrEmpty()
                     ? " " + column.ExtendedFieldCss
+                    : string.Empty)
+                + (serverScriptModelColumns
+                    ?.Any(scriptColumn => scriptColumn
+                        ?.ExtendedFieldCss
+                        ?.IsNullOrEmpty() == false) == true
+                    ? " " + serverScriptModelColumns
+                        ?.Select(scriptColumn => scriptColumn?.ExtendedFieldCss)
+                        .Where(css => css?.IsNullOrEmpty() == false)
+                        .Join(" ")
                     : string.Empty);
         }
 

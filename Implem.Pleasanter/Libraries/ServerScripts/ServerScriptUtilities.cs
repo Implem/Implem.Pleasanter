@@ -194,7 +194,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         new ServerScriptModelColumn
                         {
                             ReadOnly = !(column?.CanRead == true && column?.CanUpdate == true),
-                            ExtendedCellCss = string.Empty
+                            ExtendedFieldCss = string.Empty,
+                            ExtendedCellCss = string.Empty,
+                            ExtendedHtmlBeforeField = string.Empty,
+                            ExtendedHtmlAfterField = string.Empty,
+                            Hide = column?.Hide == true,
+                            RawText = string.Empty
                         });
                 })
                 .ToArray();
@@ -229,7 +234,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 var serverScriptColumn = datam.Value as ServerScriptModelColumn;
                 scriptValues[datam.Key] = new ServerScriptModelColumn
                 {
+                    ExtendedFieldCss = serverScriptColumn?.ExtendedFieldCss,
                     ExtendedCellCss = serverScriptColumn?.ExtendedCellCss,
+                    ExtendedHtmlBeforeField = serverScriptColumn?.ExtendedHtmlBeforeField,
+                    ExtendedHtmlAfterField = serverScriptColumn?.ExtendedHtmlAfterField,
+                    Hide = serverScriptColumn?.Hide == true,
+                    RawText = serverScriptColumn?.RawText,
                     ReadOnly = !(column.CanUpdate && serverScriptColumn?.ReadOnly != true)
                 };
             });
@@ -547,6 +557,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             {
                 return null;
             }
+            if (!(context?.ServerScriptDepth < 10))
+            {
+                return null;
+            }
             itemModel = itemModel ?? new BaseItemModel();
             ServerScriptModelRow scriptValues = null;
             using (var model = new ServerScriptModel(
@@ -563,15 +577,23 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 using (var engine = new Microsoft.ClearScript.V8.V8ScriptEngine(
                     Microsoft.ClearScript.V8.V8ScriptEngineFlags.EnableDateTimeConversion))
                 {
-                    engine.AddHostObject("context", model.Context);
-                    engine.AddHostObject("model", model.Model);
-                    engine.AddHostObject("columns", model.Columns);
-                    engine.AddHostObject("siteSettings", model.SiteSettings);
-                    engine.AddHostObject("view", model.View);
-                    engine.AddHostObject("items", model.Items);
-                    foreach (var script in scripts)
+                    try
                     {
-                        engine.Execute(script.Body);
+                        engine.ContinuationCallback = model.ContinuationCallback;
+                        engine.AddHostObject("context", model.Context);
+                        engine.AddHostObject("model", model.Model);
+                        engine.AddHostObject("columns", model.Columns);
+                        engine.AddHostObject("siteSettings", model.SiteSettings);
+                        engine.AddHostObject("view", model.View);
+                        engine.AddHostObject("items", model.Items);
+                        foreach (var script in scripts)
+                        {
+                            engine.Execute(script.Body);
+                        }
+                    }
+                    finally
+                    {
+                        engine.ContinuationCallback = null;
                     }
                 }
                 scriptValues = SetValues(
@@ -630,6 +652,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return readOnly;
         }
 
+        public static bool Hide(IEnumerable<ServerScriptModelColumn> serverScriptModelColumns)
+        {
+            var hide = serverScriptModelColumns
+                ?.Any(column => column?.Hide == true) == true;
+            return hide;
+        }
+
         public static bool CanUpdate(
             this Column column,
             BaseModel baseModel)
@@ -655,6 +684,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             createdContext.Id = id;
             createdContext.ApiRequestBody = apiRequestBody;
             createdContext.PermissionHash = Security.Permissions.Get(context: createdContext);
+            createdContext.ServerScriptDepth = context.ServerScriptDepth + 1;
             return createdContext;
         }
 

@@ -335,6 +335,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetTenantIdByContext": Code.Model_SetTenantIdByContext = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetTenantIdByContext, definitionRow, CodeXls); break;
                     case "Model_OnCreating_Binaries": Code.Model_OnCreating_Binaries = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnCreating_Binaries, definitionRow, CodeXls); break;
                     case "Model_OnCreating_Users": Code.Model_OnCreating_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnCreating_Users, definitionRow, CodeXls); break;
+                    case "Model_OnCreating_ServerScript": Code.Model_OnCreating_ServerScript = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnCreating_ServerScript, definitionRow, CodeXls); break;
+                    case "Model_OnCreated_ServerScript": Code.Model_OnCreated_ServerScript = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnCreated_ServerScript, definitionRow, CodeXls); break;
                     case "Model_CheckNotificationConditions": Code.Model_CheckNotificationConditions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CheckNotificationConditions, definitionRow, CodeXls); break;
                     case "Model_CreatedNotice": Code.Model_CreatedNotice = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreatedNotice, definitionRow, CodeXls); break;
                     case "Model_Insert_User": Code.Model_Insert_User = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Insert_User, definitionRow, CodeXls); break;
@@ -369,6 +371,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_OnUpdated_Groups": Code.Model_OnUpdated_Groups = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdated_Groups, definitionRow, CodeXls); break;
                     case "Model_OnUpdated_Users": Code.Model_OnUpdated_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdated_Users, definitionRow, CodeXls); break;
                     case "Model_OnUpdated_SetSiteMenu": Code.Model_OnUpdated_SetSiteMenu = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdated_SetSiteMenu, definitionRow, CodeXls); break;
+                    case "Model_OnUpdated_ServerScript": Code.Model_OnUpdated_ServerScript = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdated_ServerScript, definitionRow, CodeXls); break;
+                    case "Model_OnUpdating_ServerScript": Code.Model_OnUpdating_ServerScript = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdating_ServerScript, definitionRow, CodeXls); break;
                     case "Model_ForceSynchronizeSummaryExecute": Code.Model_ForceSynchronizeSummaryExecute = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ForceSynchronizeSummaryExecute, definitionRow, CodeXls); break;
                     case "Model_SynchronizeSummaryExecute": Code.Model_SynchronizeSummaryExecute = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SynchronizeSummaryExecute, definitionRow, CodeXls); break;
                     case "Model_SynchronizeSummary": Code.Model_SynchronizeSummary = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SynchronizeSummary, definitionRow, CodeXls); break;
@@ -394,6 +398,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_OnDeleted_SetSiteInfo": Code.Model_OnDeleted_SetSiteInfo = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnDeleted_SetSiteInfo, definitionRow, CodeXls); break;
                     case "Model_OnDeletedNotifications": Code.Model_OnDeletedNotifications = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnDeletedNotifications, definitionRow, CodeXls); break;
                     case "Model_OnDeletedNotice": Code.Model_OnDeletedNotice = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnDeletedNotice, definitionRow, CodeXls); break;
+                    case "Model_OnDeleting_ServerScript": Code.Model_OnDeleting_ServerScript = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnDeleting_ServerScript, definitionRow, CodeXls); break;
+                    case "Model_OnDeleted_ServerScript": Code.Model_OnDeleted_ServerScript = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnDeleted_ServerScript, definitionRow, CodeXls); break;
                     case "Model_Restore": Code.Model_Restore = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Restore, definitionRow, CodeXls); break;
                     case "Model_Restore_Item": Code.Model_Restore_Item = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Restore_Item, definitionRow, CodeXls); break;
                     case "Model_PhysicalDelete": Code.Model_PhysicalDelete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PhysicalDelete, definitionRow, CodeXls); break;
@@ -7243,6 +7249,8 @@ namespace Implem.DefinitionAccessor
         public string Model_SetTenantIdByContext;
         public string Model_OnCreating_Binaries;
         public string Model_OnCreating_Users;
+        public string Model_OnCreating_ServerScript;
+        public string Model_OnCreated_ServerScript;
         public string Model_CheckNotificationConditions;
         public string Model_CreatedNotice;
         public string Model_Insert_User;
@@ -7277,6 +7285,8 @@ namespace Implem.DefinitionAccessor
         public string Model_OnUpdated_Groups;
         public string Model_OnUpdated_Users;
         public string Model_OnUpdated_SetSiteMenu;
+        public string Model_OnUpdated_ServerScript;
+        public string Model_OnUpdating_ServerScript;
         public string Model_ForceSynchronizeSummaryExecute;
         public string Model_SynchronizeSummaryExecute;
         public string Model_SynchronizeSummary;
@@ -7302,6 +7312,8 @@ namespace Implem.DefinitionAccessor
         public string Model_OnDeleted_SetSiteInfo;
         public string Model_OnDeletedNotifications;
         public string Model_OnDeletedNotice;
+        public string Model_OnDeleting_ServerScript;
+        public string Model_OnDeleted_ServerScript;
         public string Model_Restore;
         public string Model_Restore_Item;
         public string Model_PhysicalDelete;
@@ -7891,6 +7903,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetTenantIdByContext = new CodeDefinition();
         public CodeDefinition Model_OnCreating_Binaries = new CodeDefinition();
         public CodeDefinition Model_OnCreating_Users = new CodeDefinition();
+        public CodeDefinition Model_OnCreating_ServerScript = new CodeDefinition();
+        public CodeDefinition Model_OnCreated_ServerScript = new CodeDefinition();
         public CodeDefinition Model_CheckNotificationConditions = new CodeDefinition();
         public CodeDefinition Model_CreatedNotice = new CodeDefinition();
         public CodeDefinition Model_Insert_User = new CodeDefinition();
@@ -7925,6 +7939,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_OnUpdated_Groups = new CodeDefinition();
         public CodeDefinition Model_OnUpdated_Users = new CodeDefinition();
         public CodeDefinition Model_OnUpdated_SetSiteMenu = new CodeDefinition();
+        public CodeDefinition Model_OnUpdated_ServerScript = new CodeDefinition();
+        public CodeDefinition Model_OnUpdating_ServerScript = new CodeDefinition();
         public CodeDefinition Model_ForceSynchronizeSummaryExecute = new CodeDefinition();
         public CodeDefinition Model_SynchronizeSummaryExecute = new CodeDefinition();
         public CodeDefinition Model_SynchronizeSummary = new CodeDefinition();
@@ -7950,6 +7966,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_OnDeleted_SetSiteInfo = new CodeDefinition();
         public CodeDefinition Model_OnDeletedNotifications = new CodeDefinition();
         public CodeDefinition Model_OnDeletedNotice = new CodeDefinition();
+        public CodeDefinition Model_OnDeleting_ServerScript = new CodeDefinition();
+        public CodeDefinition Model_OnDeleted_ServerScript = new CodeDefinition();
         public CodeDefinition Model_Restore = new CodeDefinition();
         public CodeDefinition Model_Restore_Item = new CodeDefinition();
         public CodeDefinition Model_PhysicalDelete = new CodeDefinition();

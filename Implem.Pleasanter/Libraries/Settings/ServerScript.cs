@@ -10,6 +10,12 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? BeforeFormula;
         public bool? AfterFormula;
         public bool? WhenloadingSiteSettings;
+        public bool? BeforeCreate;
+        public bool? AfterCreate;
+        public bool? BeforeUpdate;
+        public bool? AfterUpdate;
+        public bool? BeforeDelete;
+        public bool? AfterDelete;
         public string Body;
 
         public ServerScript()
@@ -24,6 +30,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool beforeFormula,
             bool afterFormula,
             bool whenloadingSiteSettings,
+            bool beforeCreate,
+            bool afterCreate,
+            bool beforeUpdate,
+            bool afterUpdate,
+            bool beforeDelete,
+            bool afterDelete,
             string body)
         {
             Id = id;
@@ -33,6 +45,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             BeforeFormula = beforeFormula;
             AfterFormula = afterFormula;
             WhenloadingSiteSettings = whenloadingSiteSettings;
+            BeforeCreate = beforeCreate;
+            AfterCreate = afterCreate;
+            BeforeUpdate = beforeUpdate;
+            AfterUpdate = afterUpdate;
+            BeforeDelete = beforeDelete;
+            AfterDelete = afterDelete;
             Body = body;
         }
 
@@ -43,6 +61,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool beforeFormula,
             bool afterFormula,
             bool whenloadingSiteSettings,
+            bool beforeCreate,
+            bool afterCreate,
+            bool beforeUpdate,
+            bool afterUpdate,
+            bool beforeDelete,
+            bool afterDelete,
             string body)
         {
             Title = title;
@@ -51,6 +75,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             BeforeFormula = beforeFormula;
             AfterFormula = afterFormula;
             WhenloadingSiteSettings = whenloadingSiteSettings;
+            BeforeCreate = beforeCreate;
+            AfterCreate = afterCreate;
+            BeforeUpdate = beforeUpdate;
+            AfterUpdate = afterUpdate;
+            BeforeDelete = beforeDelete;
+            AfterDelete = afterDelete;
             Body = body;
         }
 
@@ -64,6 +94,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (BeforeFormula == true) script.BeforeFormula = true;
             if (AfterFormula == true) script.AfterFormula = true;
             if (WhenloadingSiteSettings == true) script.WhenloadingSiteSettings = true;
+            if (BeforeCreate == true) script.BeforeCreate = true;
+            if (AfterCreate == true) script.AfterCreate = true;
+            if (BeforeUpdate == true) script.BeforeUpdate = true;
+            if (AfterUpdate == true) script.AfterUpdate = true;
+            if (BeforeDelete == true) script.BeforeDelete = true;
+            if (AfterDelete == true) script.AfterDelete = true;
             script.Body = Body;
             return script;
         }

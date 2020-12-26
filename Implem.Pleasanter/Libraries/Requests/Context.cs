@@ -81,6 +81,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string ApiRequestBody;
         public string RequestDataString { get => ApiRequestBody ?? FormString; }
         public string ContentType;
+        public long ServerScriptDepth = 0;
 
         public Context(
             bool request = true,

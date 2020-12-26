@@ -188,8 +188,10 @@ namespace Implem.Pleasanter.Models
             {
                 Get(context: context,
                     tableType: Sqls.TableTypes.NormalAndHistory,
-                    where: Rds.OutgoingMailsWhereDefault(this)
-                        .OutgoingMails_Ver(context.QueryStrings.Int("ver")));
+                    where: Rds.OutgoingMailsWhereDefault(
+                        context: context,
+                        outgoingMailModel: this)
+                            .OutgoingMails_Ver(context.QueryStrings.Int("ver")));
             }
             else
             {
@@ -240,7 +242,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.OutgoingMailsWhereDefault(this);
+            where = where ?? Rds.OutgoingMailsWhereDefault(
+                context: context,
+                outgoingMailModel: this);
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectOutgoingMails(
@@ -350,8 +354,10 @@ namespace Implem.Pleasanter.Models
         {
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
-            var where = Rds.OutgoingMailsWhereDefault(this)
-                .UpdatedTime(timestamp, _using: timestamp.InRange());
+            var where = Rds.OutgoingMailsWhereDefault(
+                context: context,
+                outgoingMailModel: this)
+                    .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (Versions.VerUp(
                 context: context,
                 ss: ss,
@@ -423,7 +429,9 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>
             {
                 Rds.UpdateOrInsertOutgoingMails(
-                    where: where ?? Rds.OutgoingMailsWhereDefault(this),
+                    where: where ?? Rds.OutgoingMailsWhereDefault(
+                        context: context,
+                        outgoingMailModel: this),
                     param: param ?? Rds.OutgoingMailsParamDefault(
                         context: context, outgoingMailModel: this, setDefault: true))
             };

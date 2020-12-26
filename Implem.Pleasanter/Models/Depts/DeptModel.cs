@@ -140,8 +140,10 @@ namespace Implem.Pleasanter.Models
             {
                 Get(context: context,
                     tableType: Sqls.TableTypes.NormalAndHistory,
-                    where: Rds.DeptsWhereDefault(this)
-                        .Depts_Ver(context.QueryStrings.Int("ver")), ss: ss);
+                    where: Rds.DeptsWhereDefault(
+                        context: context,
+                        deptModel: this)
+                            .Depts_Ver(context.QueryStrings.Int("ver")), ss: ss);
             }
             else
             {
@@ -213,7 +215,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.DeptsWhereDefault(this);
+            where = where ?? Rds.DeptsWhereDefault(
+                context: context,
+                deptModel: this);
             Set(context, ss, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectDepts(
@@ -371,8 +375,10 @@ namespace Implem.Pleasanter.Models
         {
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
-            var where = Rds.DeptsWhereDefault(this)
-                .UpdatedTime(timestamp, _using: timestamp.InRange());
+            var where = Rds.DeptsWhereDefault(
+                context: context,
+                deptModel: this)
+                    .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (Versions.VerUp(
                 context: context,
                 ss: ss,
@@ -448,7 +454,9 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>
             {
                 Rds.UpdateOrInsertDepts(
-                    where: where ?? Rds.DeptsWhereDefault(this),
+                    where: where ?? Rds.DeptsWhereDefault(
+                        context: context,
+                        deptModel: this),
                     param: param ?? Rds.DeptsParamDefault(
                         context: context, deptModel: this, setDefault: true)),
                 StatusUtilities.UpdateStatus(

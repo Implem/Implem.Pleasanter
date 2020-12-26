@@ -3774,155 +3774,245 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static List<SqlStatement> OnCreatingExtendedSqls(
-            this List<SqlStatement> statements, long siteId)
+            this List<SqlStatement> statements,
+            Context context,
+            long siteId)
         {
-            Parameters.ExtendedSqls?
-                .Where(o => o.OnCreating)
-                .ExtendedSqls(statements, siteId);
+            Parameters.ExtendedSqls
+                ?.Where(o => o.OnCreating)
+                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtendedSqls(
+                    statements: statements,
+                    siteId: siteId);
             return statements;
         }
 
         public static List<SqlStatement> OnCreatedExtendedSqls(
-            this List<SqlStatement> statements, long siteId, long id)
+            this List<SqlStatement> statements,
+            Context context,
+            long siteId,
+            long id)
         {
-            Parameters.ExtendedSqls?
-                .Where(o => o.OnCreated)
-                .ExtendedSqls(statements, siteId, id);
+            Parameters.ExtendedSqls
+                ?.Where(o => o.OnCreated)
+                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtendedSqls(
+                    statements: statements,
+                    siteId: siteId,
+                    id: id);
             return statements;
         }
 
         public static List<SqlStatement> OnUpdatingExtendedSqls(
-            this List<SqlStatement> statements, long siteId, long id, DateTime timestamp)
+            this List<SqlStatement> statements,
+            Context context,
+            long siteId,
+            long id,
+            DateTime timestamp)
         {
-            Parameters.ExtendedSqls?
-                .Where(o => o.OnUpdating)
-                .ExtendedSqls(statements, siteId, id, timestamp);
+            Parameters.ExtendedSqls
+                ?.Where(o => o.OnUpdating)
+                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtendedSqls(
+                    statements: statements,
+                    siteId: siteId,
+                    id: id,
+                    timestamp: timestamp);
             return statements;
         }
 
         public static List<SqlStatement> OnUpdatedExtendedSqls(
-            this List<SqlStatement> statements, long siteId, long id)
+            this List<SqlStatement> statements,
+            Context context,
+            long siteId,
+            long id)
         {
-            Parameters.ExtendedSqls?
-                .Where(o => o.OnUpdated)
-                .ExtendedSqls(statements, siteId, id);
+            Parameters.ExtendedSqls
+                ?.Where(o => o.OnUpdated)
+                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtendedSqls(
+                    statements: statements,
+                    siteId: siteId,
+                    id: id);
             return statements;
         }
 
         public static List<SqlStatement> OnUpdatingByGridExtendedSqls(
-            this List<SqlStatement> statements, long siteId)
+            this List<SqlStatement> statements,
+            Context context,
+            long siteId)
         {
-            Parameters.ExtendedSqls?
-                .Where(o => o.OnUpdatingByGrid)
-                .ExtendedSqls(statements, siteId);
+            Parameters.ExtendedSqls
+                ?.Where(o => o.OnUpdatingByGrid)
+                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtendedSqls(
+                    statements: statements,
+                    siteId: siteId);
             return statements;
         }
 
         public static List<SqlStatement> OnUpdatedByGridExtendedSqls(
-            this List<SqlStatement> statements, long siteId)
+            this List<SqlStatement> statements,
+            Context context,
+            long siteId)
         {
-            Parameters.ExtendedSqls?
-                .Where(o => o.OnUpdatedByGrid)
-                .ExtendedSqls(statements, siteId);
+            Parameters.ExtendedSqls
+                ?.Where(o => o.OnUpdatedByGrid)
+                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtendedSqls(
+                    statements: statements,
+                    siteId: siteId);
             return statements;
         }
 
         public static List<SqlStatement> OnBulkUpdatingExtendedSqls(
-            this List<SqlStatement> statements, long siteId)
+            this List<SqlStatement> statements,
+            Context context,
+            long siteId)
         {
-            Parameters.ExtendedSqls?
-                .Where(o => o.OnBulkUpdating)
-                .ExtendedSqls(statements, siteId);
+            Parameters.ExtendedSqls
+                ?.Where(o => o.OnBulkUpdating)
+                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtendedSqls(
+                    statements: statements,
+                    siteId: siteId);
             return statements;
         }
 
         public static List<SqlStatement> OnBulkUpdatedExtendedSqls(
-            this List<SqlStatement> statements, long siteId)
+            this List<SqlStatement> statements,
+            Context context,
+            long siteId)
         {
-            Parameters.ExtendedSqls?
-                .Where(o => o.OnBulkUpdated)
-                .ExtendedSqls(statements, siteId);
+            Parameters.ExtendedSqls
+                ?.Where(o => o.OnBulkUpdated)
+                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtendedSqls(
+                    statements: statements,
+                    siteId: siteId);
             return statements;
         }
 
         public static List<SqlStatement> OnDeletingExtendedSqls(
-            this List<SqlStatement> statements, long siteId, long id)
+            this List<SqlStatement> statements,
+            Context context,
+            long siteId,
+            long id)
         {
-            Parameters.ExtendedSqls?
-                .Where(o => o.OnDeleting)
-                .ExtendedSqls(statements, siteId, id);
+            Parameters.ExtendedSqls
+                ?.Where(o => o.OnDeleting)
+                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtendedSqls(
+                    statements: statements,
+                    siteId: siteId,
+                    id: id);
             return statements;
         }
 
         public static List<SqlStatement> OnDeletedExtendedSqls(
-            this List<SqlStatement> statements, long siteId, long id)
+            this List<SqlStatement> statements,
+            Context context,
+            long siteId,
+            long id)
         {
-            Parameters.ExtendedSqls?
-                .Where(o => o.OnDeleted)
-                .ExtendedSqls(statements, siteId, id);
+            Parameters.ExtendedSqls
+                ?.Where(o => o.OnDeleted)
+                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtendedSqls(
+                    statements: statements,
+                    siteId: siteId,
+                    id: id);
             return statements;
         }
 
         public static List<SqlStatement> OnBulkDeletingExtendedSqls(
-            this List<SqlStatement> statements, long siteId)
+            this List<SqlStatement> statements,
+            Context context,
+            long siteId)
         {
-            Parameters.ExtendedSqls?
-                .Where(o => o.OnBulkDeleting)
-                .ExtendedSqls(statements, siteId);
+            Parameters.ExtendedSqls
+                ?.Where(o => o.OnBulkDeleting)
+                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtendedSqls(
+                    statements: statements,
+                    siteId: siteId);
             return statements;
         }
 
         public static List<SqlStatement> OnBulkDeletedExtendedSqls(
-            this List<SqlStatement> statements, long siteId)
+            this List<SqlStatement> statements,
+            Context context,
+            long siteId)
         {
-            Parameters.ExtendedSqls?
-                .Where(o => o.OnBulkDeleted)
-                .ExtendedSqls(statements, siteId);
+            Parameters.ExtendedSqls
+                ?.Where(o => o.OnBulkDeleted)
+                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtendedSqls(
+                    statements: statements,
+                    siteId: siteId);
             return statements;
         }
 
         public static List<SqlStatement> OnImportingExtendedSqls(
-            this List<SqlStatement> statements, long siteId)
+            this List<SqlStatement> statements,
+            Context context,
+            long siteId)
         {
-            Parameters.ExtendedSqls?
-                .Where(o => o.OnImporting)
-                .ExtendedSqls(statements, siteId);
+            Parameters.ExtendedSqls
+                ?.Where(o => o.OnImporting)
+                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtendedSqls(
+                    statements: statements,
+                    siteId: siteId);
             return statements;
         }
 
         public static List<SqlStatement> OnImportedExtendedSqls(
-            this List<SqlStatement> statements, long siteId)
+            this List<SqlStatement> statements,
+            Context context,
+            long siteId)
         {
-            Parameters.ExtendedSqls?
-                .Where(o => o.OnImported)
-                .ExtendedSqls(statements, siteId);
+            Parameters.ExtendedSqls
+                ?.Where(o => o.OnImported)
+                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtendedSqls(
+                    statements: statements,
+                    siteId: siteId);
             return statements;
         }
 
          public static SqlWhereCollection OnSelectingWhereExtendedSqls(
-            this SqlWhereCollection where, SiteSettings ss)
+            this SqlWhereCollection where,
+            Context context,
+            SiteSettings ss)
         {
-            Parameters.ExtendedSqls?
-                .Where(o => o.OnSelectingWhere)
-                .ExtendedSqlsWhere(where, ss);
+            Parameters.ExtendedSqls
+                ?.Where(o => o.OnSelectingWhere)
+                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtendedSqlsWhere(
+                    where: where,
+                    ss: ss);
             return where;
         }
 
         public static List<SqlStatement> OnUseSecondaryAuthentication(
-            this List<SqlStatement> statements)
+            this List<SqlStatement> statements,
+            Context context)
         {
             Parameters.ExtendedSqls
                 ?.Where(o => o.OnUseSecondaryAuthentication)
+                .ExtensionWhere<ExtendedSql>(context: context)
                 .ForEach(o => statements.Add(new SqlStatement(commandText: o.CommandText)));
             return statements;
         }
 
-        public static IEnumerable<ExtendedSql> ExtendedSqls(long siteId, long id)
+        public static IEnumerable<ExtendedSql> ExtendedSqls(
+            Context context,
+            long siteId,
+            long id)
         {
-            return Parameters.ExtendedSqls?
-                .Where(o => o.SiteIdList?.Contains(siteId) == true)
-                .Where(o => o.IdList?.Any() != true || o.IdList.Contains(id))
-                .Where(o => !o.Disabled);
+            return Parameters.ExtendedSqls
+                ?.ExtensionWhere<ExtendedSql>(context: context);
         }
 
         private static void ExtendedSqls(
@@ -3932,18 +4022,13 @@ namespace Implem.Pleasanter.Libraries.DataSources
             long id = 0,
             DateTime? timestamp = null)
         {
-            self
-                .Where(o => o.SiteIdList?.Contains(siteId) == true)
-                .Where(o => o.IdList?.Any() != true || o.IdList.Contains(id))
-                .Where(o => !o.Disabled)
-                .ForEach(o =>
-                    statements.Add(new SqlStatement()
-                    {
-                        CommandText = o.CommandText
-                            .Replace("{{SiteId}}", siteId.ToString())
-                            .Replace("{{Id}}", id.ToString())
-                            .Replace("{{Timestamp}}", timestamp?.ToString("yyyy/M/d H:m:s.fff"))
-                    }));
+            self.ForEach(o => statements.Add(new SqlStatement()
+            {
+                CommandText = o.CommandText
+                    .Replace("{{SiteId}}", siteId.ToString())
+                    .Replace("{{Id}}", id.ToString())
+                    .Replace("{{Timestamp}}", timestamp?.ToString("yyyy/M/d H:m:s.fff"))
+            }));
         }
 
         private static void ExtendedSqlsWhere(
@@ -3954,9 +4039,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
             DateTime? timestamp = null)
         {
             self
-                .Where(o => o.SiteIdList?.Contains(ss.SiteId) == true)
-                .Where(o => o.IdList?.Any() != true || o.IdList.Contains(id))
-                .Where(o => !o.Disabled)
                 .Where(o => o.CommandText?.Any() == true)
                 .ForEach(o =>
                     where.Add(
@@ -3969,11 +4051,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static IssuesWhereCollection OnSelectingIssuesWhereExtendedSqls(
             this IssuesWhereCollection Where,
+            Context context,
             IssueModel issueModel)
         {
             Parameters.ExtendedSqls?
-                    .Where(o => o.OnSelectingWhere)
-                    .ExtendedSqlsWhereIssues(Where, issueModel);
+                .Where(o => o.OnSelectingWhere)
+                .Where(o => o.CommandText?.Any() == true)
+                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtendedSqlsWhereIssues(Where, issueModel);
             return Where;
         }
 
@@ -3984,25 +4069,23 @@ namespace Implem.Pleasanter.Libraries.DataSources
             long id = 0,
             DateTime? timestamp = null)
         {
-            self
-                .Where(o => o.SiteIdList?.Contains(issueModel.SiteId) == true)
-                .Where(o => o.IdList?.Any() != true || o.IdList.Contains(id))
-                .Where(o => !o.Disabled)
-                .Where(o => o.CommandText?.Any() == true)
-                .ForEach(o =>
-                    where.Add(raw: o.CommandText
-                        .Replace("{{SiteId}}", issueModel.SiteId.ToString())
-                        .Replace("{{Id}}", id.ToString())
-                        .Replace("{{Timestamp}}", timestamp?.ToString("yyyy/M/d H:m:s.fff"))));
+            self.ForEach(o =>
+                where.Add(raw: o.CommandText
+                    .Replace("{{SiteId}}", issueModel.SiteId.ToString())
+                    .Replace("{{Id}}", id.ToString())
+                    .Replace("{{Timestamp}}", timestamp?.ToString("yyyy/M/d H:m:s.fff"))));
         }
 
         public static ResultsWhereCollection OnSelectingResultsWhereExtendedSqls(
             this ResultsWhereCollection Where,
+            Context context,
             ResultModel resultModel)
         {
             Parameters.ExtendedSqls?
-                    .Where(o => o.OnSelectingWhere)
-                    .ExtendedSqlsWhereResults(Where, resultModel);
+                .Where(o => o.OnSelectingWhere)
+                .Where(o => o.CommandText?.Any() == true)
+                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtendedSqlsWhereResults(Where, resultModel);
             return Where;
         }
 
@@ -4013,16 +4096,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
             long id = 0,
             DateTime? timestamp = null)
         {
-            self
-                .Where(o => o.SiteIdList?.Contains(resultModel.SiteId) == true)
-                .Where(o => o.IdList?.Any() != true || o.IdList.Contains(id))
-                .Where(o => !o.Disabled)
-                .Where(o => o.CommandText?.Any() == true)
-                .ForEach(o =>
-                    where.Add(raw: o.CommandText
-                        .Replace("{{SiteId}}", resultModel.SiteId.ToString())
-                        .Replace("{{Id}}", id.ToString())
-                        .Replace("{{Timestamp}}", timestamp?.ToString("yyyy/M/d H:m:s.fff"))));
+            self.ForEach(o =>
+                where.Add(raw: o.CommandText
+                    .Replace("{{SiteId}}", resultModel.SiteId.ToString())
+                    .Replace("{{Id}}", id.ToString())
+                    .Replace("{{Timestamp}}", timestamp?.ToString("yyyy/M/d H:m:s.fff"))));
         }
 
         public static SqlSelect SelectTenants(
@@ -104162,7 +104240,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return join;
         }
 
-        public static TenantsWhereCollection TenantsWhereDefault(TenantModel tenantModel)
+        public static TenantsWhereCollection TenantsWhereDefault(
+            Context context, TenantModel tenantModel)
         {
             return TenantsWhere()
                 .TenantId(tenantModel.TenantId);
@@ -104275,7 +104354,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return join;
         }
 
-        public static DemosWhereCollection DemosWhereDefault(DemoModel demoModel)
+        public static DemosWhereCollection DemosWhereDefault(
+            Context context, DemoModel demoModel)
         {
             return DemosWhere()
                 .DemoId(demoModel.DemoId);
@@ -104383,7 +104463,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return join;
         }
 
-        public static ExtensionsWhereCollection ExtensionsWhereDefault(ExtensionModel extensionModel)
+        public static ExtensionsWhereCollection ExtensionsWhereDefault(
+            Context context, ExtensionModel extensionModel)
         {
             return ExtensionsWhere()
                 .ExtensionId(extensionModel.ExtensionId);
@@ -104490,7 +104571,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return join;
         }
 
-        public static SessionsWhereCollection SessionsWhereDefault(SessionModel sessionModel)
+        public static SessionsWhereCollection SessionsWhereDefault(
+            Context context, SessionModel sessionModel)
         {
             return SessionsWhere()
                 .SessionGuid(sessionModel.SessionGuid.MaxLength(32))
@@ -104627,7 +104709,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return join;
         }
 
-        public static SysLogsWhereCollection SysLogsWhereDefault(SysLogModel sysLogModel)
+        public static SysLogsWhereCollection SysLogsWhereDefault(
+            Context context, SysLogModel sysLogModel)
         {
             return SysLogsWhere()
                 .SysLogId(sysLogModel.SysLogId);
@@ -104758,7 +104841,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return join;
         }
 
-        public static StatusesWhereCollection StatusesWhereDefault(StatusModel statusModel)
+        public static StatusesWhereCollection StatusesWhereDefault(
+            Context context, StatusModel statusModel)
         {
             return StatusesWhere()
                 .TenantId(statusModel.TenantId)
@@ -104860,7 +104944,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return join;
         }
 
-        public static ReminderSchedulesWhereCollection ReminderSchedulesWhereDefault(ReminderScheduleModel reminderScheduleModel)
+        public static ReminderSchedulesWhereCollection ReminderSchedulesWhereDefault(
+            Context context, ReminderScheduleModel reminderScheduleModel)
         {
             return ReminderSchedulesWhere()
                 .SiteId(reminderScheduleModel.SiteId)
@@ -104965,7 +105050,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return join;
         }
 
-        public static DeptsWhereCollection DeptsWhereDefault(DeptModel deptModel)
+        public static DeptsWhereCollection DeptsWhereDefault(
+            Context context, DeptModel deptModel)
         {
             return DeptsWhere()
                 .TenantId(deptModel.TenantId)
@@ -105069,7 +105155,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return join;
         }
 
-        public static GroupsWhereCollection GroupsWhereDefault(GroupModel groupModel)
+        public static GroupsWhereCollection GroupsWhereDefault(
+            Context context, GroupModel groupModel)
         {
             return GroupsWhere()
                 .TenantId(groupModel.TenantId)
@@ -105172,7 +105259,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return join;
         }
 
-        public static GroupMembersWhereCollection GroupMembersWhereDefault(GroupMemberModel groupMemberModel)
+        public static GroupMembersWhereCollection GroupMembersWhereDefault(
+            Context context, GroupMemberModel groupMemberModel)
         {
             return GroupMembersWhere()
                 .GroupId(groupMemberModel.GroupId);
@@ -105285,7 +105373,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return join;
         }
 
-        public static RegistrationsWhereCollection RegistrationsWhereDefault(RegistrationModel registrationModel)
+        public static RegistrationsWhereCollection RegistrationsWhereDefault(
+            Context context, RegistrationModel registrationModel)
         {
             return RegistrationsWhere()
                 .TenantId(registrationModel.TenantId)
@@ -105434,7 +105523,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return join;
         }
 
-        public static UsersWhereCollection UsersWhereDefault(UserModel userModel)
+        public static UsersWhereCollection UsersWhereDefault(
+            Context context, UserModel userModel)
         {
             return UsersWhere()
                 .TenantId(userModel.TenantId)
@@ -105567,7 +105657,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return join;
         }
 
-        public static LoginKeysWhereCollection LoginKeysWhereDefault(LoginKeyModel loginKeyModel)
+        public static LoginKeysWhereCollection LoginKeysWhereDefault(
+            Context context, LoginKeyModel loginKeyModel)
         {
             return LoginKeysWhere()
                 .LoginId(loginKeyModel.LoginId.MaxLength(256))
@@ -105672,7 +105763,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return join;
         }
 
-        public static MailAddressesWhereCollection MailAddressesWhereDefault(MailAddressModel mailAddressModel)
+        public static MailAddressesWhereCollection MailAddressesWhereDefault(
+            Context context, MailAddressModel mailAddressModel)
         {
             return MailAddressesWhere()
                 .OwnerId(mailAddressModel.OwnerId)
@@ -105785,7 +105877,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return join;
         }
 
-        public static OutgoingMailsWhereCollection OutgoingMailsWhereDefault(OutgoingMailModel outgoingMailModel)
+        public static OutgoingMailsWhereCollection OutgoingMailsWhereDefault(
+            Context context, OutgoingMailModel outgoingMailModel)
         {
             return OutgoingMailsWhere()
                 .ReferenceType(outgoingMailModel.ReferenceType.MaxLength(32))
@@ -105901,7 +105994,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return join;
         }
 
-        public static ItemsWhereCollection ItemsWhereDefault(ItemModel itemModel)
+        public static ItemsWhereCollection ItemsWhereDefault(
+            Context context, ItemModel itemModel)
         {
             return ItemsWhere()
                 .ReferenceId(itemModel.ReferenceId);
@@ -106017,7 +106111,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return join;
         }
 
-        public static SitesWhereCollection SitesWhereDefault(SiteModel siteModel)
+        public static SitesWhereCollection SitesWhereDefault(
+            Context context, SiteModel siteModel)
         {
             return SitesWhere()
                 .TenantId(siteModel.TenantId)
@@ -106132,7 +106227,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return join;
         }
 
-        public static OrdersWhereCollection OrdersWhereDefault(OrderModel orderModel)
+        public static OrdersWhereCollection OrdersWhereDefault(
+            Context context, OrderModel orderModel)
         {
             return OrdersWhere()
                 .ReferenceId(orderModel.ReferenceId)
@@ -106239,7 +106335,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return join;
         }
 
-        public static ExportSettingsWhereCollection ExportSettingsWhereDefault(ExportSettingModel exportSettingModel)
+        public static ExportSettingsWhereCollection ExportSettingsWhereDefault(
+            Context context, ExportSettingModel exportSettingModel)
         {
             return ExportSettingsWhere()
                 .ReferenceId(exportSettingModel.ReferenceId)
@@ -106356,7 +106453,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return join;
         }
 
-        public static LinksWhereCollection LinksWhereDefault(LinkModel linkModel)
+        public static LinksWhereCollection LinksWhereDefault(
+            Context context, LinkModel linkModel)
         {
             return LinksWhere()
                 .DestinationId(linkModel.DestinationId)
@@ -106469,7 +106567,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return join;
         }
 
-        public static BinariesWhereCollection BinariesWhereDefault(BinaryModel binaryModel)
+        public static BinariesWhereCollection BinariesWhereDefault(
+            Context context, BinaryModel binaryModel)
         {
             return BinariesWhere()
                 .BinaryId(binaryModel.BinaryId);
@@ -106598,7 +106697,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return join;
         }
 
-        public static PermissionsWhereCollection PermissionsWhereDefault(PermissionModel permissionModel)
+        public static PermissionsWhereCollection PermissionsWhereDefault(
+            Context context, PermissionModel permissionModel)
         {
             return PermissionsWhere()
                 .ReferenceId(permissionModel.ReferenceId);
@@ -106731,12 +106831,15 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return join;
         }
 
-        public static IssuesWhereCollection IssuesWhereDefault(IssueModel issueModel)
+        public static IssuesWhereCollection IssuesWhereDefault(
+            Context context, IssueModel issueModel)
         {
             return IssuesWhere()
                 .SiteId(issueModel.SiteId)
                 .IssueId(issueModel.IssueId)
-                .OnSelectingIssuesWhereExtendedSqls(issueModel);
+                .OnSelectingIssuesWhereExtendedSqls(
+                    context: context,
+                    issueModel: issueModel);
         }
 
         public static IssuesParamCollection IssuesParamDefault(
@@ -106868,12 +106971,15 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return join;
         }
 
-        public static ResultsWhereCollection ResultsWhereDefault(ResultModel resultModel)
+        public static ResultsWhereCollection ResultsWhereDefault(
+            Context context, ResultModel resultModel)
         {
             return ResultsWhere()
                 .SiteId(resultModel.SiteId)
                 .ResultId(resultModel.ResultId)
-                .OnSelectingResultsWhereExtendedSqls(resultModel);
+                .OnSelectingResultsWhereExtendedSqls(
+                    context: context,
+                    resultModel: resultModel);
         }
 
         public static ResultsParamCollection ResultsParamDefault(
@@ -106997,7 +107103,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return join;
         }
 
-        public static WikisWhereCollection WikisWhereDefault(WikiModel wikiModel)
+        public static WikisWhereCollection WikisWhereDefault(
+            Context context, WikiModel wikiModel)
         {
             return WikisWhere()
                 .SiteId(wikiModel.SiteId)

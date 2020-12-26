@@ -457,7 +457,16 @@ namespace Implem.Pleasanter.Models
             int? tabIndex = null,
             ServerScriptModelColumn serverScriptValues = null)
         {
-            if (!column.GridDesign.IsNullOrEmpty())
+            if (serverScriptValues?.RawText.IsNullOrEmpty() == false)
+            {
+                return hb.Td(
+                    context: context,
+                    column: column,
+                    action: () => hb.Raw(serverScriptValues?.RawText),
+                    tabIndex: tabIndex,
+                    serverScriptValues: serverScriptValues);
+            }
+            else if (!column.GridDesign.IsNullOrEmpty())
             {
                 return hb.TdCustomValue(
                     context: context,
@@ -9511,7 +9520,19 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.BeforeFormulas(context: context)))
                     .Th(action: () => hb
-                        .Text(text: Displays.AfterFormulas(context: context)))));
+                        .Text(text: Displays.AfterFormulas(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.BeforeCreate(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.AfterCreate(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.BeforeUpdate(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.AfterUpdate(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.BeforeDelete(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.AfterDelete(context: context)))));
         }
 
         /// <summary>
@@ -9555,7 +9576,31 @@ namespace Implem.Pleasanter.Models
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
-                                    _using: script.AfterFormula == true)))));
+                                    _using: script.AfterFormula == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.BeforeCreate == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.AfterCreate == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.BeforeUpdate == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.AfterUpdate == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.BeforeDelete == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.AfterDelete == true)))));
         }
 
         /// <summary>
@@ -9631,7 +9676,43 @@ namespace Implem.Pleasanter.Models
                                 fieldCss: outputDestinationCss,
                                 controlCss: " always-send",
                                 labelText: Displays.AfterFormulas(context: context),
-                                _checked: script.AfterFormula == true))
+                                _checked: script.AfterFormula == true)
+                            .FieldCheckBox(
+                                controlId: "ServerScriptBeforeCreate",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.BeforeCreate(context: context),
+                                _checked: script.BeforeCreate == true)
+                            .FieldCheckBox(
+                                controlId: "ServerScriptAfterCreate",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.AfterCreate(context: context),
+                                _checked: script.AfterCreate == true)
+                            .FieldCheckBox(
+                                controlId: "ServerScriptBeforeUpdate",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.BeforeUpdate(context: context),
+                                _checked: script.BeforeUpdate == true)
+                            .FieldCheckBox(
+                                controlId: "ServerScriptAfterUpdate",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.AfterUpdate(context: context),
+                                _checked: script.AfterUpdate == true)
+                            .FieldCheckBox(
+                                controlId: "ServerScriptBeforeDelete",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.BeforeDelete(context: context),
+                                _checked: script.BeforeDelete == true)
+                            .FieldCheckBox(
+                                controlId: "ServerScriptAfterDelete",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.AfterDelete(context: context),
+                                _checked: script.AfterDelete == true))
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(

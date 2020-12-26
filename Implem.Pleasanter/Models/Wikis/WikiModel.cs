@@ -201,8 +201,10 @@ namespace Implem.Pleasanter.Models
             {
                 Get(context: context,
                     tableType: Sqls.TableTypes.NormalAndHistory,
-                    where: Rds.WikisWhereDefault(this)
-                        .Wikis_Ver(context.QueryStrings.Int("ver")), ss: ss);
+                    where: Rds.WikisWhereDefault(
+                        context: context,
+                        wikiModel: this)
+                            .Wikis_Ver(context.QueryStrings.Int("ver")), ss: ss);
             }
             else
             {
@@ -279,7 +281,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.WikisWhereDefault(this);
+            where = where ?? Rds.WikisWhereDefault(
+                context: context,
+                wikiModel: this);
             Set(context, ss, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectWikis(
@@ -452,7 +456,9 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>();
             if (extendedSqls)
             {
-                statements.OnCreatingExtendedSqls(SiteId);
+                statements.OnCreatingExtendedSqls(
+                    context: context,
+                    siteId: SiteId);
             }
             statements.AddRange(CreateStatements(
                 context: context,
@@ -497,6 +503,7 @@ namespace Implem.Pleasanter.Models
             if (extendedSqls)
             {
                 statements.OnCreatedExtendedSqls(
+                    context: context,
                     siteId: SiteId,
                     id: WikiId);
             }
@@ -505,6 +512,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: statements.ToArray());
             if (get && Rds.ExtendedSqls(
+                context: context,
                 siteId: SiteId,
                 id: WikiId)
                     ?.Any(o => o.OnCreated) == true)
@@ -574,6 +582,7 @@ namespace Implem.Pleasanter.Models
             if (extendedSqls)
             {
                 statements.OnUpdatingExtendedSqls(
+                    context: context,
                     siteId: SiteId,
                     id: WikiId,
                     timestamp: Timestamp.ToDateTime());
@@ -656,8 +665,10 @@ namespace Implem.Pleasanter.Models
         {
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
-            var where = Rds.WikisWhereDefault(this)
-                .UpdatedTime(timestamp, _using: timestamp.InRange());
+            var where = Rds.WikisWhereDefault(
+                context: context,
+                wikiModel: this)
+                    .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (Versions.VerUp(
                 context: context,
                 ss: ss,
@@ -745,6 +756,7 @@ namespace Implem.Pleasanter.Models
                     updateItems: updateItems)
                         .ToArray());
             if (get && Rds.ExtendedSqls(
+                context: context,
                 siteId: SiteId,
                 id: WikiId)
                     ?.Any(o => o.OnUpdated) == true)
@@ -788,6 +800,7 @@ namespace Implem.Pleasanter.Models
             if (extendedSqls)
             {
                 statements.OnUpdatedExtendedSqls(
+                    context: context,
                     siteId: SiteId,
                     id: WikiId);
             }
@@ -810,7 +823,9 @@ namespace Implem.Pleasanter.Models
                         .SiteId(SiteId)
                         .Title(Title.DisplayValue)),
                 Rds.UpdateOrInsertWikis(
-                    where: where ?? Rds.WikisWhereDefault(this),
+                    where: where ?? Rds.WikisWhereDefault(
+                        context: context,
+                        wikiModel: this),
                     param: param ?? Rds.WikisParamDefault(
                         context: context, wikiModel: this, setDefault: true))
             };
@@ -830,7 +845,10 @@ namespace Implem.Pleasanter.Models
         public ErrorData Delete(Context context, SiteSettings ss, bool notice = false)
         {
             var statements = new List<SqlStatement>();
-            statements.OnDeletingExtendedSqls(SiteId, WikiId);
+            statements.OnDeletingExtendedSqls(
+                context: context,
+                siteId: SiteId,
+                id: WikiId);
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.DeleteItems(
@@ -846,7 +864,10 @@ namespace Implem.Pleasanter.Models
                     factory: context,
                     where: Rds.SitesWhere().SiteId(SiteId))
             });
-            statements.OnDeletedExtendedSqls(SiteId, WikiId);
+            statements.OnDeletedExtendedSqls(
+                context: context,
+                siteId: SiteId,
+                id: WikiId);
             Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
@@ -1074,7 +1095,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.UpdateWikis(
                     param: param,
-                    where: Rds.WikisWhereDefault(this),
+                    where: Rds.WikisWhereDefault(
+                        context: context,
+                        wikiModel: this),
                     addUpdatedTimeParam: false,
                     addUpdatorParam: false));
         }

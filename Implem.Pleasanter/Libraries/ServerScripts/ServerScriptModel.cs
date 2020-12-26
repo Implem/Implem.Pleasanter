@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.DataSources.SqlServer;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
@@ -19,6 +20,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public readonly ServerScriptModelView View = new ServerScriptModelView();
         public readonly ServerScriptModelApiItems Items;
         private readonly List<string> ChangeItemNames = new List<string>();
+        private DateTime TimeOut;
 
         public ServerScriptModel(
             Context context,
@@ -69,7 +71,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 apiRequestBody: context.ApiRequestBody,
                 requestDataString: context.RequestDataString,
                 contentType: context.ContentType,
-                onTesting: onTesting);
+                onTesting: onTesting,
+                scriptDepth: context.ServerScriptDepth);
             SiteSettings = new ServerScriptModelSiteSettings
             {
                 DefaultViewId = ss?.GridView
@@ -77,6 +80,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             Items = new ServerScriptModelApiItems(
                 context: context,
                 onTesting: onTesting);
+            TimeOut = Parameters.Script.ServerScriptTimeOut == 0
+                ? DateTime.MaxValue
+                : DateTime.Now.AddMilliseconds(Parameters.Script.ServerScriptTimeOut);
         }
 
         private void DataPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -92,6 +98,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public void Dispose()
         {
             ((INotifyPropertyChanged)Model).PropertyChanged -= DataPropertyChanged;
+        }
+
+        public bool ContinuationCallback()
+        {
+            return TimeOut > DateTime.Now;
         }
 
         public class ServerScriptModelContext
@@ -157,9 +168,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 string apiRequestBody,
                 string requestDataString,
                 string contentType,
-                bool onTesting)
+                bool onTesting,
+                long scriptDepth)
             {
-                ServerScript = new ServerScriptModelContextServerScript(onTesting: onTesting);
+                ServerScript = new ServerScriptModelContextServerScript(
+                    onTesting: onTesting,
+                    scriptDepth: scriptDepth);
                 FormStringRaw = formStringRaw;
                 FormString = formString;
                 Ajax = ajax;
@@ -195,17 +209,24 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public class ServerScriptModelContextServerScript
         {
             public readonly bool OnTesting;
+            public readonly long ScriptDepth;
 
-            public ServerScriptModelContextServerScript(bool onTesting)
+            public ServerScriptModelContextServerScript(bool onTesting, long scriptDepth)
             {
                 OnTesting = onTesting;
+                ScriptDepth = scriptDepth;
             }
         }
 
         public class ServerScriptModelColumn
         {
             public bool ReadOnly { get; set; }
+            public string ExtendedFieldCss { get; set; }
             public string ExtendedCellCss { get; set; }
+            public string ExtendedHtmlBeforeField { get; set; }
+            public string ExtendedHtmlAfterField { get; set; }
+            public bool Hide { get; set; }
+            public string RawText { get; set; }
         }
 
         public class ServerScriptModelRow
@@ -236,7 +257,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 OnTesting = onTesting;
             }
 
-            public ServerScriptModelApiModel[] Get(long id, string view = null)
+            public ServerScriptModelApiModel[] Get(object id, string view = null)
             {
                 if (OnTesting)
                 {
@@ -244,7 +265,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }
                 return ServerScriptUtilities.Get(
                     context: Context,
-                    id: id,
+                    id: id.ToLong(),
                     view: view,
                     onTesting: OnTesting);
             }
@@ -269,7 +290,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 return apiModel;
             }
 
-            public bool Create(long id, object model)
+            public bool Create(object id, object model)
             {
                 if (OnTesting)
                 {
@@ -277,11 +298,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }
                 return ServerScriptUtilities.Create(
                     context: Context,
-                    id: id,
+                    id: id.ToLong(),
                     model: model);
             }
 
-            public bool Update(long id, object model)
+            public bool Update(object id, object model)
             {
                 if (OnTesting)
                 {
@@ -289,11 +310,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }
                 return ServerScriptUtilities.Update(
                     context: Context,
-                    id: id,
+                    id: id.ToLong(),
                     model: model);
             }
 
-            public bool Delete(long id)
+            public bool Delete(object id)
             {
                 if (OnTesting)
                 {
@@ -301,10 +322,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }
                 return ServerScriptUtilities.Delete(
                     context: Context,
-                    id: id);
+                    id: id.ToLong());
             }
 
-            public long BulkDelete(long id, string json)
+            public long BulkDelete(object id, string json)
             {
                 if (OnTesting)
                 {
@@ -312,7 +333,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }
                 return ServerScriptUtilities.BulkDelete(
                     context: Context,
-                    id: id,
+                    id: id.ToLong(),
                     apiRequestBody: json);
             }
         }

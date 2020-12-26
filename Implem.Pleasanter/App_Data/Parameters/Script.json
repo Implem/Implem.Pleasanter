@@ -1,3 +1,4 @@
 ﻿{
-    "ServerScript": true
+    "ServerScript": true,
+    "ServerScriptTimeOut": 2000
 }

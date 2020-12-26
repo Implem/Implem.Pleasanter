@@ -124,8 +124,10 @@ namespace Implem.Pleasanter.Models
             {
                 Get(context: context,
                     tableType: Sqls.TableTypes.NormalAndHistory,
-                    where: Rds.ExtensionsWhereDefault(this)
-                        .Extensions_Ver(context.QueryStrings.Int("ver")));
+                    where: Rds.ExtensionsWhereDefault(
+                        context: context,
+                        extensionModel: this)
+                            .Extensions_Ver(context.QueryStrings.Int("ver")));
             }
             else
             {
@@ -176,7 +178,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.ExtensionsWhereDefault(this);
+            where = where ?? Rds.ExtensionsWhereDefault(
+                context: context,
+                extensionModel: this);
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectExtensions(
@@ -286,8 +290,10 @@ namespace Implem.Pleasanter.Models
         {
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
-            var where = Rds.ExtensionsWhereDefault(this)
-                .UpdatedTime(timestamp, _using: timestamp.InRange());
+            var where = Rds.ExtensionsWhereDefault(
+                context: context,
+                extensionModel: this)
+                    .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (Versions.VerUp(
                 context: context,
                 ss: ss,
@@ -359,7 +365,9 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>
             {
                 Rds.UpdateOrInsertExtensions(
-                    where: where ?? Rds.ExtensionsWhereDefault(this),
+                    where: where ?? Rds.ExtensionsWhereDefault(
+                        context: context,
+                        extensionModel: this),
                     param: param ?? Rds.ExtensionsParamDefault(
                         context: context, extensionModel: this, setDefault: true))
             };

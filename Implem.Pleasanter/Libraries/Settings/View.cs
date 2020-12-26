@@ -872,7 +872,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ss: ss,
                 where: where,
                 checkPermission: checkPermission);
-            where.OnSelectingWhereExtendedSqls(ss: ss);
+            where.OnSelectingWhereExtendedSqls(
+                context: context,
+                ss: ss);
             if (RequestSearchCondition(
                 context: context,
                 ss: ss))

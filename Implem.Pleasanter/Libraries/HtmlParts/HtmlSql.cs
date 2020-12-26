@@ -16,11 +16,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Context context)
         {
-            ExtensionUtilities.ExtensionWhere<ExtendedSql>(
-                context: context,
-                extensions: Parameters.ExtendedSqls
-                    ?.Where(o => o.Html)
-                    .Where(o => !o.CommandText.IsNullOrEmpty()))
+            Parameters.ExtendedSqls
+                ?.Where(o => o.Html)
+                .Where(o => !o.CommandText.IsNullOrEmpty())
+                .ExtensionWhere<ExtendedSql>(context: context)
                 .ForEach(extendedSql =>
                 {
                     var dataSet = DataSources.Repository.ExecuteDataSet(

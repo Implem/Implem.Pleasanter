@@ -523,7 +523,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.SitesWhereDefault(this);
+            where = where ?? Rds.SitesWhereDefault(
+                context: context,
+                siteModel: this);
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectSites(
@@ -717,8 +719,10 @@ namespace Implem.Pleasanter.Models
         {
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
-            var where = Rds.SitesWhereDefault(this)
-                .UpdatedTime(timestamp, _using: timestamp.InRange());
+            var where = Rds.SitesWhereDefault(
+                context: context,
+                siteModel: this)
+                    .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (Versions.VerUp(
                 context: context,
                 ss: ss,
@@ -848,7 +852,9 @@ namespace Implem.Pleasanter.Models
                         .SiteId(SiteId)
                         .Title(Title.DisplayValue)),
                 Rds.UpdateOrInsertSites(
-                    where: where ?? Rds.SitesWhereDefault(this),
+                    where: where ?? Rds.SitesWhereDefault(
+                        context: context,
+                        siteModel: this),
                     param: param ?? Rds.SitesParamDefault(
                         context: context, siteModel: this, setDefault: true)),
                 StatusUtilities.UpdateStatus(
@@ -4413,6 +4419,12 @@ namespace Implem.Pleasanter.Models
                 beforeFormula: context.Forms.Bool("ServerScriptBeforeFormula"),
                 afterFormula: context.Forms.Bool("ServerScriptAfterFormula"),
                 whenloadingSiteSettings: context.Forms.Bool("ServerScriptWhenloadingSiteSettings"),
+                beforeCreate: context.Forms.Bool("ServerScriptBeforeCreate"),
+                afterCreate: context.Forms.Bool("ServerScriptAfterCreate"),
+                beforeUpdate: context.Forms.Bool("ServerScriptBeforeUpdate"),
+                afterUpdate: context.Forms.Bool("ServerScriptAfterUpdate"),
+                beforeDelete: context.Forms.Bool("ServerScriptBeforeDelete"),
+                afterDelete: context.Forms.Bool("ServerScriptAfterDelete"),
                 body: context.Forms.Data("ServerScriptBody"));
             var invalid = ServerScriptValidators.OnCreating(
                 context: context,
@@ -4432,6 +4444,12 @@ namespace Implem.Pleasanter.Models
                 beforeFormula: script.BeforeFormula ?? default,
                 afterFormula: script.AfterFormula ?? default,
                 whenloadingSiteSettings: script.WhenloadingSiteSettings ?? default,
+                beforeCreate: script.BeforeCreate ?? default,
+                afterCreate: script.AfterCreate ?? default,
+                beforeUpdate: script.BeforeUpdate ?? default,
+                afterUpdate: script.AfterUpdate ?? default,
+                beforeDelete: script.BeforeDelete ?? default,
+                afterDelete: script.AfterDelete ?? default,
                 body: script.Body));
             res
                 .ReplaceAll("#EditServerScript", new HtmlBuilder()
@@ -4454,6 +4472,12 @@ namespace Implem.Pleasanter.Models
                 beforeFormula: context.Forms.Bool("ServerScriptBeforeFormula"),
                 afterFormula: context.Forms.Bool("ServerScriptAfterFormula"),
                 whenloadingSiteSettings: context.Forms.Bool("ServerScriptWhenloadingSiteSettings"),
+                beforeCreate: context.Forms.Bool("ServerScriptBeforeCreate"),
+                afterCreate: context.Forms.Bool("ServerScriptAfterCreate"),
+                beforeUpdate: context.Forms.Bool("ServerScriptBeforeUpdate"),
+                afterUpdate: context.Forms.Bool("ServerScriptAfterUpdate"),
+                beforeDelete: context.Forms.Bool("ServerScriptBeforeDelete"),
+                afterDelete: context.Forms.Bool("ServerScriptAfterDelete"),
                 body: context.Forms.Data("ServerScriptBody"));
             var invalid = ServerScriptValidators.OnUpdating(
                 context: context,
@@ -4474,6 +4498,12 @@ namespace Implem.Pleasanter.Models
                     beforeFormula: script.BeforeFormula ?? default,
                     afterFormula: script.AfterFormula ?? default,
                     whenloadingSiteSettings: script.WhenloadingSiteSettings ?? default,
+                    beforeCreate: script.BeforeCreate ?? default,
+                    afterCreate: script.AfterCreate ?? default,
+                    beforeUpdate: script.BeforeUpdate ?? default,
+                    afterUpdate: script.AfterUpdate ?? default,
+                    beforeDelete: script.BeforeDelete ?? default,
+                    afterDelete: script.AfterDelete ?? default,
                     body: script.Body);
             res
                 .Html("#EditServerScript", new HtmlBuilder()

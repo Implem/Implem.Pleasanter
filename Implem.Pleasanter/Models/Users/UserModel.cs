@@ -1128,8 +1128,10 @@ namespace Implem.Pleasanter.Models
             {
                 Get(context: context,
                     tableType: Sqls.TableTypes.NormalAndHistory,
-                    where: Rds.UsersWhereDefault(this)
-                        .Users_Ver(context.QueryStrings.Int("ver")), ss: ss);
+                    where: Rds.UsersWhereDefault(
+                        context: context,
+                        userModel: this)
+                            .Users_Ver(context.QueryStrings.Int("ver")), ss: ss);
             }
             else
             {
@@ -1203,7 +1205,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.UsersWhereDefault(this);
+            where = where ?? Rds.UsersWhereDefault(
+                context: context,
+                userModel: this);
             Set(context, ss, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectUsers(
@@ -1423,8 +1427,10 @@ namespace Implem.Pleasanter.Models
         {
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
-            var where = Rds.UsersWhereDefault(this)
-                .UpdatedTime(timestamp, _using: timestamp.InRange());
+            var where = Rds.UsersWhereDefault(
+                context: context,
+                userModel: this)
+                    .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (Versions.VerUp(
                 context: context,
                 ss: ss,
@@ -2550,7 +2556,9 @@ namespace Implem.Pleasanter.Models
             Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateUsers(
-                    where: Rds.UsersWhereDefault(this),
+                    where: Rds.UsersWhereDefault(
+                        context: context,
+                        userModel: this),
                     param: UpdateSecondaryAuthenticationCodeParam(
                         context: context,
                         authenticationCode: SecondaryAuthenticationCode),
@@ -2703,7 +2711,9 @@ namespace Implem.Pleasanter.Models
             Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateUsers(
-                    where: Rds.UsersWhereDefault(this),
+                    where: Rds.UsersWhereDefault(
+                        context: context,
+                        userModel: this),
                     param: Rds.UsersParam()
                         .NumberOfLogins(raw: "[Users].[NumberOfLogins]+1")
                         .LastLoginTime(DateTime.Now),
@@ -2802,7 +2812,7 @@ namespace Implem.Pleasanter.Models
             {
                 return false;
             }
-            var statements = new List<SqlStatement>().OnUseSecondaryAuthentication().ToArray();
+            var statements = new List<SqlStatement>().OnUseSecondaryAuthentication(context: context).ToArray();
             if (!(statements?.Any() == true))
             {
                 return true;
@@ -2861,7 +2871,9 @@ namespace Implem.Pleasanter.Models
             Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateUsers(
-                    where: Rds.UsersWhereDefault(this),
+                    where: Rds.UsersWhereDefault(
+                        context: context,
+                        userModel: this),
                     param: ChangePasswordParam(
                         context: context,
                         password: ChangedPassword)));
@@ -2879,7 +2891,9 @@ namespace Implem.Pleasanter.Models
             Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateUsers(
-                    where: Rds.UsersWhereDefault(this),
+                    where: Rds.UsersWhereDefault(
+                        context: context,
+                        userModel: this),
                     param: ChangePasswordParam(
                         context: context,
                         password: ChangedPassword,
@@ -2895,7 +2909,9 @@ namespace Implem.Pleasanter.Models
             Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateUsers(
-                    where: Rds.UsersWhereDefault(this),
+                    where: Rds.UsersWhereDefault(
+                        context: context,
+                        userModel: this),
                     param: ChangePasswordParam(
                         context: context,
                         password: AfterResetPassword)));

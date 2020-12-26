@@ -97,7 +97,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.ReminderSchedulesWhereDefault(this);
+            where = where ?? Rds.ReminderSchedulesWhereDefault(
+                context: context,
+                reminderScheduleModel: this);
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectReminderSchedules(

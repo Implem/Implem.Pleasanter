@@ -131,8 +131,10 @@ namespace Implem.Pleasanter.Models
             {
                 Get(context: context,
                     tableType: Sqls.TableTypes.NormalAndHistory,
-                    where: Rds.DemosWhereDefault(this)
-                        .Demos_Ver(context.QueryStrings.Int("ver")));
+                    where: Rds.DemosWhereDefault(
+                        context: context,
+                        demoModel: this)
+                            .Demos_Ver(context.QueryStrings.Int("ver")));
             }
             else
             {
@@ -184,7 +186,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.DemosWhereDefault(this);
+            where = where ?? Rds.DemosWhereDefault(
+                context: context,
+                demoModel: this);
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectDemos(
@@ -295,8 +299,10 @@ namespace Implem.Pleasanter.Models
         {
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
-            var where = Rds.DemosWhereDefault(this)
-                .UpdatedTime(timestamp, _using: timestamp.InRange());
+            var where = Rds.DemosWhereDefault(
+                context: context,
+                demoModel: this)
+                    .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (Versions.VerUp(
                 context: context,
                 ss: ss,
@@ -368,7 +374,9 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>
             {
                 Rds.UpdateOrInsertDemos(
-                    where: where ?? Rds.DemosWhereDefault(this),
+                    where: where ?? Rds.DemosWhereDefault(
+                        context: context,
+                        demoModel: this),
                     param: param ?? Rds.DemosParamDefault(
                         context: context, demoModel: this, setDefault: true))
             };

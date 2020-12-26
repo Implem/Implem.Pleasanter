@@ -192,8 +192,10 @@ namespace Implem.Pleasanter.Models
             {
                 Get(context: context,
                     tableType: Sqls.TableTypes.NormalAndHistory,
-                    where: Rds.TenantsWhereDefault(this)
-                        .Tenants_Ver(context.QueryStrings.Int("ver")), ss: ss);
+                    where: Rds.TenantsWhereDefault(
+                        context: context,
+                        tenantModel: this)
+                            .Tenants_Ver(context.QueryStrings.Int("ver")), ss: ss);
             }
             else
             {
@@ -265,7 +267,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.TenantsWhereDefault(this);
+            where = where ?? Rds.TenantsWhereDefault(
+                context: context,
+                tenantModel: this);
             Set(context, ss, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectTenants(
@@ -426,8 +430,10 @@ namespace Implem.Pleasanter.Models
         {
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
-            var where = Rds.TenantsWhereDefault(this)
-                .UpdatedTime(timestamp, _using: timestamp.InRange());
+            var where = Rds.TenantsWhereDefault(
+                context: context,
+                tenantModel: this)
+                    .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (Versions.VerUp(
                 context: context,
                 ss: ss,
@@ -500,7 +506,9 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>
             {
                 Rds.UpdateOrInsertTenants(
-                    where: where ?? Rds.TenantsWhereDefault(this),
+                    where: where ?? Rds.TenantsWhereDefault(
+                        context: context,
+                        tenantModel: this),
                     param: param ?? Rds.TenantsParamDefault(
                         context: context, tenantModel: this, setDefault: true))
             };
