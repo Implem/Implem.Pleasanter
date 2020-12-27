@@ -44,7 +44,7 @@
             alert(jqXHR.responseJSON.Message);
         } else {
             $p.execEvents('ajax_before_fail', $p.eventArgs(url, methodType, data, $control, _async, ret, null));
-            alert(textStatus + '\n' +
+            alert(jqXHR.statusCode + '\n' + textStatus + '\n' +
                 $(jqXHR.responseText).text().trim().replace('\n', ''));
             $p.execEvents('ajax_after_fail', $p.eventArgs(url, methodType, data, $control, _async, ret, null));
         }
