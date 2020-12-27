@@ -2677,8 +2677,21 @@ namespace Implem.Pleasanter.Models
             {
                 case Error.Types.None:
                     var res = new ResultsResponseCollection(resultModel);
-                    return ResponseByUpdate(res, context, ss, resultModel)
-                        .ToJson();
+                    switch (Parameters.General.UpdateResponseType)
+                    {
+                        case 1:
+                            return ResponseByUpdate(res, context, ss, resultModel)
+                                .PrependComment(
+                                    context: context,
+                                    ss: ss,
+                                    column: ss.GetColumn(context: context, columnName: "Comments"),
+                                    comments: resultModel.Comments,
+                                    verType: resultModel.VerType)
+                                .ToJson();
+                        default:
+                            return ResponseByUpdate(res, context, ss, resultModel)
+                                .ToJson();
+                    }
                 case Error.Types.Duplicated:
                     return Messages.ResponseDuplicated(
                         context: context,
@@ -2750,13 +2763,54 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                return EditorResponse(
-                    context: context,
-                    ss: ss,
-                    resultModel: resultModel,
-                    message: Messages.Updated(
-                        context: context,
-                        data: resultModel.Title.DisplayValue));
+                switch (Parameters.General.UpdateResponseType)
+                {
+                    case 1:
+                        var verUp = Versions.VerUp(
+                            context: context,
+                            ss: ss,
+                            verUp: false);
+                        return res
+                            .Ver(context: context, ss: ss)
+                            .Timestamp(context: context, ss: ss)
+                            .FieldResponse(context: context, ss: ss, resultModel: resultModel)
+                            .Val("#VerUp", verUp)
+                            .Val("#Ver", resultModel.Ver)
+                            .Disabled("#VerUp", verUp)
+                            .Html("#HeaderTitle", HttpUtility.HtmlEncode(resultModel.Title.DisplayValue))
+                            .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
+                                context: context,
+                                baseModel: resultModel,
+                                tableName: "Results"))
+                            .Html("#Links", new HtmlBuilder().Links(
+                                context: context,
+                                ss: ss,
+                                id: resultModel.ResultId))
+                            .Links(
+                                context: context,
+                                ss: ss,
+                                id: resultModel.ResultId,
+                                methodType: resultModel.MethodType)
+                            .SetMemory("formChanged", false)
+                            .Message(Messages.Updated(
+                                context: context,
+                                data: resultModel.Title.DisplayValue))
+                            .Comment(
+                                context: context,
+                                ss: ss,
+                                column: ss.GetColumn(context: context, columnName: "Comments"),
+                                comments: resultModel.Comments,
+                                deleteCommentId: resultModel.DeleteCommentId)
+                            .ClearFormData();
+                    default:
+                        return EditorResponse(
+                            context: context,
+                            ss: ss,
+                            resultModel: resultModel,
+                            message: Messages.Updated(
+                                context: context,
+                                data: resultModel.Title.DisplayValue));
+                }
             }
         }
 
