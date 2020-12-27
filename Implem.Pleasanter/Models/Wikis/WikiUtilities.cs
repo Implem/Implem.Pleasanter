@@ -1483,15 +1483,15 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         baseModel: wikiModel,
                         tableName: "Wikis"))
-                    .Html("#Links", new HtmlBuilder().Links(
-                        context: context,
-                        ss: ss,
-                        id: wikiModel.WikiId))
-                    .Links(
-                        context: context,
-                        ss: ss,
-                        id: wikiModel.WikiId,
-                        methodType: wikiModel.MethodType)
+                            .Html("#Links", new HtmlBuilder().Links(
+                                context: context,
+                                ss: ss,
+                                id: wikiModel.WikiId))
+                            .Links(
+                                context: context,
+                                ss: ss,
+                                id: wikiModel.WikiId,
+                                methodType: wikiModel.MethodType)
                     .SetMemory("formChanged", false)
                     .Message(Messages.Updated(
                         context: context,
