@@ -123,7 +123,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.PermissionsWhereDefault(this);
+            where = where ?? Rds.PermissionsWhereDefault(
+                context: context,
+                permissionModel: this);
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectPermissions(

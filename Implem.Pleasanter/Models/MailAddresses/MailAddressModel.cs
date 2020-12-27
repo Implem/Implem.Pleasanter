@@ -103,8 +103,10 @@ namespace Implem.Pleasanter.Models
             {
                 Get(context: context,
                     tableType: Sqls.TableTypes.NormalAndHistory,
-                    where: Rds.MailAddressesWhereDefault(this)
-                        .MailAddresses_Ver(context.QueryStrings.Int("ver")));
+                    where: Rds.MailAddressesWhereDefault(
+                        context: context,
+                        mailAddressModel: this)
+                            .MailAddresses_Ver(context.QueryStrings.Int("ver")));
             }
             else
             {
@@ -155,7 +157,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.MailAddressesWhereDefault(this);
+            where = where ?? Rds.MailAddressesWhereDefault(
+                context: context,
+                mailAddressModel: this);
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectMailAddresses(
@@ -265,8 +269,10 @@ namespace Implem.Pleasanter.Models
         {
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
-            var where = Rds.MailAddressesWhereDefault(this)
-                .UpdatedTime(timestamp, _using: timestamp.InRange());
+            var where = Rds.MailAddressesWhereDefault(
+                context: context,
+                mailAddressModel: this)
+                    .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (Versions.VerUp(
                 context: context,
                 ss: ss,
@@ -338,7 +344,9 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>
             {
                 Rds.UpdateOrInsertMailAddresses(
-                    where: where ?? Rds.MailAddressesWhereDefault(this),
+                    where: where ?? Rds.MailAddressesWhereDefault(
+                        context: context,
+                        mailAddressModel: this),
                     param: param ?? Rds.MailAddressesParamDefault(
                         context: context, mailAddressModel: this, setDefault: true))
             };

@@ -14,14 +14,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string id,
             string columnName = null)
         {
-            return ExtensionUtilities.ExtensionWhere<ExtendedHtml>(
+            return Parameters.ExtendedHtmls.ExtensionWhere<ExtendedHtml>(
                 context: context,
-                extensions: Parameters.ExtendedHtmls,
                 columnName: columnName)
-                .Select(o => o.Html.Display(
-                    context: context,
-                    id: id))
-                .Join("\n");
+                    .Select(o => o.Html.Display(
+                        context: context,
+                        id: id))
+                    .Join("\n");
         }
     }
 }

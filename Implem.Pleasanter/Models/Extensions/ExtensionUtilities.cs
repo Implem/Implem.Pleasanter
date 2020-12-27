@@ -41,11 +41,10 @@ namespace Implem.Pleasanter.Models
             {
                 return ApiResults.BadRequest(context: context);
             }
-            var extendedSql = ExtensionWhere<ParameterAccessor.Parts.ExtendedSql>(
-                context: context,
-                extensions: Parameters.ExtendedSqls
-                    ?.Where(o => o.Api)
-                    .Where(o => o.Name == extendedApi.Name))
+            var extendedSql = Parameters.ExtendedSqls
+                ?.Where(o => o.Api)
+                .Where(o => o.Name == extendedApi.Name)
+                .ExtensionWhere<ParameterAccessor.Parts.ExtendedSql>(context: context)
                 .FirstOrDefault();
             if (extendedSql == null)
             {
@@ -92,8 +91,8 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static IEnumerable<T> ExtensionWhere<T>(
+            this IEnumerable<ParameterAccessor.Parts.ExtendedBase> extensions,
             Context context,
-            IEnumerable<ParameterAccessor.Parts.ExtendedBase> extensions,
             string columnName = null)
         {
             return ExtensionWhere<T>(

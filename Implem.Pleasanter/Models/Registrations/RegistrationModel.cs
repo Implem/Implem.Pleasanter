@@ -215,8 +215,10 @@ namespace Implem.Pleasanter.Models
             {
                 Get(context: context,
                     tableType: Sqls.TableTypes.NormalAndHistory,
-                    where: Rds.RegistrationsWhereDefault(this)
-                        .Registrations_Ver(context.QueryStrings.Int("ver")), ss: ss);
+                    where: Rds.RegistrationsWhereDefault(
+                        context: context,
+                        registrationModel: this)
+                            .Registrations_Ver(context.QueryStrings.Int("ver")), ss: ss);
             }
             else
             {
@@ -288,7 +290,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.RegistrationsWhereDefault(this);
+            where = where ?? Rds.RegistrationsWhereDefault(
+                context: context,
+                registrationModel: this);
             Set(context, ss, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectRegistrations(
@@ -451,8 +455,10 @@ namespace Implem.Pleasanter.Models
         {
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
-            var where = Rds.RegistrationsWhereDefault(this)
-                .UpdatedTime(timestamp, _using: timestamp.InRange());
+            var where = Rds.RegistrationsWhereDefault(
+                context: context,
+                registrationModel: this)
+                    .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (Versions.VerUp(
                 context: context,
                 ss: ss,
@@ -525,7 +531,9 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>
             {
                 Rds.UpdateOrInsertRegistrations(
-                    where: where ?? Rds.RegistrationsWhereDefault(this),
+                    where: where ?? Rds.RegistrationsWhereDefault(
+                        context: context,
+                        registrationModel: this),
                     param: param ?? Rds.RegistrationsParamDefault(
                         context: context, registrationModel: this, setDefault: true)),
             };
