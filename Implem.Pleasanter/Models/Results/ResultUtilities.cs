@@ -2931,7 +2931,9 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     name: column.ColumnName);
             var statements = new List<SqlStatement>();
-            statements.OnBulkUpdatingExtendedSqls(ss.SiteId);
+            statements.OnBulkUpdatingExtendedSqls(
+                context: context,
+                siteId: ss.SiteId);
             statements.Add(Rds.ResultsCopyToStatement(
                 where: verUpWhere,
                 tableType: Sqls.TableTypes.History,
@@ -3005,7 +3007,9 @@ namespace Implem.Pleasanter.Models
                     .ResultId_In(sub: sub),
                 param: param));
             statements.Add(Rds.RowCount());
-            statements.OnBulkUpdatedExtendedSqls(ss.SiteId);
+            statements.OnBulkUpdatedExtendedSqls(
+                context: context,
+                siteId: ss.SiteId);
             return Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -3043,7 +3047,9 @@ namespace Implem.Pleasanter.Models
                     .Where(o => o.SiteId == ss.SiteId)
                     .ToList();
             var statements = new List<SqlStatement>();
-            statements.OnUpdatingByGridExtendedSqls(siteId: ss.SiteId);
+            statements.OnUpdatingByGridExtendedSqls(
+                context: context,
+                siteId: ss.SiteId);
             var resultCollection = new ResultCollection(
                 context: context,
                 ss: ss,
@@ -3125,7 +3131,9 @@ namespace Implem.Pleasanter.Models
                             .ToJson();
                 }
             }
-            statements.OnUpdatedByGridExtendedSqls(siteId: ss.SiteId);
+            statements.OnUpdatedByGridExtendedSqls(
+                context: context,
+                siteId: ss.SiteId);
             var responses = Repository.ExecuteDataSet_responses(
                 context: context,
                 transactional: true,
@@ -4198,7 +4206,9 @@ namespace Implem.Pleasanter.Models
                 : ss.SiteId.ToSingleList();
             var statements = new List<SqlStatement>();
             var guid = Strings.NewGuid();
-            statements.OnBulkDeletingExtendedSqls(ss.SiteId);
+            statements.OnBulkDeletingExtendedSqls(
+                context: context,
+                siteId: ss.SiteId);
             statements.Add(Rds.UpdateItems(
                 where: Rds.ItemsWhere()
                     .SiteId_In(sites)
@@ -4226,7 +4236,9 @@ namespace Implem.Pleasanter.Models
                     .ReferenceType(guid),
                 param: Rds.ItemsParam()
                     .ReferenceType(ss.ReferenceType)));
-            statements.OnBulkDeletedExtendedSqls(ss.SiteId);
+            statements.OnBulkDeletedExtendedSqls(
+                context: context,
+                siteId: ss.SiteId);
             return Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -4781,7 +4793,10 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     transactional: true,
                     statements: new List<SqlStatement>()
-                        .OnImportingExtendedSqls(ss.SiteId).ToArray());
+                        .OnImportingExtendedSqls(
+                            context: context,
+                            siteId: ss.SiteId)
+                                .ToArray());
                 var resultHash = new Dictionary<int, ResultModel>();
                 csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
                 {
@@ -4926,7 +4941,10 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     transactional: true,
                     statements: new List<SqlStatement>()
-                        .OnImportedExtendedSqls(ss.SiteId).ToArray());
+                        .OnImportedExtendedSqls(
+                            context: context,
+                            siteId: ss.SiteId)
+                                .ToArray());
                 return GridRows(
                     context: context,
                     ss: ss,

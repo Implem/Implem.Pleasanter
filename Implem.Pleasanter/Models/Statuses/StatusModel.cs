@@ -98,7 +98,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.StatusesWhereDefault(this);
+            where = where ?? Rds.StatusesWhereDefault(
+                context: context,
+                statusModel: this);
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectStatuses(

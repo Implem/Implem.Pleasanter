@@ -129,7 +129,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.ItemsWhereDefault(this);
+            where = where ?? Rds.ItemsWhereDefault(
+                context: context,
+                itemModel: this);
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectItems(

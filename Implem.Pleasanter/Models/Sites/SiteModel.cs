@@ -523,7 +523,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.SitesWhereDefault(this);
+            where = where ?? Rds.SitesWhereDefault(
+                context: context,
+                siteModel: this);
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectSites(
@@ -717,8 +719,10 @@ namespace Implem.Pleasanter.Models
         {
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
-            var where = Rds.SitesWhereDefault(this)
-                .UpdatedTime(timestamp, _using: timestamp.InRange());
+            var where = Rds.SitesWhereDefault(
+                context: context,
+                siteModel: this)
+                    .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (Versions.VerUp(
                 context: context,
                 ss: ss,
@@ -848,7 +852,9 @@ namespace Implem.Pleasanter.Models
                         .SiteId(SiteId)
                         .Title(Title.DisplayValue)),
                 Rds.UpdateOrInsertSites(
-                    where: where ?? Rds.SitesWhereDefault(this),
+                    where: where ?? Rds.SitesWhereDefault(
+                        context: context,
+                        siteModel: this),
                     param: param ?? Rds.SitesParamDefault(
                         context: context, siteModel: this, setDefault: true)),
                 StatusUtilities.UpdateStatus(
