@@ -93,14 +93,16 @@ namespace Implem.Pleasanter.Models
         public static IEnumerable<T> ExtensionWhere<T>(
             this IEnumerable<ParameterAccessor.Parts.ExtendedBase> extensions,
             Context context,
+            long? siteId = null,
+            long? id = null,
             string columnName = null)
         {
             return ExtensionWhere<T>(
                 extensions: extensions,
                 deptId: context.DeptId,
                 userId: context.UserId,
-                siteId: context.SiteId,
-                id: context.Id,
+                siteId: siteId ?? context.SiteId,
+                id: id ?? context.Id,
                 controller: context.Controller,
                 action: context.Action,
                 columnName: columnName);
