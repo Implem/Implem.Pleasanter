@@ -3780,7 +3780,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             Parameters.ExtendedSqls
                 ?.Where(o => o.OnCreating)
-                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtensionWhere<ExtendedSql>(
+                    context: context,
+                    siteId: siteId)
                 .ExtendedSqls(
                     statements: statements,
                     siteId: siteId);
@@ -3795,7 +3797,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             Parameters.ExtendedSqls
                 ?.Where(o => o.OnCreated)
-                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtensionWhere<ExtendedSql>(
+                    context: context,
+                    siteId: siteId,
+                    id: id)
                 .ExtendedSqls(
                     statements: statements,
                     siteId: siteId,
@@ -3812,7 +3817,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             Parameters.ExtendedSqls
                 ?.Where(o => o.OnUpdating)
-                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtensionWhere<ExtendedSql>(
+                    context: context,
+                    siteId: siteId,
+                    id: id)
                 .ExtendedSqls(
                     statements: statements,
                     siteId: siteId,
@@ -3829,7 +3837,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             Parameters.ExtendedSqls
                 ?.Where(o => o.OnUpdated)
-                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtensionWhere<ExtendedSql>(
+                    context: context,
+                    siteId: siteId,
+                    id: id)
                 .ExtendedSqls(
                     statements: statements,
                     siteId: siteId,
@@ -3844,7 +3855,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             Parameters.ExtendedSqls
                 ?.Where(o => o.OnUpdatingByGrid)
-                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtensionWhere<ExtendedSql>(
+                    context: context,
+                    siteId: siteId)
                 .ExtendedSqls(
                     statements: statements,
                     siteId: siteId);
@@ -3858,7 +3871,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             Parameters.ExtendedSqls
                 ?.Where(o => o.OnUpdatedByGrid)
-                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtensionWhere<ExtendedSql>(
+                    context: context,
+                    siteId: siteId)
                 .ExtendedSqls(
                     statements: statements,
                     siteId: siteId);
@@ -3872,7 +3887,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             Parameters.ExtendedSqls
                 ?.Where(o => o.OnBulkUpdating)
-                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtensionWhere<ExtendedSql>(
+                    context: context,
+                    siteId: siteId)
                 .ExtendedSqls(
                     statements: statements,
                     siteId: siteId);
@@ -3886,7 +3903,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             Parameters.ExtendedSqls
                 ?.Where(o => o.OnBulkUpdated)
-                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtensionWhere<ExtendedSql>(
+                    context: context,
+                    siteId: siteId)
                 .ExtendedSqls(
                     statements: statements,
                     siteId: siteId);
@@ -3901,7 +3920,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             Parameters.ExtendedSqls
                 ?.Where(o => o.OnDeleting)
-                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtensionWhere<ExtendedSql>(
+                    context: context,
+                    siteId: siteId,
+                    id: id)
                 .ExtendedSqls(
                     statements: statements,
                     siteId: siteId,
@@ -3917,7 +3939,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             Parameters.ExtendedSqls
                 ?.Where(o => o.OnDeleted)
-                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtensionWhere<ExtendedSql>(
+                    context: context,
+                    siteId: siteId,
+                    id: id)
                 .ExtendedSqls(
                     statements: statements,
                     siteId: siteId,
@@ -3932,7 +3957,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             Parameters.ExtendedSqls
                 ?.Where(o => o.OnBulkDeleting)
-                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtensionWhere<ExtendedSql>(
+                    context: context,
+                    siteId: siteId)
                 .ExtendedSqls(
                     statements: statements,
                     siteId: siteId);
@@ -3946,7 +3973,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             Parameters.ExtendedSqls
                 ?.Where(o => o.OnBulkDeleted)
-                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtensionWhere<ExtendedSql>(
+                    context: context,
+                    siteId: siteId)
                 .ExtendedSqls(
                     statements: statements,
                     siteId: siteId);
@@ -3960,7 +3989,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             Parameters.ExtendedSqls
                 ?.Where(o => o.OnImporting)
-                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtensionWhere<ExtendedSql>(
+                    context: context,
+                    siteId: siteId)
                 .ExtendedSqls(
                     statements: statements,
                     siteId: siteId);
@@ -3974,7 +4005,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             Parameters.ExtendedSqls
                 ?.Where(o => o.OnImported)
-                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtensionWhere<ExtendedSql>(
+                    context: context,
+                    siteId: siteId)
                 .ExtendedSqls(
                     statements: statements,
                     siteId: siteId);
@@ -3988,7 +4021,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             Parameters.ExtendedSqls
                 ?.Where(o => o.OnSelectingWhere)
-                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtensionWhere<ExtendedSql>(
+                    context: context,
+                    siteId: ss.SiteId)
                 .ExtendedSqlsWhere(
                     where: where,
                     ss: ss);
@@ -4012,7 +4047,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
             long id)
         {
             return Parameters.ExtendedSqls
-                ?.ExtensionWhere<ExtendedSql>(context: context);
+                ?.ExtensionWhere<ExtendedSql>(
+                    context: context,
+                    siteId: siteId,
+                    id: id);
         }
 
         private static void ExtendedSqls(
@@ -4057,7 +4095,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Parameters.ExtendedSqls?
                 .Where(o => o.OnSelectingWhere)
                 .Where(o => o.CommandText?.Any() == true)
-                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtensionWhere<ExtendedSql>(
+                    context: context,
+                    siteId: issueModel.SiteId,
+                    id: issueModel.IssueId)
                 .ExtendedSqlsWhereIssues(Where, issueModel);
             return Where;
         }
@@ -4066,13 +4107,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this IEnumerable<ExtendedSql> self,
             IssuesWhereCollection where,
             IssueModel issueModel,
-            long id = 0,
             DateTime? timestamp = null)
         {
             self.ForEach(o =>
                 where.Add(raw: o.CommandText
                     .Replace("{{SiteId}}", issueModel.SiteId.ToString())
-                    .Replace("{{Id}}", id.ToString())
+                    .Replace("{{Id}}", issueModel.IssueId.ToString())
                     .Replace("{{Timestamp}}", timestamp?.ToString("yyyy/M/d H:m:s.fff"))));
         }
 
@@ -4084,7 +4124,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Parameters.ExtendedSqls?
                 .Where(o => o.OnSelectingWhere)
                 .Where(o => o.CommandText?.Any() == true)
-                .ExtensionWhere<ExtendedSql>(context: context)
+                .ExtensionWhere<ExtendedSql>(
+                    context: context,
+                    siteId: resultModel.SiteId,
+                    id: resultModel.ResultId)
                 .ExtendedSqlsWhereResults(Where, resultModel);
             return Where;
         }
@@ -4093,13 +4136,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this IEnumerable<ExtendedSql> self,
             ResultsWhereCollection where,
             ResultModel resultModel,
-            long id = 0,
             DateTime? timestamp = null)
         {
             self.ForEach(o =>
                 where.Add(raw: o.CommandText
                     .Replace("{{SiteId}}", resultModel.SiteId.ToString())
-                    .Replace("{{Id}}", id.ToString())
+                    .Replace("{{Id}}", resultModel.ResultId.ToString())
                     .Replace("{{Timestamp}}", timestamp?.ToString("yyyy/M/d H:m:s.fff"))));
         }
 
