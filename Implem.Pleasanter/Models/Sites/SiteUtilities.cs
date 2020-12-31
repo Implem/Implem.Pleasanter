@@ -5092,6 +5092,27 @@ namespace Implem.Pleasanter.Models
                                         optionCollection: optionCollection,
                                         selectedValue: column.FieldCss,
                                         _using: optionCollection?.Any() == true)
+                                    .FieldDropDown(
+                                        context: context,
+                                        controlId: "ViewerSwitchingType",
+                                        labelText: Displays.ViewerSwitchingType(context: context),
+                                        optionCollection: new Dictionary<string, string>()
+                                        {
+                                            {
+                                                Column.ViewerSwitchingTypes.Auto.ToInt().ToString(),
+                                                Displays.Auto(context: context)
+                                            },
+                                            {
+                                                Column.ViewerSwitchingTypes.Manual.ToInt().ToString(),
+                                                Displays.Manual(context: context)
+                                            },
+                                            {
+                                                Column.ViewerSwitchingTypes.Disabled.ToInt().ToString(),
+                                                Displays.Disabled(context: context)
+                                            }
+                                        },
+                                        selectedValue: column.ViewerSwitchingType.ToInt().ToString(),
+                                        _using: column.ControlType == "MarkDown")
                                     .FieldCheckBox(
                                         controlId: "ValidateRequired",
                                         labelText: Displays.Required(context: context),

@@ -1,29 +1,29 @@
 ﻿{
-    "Id": "Auto",
+    "Id": "ViewerSwitchingType",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Auto"
+            "Body": "Viewer switching"
         },
         {
             "Language": "zh",
-            "Body": "自动"
+            "Body": "查看器切换"
         },
         {
             "Language": "ja",
-            "Body": "自動"
+            "Body": "ビュワー切替"
         },
         {
             "Language": "de",
-            "Body": "Automatisch"
+            "Body": "Viewer wechselt"
         },
         {
             "Language": "ko",
-            "Body": "자동"
+            "Body": "뷰어 전환"
         },
         {
             "Language": "es",
-            "Body": "Automático"
+            "Body": "Cambio de espectador"
         }
     ]
 }
