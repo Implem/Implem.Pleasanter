@@ -391,6 +391,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 mobile: mobile,
                                 alwaysSend: alwaysSend,
                                 validateRequired: required,
+                                viewerSwitchingTypes: (Column.ViewerSwitchingTypes)column.ViewerSwitchingType,
                                 preview: preview,
                                 validateMaxLength: column.MaxLength.ToInt(),
                                 validateRegex: column.ClientRegexValidation,
@@ -920,6 +921,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool mobile = false,
             bool alwaysSend = false,
             bool validateRequired = false,
+            Column.ViewerSwitchingTypes viewerSwitchingTypes = Column.ViewerSwitchingTypes.Auto,
             Dictionary<string, string> attributes = null,
             bool preview = false,
             bool _using = true)
@@ -952,6 +954,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             mobile: mobile,
                             alwaysSend: alwaysSend,
                             validateRequired: validateRequired,
+                            viewerSwitchingTypes: viewerSwitchingTypes,
                             attributes: attributes,
                             preview: preview))
                 : hb;

@@ -1,5 +1,5 @@
 ﻿$(function () {
-    $(document).on('blur', '.control-markdown:not(.error)', function () {
+    $(document).on('blur', '.control-markdown:not(.error):not(.manual)', function () {
         $p.showMarkDownViewer($(this));
     });
     $(document).on('paste', '.upload-image', function (e) {

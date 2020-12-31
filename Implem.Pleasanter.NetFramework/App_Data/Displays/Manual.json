@@ -1,29 +1,29 @@
 ﻿{
-    "Id": "Auto",
+    "Id": "Manual",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Auto"
+            "Body": "Manual"
         },
         {
             "Language": "zh",
-            "Body": "自动"
+            "Body": "手册"
         },
         {
             "Language": "ja",
-            "Body": "自動"
+            "Body": "手動"
         },
         {
             "Language": "de",
-            "Body": "Automatisch"
+            "Body": "Handbuch"
         },
         {
             "Language": "ko",
-            "Body": "자동"
+            "Body": "설명서"
         },
         {
             "Language": "es",
-            "Body": "Automático"
+            "Body": "Manual"
         }
     ]
 }

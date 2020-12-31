@@ -24,6 +24,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             User
         }
 
+        public enum ViewerSwitchingTypes
+        {
+            Auto = 1,
+            Manual = 2,
+            Disabled = 3
+        }
+
         public enum SearchTypes : int
         {
             PartialMatch = 1,
@@ -83,6 +90,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? AllowImage;
         public bool? AllowBulkUpdate;
         public string FieldCss;
+        public ViewerSwitchingTypes? ViewerSwitchingType;
         public SiteSettings.TextAlignTypes? TextAlign;
         public string Unit;
         public bool? Link;
