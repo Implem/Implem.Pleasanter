@@ -3346,6 +3346,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectItems(
+                    tableType: Sqls.TableTypes.NormalAndDeleted,
                     column: Rds.ItemsColumn()
                         .ReferenceId()
                         .Title(),
