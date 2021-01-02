@@ -164,36 +164,25 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context, SiteSettings ss, Column column, string value)
         {
             var editChoices = column.EditChoices(context: context);
-            if (column.UseSearch != true)
+            if (!value.IsNullOrEmpty() && !editChoices.ContainsKey(value))
             {
-                return editChoices;
-            }
-            else if (editChoices.ContainsKey(value))
-            {
-                return new Dictionary<string, ControlData>()
+                if (column.Linked(withoutWiki: true))
                 {
-                    { value, editChoices[value] }
-                };
-            }
-            else
-            {
-                var referenceId = value.ToLong();
-                if (referenceId > 0 && column.Linked())
-                {
-                    var title = ss.LinkedItemTitle(
-                        context: context,
-                        referenceId: referenceId,
-                        siteIdList: ss.Links.Select(o => o.SiteId));
-                    if (title != null)
+                    var referenceId = value.ToLong();
+                    if (referenceId > 0)
                     {
-                        return new Dictionary<string, ControlData>()
+                        var title = ss.LinkedItemTitle(
+                            context: context,
+                            referenceId: referenceId,
+                            siteIdList: ss.Links.Select(o => o.SiteId));
+                        if (title != null)
                         {
-                            { value, new ControlData(title) }
-                        };
+                            editChoices.Add(value, new ControlData(title));
+                        }
                     }
                 }
-                return new Dictionary<string, ControlData>();
             }
+            return editChoices;
         }
 
         private static HtmlBuilder SwitchField(
