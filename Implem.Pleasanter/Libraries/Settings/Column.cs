@@ -24,6 +24,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             User
         }
 
+        public enum ViewerSwitchingTypes
+        {
+            Auto = 1,
+            Manual = 2,
+            Disabled = 3
+        }
+
         public enum SearchTypes : int
         {
             PartialMatch = 1,
@@ -83,6 +90,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? AllowImage;
         public bool? AllowBulkUpdate;
         public string FieldCss;
+        public ViewerSwitchingTypes? ViewerSwitchingType;
         public SiteSettings.TextAlignTypes? TextAlign;
         public string Unit;
         public bool? Link;
@@ -478,18 +486,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     context: context,
                                     siteId: o.SiteId)))
                         {
-                            var dataRow = Rds.ExecuteTable(
+                            var title = SiteSettings.LinkedItemTitle(
                                 context: context,
-                                statements: Rds.SelectItems(
-                                    column: Rds.ItemsColumn().Title(),
-                                    where: Rds.ItemsWhere()
-                                        .SiteId_In(SiteSettings.Links.Select(o => o.SiteId).ToList())
-                                        .ReferenceId(value.ToLong())))
-                                            .AsEnumerable()
-                                            .FirstOrDefault();
+                                referenceId: value.ToLong(),
+                                siteIdList: SiteSettings.Links.Select(o => o.SiteId));
                             ChoiceHash.AddIfNotConainsKey(
                                 value,
-                                new Choice(dataRow?.String("Title") ?? "? " + value));
+                                new Choice(title ?? "? " + value));
                         }
                         break;
                     default:

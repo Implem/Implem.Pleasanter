@@ -179,6 +179,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool mobile = false,
             bool alwaysSend = false,
             bool validateRequired = false,
+            Column.ViewerSwitchingTypes viewerSwitchingTypes = Column.ViewerSwitchingTypes.Auto,
             Dictionary<string, string> attributes = null,
             bool preview = false,
             bool _using = true,
@@ -186,45 +187,53 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string validateRegex = null,
             string validateRegexErrorMessage = null)
         {
+            if (!_using) return hb;
             if (preview) controlId = Strings.NewGuid();
-            return _using
-                ? hb
-                    .Div(attributes: new HtmlAttributes()
-                        .Id(controlId + ".viewer")
-                        .Class("control-markup not-send")
-                        .OnDblClick("$p.editMarkdown($(this));"))
-                    .Div(
-                        attributes: new HtmlAttributes()
-                            .Id(controlId + ".editor")
-                            .Class("ui-icon ui-icon-pencil button-edit-markdown")
-                            .OnClick("$p.editMarkdown($(this));"),
-                        _using: !readOnly)
-                    .TextArea(
-                        attributes: new HtmlAttributes()
-                            .Id(controlId)
-                            .Name(controlId)
-                            .Class(Css.Class(
-                                "control-markdown" +
-                                    (CanUploadImage(context, readOnly, allowImage, preview)
-                                        ? " upload-image"
-                                        : string.Empty),
-                                controlCss))
-                            .Placeholder(placeholder)
-                            .DataAlwaysSend(alwaysSend)
-                            .DataValidateMaxLength(validateMaxLength)
-                            .DataValidateRequired(validateRequired, _using: !readOnly)
-                            .DataValidateRegex(validateRegex)
-                            .DataValidateRegexErrorMessage(validateRegexErrorMessage)
-                            .Add(attributes),
-                        text: text)
-                    .MarkDownCommands(
-                        context: context,
-                        controlId: controlId,
-                        readOnly: readOnly,
-                        allowImage: allowImage,
-                        mobile: mobile,
-                        preview: preview)
-                : hb;
+            if (viewerSwitchingTypes != Column.ViewerSwitchingTypes.Disabled)
+            {
+                hb
+                   .Div(attributes: new HtmlAttributes()
+                       .Id(controlId + ".viewer")
+                       .Class("control-markup not-send")
+                       .OnDblClick($"$p.editMarkdown($('#{controlId}'));"))
+                   .Div(
+                       attributes: new HtmlAttributes()
+                           .Id(controlId + ".editor")
+                           .Class("ui-icon ui-icon-pencil button-edit-markdown")
+                           .OnClick($"$p.editMarkdown($('#{controlId}'));"),
+                       _using: !readOnly);
+            }
+            hb
+                .TextArea(
+                    attributes: new HtmlAttributes()
+                        .Id(controlId)
+                        .Name(controlId)
+                        .Class(Css.Class((viewerSwitchingTypes == Column.ViewerSwitchingTypes.Disabled
+                            ? "control-textarea"
+                            : "control-markdown")
+                                + (viewerSwitchingTypes == Column.ViewerSwitchingTypes.Manual
+                                    ? " manual"
+                                    : string.Empty)
+                                + (CanUploadImage(context, readOnly, allowImage, preview)
+                                    ? " upload-image"
+                                    : string.Empty),
+                            controlCss))
+                        .Placeholder(placeholder)
+                        .DataAlwaysSend(alwaysSend)
+                        .DataValidateMaxLength(validateMaxLength)
+                        .DataValidateRequired(validateRequired, _using: !readOnly)
+                        .DataValidateRegex(validateRegex)
+                        .DataValidateRegexErrorMessage(validateRegexErrorMessage)
+                        .Add(attributes),
+                    text: text)
+                .MarkDownCommands(
+                    context: context,
+                    controlId: controlId,
+                    readOnly: readOnly,
+                    allowImage: allowImage,
+                    mobile: mobile,
+                    preview: preview);
+            return hb;
         }
 
         public static HtmlBuilder MarkDownCommands(

@@ -1150,6 +1150,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.FieldCss = column.FieldCss;
                     }
+                    if (column.ViewerSwitchingType != (Column.ViewerSwitchingTypes)Parameters.General.ViewerSwitchingType)
+                    {
+                        enabled = true;
+                        newColumn.ViewerSwitchingType = column.ViewerSwitchingType;
+                    }
                     if (column.TextAlign != TextAlignTypes.Left)
                     {
                         enabled = true;
@@ -1496,6 +1501,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.AllowImage = column.AllowImage ?? true;
                 column.ThumbnailLimitSize = column.ThumbnailLimitSize ?? Parameters.BinaryStorage.ThumbnailLimitSize;
                 column.FieldCss = column.FieldCss ?? columnDefinition.FieldCss;
+                column.ViewerSwitchingType = column.ViewerSwitchingType ?? (Column.ViewerSwitchingTypes)Parameters.General.ViewerSwitchingType;
                 column.TextAlign = column.TextAlign ?? TextAlignTypes.Left;
                 column.Unit = column.Unit ?? columnDefinition.Unit;
                 column.CheckFilterControlType = column.CheckFilterControlType ?? ColumnUtilities.CheckFilterControlTypes.OnOnly;
@@ -3133,6 +3139,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "AllowImage": column.AllowImage = value.ToBool(); break;
                 case "ThumbnailLimitSize": column.ThumbnailLimitSize = value.ToDecimal(); break;
                 case "FieldCss": column.FieldCss = value; break;
+                case "ViewerSwitchingType": column.ViewerSwitchingType = (Column.ViewerSwitchingTypes)value.ToInt(); break;
                 case "TextAlign": column.TextAlign = (TextAlignTypes)value.ToInt(); break;
                 case "Description": column.Description = value; break;
                 case "ChoicesText": column.ChoicesText = value; SetLinks(
@@ -3338,6 +3345,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectItems(
+                    tableType: Sqls.TableTypes.NormalAndDeleted,
                     column: Rds.ItemsColumn()
                         .ReferenceId()
                         .Title(),

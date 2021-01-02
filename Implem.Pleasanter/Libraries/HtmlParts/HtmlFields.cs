@@ -164,36 +164,25 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context, SiteSettings ss, Column column, string value)
         {
             var editChoices = column.EditChoices(context: context);
-            if (column.UseSearch != true)
+            if (!value.IsNullOrEmpty() && !editChoices.ContainsKey(value))
             {
-                return editChoices;
-            }
-            else if (editChoices.ContainsKey(value))
-            {
-                return new Dictionary<string, ControlData>()
+                if (column.Linked(withoutWiki: true))
                 {
-                    { value, editChoices[value] }
-                };
-            }
-            else
-            {
-                var referenceId = value.ToLong();
-                if (referenceId > 0 && column.Linked())
-                {
-                    var title = ss.LinkedItemTitle(
-                        context: context,
-                        referenceId: referenceId,
-                        siteIdList: ss.Links.Select(o => o.SiteId));
-                    if (title != null)
+                    var referenceId = value.ToLong();
+                    if (referenceId > 0)
                     {
-                        return new Dictionary<string, ControlData>()
+                        var title = ss.LinkedItemTitle(
+                            context: context,
+                            referenceId: referenceId,
+                            siteIdList: ss.Links.Select(o => o.SiteId));
+                        if (title != null)
                         {
-                            { value, new ControlData(title) }
-                        };
+                            editChoices.Add(value, new ControlData(title));
+                        }
                     }
                 }
-                return new Dictionary<string, ControlData>();
             }
+            return editChoices;
         }
 
         private static HtmlBuilder SwitchField(
@@ -391,6 +380,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 mobile: mobile,
                                 alwaysSend: alwaysSend,
                                 validateRequired: required,
+                                viewerSwitchingTypes: (Column.ViewerSwitchingTypes)column.ViewerSwitchingType,
                                 preview: preview,
                                 validateMaxLength: column.MaxLength.ToInt(),
                                 validateRegex: column.ClientRegexValidation,
@@ -920,6 +910,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool mobile = false,
             bool alwaysSend = false,
             bool validateRequired = false,
+            Column.ViewerSwitchingTypes viewerSwitchingTypes = Column.ViewerSwitchingTypes.Auto,
             Dictionary<string, string> attributes = null,
             bool preview = false,
             bool _using = true)
@@ -952,6 +943,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             mobile: mobile,
                             alwaysSend: alwaysSend,
                             validateRequired: validateRequired,
+                            viewerSwitchingTypes: viewerSwitchingTypes,
                             attributes: attributes,
                             preview: preview))
                 : hb;

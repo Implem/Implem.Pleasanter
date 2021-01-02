@@ -1673,6 +1673,8 @@
     <Content Include="App_Data\Displays\BeforeDelete.json" />
     <Content Include="App_Data\Displays\AfterCreate.json" />
     <Content Include="App_Data\Displays\BeforeUpdate.json" />
+    <Content Include="App_Data\Displays\Manual.json" />
+    <Content Include="App_Data\Displays\ViewerSwitchingType.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

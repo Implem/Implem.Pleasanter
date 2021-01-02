@@ -1,32 +1,28 @@
-﻿$p.generalId = function ($control) {
-    var controlId = $control.attr('id');
-    return controlId.indexOf('.') === -1
-        ? controlId
-        : controlId.substring(0, controlId.indexOf('.'));
-}
-
-$p.showMarkDownViewer = function ($control) {
+﻿$p.showMarkDownViewer = function ($control) {
     var $viewer = $('[id="' + $control.attr('id') + '.viewer"]');
     if ($viewer.length === 1) {
         $viewer.html($p.markup($control.val()));
         $p.resizeEditor($control, $viewer);
-        $p.toggleEditor($viewer, false);
+        $p.toggleEditor($control, false);
     }
 }
 
 $p.editMarkdown = function ($control) {
-    $p.toggleEditor($control, true);
-    $('[id=\'' + $p.generalId($control) + '\']').focus();
+    if ($control.is(':visible')) {
+        $p.toggleEditor($control, false);
+    } else {
+        $p.toggleEditor($control, true);
+        $($control).focus();
+    }
 }
 
 $p.toggleEditor = function ($control, edit) {
-    var id = $p.generalId($control);
+    var id = $control.attr('id');
     if ($('[id="' + id + '.editor"]').length !== 0) {
         if (edit) {
             $p.resizeEditor($('[id="' + id + '"]'), $('[id="' + id + '.viewer"]'));
         }
         $('[id="' + id + '.viewer"]').toggle(!edit);
-        $('[id="' + id + '.editor"]').toggle(!edit);
         $('[id="' + id + '"]').toggle(edit);
     }
 }

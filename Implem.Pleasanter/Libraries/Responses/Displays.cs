@@ -4299,6 +4299,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Manual(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Manual",
+                data: data);
+        }
+
         public static string Manufacture(
             Context context,
             params string[] data)
@@ -7556,6 +7566,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ViewDemoEnvironment",
+                data: data);
+        }
+
+        public static string ViewerSwitchingType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ViewerSwitchingType",
                 data: data);
         }
 
