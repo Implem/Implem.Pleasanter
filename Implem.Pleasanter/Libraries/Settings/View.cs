@@ -562,7 +562,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private string String(Context context, string controlId)
         {
-            var data = context.Forms.Data(controlId);
+            var data = context.Forms.Data(controlId).Trim();
             if (data != string.Empty)
             {
                 return data;
@@ -873,7 +873,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ss: ss,
                 where: where,
                 checkPermission: checkPermission);
-            where.OnSelectingWhereExtendedSqls(ss: ss);
+            where.OnSelectingWhereExtendedSqls(
+                context: context,
+                ss: ss);
             if (RequestSearchCondition(
                 context: context,
                 ss: ss))
@@ -1410,7 +1412,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 orderType: data.Value);
                             break;
                         default:
-                            if (column.Linked())
+                            if (column.Linked(withoutWiki: true))
                             {
                                 orderBy.Add(new SqlOrderBy(
                                     orderType: data.Value,

@@ -107,7 +107,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.GroupMembersWhereDefault(this);
+            where = where ?? Rds.GroupMembersWhereDefault(
+                context: context,
+                groupMemberModel: this);
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectGroupMembers(

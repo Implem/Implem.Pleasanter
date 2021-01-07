@@ -107,7 +107,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.OrdersWhereDefault(this);
+            where = where ?? Rds.OrdersWhereDefault(
+                context: context,
+                orderModel: this);
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectOrders(
@@ -328,6 +330,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: Rds.UpdateOrInsertOrders(
                     where: where ?? Rds.OrdersWhereDefault(
+                        context: context,
                         orderModel: this),
                     param: param ?? Rds.OrdersParamDefault(
                         context: context,

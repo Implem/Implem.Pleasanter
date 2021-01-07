@@ -8,144 +8,412 @@ using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 namespace Implem.Pleasanter.Libraries.Extensions
 {
     public static class FullTextExtensions
     {
-        public static void FullText(this int self, Context context, List<string> fullText)
+        public static void FullText(
+            this int self,
+            Context context,
+            Column column,
+            StringBuilder fullText)
         {
-            fullText.Add(self.ToString());
+            switch (column?.FullTextType)
+            {
+                case Column.FullTextTypes.DisplayName:
+                case Column.FullTextTypes.Value:
+                case Column.FullTextTypes.ValueAndDisplayName:
+                    fullText
+                        .Append(" ")
+                        .Append(self.ToString());
+                    break;
+            }
         }
 
-        public static void FullText(this long self, Context context, List<string> fullText)
+        public static void FullText(
+            this long self,
+            Context context,
+            Column column,
+            StringBuilder fullText)
         {
-            fullText.Add(self.ToString());
+            switch (column?.FullTextType)
+            {
+                case Column.FullTextTypes.DisplayName:
+                case Column.FullTextTypes.Value:
+                case Column.FullTextTypes.ValueAndDisplayName:
+                    fullText
+                        .Append(" ")
+                        .Append(self.ToString());
+                    break;
+            }
         }
 
-        public static void FullText(this decimal self, Context context, List<string> fullText)
+        public static void FullText(
+            this decimal self,
+            Context context,
+            Column column,
+            StringBuilder fullText)
         {
-            fullText.Add(self.ToString());
+            switch (column?.FullTextType)
+            {
+                case Column.FullTextTypes.DisplayName:
+                case Column.FullTextTypes.Value:
+                case Column.FullTextTypes.ValueAndDisplayName:
+                    fullText
+                        .Append(" ")
+                        .Append(self.ToString());
+                    break;
+            }
         }
 
-        public static void FullText(this DateTime self, Context context, List<string> fullText)
+        public static void FullText(
+            this DateTime self,
+            Context context,
+            Column column,
+            StringBuilder fullText)
         {
             var value = self.ToLocal(context: context);
             if (value.InRange())
             {
-                fullText.Add(value.ToString());
-            }
-        }
-
-        public static void FullText(this string self, Context context, List<string> fullText)
-        {
-            if (self != null)
-            {
-                fullText.Add(self);
-            }
-        }
-
-        public static void FullText(
-            this string self, Context context, Column column, List<string> fullText)
-        {
-            if (self != null)
-            {
-                fullText.Add(column?.HasChoices() == true
-                    ? column.Choice(self).SearchText()
-                    : self);
+                switch (column?.FullTextType)
+                {
+                    case Column.FullTextTypes.DisplayName:
+                    case Column.FullTextTypes.Value:
+                    case Column.FullTextTypes.ValueAndDisplayName:
+                        fullText
+                            .Append(" ")
+                            .Append(value.ToString());
+                        break;
+                }
             }
         }
 
         public static void FullText(
-            this IEnumerable<SiteMenuElement> self, Context context, List<string> fullText)
+            this string self,
+            Context context,
+            Column column,
+            StringBuilder fullText)
         {
-            if (self != null)
+            if (self != null && column != null)
             {
-                fullText.Add(self.Select(o => o.Title).Join(" "));
+                if (column.HasChoices() == true)
+                {
+                    switch (column.FullTextType)
+                    {
+                        case Column.FullTextTypes.DisplayName:
+                            fullText
+                                .Append(" ")
+                                .Append(column.Choice(self).Text ?? string.Empty);
+                            break;
+                        case Column.FullTextTypes.Value:
+                            fullText
+                                .Append(" ")
+                                .Append(column.Choice(self).Value ?? string.Empty);
+                            break;
+                        case Column.FullTextTypes.ValueAndDisplayName:
+                            fullText
+                                .Append(" ")
+                                .Append(column.Choice(self).Value ?? string.Empty);
+                            fullText
+                                .Append(" ")
+                                .Append(column.Choice(self).Text ?? string.Empty);
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (column.FullTextType)
+                    {
+                        case Column.FullTextTypes.DisplayName:
+                        case Column.FullTextTypes.Value:
+                        case Column.FullTextTypes.ValueAndDisplayName:
+                            fullText
+                                .Append(" ")
+                                .Append(self);
+                            break;
+                    }
+                }
             }
-        }
-
-        public static void FullText(this ProgressRate self, Context context, List<string> fullText)
-        {
-            if (self != null)
+            else if (self != null)
             {
-                fullText.Add(self.Value.ToString());
+                fullText
+                    .Append(" ")
+                    .Append(self);
             }
         }
 
         public static void FullText(
-            this Status self, Context context, Column column, List<string> fullText)
+            this IEnumerable<SiteMenuElement> self,
+            Context context,
+            StringBuilder fullText)
+        {
+            self?.ForEach(o =>
+                fullText
+                    .Append(" ")
+                    .Append(o.Title));
+        }
+
+        public static void FullText(
+            this ProgressRate self,
+            Context context,
+            Column column,
+            StringBuilder fullText)
         {
             if (self != null)
             {
-                fullText.Add(column?.HasChoices() == true
-                    ? column.Choice(self.Value.ToString()).SearchText()
-                    : self.Value.ToString());
+                switch (column?.FullTextType)
+                {
+                    case Column.FullTextTypes.DisplayName:
+                    case Column.FullTextTypes.Value:
+                    case Column.FullTextTypes.ValueAndDisplayName:
+                        fullText
+                            .Append(" ")
+                            .Append(self.Value.ToString());
+                        break;
+                }
             }
         }
 
         public static void FullText(
-            this CompletionTime self, Context context, List<string> fullText)
+            this Status self,
+            Context context,
+            Column column,
+            StringBuilder fullText)
+        {
+            if (self != null && column != null)
+            {
+                if (column.HasChoices() == true)
+                {
+                    switch (column.FullTextType)
+                    {
+                        case Column.FullTextTypes.DisplayName:
+                            fullText
+                                .Append(" ")
+                                .Append(column.Choice(self.Value.ToString()).Text ?? string.Empty);
+                            break;
+                        case Column.FullTextTypes.Value:
+                            fullText
+                                .Append(" ")
+                                .Append(column.Choice(self.Value.ToString()).Value ?? string.Empty);
+                            break;
+                        case Column.FullTextTypes.ValueAndDisplayName:
+                            fullText
+                                .Append(" ")
+                                .Append(column.Choice(self.Value.ToString()).Value ?? string.Empty);
+                            fullText
+                                .Append(" ")
+                                .Append(column.Choice(self.Value.ToString()).Text ?? string.Empty);
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (column.FullTextType)
+                    {
+                        case Column.FullTextTypes.DisplayName:
+                        case Column.FullTextTypes.Value:
+                        case Column.FullTextTypes.ValueAndDisplayName:
+                            fullText
+                                .Append(" ")
+                                .Append(self.Value.ToString());
+                            break;
+                    }
+                }
+            }
+        }
+
+        public static void FullText(
+            this CompletionTime self,
+            Context context,
+            Column column,
+            StringBuilder fullText)
         {
             var value = self?.Value.ToLocal(context: context).AddDays(-1);
             if (value?.InRange() == true)
             {
-                fullText.Add(value.ToString());
+                switch (column?.FullTextType)
+                {
+                    case Column.FullTextTypes.DisplayName:
+                    case Column.FullTextTypes.Value:
+                    case Column.FullTextTypes.ValueAndDisplayName:
+                        fullText
+                            .Append(" ")
+                            .Append(value.ToString());
+                        break;
+                }
             }
         }
 
-        public static void FullText(this Time self, Context context, List<string> fullText)
+        public static void FullText(
+            this Time self,
+            Context context,
+            Column column,
+            StringBuilder fullText)
         {
             var value = self?.Value.ToLocal(context: context);
             if (value?.InRange() == true)
             {
-                fullText.Add(value.ToString());
+                switch (column?.FullTextType)
+                {
+                    case Column.FullTextTypes.DisplayName:
+                    case Column.FullTextTypes.Value:
+                    case Column.FullTextTypes.ValueAndDisplayName:
+                        fullText
+                            .Append(" ")
+                            .Append(value.ToString());
+                        break;
+                }
             }
         }
 
-        public static void FullText(this Title self, Context context, List<string> fullText)
+        public static void FullText(
+            this Title self,
+            Context context,
+            Column column,
+            StringBuilder fullText)
         {
             if (self != null)
             {
-                fullText.Add(self.Value);
+                switch (column?.FullTextType)
+                {
+                    case Column.FullTextTypes.DisplayName:
+                        fullText
+                            .Append(" ")
+                            .Append(self.DisplayValue);
+                        break;
+                    case Column.FullTextTypes.Value:
+                        fullText
+                            .Append(" ")
+                            .Append(self.Value);
+                        break;
+                    case Column.FullTextTypes.ValueAndDisplayName:
+                        fullText
+                            .Append(" ")
+                            .Append(self.Value)
+                            .Append(" ")
+                            .Append(self.DisplayValue);
+                        break;
+                }
             }
         }
 
-        public static void FullText(this User self, Context context, List<string> fullText)
+        public static void FullText(
+            this User self,
+            Context context,
+            Column column,
+            StringBuilder fullText)
         {
             if (self != null)
             {
-                fullText.Add(self.Name);
+                switch (column?.FullTextType)
+                {
+                    case Column.FullTextTypes.DisplayName:
+                        fullText
+                            .Append(" ")
+                            .Append(self.Name);
+                        break;
+                    case Column.FullTextTypes.Value:
+                        fullText
+                            .Append(" ")
+                            .Append(self.Id);
+                        break;
+                    case Column.FullTextTypes.ValueAndDisplayName:
+                        fullText
+                            .Append(" ")
+                            .Append(self.Id);
+                        fullText
+                            .Append(" ")
+                            .Append(self.Name);
+                        break;
+                }
             }
         }
 
-        public static void FullText(this Comments self, Context context, List<string> fullText)
+        public static void FullText(
+            this Comments self,
+            Context context,
+            Column column,
+            StringBuilder fullText)
         {
             if (self != null)
             {
-                fullText.Add(self.Select(o =>
-                    SiteInfo.UserName(
-                        context: context,
-                        userId: o.Creator) + " " + o.Body)
-                            .Join(" "));
+                switch (column?.FullTextType)
+                {
+                    case Column.FullTextTypes.DisplayName:
+                    case Column.FullTextTypes.Value:
+                    case Column.FullTextTypes.ValueAndDisplayName:
+                        self.ForEach(o =>
+                            fullText
+                                .Append(" ")
+                                .Append(SiteInfo.UserName(
+                                    context: context,
+                                    userId: o.Creator))
+                                .Append(" ")
+                                .Append(o.Body));
+                        break;
+                }
             }
         }
 
-        public static void FullText(this WorkValue self, Context context, List<string> fullText)
+        public static void FullText(
+            this WorkValue self,
+            Context context,
+            Column column,
+            StringBuilder fullText)
         {
             if (self != null)
             {
-                fullText.Add(self.Value.ToString());
+                switch (column?.FullTextType)
+                {
+                    case Column.FullTextTypes.DisplayName:
+                    case Column.FullTextTypes.Value:
+                    case Column.FullTextTypes.ValueAndDisplayName:
+                        fullText
+                            .Append(" ")
+                            .Append(self.Value.ToString());
+                        break;
+                }
             }
         }
 
-        public static void FullText(this Attachments self, Context context, List<string> fullText)
+        public static void FullText(
+            this Attachments self,
+            Context context,
+            Column column,
+            StringBuilder fullText)
         {
-            self?.ForEach(attachment => fullText.Add(attachment.Name));
+            if (self != null)
+            {
+                switch (column?.FullTextType)
+                {
+                    case Column.FullTextTypes.DisplayName:
+                        self?.ForEach(o =>
+                            fullText
+                                .Append(" ")
+                                .Append(o.Name));
+                        break;
+                    case Column.FullTextTypes.Value:
+                        self?.ForEach(o =>
+                            fullText
+                                .Append(" ")
+                                .Append(o.Guid));
+                        break;
+                    case Column.FullTextTypes.ValueAndDisplayName:
+                        self?.ForEach(o =>
+                            fullText
+                                .Append(" ")
+                                .Append(o.Guid)
+                                .Append(" ")
+                                .Append(o.Name));
+                        break;
+                }
+            }
         }
 
         public static void OutgoingMailsFullText(
             Context context,
-            List<string> fullText,
+            StringBuilder fullText,
             string referenceType,
             long referenceId)
         {
@@ -156,12 +424,24 @@ namespace Implem.Pleasanter.Libraries.Extensions
                     .ReferenceId(referenceId))
                         .ForEach(o =>
                         {
-                            fullText.Add(o.From.ToString());
-                            fullText.Add(o.To);
-                            fullText.Add(o.Cc);
-                            fullText.Add(o.Bcc);
-                            fullText.Add(o.Title.Value);
-                            fullText.Add(o.Body);
+                            fullText
+                                .Append(" ")
+                                .Append(o.From.ToString());
+                            fullText
+                                .Append(" ")
+                                .Append(o.To);
+                            fullText
+                                .Append(" ")
+                                .Append(o.Cc);
+                            fullText
+                                .Append(" ")
+                                .Append(o.Bcc);
+                            fullText
+                                .Append(" ")
+                                .Append(o.Title.Value);
+                            fullText
+                                .Append(" ")
+                                .Append(o.Body);
                         });
         }
     }

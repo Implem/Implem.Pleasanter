@@ -568,8 +568,10 @@ namespace Implem.Pleasanter.Models
             {
                 Get(context: context,
                     tableType: Sqls.TableTypes.NormalAndHistory,
-                    where: Rds.ResultsWhereDefault(this)
-                        .Results_Ver(context.QueryStrings.Int("ver")), ss: ss);
+                    where: Rds.ResultsWhereDefault(
+                        context: context,
+                        resultModel: this)
+                            .Results_Ver(context.QueryStrings.Int("ver")), ss: ss);
             }
             else
             {
@@ -648,7 +650,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.ResultsWhereDefault(this);
+            where = where ?? Rds.ResultsWhereDefault(
+                context: context,
+                resultModel: this);
             new View().SetColumnsWhere(
                 context: context,
                 ss: ss,
@@ -714,53 +718,105 @@ namespace Implem.Pleasanter.Models
         {
             if (!Parameters.Search.CreateIndexes && !backgroundTask) return null;
             if (AccessStatus == Databases.AccessStatuses.NotFound) return null;
-            var fullText = new List<string>();
+            var fullText = new System.Text.StringBuilder();
             SiteInfo.TenantCaches
                 .Get(context.TenantId)?
-                .SiteMenu.Breadcrumb(context: context, siteId: SiteId)
-                .FullText(context, fullText);
-            SiteId.FullText(context, fullText);
+                .SiteMenu.Breadcrumb(
+                    context: context,
+                    siteId: SiteId)
+                .FullText(
+                    context: context,
+                    fullText: fullText);
+            SiteId.FullText(
+                context: context,
+                column: ss.GetColumn(
+                    context: context,
+                    columnName: "SiteId"),
+                fullText: fullText);
             ss.GetEditorColumnNames(
                 context: context,
-                columnOnly: true).ForEach(columnName =>
-                {
-                    switch (columnName)
+                columnOnly: true)
+                    .Select(columnName => ss.GetColumn(
+                        context: context,
+                        columnName: columnName))
+                    .ForEach(column =>
                     {
-                        case "ResultId":
-                            ResultId.FullText(context, fullText);
-                            break;
-                        case "Title":
-                            Title.FullText(context, fullText);
-                            break;
-                        case "Body":
-                            Body.FullText(context, fullText);
-                            break;
-                        case "Status":
-                            Status.FullText(context, ss.GetColumn(context: context, columnName: "Status"), fullText);
-                            break;
-                        case "Manager":
-                            Manager.FullText(context, fullText);
-                            break;
-                        case "Owner":
-                            Owner.FullText(context, fullText);
-                            break;
-                        case "Comments":
-                            Comments.FullText(context, fullText);
-                            break;
-                        default:
-                            FullText(
-                                context: context,
-                                column: ss.GetColumn(
+                        switch (column.ColumnName)
+                        {
+                            case "ResultId":
+                                ResultId.FullText(
                                     context: context,
-                                    columnName: columnName),
-                                fullText: fullText);
-                            break;
-                    }
-                });
-            Creator.FullText(context, fullText);
-            Updator.FullText(context, fullText);
-            CreatedTime.FullText(context, fullText);
-            UpdatedTime.FullText(context, fullText);
+                                    column: column,
+                                    fullText: fullText);
+                                break;
+                            case "Title":
+                                Title.FullText(
+                                    context: context,
+                                    column: column,
+                                    fullText: fullText);
+                                break;
+                            case "Body":
+                                Body.FullText(
+                                    context: context,
+                                    column: column,
+                                    fullText: fullText);
+                                break;
+                            case "Status":
+                                Status.FullText(
+                                    context: context,
+                                    column: column,
+                                    fullText: fullText);
+                                break;
+                            case "Manager":
+                                Manager.FullText(
+                                    context: context,
+                                    column: column,
+                                    fullText: fullText);
+                                break;
+                            case "Owner":
+                                Owner.FullText(
+                                    context: context,
+                                    column: column,
+                                    fullText: fullText);
+                                break;
+                            case "Comments":
+                                Comments.FullText(
+                                    context: context,
+                                    column: column,
+                                    fullText: fullText);
+                                break;
+                            default:
+                                BaseFullText(
+                                    context: context,
+                                    column: column,
+                                    fullText: fullText);
+                                break;
+                        }
+                    });
+            Creator.FullText(
+                context,
+                column: ss.GetColumn(
+                    context: context,
+                    columnName: "Creator"),
+                fullText);
+            Updator.FullText(
+                context,
+                column: ss.GetColumn(
+                    context: context,
+                    columnName: "Updator"),
+                fullText);
+            CreatedTime.FullText(
+                context,
+                column: ss.GetColumn(
+                    context: context,
+                    columnName: "CreatedTime"),
+                fullText);
+            UpdatedTime.FullText(
+                context,
+                column: ss.GetColumn(
+                    context: context,
+                    columnName: "UpdatedTime"),
+                fullText);
             if (!onCreating)
             {
                 FullTextExtensions.OutgoingMailsFullText(
@@ -770,8 +826,13 @@ namespace Implem.Pleasanter.Models
                     referenceId: ResultId);
             }
             return fullText
-                .Where(o => !o.IsNullOrEmpty())
+                .ToString()
+                .Replace("　", " ")
+                .Replace("\r", " ")
+                .Replace("\n", " ")
+                .Split(' ')
                 .Select(o => o.Trim())
+                .Where(o => o != string.Empty)
                 .Distinct()
                 .Join(" ");
         }
@@ -788,10 +849,15 @@ namespace Implem.Pleasanter.Models
             bool otherInitValue = false,
             bool get = true)
         {
+            SetByBeforeCreateServerScript(
+                context: context,
+                ss: ss);
             var statements = new List<SqlStatement>();
             if (extendedSqls)
             {
-                statements.OnCreatingExtendedSqls(SiteId);
+                statements.OnCreatingExtendedSqls(
+                    context: context,
+                    siteId: SiteId);
             }
             statements.AddRange(CreateStatements(
                 context: context,
@@ -856,6 +922,7 @@ namespace Implem.Pleasanter.Models
             if (extendedSqls)
             {
                 statements.OnCreatedExtendedSqls(
+                    context: context,
                     siteId: SiteId,
                     id: ResultId);
             }
@@ -864,6 +931,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: statements.ToArray());
             if (get && Rds.ExtendedSqls(
+                context: context,
                 siteId: SiteId,
                 id: ResultId)
                     ?.Any(o => o.OnCreated) == true)
@@ -872,6 +940,9 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss);
             }
+            SetByAfterCreateServerScript(
+                context: context,
+                ss: ss);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -937,6 +1008,9 @@ namespace Implem.Pleasanter.Models
             bool setBySession = true,
             bool get = true)
         {
+            SetByBeforeUpdateServerScript(
+                context: context,
+                ss: ss);
             var notifications = GetNotifications(
                 context: context,
                 ss: ss,
@@ -950,6 +1024,7 @@ namespace Implem.Pleasanter.Models
             if (extendedSqls)
             {
                 statements.OnUpdatingExtendedSqls(
+                    context: context,
                     siteId: SiteId,
                     id: ResultId,
                     timestamp: Timestamp.ToDateTime());
@@ -1012,6 +1087,9 @@ namespace Implem.Pleasanter.Models
                 addUpdatedTimeParam: true,
                 addUpdatorParam: true,
                 updateItems: true);
+            SetByAfterUpdateServerScript(
+                context: context,
+                ss: ss);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -1027,8 +1105,10 @@ namespace Implem.Pleasanter.Models
         {
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
-            var where = Rds.ResultsWhereDefault(this)
-                .UpdatedTime(timestamp, _using: timestamp.InRange());
+            var where = Rds.ResultsWhereDefault(
+                context: context,
+                resultModel: this)
+                    .UpdatedTime(timestamp, _using: timestamp.InRange());
             statements.AddRange(IfDuplicatedStatements(ss: ss));
             if (Versions.VerUp(
                 context: context,
@@ -1117,6 +1197,7 @@ namespace Implem.Pleasanter.Models
                     updateItems: updateItems)
                         .ToArray());
             if (get && Rds.ExtendedSqls(
+                context: context,
                 siteId: SiteId,
                 id: ResultId)
                     ?.Any(o => o.OnUpdated) == true)
@@ -1162,6 +1243,7 @@ namespace Implem.Pleasanter.Models
             if (extendedSqls)
             {
                 statements.OnUpdatedExtendedSqls(
+                    context: context,
                     siteId: SiteId,
                     id: ResultId);
             }
@@ -1204,7 +1286,9 @@ namespace Implem.Pleasanter.Models
                         .SiteId(SiteId)
                         .Title(Title.DisplayValue)),
                 Rds.UpdateOrInsertResults(
-                    where: where ?? Rds.ResultsWhereDefault(this),
+                    where: where ?? Rds.ResultsWhereDefault(
+                        context: context,
+                        resultModel: this),
                     param: param ?? Rds.ResultsParamDefault(
                         context: context, resultModel: this, setDefault: true))
             };
@@ -1259,6 +1343,9 @@ namespace Implem.Pleasanter.Models
 
         public ErrorData Delete(Context context, SiteSettings ss, bool notice = false)
         {
+            SetByBeforeDeleteServerScript(
+                context: context,
+                ss: ss);
             var notifications = context.ContractSettings.Notice != false && notice
                 ? GetNotifications(
                     context: context,
@@ -1267,7 +1354,10 @@ namespace Implem.Pleasanter.Models
                 : null;
             var statements = new List<SqlStatement>();
             var where = Rds.ResultsWhere().SiteId(SiteId).ResultId(ResultId);
-            statements.OnDeletingExtendedSqls(SiteId, ResultId);
+            statements.OnDeletingExtendedSqls(
+                context: context,
+                siteId: SiteId,
+                id: ResultId);
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.DeleteItems(
@@ -1282,7 +1372,10 @@ namespace Implem.Pleasanter.Models
                     factory: context,
                     where: where)
             });
-            statements.OnDeletedExtendedSqls(SiteId, ResultId);
+            statements.OnDeletedExtendedSqls(
+                context: context,
+                siteId: SiteId,
+                id: ResultId);
             Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
@@ -1296,6 +1389,9 @@ namespace Implem.Pleasanter.Models
                     notifications: notifications,
                     type: "Deleted");
             }
+            SetByAfterDeleteServerScript(
+                context: context,
+                ss: ss);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -1790,7 +1886,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.UpdateResults(
                     param: param,
-                    where: Rds.ResultsWhereDefault(this),
+                    where: Rds.ResultsWhereDefault(
+                        context: context,
+                        resultModel: this),
                     addUpdatedTimeParam: false,
                     addUpdatorParam: false));
         }
@@ -1872,6 +1970,16 @@ namespace Implem.Pleasanter.Models
                     {
                         case "UpdatedTime":
                             match = UpdatedTime.Value.Matched(
+                                column: column,
+                                condition: filter.Value);
+                            break;
+                        case "ResultId":
+                            match = ResultId.Matched(
+                                column: column,
+                                condition: filter.Value);
+                            break;
+                        case "Ver":
+                            match = Ver.Matched(
                                 column: column,
                                 condition: filter.Value);
                             break;

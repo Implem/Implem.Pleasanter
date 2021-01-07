@@ -523,7 +523,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.SitesWhereDefault(this);
+            where = where ?? Rds.SitesWhereDefault(
+                context: context,
+                siteModel: this);
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectSites(
@@ -548,41 +550,81 @@ namespace Implem.Pleasanter.Models
             if (!Parameters.Search.CreateIndexes && !backgroundTask) return null;
             if (AccessStatus == Databases.AccessStatuses.NotFound) return null;
             if (ReferenceType == "Wikis") return null;
-            var fullText = new List<string>();
+            var fullText = new System.Text.StringBuilder();
             SiteInfo.TenantCaches
                 .Get(context.TenantId)?
-                .SiteMenu.Breadcrumb(context: context, siteId: SiteId)
-                .FullText(context, fullText);
-            SiteId.FullText(context, fullText);
+                .SiteMenu.Breadcrumb(
+                    context: context,
+                    siteId: SiteId)
+                .FullText(
+                    context: context,
+                    fullText: fullText);
+            SiteId.FullText(
+                context: context,
+                column: ss.GetColumn(
+                    context: context,
+                    columnName: "SiteId"),
+                fullText: fullText);
             ss.GetEditorColumnNames(
                 context: context,
-                columnOnly: true).ForEach(columnName =>
-                {
-                    switch (columnName)
+                columnOnly: true)
+                    .Select(columnName => ss.GetColumn(
+                        context: context,
+                        columnName: columnName))
+                    .ForEach(column =>
                     {
-                        case "Title":
-                            Title.FullText(context, fullText);
-                            break;
-                        case "Body":
-                            Body.FullText(context, fullText);
-                            break;
-                        case "Comments":
-                            Comments.FullText(context, fullText);
-                            break;
-                        default:
-                            FullText(
-                                context: context,
-                                column: ss.GetColumn(
+                        switch (column.ColumnName)
+                        {
+                            case "Title":
+                                Title.FullText(
                                     context: context,
-                                    columnName: columnName),
-                                fullText: fullText);
-                            break;
-                    }
-                });
-            Creator.FullText(context, fullText);
-            Updator.FullText(context, fullText);
-            CreatedTime.FullText(context, fullText);
-            UpdatedTime.FullText(context, fullText);
+                                    column: column,
+                                    fullText: fullText);
+                                break;
+                            case "Body":
+                                Body.FullText(
+                                    context: context,
+                                    column: column,
+                                    fullText: fullText);
+                                break;
+                            case "Comments":
+                                Comments.FullText(
+                                    context: context,
+                                    column: column,
+                                    fullText: fullText);
+                                break;
+                            default:
+                                BaseFullText(
+                                    context: context,
+                                    column: column,
+                                    fullText: fullText);
+                                break;
+                        }
+                    });
+            Creator.FullText(
+                context,
+                column: ss.GetColumn(
+                    context: context,
+                    columnName: "Creator"),
+                fullText);
+            Updator.FullText(
+                context,
+                column: ss.GetColumn(
+                    context: context,
+                    columnName: "Updator"),
+                fullText);
+            CreatedTime.FullText(
+                context,
+                column: ss.GetColumn(
+                    context: context,
+                    columnName: "CreatedTime"),
+                fullText);
+            UpdatedTime.FullText(
+                context,
+                column: ss.GetColumn(
+                    context: context,
+                    columnName: "UpdatedTime"),
+                fullText);
             if (!onCreating)
             {
                 FullTextExtensions.OutgoingMailsFullText(
@@ -592,8 +634,13 @@ namespace Implem.Pleasanter.Models
                     referenceId: SiteId);
             }
             return fullText
-                .Where(o => !o.IsNullOrEmpty())
+                .ToString()
+                .Replace("　", " ")
+                .Replace("\r", " ")
+                .Replace("\n", " ")
+                .Split(' ')
                 .Select(o => o.Trim())
+                .Where(o => o != string.Empty)
                 .Distinct()
                 .Join(" ");
         }
@@ -672,8 +719,10 @@ namespace Implem.Pleasanter.Models
         {
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
-            var where = Rds.SitesWhereDefault(this)
-                .UpdatedTime(timestamp, _using: timestamp.InRange());
+            var where = Rds.SitesWhereDefault(
+                context: context,
+                siteModel: this)
+                    .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (Versions.VerUp(
                 context: context,
                 ss: ss,
@@ -803,7 +852,9 @@ namespace Implem.Pleasanter.Models
                         .SiteId(SiteId)
                         .Title(Title.DisplayValue)),
                 Rds.UpdateOrInsertSites(
-                    where: where ?? Rds.SitesWhereDefault(this),
+                    where: where ?? Rds.SitesWhereDefault(
+                        context: context,
+                        siteModel: this),
                     param: param ?? Rds.SitesParamDefault(
                         context: context, siteModel: this, setDefault: true)),
                 StatusUtilities.UpdateStatus(
@@ -1100,6 +1151,11 @@ namespace Implem.Pleasanter.Models
                     {
                         case "UpdatedTime":
                             match = UpdatedTime.Value.Matched(
+                                column: column,
+                                condition: filter.Value);
+                            break;
+                        case "Ver":
+                            match = Ver.Matched(
                                 column: column,
                                 condition: filter.Value);
                             break;
@@ -4363,6 +4419,12 @@ namespace Implem.Pleasanter.Models
                 beforeFormula: context.Forms.Bool("ServerScriptBeforeFormula"),
                 afterFormula: context.Forms.Bool("ServerScriptAfterFormula"),
                 whenloadingSiteSettings: context.Forms.Bool("ServerScriptWhenloadingSiteSettings"),
+                beforeCreate: context.Forms.Bool("ServerScriptBeforeCreate"),
+                afterCreate: context.Forms.Bool("ServerScriptAfterCreate"),
+                beforeUpdate: context.Forms.Bool("ServerScriptBeforeUpdate"),
+                afterUpdate: context.Forms.Bool("ServerScriptAfterUpdate"),
+                beforeDelete: context.Forms.Bool("ServerScriptBeforeDelete"),
+                afterDelete: context.Forms.Bool("ServerScriptAfterDelete"),
                 body: context.Forms.Data("ServerScriptBody"));
             var invalid = ServerScriptValidators.OnCreating(
                 context: context,
@@ -4382,6 +4444,12 @@ namespace Implem.Pleasanter.Models
                 beforeFormula: script.BeforeFormula ?? default,
                 afterFormula: script.AfterFormula ?? default,
                 whenloadingSiteSettings: script.WhenloadingSiteSettings ?? default,
+                beforeCreate: script.BeforeCreate ?? default,
+                afterCreate: script.AfterCreate ?? default,
+                beforeUpdate: script.BeforeUpdate ?? default,
+                afterUpdate: script.AfterUpdate ?? default,
+                beforeDelete: script.BeforeDelete ?? default,
+                afterDelete: script.AfterDelete ?? default,
                 body: script.Body));
             res
                 .ReplaceAll("#EditServerScript", new HtmlBuilder()
@@ -4404,6 +4472,12 @@ namespace Implem.Pleasanter.Models
                 beforeFormula: context.Forms.Bool("ServerScriptBeforeFormula"),
                 afterFormula: context.Forms.Bool("ServerScriptAfterFormula"),
                 whenloadingSiteSettings: context.Forms.Bool("ServerScriptWhenloadingSiteSettings"),
+                beforeCreate: context.Forms.Bool("ServerScriptBeforeCreate"),
+                afterCreate: context.Forms.Bool("ServerScriptAfterCreate"),
+                beforeUpdate: context.Forms.Bool("ServerScriptBeforeUpdate"),
+                afterUpdate: context.Forms.Bool("ServerScriptAfterUpdate"),
+                beforeDelete: context.Forms.Bool("ServerScriptBeforeDelete"),
+                afterDelete: context.Forms.Bool("ServerScriptAfterDelete"),
                 body: context.Forms.Data("ServerScriptBody"));
             var invalid = ServerScriptValidators.OnUpdating(
                 context: context,
@@ -4424,6 +4498,12 @@ namespace Implem.Pleasanter.Models
                     beforeFormula: script.BeforeFormula ?? default,
                     afterFormula: script.AfterFormula ?? default,
                     whenloadingSiteSettings: script.WhenloadingSiteSettings ?? default,
+                    beforeCreate: script.BeforeCreate ?? default,
+                    afterCreate: script.AfterCreate ?? default,
+                    beforeUpdate: script.BeforeUpdate ?? default,
+                    afterUpdate: script.AfterUpdate ?? default,
+                    beforeDelete: script.BeforeDelete ?? default,
+                    afterDelete: script.AfterDelete ?? default,
                     body: script.Body);
             res
                 .Html("#EditServerScript", new HtmlBuilder()

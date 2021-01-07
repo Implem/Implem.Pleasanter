@@ -1,0 +1,29 @@
+﻿{
+    "Id": "Manual",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Manual"
+        },
+        {
+            "Language": "zh",
+            "Body": "手册"
+        },
+        {
+            "Language": "ja",
+            "Body": "手動"
+        },
+        {
+            "Language": "de",
+            "Body": "Handbuch"
+        },
+        {
+            "Language": "ko",
+            "Body": "설명서"
+        },
+        {
+            "Language": "es",
+            "Body": "Manual"
+        }
+    ]
+}

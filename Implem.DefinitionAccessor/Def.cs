@@ -327,6 +327,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_GetNormal": Code.Model_GetNormal = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetNormal, definitionRow, CodeXls); break;
                     case "Model_ClearSessions": Code.Model_ClearSessions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ClearSessions, definitionRow, CodeXls); break;
                     case "Model_Get": Code.Model_Get = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Get, definitionRow, CodeXls); break;
+                    case "Model_SetColumnsWhere": Code.Model_SetColumnsWhere = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetColumnsWhere, definitionRow, CodeXls); break;
                     case "Model_GetDefaultColumns": Code.Model_GetDefaultColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetDefaultColumns, definitionRow, CodeXls); break;
                     case "Model_GetSitesDefaultColumns": Code.Model_GetSitesDefaultColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetSitesDefaultColumns, definitionRow, CodeXls); break;
                     case "Model_GetItemsDefaultColumns": Code.Model_GetItemsDefaultColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetItemsDefaultColumns, definitionRow, CodeXls); break;
@@ -632,6 +633,9 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_CreatedResponse_Sites": Code.Model_Utilities_CreatedResponse_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreatedResponse_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreateByApi": Code.Model_Utilities_CreateByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateByApi, definitionRow, CodeXls); break;
                     case "Model_Utilities_Update": Code.Model_Utilities_Update = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Update, definitionRow, CodeXls); break;
+                    case "Model_Utilities_Update_PrependComment": Code.Model_Utilities_Update_PrependComment = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Update_PrependComment, definitionRow, CodeXls); break;
+                    case "Model_Utilities_Update_Response": Code.Model_Utilities_Update_Response = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Update_Response, definitionRow, CodeXls); break;
+                    case "Model_Utilities_Update_Response_Tables": Code.Model_Utilities_Update_Response_Tables = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Update_Response_Tables, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpdateParameters_Sites": Code.Model_Utilities_UpdateParameters_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateParameters_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_Update_NewModel": Code.Model_Utilities_Update_NewModel = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Update_NewModel, definitionRow, CodeXls); break;
                     case "Model_Utilities_Update_NewModel_Sites": Code.Model_Utilities_Update_NewModel_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Update_NewModel_Sites, definitionRow, CodeXls); break;
@@ -725,6 +729,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Validator_LockedTable": Code.Model_Validator_LockedTable = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_LockedTable, definitionRow, CodeXls); break;
                     case "Model_Validator_LockedRecord": Code.Model_Validator_LockedRecord = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_LockedRecord, definitionRow, CodeXls); break;
                     case "Model_Validator_ShowProfiles": Code.Model_Validator_ShowProfiles = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_ShowProfiles, definitionRow, CodeXls); break;
+                    case "Model_Validator_ShowProfilesAndHasPrivilege": Code.Model_Validator_ShowProfilesAndHasPrivilege = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_ShowProfilesAndHasPrivilege, definitionRow, CodeXls); break;
                     case "Model_Validator_OnAttaching": Code.Model_Validator_OnAttaching = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnAttaching, definitionRow, CodeXls); break;
                     case "Model_Validator_OnAttachingMethod": Code.Model_Validator_OnAttachingMethod = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnAttachingMethod, definitionRow, CodeXls); break;
                     case "Model_Validator_OnInputValidating": Code.Model_Validator_OnInputValidating = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnInputValidating, definitionRow, CodeXls); break;
@@ -2503,6 +2508,11 @@ namespace Implem.DefinitionAccessor
                                 data.ToDecimal();
                             newColumnDefinition.SavedNumFilterStep = newColumnDefinition.NumFilterStep;
                             break;
+                        case "FullTextType":
+                            newColumnDefinition.FullTextType = customDefinitionRow.Get("FullTextType")?.ToInt() ??
+                                data.ToInt();
+                            newColumnDefinition.SavedFullTextType = newColumnDefinition.FullTextType;
+                            break;
                         case "Width":
                             newColumnDefinition.Width = customDefinitionRow.Get("Width")?.ToInt() ??
                                 data.ToInt();
@@ -2669,6 +2679,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("NumFilterMin")) { definition.NumFilterMin = definitionRow["NumFilterMin"].ToDecimal(); definition.SavedNumFilterMin = definition.NumFilterMin; }
             if (definitionRow.ContainsKey("NumFilterMax")) { definition.NumFilterMax = definitionRow["NumFilterMax"].ToDecimal(); definition.SavedNumFilterMax = definition.NumFilterMax; }
             if (definitionRow.ContainsKey("NumFilterStep")) { definition.NumFilterStep = definitionRow["NumFilterStep"].ToDecimal(); definition.SavedNumFilterStep = definition.NumFilterStep; }
+            if (definitionRow.ContainsKey("FullTextType")) { definition.FullTextType = definitionRow["FullTextType"].ToInt(); definition.SavedFullTextType = definition.FullTextType; }
             if (definitionRow.ContainsKey("Width")) { definition.Width = definitionRow["Width"].ToInt(); definition.SavedWidth = definition.Width; }
             if (definitionRow.ContainsKey("SettingEnable")) { definition.SettingEnable = definitionRow["SettingEnable"].ToBool(); definition.SavedSettingEnable = definition.SettingEnable; }
             if (definitionRow.ContainsKey("OldColumnName")) { definition.OldColumnName = definitionRow["OldColumnName"].ToString(); definition.SavedOldColumnName = definition.OldColumnName; }
@@ -6303,6 +6314,7 @@ namespace Implem.DefinitionAccessor
                         case "NumFilterMin": columnDefinition.NumFilterMin = optionValue.ToDecimal(); break;
                         case "NumFilterMax": columnDefinition.NumFilterMax = optionValue.ToDecimal(); break;
                         case "NumFilterStep": columnDefinition.NumFilterStep = optionValue.ToDecimal(); break;
+                        case "FullTextType": columnDefinition.FullTextType = optionValue.ToInt(); break;
                         case "Width": columnDefinition.Width = optionValue.ToInt(); break;
                         case "SettingEnable": columnDefinition.SettingEnable = optionValue.ToBool(); break;
                         case "OldColumnName": columnDefinition.OldColumnName = optionValue.ToString(); break;
@@ -7290,6 +7302,7 @@ namespace Implem.DefinitionAccessor
         public string Model_GetNormal;
         public string Model_ClearSessions;
         public string Model_Get;
+        public string Model_SetColumnsWhere;
         public string Model_GetDefaultColumns;
         public string Model_GetSitesDefaultColumns;
         public string Model_GetItemsDefaultColumns;
@@ -7595,6 +7608,9 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_CreatedResponse_Sites;
         public string Model_Utilities_CreateByApi;
         public string Model_Utilities_Update;
+        public string Model_Utilities_Update_PrependComment;
+        public string Model_Utilities_Update_Response;
+        public string Model_Utilities_Update_Response_Tables;
         public string Model_Utilities_UpdateParameters_Sites;
         public string Model_Utilities_Update_NewModel;
         public string Model_Utilities_Update_NewModel_Sites;
@@ -7688,6 +7704,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Validator_LockedTable;
         public string Model_Validator_LockedRecord;
         public string Model_Validator_ShowProfiles;
+        public string Model_Validator_ShowProfilesAndHasPrivilege;
         public string Model_Validator_OnAttaching;
         public string Model_Validator_OnAttachingMethod;
         public string Model_Validator_OnInputValidating;
@@ -7935,6 +7952,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_GetNormal = new CodeDefinition();
         public CodeDefinition Model_ClearSessions = new CodeDefinition();
         public CodeDefinition Model_Get = new CodeDefinition();
+        public CodeDefinition Model_SetColumnsWhere = new CodeDefinition();
         public CodeDefinition Model_GetDefaultColumns = new CodeDefinition();
         public CodeDefinition Model_GetSitesDefaultColumns = new CodeDefinition();
         public CodeDefinition Model_GetItemsDefaultColumns = new CodeDefinition();
@@ -8240,6 +8258,9 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_CreatedResponse_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreateByApi = new CodeDefinition();
         public CodeDefinition Model_Utilities_Update = new CodeDefinition();
+        public CodeDefinition Model_Utilities_Update_PrependComment = new CodeDefinition();
+        public CodeDefinition Model_Utilities_Update_Response = new CodeDefinition();
+        public CodeDefinition Model_Utilities_Update_Response_Tables = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpdateParameters_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_Update_NewModel = new CodeDefinition();
         public CodeDefinition Model_Utilities_Update_NewModel_Sites = new CodeDefinition();
@@ -8333,6 +8354,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Validator_LockedTable = new CodeDefinition();
         public CodeDefinition Model_Validator_LockedRecord = new CodeDefinition();
         public CodeDefinition Model_Validator_ShowProfiles = new CodeDefinition();
+        public CodeDefinition Model_Validator_ShowProfilesAndHasPrivilege = new CodeDefinition();
         public CodeDefinition Model_Validator_OnAttaching = new CodeDefinition();
         public CodeDefinition Model_Validator_OnAttachingMethod = new CodeDefinition();
         public CodeDefinition Model_Validator_OnInputValidating = new CodeDefinition();
@@ -8628,6 +8650,7 @@ namespace Implem.DefinitionAccessor
         public decimal NumFilterMin; public decimal SavedNumFilterMin;
         public decimal NumFilterMax; public decimal SavedNumFilterMax;
         public decimal NumFilterStep; public decimal SavedNumFilterStep;
+        public int FullTextType; public int SavedFullTextType;
         public int Width; public int SavedWidth;
         public bool SettingEnable; public bool SavedSettingEnable;
         public string OldColumnName; public string SavedOldColumnName;
@@ -8756,6 +8779,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("NumFilterMin")) NumFilterMin = propertyCollection["NumFilterMin"].ToDecimal(); else NumFilterMin = 0;
             if (propertyCollection.ContainsKey("NumFilterMax")) NumFilterMax = propertyCollection["NumFilterMax"].ToDecimal(); else NumFilterMax = 0;
             if (propertyCollection.ContainsKey("NumFilterStep")) NumFilterStep = propertyCollection["NumFilterStep"].ToDecimal(); else NumFilterStep = 0;
+            if (propertyCollection.ContainsKey("FullTextType")) FullTextType = propertyCollection["FullTextType"].ToInt(); else FullTextType = 0;
             if (propertyCollection.ContainsKey("Width")) Width = propertyCollection["Width"].ToInt(); else Width = 0;
             if (propertyCollection.ContainsKey("SettingEnable")) SettingEnable = propertyCollection["SettingEnable"].ToBool(); else SettingEnable = false;
             if (propertyCollection.ContainsKey("OldColumnName")) OldColumnName = propertyCollection["OldColumnName"].ToString(); else OldColumnName = string.Empty;
@@ -8884,6 +8908,7 @@ namespace Implem.DefinitionAccessor
                     case "NumFilterMin": return NumFilterMin;
                     case "NumFilterMax": return NumFilterMax;
                     case "NumFilterStep": return NumFilterStep;
+                    case "FullTextType": return FullTextType;
                     case "Width": return Width;
                     case "SettingEnable": return SettingEnable;
                     case "OldColumnName": return OldColumnName;
@@ -9012,6 +9037,7 @@ namespace Implem.DefinitionAccessor
             NumFilterMin = SavedNumFilterMin;
             NumFilterMax = SavedNumFilterMax;
             NumFilterStep = SavedNumFilterStep;
+            FullTextType = SavedFullTextType;
             Width = SavedWidth;
             SettingEnable = SavedSettingEnable;
             OldColumnName = SavedOldColumnName;

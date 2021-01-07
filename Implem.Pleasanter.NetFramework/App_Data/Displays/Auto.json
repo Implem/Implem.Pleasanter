@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "Auto",
     "Type": 110,
     "Languages": [
@@ -11,7 +11,7 @@
         },
         {
             "Language": "ja",
-            "Body": "オート"
+            "Body": "自動"
         },
         {
             "Language": "de",

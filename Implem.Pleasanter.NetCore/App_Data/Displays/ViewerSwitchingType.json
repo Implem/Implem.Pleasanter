@@ -1,0 +1,29 @@
+﻿{
+    "Id": "ViewerSwitchingType",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Viewer switching"
+        },
+        {
+            "Language": "zh",
+            "Body": "查看器切换"
+        },
+        {
+            "Language": "ja",
+            "Body": "ビュワー切替"
+        },
+        {
+            "Language": "de",
+            "Body": "Viewer wechselt"
+        },
+        {
+            "Language": "ko",
+            "Body": "뷰어 전환"
+        },
+        {
+            "Language": "es",
+            "Body": "Cambio de espectador"
+        }
+    ]
+}

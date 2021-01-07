@@ -1,0 +1,29 @@
+﻿{
+    "Id": "AfterCreate",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "After create"
+        },
+        {
+            "Language": "zh",
+            "Body": "创建后"
+        },
+        {
+            "Language": "ja",
+            "Body": "作成後"
+        },
+        {
+            "Language": "de",
+            "Body": "Après Créer"
+        },
+        {
+            "Language": "ko",
+            "Body": "생성 후"
+        },
+        {
+            "Language": "es",
+            "Body": "Dopo crea"
+        }
+    ]
+}

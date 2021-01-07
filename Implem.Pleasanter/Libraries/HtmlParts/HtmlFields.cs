@@ -7,11 +7,13 @@ using Implem.Pleasanter.Libraries.Resources;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlFields
@@ -36,6 +38,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context,
             SiteSettings ss,
             Column column,
+            IEnumerable<ServerScriptModelColumn> serverScriptModelColumns = null,
             BaseModel.MethodTypes methodType = BaseModel.MethodTypes.NotSet,
             string value = null,
             Permissions.ColumnPermissionTypes columnPermissionType =
@@ -75,7 +78,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         context: context,
                         id: "ColumnTop",
                         columnName: column.ColumnName))
-                    .Raw(column.ExtendedHtmlBeforeField)
+                    .Raw(column.ExtendedHtmlBeforeField
+                        + serverScriptModelColumns
+                            ?.Select(scriptColumn => scriptColumn.ExtendedHtmlBeforeField)
+                            .Join())
                     .SwitchField(
                         context: context,
                         ss: ss,
@@ -87,10 +93,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             ? $"{column.Id}{idSuffix}"
                             : null,
                         columnName: $"{column.ColumnName}{idSuffix}",
-                        fieldCss: FieldCss(column, fieldCss)
-                            + (column.TextAlign == SiteSettings.TextAlignTypes.Right
-                                ? " right-align"
-                                : string.Empty),
+                        fieldCss: FieldCss(
+                            column: column,
+                            serverScriptModelColumns: serverScriptModelColumns,
+                            fieldCss: fieldCss)
+                                + (column.TextAlign == SiteSettings.TextAlignTypes.Right
+                                    ? " right-align"
+                                    : string.Empty),
                         labelCss: labelCss,
                         controlContainerCss: controlContainerCss,
                         controlCss: Strings.CoalesceEmpty(controlCss, column.ControlCss)
@@ -108,7 +117,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlOnly: controlOnly,
                         alwaysSend: alwaysSend,
                         preview: preview)
-                    .Raw(column.ExtendedHtmlAfterField)
+                    .Raw(column.ExtendedHtmlAfterField
+                        + serverScriptModelColumns
+                            ?.Select(scriptColumn => scriptColumn.ExtendedHtmlAfterField)
+                            .Join())
                     .Raw(HtmlHtmls.ExtendedHtmls(
                         context: context,
                         id: "ColumnBottom",
@@ -120,17 +132,31 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
         }
 
-        private static string FieldCss(Column column, string fieldCss)
+        private static string FieldCss(
+            Column column,
+            IEnumerable<ServerScriptModelColumn> serverScriptModelColumns,
+            string fieldCss)
         {
             return Strings.CoalesceEmpty(fieldCss, column.FieldCss)
                 + (column.NoWrap == true
                     ? " both"
                     : string.Empty)
                 + (column.Hide == true
-                    ? " hidden"
-                    : string.Empty)
+                    || ServerScriptUtilities.Hide(
+                        serverScriptModelColumns: serverScriptModelColumns)
+                            ? " hidden"
+                            : string.Empty)
                 + (!column.ExtendedFieldCss.IsNullOrEmpty()
                     ? " " + column.ExtendedFieldCss
+                    : string.Empty)
+                + (serverScriptModelColumns
+                    ?.Any(scriptColumn => scriptColumn
+                        ?.ExtendedFieldCss
+                        ?.IsNullOrEmpty() == false) == true
+                    ? " " + serverScriptModelColumns
+                        ?.Select(scriptColumn => scriptColumn?.ExtendedFieldCss)
+                        .Where(css => css?.IsNullOrEmpty() == false)
+                        .Join(" ")
                     : string.Empty);
         }
 
@@ -138,36 +164,25 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context, SiteSettings ss, Column column, string value)
         {
             var editChoices = column.EditChoices(context: context);
-            if (column.UseSearch != true)
+            if (!value.IsNullOrEmpty() && !editChoices.ContainsKey(value))
             {
-                return editChoices;
-            }
-            else if (editChoices.ContainsKey(value))
-            {
-                return new Dictionary<string, ControlData>()
+                if (column.Linked(withoutWiki: true))
                 {
-                    { value, editChoices[value] }
-                };
-            }
-            else
-            {
-                var referenceId = value.ToLong();
-                if (referenceId > 0 && column.Linked())
-                {
-                    var title = ss.LinkedItemTitle(
-                        context: context,
-                        referenceId: referenceId,
-                        siteIdList: ss.Links.Select(o => o.SiteId));
-                    if (title != null)
+                    var referenceId = value.ToLong();
+                    if (referenceId > 0)
                     {
-                        return new Dictionary<string, ControlData>()
+                        var title = ss.LinkedItemTitle(
+                            context: context,
+                            referenceId: referenceId,
+                            siteIdList: ss.Links.Select(o => o.SiteId));
+                        if (title != null)
                         {
-                            { value, new ControlData(title) }
-                        };
+                            editChoices.Add(value, new ControlData(title));
+                        }
                     }
                 }
-                return new Dictionary<string, ControlData>();
             }
+            return editChoices;
         }
 
         private static HtmlBuilder SwitchField(
@@ -365,6 +380,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 mobile: mobile,
                                 alwaysSend: alwaysSend,
                                 validateRequired: required,
+                                viewerSwitchingTypes: (Column.ViewerSwitchingTypes)column.ViewerSwitchingType,
                                 preview: preview,
                                 validateMaxLength: column.MaxLength.ToInt(),
                                 validateRegex: column.ClientRegexValidation,
@@ -894,6 +910,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool mobile = false,
             bool alwaysSend = false,
             bool validateRequired = false,
+            Column.ViewerSwitchingTypes viewerSwitchingTypes = Column.ViewerSwitchingTypes.Auto,
             Dictionary<string, string> attributes = null,
             bool preview = false,
             bool _using = true)
@@ -926,6 +943,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             mobile: mobile,
                             alwaysSend: alwaysSend,
                             validateRequired: validateRequired,
+                            viewerSwitchingTypes: viewerSwitchingTypes,
                             attributes: attributes,
                             preview: preview))
                 : hb;

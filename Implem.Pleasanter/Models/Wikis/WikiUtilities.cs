@@ -36,7 +36,16 @@ namespace Implem.Pleasanter.Models
             int? tabIndex = null,
             ServerScriptModelColumn serverScriptValues = null)
         {
-            if (!column.GridDesign.IsNullOrEmpty())
+            if (serverScriptValues?.RawText.IsNullOrEmpty() == false)
+            {
+                return hb.Td(
+                    context: context,
+                    column: column,
+                    action: () => hb.Raw(serverScriptValues?.RawText),
+                    tabIndex: tabIndex,
+                    serverScriptValues: serverScriptValues);
+            }
+            else if (!column.GridDesign.IsNullOrEmpty())
             {
                 return hb.TdCustomValue(
                     context: context,
@@ -842,6 +851,10 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     column: column,
+                    serverScriptModelColumns: wikiModel
+                        ?.ServerScriptModelRows
+                        ?.Select(row => row.Columns.Get(column.ColumnName))
+                        .ToArray(),
                     methodType: wikiModel.MethodType,
                     value: value,
                     columnPermissionType: column.ColumnPermissionType(
@@ -1470,15 +1483,15 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         baseModel: wikiModel,
                         tableName: "Wikis"))
-                    .Html("#Links", new HtmlBuilder().Links(
-                        context: context,
-                        ss: ss,
-                        id: wikiModel.WikiId))
-                    .Links(
-                        context: context,
-                        ss: ss,
-                        id: wikiModel.WikiId,
-                        methodType: wikiModel.MethodType)
+                            .Html("#Links", new HtmlBuilder().Links(
+                                context: context,
+                                ss: ss,
+                                id: wikiModel.WikiId))
+                            .Links(
+                                context: context,
+                                ss: ss,
+                                id: wikiModel.WikiId,
+                                methodType: wikiModel.MethodType)
                     .SetMemory("formChanged", false)
                     .Message(Messages.Updated(
                         context: context,

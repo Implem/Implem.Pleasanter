@@ -118,7 +118,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.LoginKeysWhereDefault(this);
+            where = where ?? Rds.LoginKeysWhereDefault(
+                context: context,
+                loginKeyModel: this);
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectLoginKeys(

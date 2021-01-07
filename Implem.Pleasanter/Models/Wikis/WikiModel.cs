@@ -201,8 +201,10 @@ namespace Implem.Pleasanter.Models
             {
                 Get(context: context,
                     tableType: Sqls.TableTypes.NormalAndHistory,
-                    where: Rds.WikisWhereDefault(this)
-                        .Wikis_Ver(context.QueryStrings.Int("ver")), ss: ss);
+                    where: Rds.WikisWhereDefault(
+                        context: context,
+                        wikiModel: this)
+                            .Wikis_Ver(context.QueryStrings.Int("ver")), ss: ss);
             }
             else
             {
@@ -279,7 +281,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.WikisWhereDefault(this);
+            where = where ?? Rds.WikisWhereDefault(
+                context: context,
+                wikiModel: this);
             Set(context, ss, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectWikis(
@@ -338,44 +342,87 @@ namespace Implem.Pleasanter.Models
         {
             if (!Parameters.Search.CreateIndexes && !backgroundTask) return null;
             if (AccessStatus == Databases.AccessStatuses.NotFound) return null;
-            var fullText = new List<string>();
+            var fullText = new System.Text.StringBuilder();
             SiteInfo.TenantCaches
                 .Get(context.TenantId)?
-                .SiteMenu.Breadcrumb(context: context, siteId: SiteId)
-                .FullText(context, fullText);
-            SiteId.FullText(context, fullText);
+                .SiteMenu.Breadcrumb(
+                    context: context,
+                    siteId: SiteId)
+                .FullText(
+                    context: context,
+                    fullText: fullText);
+            SiteId.FullText(
+                context: context,
+                column: ss.GetColumn(
+                    context: context,
+                    columnName: "SiteId"),
+                fullText: fullText);
             ss.GetEditorColumnNames(
                 context: context,
-                columnOnly: true).ForEach(columnName =>
-                {
-                    switch (columnName)
+                columnOnly: true)
+                    .Select(columnName => ss.GetColumn(
+                        context: context,
+                        columnName: columnName))
+                    .ForEach(column =>
                     {
-                        case "WikiId":
-                            WikiId.FullText(context, fullText);
-                            break;
-                        case "Title":
-                            Title.FullText(context, fullText);
-                            break;
-                        case "Body":
-                            Body.FullText(context, fullText);
-                            break;
-                        case "Comments":
-                            Comments.FullText(context, fullText);
-                            break;
-                        default:
-                            FullText(
-                                context: context,
-                                column: ss.GetColumn(
+                        switch (column.ColumnName)
+                        {
+                            case "WikiId":
+                                WikiId.FullText(
                                     context: context,
-                                    columnName: columnName),
-                                fullText: fullText);
-                            break;
-                    }
-                });
-            Creator.FullText(context, fullText);
-            Updator.FullText(context, fullText);
-            CreatedTime.FullText(context, fullText);
-            UpdatedTime.FullText(context, fullText);
+                                    column: column,
+                                    fullText: fullText);
+                                break;
+                            case "Title":
+                                Title.FullText(
+                                    context: context,
+                                    column: column,
+                                    fullText: fullText);
+                                break;
+                            case "Body":
+                                Body.FullText(
+                                    context: context,
+                                    column: column,
+                                    fullText: fullText);
+                                break;
+                            case "Comments":
+                                Comments.FullText(
+                                    context: context,
+                                    column: column,
+                                    fullText: fullText);
+                                break;
+                            default:
+                                BaseFullText(
+                                    context: context,
+                                    column: column,
+                                    fullText: fullText);
+                                break;
+                        }
+                    });
+            Creator.FullText(
+                context,
+                column: ss.GetColumn(
+                    context: context,
+                    columnName: "Creator"),
+                fullText);
+            Updator.FullText(
+                context,
+                column: ss.GetColumn(
+                    context: context,
+                    columnName: "Updator"),
+                fullText);
+            CreatedTime.FullText(
+                context,
+                column: ss.GetColumn(
+                    context: context,
+                    columnName: "CreatedTime"),
+                fullText);
+            UpdatedTime.FullText(
+                context,
+                column: ss.GetColumn(
+                    context: context,
+                    columnName: "UpdatedTime"),
+                fullText);
             if (!onCreating)
             {
                 FullTextExtensions.OutgoingMailsFullText(
@@ -385,8 +432,13 @@ namespace Implem.Pleasanter.Models
                     referenceId: WikiId);
             }
             return fullText
-                .Where(o => !o.IsNullOrEmpty())
+                .ToString()
+                .Replace("　", " ")
+                .Replace("\r", " ")
+                .Replace("\n", " ")
+                .Split(' ')
                 .Select(o => o.Trim())
+                .Where(o => o != string.Empty)
                 .Distinct()
                 .Join(" ");
         }
@@ -404,7 +456,9 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>();
             if (extendedSqls)
             {
-                statements.OnCreatingExtendedSqls(SiteId);
+                statements.OnCreatingExtendedSqls(
+                    context: context,
+                    siteId: SiteId);
             }
             statements.AddRange(CreateStatements(
                 context: context,
@@ -449,6 +503,7 @@ namespace Implem.Pleasanter.Models
             if (extendedSqls)
             {
                 statements.OnCreatedExtendedSqls(
+                    context: context,
                     siteId: SiteId,
                     id: WikiId);
             }
@@ -457,6 +512,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: statements.ToArray());
             if (get && Rds.ExtendedSqls(
+                context: context,
                 siteId: SiteId,
                 id: WikiId)
                     ?.Any(o => o.OnCreated) == true)
@@ -526,6 +582,7 @@ namespace Implem.Pleasanter.Models
             if (extendedSqls)
             {
                 statements.OnUpdatingExtendedSqls(
+                    context: context,
                     siteId: SiteId,
                     id: WikiId,
                     timestamp: Timestamp.ToDateTime());
@@ -608,8 +665,10 @@ namespace Implem.Pleasanter.Models
         {
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
-            var where = Rds.WikisWhereDefault(this)
-                .UpdatedTime(timestamp, _using: timestamp.InRange());
+            var where = Rds.WikisWhereDefault(
+                context: context,
+                wikiModel: this)
+                    .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (Versions.VerUp(
                 context: context,
                 ss: ss,
@@ -697,6 +756,7 @@ namespace Implem.Pleasanter.Models
                     updateItems: updateItems)
                         .ToArray());
             if (get && Rds.ExtendedSqls(
+                context: context,
                 siteId: SiteId,
                 id: WikiId)
                     ?.Any(o => o.OnUpdated) == true)
@@ -740,6 +800,7 @@ namespace Implem.Pleasanter.Models
             if (extendedSqls)
             {
                 statements.OnUpdatedExtendedSqls(
+                    context: context,
                     siteId: SiteId,
                     id: WikiId);
             }
@@ -762,7 +823,9 @@ namespace Implem.Pleasanter.Models
                         .SiteId(SiteId)
                         .Title(Title.DisplayValue)),
                 Rds.UpdateOrInsertWikis(
-                    where: where ?? Rds.WikisWhereDefault(this),
+                    where: where ?? Rds.WikisWhereDefault(
+                        context: context,
+                        wikiModel: this),
                     param: param ?? Rds.WikisParamDefault(
                         context: context, wikiModel: this, setDefault: true))
             };
@@ -782,7 +845,10 @@ namespace Implem.Pleasanter.Models
         public ErrorData Delete(Context context, SiteSettings ss, bool notice = false)
         {
             var statements = new List<SqlStatement>();
-            statements.OnDeletingExtendedSqls(SiteId, WikiId);
+            statements.OnDeletingExtendedSqls(
+                context: context,
+                siteId: SiteId,
+                id: WikiId);
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.DeleteItems(
@@ -798,7 +864,10 @@ namespace Implem.Pleasanter.Models
                     factory: context,
                     where: Rds.SitesWhere().SiteId(SiteId))
             });
-            statements.OnDeletedExtendedSqls(SiteId, WikiId);
+            statements.OnDeletedExtendedSqls(
+                context: context,
+                siteId: SiteId,
+                id: WikiId);
             Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
@@ -1026,7 +1095,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.UpdateWikis(
                     param: param,
-                    where: Rds.WikisWhereDefault(this),
+                    where: Rds.WikisWhereDefault(
+                        context: context,
+                        wikiModel: this),
                     addUpdatedTimeParam: false,
                     addUpdatorParam: false));
         }
@@ -1103,6 +1174,11 @@ namespace Implem.Pleasanter.Models
                     {
                         case "UpdatedTime":
                             match = UpdatedTime.Value.Matched(
+                                column: column,
+                                condition: filter.Value);
+                            break;
+                        case "Ver":
+                            match = Ver.Matched(
                                 column: column,
                                 condition: filter.Value);
                             break;

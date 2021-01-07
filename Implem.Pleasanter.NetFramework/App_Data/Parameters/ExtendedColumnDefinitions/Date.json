@@ -22,6 +22,7 @@
     "Step": "1",
     "Width": "50",
     "ExtendedColumnType": "Date",
+    "FullTextType": 0,
     "LabelText_en": "Date",
     "LabelText_zh": "日期",
     "LabelText_de": "Datum",

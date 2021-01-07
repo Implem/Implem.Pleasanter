@@ -185,5 +185,18 @@ namespace Implem.Pleasanter.Libraries.Extensions
                 action: () => hb
                     .Text(text: value.ToString()));
         }
+
+        public static HtmlBuilder Td(
+            this HtmlBuilder hb,
+            Context context,
+            Column column,
+            Action action,
+            int? tabIndex,
+            ServerScriptModelColumn serverScriptValues = null)
+        {
+            return hb.Td(
+                css: column.CellCss(serverScriptValues?.ExtendedCellCss),
+                action: action);
+        }
     }
 }

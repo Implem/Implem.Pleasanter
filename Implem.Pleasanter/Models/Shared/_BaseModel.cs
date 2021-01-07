@@ -635,10 +635,10 @@ namespace Implem.Pleasanter.Models
                     || column.GetDefaultInput(context: context) != value);
         }
 
-        public void FullText(
+        public void BaseFullText(
             Context context,
             Column column,
-            List<string> fullText)
+            System.Text.StringBuilder fullText)
         {
             if (column != null)
             {
@@ -653,21 +653,25 @@ namespace Implem.Pleasanter.Models
                     case "Num":
                         Num(column.ColumnName).FullText(
                             context: context,
+                            column: column,
                             fullText: fullText);
                         break;
                     case "Date":
                         Date(column.ColumnName).FullText(
                             context: context,
+                            column: column,
                             fullText: fullText);
                         break;
                     case "Description":
                         Description(column.ColumnName)?.FullText(
                             context: context,
+                            column: column,
                             fullText: fullText);
                         break;
                     case "Attachments":
                         Attachments(column.ColumnName)?.FullText(
                             context: context,
+                            column: column,
                             fullText: fullText);
                         break;
                 }
@@ -778,6 +782,78 @@ namespace Implem.Pleasanter.Models
                 ServerScriptModelRows.Add(scriptValues);
             }
             return scriptValues;
+        }
+
+        public void SetByAfterUpdateServerScript(
+            Context context,
+            SiteSettings ss)
+        {
+            ServerScriptUtilities.Execute(
+                context: context,
+                ss: ss,
+                itemModel: this,
+                view: null,
+                where: script => script.AfterUpdate == true);
+        }
+
+        public void SetByBeforeUpdateServerScript(
+            Context context,
+            SiteSettings ss)
+        {
+            ServerScriptUtilities.Execute(
+                context: context,
+                ss: ss,
+                itemModel: this,
+                view: null,
+                where: script => script.BeforeUpdate == true);
+        }
+
+        public void SetByAfterCreateServerScript(
+            Context context,
+            SiteSettings ss)
+        {
+            ServerScriptUtilities.Execute(
+                context: context,
+                ss: ss,
+                itemModel: this,
+                view: null,
+                where: script => script.AfterCreate == true);
+        }
+
+        public void SetByBeforeCreateServerScript(
+            Context context,
+            SiteSettings ss)
+        {
+            ServerScriptUtilities.Execute(
+                context: context,
+                ss: ss,
+                itemModel: this,
+                view: null,
+                where: script => script.BeforeCreate == true);
+        }
+
+        public void SetByAfterDeleteServerScript(
+            Context context,
+            SiteSettings ss)
+        {
+            ServerScriptUtilities.Execute(
+                context: context,
+                ss: ss,
+                itemModel: this,
+                view: null,
+                where: script => script.AfterDelete == true);
+        }
+
+        public void SetByBeforeDeleteServerScript(
+            Context context,
+            SiteSettings ss)
+        {
+            ServerScriptUtilities.Execute(
+                context: context,
+                ss: ss,
+                itemModel: this,
+                view: null,
+                where: script => script.BeforeDelete == true);
         }
     }
 }

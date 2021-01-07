@@ -149,6 +149,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AfterCreate(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AfterCreate",
+                data: data);
+        }
+
+        public static string AfterDelete(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AfterDelete",
+                data: data);
+        }
+
         public static string AfterFormulas(
             Context context,
             params string[] data)
@@ -156,6 +176,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "AfterFormulas",
+                data: data);
+        }
+
+        public static string AfterUpdate(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AfterUpdate",
                 data: data);
         }
 
@@ -689,6 +719,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string BeforeCreate(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BeforeCreate",
+                data: data);
+        }
+
+        public static string BeforeDelete(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BeforeDelete",
+                data: data);
+        }
+
         public static string BeforeFormulas(
             Context context,
             params string[] data)
@@ -706,6 +756,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "BeforeOpeningPages",
+                data: data);
+        }
+
+        public static string BeforeUpdate(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BeforeUpdate",
                 data: data);
         }
 
@@ -2789,6 +2849,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string FullTextTypes(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "FullTextTypes",
+                data: data);
+        }
+
         public static string Fy(
             Context context,
             params string[] data)
@@ -4229,6 +4299,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Manual(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Manual",
+                data: data);
+        }
+
         public static string Manufacture(
             Context context,
             params string[] data)
@@ -4646,6 +4726,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "NoLinks",
+                data: data);
+        }
+
+        public static string None(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "None",
                 data: data);
         }
 
@@ -7429,6 +7519,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ValueAndDisplayName(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ValueAndDisplayName",
+                data: data);
+        }
+
         public static string Version(
             Context context,
             params string[] data)
@@ -7466,6 +7566,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ViewDemoEnvironment",
+                data: data);
+        }
+
+        public static string ViewerSwitchingType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ViewerSwitchingType",
                 data: data);
         }
 
