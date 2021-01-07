@@ -1,0 +1,29 @@
+﻿{
+    "Id": "BeforeUpdate",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Before update"
+        },
+        {
+            "Language": "zh",
+            "Body": "更新之前"
+        },
+        {
+            "Language": "ja",
+            "Body": "更新前"
+        },
+        {
+            "Language": "de",
+            "Body": "Avant la mise à jour"
+        },
+        {
+            "Language": "ko",
+            "Body": "업데이트 전"
+        },
+        {
+            "Language": "es",
+            "Body": "Prima dell'aggiornamento"
+        }
+    ]
+}

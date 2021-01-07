@@ -849,6 +849,9 @@ namespace Implem.Pleasanter.Models
             bool otherInitValue = false,
             bool get = true)
         {
+            SetByBeforeCreateServerScript(
+                context: context,
+                ss: ss);
             var statements = new List<SqlStatement>();
             if (extendedSqls)
             {
@@ -937,6 +940,9 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss);
             }
+            SetByAfterCreateServerScript(
+                context: context,
+                ss: ss);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -1002,6 +1008,9 @@ namespace Implem.Pleasanter.Models
             bool setBySession = true,
             bool get = true)
         {
+            SetByBeforeUpdateServerScript(
+                context: context,
+                ss: ss);
             var notifications = GetNotifications(
                 context: context,
                 ss: ss,
@@ -1078,6 +1087,9 @@ namespace Implem.Pleasanter.Models
                 addUpdatedTimeParam: true,
                 addUpdatorParam: true,
                 updateItems: true);
+            SetByAfterUpdateServerScript(
+                context: context,
+                ss: ss);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -1331,6 +1343,9 @@ namespace Implem.Pleasanter.Models
 
         public ErrorData Delete(Context context, SiteSettings ss, bool notice = false)
         {
+            SetByBeforeDeleteServerScript(
+                context: context,
+                ss: ss);
             var notifications = context.ContractSettings.Notice != false && notice
                 ? GetNotifications(
                     context: context,
@@ -1374,6 +1389,9 @@ namespace Implem.Pleasanter.Models
                     notifications: notifications,
                     type: "Deleted");
             }
+            SetByAfterDeleteServerScript(
+                context: context,
+                ss: ss);
             return new ErrorData(type: Error.Types.None);
         }
 

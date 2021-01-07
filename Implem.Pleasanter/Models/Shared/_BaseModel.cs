@@ -2,6 +2,7 @@
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Extensions;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Server;
@@ -782,6 +783,78 @@ namespace Implem.Pleasanter.Models
                 ServerScriptModelRows.Add(scriptValues);
             }
             return scriptValues;
+        }
+
+        public void SetByAfterUpdateServerScript(
+            Context context,
+            SiteSettings ss)
+        {
+            ServerScriptUtilities.Execute(
+                context: context,
+                ss: ss,
+                itemModel: this,
+                view: null,
+                where: script => script.AfterUpdate == true);
+        }
+
+        public void SetByBeforeUpdateServerScript(
+            Context context,
+            SiteSettings ss)
+        {
+            ServerScriptUtilities.Execute(
+                context: context,
+                ss: ss,
+                itemModel: this,
+                view: null,
+                where: script => script.BeforeUpdate == true);
+        }
+
+        public void SetByAfterCreateServerScript(
+            Context context,
+            SiteSettings ss)
+        {
+            ServerScriptUtilities.Execute(
+                context: context,
+                ss: ss,
+                itemModel: this,
+                view: null,
+                where: script => script.AfterCreate == true);
+        }
+
+        public void SetByBeforeCreateServerScript(
+            Context context,
+            SiteSettings ss)
+        {
+            ServerScriptUtilities.Execute(
+                context: context,
+                ss: ss,
+                itemModel: this,
+                view: null,
+                where: script => script.BeforeCreate == true);
+        }
+
+        public void SetByAfterDeleteServerScript(
+            Context context,
+            SiteSettings ss)
+        {
+            ServerScriptUtilities.Execute(
+                context: context,
+                ss: ss,
+                itemModel: this,
+                view: null,
+                where: script => script.AfterDelete == true);
+        }
+
+        public void SetByBeforeDeleteServerScript(
+            Context context,
+            SiteSettings ss)
+        {
+            ServerScriptUtilities.Execute(
+                context: context,
+                ss: ss,
+                itemModel: this,
+                view: null,
+                where: script => script.BeforeDelete == true);
         }
     }
 }

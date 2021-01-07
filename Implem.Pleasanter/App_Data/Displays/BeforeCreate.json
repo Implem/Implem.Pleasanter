@@ -1,0 +1,30 @@
+﻿{
+    "Id": "BeforeCreate",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Before create"
+        },
+        {
+            "Language": "zh",
+            "Body": "建立之前"
+        },
+        {
+            "Language": "ja",
+            "Body": "作成前"
+        },
+        {
+            "Language": "de",
+            "Body": "Vor dem Erstellen"
+        },
+        {
+            "Language": "ko",
+            "Body": "만들기 전에"
+
+        },
+        {
+            "Language": "es",
+            "Body": "Prima di creares"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+﻿{
+    "Id": "AfterDelete",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "After delete"
+        },
+        {
+            "Language": "zh",
+            "Body": "删除后"
+        },
+        {
+            "Language": "ja",
+            "Body": "削除後"
+        },
+        {
+            "Language": "de",
+            "Body": "Nach dem Löschen"
+        },
+        {
+            "Language": "ko",
+            "Body": "삭제 후"
+        },
+        {
+            "Language": "es",
+            "Body": "Dopo elimina"
+        }
+    ]
+}

@@ -149,6 +149,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AfterCreate(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AfterCreate",
+                data: data);
+        }
+
+        public static string AfterDelete(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AfterDelete",
+                data: data);
+        }
+
         public static string AfterFormulas(
             Context context,
             params string[] data)
@@ -156,6 +176,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "AfterFormulas",
+                data: data);
+        }
+
+        public static string AfterUpdate(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AfterUpdate",
                 data: data);
         }
 
@@ -689,6 +719,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string BeforeCreate(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BeforeCreate",
+                data: data);
+        }
+
+        public static string BeforeDelete(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BeforeDelete",
+                data: data);
+        }
+
         public static string BeforeFormulas(
             Context context,
             params string[] data)
@@ -706,6 +756,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "BeforeOpeningPages",
+                data: data);
+        }
+
+        public static string BeforeUpdate(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BeforeUpdate",
                 data: data);
         }
 

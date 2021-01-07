@@ -1,0 +1,29 @@
+﻿{
+    "Id": "BeforeDelete",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Before delete"
+        },
+        {
+            "Language": "zh",
+            "Body": "删除前"
+        },
+        {
+            "Language": "ja",
+            "Body": "削除前"
+        },
+        {
+            "Language": "de",
+            "Body": "Vor dem Löschen"
+        },
+        {
+            "Language": "ko",
+            "Body": "삭제 전"
+        },
+        {
+            "Language": "es",
+            "Body": "Prima di eliminare"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+﻿{
+    "Id": "AfterUpdate",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "After update"
+        },
+        {
+            "Language": "zh",
+            "Body": "更新后"
+        },
+        {
+            "Language": "ja",
+            "Body": "更新後"
+        },
+        {
+            "Language": "de",
+            "Body": "Nach dem update"
+        },
+        {
+            "Language": "ko",
+            "Body": "업데이트 후"
+        },
+        {
+            "Language": "es",
+            "Body": "Dopo l'aggiornamento"
+        }
+    ]
+}

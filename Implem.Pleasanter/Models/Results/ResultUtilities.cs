@@ -3129,12 +3129,17 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     notice: true,
                     before: true));
+            var updatedModels = new List<BaseItemModel>();
+            var createdModels = new List<BaseItemModel>();
             foreach (var formData in formDataSet)
             {
                 var resultModel = resultCollection
                     .FirstOrDefault(o => o.ResultId == formData.Id);
                 if (resultModel != null)
                 {
+                    resultModel.SetByBeforeUpdateServerScript(
+                        context: context,
+                        ss: ss);
                     ss.SetColumnAccessControls(
                         context: context,
                         mine: resultModel.Mine(context: context));
@@ -3151,6 +3156,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         dataTableName: formData.Id.ToString()));
+                    updatedModels.Add(resultModel);
                 }
                 else if (formData.Id < 0)
                 {
@@ -3158,6 +3164,9 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         formData: formData.Data);
+                    resultModel.SetByBeforeCreateServerScript(
+                        context: context,
+                        ss: ss);
                     ss.SetColumnAccessControls(
                         context: context,
                         mine: resultModel.Mine(context: context));
@@ -3174,6 +3183,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         dataTableName: formData.Id.ToString()));
+                    createdModels.Add(resultModel);
                 }
                 else
                 {
@@ -3207,6 +3217,12 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         response: response);
                 default:
+                    createdModels.ForEach(model => model.SetByAfterCreateServerScript(
+                        context: context,
+                        ss: ss));
+                    updatedModels.ForEach(model => model.SetByAfterUpdateServerScript(
+                        context: context,
+                        ss: ss));
                     return UpdateByGridSuccess(
                         context: context,
                         ss: ss,
