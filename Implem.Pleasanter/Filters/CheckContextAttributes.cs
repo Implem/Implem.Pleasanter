@@ -37,6 +37,31 @@ namespace Implem.Pleasanter.Filters
                     Locations.Login(context: context) + "?expired=1");
                 return;
             }
+            if (Parameters.Security.TokenCheck
+                && filterContext.HttpContext.Request.Form.Count > 0
+                && filterContext.HttpContext.Request.Form["Token"] != context.Token())
+            {
+                filterContext.HttpContext.Response.StatusCode = 403;
+                if (filterContext.HttpContext.Request.IsAjaxRequest())
+                {
+                    filterContext.Result = new JsonResult
+                    {
+                        Data = new
+                        {
+                            Message = Displays.InvalidRequest(context: context)
+                        },
+                        JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                    };
+                }
+                else
+                {
+                    filterContext.Result = new ContentResult()
+                    {
+                        Content = Displays.InvalidRequest(context: context)
+                    };
+                }
+                return;
+            }
             if (!context.LoginId.IsNullOrEmpty())
             {
                 if (!context.Authenticated)

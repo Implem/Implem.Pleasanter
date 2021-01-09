@@ -36,6 +36,16 @@
     $(document).on('change', '.auto-postback:not([type="text"],select[multiple])', function () {
         $p.send($(this));
     });
+    $(document).on('change', '.control-auto-postback', function () {
+        var fieldSetTab = $('li[role="tab"][aria-selected=true][aria-controls^=FieldSetTab]');
+        var selectedTabIndex = fieldSetTab.parent().children().index(fieldSetTab);
+        return $p.ajax(
+            $('#BaseUrl').val() + $p.id() + '/?control-auto-postback=1&TabIndex=' + selectedTabIndex,
+            'post',
+            $p.getData($('#MainForm')),
+            $(this),
+            false);
+    });
     $(document).on('change', '.datepicker.auto-postback', function () {
         $p.send($(this));
     });

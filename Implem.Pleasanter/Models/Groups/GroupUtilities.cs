@@ -1223,7 +1223,8 @@ namespace Implem.Pleasanter.Models
         public static string EditorJson(Context context, SiteSettings ss, int groupId)
         {
             return EditorResponse(context, ss, new GroupModel(
-                context, ss, groupId)).ToJson();
+                context, ss, groupId,
+                formData: context.QueryStrings.Bool("control-auto-postback") ? context.Forms : null)).ToJson();
         }
 
         private static ResponseCollection EditorResponse(
@@ -1241,7 +1242,7 @@ namespace Implem.Pleasanter.Models
                 .SetMemory("formChanged", false)
                 .Invoke("setCurrentIndex")
                 .Message(message)
-                .ClearFormData();
+                .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"));
         }
 
         private static List<int> GetSwitchTargets(Context context, SiteSettings ss, int groupId)

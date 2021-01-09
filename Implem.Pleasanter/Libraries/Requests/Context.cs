@@ -179,6 +179,11 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
         }
 
+        public string Token()
+        {
+            return HttpContext.Current?.Request?.Cookies["ASP.NET_SessionId"]?.Value.Sha512Cng();
+        }
+
         private void SetSessionGuid()
         {
             SessionGuid = HttpContext.Current?.Request?.Cookies["ASP.NET_SessionId"]?.Value

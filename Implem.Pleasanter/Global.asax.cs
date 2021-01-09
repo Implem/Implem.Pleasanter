@@ -13,6 +13,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Web.Security;
 namespace Implem.Pleasanter
 {
     public class MvcApplication : HttpApplication
@@ -64,6 +65,22 @@ namespace Implem.Pleasanter
             };
             var log = new SysLogModel(context: context);
             log.Finish(context: context);
+        }
+
+        protected void Application_EndRequest()
+        {
+            if (Parameters.Security.SecureCookies)
+            {
+                var authCookie = FormsAuthentication.FormsCookieName;
+                foreach (string cookie in Response.Cookies)
+                {
+                    if (cookie.Equals(authCookie))
+                    {
+                        var httpCookie = Response.Cookies[cookie];
+                        if (httpCookie != null) httpCookie.Secure = true;
+                    }
+                }
+            }
         }
 
         protected void Application_Error()

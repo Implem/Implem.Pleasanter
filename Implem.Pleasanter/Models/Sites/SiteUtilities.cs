@@ -898,7 +898,7 @@ namespace Implem.Pleasanter.Models
                 .SetMemory("formChanged", false)
                 .Invoke("setCurrentIndex")
                 .Message(message)
-                .ClearFormData();
+                .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"));
         }
 
         private static HtmlBuilder ReferenceType(
@@ -5388,6 +5388,10 @@ namespace Implem.Pleasanter.Models
                             if (column.ColumnName != "Comments")
                             {
                                 hb
+                                    .FieldCheckBox(
+                                        controlId: "AutoPostBack",
+                                        labelText: Displays.AutoPostBack(context: context),
+                                        _checked: column.AutoPostBack == true)
                                     .FieldCheckBox(
                                         controlId: "NoWrap",
                                         labelText: Displays.NoWrap(context: context),

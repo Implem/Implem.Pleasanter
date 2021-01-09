@@ -1,7 +1,9 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
@@ -747,6 +749,99 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     context: context,
                     id: id,
                     apiRequestBody: apiRequestBody));
+        }
+
+        public static decimal Aggregate(
+            Context context,
+            SiteSettings ss,
+            string view,
+            string columnName,
+            Sqls.Functions function)
+        {
+            if (ss == null)
+            {
+                return 0;
+            }
+            var apiContext = CreateContext(
+                context: context,
+                id: ss.SiteId,
+                apiRequestBody: view);
+            var where = (view.IsNullOrEmpty()
+                ? new View()
+                : apiContext.RequestDataString.Deserialize<Api>()?.View)
+                    ?.Where(
+                        context: apiContext,
+                        ss: ss);
+            var column = ss.GetColumn(
+                context: apiContext,
+                columnName: columnName);
+            if(where != null
+                && column?.TypeName == "decimal"
+                && apiContext.CanRead(ss: ss)
+                && column.CanRead)
+            {
+                switch (ss.ReferenceType)
+                {
+                    case "Issues":
+                        return Repository.ExecuteScalar_decimal(
+                            context: apiContext,
+                            statements: Rds.SelectIssues(
+                                column: Rds.IssuesColumn().Add(
+                                    column: column,
+                                    function: function),
+                                where: where));
+                    case "Results":
+                        return Repository.ExecuteScalar_decimal(
+                            context: apiContext,
+                            statements: Rds.SelectResults(
+                                column: Rds.ResultsColumn().Add(
+                                    column: column,
+                                    function: function),
+                                where: where));
+                }
+            }
+            return 0;
+        }
+
+        public static long Aggregate(
+            Context context,
+            SiteSettings ss,
+            string view)
+        {
+            if (ss == null)
+            {
+                return 0;
+            }
+            var apiContext = CreateContext(
+                context: context,
+                id: ss.SiteId,
+                apiRequestBody: view);
+            var where = (view.IsNullOrEmpty()
+                ? new View()
+                : apiContext.RequestDataString.Deserialize<Api>()?.View)
+                    ?.Where(
+                        context: apiContext,
+                        ss: ss);
+            if (where != null
+                && apiContext.CanRead(ss: ss))
+            {
+                switch (ss.ReferenceType)
+                {
+                    case "Issues":
+                        return Repository.ExecuteScalar_long(
+                            context: context,
+                            statements: Rds.SelectCount(
+                                tableName: "Issues",
+                                where: where));
+                    case "Results":
+                        return Repository.ExecuteScalar_long(
+                            context: context,
+                            statements: Rds.SelectCount(
+                                tableName: "Results",
+                                where: where));
+                }
+            }
+            return 0;
         }
     }
 }

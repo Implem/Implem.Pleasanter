@@ -87,6 +87,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? NoDuplication;
         public bool? CopyByDefault;
         public bool? EditorReadOnly;
+        public bool? AutoPostBack;
         public bool? AllowImage;
         public bool? AllowBulkUpdate;
         public string FieldCss;

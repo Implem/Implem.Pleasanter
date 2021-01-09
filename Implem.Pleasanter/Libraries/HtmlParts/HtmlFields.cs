@@ -105,6 +105,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlCss: Strings.CoalesceEmpty(controlCss, column.ControlCss)
                             + (column.TextAlign == SiteSettings.TextAlignTypes.Right
                                 ? " right-align"
+                                : string.Empty)
+                            + (column.AutoPostBack == true
+                                ? " control-auto-postback"
                                 : string.Empty),
                         controlType: ControlType(column),
                         value: value,

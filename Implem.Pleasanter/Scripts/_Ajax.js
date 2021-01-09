@@ -17,6 +17,9 @@
         $p.clearMessage();
     }
     $p.execEvents('ajax_before_send', $p.eventArgs(url, methodType, data, $control, _async, ret, null));
+    if ($('#Token').length === 1) {
+        data.Token = $('#Token').val();
+    }
     $.ajax({
         url: url,
         type: methodType,
@@ -63,7 +66,10 @@
 $p.multiUpload = function (url, data, $control, statusBar) {
     $p.loading($control);
     $p.clearMessage();
-    var methodType = 'POST';
+    var methodType = 'post';
+    if ($('#Token').length === 1) {
+        data.append('Token', $('#Token').val());
+    }
     var uploader = $.ajax({
         xhr: function () {
             var uploadobj = $.ajaxSettings.xhr();

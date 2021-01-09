@@ -528,6 +528,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return !context.Ajax
                 ? hb
                     .Hidden(controlId: "ApplicationPath", value: Locations.Get(context: context))
+                    .Hidden(
+                        controlId: "Token",
+                        value: context.Token(),
+                        _using: Parameters.Security.TokenCheck)
                     .Hidden(controlId: "Language", value: context.Language)
                     .Hidden(controlId: "DeptId", value: context.DeptId.ToString())
                     .Hidden(controlId: "UserId", value: context.UserId.ToString())

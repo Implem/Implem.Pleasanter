@@ -336,6 +336,66 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     id: id.ToLong(),
                     apiRequestBody: json);
             }
+
+            public decimal Sum(object siteId, string columnName, string view = null)
+            {
+                return CreateAggregate(
+                    siteId: siteId,
+                    columnName: columnName,
+                    view: view,
+                    function: Sqls.Functions.Sum);
+            }
+
+            public decimal Average(object siteId, string columnName, string view = null)
+            {
+                return CreateAggregate(
+                    siteId: siteId,
+                    columnName: columnName,
+                    view: view,
+                    function: Sqls.Functions.Avg);
+            }
+
+            public decimal Max(object siteId, string columnName, string view = null)
+            {
+                return CreateAggregate(
+                    siteId: siteId,
+                    columnName: columnName,
+                    view: view,
+                    function: Sqls.Functions.Max);
+            }
+
+            public decimal Min(object siteId, string columnName, string view = null)
+            {
+                return CreateAggregate(
+                    siteId: siteId,
+                    columnName: columnName,
+                    view: view,
+                    function: Sqls.Functions.Min);
+            }
+
+            public long Count(object siteId, string view = null)
+            {
+                var ss = SiteSettingsUtilities.Get(
+                    context: Context,
+                    siteId: siteId.ToLong());
+                return ServerScriptUtilities.Aggregate(
+                    context: Context,
+                    ss: ss,
+                    view: view);
+            }
+
+            private decimal CreateAggregate(object siteId, string columnName, string view, Sqls.Functions function)
+            {
+                var ss = SiteSettingsUtilities.Get(
+                    context: Context,
+                    siteId: siteId.ToLong());
+                return ServerScriptUtilities.Aggregate(
+                    context: Context,
+                    ss: ss,
+                    view: view,
+                    columnName: columnName,
+                    function: function);
+            }
         }
     }
 }
