@@ -40,7 +40,11 @@
         var fieldSetTab = $('li[role="tab"][aria-selected=true][aria-controls^=FieldSetTab]');
         var selectedTabIndex = fieldSetTab.parent().children().index(fieldSetTab);
         return $p.ajax(
-            $('#BaseUrl').val() + $p.id() + '/?control-auto-postback=1&TabIndex=' + selectedTabIndex,
+            $('#BaseUrl').val()
+                + $p.id()
+                + '/'
+                + $p.action()
+                + '/?control-auto-postback=1&TabIndex=' + selectedTabIndex,
             'post',
             $p.getData($('#MainForm')),
             $(this),

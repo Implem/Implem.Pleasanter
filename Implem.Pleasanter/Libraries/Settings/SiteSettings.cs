@@ -1911,10 +1911,15 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public List<Column> GetGridColumns(
-            Context context, View view = null, bool checkPermission = false)
+            Context context,
+            View view = null,
+            bool checkPermission = false,
+            bool includedColumns = false)
         {
             var columns = (view?.GridColumns ?? GridColumns)
-                .Select(columnName => GetColumn(context: context, columnName: columnName))
+                .Select(columnName => GetColumn(
+                    context: context,
+                    columnName: columnName))
                 .Where(column => column != null)
                 .AllowedColumns(checkPermission: checkPermission)
                 .Where(o => context.ContractSettings.Attachments()
@@ -1926,6 +1931,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                 columns.Add(GetColumn(
                     context: context,
                     columnName: "Ver"));
+            }
+            if (includedColumns)
+            {
+                IncludedColumns()
+                    .Where(columnName => !columns.Any(o => o.ColumnName == columnName))
+                    .ForEach(columnName =>
+                        columns.Add(GetColumn(
+                            context: context,
+                            columnName: columnName)));
             }
             return columns;
         }

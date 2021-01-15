@@ -876,7 +876,7 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll("#MainContainer", New(context: context))
                 .WindowScrollTop()
                 .FocusMainForm()
-                .ClearFormData()
+                .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"))
                 .PushState("Edit", Locations.Get(
                     context: context,
                     parts: new string[]
