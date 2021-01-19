@@ -3782,6 +3782,7 @@ namespace Implem.Pleasanter.Models
                             LabelText = exp.LabelText,
                             Type = exp.Type,
                             Format = exp.Format,
+                            OutputClassColumn = exp.OutputClassColumn,
                             SiteTitle = exp.SiteTitle,
                             Column = exp.Column
                         });
@@ -3831,6 +3832,7 @@ namespace Implem.Pleasanter.Models
                             LabelText = exp.LabelText,
                             Type = exp.Type,
                             Format = exp.Format,
+                            OutputClassColumn = exp.OutputClassColumn,
                             SiteTitle = exp.SiteTitle,
                             Column = exp.Column
                         });
@@ -3962,6 +3964,7 @@ namespace Implem.Pleasanter.Models
                         LabelText = export.LabelText,
                         Type = export.Type,
                         Format = export.Format,
+                        OutputClassColumn = export.OutputClassColumn,
                         SiteTitle = export.SiteTitle,
                         Column = export.Column
                     });
@@ -4034,9 +4037,10 @@ namespace Implem.Pleasanter.Models
                 {
                     var selected = new List<string> { column.Id.ToString() };
                     column.Update(
-                        context.Forms.Data("ExportColumnLabelText"),
-                        (ExportColumn.Types)context.Forms.Int("ExportColumnType"),
-                        context.Forms.Data("ExportFormat"));
+                        labelText: context.Forms.Data("ExportColumnLabelText"),
+                        type: (ExportColumn.Types)context.Forms.Int("ExportColumnType"),
+                        format: context.Forms.Data("ExportFormat"),
+                        outputClassColumn: context.Forms.Bool("ExportColumnOutputClassColumn"));
                     Session_Export(
                         context: context,
                         value: Export.ToJson());

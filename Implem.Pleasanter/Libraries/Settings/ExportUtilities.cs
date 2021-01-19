@@ -66,18 +66,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (export.Header == true)
             {
                 csv.Append(export.Columns
-                    .Where(o => o.Column.CanRead)
-                    .Where(o => o.Column.TypeCs != "Attachments")
+                    .SelectMany(o => o.NormalOrOutputClassColumns())
                     .Select(column =>
-                        "\"" + column.GetLabelText() + "\"").Join(","), "\n");
+                        $"\"{column.GetLabelText()}\"").Join(","), "\n");
             }
             gridData.Csv(
                 context: context,
                 ss: ss,
                 csv: csv,
-                exportColumns: export.Columns
-                    .Where(o => o.Column.CanRead)
-                    .Where(o => o.Column.TypeCs != "Attachments"));
+                exportColumns: export.Columns.SelectMany(o => o.NormalOrOutputClassColumns()));
             return csv.ToString();
         }
 

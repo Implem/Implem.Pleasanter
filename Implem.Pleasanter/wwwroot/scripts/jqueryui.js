@@ -36,6 +36,9 @@
                 $p.changeMultiSelect($(this))
             }
         }).addClass('applied');
+        $('.field-normal .ui-widget.ui-state-default.ui-multiselect').css('width', '100%');
+        $('.field-wide .ui-widget.ui-state-default.ui-multiselect').css('width', '100%');
+        $('.field-auto-thin .ui-widget.ui-state-default.ui-multiselect').css('width', '140px');
         $('.datepicker:not(.applied)').each(function () {
             var $control = $(this);
             $control.datetimepicker({

@@ -975,6 +975,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.UseSearch = column.UseSearch;
                     }
+                    if (column.MultipleSelections == true)
+                    {
+                        enabled = true;
+                        newColumn.MultipleSelections = column.MultipleSelections;
+                    }
                     if (column.DefaultInput != columnDefinition.DefaultInput)
                     {
                         enabled = true;
@@ -1474,6 +1479,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         ?? column.LabelText;
                 column.ChoicesText = column.ChoicesText ?? columnDefinition.ChoicesText;
                 column.UseSearch = column.UseSearch ?? columnDefinition.UseSearch;
+                column.MultipleSelections = column.MultipleSelections ?? false;
                 column.DefaultInput = column.DefaultInput ?? columnDefinition.DefaultInput;
                 column.GridFormat = column.GridFormat ?? columnDefinition.GridFormat;
                 column.EditorFormat = column.EditorFormat ?? columnDefinition.EditorFormat;
@@ -2692,6 +2698,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     hash.AddRange(ss.Columns
                         .Where(o => o.HasChoices() || (o.TypeName == "datetime" && datetime))
+                        .Where(o => o.MultipleSelections != true)
                         .Where(o => !o.Joined)
                         .Where(o => ss.GetEditorColumnNames().Contains(o.Name))
                         .Where(o => o.CanRead)
@@ -2763,6 +2770,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return Columns
                 .Where(o => o.HasChoices())
+                .Where(o => o.MultipleSelections != true)
                 .Where(o => !o.Joined)
                 .Where(o => o.CanRead)
                 .OrderBy(o => o.No)
@@ -2773,6 +2781,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return Columns
                 .Where(o => o.HasChoices())
+                .Where(o => o.MultipleSelections != true)
                 .Where(o => !o.Joined)
                 .Where(o => o.CanRead)
                 .OrderBy(o => o.No)
@@ -2792,6 +2801,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return Columns
                 .Where(o => o.HasChoices())
+                .Where(o => o.MultipleSelections != true)
                 .Where(o => !o.Joined)
                 .Where(o => o.CanRead)
                 .OrderBy(o => o.No)
@@ -2831,6 +2841,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             hash.AddRange(Columns
                 .Where(o => o.HasChoices())
+                .Where(o => o.MultipleSelections != true)
                 .Where(o => !o.Joined)
                 .Where(o => o.CanRead)
                 .OrderBy(o => o.No)
@@ -3146,6 +3157,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ChoicesText": column.ChoicesText = value; SetLinks(
                     context: context, column: column); break;
                 case "UseSearch": column.UseSearch = value.ToBool(); break;
+                case "MultipleSelections": column.MultipleSelections = value.ToBool(); break;
                 case "DefaultInput": column.DefaultInput = value; break;
                 case "GridFormat": column.GridFormat = value; break;
                 case "EditorFormat": column.EditorFormat = value; break;

@@ -1,0 +1,29 @@
+﻿{
+    "Id": "MultipleSelections",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Multiple selections"
+        },
+        {
+            "Language": "zh",
+            "Body": "多项选择"
+        },
+        {
+            "Language": "ja",
+            "Body": "複数選択"
+        },
+        {
+            "Language": "de",
+            "Body": "Mehrfachauswahl"
+        },
+        {
+            "Language": "ko",
+            "Body": "다중 선택"
+        },
+        {
+            "Language": "es",
+            "Body": "Selección múltiple"
+        }
+    ]
+}

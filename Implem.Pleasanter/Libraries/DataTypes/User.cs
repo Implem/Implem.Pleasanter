@@ -11,6 +11,7 @@ using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Data;
+using System.Linq;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
@@ -151,10 +152,11 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public string ToExport(Context context, Column column, ExportColumn exportColumn = null)
         {
             return !Anonymous()
-                ? column.ChoicePart(
+                ? column.ChoiceParts(
                     context: context,
-                    selectedValue: Id.ToString(),
+                    selectedValues: Id.ToString(),
                     type: exportColumn?.Type ?? ExportColumn.Types.Text)
+                        .FirstOrDefault()
                 : string.Empty;
         }
 

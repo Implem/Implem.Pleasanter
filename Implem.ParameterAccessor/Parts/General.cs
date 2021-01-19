@@ -34,6 +34,7 @@ namespace Implem.ParameterAccessor.Parts
         public int GridPageSize;
         public int GridPageSizeMin;
         public int GridPageSizeMax;
+        public int ExportOutputColumnMax;
         public int ImportMax;
         public int ViewerSwitchingType;
         public int UpdateResponseType;

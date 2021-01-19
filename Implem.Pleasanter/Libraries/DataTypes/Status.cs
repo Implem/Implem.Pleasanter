@@ -10,6 +10,7 @@ using System;
 using System.Data;
 using Implem.Pleasanter.Libraries.Requests;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
     [Serializable]
@@ -85,10 +86,11 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             return Value == 0 && !column.ChoiceHash.ContainsKey(ToString())
                 ? null
-                : column.ChoicePart(
+                : column.ChoiceParts(
                     context: context,
-                    selectedValue: ToString(),
-                    type: exportColumn?.Type ?? ExportColumn.Types.Text);
+                    selectedValues: ToString(),
+                    type: exportColumn?.Type ?? ExportColumn.Types.Text)
+                        .FirstOrDefault();
         }
 
         public string ToNotice(

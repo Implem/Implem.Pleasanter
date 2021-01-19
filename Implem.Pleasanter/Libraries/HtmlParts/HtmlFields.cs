@@ -164,25 +164,35 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context, SiteSettings ss, Column column, string value)
         {
             var editChoices = column.EditChoices(context: context);
-            if (!value.IsNullOrEmpty() && !editChoices.ContainsKey(value))
+            if (column.Linked(withoutWiki: true))
             {
-                if (column.Linked(withoutWiki: true))
-                {
-                    var referenceId = value.ToLong();
-                    if (referenceId > 0)
-                    {
-                        var title = ss.LinkedItemTitle(
-                            context: context,
-                            referenceId: referenceId,
-                            siteIdList: ss.Links.Select(o => o.SiteId));
-                        if (title != null)
+                SelectedValues(
+                    column: column,
+                    value: value)
+                        .Where(referenceId => referenceId > 0)
+                        .Where(referenceId => !editChoices.ContainsKey(referenceId.ToString()))
+                        .ForEach(referenceId =>
                         {
-                            editChoices.Add(value, new ControlData(title));
-                        }
-                    }
-                }
+                            var title = ss.LinkedItemTitle(
+                                context: context,
+                                referenceId: referenceId,
+                                siteIdList: ss.Links.Select(o => o.SiteId));
+                            if (title != null)
+                            {
+                                editChoices.Add(referenceId.ToString(), new ControlData(title));
+                            }
+                        });
             }
             return editChoices;
+        }
+
+        private static List<long> SelectedValues(Column column, string value)
+        {
+            if (value.IsNullOrEmpty()) return new List<long>();
+            return column.MultipleSelections == true
+                ? value.Deserialize<List<long>>()
+                    ?? new List<long>()
+                : value.ToLong().ToSingleList();
         }
 
         private static HtmlBuilder SwitchField(
@@ -317,7 +327,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlOnly: controlOnly,
                                 optionCollection: optionCollection,
                                 selectedValue: value,
-                                insertBlank: column.UseSearch != true,
+                                multiple: column.MultipleSelections == true,
+                                insertBlank: column.UseSearch != true
+                                    && column.MultipleSelections != true,
                                 alwaysSend: alwaysSend,
                                 validateRequired: required,
                                 column: column);
@@ -560,7 +572,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         columnName: column?.ColumnName,
                         selectedValues: id.ToSingleList());
                 }
-                return id;
+                return column.MultipleSelections == true
+                    ? id.ToSingleList().ToJson()
+                    : id;
             }
             return self;
         }

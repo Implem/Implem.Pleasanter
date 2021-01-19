@@ -5373,7 +5373,12 @@ namespace Implem.Pleasanter.Models
                                         .FieldCheckBox(
                                             controlId: "UseSearch",
                                             labelText: Displays.UseSearch(context: context),
-                                            _checked: column.UseSearch == true);
+                                            _checked: column.UseSearch == true)
+                                        .FieldCheckBox(
+                                            controlId: "MultipleSelections",
+                                            labelText: Displays.MultipleSelections(context: context),
+                                            _checked: column.MultipleSelections == true,
+                                            _using: column.TypeName == "nvarchar");
                                     break;
                                 default:
                                     break;
@@ -8537,6 +8542,12 @@ namespace Implem.Pleasanter.Models
                         optionCollection: DateTimeOptions(context: context),
                         selectedValue: exportColumn.GetFormat(),
                         _using: exportColumn.Column.TypeName == "datetime")
+                    .FieldCheckBox(
+                        controlId: "ExportColumnOutputClassColumn",
+                        controlCss: " always-send",
+                        labelText: Displays.OutputClassColumn(context: context),
+                        _checked: exportColumn.OutputClassColumn == true,
+                        _using: exportColumn.Column.HasChoices())
                     .Hidden(
                         controlId: "ExportColumnId",
                         css: " always-send",

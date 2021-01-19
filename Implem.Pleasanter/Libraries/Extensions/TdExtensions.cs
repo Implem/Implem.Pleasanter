@@ -6,6 +6,7 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
+using System.Linq;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.Extensions
 {
@@ -54,27 +55,22 @@ namespace Implem.Pleasanter.Libraries.Extensions
             int? tabIndex,
             ServerScriptModelColumn serverScriptValues = null)
         {
-            return column.HasChoices()
-                ? hb.Td(
+            if (column.HasChoices())
+            {
+                var choiceParts = column.ChoiceParts(
+                    context: context,
+                    selectedValues: value,
+                    type: ExportColumn.Types.TextMini);
+                return hb.Td(
                     css: column.CellCss(serverScriptValues?.ExtendedCellCss),
-                    action: () =>
-                    {
-                        column.AddToChoiceHash(
-                            context: context,
-                            value: value);
-                        var choice = column.Choice(
-                            value,
-                            nullCase: value.IsNullOrEmpty()
-                                ? null
-                                : "? " + value);
-                        hb.P(
-                            attributes: new HtmlAttributes()
-                                .Class(choice.CssClass)
-                                .Style(choice.Style),
-                            action: () => hb
-                                .Text(choice.TextMini));
-                    })
-                : column.ControlType == "MarkDown"
+                    action: () => hb
+                        .Text(text: column.MultipleSelections == true
+                            ? choiceParts.Join(", ")
+                            : choiceParts.FirstOrDefault()));
+            }
+            else
+            {
+                return column.ControlType == "MarkDown"
                     ? hb.Td(
                         css: column.CellCss(serverScriptValues?.ExtendedCellCss),
                         action: () => hb
@@ -85,6 +81,7 @@ namespace Implem.Pleasanter.Libraries.Extensions
                         css: column.CellCss(serverScriptValues?.ExtendedCellCss),
                         action: () => hb
                             .Text(text: value));
+            }
         }
 
         public static HtmlBuilder Td(
