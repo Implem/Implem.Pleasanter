@@ -37,11 +37,12 @@ namespace Implem.Pleasanter.Filters
                     Locations.Login(context: context) + "?expired=1");
                 return;
             }
-            if (Parameters.Security.TokenCheck
+            if (context.Authenticated
+                && Parameters.Security.TokenCheck
                 && filterContext.HttpContext.Request.Form.Count > 0
                 && filterContext.HttpContext.Request.Form["Token"] != context.Token())
             {
-                filterContext.HttpContext.Response.StatusCode = 403;
+                filterContext.HttpContext.Response.StatusCode = 400;
                 if (filterContext.HttpContext.Request.IsAjaxRequest())
                 {
                     filterContext.Result = new JsonResult
