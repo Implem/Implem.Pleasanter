@@ -84,7 +84,6 @@ namespace Implem.Pleasanter.Libraries.General
             TooManyColumnCases,
             TooManyRowCases,
             Unauthorized,
-            UnauthorizedRequest,
             UpdateConflicts,
             UserDisabled,
             UserLockout,
@@ -403,10 +402,6 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.Unauthorized:
                     return Messages.Unauthorized(
-                        context: context,
-                        data: data);
-                case Types.UnauthorizedRequest:
-                    return Messages.UnauthorizedRequest(
                         context: context,
                         data: data);
                 case Types.UpdateConflicts:

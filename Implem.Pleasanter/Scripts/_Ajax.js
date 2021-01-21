@@ -44,7 +44,7 @@
             return;
         }
         if (jqXHR.status === 403) {
-            alert(jqXHR.responseJSON.Message);
+            alert($p.display('UnauthorizedRequest'));
         } else {
             $p.execEvents('ajax_before_fail', $p.eventArgs(url, methodType, data, $control, _async, ret, null));
             alert(jqXHR.statusCode + '\n' + textStatus + '\n' +
@@ -106,7 +106,7 @@ $p.multiUpload = function (url, data, $control, statusBar) {
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             if (jqXHR.status === 403) {
-                alert(jqXHR.responseJSON.Message);
+                alert($p.display('UnauthorizedRequest'));
             } else {
                 alert(textStatus + '\n' +
                     $(jqXHR.responseText).text().trim().replace('\n', ''));

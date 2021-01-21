@@ -627,7 +627,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_CreatedResponse_Sites": Code.Model_Utilities_CreatedResponse_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreatedResponse_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreateByApi": Code.Model_Utilities_CreateByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateByApi, definitionRow, CodeXls); break;
                     case "Model_Utilities_Update": Code.Model_Utilities_Update = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Update, definitionRow, CodeXls); break;
-                    case "Model_Utilities_Update_PrependComment": Code.Model_Utilities_Update_PrependComment = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Update_PrependComment, definitionRow, CodeXls); break;
+                    case "Model_Utilities_Update_Comment": Code.Model_Utilities_Update_Comment = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Update_Comment, definitionRow, CodeXls); break;
+                    case "Model_Utilities_Update_Comment_Tables": Code.Model_Utilities_Update_Comment_Tables = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Update_Comment_Tables, definitionRow, CodeXls); break;
                     case "Model_Utilities_Update_Response": Code.Model_Utilities_Update_Response = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Update_Response, definitionRow, CodeXls); break;
                     case "Model_Utilities_Update_Response_Tables": Code.Model_Utilities_Update_Response_Tables = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Update_Response_Tables, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpdateParameters_Sites": Code.Model_Utilities_UpdateParameters_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateParameters_Sites, definitionRow, CodeXls); break;
@@ -742,6 +743,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_ExportClassPropertyCases": Code.Model_ExportClassPropertyCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportClassPropertyCases, definitionRow, CodeXls); break;
                     case "Model_ExportSet": Code.Model_ExportSet = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportSet, definitionRow, CodeXls); break;
                     case "Rds": Code.Rds = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds, definitionRow, CodeXls); break;
+                    case "Rds_ExtendedSql": Code.Rds_ExtendedSql = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_ExtendedSql, definitionRow, CodeXls); break;
                     case "Rds_IdColumnCases": Code.Rds_IdColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_IdColumnCases, definitionRow, CodeXls); break;
                     case "Rds_SqlStatement": Code.Rds_SqlStatement = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SqlStatement, definitionRow, CodeXls); break;
                     case "Rds_ColumnBracketTableCases": Code.Rds_ColumnBracketTableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_ColumnBracketTableCases, definitionRow, CodeXls); break;
@@ -7541,7 +7543,8 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_CreatedResponse_Sites;
         public string Model_Utilities_CreateByApi;
         public string Model_Utilities_Update;
-        public string Model_Utilities_Update_PrependComment;
+        public string Model_Utilities_Update_Comment;
+        public string Model_Utilities_Update_Comment_Tables;
         public string Model_Utilities_Update_Response;
         public string Model_Utilities_Update_Response_Tables;
         public string Model_Utilities_UpdateParameters_Sites;
@@ -7656,6 +7659,7 @@ namespace Implem.DefinitionAccessor
         public string Model_ExportClassPropertyCases;
         public string Model_ExportSet;
         public string Rds;
+        public string Rds_ExtendedSql;
         public string Rds_IdColumnCases;
         public string Rds_SqlStatement;
         public string Rds_ColumnBracketTableCases;
@@ -8195,7 +8199,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_CreatedResponse_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreateByApi = new CodeDefinition();
         public CodeDefinition Model_Utilities_Update = new CodeDefinition();
-        public CodeDefinition Model_Utilities_Update_PrependComment = new CodeDefinition();
+        public CodeDefinition Model_Utilities_Update_Comment = new CodeDefinition();
+        public CodeDefinition Model_Utilities_Update_Comment_Tables = new CodeDefinition();
         public CodeDefinition Model_Utilities_Update_Response = new CodeDefinition();
         public CodeDefinition Model_Utilities_Update_Response_Tables = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpdateParameters_Sites = new CodeDefinition();
@@ -8310,6 +8315,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_ExportClassPropertyCases = new CodeDefinition();
         public CodeDefinition Model_ExportSet = new CodeDefinition();
         public CodeDefinition Rds = new CodeDefinition();
+        public CodeDefinition Rds_ExtendedSql = new CodeDefinition();
         public CodeDefinition Rds_IdColumnCases = new CodeDefinition();
         public CodeDefinition Rds_SqlStatement = new CodeDefinition();
         public CodeDefinition Rds_ColumnBracketTableCases = new CodeDefinition();
