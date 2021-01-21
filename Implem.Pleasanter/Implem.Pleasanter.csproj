@@ -1676,6 +1676,9 @@
     <Content Include="App_Data\Displays\Manual.json" />
     <Content Include="App_Data\Displays\ViewerSwitchingType.json" />
     <Content Include="App_Data\Displays\AllowAutoPostBack.json" />
+    <Content Include="App_Data\Displays\FullTextTypes.json" />
+    <Content Include="App_Data\Displays\None.json" />
+    <Content Include="App_Data\Displays\ValueAndDisplayName.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

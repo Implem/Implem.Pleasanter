@@ -34,6 +34,7 @@ namespace Implem.Pleasanter
             NotificationInitializer.Initialize();
             SetConfigrations();
             SiteInfo.Reflesh(context: context);
+            MvcHandler.DisableMvcResponseHeader = Parameters.Security.DisableMvcResponseHeader;
             log.Finish(context: context);
         }
 

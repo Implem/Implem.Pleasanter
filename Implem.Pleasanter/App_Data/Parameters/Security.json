@@ -8,6 +8,7 @@
     "JoeAccountCheck": true,
     "TokenCheck": false,
     "SecureCookies": false,
+    "DisableMvcResponseHeader": false,
     "PasswordPolicies": [
         {
             "Enabled": true,
