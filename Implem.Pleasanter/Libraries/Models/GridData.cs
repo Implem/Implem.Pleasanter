@@ -63,7 +63,8 @@ namespace Implem.Pleasanter.Libraries.Models
                 ss: ss,
                 columns: ss.GetGridColumns(
                     context: context,
-                    view: view));
+                    view: view,
+                    includedColumns: true));
             where = view.Where(
                 context: context,
                 ss: ss,
