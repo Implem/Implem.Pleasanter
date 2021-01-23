@@ -1,11 +1,13 @@
 ﻿using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Settings
 {
@@ -62,6 +64,31 @@ namespace Implem.Pleasanter.Libraries.Settings
                 export: export,
                 where: where,
                 view: view);
+            export.Columns
+                .Where(o => o.OutputClassColumn == true)
+                .Select(o => o.Column)
+                .Where(o => o.CanRead)
+                .Where(o => o.Linked())
+                .ForEach(column =>
+                {
+                    column.ChoiceHash = new Dictionary<string, Choice>();
+                    Repository.ExecuteTable(
+                        context: context,
+                        statements: Rds.SelectItems(
+                            column: Rds.ItemsColumn()
+                                .ReferenceId()
+                                .Title(),
+                            where: Rds.ItemsWhere()
+                                .SiteId_In(column.SiteSettings.Links.Where(o => o.ColumnName == column.Name).Select(o => o.SiteId)),
+                            orderBy: Rds.ItemsOrderBy()
+                                .Title()))
+                                    .AsEnumerable()
+                                    .ForEach(data => column.ChoiceHash.AddOrUpdate(
+                                        data.String("ReferenceId"),
+                                        new Choice(
+                                            value: data.String("ReferenceId"),
+                                            text: data.String("Title"))));
+                });
             var csv = new System.Text.StringBuilder();
             if (export.Header == true)
             {
