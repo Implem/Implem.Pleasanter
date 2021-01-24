@@ -342,7 +342,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlOnly: controlOnly,
                                 optionCollection: optionCollection,
                                 selectedValue: value,
-                                insertBlank: column.UseSearch != true,
+                                multiple: column.MultipleSelections == true,
+                                insertBlank: column.MultipleSelections != true,
                                 alwaysSend: alwaysSend,
                                 validateRequired: required,
                                 column: column);
