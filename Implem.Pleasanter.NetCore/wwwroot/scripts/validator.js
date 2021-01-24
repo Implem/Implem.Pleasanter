@@ -9,14 +9,14 @@
         'c_min_num',
         function (value, element, params) {
             return this.optional(element) ||
-                parseFloat(value.replace(/[¥,]/g, '')) >= parseFloat(params);
+                parseFloat(value.replace(/[¥uC2A5|\u005C,]/g, '')) >= parseFloat(params);
         }
     );
     $.validator.addMethod(
         'c_max_num',
         function (value, element, params) {
             return this.optional(element) ||
-                parseFloat(value.replace(/[¥,]/g, '')) <= parseFloat(params);
+                parseFloat(value.replace(/[¥uC2A5|\u005C,]/g, '')) <= parseFloat(params);
         }
     );
     $.validator.addMethod(
