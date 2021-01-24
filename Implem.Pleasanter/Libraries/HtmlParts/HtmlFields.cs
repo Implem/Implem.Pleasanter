@@ -183,6 +183,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             }
                         });
             }
+            if (column.Type == Column.Types.User && column.UseSearch == true)
+            {
+                (column.MultipleSelections == true
+                    ? value.Deserialize<List<int>>()
+                        ?? new List<int>()
+                    : value.ToInt().ToSingleList())
+                        .Select(userId => SiteInfo.User(
+                            context: context,
+                            userId: userId))
+                        .Where(user => !user.Anonymous())
+                        .ForEach(user =>
+                            editChoices.AddIfNotConainsKey(
+                                user.Id.ToString(),
+                                new ControlData(user.Name)));
+            }
             return editChoices;
         }
 

@@ -67,8 +67,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             export.Columns
                 .Where(o => o.OutputClassColumn == true)
                 .Select(o => o.Column)
+                .Where(o => o.MultipleSelections == true)
+                .Where(o => o.Linked(withoutWiki: true))
                 .Where(o => o.CanRead)
-                .Where(o => o.Linked())
                 .ForEach(column =>
                 {
                     column.ChoiceHash = new Dictionary<string, Choice>();
@@ -79,7 +80,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 .ReferenceId()
                                 .Title(),
                             where: Rds.ItemsWhere()
-                                .SiteId_In(column.SiteSettings.Links.Where(o => o.ColumnName == column.Name).Select(o => o.SiteId)),
+                                .SiteId_In(column.SiteSettings.Links.Where(o => o.ColumnName == column.Name).Select(o => o.SiteId))
+                                .ReferenceType("Sites", _operator: "<>"),
                             orderBy: Rds.ItemsOrderBy()
                                 .Title()))
                                     .AsEnumerable()
@@ -88,6 +90,27 @@ namespace Implem.Pleasanter.Libraries.Settings
                                         new Choice(
                                             value: data.String("ReferenceId"),
                                             text: data.String("Title"))));
+                });
+            export.Columns
+                .Where(o => o.OutputClassColumn == true)
+                .Select(o => o.Column)
+                .Where(o => o.MultipleSelections == true)
+                .Where(o => o.Type == Column.Types.User)
+                .Where(o => o.CanRead)
+                .ForEach(column =>
+                {
+                    column.ChoiceHash = new Dictionary<string, Choice>();
+                    gridData.DataRows
+                        .SelectMany(dataRow => dataRow.String(column.ColumnName).Deserialize<List<int>>())
+                        .Distinct()
+                        .Select(userId => SiteInfo.User(context: context, userId: userId))
+                        .Where(user => !user.Anonymous())
+                        .OrderBy(user => user.Name)
+                        .ForEach(user => column.ChoiceHash.AddOrUpdate(
+                            user.Id.ToString(),
+                            new Choice(
+                                value: user.Id.ToString(),
+                                text: user.Name)));
                 });
             var csv = new System.Text.StringBuilder();
             if (export.Header == true)
