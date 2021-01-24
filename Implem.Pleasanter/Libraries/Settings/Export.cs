@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Interfaces;
+﻿using Implem.DefinitionAccessor;
+using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.Requests;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Csv = 0,
             Json = 1
         }
+
         public enum ExecutionTypes : int
         {
             Direct = 0,

@@ -1,6 +1,9 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.Settings
 {
     [Serializable]
@@ -9,8 +12,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int Id;
         public string ColumnName;
         public string LabelText;
+        public string ChoiceText;
+        public string ChoiceValue;
         public Types? Type;
         public string Format;
+        public bool? OutputClassColumn;
         [NonSerialized]
         public string SiteTitle;
         [NonSerialized]
@@ -47,7 +53,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             return (withSiteTitle
                 ? "[" + SiteTitle + "]"
                 : string.Empty)
-                    + (LabelText ?? Column?.LabelText);
+                    + (LabelText ?? Column?.LabelText)
+                        + (!ChoiceText.IsNullOrEmpty()
+                            ? $"[{ChoiceText}]"
+                            : string.Empty);
         }
 
         public new string GetType()
@@ -64,11 +73,34 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public void Update(string labelText, Types type, string format)
+        public List<ExportColumn> NormalOrOutputClassColumns()
+        {
+            return OutputClassColumn == true
+                && Column.HasChoices()
+                && Column.ChoiceHash.Count <= Parameters.General.ExportOutputColumnMax
+                    ? Column.ChoiceHash
+                        .Select(choice => new ExportColumn()
+                        {
+                            Id = Id,
+                            ColumnName = ColumnName,
+                            ChoiceText = choice.Value.Text,
+                            ChoiceValue = choice.Value.Value,
+                            Type = Type,
+                            Format = Format,
+                            OutputClassColumn = OutputClassColumn,
+                            SiteTitle = SiteTitle,
+                            Column = Column
+                        })
+                        .ToList()
+                    : new List<ExportColumn>() { this };
+        }
+
+        public void Update(string labelText, Types type, string format, bool outputClassColumn)
         {
             LabelText = labelText;
             Type = type;
             Format = format;
+            OutputClassColumn = outputClassColumn;
         }
 
         public ExportColumn GetRecordingData()
@@ -87,6 +119,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!Format.IsNullOrEmpty() && Format != Column?.EditorFormat)
             {
                 exportColumn.Format = Format;
+            }
+            if (OutputClassColumn == true)
+            {
+                exportColumn.OutputClassColumn = OutputClassColumn;
             }
             return exportColumn;
         }

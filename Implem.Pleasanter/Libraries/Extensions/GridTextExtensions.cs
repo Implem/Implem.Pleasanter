@@ -54,9 +54,20 @@ namespace Implem.Pleasanter.Libraries.Extensions
 
         public static string GridText(this string value, Context context, Column column)
         {
-            return column.HasChoices()
-                ? column.Choice(value).TextMini
-                : value;
+            if (column.HasChoices())
+            {
+                var choiceParts = column.ChoiceParts(
+                    context: context,
+                    selectedValues: value,
+                    type: ExportColumn.Types.TextMini);
+                return column.MultipleSelections == true
+                    ? choiceParts.Join(", ")
+                    : choiceParts.FirstOrDefault();
+            }
+            else
+            {
+                return value;
+            }
         }
 
         public static string GridText(this TimeZoneInfo value, Context context, Column column)

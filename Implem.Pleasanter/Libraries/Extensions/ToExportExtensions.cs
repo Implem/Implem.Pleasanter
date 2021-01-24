@@ -3,6 +3,8 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.Extensions
 {
     public static class ToExportExtensions
@@ -16,12 +18,28 @@ namespace Implem.Pleasanter.Libraries.Extensions
         public static string ToExport(
             this string value, Context context, Column column, ExportColumn exportColumn = null)
         {
-            return column.HasChoices()
-                ? column.ChoicePart(
+            if (column.HasChoices())
+            {
+                var choiceParts = column.ChoiceParts(
                     context: context,
-                    selectedValue: value,
-                    type: exportColumn?.Type ?? ExportColumn.Types.Text)
-                : value;
+                    selectedValues: value,
+                    type: exportColumn?.Type ?? ExportColumn.Types.Text);
+                return !exportColumn?.ChoiceValue.IsNullOrEmpty() == true
+                    ? column.MultipleSelections == true
+                        ? value.Deserialize<List<string>>()?.Contains(exportColumn.ChoiceValue) == true
+                            ? "1"
+                            : string.Empty
+                        : value == exportColumn.ChoiceValue
+                            ? "1"
+                            : string.Empty
+                    : column.MultipleSelections == true
+                        ? choiceParts.ToJson()
+                        : choiceParts.FirstOrDefault();
+            }
+            else
+            {
+                return value;
+            }
         }
 
         public static string ToExport(
