@@ -13,6 +13,7 @@ namespace Implem.ParameterAccessor.Parts
         public int MinimumTime;
         public int DeadlockRetryCount;
         public int DeadlockRetryInterval;
+        public bool DisableIndexChangeDetection;
 
         [OnDeserialized]
         private void OnDeserialized(StreamingContext streamingContext)
