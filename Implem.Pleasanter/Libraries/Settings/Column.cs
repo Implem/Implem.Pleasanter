@@ -604,7 +604,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     .ToList();
         }
 
-        private string ChoicePart (
+        private string ChoicePart(
             Context context,
             string value,
             ExportColumn.Types? type)

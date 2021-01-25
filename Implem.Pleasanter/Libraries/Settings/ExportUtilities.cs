@@ -20,7 +20,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => o.Column.TypeCs != "Attachments")
                 .ToDictionary(
                     column => column.GetRecordingData().ToJson(),
-                column => new ControlData(column.GetLabelText(withSiteTitle: true)));
+                    column => new ControlData(column.GetLabelText(withSiteTitle: true)));
         }
 
         public static string Export(

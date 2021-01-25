@@ -1,5 +1,4 @@
-﻿using Implem.DefinitionAccessor;
-using Implem.Pleasanter.Interfaces;
+﻿using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.Requests;
 using System;
 using System.Collections.Generic;
