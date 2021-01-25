@@ -697,6 +697,7 @@
     <Content Include="scripts\display.js" />
     <Content Include="scripts\dropdownsearch.js" />
     <Content Include="scripts\dropdownsearchevents.js" />
+    <Content Include="scripts\expand.js" />
     <Content Include="scripts\export.js" />
     <Content Include="scripts\fieldselectable.js" />
     <Content Include="scripts\filterevents.js" />
