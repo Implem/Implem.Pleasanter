@@ -8,5 +8,6 @@
     "SqlCommandTimeOut": 0,
     "MinimumTime": 3,
     "DeadlockRetryCount": 4,
-    "DeadlockRetryInterval": 1000
+    "DeadlockRetryInterval": 1000,
+    "DisableIndexChangeDetection": false
 }
