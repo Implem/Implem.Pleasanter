@@ -1,7 +1,4 @@
 ﻿using Implem.Libraries.Utilities;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace Implem.Pleasanter.Libraries.Settings
 {
     public class Choice
@@ -12,34 +9,39 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string CssClass;
         public string Style;
 
-        public Choice(string value, string text)
+        public Choice(string value, string text, string textMini = null)
         {
             Value = value;
-            Text = text;
-            TextMini = text;
+            Text = !text.IsNullOrEmpty()
+                ? text
+                : Value;
+            TextMini = !textMini.IsNullOrEmpty()
+                ? textMini
+                : Text;
         }
 
-        public Choice(string choice)
+        public Choice(string choice, bool raw = false)
         {
             if (choice != null)
             {
-                var array = choice.Split(',');
-                Value = array._1st();
-                Text = Strings.CoalesceEmpty(array._2nd(), Value);
-                TextMini = Strings.CoalesceEmpty(array._3rd(), Text);
-                CssClass = array._4th();
-                Style = array._5th();
+                if (raw)
+                {
+                    Value = choice;
+                    Text = choice;
+                    TextMini = choice;
+                    CssClass = string.Empty;
+                    Style = string.Empty;
+                }
+                else
+                {
+                    var array = choice.Split(',');
+                    Value = array._1st();
+                    Text = Strings.CoalesceEmpty(array._2nd(), Value);
+                    TextMini = Strings.CoalesceEmpty(array._3rd(), Text);
+                    CssClass = array._4th();
+                    Style = array._5th();
+                }
             }
-        }
-
-        public string SearchText()
-        {
-            return new List<string>()
-            {
-                Value,
-                Text,
-                TextMini
-            }.Distinct().Join(" ");
         }
     }
 }

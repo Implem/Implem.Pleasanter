@@ -30,6 +30,7 @@
     "GridPageSize": 20,
     "GridPageSizeMin": 10,
     "GridPageSizeMax": 200,
+    "ExportOutputColumnMax": 100,
     "ImportMax": 0,
     "ViewerSwitchingType": 1,
     "UpdateResponseType": 0,

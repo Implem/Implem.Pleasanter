@@ -72,7 +72,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 requestDataString: context.RequestDataString,
                 contentType: context.ContentType,
                 onTesting: onTesting,
-                scriptDepth: context.ServerScriptDepth);
+                scriptDepth: context.ServerScriptDepth,
+                controlId: context.Forms.ControlId());
             SiteSettings = new ServerScriptModelSiteSettings
             {
                 DefaultViewId = ss?.GridView
@@ -137,6 +138,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             public readonly string ApiRequestBody;
             public readonly string RequestDataString;
             public readonly string ContentType;
+            public readonly string ControlId;
 
             public ServerScriptModelContext(
                 string formStringRaw,
@@ -169,7 +171,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 string requestDataString,
                 string contentType,
                 bool onTesting,
-                long scriptDepth)
+                long scriptDepth,
+                string controlId)
             {
                 ServerScript = new ServerScriptModelContextServerScript(
                     onTesting: onTesting,
@@ -203,6 +206,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 ApiRequestBody = apiRequestBody;
                 RequestDataString = requestDataString;
                 ContentType = contentType;
+                ControlId = controlId;
             }
         }
 

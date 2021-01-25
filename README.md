@@ -20,7 +20,7 @@ Linux でビルド/実行する場合は、下記「Linux だけでビルド/実
 ## 開発/ビルド環境を構成する（Windows）
 * Visual Studio 2017 [[download](https://visualstudio.microsoft.com/ja/downloads/)]
 * .NET Framework 4.7.2 [[download](https://dotnet.microsoft.com/download)]
-* .NET Core 3.1 [[download](https://dotnet.microsoft.com/download)]
+* .NET Core 2.2 [[download](https://dotnet.microsoft.com/download)]
 
 ## ビルド/デバッグ実行をする（Windows）
 ソースコード（ソリューション）を Visual Studio で開きビルド/デバッグ実行をします。  

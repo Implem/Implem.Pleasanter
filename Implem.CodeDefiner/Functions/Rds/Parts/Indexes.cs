@@ -179,20 +179,21 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             ISqlObjectFactory factory,
             string generalTableName,
             string sourceTableName,
-            Sqls.TableTypes tableType,
-            IEnumerable<ColumnDefinition> columnDefinitionCollection)
+            Sqls.TableTypes tableType)
         {
-            return IndexInfoCollection(factory: factory,
-                generalTableName: generalTableName,
-                sourceTableName: sourceTableName,
-                tableType: tableType)
-                .Select(o => o.IndexName())
-                .Distinct()
-                .OrderBy(o => o)
-                .Join(",") != Get(
+            return !Parameters.Rds.DisableIndexChangeDetection
+                && IndexInfoCollection(
                     factory: factory,
-                    sourceTableName: sourceTableName)
-                .Join(",");
+                    generalTableName: generalTableName,
+                    sourceTableName: sourceTableName,
+                    tableType: tableType)
+                        .Select(o => o.IndexName())
+                        .Distinct()
+                        .OrderBy(o => o)
+                        .Join(",") != Get(
+                            factory: factory,
+                            sourceTableName: sourceTableName)
+                        .Join(",");
         }
 
         private static string Sql_CreateIx(

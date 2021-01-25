@@ -181,8 +181,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                         factory: factory,
                         generalTableName: generalTableName,
                         sourceTableName: sourceTableName,
-                        tableType: tableType,
-                        columnDefinitionCollection: columnDefinitionCollection);
+                        tableType: tableType);
             }
         }
 

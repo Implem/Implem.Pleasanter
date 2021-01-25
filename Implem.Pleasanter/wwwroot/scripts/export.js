@@ -1,5 +1,5 @@
 ﻿$p.openExportSelectorDialog = function ($control) {
-    error = $p.send($control);
+    error = $p.syncSend($control);
     if (error === 0) {
         $('#ExportSelectorDialog').dialog({
             modal: true,

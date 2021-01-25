@@ -13,6 +13,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Csv = 0,
             Json = 1
         }
+
         public enum ExecutionTypes : int
         {
             Direct = 0,

@@ -1,0 +1,29 @@
+﻿{
+    "Id": "OutputClassColumn",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Output classification to column"
+        },
+        {
+            "Language": "zh",
+            "Body": "将分类输出到列"
+        },
+        {
+            "Language": "ja",
+            "Body": "分類を列に出力"
+        },
+        {
+            "Language": "de",
+            "Body": "Ausgabeklassifizierung in Spalte"
+        },
+        {
+            "Language": "ko",
+            "Body": "열에 분류 출력"
+        },
+        {
+            "Language": "es",
+            "Body": "Clasificación de salida a columna"
+        }
+    ]
+}

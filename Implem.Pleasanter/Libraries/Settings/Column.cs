@@ -53,6 +53,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Description;
         public string ChoicesText;
         public bool? UseSearch;
+        public bool? MultipleSelections;
         public string DefaultInput;
         public string GridFormat;
         public string EditorFormat;
@@ -349,14 +350,32 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 settings: line).SiteId + "]]";
                             if (linkHash != null && linkHash.ContainsKey(key))
                             {
-                                linkHash.Get(key)?
-                                    .ToDictionary(
-                                        o => o.Split_1st(),
-                                        o => o.Contains(",")
-                                            ? o.Substring(o.IndexOf(",") + 1)
-                                            : o)
-                                    .ForEach(o =>
-                                        AddToChoiceHash(o.Key, o.Value));
+                                if (Linked(withoutWiki: true))
+                                {
+                                    linkHash.Get(key)?
+                                        .ToDictionary(
+                                            o => o.Split_1st(),
+                                            o => o.Contains(",")
+                                                ? o.Substring(o.IndexOf(",") + 1)
+                                                : o)
+                                        .ForEach(o =>
+                                            AddToChoiceHash(o.Key, o.Value));
+                                }
+                                else
+                                {
+                                    linkHash.Get(key)?
+                                        .Select(o => new
+                                        {
+                                            Value = o.Split_1st(),
+                                            Text = o.Split_2nd(),
+                                            TextMini = o.Split_3rd()
+                                        })
+                                        .ForEach(o =>
+                                            AddToChoiceHash(
+                                                value: o.Value,
+                                                text: o.Text,
+                                                textMini: o.TextMini));
+                                }
                             }
                         }
                     }
@@ -454,11 +473,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                     o.ColumnName == ColumnName && o.SiteId == fromSiteId);
         }
 
-        private void AddToChoiceHash(string value, string text)
+        private void AddToChoiceHash(string value, string text, string textMini = null)
         {
             if (!ChoiceHash.Keys.Contains(value))
             {
-                ChoiceHash.Add(value, new Choice(value, text));
+                ChoiceHash.Add(value, new Choice(
+                    value: value,
+                    text: text,
+                    textMini: textMini));
             }
         }
 
@@ -563,15 +585,34 @@ namespace Implem.Pleasanter.Libraries.Settings
                 && ChoiceHash != null
                 && ChoiceHash.ContainsKey(selectedValue)
                     ? ChoiceHash[selectedValue]
-                    : new Choice(nullCase);
+                    : new Choice(nullCase, raw: true);
         }
 
-        public string ChoicePart(Context context, string selectedValue, ExportColumn.Types? type)
+        public List<string> ChoiceParts(
+            Context context,
+            string selectedValues,
+            ExportColumn.Types? type)
+        {
+            var values = (MultipleSelections == true
+                ? selectedValues.Deserialize<List<string>>()
+                : null)
+                    ?? selectedValues.ToSingleList();
+            return values.Select(value => ChoicePart(
+                context: context,
+                value: value,
+                type: type))
+                    .ToList();
+        }
+
+        private string ChoicePart(
+            Context context,
+            string value,
+            ExportColumn.Types? type)
         {
             AddToChoiceHash(
                 context: context,
-                value: selectedValue);
-            var choice = Choice(selectedValue, nullCase: selectedValue);
+                value: value);
+            var choice = Choice(value, nullCase: value);
             switch (type)
             {
                 case ExportColumn.Types.Value: return choice.Value;
@@ -607,7 +648,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Select(o => o.First())
                         .ToDictionary(o => o.Value.Text, o => o.Key);
                 }
-                recordingData = ChoiceValueHash.Get(value) ?? value;
+                recordingData = MultipleSelections == true
+                    ? value.Deserialize<List<string>>()
+                        ?.Select(o => ChoiceValueHash.Get(o) ?? o)
+                        .Where(o => !o.IsNullOrEmpty())
+                        .ToJson()
+                    : ChoiceValueHash.Get(value) ?? value;
             }
             return recordingData ?? string.Empty;
         }
@@ -839,7 +885,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return SiteSettings?.Links?
                 .Any(o => o.ColumnName == Name
                     && (!withoutWiki
-                        || SiteSettings?.JoinedSsHash.Keys.Contains(o.SiteId) == true)) == true;
+                        || SiteSettings?.JoinedSsHash?.Keys.Contains(o.SiteId) == true)) == true;
         }
 
         public string ConvertIfUserColumn(DataRow dataRow)
