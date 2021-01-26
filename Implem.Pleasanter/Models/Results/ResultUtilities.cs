@@ -2045,7 +2045,8 @@ namespace Implem.Pleasanter.Models
         public static string EditorJson(Context context, SiteSettings ss, long resultId)
         {
             return EditorResponse(context, ss, new ResultModel(
-                context, ss, resultId)).ToJson();
+                context, ss, resultId,
+                formData: context.QueryStrings.Bool("control-auto-postback") ? context.Forms : null)).ToJson();
         }
 
         private static ResponseCollection EditorResponse(
@@ -2077,7 +2078,7 @@ namespace Implem.Pleasanter.Models
                     .Invoke("setCurrentIndex")
                     .Invoke("initRelatingColumnEditor")
                     .Message(message)
-                    .ClearFormData()
+                    .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"))
                     .Events("on_editor_load");
         }
 

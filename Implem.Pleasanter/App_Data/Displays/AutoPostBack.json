@@ -1,0 +1,29 @@
+﻿{
+    "Id": "AutoPostBack",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Auto post back"
+        },
+        {
+            "Language": "zh",
+            "Body": "自动发回"
+        },
+        {
+            "Language": "ja",
+            "Body": "自動ポストバック"
+        },
+        {
+            "Language": "de",
+            "Body": "Auto zurückschicken"
+        },
+        {
+            "Language": "ko",
+            "Body": "자동 포스트 백"
+        },
+        {
+            "Language": "es",
+            "Body": "Publicación automática de nuevo"
+        }
+    ]
+}

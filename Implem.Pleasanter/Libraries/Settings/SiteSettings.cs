@@ -1141,6 +1141,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.EditorReadOnly = column.EditorReadOnly;
                     }
+                    if (column.AutoPostBack == true)
+                    {
+                        enabled = true;
+                        newColumn.AutoPostBack = column.AutoPostBack;
+                    }
                     if (column.AllowImage != true)
                     {
                         enabled = true;
@@ -1504,6 +1509,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.NoDuplication = column.NoDuplication ?? false;
                 column.CopyByDefault = column.CopyByDefault ?? false;
                 column.EditorReadOnly = column.EditorReadOnly ?? columnDefinition.EditorReadOnly;
+                column.AutoPostBack = column.AutoPostBack ?? false;
                 column.AllowBulkUpdate = column.AllowBulkUpdate ?? false;
                 column.AllowImage = column.AllowImage ?? true;
                 column.ThumbnailLimitSize = column.ThumbnailLimitSize ?? Parameters.BinaryStorage.ThumbnailLimitSize;
@@ -3161,6 +3167,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "NoDuplication": column.NoDuplication = value.ToBool(); break;
                 case "CopyByDefault": column.CopyByDefault = value.ToBool(); break;
                 case "EditorReadOnly": column.EditorReadOnly = value.ToBool(); break;
+                case "AutoPostBack": column.AutoPostBack = value.ToBool(); break;
                 case "AllowBulkUpdate": column.AllowBulkUpdate = value.ToBool(); break;
                 case "AllowImage": column.AllowImage = value.ToBool(); break;
                 case "ThumbnailLimitSize": column.ThumbnailLimitSize = value.ToDecimal(); break;

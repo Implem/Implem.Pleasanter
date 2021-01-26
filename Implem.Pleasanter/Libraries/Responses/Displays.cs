@@ -639,6 +639,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AutoPostBack(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AutoPostBack",
+                data: data);
+        }
+
         public static string AutoVerUpType(
             Context context,
             params string[] data)

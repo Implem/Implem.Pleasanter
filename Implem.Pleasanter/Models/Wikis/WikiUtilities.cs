@@ -1237,7 +1237,8 @@ namespace Implem.Pleasanter.Models
         public static string EditorJson(Context context, SiteSettings ss, long wikiId)
         {
             return EditorResponse(context, ss, new WikiModel(
-                context, ss, wikiId)).ToJson();
+                context, ss, wikiId,
+                formData: context.QueryStrings.Bool("control-auto-postback") ? context.Forms : null)).ToJson();
         }
 
         private static ResponseCollection EditorResponse(
@@ -1255,7 +1256,7 @@ namespace Implem.Pleasanter.Models
                 .SetMemory("formChanged", false)
                 .Invoke("setCurrentIndex")
                 .Message(message)
-                .ClearFormData();
+                .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"));
         }
 
         public static ResponseCollection FieldResponse(
