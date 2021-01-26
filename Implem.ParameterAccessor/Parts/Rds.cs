@@ -11,5 +11,6 @@
         public int MinimumTime;
         public int DeadlockRetryCount;
         public int DeadlockRetryInterval;
+        public bool DisableIndexChangeDetection;
     }
 }

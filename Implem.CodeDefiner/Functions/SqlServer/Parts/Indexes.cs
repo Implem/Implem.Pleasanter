@@ -149,14 +149,14 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
         internal static bool HasChanges(
             string generalTableName,
             string sourceTableName,
-            Sqls.TableTypes tableType,
-            IEnumerable<ColumnDefinition> columnDefinitionCollection)
+            Sqls.TableTypes tableType)
         {
-            return IndexInfoCollection(generalTableName, sourceTableName, tableType)
-                .Select(o => o.IndexName())
-                .Distinct()
-                .OrderBy(o => o)
-                .Join(",") != Get(sourceTableName).Join(",");
+            return !Parameters.Rds.DisableIndexChangeDetection
+                && IndexInfoCollection(generalTableName, sourceTableName, tableType)
+                    .Select(o => o.IndexName())
+                    .Distinct()
+                    .OrderBy(o => o)
+                    .Join(",") != Get(sourceTableName).Join(",");
         }
 
         private static string Sql_CreateIx(

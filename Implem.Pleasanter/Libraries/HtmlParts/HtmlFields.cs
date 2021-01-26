@@ -81,6 +81,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Raw(column.ExtendedHtmlBeforeField
                         + serverScriptModelColumns
                             ?.Select(scriptColumn => scriptColumn.ExtendedHtmlBeforeField)
+                            .Where(o => !o.IsNullOrEmpty())
                             .Join())
                     .SwitchField(
                         context: context,
@@ -123,6 +124,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Raw(column.ExtendedHtmlAfterField
                         + serverScriptModelColumns
                             ?.Select(scriptColumn => scriptColumn.ExtendedHtmlAfterField)
+                            .Where(o => !o.IsNullOrEmpty())
                             .Join())
                     .Raw(HtmlHtmls.ExtendedHtmls(
                         context: context,
@@ -167,25 +169,50 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context, SiteSettings ss, Column column, string value)
         {
             var editChoices = column.EditChoices(context: context);
-            if (!value.IsNullOrEmpty() && !editChoices.ContainsKey(value))
+            if (column.Linked(withoutWiki: true))
             {
-                if (column.Linked(withoutWiki: true))
-                {
-                    var referenceId = value.ToLong();
-                    if (referenceId > 0)
-                    {
-                        var title = ss.LinkedItemTitle(
-                            context: context,
-                            referenceId: referenceId,
-                            siteIdList: ss.Links.Select(o => o.SiteId));
-                        if (title != null)
+                SelectedValues(
+                    column: column,
+                    value: value)
+                        .Where(referenceId => referenceId > 0)
+                        .Where(referenceId => !editChoices.ContainsKey(referenceId.ToString()))
+                        .ForEach(referenceId =>
                         {
-                            editChoices.Add(value, new ControlData(title));
-                        }
-                    }
-                }
+                            var title = ss.LinkedItemTitle(
+                                context: context,
+                                referenceId: referenceId,
+                                siteIdList: ss.Links.Select(o => o.SiteId));
+                            if (title != null)
+                            {
+                                editChoices.Add(referenceId.ToString(), new ControlData(title));
+                            }
+                        });
+            }
+            if (column.Type == Column.Types.User && column.UseSearch == true)
+            {
+                (column.MultipleSelections == true
+                    ? value.Deserialize<List<int>>()
+                        ?? new List<int>()
+                    : value.ToInt().ToSingleList())
+                        .Select(userId => SiteInfo.User(
+                            context: context,
+                            userId: userId))
+                        .Where(user => !user.Anonymous())
+                        .ForEach(user =>
+                            editChoices.AddIfNotConainsKey(
+                                user.Id.ToString(),
+                                new ControlData(user.Name)));
             }
             return editChoices;
+        }
+
+        private static List<long> SelectedValues(Column column, string value)
+        {
+            if (value.IsNullOrEmpty()) return new List<long>();
+            return column.MultipleSelections == true
+                ? value.Deserialize<List<long>>()
+                    ?? new List<long>()
+                : value.ToLong().ToSingleList();
         }
 
         private static HtmlBuilder SwitchField(
@@ -320,7 +347,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlOnly: controlOnly,
                                 optionCollection: optionCollection,
                                 selectedValue: value,
-                                insertBlank: true,
+                                multiple: column.MultipleSelections == true,
+                                insertBlank: column.MultipleSelections != true,
                                 alwaysSend: alwaysSend,
                                 validateRequired: required,
                                 column: column);
@@ -563,7 +591,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         columnName: column?.ColumnName,
                         selectedValues: id.ToSingleList());
                 }
-                return id;
+                return column.MultipleSelections == true
+                    ? id.ToSingleList().ToJson()
+                    : id;
             }
             return self;
         }
@@ -629,7 +659,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case "field-markdown":
                     return ControlTypes.MarkDown;
                 default:
-                    return 
+                    return
                         column.Max.ToInt() == -1 ||
                         column.Max.ToInt() >= Parameters.General.SizeToUseTextArea
                             ? ControlTypes.TextBoxMultiLine
@@ -839,7 +869,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string validateRegex = null,
             string validateRegexErrorMessage = null,
             string action = null,
-            string method = null, 
+            string method = null,
             Dictionary<string, string> attributes = null,
             bool _using = true)
         {

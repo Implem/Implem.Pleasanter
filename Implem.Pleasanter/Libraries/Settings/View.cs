@@ -1335,9 +1335,23 @@ namespace Implem.Pleasanter.Libraries.Settings
                     tableName: column.TableName(),
                     columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
                     name: column.ParamName(),
-                    value: param.Where(o => o != "\t"),
+                    value: param
+                        .Where(value => value != "\t")
+                        .Select(value => column.MultipleSelections == true
+                            ? StringInJson(value: value)
+                            : value),
+                    _operator: column.MultipleSelections == true
+                        ? " like "
+                        : "=",
                     multiParamOperator: " or ")
                 : null;
+        }
+
+        private string StringInJson(string value)
+        {
+            if (value.IsNullOrEmpty()) return string.Empty;
+            var json = value.ToSingleList().ToJson();
+            return $"%{json.Substring(1, json.Length - 2)}%";
         }
 
         private SqlWhere CsStringColumnsWhereNull(Column column, List<string> param)
@@ -1351,7 +1365,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                     new SqlWhere(
                         tableName: column.TableName(),
                         columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
-                        _operator: "=''")))
+                        _operator: "=''"),
+                    new SqlWhere(
+                        tableName: column.TableName(),
+                        columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
+                        _operator: "='[]'",
+                        _using: column.MultipleSelections == true)))
                 : null;
         }
 

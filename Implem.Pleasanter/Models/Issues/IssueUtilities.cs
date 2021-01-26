@@ -70,6 +70,9 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: invalid);
             }
+            var scriptValues = new ItemModel().SetByBeforeOpeningPageServerScript(
+                context: context,
+                ss: ss);
             return hb.Template(
                 context: context,
                 ss: ss,
@@ -82,6 +85,7 @@ namespace Implem.Pleasanter.Models
                 script: JavaScripts.ViewMode(viewMode),
                 userScript: ss.ViewModeScripts(context: context),
                 userStyle: ss.ViewModeStyles(context: context),
+                scriptValues: scriptValues,
                 action: () => hb
                     .Form(
                         attributes: new HtmlAttributes()
@@ -1339,7 +1343,10 @@ namespace Implem.Pleasanter.Models
             ss.SetColumnAccessControls(
                 context: context,
                 mine: issueModel.Mine(context: context));
-            issueModel.SetByBeforeOpeningPageServerScript(
+            issueModel.SetByWhenloadingRecordServerScript(
+                context: context,
+                ss: ss);
+            var scriptValues = issueModel.SetByBeforeOpeningPageServerScript(
                 context: context,
                 ss: ss);
             return editInDialog
@@ -1375,6 +1382,7 @@ namespace Implem.Pleasanter.Models
                         context: context, methodType: issueModel.MethodType),
                     userStyle: ss.EditorStyles(
                         context: context, methodType: issueModel.MethodType),
+                    scriptValues: scriptValues,
                     action: () => hb
                         .Editor(
                             context: context,
@@ -1507,6 +1515,7 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     verType: issueModel.VerType,
+                                    readOnly: issueModel.ReadOnly,
                                     updateButton: true,
                                     copyButton: true,
                                     moveButton: true,
@@ -2183,7 +2192,7 @@ namespace Implem.Pleasanter.Models
                         icon: "ui-icon-extlink",
                         action: "EditSeparateSettings",
                         method: "post",
-                        _using: context.CanUpdate(ss: ss)
+                        _using: context.CanUpdate(ss: ss) && !issueModel.ReadOnly
                             && ss.AllowSeparate == true)
                     : hb;
         }
@@ -5175,20 +5184,11 @@ namespace Implem.Pleasanter.Models
             }
             if (csv != null && count > 0)
             {
-                var idColumn = -1;
-                var columnHash = new Dictionary<int, Column>();
-                csv.Headers.Select((o, i) => new { Header = o, Index = i }).ForEach(data =>
-                {
-                    var column = ss.Columns
-                        .Where(o => o.LabelText == data.Header)
-                        .Where(o => o.TypeCs != "Attachments")
-                        .FirstOrDefault();
-                    if (column?.ColumnName == "IssueId")
-                    {
-                        idColumn = data.Index;
-                    }
-                    if (column != null) columnHash.Add(data.Index, column);
-                });
+                var columnHash = ImportUtilities.GetColumnHash(ss, csv);
+                var idColumn = columnHash
+                    .Where(o => o.Value.Column.ColumnName == "IssueId")
+                    .Select(o => new { Id = o.Key })
+                    .FirstOrDefault()?.Id ?? -1;
                 if (updatableImport && idColumn > -1)
                 {
                     var exists = ExistsLockedRecord(
@@ -5201,7 +5201,7 @@ namespace Implem.Pleasanter.Models
                         default: return exists.MessageJson(context: context);
                     }
                 }
-                var invalidColumn = Imports.ColumnValidate(context, ss, columnHash.Values.Select(o => o.ColumnName), "CompletionTime");
+                var invalidColumn = Imports.ColumnValidate(context, ss, columnHash.Values.Select(o => o.Column.ColumnName), "CompletionTime");
                 if (invalidColumn != null) return invalidColumn;
                 Repository.ExecuteNonQuery(
                     context: context,
@@ -5231,18 +5231,19 @@ namespace Implem.Pleasanter.Models
                         }
                     }
                     columnHash
-                        .Where(column => (column.Value.CanCreate && issueModel.IssueId == 0)
-                            || (column.Value.CanUpdate && issueModel.IssueId > 0))
+                        .Where(column => (column.Value.Column.CanCreate && issueModel.IssueId == 0)
+                            || (column.Value.Column.CanUpdate && issueModel.IssueId > 0))
                         .ForEach(column =>
                         {
                             var recordingData = ImportRecordingData(
                                 context: context,
-                                column: column.Value,
-                                value: data.Row.Count > column.Key
-                                    ? data.Row[column.Key]
-                                    : string.Empty,
+                                column: column.Value.Column,
+                                value: ImportUtilities.RecordingData(
+                                    columnHash: columnHash,
+                                    row: data.Row,
+                                    column: column),
                                 inheritPermission: ss.InheritPermission);
-                            switch (column.Value.ColumnName)
+                            switch (column.Value.Column.ColumnName)
                             {
                                 case "Title":
                                     issueModel.Title.Value = recordingData.ToString();
@@ -5291,7 +5292,7 @@ namespace Implem.Pleasanter.Models
                                 default:
                                     issueModel.Value(
                                         context: context,
-                                        columnName: column.Value.ColumnName,
+                                        columnName: column.Value.Column.ColumnName,
                                         value: recordingData);
                                     break;
                             }

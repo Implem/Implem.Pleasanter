@@ -19,6 +19,7 @@ namespace Implem.ParameterAccessor.Parts
         public string HtmlEnterPriseEditionUrl;
         public string HtmlCasesUrl;
         public bool DisplayLogoText;
+        public bool DisableAutoComplete;
         public int SiteMenuHotSpan;
         public int LimitWarning1;
         public int LimitWarning2;
@@ -34,6 +35,7 @@ namespace Implem.ParameterAccessor.Parts
         public int GridPageSize;
         public int GridPageSizeMin;
         public int GridPageSizeMax;
+        public int ExportOutputColumnMax;
         public int ImportMax;
         public int ViewerSwitchingType;
         public int UpdateResponseType;

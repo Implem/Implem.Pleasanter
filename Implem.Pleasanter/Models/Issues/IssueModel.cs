@@ -1412,21 +1412,19 @@ namespace Implem.Pleasanter.Models
 
         private SqlInsert InsertLinks(Context context, SiteSettings ss, bool setIdentity = false)
         {
-            var link = new Dictionary<long, long>();
-            ss.Links
+            var link = ss.Links
                 .Where(o => ss.Destinations.ContainsKey(o.SiteId))
                 .Select(o => ss.GetColumn(
                     context: context,
                     columnName: o.ColumnName))
                 .Where(o => o != null)
-                .ForEach(column =>
-            {
-                var id = Class(column).ToLong();
-                if (id != 0 && !link.ContainsKey(id))
-                {
-                    link.Add(id, IssueId);
-                }
-            });
+                .SelectMany(column => column.MultipleSelections == true
+                    ? Class(column).Deserialize<List<long>>()
+                        ?? new List<long>()
+                    : Class(column).ToLong().ToSingleList())
+                .Where(id => id > 0)
+                .Distinct()
+                .ToDictionary(id => id, id => IssueId);
             return LinkUtilities.Insert(link, setIdentity);
         }
 
@@ -1884,10 +1882,12 @@ namespace Implem.Pleasanter.Models
                 var column = ss.GetColumn(
                     context: context,
                     columnName: ss.Links.FirstOrDefault(o => o.SiteId == fromSiteId).ColumnName);
-                if (PropertyValue(context: context, name: column?.ColumnName) == context.Forms.Data("LinkId"))
-                {
-                    column.Linking = true;
-                }
+                var value = PropertyValue(
+                    context: context,
+                    name: column?.ColumnName);
+                column.Linking = column.MultipleSelections == true
+                    ? value.Deserialize<List<string>>()?.Contains(context.Forms.Data("LinkId")) == true
+                    : value == context.Forms.Data("LinkId");
             }
             SetByFormula(context: context, ss: ss);
             SetChoiceHash(context: context, ss: ss);
@@ -2681,6 +2681,9 @@ namespace Implem.Pleasanter.Models
                 default: AccessStatus = Databases.AccessStatuses.Overlap; break;
             }
             SetChoiceHash(context: context, ss: ss);
+            SetByWhenloadingRecordServerScript(
+                context: context,
+                ss: ss);
         }
 
         public void SetChoiceHash(Context context, SiteSettings ss)
@@ -2865,6 +2868,9 @@ namespace Implem.Pleasanter.Models
                 }
             }
             SetTitle(context: context, ss: ss);
+            SetByWhenloadingRecordServerScript(
+                context: context,
+                ss: ss);
         }
 
         public bool Updated(Context context)

@@ -17,6 +17,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             View view = null,
             Versions.VerTypes verType = Versions.VerTypes.Latest,
+            bool readOnly = false,
             bool backButton = true,
             bool updateButton = false,
             bool copyButton = false,
@@ -72,6 +73,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 hb.Common(
                                     context: context,
                                     ss: ss,
+                                    readOnly: readOnly,
                                     updateButton: updateButton,
                                     copyButton: copyButton,
                                     moveButton: moveButton,
@@ -90,7 +92,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                 action: "BulkDelete",
                                                 method: "delete",
                                                 confirm: "ConfirmDelete",
-                                                _using: context.CanDelete(ss: ss))
+                                                _using: context.CanDelete(ss: ss)
+                                                    && !readOnly)
                                             .Button(
                                                 controlId: "EditImportSettings",
                                                 text: Displays.Import(context: context),
@@ -99,7 +102,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                 onClick: "$p.openImportSettingsDialog($(this));",
                                                 icon: "ui-icon-arrowreturnthick-1-e",
                                                 selector: "#ImportSettingsDialog",
-                                                _using: context.CanImport(ss: ss))
+                                                _using: context.CanImport(ss: ss)
+                                                    && !readOnly)
                                             .Button(
                                                 text: Displays.Export(context: context),
                                                 controlCss: "button-icon",
@@ -147,19 +151,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                 confirm: "ConfirmDelete",
                                                 _using: deleteButton
                                                     && context.CanDelete(ss: ss)
-                                                    && !ss.IsSite(context: context));
+                                                    && !ss.IsSite(context: context)
+                                                    && !readOnly);
                                         break;
                                     case "index":
                                         hb.Button(
-                                           text: Displays.BulkDelete(context: context),
-                                           controlCss: "button-icon",
-                                           accessKey: "r",
-                                           onClick: "$p.send($(this));",
-                                           icon: "ui-icon-trash",
-                                           action: "BulkDelete",
-                                           method: "delete",
-                                           confirm: "ConfirmDelete",
-                                           _using: context.CanDelete(ss: ss));
+                                            text: Displays.BulkDelete(context: context),
+                                            controlCss: "button-icon",
+                                            accessKey: "r",
+                                            onClick: "$p.send($(this));",
+                                            icon: "ui-icon-trash",
+                                            action: "BulkDelete",
+                                            method: "delete",
+                                            confirm: "ConfirmDelete",
+                                            _using: context.CanDelete(ss: ss)
+                                                && !readOnly);
                                         break;
                                 }
                                 break;
@@ -167,6 +173,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 hb.Common(
                                     context: context,
                                     ss: ss,
+                                    readOnly: readOnly,
                                     updateButton: updateButton,
                                     copyButton: copyButton,
                                     moveButton: moveButton,
@@ -212,7 +219,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                         && context.CanUpdate(ss: ss)
                                                         && !ss.GridColumnsHasSources(gridColumns: view?.GridColumns)
                                                         && ss.MoveTargetsOptions(sites: ss.NumberOfMoveTargetsTable(context: context))
-                                                            .Any(o => ss.MoveTargets.Contains(o.Key.ToLong())))
+                                                            .Any(o => ss.MoveTargets.Contains(o.Key.ToLong()))
+                                                        && !readOnly)
                                                 .Button(
                                                     text: Displays.BulkDelete(context: context),
                                                     controlCss: "button-icon",
@@ -223,7 +231,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                     method: "delete",
                                                     confirm: "ConfirmDelete",
                                                     _using: context.CanDelete(ss: ss)
-                                                        && !ss.GridColumnsHasSources(gridColumns: view?.GridColumns))
+                                                        && !ss.GridColumnsHasSources(gridColumns: view?.GridColumns)
+                                                        && !readOnly)
                                                 .Button(
                                                     controlId: "EditImportSettings",
                                                     text: Displays.Import(context: context),
@@ -232,7 +241,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                     onClick: "$p.openImportSettingsDialog($(this));",
                                                     icon: "ui-icon-arrowreturnthick-1-e",
                                                     selector: "#ImportSettingsDialog",
-                                                    _using: context.CanImport(ss: ss))
+                                                    _using: context.CanImport(ss: ss)
+                                                        && !readOnly)
                                                 .Button(
                                                     text: Displays.Export(context: context),
                                                     controlCss: "button-icon",
@@ -251,7 +261,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                     action: "OpenBulkUpdateSelectorDialog",
                                                     method: "post",
                                                     _using: context.CanUpdate(ss: ss) 
-                                                        && ss.GetAllowBulkUpdateColumns(context, ss).Any())
+                                                        && ss.GetAllowBulkUpdateColumns(context, ss).Any()
+                                                        && !readOnly)
                                                 .Button(
                                                     text: Displays.EditMode(context: context),
                                                     controlCss: "button-icon",
@@ -262,7 +273,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                     _using: ss.GridEditorType == SiteSettings.GridEditorTypes.Grid
                                                         && context.CanUpdate(ss: ss)
                                                         && !ss.GridColumnsHasSources(gridColumns: view?.GridColumns)
-                                                        && ss.IntegratedSites?.Any() != true);
+                                                        && ss.IntegratedSites?.Any() != true
+                                                        && !readOnly);
                                             break;
                                         case "crosstab":
                                             hb.Button(
@@ -280,6 +292,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 hb.Common(
                                     context: context,
                                     ss: ss,
+                                    readOnly: readOnly,
                                     updateButton: updateButton,
                                     copyButton: copyButton,
                                     moveButton: moveButton,
@@ -296,11 +309,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
-            bool updateButton = false,
-            bool copyButton = false,
-            bool moveButton = false,
-            bool mailButton = false,
-            bool deleteButton = false)
+            bool readOnly,
+            bool updateButton,
+            bool copyButton,
+            bool moveButton,
+            bool mailButton,
+            bool deleteButton)
         {
             return hb
                 .Button(
@@ -311,7 +325,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     icon: "ui-icon-disk",
                     action: "Update",
                     method: "put",
-                    _using: updateButton && context.CanUpdate(ss: ss))
+                    _using: updateButton
+                        && context.CanUpdate(ss: ss)
+                        && !readOnly)
                 .Button(
                     text: Displays.Copy(context: context),
                     controlCss: "button-icon open-dialog",
@@ -319,7 +335,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     onClick: "$p.openDialog($(this));",
                     icon: "ui-icon-copy",
                     selector: "#CopyDialog",
-                    _using: copyButton && context.CanCreate(ss: ss))
+                    _using: copyButton
+                        && context.CanCreate(ss: ss)
+                        && !readOnly)
                 .Button(
                     text: Displays.Move(context: context),
                     controlCss: "button-icon open-dialog",
@@ -333,7 +351,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         && ss.MoveTargets?.Any() == true
                         && context.CanUpdate(ss: ss)
                         && ss.MoveTargetsOptions(sites: ss.NumberOfMoveTargetsTable(context: context))
-                            .Any(o => ss.MoveTargets.Contains(o.Key.ToLong())))
+                            .Any(o => ss.MoveTargets.Contains(o.Key.ToLong()))
+                        && !readOnly)
                 .Button(
                     controlId: "EditOutgoingMail",
                     text: Displays.Mail(context: context),
@@ -355,7 +374,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     confirm: "ConfirmDelete",
                     _using: deleteButton
                         && context.CanDelete(ss: ss)
-                        && !ss.IsSite(context: context))
+                        && !ss.IsSite(context: context)
+                        && !readOnly)
                 .Button(
                     text: Displays.DeleteSite(context: context),
                     controlCss: "button-icon",
@@ -364,7 +384,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     icon: "ui-icon-trash",
                     _using: deleteButton
                         && context.CanDelete(ss: ss)
-                        && ss.IsSite(context: context));
+                        && ss.IsSite(context: context)
+                        && !readOnly);
         }
     }
 }

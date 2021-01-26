@@ -133,7 +133,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ss: ss,
                     columnName: nameof(ResultModel.Owner),
                     value: resultModel.Owner.Id));
-                values.Add(ReadNameValue(ss: ss,
+                values.Add(ReadNameValue(
+                    ss: ss,
                     columnName: nameof(ResultModel.Locked),
                     value: resultModel.Locked));
             }
@@ -251,14 +252,16 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static ServerScriptModelRow SetRow(
             SiteSettings ss,
             ExpandoObject model,
-            ExpandoObject columns)
+            ExpandoObject columns,
+            ServerScriptModelHidden hidden)
         {
             var row = new ServerScriptModelRow
             {
                 ExtendedRowCss = String(model, nameof(ServerScriptModelRow.ExtendedRowCss)),
                 Columns = SetColumns(
                     ss: ss,
-                    columns: columns)
+                    columns: columns),
+                Hidden = hidden.GetAll()
             };
             return row;
         }
@@ -476,7 +479,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         private static void SetViewValues(
             SiteSettings ss,
-            ServerScriptModel.ServerScriptModelSiteSettings data)
+            ServerScriptModelSiteSettings data)
         {
             if (ss == null)
             {
@@ -503,7 +506,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             var scriptValues = SetRow(
                 ss: ss,
                 model: data.Model,
-                columns: data.Columns);
+                columns: data.Columns,
+                hidden: data.Hidden);
             SetExtendedColumnValues(
                 context: context,
                 model: model,
@@ -517,6 +521,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 context: context,
                 view: view,
                 columnSorterHach: data.View.Sorters);
+            model.ReadOnly = Bool(
+                data: data.Model,
+                name: "ReadOnly");
             switch (ss?.ReferenceType)
             {
                 case "Issues":
@@ -588,6 +595,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         engine.AddHostObject("siteSettings", model.SiteSettings);
                         engine.AddHostObject("view", model.View);
                         engine.AddHostObject("items", model.Items);
+                        engine.AddHostObject("hidden", model.Hidden);
                         foreach (var script in scripts)
                         {
                             engine.Execute(script.Body);
@@ -661,8 +669,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return hide;
         }
 
-        public static bool CanUpdate(
+        public static bool CanEdit(
             this Column column,
+            Context context,
             BaseModel baseModel)
         {
             if (column == null)
@@ -671,12 +680,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             }
             if (baseModel == null || baseModel.ServerScriptModelRows?.Any() != true)
             {
-                return column.CanUpdate;
+                return column.CanEdit(context: context);
             }
             var serverScriptReadOnly = ReadOnly(
                 columnName: column.ColumnName,
                 serverScriptModelRows: baseModel?.ServerScriptModelRows);
-            var canUpdate = column.CanUpdate && !serverScriptReadOnly;
+            var canUpdate = column.CanEdit(context: context) && !serverScriptReadOnly;
             return canUpdate;
         }
 

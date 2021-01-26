@@ -146,6 +146,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             aggregations.AggregationCollection
                 .Where(o => o.Target.IsNullOrEmpty() || allowedColumns.Contains(o.Target))
                 .Where(o => o.GroupBy == "[NotGroupBy]" || allowedColumns.Contains(o.GroupBy))
+                .Where(o => ss.GetColumn(
+                    context: context,
+                    columnName: o.GroupBy)?.MultipleSelections != true)
                 .Where(o => o.Data.Count > 0)
                 .ForEach(aggregation =>
                 {

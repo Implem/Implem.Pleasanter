@@ -70,6 +70,9 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: invalid);
             }
+            var scriptValues = new ItemModel().SetByBeforeOpeningPageServerScript(
+                context: context,
+                ss: ss);
             return hb.Template(
                 context: context,
                 ss: ss,
@@ -82,6 +85,7 @@ namespace Implem.Pleasanter.Models
                 script: JavaScripts.ViewMode(viewMode),
                 userScript: ss.ViewModeScripts(context: context),
                 userStyle: ss.ViewModeStyles(context: context),
+                scriptValues: scriptValues,
                 action: () => hb
                     .Form(
                         attributes: new HtmlAttributes()
@@ -1229,7 +1233,10 @@ namespace Implem.Pleasanter.Models
             ss.SetColumnAccessControls(
                 context: context,
                 mine: resultModel.Mine(context: context));
-            resultModel.SetByBeforeOpeningPageServerScript(
+            resultModel.SetByWhenloadingRecordServerScript(
+                context: context,
+                ss: ss);
+            var scriptValues = resultModel.SetByBeforeOpeningPageServerScript(
                 context: context,
                 ss: ss);
             return editInDialog
@@ -1265,6 +1272,7 @@ namespace Implem.Pleasanter.Models
                         context: context, methodType: resultModel.MethodType),
                     userStyle: ss.EditorStyles(
                         context: context, methodType: resultModel.MethodType),
+                    scriptValues: scriptValues,
                     action: () => hb
                         .Editor(
                             context: context,
@@ -1397,6 +1405,7 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     verType: resultModel.VerType,
+                                    readOnly: resultModel.ReadOnly,
                                     updateButton: true,
                                     copyButton: true,
                                     moveButton: true,
@@ -4833,20 +4842,11 @@ namespace Implem.Pleasanter.Models
             }
             if (csv != null && count > 0)
             {
-                var idColumn = -1;
-                var columnHash = new Dictionary<int, Column>();
-                csv.Headers.Select((o, i) => new { Header = o, Index = i }).ForEach(data =>
-                {
-                    var column = ss.Columns
-                        .Where(o => o.LabelText == data.Header)
-                        .Where(o => o.TypeCs != "Attachments")
-                        .FirstOrDefault();
-                    if (column?.ColumnName == "ResultId")
-                    {
-                        idColumn = data.Index;
-                    }
-                    if (column != null) columnHash.Add(data.Index, column);
-                });
+                var columnHash = ImportUtilities.GetColumnHash(ss, csv);
+                var idColumn = columnHash
+                    .Where(o => o.Value.Column.ColumnName == "ResultId")
+                    .Select(o => new { Id = o.Key })
+                    .FirstOrDefault()?.Id ?? -1;
                 if (updatableImport && idColumn > -1)
                 {
                     var exists = ExistsLockedRecord(
@@ -4859,7 +4859,7 @@ namespace Implem.Pleasanter.Models
                         default: return exists.MessageJson(context: context);
                     }
                 }
-                var invalidColumn = Imports.ColumnValidate(context, ss, columnHash.Values.Select(o => o.ColumnName));
+                var invalidColumn = Imports.ColumnValidate(context, ss, columnHash.Values.Select(o => o.Column.ColumnName));
                 if (invalidColumn != null) return invalidColumn;
                 Repository.ExecuteNonQuery(
                     context: context,
@@ -4889,18 +4889,19 @@ namespace Implem.Pleasanter.Models
                         }
                     }
                     columnHash
-                        .Where(column => (column.Value.CanCreate && resultModel.ResultId == 0)
-                            || (column.Value.CanUpdate && resultModel.ResultId > 0))
+                        .Where(column => (column.Value.Column.CanCreate && resultModel.ResultId == 0)
+                            || (column.Value.Column.CanUpdate && resultModel.ResultId > 0))
                         .ForEach(column =>
                         {
                             var recordingData = ImportRecordingData(
                                 context: context,
-                                column: column.Value,
-                                value: data.Row.Count > column.Key
-                                    ? data.Row[column.Key]
-                                    : string.Empty,
+                                column: column.Value.Column,
+                                value: ImportUtilities.RecordingData(
+                                    columnHash: columnHash,
+                                    row: data.Row,
+                                    column: column),
                                 inheritPermission: ss.InheritPermission);
-                            switch (column.Value.ColumnName)
+                            switch (column.Value.Column.ColumnName)
                             {
                                 case "Title":
                                     resultModel.Title.Value = recordingData.ToString();
@@ -4937,7 +4938,7 @@ namespace Implem.Pleasanter.Models
                                 default:
                                     resultModel.Value(
                                         context: context,
-                                        columnName: column.Value.ColumnName,
+                                        columnName: column.Value.Column.ColumnName,
                                         value: recordingData);
                                     break;
                             }

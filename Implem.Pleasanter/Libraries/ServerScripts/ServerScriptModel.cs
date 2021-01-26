@@ -19,6 +19,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public readonly ServerScriptModelSiteSettings SiteSettings;
         public readonly ServerScriptModelView View = new ServerScriptModelView();
         public readonly ServerScriptModelApiItems Items;
+        public ServerScriptModelHidden Hidden;
         private readonly List<string> ChangeItemNames = new List<string>();
         private DateTime TimeOut;
 
@@ -84,6 +85,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             TimeOut = Parameters.Script.ServerScriptTimeOut == 0
                 ? DateTime.MaxValue
                 : DateTime.Now.AddMilliseconds(Parameters.Script.ServerScriptTimeOut);
+            Hidden = new ServerScriptModelHidden();
         }
 
         private void DataPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -233,10 +235,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             public string RawText { get; set; }
         }
 
-        public class ServerScriptModelRow
+        public class ServerScriptModelSiteSettings
         {
-            public string ExtendedRowCss { get; set; }
-            public Dictionary<string, ServerScriptModelColumn> Columns { get; set; }
+            public int? DefaultViewId { get; set; }
         }
 
         public class ServerScriptModelView
@@ -245,9 +246,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             public readonly ExpandoObject Sorters = new ExpandoObject();
         }
 
-        public class ServerScriptModelSiteSettings
+        public class ServerScriptModelRow
         {
-            public int? DefaultViewId { get; set; }
+            public string ExtendedRowCss { get; set; }
+            public Dictionary<string, ServerScriptModelColumn> Columns { get; set; }
+            public Dictionary<string, string> Hidden { get; set; }
         }
 
         public class ServerScriptModelApiItems
@@ -399,6 +402,31 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     view: view,
                     columnName: columnName,
                     function: function);
+            }
+        }
+
+        public class ServerScriptModelHidden
+        {
+            private Dictionary<string, string> data;
+
+            public ServerScriptModelHidden()
+            {
+                data = new Dictionary<string, string>();
+            }
+
+            public Dictionary<string, string> GetAll()
+            {
+                return data;
+            }
+
+            public string Get(string key = null)
+            {
+                return data[key];
+            }
+
+            public void Add(string key = null, object value = null)
+            {
+                data.Add(key, value.ToString());
             }
         }
     }

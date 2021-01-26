@@ -556,7 +556,10 @@ namespace Implem.Pleasanter.Models
             ss.SetColumnAccessControls(
                 context: context,
                 mine: wikiModel.Mine(context: context));
-            wikiModel.SetByBeforeOpeningPageServerScript(
+            wikiModel.SetByWhenloadingRecordServerScript(
+                context: context,
+                ss: ss);
+            var scriptValues = wikiModel.SetByBeforeOpeningPageServerScript(
                 context: context,
                 ss: ss);
             return editInDialog
@@ -592,6 +595,7 @@ namespace Implem.Pleasanter.Models
                         context: context, methodType: wikiModel.MethodType),
                     userStyle: ss.EditorStyles(
                         context: context, methodType: wikiModel.MethodType),
+                    scriptValues: scriptValues,
                     action: () => hb
                         .Editor(
                             context: context,

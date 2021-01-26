@@ -249,7 +249,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     rowModel = resultModel;
                     break;
             };
-            var serverScriptRowValues = rowModel?.SetByBeforeOpeningPageServerScript(
+            var serverScriptRowValues = rowModel?.SetByWhenloadingRecordServerScript(
                 context: context,
                 ss: ss);
             var extendedRowCss = serverScriptRowValues?.ExtendedRowCss;
@@ -325,7 +325,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: deptModel.Mine(context: context));
-                                    serverScriptValues = deptModel.SetByBeforeOpeningPageServerScript(
+                                    serverScriptValues = deptModel.SetByWhenloadingRecordServerScript(
                                         context: context,
                                         ss: ss);
                                 }
@@ -348,7 +348,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: groupModel.Mine(context: context));
-                                    serverScriptValues = groupModel.SetByBeforeOpeningPageServerScript(
+                                    serverScriptValues = groupModel.SetByWhenloadingRecordServerScript(
                                         context: context,
                                         ss: ss);
                                 }
@@ -371,7 +371,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: registrationModel.Mine(context: context));
-                                    serverScriptValues = registrationModel.SetByBeforeOpeningPageServerScript(
+                                    serverScriptValues = registrationModel.SetByWhenloadingRecordServerScript(
                                         context: context,
                                         ss: ss);
                                 }
@@ -394,7 +394,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: userModel.Mine(context: context));
-                                    serverScriptValues = userModel.SetByBeforeOpeningPageServerScript(
+                                    serverScriptValues = userModel.SetByWhenloadingRecordServerScript(
                                         context: context,
                                         ss: ss);
                                 }
@@ -420,7 +420,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: siteModel.Mine(context: context));
-                                    serverScriptValues = siteModel.SetByBeforeOpeningPageServerScript(
+                                    serverScriptValues = siteModel.SetByWhenloadingRecordServerScript(
                                         context: context,
                                         ss: ss);
                                 }
@@ -447,11 +447,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: issueModel.Mine(context: context));
-                                    serverScriptValues = issueModel.SetByBeforeOpeningPageServerScript(
+                                    serverScriptValues = issueModel.SetByWhenloadingRecordServerScript(
                                         context: context,
                                         ss: ss);
                                 }
-                                if (!issueModel.Locked && EditColumns.Get(column.ColumnName) && column.CanUpdate(baseModel: issueModel))
+                                if (!issueModel.Locked
+                                    && !issueModel.ReadOnly
+                                    && EditColumns.Get(column.ColumnName)
+                                    && column.CanEdit(
+                                        context: context,
+                                        baseModel: issueModel))
                                 {
                                     hb.Td(
                                         css: column.TextAlign == SiteSettings.TextAlignTypes.Right
@@ -494,11 +499,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: resultModel.Mine(context: context));
-                                    serverScriptValues = resultModel.SetByBeforeOpeningPageServerScript(
+                                    serverScriptValues = resultModel.SetByWhenloadingRecordServerScript(
                                         context: context,
                                         ss: ss);
                                 }
-                                if (!resultModel.Locked && EditColumns.Get(column.ColumnName) && column.CanUpdate(baseModel: resultModel))
+                                if (!resultModel.Locked
+                                    && !resultModel.ReadOnly
+                                    && EditColumns.Get(column.ColumnName)
+                                    && column.CanEdit(
+                                        context: context,
+                                        baseModel: resultModel))
                                 {
                                     hb.Td(
                                         css: column.TextAlign == SiteSettings.TextAlignTypes.Right

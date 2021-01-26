@@ -1,0 +1,29 @@
+﻿{
+    "Id": "WhenloadingRecord",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "When loading record"
+        },
+        {
+            "Language": "zh",
+            "Body": "载入记录时"
+        },
+        {
+            "Language": "ja",
+            "Body": "レコード読み込み時"
+        },
+        {
+            "Language": "de",
+            "Body": "Beim Laden des Datensatzes"
+        },
+        {
+            "Language": "ko",
+            "Body": "레코드를로드 할 때"
+        },
+        {
+            "Language": "es",
+            "Body": "Al cargar el registro"
+        }
+    ]
+}

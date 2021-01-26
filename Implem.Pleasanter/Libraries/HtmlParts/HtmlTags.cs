@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Html;
+﻿using Implem.DefinitionAccessor;
+using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Resources;
 using System;
 namespace Implem.Pleasanter.Libraries.HtmlParts
@@ -608,7 +609,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return _using
                 ? hb.Append(
                     tag: "form",
-                    attributes: attributes,
+                    attributes: attributes.AutoComplete(
+                        "off",
+                        Parameters.General.DisableAutoComplete),
                     action: action)
                 : hb;
         }

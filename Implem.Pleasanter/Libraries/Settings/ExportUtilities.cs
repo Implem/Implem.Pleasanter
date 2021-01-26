@@ -1,11 +1,13 @@
 ﻿using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Settings
 {
@@ -62,23 +64,76 @@ namespace Implem.Pleasanter.Libraries.Settings
                 export: export,
                 where: where,
                 view: view);
+            export.Columns
+                .Where(o => o.OutputClassColumn == true)
+                .Select(o => o.Column)
+                .Where(o => o.MultipleSelections == true)
+                .Where(o => o.Linked(withoutWiki: true))
+                .Where(o => o.CanRead)
+                .ForEach(column =>
+                {
+                    column.ChoiceHash = new Dictionary<string, Choice>();
+                    Repository.ExecuteTable(
+                        context: context,
+                        statements: Rds.SelectItems(
+                            column: Rds.ItemsColumn()
+                                .ReferenceId()
+                                .Title(),
+                            where: Rds.ItemsWhere()
+                                .SiteId_In(column.SiteSettings.Links.Where(o => o.ColumnName == column.Name).Select(o => o.SiteId))
+                                .ReferenceType("Sites", _operator: "<>"),
+                            orderBy: Rds.ItemsOrderBy()
+                                .Title()))
+                                    .AsEnumerable()
+                                    .ForEach(data => column.ChoiceHash.AddOrUpdate(
+                                        data.String("ReferenceId"),
+                                        new Choice(
+                                            value: data.String("ReferenceId"),
+                                            text: data.String("Title"))));
+                });
+            export.Columns
+                .Where(o => o.OutputClassColumn == true)
+                .Select(o => o.Column)
+                .Where(o => o.MultipleSelections == true)
+                .Where(o => o.Type == Column.Types.User)
+                .Where(o => o.CanRead)
+                .ForEach(column =>
+                {
+                    column.ChoiceHash = new Dictionary<string, Choice>();
+                    gridData.DataRows
+                        .SelectMany(dataRow => dataRow.String(column.ColumnName).Deserialize<List<int>>())
+                        .Distinct()
+                        .Select(userId => SiteInfo.User(context: context, userId: userId))
+                        .Where(user => !user.Anonymous())
+                        .OrderBy(user => user.Name)
+                        .ForEach(user => column.ChoiceHash.AddOrUpdate(
+                            user.Id.ToString(),
+                            new Choice(
+                                value: user.Id.ToString(),
+                                text: user.Name)));
+                });
             var csv = new System.Text.StringBuilder();
             if (export.Header == true)
             {
                 csv.Append(export.Columns
-                    .Where(o => o.Column.CanRead)
-                    .Where(o => o.Column.TypeCs != "Attachments")
+                    .ExportColumns()
                     .Select(column =>
-                        "\"" + column.GetLabelText() + "\"").Join(","), "\n");
+                        $"\"{column.GetLabelText()}\"").Join(","), "\n");
             }
             gridData.Csv(
                 context: context,
                 ss: ss,
                 csv: csv,
-                exportColumns: export.Columns
-                    .Where(o => o.Column.CanRead)
-                    .Where(o => o.Column.TypeCs != "Attachments"));
+                exportColumns: export.Columns.ExportColumns());
             return csv.ToString();
+        }
+
+        private static IEnumerable<ExportColumn> ExportColumns(this List<ExportColumn> columns)
+        {
+            return columns
+                .Where(o => o.Column.CanRead)
+                .Where(o => o.Column.TypeCs != "Attachments")
+                .SelectMany(o => o.NormalOrOutputClassColumns());
         }
 
         private static string Json(

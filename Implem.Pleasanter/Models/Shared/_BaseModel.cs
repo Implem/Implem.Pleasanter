@@ -92,6 +92,7 @@ namespace Implem.Pleasanter.Models
         public Dictionary<string, bool> SavedCheckHash = new Dictionary<string, bool>();
         public Dictionary<string, Attachments> AttachmentsHash = new Dictionary<string, Attachments>();
         public Dictionary<string, string> SavedAttachmentsHash = new Dictionary<string, string>();
+        public bool ReadOnly;
 
         public List<string> ColumnNames()
         {
@@ -679,17 +680,6 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public virtual void SetByAfterFormulaServerScript(Context context, SiteSettings ss)
-        {
-        }
-
-        public virtual ServerScriptModelRow SetByBeforeOpeningPageServerScript(
-            Context context,
-            SiteSettings ss)
-        {
-            return null;
-        }
-
         public void SetByWhenloadingSiteSettingsServerScript(
             Context context,
             SiteSettings ss)
@@ -712,6 +702,34 @@ namespace Implem.Pleasanter.Models
                 itemModel: null,
                 view: null,
                 where: script => script.WhenloadingSiteSettings == true);
+        }
+
+        public virtual void SetByAfterFormulaServerScript(Context context, SiteSettings ss)
+        {
+        }
+
+        public virtual ServerScriptModelRow SetByWhenloadingRecordServerScript(
+            Context context,
+            SiteSettings ss)
+        {
+            return null;
+        }
+
+        public ServerScriptModelRow SetByBeforeOpeningPageServerScript(
+            Context context,
+            SiteSettings ss)
+        {
+            var scriptValues = ServerScriptUtilities.Execute(
+                context: context,
+                ss: ss,
+                itemModel: null,
+                view: null,
+                where: script => script.BeforeOpeningPage == true);
+            if (scriptValues != null)
+            {
+                ServerScriptModelRows.Add(scriptValues);
+            }
+            return scriptValues;
         }
     }
 
@@ -748,6 +766,23 @@ namespace Implem.Pleasanter.Models
                 column.GetDefaultInput(context: context).ToString() != Body);
         }
 
+        public override ServerScriptModelRow SetByWhenloadingRecordServerScript(
+            Context context,
+            SiteSettings ss)
+        {
+            var scriptValues = ServerScriptUtilities.Execute(
+                context: context,
+                ss: ss,
+                itemModel: this,
+                view: null,
+                where: script => script.WhenloadingRecord == true);
+            if (scriptValues != null)
+            {
+                ServerScriptModelRows.Add(scriptValues);
+            }
+            return scriptValues;
+        }
+
         public void SetByBeforeFormulaServerScript(Context context, SiteSettings ss)
         {
             ServerScriptUtilities.Execute(
@@ -766,23 +801,6 @@ namespace Implem.Pleasanter.Models
                 itemModel: this,
                 view: null,
                 where: script => script.AfterFormula == true);
-        }
-
-        public override ServerScriptModelRow SetByBeforeOpeningPageServerScript(
-            Context context,
-            SiteSettings ss)
-        {
-            var scriptValues = ServerScriptUtilities.Execute(
-                context: context,
-                ss: ss,
-                itemModel: this,
-                view: null,
-                where: script => script.BeforeOpeningPage == true);
-            if (scriptValues != null)
-            {
-                ServerScriptModelRows.Add(scriptValues);
-            }
-            return scriptValues;
         }
 
         public void SetByAfterUpdateServerScript(

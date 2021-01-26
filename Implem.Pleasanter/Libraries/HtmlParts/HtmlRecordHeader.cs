@@ -30,7 +30,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Notes(
                         context: context,
                         ss: ss,
-                        verType: baseModel.VerType)
+                        verType: baseModel.VerType,
+                        readOnly: baseModel.ReadOnly)
                 : hb;
         }
     }

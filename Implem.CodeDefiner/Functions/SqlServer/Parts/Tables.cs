@@ -145,7 +145,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
                 return
                     Columns.HasChanges(sourceTableName, columnDefinitionCollection, rdsColumnCollection) ||
                     Constraints.HasChanges(sourceTableName, columnDefinitionCollection) ||
-                    Indexes.HasChanges(generalTableName, sourceTableName, tableType, columnDefinitionCollection);
+                    Indexes.HasChanges(generalTableName, sourceTableName, tableType);
             }
         }
 

@@ -12,6 +12,7 @@ using Implem.Pleasanter.Models;
 using System;
 using System.Linq;
 using System.Net;
+using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlTemplates
@@ -36,6 +37,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string script = null,
             string userScript = null,
             string userStyle = null,
+            ServerScriptModelRow scriptValues = null,
             Action action = null)
         {
             return hb.Container(
@@ -68,7 +70,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         useNavigationMenu: useNavigationMenu)
                     .HiddenData(
                         context: context,
-                        ss: ss)
+                        ss: ss,
+                        scriptValues: scriptValues)
                     .VideoDialog(
                         context: context,
                         ss: ss)
@@ -523,7 +526,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
 
         private static HtmlBuilder HiddenData(
-            this HtmlBuilder hb, Context context, SiteSettings ss = null)
+            this HtmlBuilder hb, Context context, SiteSettings ss = null, ServerScriptModelRow scriptValues = null)
         {
             return !context.Ajax
                 ? hb
@@ -552,6 +555,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         })
                         .ToJson())
                     .HiddenSiteSettings(context: context, ss: ss)
+                    .HiddenServerScript(scriptValues: scriptValues)
                     .ExtendedSql(context: context)
                     .Hidden(
                         controlId: "data-validation-maxlength-type", 
@@ -570,6 +574,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Hidden(controlId: "ReferenceType", value: ss?.ReferenceType)
                     .Hidden(controlId: "Columns", value: ss?.ColumnsJson())
                 : hb;
+        }
+
+        private static HtmlBuilder HiddenServerScript(
+            this HtmlBuilder hb, ServerScriptModelRow scriptValues)
+        {
+            scriptValues?.Hidden?.ForEach(hidden => hb
+                .Hidden(controlId: hidden.Key, value: hidden.Value));
+            return hb;
         }
 
         public static string Error(

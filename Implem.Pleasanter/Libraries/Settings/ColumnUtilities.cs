@@ -67,7 +67,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             };
         }
 
-
         public static Dictionary<string, string> SearchTypeOptions(Context context)
         {
             return new Dictionary<string, string>

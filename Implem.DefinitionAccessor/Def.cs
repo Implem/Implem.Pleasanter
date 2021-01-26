@@ -440,6 +440,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_PushState_Item": Code.Model_PushState_Item = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PushState_Item, definitionRow, CodeXls); break;
                     case "Model_SetTitle": Code.Model_SetTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetTitle, definitionRow, CodeXls); break;
                     case "Model_SetTitleExec": Code.Model_SetTitleExec = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetTitleExec, definitionRow, CodeXls); break;
+                    case "Model_SetByWhenloadingRecordServerScript": Code.Model_SetByWhenloadingRecordServerScript = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByWhenloadingRecordServerScript, definitionRow, CodeXls); break;
                     case "Model_Matched": Code.Model_Matched = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched, definitionRow, CodeXls); break;
                     case "Model_Matched_Incomplete": Code.Model_Matched_Incomplete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched_Incomplete, definitionRow, CodeXls); break;
                     case "Model_Matched_Own": Code.Model_Matched_Own = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched_Own, definitionRow, CodeXls); break;
@@ -3201,7 +3202,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_ui_dialog": Css._dot_ui_dialog = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_dialog, definitionRow, CssXls); break;
                     case "_dot_ui_icon_dot_a": Css._dot_ui_icon_dot_a = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_icon_dot_a, definitionRow, CssXls); break;
                     case "_dot_ui_spinner": Css._dot_ui_spinner = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_spinner, definitionRow, CssXls); break;
-                    case "_dot_ui_multiselect": Css._dot_ui_multiselect = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_multiselect, definitionRow, CssXls); break;
+                    case "_dot_ui_widget_dot_ui_state_default_dot_ui_multiselect": Css._dot_ui_widget_dot_ui_state_default_dot_ui_multiselect = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_widget_dot_ui_state_default_dot_ui_multiselect, definitionRow, CssXls); break;
                     case "_dot_ui_multiselect_checkboxes": Css._dot_ui_multiselect_checkboxes = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_multiselect_checkboxes, definitionRow, CssXls); break;
                     case "_dot_ui_multiselect_checkboxes_space_input": Css._dot_ui_multiselect_checkboxes_space_input = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_multiselect_checkboxes_space_input, definitionRow, CssXls); break;
                     case "_dot_ui_corner_all_dot_ui_state_hover": Css._dot_ui_corner_all_dot_ui_state_hover = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_corner_all_dot_ui_state_hover, definitionRow, CssXls); break;
@@ -7356,6 +7357,7 @@ namespace Implem.DefinitionAccessor
         public string Model_PushState_Item;
         public string Model_SetTitle;
         public string Model_SetTitleExec;
+        public string Model_SetByWhenloadingRecordServerScript;
         public string Model_Matched;
         public string Model_Matched_Incomplete;
         public string Model_Matched_Own;
@@ -8012,6 +8014,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_PushState_Item = new CodeDefinition();
         public CodeDefinition Model_SetTitle = new CodeDefinition();
         public CodeDefinition Model_SetTitleExec = new CodeDefinition();
+        public CodeDefinition Model_SetByWhenloadingRecordServerScript = new CodeDefinition();
         public CodeDefinition Model_Matched = new CodeDefinition();
         public CodeDefinition Model_Matched_Incomplete = new CodeDefinition();
         public CodeDefinition Model_Matched_Own = new CodeDefinition();
@@ -10734,7 +10737,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_ui_dialog;
         public string _dot_ui_icon_dot_a;
         public string _dot_ui_spinner;
-        public string _dot_ui_multiselect;
+        public string _dot_ui_widget_dot_ui_state_default_dot_ui_multiselect;
         public string _dot_ui_multiselect_checkboxes;
         public string _dot_ui_multiselect_checkboxes_space_input;
         public string _dot_ui_corner_all_dot_ui_state_hover;
@@ -11251,7 +11254,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_ui_dialog = new CssDefinition();
         public CssDefinition _dot_ui_icon_dot_a = new CssDefinition();
         public CssDefinition _dot_ui_spinner = new CssDefinition();
-        public CssDefinition _dot_ui_multiselect = new CssDefinition();
+        public CssDefinition _dot_ui_widget_dot_ui_state_default_dot_ui_multiselect = new CssDefinition();
         public CssDefinition _dot_ui_multiselect_checkboxes = new CssDefinition();
         public CssDefinition _dot_ui_multiselect_checkboxes_space_input = new CssDefinition();
         public CssDefinition _dot_ui_corner_all_dot_ui_state_hover = new CssDefinition();

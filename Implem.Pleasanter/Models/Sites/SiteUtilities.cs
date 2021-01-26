@@ -70,6 +70,9 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: invalid);
             }
+            var scriptValues = new ItemModel().SetByBeforeOpeningPageServerScript(
+                context: context,
+                ss: ss);
             return hb.Template(
                 context: context,
                 ss: ss,
@@ -82,6 +85,7 @@ namespace Implem.Pleasanter.Models
                 script: JavaScripts.ViewMode(viewMode),
                 userScript: ss.ViewModeScripts(context: context),
                 userStyle: ss.ViewModeStyles(context: context),
+                scriptValues: scriptValues,
                 action: () => hb
                     .Form(
                         attributes: new HtmlAttributes()
@@ -5373,7 +5377,12 @@ namespace Implem.Pleasanter.Models
                                         .FieldCheckBox(
                                             controlId: "UseSearch",
                                             labelText: Displays.UseSearch(context: context),
-                                            _checked: column.UseSearch == true);
+                                            _checked: column.UseSearch == true)
+                                        .FieldCheckBox(
+                                            controlId: "MultipleSelections",
+                                            labelText: Displays.MultipleSelections(context: context),
+                                            _checked: column.MultipleSelections == true,
+                                            _using: column.TypeName == "nvarchar");
                                     break;
                                 default:
                                     break;
@@ -8541,6 +8550,12 @@ namespace Implem.Pleasanter.Models
                         optionCollection: DateTimeOptions(context: context),
                         selectedValue: exportColumn.GetFormat(),
                         _using: exportColumn.Column.TypeName == "datetime")
+                    .FieldCheckBox(
+                        controlId: "ExportColumnOutputClassColumn",
+                        controlCss: " always-send",
+                        labelText: Displays.OutputClassColumn(context: context),
+                        _checked: exportColumn.OutputClassColumn == true,
+                        _using: exportColumn.Column.HasChoices())
                     .Hidden(
                         controlId: "ExportColumnId",
                         css: " always-send",
@@ -9541,7 +9556,7 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.WhenViewProcessing(context: context)))
                     .Th(action: () => hb
-                        .Text(text: Displays.BeforeOpeningPages(context: context)))
+                        .Text(text: Displays.WhenloadingRecord(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.BeforeFormulas(context: context)))
                     .Th(action: () => hb
@@ -9557,7 +9572,9 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.BeforeDelete(context: context)))
                     .Th(action: () => hb
-                        .Text(text: Displays.AfterDelete(context: context)))));
+                        .Text(text: Displays.AfterDelete(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.BeforeOpeningPage(context: context)))));
         }
 
         /// <summary>
@@ -9593,7 +9610,7 @@ namespace Implem.Pleasanter.Models
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
-                                    _using: script.BeforeOpeningPage == true))
+                                    _using: script.WhenloadingRecord == true))
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
@@ -9625,7 +9642,11 @@ namespace Implem.Pleasanter.Models
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
-                                    _using: script.AfterDelete == true)))));
+                                    _using: script.AfterDelete == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.BeforeOpeningPage == true)))));
         }
 
         /// <summary>
@@ -9685,11 +9706,11 @@ namespace Implem.Pleasanter.Models
                                 labelText: Displays.WhenViewProcessing(context: context),
                                 _checked: script.WhenViewProcessing == true)
                             .FieldCheckBox(
-                                controlId: "ServerScriptBeforeOpeningPage",
+                                controlId: "ServerScriptWhenloadingRecord",
                                 fieldCss: outputDestinationCss,
                                 controlCss: " always-send",
-                                labelText: Displays.BeforeOpeningPages(context: context),
-                                _checked: script.BeforeOpeningPage == true)
+                                labelText: Displays.WhenloadingRecord(context: context),
+                                _checked: script.WhenloadingRecord == true)
                             .FieldCheckBox(
                                 controlId: "ServerScriptBeforeFormula",
                                 fieldCss: outputDestinationCss,
@@ -9737,7 +9758,13 @@ namespace Implem.Pleasanter.Models
                                 fieldCss: outputDestinationCss,
                                 controlCss: " always-send",
                                 labelText: Displays.AfterDelete(context: context),
-                                _checked: script.AfterDelete == true))
+                                _checked: script.AfterDelete == true)
+                            .FieldCheckBox(
+                                controlId: "ServerScriptBeforeOpeningPage",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.BeforeOpeningPage(context: context),
+                                _checked: script.BeforeOpeningPage == true))
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(

@@ -1,5 +1,4 @@
 ﻿using Implem.Pleasanter.Libraries.Requests;
-
 namespace Implem.Pleasanter.Libraries.Settings
 {
     public class Section

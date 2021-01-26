@@ -388,6 +388,8 @@
     <Compile Include="Libraries\Server\TenantCache.cs" />
     <Compile Include="Libraries\Server\UpdateMonitor.cs" />
     <Compile Include="Libraries\Requests\Context.cs" />
+    <Compile Include="Libraries\Settings\ImportColumn.cs" />
+    <Compile Include="Libraries\Settings\ImportUtilities.cs" />
     <Compile Include="Libraries\Settings\ServerScript.cs" />
     <Compile Include="Libraries\Settings\Section.cs" />
     <Compile Include="Libraries\Settings\JoinStack.cs" />
@@ -1659,7 +1661,7 @@
     <Content Include="App_Data\Displays\BeforeFormulas.json" />
     <Content Include="App_Data\Displays\AfterFormulas.json" />
     <Content Include="App_Data\Displays\IncorrectServerScript.json" />
-    <Content Include="App_Data\Displays\BeforeOpeningPages.json" />
+    <Content Include="App_Data\Displays\BeforeOpeningPage.json" />
     <Content Include="App_Data\Displays\UnauthorizedRequest.json" />
     <Content Include="App_Data\Displays\CannotDeletePermissionInherited.json" />
     <Content Include="App_Data\Parameters\Script.json" />
@@ -1679,6 +1681,9 @@
     <Content Include="App_Data\Displays\FullTextTypes.json" />
     <Content Include="App_Data\Displays\None.json" />
     <Content Include="App_Data\Displays\ValueAndDisplayName.json" />
+    <Content Include="App_Data\Displays\WhenloadingRecord.json" />
+    <Content Include="App_Data\Displays\MultipleSelections.json" />
+    <Content Include="App_Data\Displays\OutputClassColumn.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

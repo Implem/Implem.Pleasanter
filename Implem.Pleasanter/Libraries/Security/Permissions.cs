@@ -563,17 +563,19 @@ namespace Implem.Pleasanter.Libraries.Security
             Context context,
             BaseModel baseModel)
         {
-            var canUpdate = self.CanUpdate(baseModel: baseModel);
+            var canEdit = self.CanEdit(
+                context: context,
+                baseModel: baseModel);
             switch (context.Action)
             {
                 case "new":
-                    return self.CanCreate
+                    return self.CanCreate && canEdit
                         ? ColumnPermissionTypes.Update
                         : self.CanRead
                             ? ColumnPermissionTypes.Read
                             : ColumnPermissionTypes.Deny;
                 default:
-                    return self.CanRead && canUpdate
+                    return self.CanRead && canEdit
                         ? ColumnPermissionTypes.Update
                         : self.CanRead
                             ? ColumnPermissionTypes.Read
