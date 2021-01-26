@@ -5402,10 +5402,10 @@ namespace Implem.Pleasanter.Models
                                         labelText: Displays.NoWrap(context: context),
                                         _checked: column.NoWrap == true)
                                     .FieldCheckBox(
-                                            controlId: "Hide",
-                                            labelText: Displays.Hide(context: context),
-                                            _checked: column.Hide == true,
-                                            _using: !column.Id_Ver)
+                                        controlId: "Hide",
+                                        labelText: Displays.Hide(context: context),
+                                        _checked: column.Hide == true,
+                                        _using: !column.Id_Ver)
                                     .FieldTextBox(
                                         controlId: "ExtendedFieldCss",
                                         fieldCss: "field-normal",
