@@ -116,7 +116,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (export.Header == true)
             {
                 csv.Append(export.Columns
-                    .SelectMany(o => o.NormalOrOutputClassColumns())
+                    .ExportColumns()
                     .Select(column =>
                         $"\"{column.GetLabelText()}\"").Join(","), "\n");
             }
@@ -124,8 +124,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                 context: context,
                 ss: ss,
                 csv: csv,
-                exportColumns: export.Columns.SelectMany(o => o.NormalOrOutputClassColumns()));
+                exportColumns: export.Columns.ExportColumns());
             return csv.ToString();
+        }
+
+        private static IEnumerable<ExportColumn> ExportColumns(this List<ExportColumn> columns)
+        {
+            return columns
+                .Where(o => o.Column.CanRead)
+                .Where(o => o.Column.TypeCs != "Attachments")
+                .SelectMany(o => o.NormalOrOutputClassColumns());
         }
 
         private static string Json(
