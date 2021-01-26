@@ -790,7 +790,8 @@ namespace Implem.Pleasanter.Models
         public static string EditorJson(Context context, SiteSettings ss, int tenantId)
         {
             return EditorResponse(context, ss, new TenantModel(
-                context, ss, tenantId)).ToJson();
+                context, ss, tenantId,
+                formData: context.QueryStrings.Bool("control-auto-postback") ? context.Forms : null)).ToJson();
         }
 
         private static ResponseCollection EditorResponse(
@@ -808,7 +809,7 @@ namespace Implem.Pleasanter.Models
                 .SetMemory("formChanged", false)
                 .Invoke("setCurrentIndex")
                 .Message(message)
-                .ClearFormData();
+                .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"));
         }
 
         private static List<int> GetSwitchTargets(Context context, SiteSettings ss, int tenantId)

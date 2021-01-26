@@ -885,6 +885,7 @@ namespace Implem.Pleasanter.Models
                         ReferenceId.ToString(),
                         "New"
                     }))
+                .Events("on_editor_load")
                 .ToJson();
         }
 
