@@ -924,6 +924,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Join(" ");
         }
 
+        public bool CanEdit(Context context)
+        {
+            switch (context.Action)
+            {
+                case "new": return CanCreate;
+                default: return CanRead;
+            }
+        }
+
         private void SelectColumns(
             SqlColumnCollection sql,
             string tableName,
