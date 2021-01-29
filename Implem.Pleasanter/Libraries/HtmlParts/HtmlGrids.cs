@@ -87,9 +87,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             hb.Th(
                                 css: column.CellCss(),
                                 action: () => hb
-                                .Text(text: Displays.Get(
-                                    context: context,
-                                    id: column.GridLabelText)));
+                                    .Text(text: Displays.Get(
+                                        context: context,
+                                        id: column.GridLabelText)));
                         }
                     });
                 });
@@ -451,7 +451,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         context: context,
                                         ss: ss);
                                 }
-                                if (!issueModel.Locked && EditColumns.Get(column.ColumnName) && column.CanUpdate(baseModel: issueModel))
+                                if (!issueModel.Locked
+                                    && EditColumns.Get(column.ColumnName)
+                                    && column.CanEdit(
+                                        context: context,
+                                        baseModel: issueModel))
                                 {
                                     hb.Td(
                                         css: column.TextAlign == SiteSettings.TextAlignTypes.Right
@@ -498,7 +502,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         context: context,
                                         ss: ss);
                                 }
-                                if (!resultModel.Locked && EditColumns.Get(column.ColumnName) && column.CanUpdate(baseModel: resultModel))
+                                if (!resultModel.Locked
+                                    && EditColumns.Get(column.ColumnName)
+                                    && column.CanEdit(
+                                        context: context,
+                                        baseModel: resultModel))
                                 {
                                     hb.Td(
                                         css: column.TextAlign == SiteSettings.TextAlignTypes.Right

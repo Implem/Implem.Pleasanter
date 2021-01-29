@@ -81,6 +81,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Raw(column.ExtendedHtmlBeforeField
                         + serverScriptModelColumns
                             ?.Select(scriptColumn => scriptColumn.ExtendedHtmlBeforeField)
+                            .Where(o => !o.IsNullOrEmpty())
                             .Join())
                     .SwitchField(
                         context: context,
@@ -123,6 +124,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Raw(column.ExtendedHtmlAfterField
                         + serverScriptModelColumns
                             ?.Select(scriptColumn => scriptColumn.ExtendedHtmlAfterField)
+                            .Where(o => !o.IsNullOrEmpty())
                             .Join())
                     .Raw(HtmlHtmls.ExtendedHtmls(
                         context: context,
@@ -684,24 +686,24 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return _using
                 ? hb.Field(
-                        fieldId: fieldId,
-                        fieldCss: fieldCss,
-                        fieldDescription: fieldDescription,
+                    fieldId: fieldId,
+                    fieldCss: fieldCss,
+                    fieldDescription: fieldDescription,
                     controlOnly: controlOnly,
-                        actionLabel: () => hb
-                            .Label(
-                                controlId: controlId,
-                                labelCss: labelCss,
-                                labelText: labelText,
-                                labelTitle: labelTitle,
+                    actionLabel: () => hb
+                        .Label(
+                            controlId: controlId,
+                            labelCss: labelCss,
+                            labelText: labelText,
+                            labelTitle: labelTitle,
                             labelRequired: labelRequired,
                             _using: !controlOnly),
-                        actionControl: () => hb
-                            .Control(
-                                controlAction: controlAction,
-                                fieldDescription: fieldDescription,
-                                controlContainerCss: controlContainerCss,
-                                tagControlContainer: tagControlContainer),
+                    actionControl: () => hb
+                        .Control(
+                            controlAction: controlAction,
+                            fieldDescription: fieldDescription,
+                            controlContainerCss: controlContainerCss,
+                            tagControlContainer: tagControlContainer),
                     actionOptions: actionOptions)
                 : hb;
         }
