@@ -26,15 +26,13 @@ namespace Implem.Libraries.Utilities
         public static int Quarter(this DateTime self)
         {
             return self.Month < FirstMonth
-                ? (self.Month - FirstMonth + 13) / 3 + 1
-                : (self.Month - FirstMonth + 1) / 3 + 1;
+                ? (self.Month - FirstMonth + 12) / 3 + 1
+                : (self.Month - FirstMonth) / 3 + 1;
         }
 
-        public static int Half(this DateTime self)
+        public static bool FirstHalf(this DateTime self)
         {
-            return self.Month < FirstMonth
-                ? (self.Month - FirstMonth + 13) / 6
-                : (self.Month - FirstMonth + 1) / 6;
+            return self.AddMonths(FirstMonth * -1).Month <= 6;
         }
 
         public static int Fy(this DateTime self)
