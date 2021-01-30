@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.Html;
@@ -125,9 +126,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             switch (context.Action)
             {
-                case "histories": return 1;
-                case "deletehistory": return 1;
-                default: return 3;
+                case "histories": return Parameters.General.CommentDisplayLimitHistories;
+                case "deletehistory": return Parameters.General.CommentDisplayLimitHistories;
+                default: return Parameters.General.CommentDisplayLimit;
             }
         }
 

@@ -4429,6 +4429,7 @@ namespace Implem.Pleasanter.Models
                 afterUpdate: context.Forms.Bool("ServerScriptAfterUpdate"),
                 beforeDelete: context.Forms.Bool("ServerScriptBeforeDelete"),
                 afterDelete: context.Forms.Bool("ServerScriptAfterDelete"),
+                beforeOpeningRow: context.Forms.Bool("ServerScriptBeforeOpeningRow"),
                 beforeOpeningPage: context.Forms.Bool("ServerScriptBeforeOpeningPage"),
                 body: context.Forms.Data("ServerScriptBody"));
             var invalid = ServerScriptValidators.OnCreating(
@@ -4455,6 +4456,7 @@ namespace Implem.Pleasanter.Models
                 afterUpdate: script.AfterUpdate ?? default,
                 beforeDelete: script.BeforeDelete ?? default,
                 afterDelete: script.AfterDelete ?? default,
+                beforeOpeningRow: script.BeforeOpeningRow ?? default,
                 beforeOpeningPage: script.BeforeOpeningPage ?? default,
                 body: script.Body));
             res
@@ -4484,6 +4486,7 @@ namespace Implem.Pleasanter.Models
                 afterUpdate: context.Forms.Bool("ServerScriptAfterUpdate"),
                 beforeDelete: context.Forms.Bool("ServerScriptBeforeDelete"),
                 afterDelete: context.Forms.Bool("ServerScriptAfterDelete"),
+                beforeOpeningRow: context.Forms.Bool("ServerScriptBeforeOpeningRow"),
                 beforeOpeningPage: context.Forms.Bool("ServerScriptBeforeOpeningPage"),
                 body: context.Forms.Data("ServerScriptBody"));
             var invalid = ServerScriptValidators.OnUpdating(
@@ -4511,6 +4514,7 @@ namespace Implem.Pleasanter.Models
                     afterUpdate: script.AfterUpdate ?? default,
                     beforeDelete: script.BeforeDelete ?? default,
                     afterDelete: script.AfterDelete ?? default,
+                    beforeOpeningRow: script.BeforeOpeningRow ?? default,
                     beforeOpeningPage: script.BeforeOpeningPage ?? default,
                     body: script.Body);
             res

@@ -715,7 +715,14 @@ namespace Implem.Pleasanter.Models
             return null;
         }
 
-        public ServerScriptModelRow SetByBeforeOpeningPageServerScript(
+        public virtual ServerScriptModelRow SetByBeforeOpeningRowServerScript(
+            Context context,
+            SiteSettings ss)
+        {
+            return null;
+        }
+
+        public virtual ServerScriptModelRow SetByBeforeOpeningPageServerScript(
             Context context,
             SiteSettings ss)
         {
@@ -873,6 +880,40 @@ namespace Implem.Pleasanter.Models
                 itemModel: this,
                 view: null,
                 where: script => script.BeforeDelete == true);
+        }
+
+        public override ServerScriptModelRow SetByBeforeOpeningRowServerScript(
+            Context context,
+            SiteSettings ss)
+        {
+            var scriptValues = ServerScriptUtilities.Execute(
+                context: context,
+                ss: ss,
+                itemModel: this,
+                view: null,
+                where: script => script.BeforeOpeningRow == true);
+            if (scriptValues != null)
+            {
+                ServerScriptModelRows.Add(scriptValues);
+            }
+            return scriptValues;
+        }
+
+        public override ServerScriptModelRow SetByBeforeOpeningPageServerScript(
+            Context context,
+            SiteSettings ss)
+        {
+            var scriptValues = ServerScriptUtilities.Execute(
+                context: context,
+                ss: ss,
+                itemModel: this,
+                view: null,
+                where: script => script.BeforeOpeningPage == true);
+            if (scriptValues != null)
+            {
+                ServerScriptModelRows.Add(scriptValues);
+            }
+            return scriptValues;
         }
     }
 }

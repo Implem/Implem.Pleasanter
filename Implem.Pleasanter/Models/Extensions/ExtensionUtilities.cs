@@ -41,17 +41,43 @@ namespace Implem.Pleasanter.Models
             {
                 return ApiResults.BadRequest(context: context);
             }
+            var data = ExecuteDataSet(
+                context: context,
+                name: extendedApi.Name,
+                _params: extendedApi.Params);
+            if (data == null)
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            return ApiResults.Get(
+                statusCode: 200,
+                limitPerDate: 0,
+                limitRemaining: 0,
+                response: new
+                {
+                    Data = data
+                });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static Dictionary<string, List<Dictionary<string, object>>> ExecuteDataSet(
+            Context context,
+            string name,
+            Dictionary<string, object> _params)
+        {
             var extendedSql = Parameters.ExtendedSqls
                 ?.Where(o => o.Api)
-                .Where(o => o.Name == extendedApi.Name)
+                .Where(o => o.Name == name)
                 .ExtensionWhere<ParameterAccessor.Parts.ExtendedSql>(context: context)
                 .FirstOrDefault();
             if (extendedSql == null)
             {
-                return ApiResults.BadRequest(context: context);
+                return null;
             }
             var param = new SqlParamCollection();
-            extendedApi.Params?.ForEach(part =>
+            _params?.ForEach(part =>
                 param.Add(
                     variableName: part.Key,
                     value: part.Value));
@@ -77,14 +103,7 @@ namespace Implem.Pleasanter.Models
                 }
                 data.AddIfNotConainsKey(dataTable.TableName, table);
             }
-            return ApiResults.Get(
-                statusCode: 200,
-                limitPerDate: 0,
-                limitRemaining: 0,
-                response: new
-                {
-                    Data = data
-                });
+            return data;
         }
 
         /// <summary>

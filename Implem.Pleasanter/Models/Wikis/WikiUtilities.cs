@@ -556,9 +556,6 @@ namespace Implem.Pleasanter.Models
             ss.SetColumnAccessControls(
                 context: context,
                 mine: wikiModel.Mine(context: context));
-            wikiModel.SetByWhenloadingRecordServerScript(
-                context: context,
-                ss: ss);
             var scriptValues = wikiModel.SetByBeforeOpeningPageServerScript(
                 context: context,
                 ss: ss);
@@ -1260,7 +1257,8 @@ namespace Implem.Pleasanter.Models
                 .SetMemory("formChanged", false)
                 .Invoke("setCurrentIndex")
                 .Message(message)
-                .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"));
+                .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"))
+                .Log(context.GetLog());
         }
 
         public static ResponseCollection FieldResponse(

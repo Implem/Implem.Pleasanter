@@ -43,6 +43,8 @@ namespace Implem.ParameterAccessor.Parts
         public string SolutionBackupExcludeDirectories;
         public int SizeToUseTextArea;
         public int CompletionCode;
+        public int CommentDisplayLimitHistories;
+        public int CommentDisplayLimit;
         public int WorkValueHeight;
         public int WorkValueTextTop;
         public int ProgressRateWidth;

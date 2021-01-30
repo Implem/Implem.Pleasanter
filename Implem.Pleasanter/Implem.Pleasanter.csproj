@@ -1345,6 +1345,7 @@
     <Content Include="Scripts\FieldSelectable.js" />
     <Content Include="Scripts\BulkUpdate.js" />
     <Content Include="Scripts\LockEvents.js" />
+    <Content Include="Scripts\log.js" />
     <Content Include="Scripts\Plugins\jquery-3.1.0.min.js" />
     <Content Include="Scripts\SetDateRangeDialog.js" />
     <Content Include="Scripts\RelatingColumns.js" />
@@ -1684,6 +1685,9 @@
     <Content Include="App_Data\Displays\WhenloadingRecord.json" />
     <Content Include="App_Data\Displays\MultipleSelections.json" />
     <Content Include="App_Data\Displays\OutputClassColumn.json" />
+    <Content Include="App_Data\Displays\ExtendedControlCss.json" />
+    <Content Include="App_Data\Displays\BeforeOpeningCells.json" />
+    <Content Include="App_Data\Displays\BeforeOpeningRow.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

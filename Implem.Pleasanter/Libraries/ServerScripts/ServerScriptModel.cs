@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Dynamic;
 using System.Linq;
+using System.Text;
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public class ServerScriptModel : IDisposable
@@ -20,6 +21,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public readonly ServerScriptModelView View = new ServerScriptModelView();
         public readonly ServerScriptModelApiItems Items;
         public ServerScriptModelHidden Hidden;
+        public ServerScriptModelExtendedSql ExtendedSql;
         private readonly List<string> ChangeItemNames = new List<string>();
         private DateTime TimeOut;
 
@@ -74,6 +76,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 contentType: context.ContentType,
                 onTesting: onTesting,
                 scriptDepth: context.ServerScriptDepth,
+                logBuilder: context.LogBuilder,
                 controlId: context.Forms.ControlId());
             SiteSettings = new ServerScriptModelSiteSettings
             {
@@ -86,6 +89,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 ? DateTime.MaxValue
                 : DateTime.Now.AddMilliseconds(Parameters.Script.ServerScriptTimeOut);
             Hidden = new ServerScriptModelHidden();
+            ExtendedSql = new ServerScriptModelExtendedSql(
+                context: context,
+                onTesting: onTesting);
         }
 
         private void DataPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -110,6 +116,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public class ServerScriptModelContext
         {
+            public StringBuilder LogBuilder;
             public readonly ServerScriptModelContextServerScript ServerScript;
             public readonly string FormStringRaw;
             public readonly string FormString;
@@ -174,8 +181,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 string contentType,
                 bool onTesting,
                 long scriptDepth,
+                StringBuilder logBuilder,
                 string controlId)
             {
+                LogBuilder = logBuilder;
                 ServerScript = new ServerScriptModelContextServerScript(
                     onTesting: onTesting,
                     scriptDepth: scriptDepth);
@@ -210,6 +219,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 ContentType = contentType;
                 ControlId = controlId;
             }
+
+            public void Log(object log)
+            {
+                LogBuilder.AppendLine(log?.ToString() ?? string.Empty);
+            }
         }
 
         public class ServerScriptModelContextServerScript
@@ -217,7 +231,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             public readonly bool OnTesting;
             public readonly long ScriptDepth;
 
-            public ServerScriptModelContextServerScript(bool onTesting, long scriptDepth)
+            public ServerScriptModelContextServerScript(
+                bool onTesting,
+                long scriptDepth)
             {
                 OnTesting = onTesting;
                 ScriptDepth = scriptDepth;
@@ -427,6 +443,56 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             public void Add(string key = null, object value = null)
             {
                 data.Add(key, value.ToString());
+            }
+        }
+
+        public class ServerScriptModelExtendedSql
+        {
+            private readonly Context Context;
+            private readonly bool OnTesting;
+
+            public ServerScriptModelExtendedSql(Context context, bool onTesting)
+            {
+                Context = context;
+                OnTesting = onTesting;
+            }
+
+            public Dictionary<string, List<Dictionary<string, object>>> ExecuteDataSet(string name, object _params = null)
+            {
+                var dataSet = ExtensionUtilities.ExecuteDataSet(
+                    context: Context,
+                    name: name,
+                    _params: _params?.ToString().Deserialize<Dictionary<string, object>>());
+                return dataSet;
+            }
+
+            public List<Dictionary<string, object>> ExecuteTable(string name, object _params = null)
+            {
+                var dataTable = ExecuteDataSet(
+                    name: name,
+                    _params: _params)
+                        ?.FirstOrDefault()
+                        .Value;
+                return dataTable;
+            }
+
+            public Dictionary<string, object> ExecuteRow(string name, object _params = null)
+            {
+                var dataRow = ExecuteTable(
+                    name: name,
+                    _params: _params)
+                        ?.FirstOrDefault();
+                return dataRow;
+            }
+
+            public object ExecuteScalar(string name, object _params = null)
+            {
+                var scalar = ExecuteRow(
+                    name: name,
+                    _params: _params)
+                        ?.FirstOrDefault()
+                        .Value;
+                return scalar;
             }
         }
     }

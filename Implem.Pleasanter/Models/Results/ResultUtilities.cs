@@ -361,6 +361,7 @@ namespace Implem.Pleasanter.Models
                 .Val("#GridColumns", columns.Select(o => o.ColumnName).ToJson())
                 .Paging("#Grid")
                 .Message(message)
+                .Log(context.GetLog())
                 .ToJson();
         }
 
@@ -549,6 +550,7 @@ namespace Implem.Pleasanter.Models
                     .Message(
                         message: Messages.NotFound(context: context),
                         target: "row_" + resultId)
+                    .Log(context.GetLog())
                     .ToJson()
                 : res
                     .ReplaceAll(
@@ -565,6 +567,7 @@ namespace Implem.Pleasanter.Models
                             editRow: true,
                             checkRow: false,
                             idColumn: "ResultId"))
+                    .Log(context.GetLog())
                     .ToJson();
         }
 
@@ -1233,9 +1236,6 @@ namespace Implem.Pleasanter.Models
             ss.SetColumnAccessControls(
                 context: context,
                 mine: resultModel.Mine(context: context));
-            resultModel.SetByWhenloadingRecordServerScript(
-                context: context,
-                ss: ss);
             var scriptValues = resultModel.SetByBeforeOpeningPageServerScript(
                 context: context,
                 ss: ss);
@@ -2077,6 +2077,7 @@ namespace Implem.Pleasanter.Models
                         editInDialog: editInDialog))
                     .Invoke("openEditorDialog")
                     .Events("on_editor_load")
+                    .Log(context.GetLog())
                 : new ResultsResponseCollection(resultModel)
                     .Response("id", resultModel.ResultId.ToString())
                     .Invoke("clearDialogs")
@@ -2088,7 +2089,8 @@ namespace Implem.Pleasanter.Models
                     .Invoke("initRelatingColumnEditor")
                     .Message(message)
                     .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"))
-                    .Events("on_editor_load");
+                    .Events("on_editor_load")
+                    .Log(context.GetLog());
         }
 
         private static List<long> GetSwitchTargets(Context context, SiteSettings ss, long resultId, long siteId)

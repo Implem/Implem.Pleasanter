@@ -217,7 +217,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         context: context,
                         column: column))
                 : new Dictionary<string, bool>();
-            BaseItemModel rowModel = null;
+            ServerScriptModelRow serverScriptRowValues = null;
             switch (ss.ReferenceType)
             {
                 case "Issues":
@@ -232,7 +232,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ss.SetColumnAccessControls(
                         context: context,
                         mine: issueModel.Mine(context: context));
-                    rowModel = issueModel;
+                    serverScriptRowValues = issueModel?.SetByBeforeOpeningRowServerScript(
+                        context: context,
+                        ss: ss);
                     break;
                 case "Results":
                     var resultModel = new ResultModel(
@@ -246,12 +248,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ss.SetColumnAccessControls(
                         context: context,
                         mine: resultModel.Mine(context: context));
-                    rowModel = resultModel;
+                    serverScriptRowValues = resultModel?.SetByBeforeOpeningRowServerScript(
+                        context: context,
+                        ss: ss);
                     break;
             };
-            var serverScriptRowValues = rowModel?.SetByWhenloadingRecordServerScript(
-                context: context,
-                ss: ss);
             var extendedRowCss = serverScriptRowValues?.ExtendedRowCss;
             extendedRowCss = extendedRowCss.IsNullOrEmpty() ? string.Empty : " " + extendedRowCss;
             return hb.Tr(
@@ -306,7 +307,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     var sites = new Dictionary<string, SiteModel>();
                     var issues = new Dictionary<string, IssueModel>();
                     var results = new Dictionary<string, ResultModel>();
-                    ServerScriptModelRow serverScriptValues = null;
                     columns.ForEach(column =>
                     {
                         var key = column.TableName();
@@ -325,9 +325,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: deptModel.Mine(context: context));
-                                    serverScriptValues = deptModel.SetByWhenloadingRecordServerScript(
-                                        context: context,
-                                        ss: ss);
                                 }
                                 hb.TdValue(
                                     context: context,
@@ -348,9 +345,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: groupModel.Mine(context: context));
-                                    serverScriptValues = groupModel.SetByWhenloadingRecordServerScript(
-                                        context: context,
-                                        ss: ss);
                                 }
                                 hb.TdValue(
                                     context: context,
@@ -371,9 +365,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: registrationModel.Mine(context: context));
-                                    serverScriptValues = registrationModel.SetByWhenloadingRecordServerScript(
-                                        context: context,
-                                        ss: ss);
                                 }
                                 hb.TdValue(
                                     context: context,
@@ -394,9 +385,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: userModel.Mine(context: context));
-                                    serverScriptValues = userModel.SetByWhenloadingRecordServerScript(
-                                        context: context,
-                                        ss: ss);
                                 }
                                 hb.TdValue(
                                     context: context,
@@ -420,9 +408,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: siteModel.Mine(context: context));
-                                    serverScriptValues = siteModel.SetByWhenloadingRecordServerScript(
-                                        context: context,
-                                        ss: ss);
                                 }
                                 hb.TdValue(
                                     context: context,
@@ -447,9 +432,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: issueModel.Mine(context: context));
-                                    serverScriptValues = issueModel.SetByWhenloadingRecordServerScript(
-                                        context: context,
-                                        ss: ss);
                                 }
                                 if (!issueModel.Locked
                                     && !issueModel.ReadOnly
@@ -477,7 +459,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         ss: column.SiteSettings,
                                         column: column,
                                         issueModel: issueModel,
-                                        serverScriptValues: serverScriptValues
+                                        serverScriptValues: serverScriptRowValues
                                             ?.Columns
                                             ?.Get(column?.ColumnName));
                                 }
@@ -499,9 +481,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: resultModel.Mine(context: context));
-                                    serverScriptValues = resultModel.SetByWhenloadingRecordServerScript(
-                                        context: context,
-                                        ss: ss);
                                 }
                                 if (!resultModel.Locked
                                     && !resultModel.ReadOnly
@@ -529,7 +508,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         ss: column.SiteSettings,
                                         column: column,
                                         resultModel: resultModel,
-                                        serverScriptValues: serverScriptValues
+                                        serverScriptValues: serverScriptRowValues
                                             ?.Columns
                                             ?.Get(column?.ColumnName));
                                 }

@@ -1034,6 +1034,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.ExtendedFieldCss = column.ExtendedFieldCss;
                     }
+                    if (column.ExtendedControlCss?.Trim().IsNullOrEmpty() == false)
+                    {
+                        enabled = true;
+                        newColumn.ExtendedControlCss = column.ExtendedControlCss;
+                    }
                     if (column.Section?.Trim().IsNullOrEmpty() == false)
                     {
                         enabled = true;
@@ -3142,6 +3147,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "Hide": column.Hide = value.ToBool(); break;
                 case "ExtendedCellCss": column.ExtendedCellCss = value; break;
                 case "ExtendedFieldCss": column.ExtendedFieldCss = value; break;
+                case "ExtendedControlCss": column.ExtendedControlCss = value; break;
                 case "Section": column.Section = value; break;
                 case "GridDesign":
                     column.GridDesign = LabelTextToColumnName(column, value);

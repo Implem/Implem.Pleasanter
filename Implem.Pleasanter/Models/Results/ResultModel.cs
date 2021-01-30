@@ -2385,9 +2385,6 @@ namespace Implem.Pleasanter.Models
                 default: AccessStatus = Databases.AccessStatuses.Overlap; break;
             }
             SetChoiceHash(context: context, ss: ss);
-            SetByWhenloadingRecordServerScript(
-                context: context,
-                ss: ss);
         }
 
         public void SetChoiceHash(Context context, SiteSettings ss)

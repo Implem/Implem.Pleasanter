@@ -769,6 +769,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string BeforeOpeningRow(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BeforeOpeningRow",
+                data: data);
+        }
+
         public static string BeforeUpdate(
             Context context,
             params string[] data)
@@ -2626,6 +2636,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ExtendedCellCss",
+                data: data);
+        }
+
+        public static string ExtendedControlCss(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ExtendedControlCss",
                 data: data);
         }
 

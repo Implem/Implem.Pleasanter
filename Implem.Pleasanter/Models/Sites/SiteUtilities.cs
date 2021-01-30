@@ -299,6 +299,7 @@ namespace Implem.Pleasanter.Models
                 .Val("#GridColumns", columns.Select(o => o.ColumnName).ToJson())
                 .Paging("#Grid")
                 .Message(message)
+                .Log(context.GetLog())
                 .ToJson();
         }
 
@@ -389,6 +390,7 @@ namespace Implem.Pleasanter.Models
                     .Message(
                         message: Messages.NotFound(context: context),
                         target: "row_" + siteId)
+                    .Log(context.GetLog())
                     .ToJson()
                 : res
                     .ReplaceAll(
@@ -405,6 +407,7 @@ namespace Implem.Pleasanter.Models
                             editRow: true,
                             checkRow: false,
                             idColumn: "SiteId"))
+                    .Log(context.GetLog())
                     .ToJson();
         }
 
@@ -902,7 +905,8 @@ namespace Implem.Pleasanter.Models
                 .SetMemory("formChanged", false)
                 .Invoke("setCurrentIndex")
                 .Message(message)
-                .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"));
+                .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"))
+                .Log(context.GetLog());
         }
 
         private static HtmlBuilder ReferenceType(
@@ -5414,7 +5418,12 @@ namespace Implem.Pleasanter.Models
                                         controlId: "ExtendedFieldCss",
                                         fieldCss: "field-normal",
                                         labelText: Displays.ExtendedFieldCss(context: context),
-                                        text: column.ExtendedFieldCss);
+                                        text: column.ExtendedFieldCss)
+                                    .FieldTextBox(
+                                        controlId: "ExtendedControlCss",
+                                        fieldCss: "field-normal",
+                                        labelText: Displays.ExtendedControlCss(context: context),
+                                        text: column.ExtendedControlCss);
                             }
                             hb.FieldDropDown(
                                 context: context,
@@ -9574,6 +9583,8 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.AfterDelete(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.BeforeOpeningRow(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.BeforeOpeningPage(context: context)))));
         }
 
@@ -9643,6 +9654,10 @@ namespace Implem.Pleasanter.Models
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
                                     _using: script.AfterDelete == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.BeforeOpeningRow == true))
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
@@ -9759,6 +9774,12 @@ namespace Implem.Pleasanter.Models
                                 controlCss: " always-send",
                                 labelText: Displays.AfterDelete(context: context),
                                 _checked: script.AfterDelete == true)
+                            .FieldCheckBox(
+                                controlId: "ServerScriptBeforeOpeningRow",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.BeforeOpeningRow(context: context),
+                                _checked: script.BeforeOpeningRow == true)
                             .FieldCheckBox(
                                 controlId: "ServerScriptBeforeOpeningPage",
                                 fieldCss: outputDestinationCss,

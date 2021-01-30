@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -22,6 +23,7 @@ namespace Implem.Pleasanter.Libraries.Requests
     public class Context
     {
         public Stopwatch Stopwatch = new Stopwatch();
+        public StringBuilder LogBuilder = new StringBuilder();
         public bool Authenticated;
         public bool SwitchUser;
         public string SessionGuid = Strings.NewGuid();
@@ -566,6 +568,11 @@ namespace Implem.Pleasanter.Libraries.Requests
                 default:
                     return false;
             }
+        }
+
+        public string GetLog()
+        {
+            return LogBuilder?.ToString();
         }
     }
 }

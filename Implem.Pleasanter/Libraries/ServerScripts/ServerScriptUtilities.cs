@@ -596,6 +596,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         engine.AddHostObject("view", model.View);
                         engine.AddHostObject("items", model.Items);
                         engine.AddHostObject("hidden", model.Hidden);
+                        engine.AddHostObject("extendedSql", model.ExtendedSql);
                         foreach (var script in scripts)
                         {
                             engine.Execute(script.Body);
@@ -692,9 +693,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public static Context CreateContext(Context context, long id, string apiRequestBody)
         {
             var createdContext = new Context();
+            createdContext.LogBuilder = context.LogBuilder;
             createdContext.Id = id;
             createdContext.ApiRequestBody = apiRequestBody;
-            createdContext.PermissionHash = Security.Permissions.Get(context: createdContext);
+            createdContext.PermissionHash = Permissions.Get(context: createdContext);
             createdContext.ServerScriptDepth = context.ServerScriptDepth + 1;
             return createdContext;
         }

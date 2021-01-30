@@ -1,5 +1,5 @@
 ﻿$(function () {
-    $('.field-section.expand').click(function () {
+    $(document).on('click','.field-section.expand',function () {
         var $section = $('#' + $(this).attr('for'));
         $section.toggle();
         if ($section.css('display') === 'none') {

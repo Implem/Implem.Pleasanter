@@ -100,6 +100,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             fieldCss: fieldCss)
                                 + (column.TextAlign == SiteSettings.TextAlignTypes.Right
                                     ? " right-align"
+                                    : string.Empty)
+                                + (!column.ExtendedControlCss.IsNullOrEmpty()
+                                    ? " " + column.ExtendedControlCss
                                     : string.Empty),
                         labelCss: labelCss,
                         controlContainerCss: controlContainerCss,

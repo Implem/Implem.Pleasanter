@@ -558,6 +558,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .HiddenServerScript(scriptValues: scriptValues)
                     .ExtendedSql(context: context)
                     .Hidden(
+                        controlId: "Log",
+                        value: (new { Log = context.GetLog() }).ToJson())
+                    .Hidden(
                         controlId: "data-validation-maxlength-type", 
                         value: Parameters.Validation.MaxLengthCountType)
                     .Hidden(
