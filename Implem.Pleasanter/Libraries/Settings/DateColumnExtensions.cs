@@ -139,7 +139,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 hash.Add(
                     Period(timePeriod),
-                    new ControlData((current.Half() == 0
+                    new ControlData((current.FirstHalf()
                         ? Displays.Half1(
                             context: context,
                             data: current.Fy().ToString())
