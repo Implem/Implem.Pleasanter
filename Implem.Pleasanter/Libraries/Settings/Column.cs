@@ -370,13 +370,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                                         {
                                             Value = o.Split_1st(),
                                             Text = o.Split_2nd(),
-                                            TextMini = o.Split_3rd()
+                                            TextMini = o.Split_3rd(),
+                                            CssClass = o.Split_4th()
                                         })
                                         .ForEach(o =>
                                             AddToChoiceHash(
                                                 value: o.Value,
                                                 text: o.Text,
-                                                textMini: o.TextMini));
+                                                textMini: o.TextMini,
+                                                cssClass: o.CssClass));
                                 }
                             }
                         }
@@ -475,14 +477,19 @@ namespace Implem.Pleasanter.Libraries.Settings
                     o.ColumnName == ColumnName && o.SiteId == fromSiteId);
         }
 
-        private void AddToChoiceHash(string value, string text, string textMini = null)
+        private void AddToChoiceHash(
+            string value,
+            string text,
+            string textMini = null,
+            string cssClass = null)
         {
             if (!ChoiceHash.Keys.Contains(value))
             {
                 ChoiceHash.Add(value, new Choice(
                     value: value,
                     text: text,
-                    textMini: textMini));
+                    textMini: textMini,
+                    cssClass: cssClass));
             }
         }
 
