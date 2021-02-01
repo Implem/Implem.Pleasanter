@@ -33,6 +33,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string SamlThumbprint;
         public string SamlLoginUrl;
         public int? AllowOriginalLogin;
+        public bool? AllowNewFeatures;
 
         public ContractSettings()
         {
