@@ -2799,7 +2799,8 @@ namespace Implem.Pleasanter.Models
                                         .A(
                                             href: "#ServerScriptsSettingsEditor",
                                             text: Displays.ServerScript(context: context)),
-                                    _using: context.ContractSettings.Script != false
+                                    _using: context.ContractSettings.NewFeatures()
+                                        && context.ContractSettings.Script != false
                                         && Parameters.Script.ServerScript != false)
                                 .Li(
                                     action: () => hb
@@ -3739,7 +3740,8 @@ namespace Implem.Pleasanter.Models
                         .Id("ServerScriptDialog")
                         .Class("dialog")
                         .Title(Displays.ServerScript(context: context)),
-                    _using: context.ContractSettings.Script != false
+                    _using: context.ContractSettings.NewFeatures()
+                        && context.ContractSettings.Script != false
                         && Parameters.Script.ServerScript != false)
                 .Div(
                     attributes: new HtmlAttributes()
@@ -5120,7 +5122,8 @@ namespace Implem.Pleasanter.Models
                                             }
                                         },
                                         selectedValue: column.ViewerSwitchingType.ToInt().ToString(),
-                                        _using: column.ControlType == "MarkDown")
+                                        _using: context.ContractSettings.NewFeatures()
+                                            && column.ControlType == "MarkDown")
                                     .FieldCheckBox(
                                         controlId: "ValidateRequired",
                                         labelText: Displays.Required(context: context),
@@ -5386,7 +5389,8 @@ namespace Implem.Pleasanter.Models
                                             controlId: "MultipleSelections",
                                             labelText: Displays.MultipleSelections(context: context),
                                             _checked: column.MultipleSelections == true,
-                                            _using: column.TypeName == "nvarchar");
+                                            _using: context.ContractSettings.NewFeatures()
+                                                && column.TypeName == "nvarchar");
                                     break;
                                 default:
                                     break;
@@ -5404,7 +5408,8 @@ namespace Implem.Pleasanter.Models
                                     .FieldCheckBox(
                                         controlId: "AutoPostBack",
                                         labelText: Displays.AutoPostBack(context: context),
-                                        _checked: column.AutoPostBack == true)
+                                        _checked: column.AutoPostBack == true,
+                                        _using: context.ContractSettings.NewFeatures())
                                     .FieldCheckBox(
                                         controlId: "NoWrap",
                                         labelText: Displays.NoWrap(context: context),
@@ -5423,7 +5428,8 @@ namespace Implem.Pleasanter.Models
                                         controlId: "ExtendedControlCss",
                                         fieldCss: "field-normal",
                                         labelText: Displays.ExtendedControlCss(context: context),
-                                        text: column.ExtendedControlCss);
+                                        text: column.ExtendedControlCss,
+                                        _using: context.ContractSettings.NewFeatures());
                             }
                             hb.FieldDropDown(
                                 context: context,
@@ -6547,7 +6553,14 @@ namespace Implem.Pleasanter.Models
                         action: "SynchronizeFormulas",
                         method: "put",
                         confirm: Displays.ConfirmSynchronize(context: context)))
-                .EditFormula(context: context, ss: ss));
+                .EditFormula(context: context, ss: ss)
+                .FieldCheckBox(
+                        controlId: "OutputFormulaLogs",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.OutputLog(context: context),
+                        _checked: ss.OutputFormulaLogs == true,
+                        _using: context.ContractSettings.NewFeatures(),
+                        labelPositionIsRight: true));
         }
 
         /// <summary>
@@ -9477,7 +9490,8 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder ServerScriptsSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            if (context.ContractSettings.Script == false
+            if (!context.ContractSettings.NewFeatures()
+                || context.ContractSettings.Script == false
                 || Parameters.Script.ServerScript == false) return hb;
             return hb.FieldSet(id: "ServerScriptsSettingsEditor", action: () => hb
                 .Div(css: "command-left", action: () => hb

@@ -177,6 +177,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? UseFiltersArea;
         public bool? UseGridHeaderFilters;
         public bool? UseRelatingColumnsOnFilter;
+        public bool? OutputFormulaLogs;
         public string TitleSeparator;
         public SearchTypes? SearchType;
         public SaveViewTypes? SaveViewType;
@@ -298,6 +299,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             UseFiltersArea = UseFiltersArea ?? true;
             UseGridHeaderFilters = UseGridHeaderFilters ?? false;
             UseRelatingColumnsOnFilter = UseRelatingColumnsOnFilter ?? false;
+            OutputFormulaLogs = OutputFormulaLogs ?? false;
             SearchType = SearchType ?? SearchTypes.PartialMatch;
             SaveViewType = SaveViewType ?? SaveViewTypes.Session;
         }
@@ -741,6 +743,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (UseRelatingColumnsOnFilter == true)
             {
                 ss.UseRelatingColumnsOnFilter = UseRelatingColumnsOnFilter;
+            }
+            if(OutputFormulaLogs == true)
+            {
+                ss.OutputFormulaLogs = OutputFormulaLogs;
             }
             if (ImageLibPageSize != Parameters.General.ImageLibPageSize)
             {
@@ -2990,6 +2996,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "UseFiltersArea": UseFiltersArea = value.ToBool(); break;
                 case "UseGridHeaderFilters": UseGridHeaderFilters = value.ToBool(); break;
                 case "UseRelatingColumnsOnFilter": UseRelatingColumnsOnFilter = value.ToBool(); break;
+                case "OutputFormulaLogs": OutputFormulaLogs = value.ToBool(); break;
                 case "ImageLibPageSize": ImageLibPageSize = value.ToInt(); break;
                 case "SearchType": SearchType = (SearchTypes)value.ToInt(); break;
                 case "SaveViewType": SaveViewType = (SaveViewTypes)value.ToInt(); break;

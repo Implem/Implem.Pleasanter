@@ -379,6 +379,7 @@
     <Compile Include="Libraries\Security\Defenses.cs" />
     <Compile Include="Libraries\Security\Permission.cs" />
     <Compile Include="Libraries\ServerScripts\ServerScriptModel.cs" />
+    <Compile Include="Libraries\ServerScripts\ServerScriptModelNorificationModel.cs" />
     <Compile Include="Libraries\ServerScripts\ServerScriptModelApiModel.cs" />
     <Compile Include="Libraries\ServerScripts\ServerScriptUtilities.cs" />
     <Compile Include="Libraries\ServerScripts\ServerScriptValidators.cs" />
@@ -1687,6 +1688,7 @@
     <Content Include="App_Data\Displays\OutputClassColumn.json" />
     <Content Include="App_Data\Displays\ExtendedControlCss.json" />
     <Content Include="App_Data\Displays\BeforeOpeningRow.json" />
+    <Content Include="App_Data\Displays\OutputLog.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

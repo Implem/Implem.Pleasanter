@@ -57,16 +57,39 @@ namespace Implem.Pleasanter.Libraries.Extensions
         {
             if (column.HasChoices())
             {
-                var choiceParts = column.ChoiceParts(
-                    context: context,
-                    selectedValues: value,
-                    type: ExportColumn.Types.TextMini);
-                return hb.Td(
-                    css: column.CellCss(serverScriptValues?.ExtendedCellCss),
-                    action: () => hb
-                        .Text(text: column.MultipleSelections == true
-                            ? choiceParts.Join(", ")
-                            : choiceParts.FirstOrDefault()));
+                if (column.MultipleSelections == true)
+                {
+                    var choiceParts = column.ChoiceParts(
+                        context: context,
+                        selectedValues: value,
+                        type: ExportColumn.Types.TextMini);
+                    return hb.Td(
+                        css: column.CellCss(serverScriptValues?.ExtendedCellCss),
+                        action: () => hb
+                            .P(action: () => hb
+                                .Text(text: column.MultipleSelections == true
+                                    ? choiceParts.Join(", ")
+                                    : choiceParts.FirstOrDefault())));
+                }
+                else
+                {
+                    column.AddToChoiceHash(
+                        context: context,
+                        value: value);
+                    var choice = column.Choice(
+                        value,
+                        nullCase: value.IsNullOrEmpty()
+                            ? null
+                            : "? " + value);
+                    return hb.Td(
+                        css: column.CellCss(serverScriptValues?.ExtendedCellCss),
+                        action: () => hb.P(
+                            attributes: new HtmlAttributes()
+                                .Class(choice.CssClass)
+                                .Style(choice.Style),
+                            action: () => hb
+                                .Text(choice.TextMini)));
+                }
             }
             else
             {

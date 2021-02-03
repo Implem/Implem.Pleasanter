@@ -13,5 +13,6 @@
         public bool ShowStartGuide;
         public bool Demo;
         public int DemoUsagePeriod;
+        public bool RestrictNewFeatures;
     }
 }

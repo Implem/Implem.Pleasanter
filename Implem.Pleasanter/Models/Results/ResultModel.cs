@@ -1931,6 +1931,12 @@ namespace Implem.Pleasanter.Models
                             value: value);
                         break;
                 }
+                if (ss.OutputFormulaLogs == true)
+                {
+                    context.LogBuilder?.AppendLine($"formulaSet: {formulaSet.GetRecordingData().ToJson()}");
+                    context.LogBuilder?.AppendLine($"formulaSource: {data.ToJson()}");
+                    context.LogBuilder?.AppendLine($"formulaResult: {{\"{columnName}\":{value}}}");
+                }
             });
             SetByAfterFormulaServerScript(
                 context: context,

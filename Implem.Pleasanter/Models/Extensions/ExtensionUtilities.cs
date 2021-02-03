@@ -84,7 +84,9 @@ namespace Implem.Pleasanter.Models
             var dataSet = Repository.ExecuteDataSet(
                 context: context,
                 statements: new SqlStatement(
-                    commandText: extendedSql.CommandText,
+                    commandText: extendedSql.CommandText
+                        .Replace("{{SiteId}}", context.SiteId.ToString())
+                        .Replace("{{Id}}", context.Id.ToString()),
                     param: param));
             var data = new Dictionary<string, List<Dictionary<string, object>>>();
             foreach (DataTable dataTable in dataSet.Tables)

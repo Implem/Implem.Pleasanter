@@ -715,7 +715,7 @@ namespace Implem.Pleasanter.Models
             return null;
         }
 
-        public virtual ServerScriptModelRow SetByBeforeOpeningRowServerScript(
+       public virtual ServerScriptModelRow SetByBeforeOpeningRowServerScript(
             Context context,
             SiteSettings ss)
         {

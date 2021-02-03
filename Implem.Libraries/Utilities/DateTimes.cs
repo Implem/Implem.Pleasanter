@@ -32,7 +32,7 @@ namespace Implem.Libraries.Utilities
 
         public static bool FirstHalf(this DateTime self)
         {
-            return self.AddMonths(FirstMonth * -1).Month <= 6;
+            return self.AddMonths((FirstMonth - 1) * -1).Month <= 6;
         }
 
         public static int Fy(this DateTime self)

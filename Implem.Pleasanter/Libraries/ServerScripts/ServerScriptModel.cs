@@ -3,6 +3,8 @@ using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Mails;
 using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
@@ -22,6 +24,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public readonly ServerScriptModelApiItems Items;
         public ServerScriptModelHidden Hidden;
         public ServerScriptModelExtendedSql ExtendedSql;
+        public ServerScriptModelNotification Notification;
         private readonly List<string> ChangeItemNames = new List<string>();
         private DateTime TimeOut;
 
@@ -80,7 +83,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 controlId: context.Forms.ControlId());
             SiteSettings = new ServerScriptModelSiteSettings
             {
-                DefaultViewId = ss?.GridView
+                DefaultViewId = ss?.GridView,
+                Sections = ss?.Sections
             };
             Items = new ServerScriptModelApiItems(
                 context: context,
@@ -92,6 +96,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             ExtendedSql = new ServerScriptModelExtendedSql(
                 context: context,
                 onTesting: onTesting);
+            Notification = new ServerScriptModelNotification(
+                context: context,
+                ss: ss);
         }
 
         private void DataPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -254,6 +261,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public class ServerScriptModelSiteSettings
         {
             public int? DefaultViewId { get; set; }
+            public List<Section> Sections{ get; set; }
         }
 
         public class ServerScriptModelView
@@ -493,6 +501,35 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         ?.FirstOrDefault()
                         .Value;
                 return scalar;
+            }
+        }
+
+        public class ServerScriptModelNotification
+        {
+            private readonly Context Context;
+            private readonly SiteSettings SiteSettings;
+
+            public ServerScriptModelNotification(Context context, SiteSettings ss)
+            {
+                Context = context;
+                SiteSettings = ss;
+            }
+
+            public ServerScriptModelNorificationModel New()
+            {
+                var norification = new ServerScriptModelNorificationModel(
+                    context: Context,
+                    ss: SiteSettings);
+                return norification;
+            }
+
+            public ServerScriptModelNorificationModel Get(int Id)
+            {
+                var norification = new ServerScriptModelNorificationModel(
+                    context: Context,
+                    ss: SiteSettings,
+                    Id: Id);
+                return norification;
             }
         }
     }

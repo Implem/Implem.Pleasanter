@@ -218,40 +218,49 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         column: column))
                 : new Dictionary<string, bool>();
             ServerScriptModelRow serverScriptRowValues = null;
+            var depts = new Dictionary<string, DeptModel>();
+            var groups = new Dictionary<string, GroupModel>();
+            var registrations = new Dictionary<string, RegistrationModel>();
+            var users = new Dictionary<string, UserModel>();
+            var sites = new Dictionary<string, SiteModel>();
+            var issues = new Dictionary<string, IssueModel>();
+            var results = new Dictionary<string, ResultModel>();
             switch (ss.ReferenceType)
             {
-                case "Issues":
-                    var issueModel = new IssueModel(
-                        context: context,
-                        ss: ss,
-                        dataRow: dataRow,
-                        formData: editRow
-                            ? formDataSet?.FirstOrDefault(o =>
-                                o.Id == dataRow.Long("IssueId"))?.Data
-                            : null);
-                    ss.SetColumnAccessControls(
-                        context: context,
-                        mine: issueModel.Mine(context: context));
-                    serverScriptRowValues = issueModel?.SetByBeforeOpeningRowServerScript(
-                        context: context,
-                        ss: ss);
-                    break;
-                case "Results":
-                    var resultModel = new ResultModel(
-                        context: context,
-                        ss: ss,
-                        dataRow: dataRow,
-                        formData: editRow
-                            ? formDataSet?.FirstOrDefault(o =>
-                                o.Id == dataRow.Long("ResultId"))?.Data
-                            : null);
-                    ss.SetColumnAccessControls(
-                        context: context,
-                        mine: resultModel.Mine(context: context));
-                    serverScriptRowValues = resultModel?.SetByBeforeOpeningRowServerScript(
-                        context: context,
-                        ss: ss);
-                    break;
+                    case "Issues":
+                        var issueModel = new IssueModel(
+                            context: context,
+                            ss: ss,
+                            dataRow: dataRow,
+                            formData: editRow
+                                ? formDataSet?.FirstOrDefault(o =>
+                                    o.Id == dataRow.Long("IssueId"))?.Data
+                                : null);
+                        ss.SetColumnAccessControls(
+                            context: context,
+                            mine: issueModel.Mine(context: context));
+                        serverScriptRowValues = issueModel?.SetByBeforeOpeningRowServerScript(
+                            context: context,
+                            ss: ss);
+                        issues.Add("Issues", issueModel);
+                        break;
+                    case "Results":
+                        var resultModel = new ResultModel(
+                            context: context,
+                            ss: ss,
+                            dataRow: dataRow,
+                            formData: editRow
+                                ? formDataSet?.FirstOrDefault(o =>
+                                    o.Id == dataRow.Long("ResultId"))?.Data
+                                : null);
+                        ss.SetColumnAccessControls(
+                            context: context,
+                            mine: resultModel.Mine(context: context));
+                        serverScriptRowValues = resultModel?.SetByBeforeOpeningRowServerScript(
+                            context: context,
+                            ss: ss);
+                        results.Add("Results", resultModel);
+                        break;
             };
             var extendedRowCss = serverScriptRowValues?.ExtendedRowCss;
             extendedRowCss = extendedRowCss.IsNullOrEmpty() ? string.Empty : " " + extendedRowCss;
@@ -300,13 +309,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 dataId: dataId.ToString(),
                                 _using: !isHistory));
                     }
-                    var depts = new Dictionary<string, DeptModel>();
-                    var groups = new Dictionary<string, GroupModel>();
-                    var registrations = new Dictionary<string, RegistrationModel>();
-                    var users = new Dictionary<string, UserModel>();
-                    var sites = new Dictionary<string, SiteModel>();
-                    var issues = new Dictionary<string, IssueModel>();
-                    var results = new Dictionary<string, ResultModel>();
                     columns.ForEach(column =>
                     {
                         var key = column.TableName();
