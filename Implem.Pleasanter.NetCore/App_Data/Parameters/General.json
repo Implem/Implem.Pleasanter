@@ -39,6 +39,8 @@
     "SolutionBackupExcludeDirectories": "\\Backups,\\Histories,\\BinaryStorage,\\App_Data\\Logs,\\Temp,\\packages,\\bin,\\obj,\\PublishProfiles,\\BuildProcessTemplates,\\Parameters\\CustomDefinitions,\\Parameters\\ExtendedColumns",
     "SizeToUseTextArea": 1025,
     "CompletionCode": 900,
+    "CommentDisplayLimitHistories": 1,
+    "CommentDisplayLimit": 3,
     "WorkValueHeight": 40,
     "WorkValueTextTop": 13,
     "ProgressRateWidth": 50,
