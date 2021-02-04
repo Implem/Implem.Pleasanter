@@ -2,21 +2,21 @@
     $.validator.addMethod(
         'c_num',
         function (value, element) {
-            return this.optional(element) || /^(-)?(¥|\\|\$)?[\d,.]+$/.test(value);
+           return this.optional(element) || /^(-)?(¥|\\|\$)?[\d,.]+$/.test(value);
         }
     );
     $.validator.addMethod(
         'c_min_num',
         function (value, element, params) {
             return this.optional(element) ||
-                parseFloat(value.replace(/[\uC2A5|\u005C,]/g, '')) >= parseFloat(params);
+                parseFloat(value.replace(/[\uC2A5|\u005C,¥]/g, '')) >= parseFloat(params);
         }
     );
     $.validator.addMethod(
         'c_max_num',
         function (value, element, params) {
             return this.optional(element) ||
-                parseFloat(value.replace(/[\uC2A5|\u005C,]/g, '')) <= parseFloat(params);
+                parseFloat(value.replace(/[\uC2A5|\u005C,¥]/g, '')) <= parseFloat(params);
         }
     );
     $.validator.addMethod(
