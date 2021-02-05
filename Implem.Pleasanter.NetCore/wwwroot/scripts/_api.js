@@ -123,4 +123,4 @@ $p.apiSendMailUrl = function (id) {
 
 $p.apiSendMail = function (args) {
     return $p.apiExec($p.apiSendMailUrl(args.id), args);
-}  
+}

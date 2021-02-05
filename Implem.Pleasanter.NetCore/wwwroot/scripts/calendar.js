@@ -13,7 +13,7 @@ $p.setCalendar = function () {
     });
 
     function setCalendarGroup(group, data) {
-    var hash = {};
+        var hash = {};
         var beginSelector = (group === undefined)
             ? '#Calendar .container:first'
             : '#Calendar .container[data-value="' + group + '"]:first';
@@ -23,15 +23,15 @@ $p.setCalendar = function () {
         var begin = new Date($(beginSelector).attr('data-id'));
         var end = new Date($(endSelector).attr('data-id'));
 
-    switch ($('#CalendarTimePeriod').val()) {
-        case 'Yearly':
+        switch ($('#CalendarTimePeriod').val()) {
+            case 'Yearly':
                 setYearly(group, data, hash, begin, end);
-            break;
-        case 'Monthly':
+                break;
+            case 'Monthly':
             case 'Weekly':
                 setMonthly(group, data, hash, begin, end);
-            break;
-    }
+                break;
+        }
     }
 
     function setYearly(group, data, hash, begin, end) {

@@ -1,6 +1,7 @@
 ﻿{
     "Id": "UnauthorizedRequest",
-    "Type": 240,
+    "Type": 410,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "You must be logged in to do this."

@@ -54,13 +54,13 @@
                 };
             };
             if ($childElement.prop('tagName') === 'SELECT') {
-            c_change(tablename);
-            $(document).on(
-                'change',
-                '#' + tablename + '_' + prnt,
-                debounce(function () {
-                    c_change(tablename);
-                }, 500));
+                c_change(tablename);
+                $(document).on(
+                    'change',
+                    '#' + tablename + '_' + prnt,
+                    debounce(function () {
+                        c_change(tablename);
+                    }, 500));
             }
         });
         var $parentElement = $('#' + tablename + '_' + prnt);
@@ -68,14 +68,14 @@
         var c_change = function (tablename) {
             var parentIds = [];
             if ($parentElement.prop('tagName') === 'SELECT') {
-            var $parent = $('#' + tablename + '_' + prnt + ' option:selected');
-            $parent.each(function (index, element) {
-                var value = $(element).val();
-                if (value === '\t') {
-                    value = '-1';
-                }
-                parentIds.push(value);
-            });
+                var $parent = $('#' + tablename + '_' + prnt + ' option:selected');
+                $parent.each(function (index, element) {
+                    var value = $(element).val();
+                    if (value === '\t') {
+                        value = '-1';
+                    }
+                    parentIds.push(value);
+                });
             }
             else {
                 parentIds.push($parentElement.attr('data-value'));

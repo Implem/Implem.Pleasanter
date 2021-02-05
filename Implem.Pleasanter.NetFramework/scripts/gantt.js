@@ -177,12 +177,12 @@ $p.drawGantt = function () {
         .attr('class', function (d) {
             var ret = d.ProgressRate < 100 &&
                 (padding + xScale(new Date(d.StartTime)) +
-                    ((xScale(new Date(d.CompletionTime)) - xScale(new Date(d.StartTime)))
-                        * d.ProgressRate * 0.01)) < now
-                ? 'delay'
-                : d.ProgressRate === 100 && d.Completed
-                    ? 'completed'
-                    : ''
+                ((xScale(new Date(d.CompletionTime)) - xScale(new Date(d.StartTime)))
+                * d.ProgressRate * 0.01)) < now
+                    ? 'delay'
+                    : d.ProgressRate === 100 && d.Completed
+                        ? 'completed'
+                        : ''
             return d.GroupSummary
                 ? ret + ' summary'
                 : ret;
@@ -214,11 +214,11 @@ $p.drawGantt = function () {
         .attr('class', function (d) {
             var ret = d.ProgressRate < 100 &&
                 (padding + xScale(new Date(d.StartTime)) +
-                    ((xScale(new Date(d.CompletionTime)) - xScale(new Date(d.StartTime)))
-                        * d.ProgressRate * 0.01)) < now &&
+                ((xScale(new Date(d.CompletionTime)) - xScale(new Date(d.StartTime)))
+                * d.ProgressRate * 0.01)) < now &&
                 ($('#ShowGanttProgressRate').val() === '1' || !d.Completed)
-                ? 'delay'
-                : '';
+                    ? 'delay'
+                    : '';
             return d.GroupSummary
                 ? ret + ' summary'
                 : ret;

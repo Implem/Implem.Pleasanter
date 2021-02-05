@@ -11,7 +11,7 @@ $p.editMarkdown = function ($control) {
     if ($control.is(':visible')) {
         $p.toggleEditor($control, false);
     } else {
-    $p.toggleEditor($control, true);
+        $p.toggleEditor($control, true);
         $($control).focus();
     }
 }
