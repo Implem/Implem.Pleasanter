@@ -18,12 +18,14 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Dynamic;
 namespace Implem.Pleasanter.Libraries.Requests
 {
     public class Context
     {
         public Stopwatch Stopwatch = new Stopwatch();
         public StringBuilder LogBuilder = new StringBuilder();
+        public ExpandoObject UserData = new ExpandoObject();
         public bool Authenticated;
         public bool SwitchUser;
         public string SessionGuid = Strings.NewGuid();

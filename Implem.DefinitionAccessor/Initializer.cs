@@ -81,6 +81,7 @@ namespace Implem.DefinitionAccessor
             Parameters.ExtendedSqls = ExtendedSqls();
             Parameters.ExtendedStyles = ExtendedStyles();
             Parameters.ExtendedScripts = ExtendedScripts();
+            Parameters.ExtendedServerScripts = ExtendedServerScripts();
             Parameters.ExtendedHtmls = ExtendedHtmls();
             Parameters.ExtendedTags = ExtendedTags();
             Parameters.General = Read<ParameterAccessor.Parts.General>();
@@ -296,6 +297,41 @@ namespace Implem.DefinitionAccessor
             foreach (var dir in new DirectoryInfo(path).GetDirectories())
             {
                 list = ExtendedScripts(dir.FullName, list);
+            }
+            return list;
+        }
+
+        private static List<ExtendedServerScript> ExtendedServerScripts(
+            string path = null, List<ExtendedServerScript> list = null)
+        {
+            list = list ?? new List<ExtendedServerScript>();
+            path = path ?? Path.Combine(
+                Environments.CurrentDirectoryPath,
+                "App_Data",
+                "Parameters",
+                "ExtendedServerScripts");
+            foreach (var file in new DirectoryInfo(path).GetFiles("*.json"))
+            {
+                var extendedServerScript = Files.Read(file.FullName)
+                    .Deserialize<ExtendedServerScript>();
+                if (extendedServerScript != null)
+                {
+                    extendedServerScript.Path = file.FullName;
+                    var sqlPath = file.FullName + ".js";
+                    if (Files.Exists(sqlPath))
+                    {
+                        extendedServerScript.Body = Files.Read(sqlPath);
+                    }
+                    list.Add(extendedServerScript);
+                }
+                else
+                {
+                    Parameters.SyntaxErrors.Add(file.Name);
+                }
+            }
+            foreach (var dir in new DirectoryInfo(path).GetDirectories())
+            {
+                list = ExtendedServerScripts(dir.FullName, list);
             }
             return list;
         }

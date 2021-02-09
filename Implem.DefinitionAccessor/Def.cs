@@ -853,6 +853,7 @@ namespace Implem.DefinitionAccessor
                     case "HtmlLinks_TableCases": Code.HtmlLinks_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_TableCases, definitionRow, CodeXls); break;
                     case "HtmlGrid": Code.HtmlGrid = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlGrid, definitionRow, CodeXls); break;
                     case "HtmlGrid_ModelHash": Code.HtmlGrid_ModelHash = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlGrid_ModelHash, definitionRow, CodeXls); break;
+                    case "HtmlGrid_Model": Code.HtmlGrid_Model = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlGrid_Model, definitionRow, CodeXls); break;
                     case "HtmlGrid_Td": Code.HtmlGrid_Td = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlGrid_Td, definitionRow, CodeXls); break;
                     case "HtmlGrid_Td_Only": Code.HtmlGrid_Td_Only = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlGrid_Td_Only, definitionRow, CodeXls); break;
                     case "HtmlGrid_Td_Or_Editor": Code.HtmlGrid_Td_Or_Editor = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlGrid_Td_Or_Editor, definitionRow, CodeXls); break;
@@ -7770,6 +7771,7 @@ namespace Implem.DefinitionAccessor
         public string HtmlLinks_TableCases;
         public string HtmlGrid;
         public string HtmlGrid_ModelHash;
+        public string HtmlGrid_Model;
         public string HtmlGrid_Td;
         public string HtmlGrid_Td_Only;
         public string HtmlGrid_Td_Or_Editor;
@@ -8427,6 +8429,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition HtmlLinks_TableCases = new CodeDefinition();
         public CodeDefinition HtmlGrid = new CodeDefinition();
         public CodeDefinition HtmlGrid_ModelHash = new CodeDefinition();
+        public CodeDefinition HtmlGrid_Model = new CodeDefinition();
         public CodeDefinition HtmlGrid_Td = new CodeDefinition();
         public CodeDefinition HtmlGrid_Td_Only = new CodeDefinition();
         public CodeDefinition HtmlGrid_Td_Or_Editor = new CodeDefinition();

@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Parameters.cs" />
     <Compile Include="Parts\ExtendedHtml.cs" />
+    <Compile Include="Parts\ExtendedServerScript.cs" />
     <Compile Include="Parts\ExtendedStyle.cs" />
     <Compile Include="Parts\ExtendedSql.cs" />
     <Compile Include="Parts\ExtendedBase.cs" />

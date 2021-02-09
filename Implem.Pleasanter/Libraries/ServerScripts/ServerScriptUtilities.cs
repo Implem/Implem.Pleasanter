@@ -633,7 +633,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 return null;
             }
             var serverScripts = ss
-                ?.ServerScripts
+                ?.GetServerScripts(context: context)
                 ?.Where(where)
                 .ToArray();
             if (serverScripts?.Any() != true)

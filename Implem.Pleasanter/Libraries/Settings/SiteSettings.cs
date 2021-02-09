@@ -122,6 +122,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public DateTime ApiCountDate;
         [NonSerialized]
         public int ApiCount;
+        [NonSerialized]
+        public List<ServerScript> ServerScriptsAndExtended;
         public string ReferenceType;
         public decimal? NearCompletionTimeAfterDays;
         public decimal? NearCompletionTimeBeforeDays;
@@ -4369,6 +4371,34 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return ColumnDefinitionHash.FilterDefinitions(enableOnly: false)
                 .Any(o => o.ColumnName == column.Name);
+        }
+
+        public List<ServerScript> GetServerScripts(Context context)
+        {
+            ServerScriptsAndExtended = ServerScriptsAndExtended ?? Parameters.ExtendedServerScripts
+                .ExtensionWhere<ParameterAccessor.Parts.ExtendedServerScript>(
+                    context: context,
+                    siteId: SiteId)
+                .Select(extendedServerScript => new ServerScript()
+                {
+                    WhenloadingSiteSettings = extendedServerScript.WhenloadingSiteSettings,
+                    WhenViewProcessing = extendedServerScript.WhenViewProcessing,
+                    WhenloadingRecord = extendedServerScript.WhenloadingRecord,
+                    BeforeFormula = extendedServerScript.BeforeFormula,
+                    AfterFormula = extendedServerScript.AfterFormula,
+                    BeforeCreate = extendedServerScript.BeforeCreate,
+                    AfterCreate = extendedServerScript.AfterCreate,
+                    BeforeUpdate = extendedServerScript.BeforeUpdate,
+                    AfterUpdate = extendedServerScript.AfterUpdate,
+                    BeforeDelete = extendedServerScript.BeforeDelete,
+                    AfterDelete = extendedServerScript.AfterDelete,
+                    BeforeOpeningRow = extendedServerScript.BeforeOpeningRow,
+                    BeforeOpeningPage = extendedServerScript.BeforeOpeningPage,
+                    Body = extendedServerScript.Body
+                })
+                    .Concat(ServerScripts)
+                    .ToList();
+            return ServerScriptsAndExtended;
         }
     }
 }

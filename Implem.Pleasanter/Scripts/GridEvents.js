@@ -117,7 +117,7 @@ $(function () {
         if ($('.ui-multiselect-close:visible').length) {
             $('.ui-multiselect-close:visible').click();
         }
-        timer = setTimeout(function ($control) {   
+        timer = setTimeout(function ($control) {
             var dataName = $control.attr('data-name');
             $menuSort = $(".menu-sort[id='GridHeaderMenu__" + dataName + "']");
             $menuSort.css('width', '');

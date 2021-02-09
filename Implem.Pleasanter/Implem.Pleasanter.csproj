@@ -1319,6 +1319,7 @@
     <Content Include="App_Data\Licenses\Implem.License.dll" />
     <Content Include="App_Data\Parameters\ExtendedHtmls\Sample.html.txt" />
     <Content Include="App_Data\Parameters\ExtendedScripts\Sample.js.txt" />
+    <Content Include="App_Data\Parameters\ExtendedServerScripts\Sample.json.txt" />
     <Content Include="App_Data\Parameters\ExtendedSqls\Sample.json.txt" />
     <Content Include="App_Data\Parameters\ExtendedStyles\Sample.css.txt" />
     <Content Include="favicon.ico" />

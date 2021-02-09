@@ -12,6 +12,8 @@ using System.ComponentModel;
 using System.Dynamic;
 using System.Linq;
 using System.Text;
+using System.Collections;
+
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public class ServerScriptModel : IDisposable
@@ -80,6 +82,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 onTesting: onTesting,
                 scriptDepth: context.ServerScriptDepth,
                 logBuilder: context.LogBuilder,
+                userData: context.UserData,
                 controlId: context.Forms.ControlId());
             SiteSettings = new ServerScriptModelSiteSettings
             {
@@ -124,6 +127,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public class ServerScriptModelContext
         {
             public StringBuilder LogBuilder;
+            public ExpandoObject UserData;
             public readonly ServerScriptModelContextServerScript ServerScript;
             public readonly string FormStringRaw;
             public readonly string FormString;
@@ -189,9 +193,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 bool onTesting,
                 long scriptDepth,
                 StringBuilder logBuilder,
+                ExpandoObject userData,
                 string controlId)
             {
                 LogBuilder = logBuilder;
+                UserData = userData; 
                 ServerScript = new ServerScriptModelContextServerScript(
                     onTesting: onTesting,
                     scriptDepth: scriptDepth);
@@ -261,7 +267,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public class ServerScriptModelSiteSettings
         {
             public int? DefaultViewId { get; set; }
-            public List<Section> Sections{ get; set; }
+            public List<Section> Sections { get; set; }
         }
 
         public class ServerScriptModelView
@@ -465,43 +471,39 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 OnTesting = onTesting;
             }
 
-            public Dictionary<string, List<Dictionary<string, object>>> ExecuteDataSet(string name, object _params = null)
+            public dynamic ExecuteDataSet(string name, object _params = null)
             {
-                var dataSet = ExtensionUtilities.ExecuteDataSet(
+                dynamic dataSet = ExtensionUtilities.ExecuteDataSetAsDynamic(
                     context: Context,
                     name: name,
                     _params: _params?.ToString().Deserialize<Dictionary<string, object>>());
                 return dataSet;
             }
 
-            public List<Dictionary<string, object>> ExecuteTable(string name, object _params = null)
+            public dynamic ExecuteTable(string name, object _params = null)
             {
-                var dataTable = ExecuteDataSet(
+                dynamic dataSet = ExecuteDataSet(
                     name: name,
-                    _params: _params)
-                        ?.FirstOrDefault()
-                        .Value;
-                return dataTable;
+                    _params: _params);
+                return dataSet?.Table;
             }
 
-            public Dictionary<string, object> ExecuteRow(string name, object _params = null)
+            public dynamic ExecuteRow(string name, object _params = null)
             {
-                var dataRow = ExecuteTable(
+                dynamic dataTable = ExecuteTable(
                     name: name,
-                    _params: _params)
-                        ?.FirstOrDefault();
-                return dataRow;
+                    _params: _params);
+                return ((IList<object>)dataTable)?.FirstOrDefault();
             }
 
             public object ExecuteScalar(string name, object _params = null)
             {
-                var scalar = ExecuteRow(
+                dynamic dataRow = ExecuteRow(
                     name: name,
-                    _params: _params)
-                        ?.FirstOrDefault()
-                        .Value;
-                return scalar;
+                    _params: _params);
+                return ((IDictionary<string,object>)dataRow)?.FirstOrDefault().Value;
             }
+
         }
 
         public class ServerScriptModelNotification
