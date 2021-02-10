@@ -99,10 +99,23 @@ namespace Implem.Pleasanter.Libraries.Models
                     join: join,
                     where: where)
             };
-            var dataSet = Repository.ExecuteDataSet(
-                context: context,
-                transactional: false,
-                statements: statements.ToArray());
+            DataSet dataSet;
+            try
+            {
+                dataSet = Repository.ExecuteDataSet(
+                    context: context,
+                    transactional: false,
+                    statements: statements.ToArray());
+            }
+            catch (System.Exception e)
+            {
+                SessionUtilities.Set(
+                    context: context,
+                    key: "View",
+                    value: null,
+                    page: true);
+                throw e;
+            }
             DataRows = dataSet.Tables["Main"].AsEnumerable();
             TotalCount = Rds.Count(dataSet);
             ss.SetChoiceHash(dataRows: DataRows);
