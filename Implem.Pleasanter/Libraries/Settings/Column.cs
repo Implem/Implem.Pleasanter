@@ -64,6 +64,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? Hide;
         public string ExtendedCellCss;
         public string ExtendedFieldCss;
+        public string ExtendedControlCss;
         public string Section;
         public string GridDesign;
         public bool? ValidateRequired;

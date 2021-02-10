@@ -109,6 +109,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 : string.Empty)
                             + (column.AutoPostBack == true
                                 ? " control-auto-postback"
+                                : string.Empty)
+                            + (!column.ExtendedControlCss.IsNullOrEmpty()
+                                ? " " + column.ExtendedControlCss
                                 : string.Empty),
                         controlType: ControlType(column),
                         value: value,
