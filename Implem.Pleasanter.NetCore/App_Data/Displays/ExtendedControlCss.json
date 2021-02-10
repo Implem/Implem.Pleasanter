@@ -1,0 +1,29 @@
+﻿{
+    "Id": "ExtendedControlCss",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Control css"
+        },
+        {
+            "Language": "zh",
+            "Body": "控制CSS"
+        },
+        {
+            "Language": "ja",
+            "Body": "コントロールCSS"
+        },
+        {
+            "Language": "de",
+            "Body": "Kontroll-CSS"
+        },
+        {
+            "Language": "ko",
+            "Body": "CSS 제어"
+        },
+        {
+            "Language": "es",
+            "Body": "Control de CSS"
+        }
+    ]
+}

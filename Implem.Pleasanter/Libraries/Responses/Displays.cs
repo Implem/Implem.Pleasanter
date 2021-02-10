@@ -2629,6 +2629,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ExtendedControlCss(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ExtendedControlCss",
+                data: data);
+        }
+
         public static string ExtendedFieldCss(
             Context context,
             params string[] data)

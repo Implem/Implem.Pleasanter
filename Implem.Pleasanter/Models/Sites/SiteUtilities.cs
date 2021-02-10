@@ -5410,7 +5410,12 @@ namespace Implem.Pleasanter.Models
                                         controlId: "ExtendedFieldCss",
                                         fieldCss: "field-normal",
                                         labelText: Displays.ExtendedFieldCss(context: context),
-                                        text: column.ExtendedFieldCss);
+                                        text: column.ExtendedFieldCss)
+                                    .FieldTextBox(
+                                        controlId: "ExtendedControlCss",
+                                        fieldCss: "field-normal",
+                                        labelText: Displays.ExtendedControlCss(context: context),
+                                        text: column.ExtendedControlCss);
                             }
                             hb.FieldDropDown(
                                 context: context,
