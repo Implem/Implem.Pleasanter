@@ -591,6 +591,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         engine.ContinuationCallback = model.ContinuationCallback;
                         engine.AddHostObject("context", model.Context);
                         engine.AddHostObject("model", model.Model);
+                        engine.AddHostObject("depts", model.Depts);
+                        engine.AddHostObject("groups", model.Groups);
+                        engine.AddHostObject("users", model.Users);
                         engine.AddHostObject("columns", model.Columns);
                         engine.AddHostObject("siteSettings", model.SiteSettings);
                         engine.AddHostObject("view", model.View);
