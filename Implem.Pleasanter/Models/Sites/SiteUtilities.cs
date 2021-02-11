@@ -7622,7 +7622,7 @@ namespace Implem.Pleasanter.Models
                         .Td(action: () => hb
                             .Text(text: notification.Prefix))
                         .Td(action: () => hb
-                            .Text(text: notification.Address))
+                            .Text(text: ss.ColumnNameToLabelText(notification.Address)))
                         .Td(action: () => hb
                             .Text(text: notification.MonitorChangesColumns?
                                 .Select(columnName => ss.GetColumn(
@@ -7683,7 +7683,7 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-wide",
                         controlCss: " always-send",
                         labelText: Displays.Address(context: context),
-                        text: notification.Address,
+                        text: ss.ColumnNameToLabelText(notification.Address),
                         validateRequired: true)
                     .FieldTextBox(
                         fieldId: "NotificationTokenField",
