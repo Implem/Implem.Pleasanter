@@ -705,8 +705,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         || this.ColumnPermissionType(
                             context: context,
                             baseModel: null) != Permissions.ColumnPermissionTypes.Update
-                        ? Unit
-                        : string.Empty);
+                                ? Unit
+                                : string.Empty);
         }
 
         public string DisplayGrid(Context context, DateTime value)

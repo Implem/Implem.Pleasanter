@@ -126,6 +126,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         case nameof(IssueModel.Locked):
                             result = issueModel.Locked;
                             return true;
+                        case nameof(IssueModel.ReadOnly):
+                            result = issueModel.ReadOnly;
+                            return true;
                     }
                 }
                 else if (Model is ResultModel resultModel)
@@ -146,6 +149,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             return true;
                         case nameof(ResultModel.Locked):
                             result = resultModel.Locked;
+                            return true;
+                        case nameof(ResultModel.ReadOnly):
+                            result = resultModel.ReadOnly;
                             return true;
                     }
                 }
@@ -215,6 +221,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     case nameof(IssueModel.Locked):
                         issueModel.Locked = value.ToBool();
                         return true;
+                    case nameof(IssueModel.ReadOnly):
+                        issueModel.ReadOnly = value.ToBool();
+                        return true;
                 }
             }
             else if (Model is ResultModel resultModel)
@@ -236,6 +245,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         return true;
                     case nameof(ResultModel.Locked):
                         resultModel.Locked = value.ToBool();
+                        return true;
+                    case nameof(ResultModel.ReadOnly):
+                        resultModel.ReadOnly = value.ToBool();
                         return true;
                 }
             }

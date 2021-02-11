@@ -58,7 +58,8 @@ namespace Implem.Pleasanter.Libraries.Responses
                 .ClearFormData(
                     context: context,
                     ss: ss,
-                    editOnGrid: editOnGrid);
+                    editOnGrid: editOnGrid)
+                .Log(context.GetLog());
         }
 
         private static ResponseCollection ClearFormData(

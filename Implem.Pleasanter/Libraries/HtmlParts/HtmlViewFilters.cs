@@ -283,18 +283,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         if (Visible(column))
                         {
                             hb.DropDown(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            view: view,
-                            optionCollection: column.HasChoices()
-                                ? column.EditChoices(
-                                    context: context,
-                                    addNotSet: true)
-                                : column.NumFilterOptions(context: context),
-                            idPrefix: idPrefix,
-                            controlOnly: controlOnly,
-                            action: action);
+                                context: context,
+                                ss: ss,
+                                column: column,
+                                view: view,
+                                optionCollection: column.HasChoices()
+                                    ? column.EditChoices(
+                                        context: context,
+                                        addNotSet: true)
+                                    : column.NumFilterOptions(context: context),
+                                idPrefix: idPrefix,
+                                controlOnly: controlOnly,
+                                action: action);
                         }
                     }
                     else

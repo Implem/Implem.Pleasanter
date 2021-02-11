@@ -200,6 +200,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return _using ? Add("Disabled", key, value) : this;
         }
 
+        public ResponseCollection Log(string value, bool _using = true)
+        {
+            return _using ? Add("Log", null, value) : this;
+        }
+
         public ResponseCollection Response(string key, string value, bool _using = true)
         {
             return _using ? Add("Response", key, value) : this;

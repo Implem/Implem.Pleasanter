@@ -21,6 +21,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Dynamic;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -31,6 +32,8 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
     public class ContextImplement : Context
     {
         public override Stopwatch Stopwatch { get; set; } = new Stopwatch();
+        public override StringBuilder LogBuilder { get; set; } = new StringBuilder();
+        public override ExpandoObject UserData { get; set; } = new ExpandoObject();
         public override bool Authenticated { get; set; }
         public override bool SwitchUser { get; set; }
         public override string SessionGuid { get; set; } = Strings.NewGuid();
@@ -721,6 +724,11 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
         public override IScriptEngine CreateScriptEngin()
         {
             return new ScriptEngine();
+        }
+
+        public override string GetLog()
+        {
+            return LogBuilder?.ToString();
         }
     }
 }

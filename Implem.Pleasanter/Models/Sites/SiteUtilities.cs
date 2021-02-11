@@ -70,6 +70,9 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: invalid);
             }
+            var scriptValues = new ItemModel().SetByBeforeOpeningPageServerScript(
+                context: context,
+                ss: ss);
             return hb.Template(
                 context: context,
                 ss: ss,
@@ -82,6 +85,7 @@ namespace Implem.Pleasanter.Models
                 script: JavaScripts.ViewMode(viewMode),
                 userScript: ss.ViewModeScripts(context: context),
                 userStyle: ss.ViewModeStyles(context: context),
+                scriptValues: scriptValues,
                 action: () => hb
                     .Form(
                         attributes: new HtmlAttributes()
@@ -295,6 +299,7 @@ namespace Implem.Pleasanter.Models
                 .Val("#GridColumns", columns.Select(o => o.ColumnName).ToJson())
                 .Paging("#Grid")
                 .Message(message)
+                .Log(context.GetLog())
                 .ToJson();
         }
 
@@ -385,6 +390,7 @@ namespace Implem.Pleasanter.Models
                     .Message(
                         message: Messages.NotFound(context: context),
                         target: "row_" + siteId)
+                    .Log(context.GetLog())
                     .ToJson()
                 : res
                     .ReplaceAll(
@@ -401,6 +407,7 @@ namespace Implem.Pleasanter.Models
                             editRow: true,
                             checkRow: false,
                             idColumn: "SiteId"))
+                    .Log(context.GetLog())
                     .ToJson();
         }
 
@@ -898,7 +905,8 @@ namespace Implem.Pleasanter.Models
                 .SetMemory("formChanged", false)
                 .Invoke("setCurrentIndex")
                 .Message(message)
-                .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"));
+                .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"))
+                .Log(context.GetLog());
         }
 
         private static HtmlBuilder ReferenceType(
@@ -1257,11 +1265,11 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             data: siteModel.Title.Value));
                     var res = new SitesResponseCollection(siteModel);
-                res
-                    .SetMemory("formChanged", false)
-                    .Href(Locations.ItemIndex(
-                        context: context,
-                        id: siteModel.ParentId));
+                    res
+                        .SetMemory("formChanged", false)
+                        .Href(Locations.ItemIndex(
+                            context: context,
+                            id: siteModel.ParentId));
                     return res.ToJson();
                 default:
                     return errorData.MessageJson(context: context);
@@ -2791,7 +2799,8 @@ namespace Implem.Pleasanter.Models
                                         .A(
                                             href: "#ServerScriptsSettingsEditor",
                                             text: Displays.ServerScript(context: context)),
-                                    _using: context.ContractSettings.Script != false
+                                    _using: context.ContractSettings.NewFeatures()
+                                        && context.ContractSettings.Script != false
                                         && Parameters.Script.ServerScript != false)
                                 .Li(
                                     action: () => hb
@@ -3731,7 +3740,8 @@ namespace Implem.Pleasanter.Models
                         .Id("ServerScriptDialog")
                         .Class("dialog")
                         .Title(Displays.ServerScript(context: context)),
-                    _using: context.ContractSettings.Script != false
+                    _using: context.ContractSettings.NewFeatures()
+                        && context.ContractSettings.Script != false
                         && Parameters.Script.ServerScript != false)
                 .Div(
                     attributes: new HtmlAttributes()
@@ -4840,7 +4850,7 @@ namespace Implem.Pleasanter.Models
         {
             var hb = new HtmlBuilder();
             if (column.TypeName == "nvarchar"
-                    && column.ControlType != "Attachments")
+                && column.ControlType != "Attachments")
             {
                 return hb.Form(
                 attributes: new HtmlAttributes()
@@ -5112,7 +5122,8 @@ namespace Implem.Pleasanter.Models
                                             }
                                         },
                                         selectedValue: column.ViewerSwitchingType.ToInt().ToString(),
-                                        _using: column.ControlType == "MarkDown")
+                                        _using: context.ContractSettings.NewFeatures()
+                                            && column.ControlType == "MarkDown")
                                     .FieldCheckBox(
                                         controlId: "ValidateRequired",
                                         labelText: Displays.Required(context: context),
@@ -5378,7 +5389,8 @@ namespace Implem.Pleasanter.Models
                                             controlId: "MultipleSelections",
                                             labelText: Displays.MultipleSelections(context: context),
                                             _checked: column.MultipleSelections == true,
-                                            _using: column.TypeName == "nvarchar");
+                                            _using: context.ContractSettings.NewFeatures()
+                                                && column.TypeName == "nvarchar");
                                     break;
                                 default:
                                     break;
@@ -5396,7 +5408,8 @@ namespace Implem.Pleasanter.Models
                                     .FieldCheckBox(
                                         controlId: "AutoPostBack",
                                         labelText: Displays.AutoPostBack(context: context),
-                                        _checked: column.AutoPostBack == true)
+                                        _checked: column.AutoPostBack == true,
+                                        _using: context.ContractSettings.NewFeatures())
                                     .FieldCheckBox(
                                         controlId: "NoWrap",
                                         labelText: Displays.NoWrap(context: context),
@@ -5415,7 +5428,8 @@ namespace Implem.Pleasanter.Models
                                         controlId: "ExtendedControlCss",
                                         fieldCss: "field-normal",
                                         labelText: Displays.ExtendedControlCss(context: context),
-                                        text: column.ExtendedControlCss);
+                                        text: column.ExtendedControlCss,
+                                        _using: context.ContractSettings.NewFeatures());
                             }
                             hb.FieldDropDown(
                                 context: context,
@@ -6539,7 +6553,14 @@ namespace Implem.Pleasanter.Models
                         action: "SynchronizeFormulas",
                         method: "put",
                         confirm: Displays.ConfirmSynchronize(context: context)))
-                .EditFormula(context: context, ss: ss));
+                .EditFormula(context: context, ss: ss)
+                .FieldCheckBox(
+                        controlId: "OutputFormulaLogs",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.OutputLog(context: context),
+                        _checked: ss.OutputFormulaLogs == true,
+                        _using: context.ContractSettings.NewFeatures(),
+                        labelPositionIsRight: true));
         }
 
         /// <summary>
@@ -9469,7 +9490,8 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder ServerScriptsSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            if (context.ContractSettings.Script == false
+            if (!context.ContractSettings.NewFeatures()
+                || context.ContractSettings.Script == false
                 || Parameters.Script.ServerScript == false) return hb;
             return hb.FieldSet(id: "ServerScriptsSettingsEditor", action: () => hb
                 .Div(css: "command-left", action: () => hb
@@ -9557,7 +9579,7 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.WhenViewProcessing(context: context)))
                     .Th(action: () => hb
-                        .Text(text: Displays.BeforeOpeningPages(context: context)))
+                        .Text(text: Displays.WhenloadingRecord(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.BeforeFormulas(context: context)))
                     .Th(action: () => hb
@@ -9573,7 +9595,11 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.BeforeDelete(context: context)))
                     .Th(action: () => hb
-                        .Text(text: Displays.AfterDelete(context: context)))));
+                        .Text(text: Displays.AfterDelete(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.BeforeOpeningRow(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.BeforeOpeningPage(context: context)))));
         }
 
         /// <summary>
@@ -9609,7 +9635,7 @@ namespace Implem.Pleasanter.Models
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
-                                    _using: script.BeforeOpeningPage == true))
+                                    _using: script.WhenloadingRecord == true))
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
@@ -9641,7 +9667,15 @@ namespace Implem.Pleasanter.Models
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
-                                    _using: script.AfterDelete == true)))));
+                                    _using: script.AfterDelete == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.BeforeOpeningRow == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: script.BeforeOpeningPage == true)))));
         }
 
         /// <summary>
@@ -9701,11 +9735,11 @@ namespace Implem.Pleasanter.Models
                                 labelText: Displays.WhenViewProcessing(context: context),
                                 _checked: script.WhenViewProcessing == true)
                             .FieldCheckBox(
-                                controlId: "ServerScriptBeforeOpeningPage",
+                                controlId: "ServerScriptWhenloadingRecord",
                                 fieldCss: outputDestinationCss,
                                 controlCss: " always-send",
-                                labelText: Displays.BeforeOpeningPages(context: context),
-                                _checked: script.BeforeOpeningPage == true)
+                                labelText: Displays.WhenloadingRecord(context: context),
+                                _checked: script.WhenloadingRecord == true)
                             .FieldCheckBox(
                                 controlId: "ServerScriptBeforeFormula",
                                 fieldCss: outputDestinationCss,
@@ -9753,7 +9787,19 @@ namespace Implem.Pleasanter.Models
                                 fieldCss: outputDestinationCss,
                                 controlCss: " always-send",
                                 labelText: Displays.AfterDelete(context: context),
-                                _checked: script.AfterDelete == true))
+                                _checked: script.AfterDelete == true)
+                            .FieldCheckBox(
+                                controlId: "ServerScriptBeforeOpeningRow",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.BeforeOpeningRow(context: context),
+                                _checked: script.BeforeOpeningRow == true)
+                            .FieldCheckBox(
+                                controlId: "ServerScriptBeforeOpeningPage",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.BeforeOpeningPage(context: context),
+                                _checked: script.BeforeOpeningPage == true))
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(

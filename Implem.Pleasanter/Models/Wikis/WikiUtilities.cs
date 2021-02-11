@@ -556,7 +556,7 @@ namespace Implem.Pleasanter.Models
             ss.SetColumnAccessControls(
                 context: context,
                 mine: wikiModel.Mine(context: context));
-            wikiModel.SetByBeforeOpeningPageServerScript(
+            var scriptValues = wikiModel.SetByBeforeOpeningPageServerScript(
                 context: context,
                 ss: ss);
             return editInDialog
@@ -592,6 +592,7 @@ namespace Implem.Pleasanter.Models
                         context: context, methodType: wikiModel.MethodType),
                     userStyle: ss.EditorStyles(
                         context: context, methodType: wikiModel.MethodType),
+                    scriptValues: scriptValues,
                     action: () => hb
                         .Editor(
                             context: context,
@@ -1019,37 +1020,37 @@ namespace Implem.Pleasanter.Models
                         hb
                             .Div(
                                 id: $"SectionFields{section.Key.Id}Container",
-                                    css: "section-fields-container",
-                                    action: () => hb
-                                        .Div(action: () => hb.Label(
-                                            css: "field-section" + (section.Key.AllowExpand == true
-                                                ? " expand"
-                                                : string.Empty),
-                                            attributes: new HtmlAttributes()
-                                                .For($"SectionFields{section.Key.Id}"),
-                                            action: () => hb
-                                                .Span(css: section.Key.AllowExpand == true
-                                                    ? section.Key.Expand == true
-                                                        ? "ui-icon ui-icon-triangle-1-s"
-                                                        : "ui-icon ui-icon-triangle-1-e"
-                                                    : string.Empty)
-                                                .Text(text: section.Key.LabelText)))
-                                        .Div(
-                                            id: $"SectionFields{section.Key.Id}",
-                                            css: section.Key.AllowExpand == true && section.Key.Expand != true
-                                                ? "section-fields hidden"
-                                                : "section-fields",
-                                            action: () => hb.Fields(
-                                                context: context,
-                                                ss: ss,
-                                                id: id,
-                                                columnNames: section.Value,
-                                                dataSet: dataSet,
-                                                links: links,
-                                                wikiModel: wikiModel,
-                                                preview: preview,
-                                                editInDialog: editInDialog,
-                                                tabIndex: tabIndex)));
+                                css: "section-fields-container",
+                                action: () => hb
+                                    .Div(action: () => hb.Label(
+                                        css: "field-section" + (section.Key.AllowExpand == true
+                                            ? " expand"
+                                            : string.Empty),
+                                        attributes: new HtmlAttributes()
+                                            .For($"SectionFields{section.Key.Id}"),
+                                        action: () => hb
+                                            .Span(css: section.Key.AllowExpand == true
+                                                ? section.Key.Expand == true
+                                                    ? "ui-icon ui-icon-triangle-1-s"
+                                                    : "ui-icon ui-icon-triangle-1-e"
+                                                : string.Empty)
+                                            .Text(text: section.Key.LabelText)))
+                                    .Div(
+                                        id: $"SectionFields{section.Key.Id}",
+                                        css: section.Key.AllowExpand == true && section.Key.Expand != true
+                                            ? "section-fields hidden"
+                                            : "section-fields",
+                                        action: () => hb.Fields(
+                                            context: context,
+                                            ss: ss,
+                                            id: id,
+                                            columnNames: section.Value,
+                                            dataSet: dataSet,
+                                            links: links,
+                                            wikiModel: wikiModel,
+                                            preview: preview,
+                                            editInDialog: editInDialog,
+                                            tabIndex: tabIndex)));
                     }
                 });
             return hb;
@@ -1256,7 +1257,8 @@ namespace Implem.Pleasanter.Models
                 .SetMemory("formChanged", false)
                 .Invoke("setCurrentIndex")
                 .Message(message)
-                .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"));
+                .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"))
+                .Log(context.GetLog());
         }
 
         public static ResponseCollection FieldResponse(

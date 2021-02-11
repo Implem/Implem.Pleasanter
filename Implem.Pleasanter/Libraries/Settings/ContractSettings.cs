@@ -123,5 +123,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Select(addr => IpRange.FromCidr(addr))
                 .Any(range => range.InRange(ipAddress));
         }
+
+        public bool NewFeatures()
+        {
+            return AllowNewFeatures == true || !Parameters.Service.RestrictNewFeatures;
+        }
     }
 }

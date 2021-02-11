@@ -123,6 +123,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public DateTime ApiCountDate;
         [NonSerialized]
         public int ApiCount;
+        [NonSerialized]
+        public List<ServerScript> ServerScriptsAndExtended;
         public string ReferenceType;
         public decimal? NearCompletionTimeAfterDays;
         public decimal? NearCompletionTimeBeforeDays;
@@ -178,6 +180,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? UseFiltersArea;
         public bool? UseGridHeaderFilters;
         public bool? UseRelatingColumnsOnFilter;
+        public bool? OutputFormulaLogs;
         public string TitleSeparator;
         public SearchTypes? SearchType;
         public SaveViewTypes? SaveViewType;
@@ -299,6 +302,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             UseFiltersArea = UseFiltersArea ?? true;
             UseGridHeaderFilters = UseGridHeaderFilters ?? false;
             UseRelatingColumnsOnFilter = UseRelatingColumnsOnFilter ?? false;
+            OutputFormulaLogs = OutputFormulaLogs ?? false;
             SearchType = SearchType ?? SearchTypes.PartialMatch;
             SaveViewType = SaveViewType ?? SaveViewTypes.Session;
         }
@@ -742,6 +746,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (UseRelatingColumnsOnFilter == true)
             {
                 ss.UseRelatingColumnsOnFilter = UseRelatingColumnsOnFilter;
+            }
+            if (OutputFormulaLogs == true)
+            {
+                ss.OutputFormulaLogs = OutputFormulaLogs;
             }
             if (ImageLibPageSize != Parameters.General.ImageLibPageSize)
             {
@@ -2991,6 +2999,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "UseFiltersArea": UseFiltersArea = value.ToBool(); break;
                 case "UseGridHeaderFilters": UseGridHeaderFilters = value.ToBool(); break;
                 case "UseRelatingColumnsOnFilter": UseRelatingColumnsOnFilter = value.ToBool(); break;
+                case "OutputFormulaLogs": OutputFormulaLogs = value.ToBool(); break;
                 case "ImageLibPageSize": ImageLibPageSize = value.ToInt(); break;
                 case "SearchType": SearchType = (SearchTypes)value.ToInt(); break;
                 case "SaveViewType": SaveViewType = (SaveViewTypes)value.ToInt(); break;
@@ -4368,6 +4377,34 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return ColumnDefinitionHash.FilterDefinitions(enableOnly: false)
                 .Any(o => o.ColumnName == column.Name);
+        }
+
+        public List<ServerScript> GetServerScripts(Context context)
+        {
+            ServerScriptsAndExtended = ServerScriptsAndExtended ?? Parameters.ExtendedServerScripts
+                .ExtensionWhere<ParameterAccessor.Parts.ExtendedServerScript>(
+                    context: context,
+                    siteId: SiteId)
+                .Select(extendedServerScript => new ServerScript()
+                {
+                    WhenloadingSiteSettings = extendedServerScript.WhenloadingSiteSettings,
+                    WhenViewProcessing = extendedServerScript.WhenViewProcessing,
+                    WhenloadingRecord = extendedServerScript.WhenloadingRecord,
+                    BeforeFormula = extendedServerScript.BeforeFormula,
+                    AfterFormula = extendedServerScript.AfterFormula,
+                    BeforeCreate = extendedServerScript.BeforeCreate,
+                    AfterCreate = extendedServerScript.AfterCreate,
+                    BeforeUpdate = extendedServerScript.BeforeUpdate,
+                    AfterUpdate = extendedServerScript.AfterUpdate,
+                    BeforeDelete = extendedServerScript.BeforeDelete,
+                    AfterDelete = extendedServerScript.AfterDelete,
+                    BeforeOpeningRow = extendedServerScript.BeforeOpeningRow,
+                    BeforeOpeningPage = extendedServerScript.BeforeOpeningPage,
+                    Body = extendedServerScript.Body
+                })
+                    .Concat(ServerScripts)
+                    .ToList();
+            return ServerScriptsAndExtended;
         }
     }
 }

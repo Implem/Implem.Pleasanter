@@ -29,7 +29,7 @@ namespace Implem.DefinitionAccessor
             Environments.ServiceName = Parameters.Service.Name;
             SetRdsParameters();
             Environments.MachineName = Environment.MachineName;
-            Environments.Application = 
+            Environments.Application =
                 Assembly.GetExecutingAssembly().ManifestModule.Name.FileNameOnly();
             Environments.AssemblyVersion = assemblyVersion;
             SetDefinitions();
@@ -81,6 +81,7 @@ namespace Implem.DefinitionAccessor
             Parameters.ExtendedSqls = ExtendedSqls();
             Parameters.ExtendedStyles = ExtendedStyles();
             Parameters.ExtendedScripts = ExtendedScripts();
+            Parameters.ExtendedServerScripts = ExtendedServerScripts();
             Parameters.ExtendedHtmls = ExtendedHtmls();
             Parameters.ExtendedTags = ExtendedTags();
             Parameters.General = Read<ParameterAccessor.Parts.General>();
@@ -89,7 +90,7 @@ namespace Implem.DefinitionAccessor
             Parameters.Mail = Read<ParameterAccessor.Parts.Mail>();
             Parameters.Migration = Read<ParameterAccessor.Parts.Migration>();
             Parameters.Notification = Read<ParameterAccessor.Parts.Notification>();
-            Parameters.Permissions = Read< ParameterAccessor.Parts.Permissions>();
+            Parameters.Permissions = Read<ParameterAccessor.Parts.Permissions>();
             Parameters.Rds = Read<ParameterAccessor.Parts.Rds>();
             Parameters.Registration = Read<ParameterAccessor.Parts.Registration>();
             Parameters.Reminder = Read<ParameterAccessor.Parts.Reminder>();
@@ -302,6 +303,41 @@ namespace Implem.DefinitionAccessor
             return list;
         }
 
+        private static List<ExtendedServerScript> ExtendedServerScripts(
+            string path = null, List<ExtendedServerScript> list = null)
+        {
+            list = list ?? new List<ExtendedServerScript>();
+            path = path ?? Path.Combine(
+                Environments.CurrentDirectoryPath,
+                "App_Data",
+                "Parameters",
+                "ExtendedServerScripts");
+            foreach (var file in new DirectoryInfo(path).GetFiles("*.json"))
+            {
+                var extendedServerScript = Files.Read(file.FullName)
+                    .Deserialize<ExtendedServerScript>();
+                if (extendedServerScript != null)
+                {
+                    extendedServerScript.Path = file.FullName;
+                    var sqlPath = file.FullName + ".js";
+                    if (Files.Exists(sqlPath))
+                    {
+                        extendedServerScript.Body = Files.Read(sqlPath);
+                    }
+                    list.Add(extendedServerScript);
+                }
+                else
+                {
+                    Parameters.SyntaxErrors.Add(file.Name);
+                }
+            }
+            foreach (var dir in new DirectoryInfo(path).GetDirectories())
+            {
+                list = ExtendedServerScripts(dir.FullName, list);
+            }
+            return list;
+        }
+
         private static List<ExtendedHtml> ExtendedHtmls(
             string path = null,
             List<ExtendedHtml> list = null)
@@ -421,13 +457,13 @@ namespace Implem.DefinitionAccessor
 
         public static void SetRdsParameters()
         {
-            Parameters.Rds.SaConnectionString = 
+            Parameters.Rds.SaConnectionString =
                 Parameters.Rds.SaConnectionString.Replace(
                     "#ServiceName#", Environments.ServiceName);
-            Parameters.Rds.OwnerConnectionString = 
+            Parameters.Rds.OwnerConnectionString =
                 Parameters.Rds.OwnerConnectionString.Replace(
                     "#ServiceName#", Environments.ServiceName);
-            Parameters.Rds.UserConnectionString = 
+            Parameters.Rds.UserConnectionString =
                 Parameters.Rds.UserConnectionString.Replace(
                     "#ServiceName#", Environments.ServiceName);
             switch (Parameters.Rds.Provider)
@@ -461,7 +497,7 @@ namespace Implem.DefinitionAccessor
                 .ForEach(column =>
                     sheet.Where(o => o["Base"].ToBool()).ForEach(commonColumnDefinition =>
                     {
-                        if (IsTargetColumn(sheet, commonColumnDefinition, column.TableName) && 
+                        if (IsTargetColumn(sheet, commonColumnDefinition, column.TableName) &&
                             IsNotExists(tableCopy, commonColumnDefinition, column.TableName))
                         {
                             var copyColumnDefinition = new XlsRow();

@@ -759,13 +759,23 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string BeforeOpeningPages(
+        public static string BeforeOpeningPage(
             Context context,
             params string[] data)
         {
             return Get(
                 context: context,
-                id: "BeforeOpeningPages",
+                id: "BeforeOpeningPage",
+                data: data);
+        }
+
+        public static string BeforeOpeningRow(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BeforeOpeningRow",
                 data: data);
         }
 
@@ -5179,6 +5189,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string OutputLog(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "OutputLog",
+                data: data);
+        }
+
         public static string Over(
             Context context,
             params string[] data)
@@ -7656,6 +7676,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Weekly",
+                data: data);
+        }
+
+        public static string WhenloadingRecord(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "WhenloadingRecord",
                 data: data);
         }
 

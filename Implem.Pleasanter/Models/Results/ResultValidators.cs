@@ -46,8 +46,8 @@ namespace Implem.Pleasanter.Models
             {
                 case BaseModel.MethodTypes.Edit:
                     return
-                        context.CanRead(ss: ss) &&
-                        resultModel.AccessStatus != Databases.AccessStatuses.NotFound
+                        context.CanRead(ss: ss)
+                        && resultModel.AccessStatus != Databases.AccessStatuses.NotFound
                             ? new ErrorData(type: Error.Types.None)
                             : new ErrorData(type: Error.Types.NotFound);
                 case BaseModel.MethodTypes.New:
@@ -78,7 +78,7 @@ namespace Implem.Pleasanter.Models
                         ss.LockedTableTime.DisplayValue.ToString(context.CultureInfo())
                     });
             }
-            if (!context.CanCreate(ss: ss))
+            if (!context.CanCreate(ss: ss) || resultModel.ReadOnly)
             {
                 return !context.CanRead(ss: ss)
                     ? new ErrorData(type: Error.Types.NotFound)
@@ -242,7 +242,7 @@ namespace Implem.Pleasanter.Models
                         ss.LockedRecordTime.DisplayValue.ToString(context.CultureInfo())
                     });
             }
-            if (!context.CanUpdate(ss: ss))
+            if (!context.CanUpdate(ss: ss) || resultModel.ReadOnly)
             {
                 return !context.CanRead(ss: ss)
                     ? new ErrorData(type: Error.Types.NotFound)
@@ -407,7 +407,8 @@ namespace Implem.Pleasanter.Models
             if (!Permissions.CanMove(
                 context: context,
                 source: ss,
-                destination: destinationSs))
+                destination: destinationSs)
+                    || resultModel.ReadOnly)
             {
                 return new ErrorData(type: Error.Types.HasNotPermission);
             }
@@ -442,7 +443,7 @@ namespace Implem.Pleasanter.Models
                         ss.LockedRecordTime.DisplayValue.ToString(context.CultureInfo())
                     });
             }
-            return context.CanDelete(ss: ss)
+            return context.CanDelete(ss: ss) && !resultModel.ReadOnly
                 ? new ErrorData(type: Error.Types.None)
                 : !context.CanRead(ss: ss)
                     ? new ErrorData(type: Error.Types.NotFound)
@@ -516,7 +517,7 @@ namespace Implem.Pleasanter.Models
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
-            if (!context.CanManageSite(ss: ss))
+            if (!context.CanManageSite(ss: ss) || resultModel.ReadOnly)
             {
                 return new ErrorData(type: Error.Types.HasNotPermission);
             }

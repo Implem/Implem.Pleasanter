@@ -133,7 +133,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ss: ss,
                     columnName: nameof(ResultModel.Owner),
                     value: resultModel.Owner.Id));
-                values.Add(ReadNameValue(ss: ss,
+                values.Add(ReadNameValue(
+                    ss: ss,
                     columnName: nameof(ResultModel.Locked),
                     value: resultModel.Locked));
             }
@@ -251,14 +252,16 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static ServerScriptModelRow SetRow(
             SiteSettings ss,
             ExpandoObject model,
-            ExpandoObject columns)
+            ExpandoObject columns,
+            ServerScriptModelHidden hidden)
         {
             var row = new ServerScriptModelRow
             {
                 ExtendedRowCss = String(model, nameof(ServerScriptModelRow.ExtendedRowCss)),
                 Columns = SetColumns(
                     ss: ss,
-                    columns: columns)
+                    columns: columns),
+                Hidden = hidden.GetAll()
             };
             return row;
         }
@@ -476,7 +479,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         private static void SetViewValues(
             SiteSettings ss,
-            ServerScriptModel.ServerScriptModelSiteSettings data)
+            ServerScriptModelSiteSettings data)
         {
             if (ss == null)
             {
@@ -503,7 +506,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             var scriptValues = SetRow(
                 ss: ss,
                 model: data.Model,
-                columns: data.Columns);
+                columns: data.Columns,
+                hidden: data.Hidden);
             SetExtendedColumnValues(
                 context: context,
                 model: model,
@@ -517,6 +521,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 context: context,
                 view: view,
                 columnSorterHach: data.View.Sorters);
+            model.ReadOnly = Bool(
+                data: data.Model,
+                name: "ReadOnly");
             switch (ss?.ReferenceType)
             {
                 case "Issues":
@@ -555,6 +562,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             bool onTesting = false)
         {
             if (!(Parameters.Script.ServerScript != false
+                && context.ContractSettings.NewFeatures()
                 && context.ContractSettings.Script != false))
             {
                 return null;
@@ -587,6 +595,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         engine.AddHostObject("siteSettings", model.SiteSettings);
                         engine.AddHostObject("view", model.View);
                         engine.AddHostObject("items", model.Items);
+                        engine.AddHostObject("hidden", model.Hidden);
+                        engine.AddHostObject("extendedSql", model.ExtendedSql);
+                        engine.AddHostObject("notifications", model.Notification);
                         foreach (var script in scripts)
                         {
                             engine.Execute(script.Body);
@@ -615,12 +626,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             Func<ServerScript, bool> where)
         {
             if (!(Parameters.Script.ServerScript != false
+                && context.ContractSettings.NewFeatures()
                 && context.ContractSettings.Script != false))
             {
                 return null;
             }
             var serverScripts = ss
-                ?.ServerScripts
+                ?.GetServerScripts(context: context)
                 ?.Where(where)
                 .ToArray();
             if (serverScripts?.Any() != true)
@@ -683,9 +695,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public static Context CreateContext(Context context, long id, string apiRequestBody)
         {
             var createdContext = context.CreateContext();
+            createdContext.LogBuilder = context.LogBuilder;
             createdContext.Id = id;
             createdContext.ApiRequestBody = apiRequestBody;
-            createdContext.PermissionHash = Security.Permissions.Get(context: createdContext);
+            createdContext.PermissionHash = Permissions.Get(context: createdContext);
             createdContext.ServerScriptDepth = context.ServerScriptDepth + 1;
             return createdContext;
         }
@@ -775,7 +788,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             var column = ss.GetColumn(
                 context: apiContext,
                 columnName: columnName);
-            if (where != null
+            if(where != null
                 && column?.TypeName == "decimal"
                 && apiContext.CanRead(ss: ss)
                 && column.CanRead)

@@ -1046,7 +1046,7 @@ namespace Implem.Pleasanter.Models
                 value: o.Value));
             data.DateHash?.ForEach(o => Date(
                 columnName: o.Key,
-                value: o.Value.ToUniversal(context: context)));
+                value: o.Value.ToDateTime().ToUniversal(context: context)));
             data.DescriptionHash?.ForEach(o => Description(
                 columnName: o.Key,
                 value: o.Value));
@@ -1139,6 +1139,12 @@ namespace Implem.Pleasanter.Models
                             columnName: columnName,
                             value: value);
                         break;
+                }
+                if (ss.OutputFormulaLogs == true)
+                {
+                    context.LogBuilder?.AppendLine($"formulaSet: {formulaSet.GetRecordingData().ToJson()}");
+                    context.LogBuilder?.AppendLine($"formulaSource: {data.ToJson()}");
+                    context.LogBuilder?.AppendLine($"formulaResult: {{\"{columnName}\":{value}}}");
                 }
             });
             SetByAfterFormulaServerScript(
