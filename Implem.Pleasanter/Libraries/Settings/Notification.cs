@@ -122,7 +122,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             Disabled = disabled;
         }
 
-        public void Send(Context context, SiteSettings ss, string title, string body)
+        public void Send(
+            Context context,
+            SiteSettings ss,
+            string title,
+            string body,
+            Dictionary<Column, string> values = null)
         {
             if (Disabled == true)
             {
@@ -141,15 +146,37 @@ namespace Implem.Pleasanter.Libraries.Settings
                             Addresses.BadAddress(addresses: from) == string.Empty
                                 ? from
                                 : Parameters.Mail.SupportFrom);
-                        new OutgoingMailModel()
+                        values?.ForEach(data => Address = Address.Replace($"[{data.Key.ColumnName}]",
+                            (data.Key.Type == Column.Types.User
+                                ? data.Key.MultipleSelections == true
+                                    ? data.Value.Deserialize<List<int>>()
+                                        ?.Where(userId => !SiteInfo.User(
+                                            context: context,
+                                            userId: userId).Anonymous())
+                                        .Select(userId => $"[User{userId}]")
+                                        .Join()
+                                    : !SiteInfo.User(
+                                        context: context,
+                                        userId: data.Value.ToInt()).Anonymous()
+                                            ? $"[User{data.Value}]"
+                                            : string.Empty
+                                : data.Key.MultipleSelections == true
+                                    ? data.Value.Deserialize<List<string>>()
+                                        ?.Join()
+                                    : data.Value)));
+                        var to = Addresses.Get(
+                            context: context,
+                            addresses: Address).Join(",");
+                        if (!to.IsNullOrEmpty())
                         {
-                            Title = new Title(Prefix + title),
-                            Body = body,
-                            From = mailFrom,
-                            To = Addresses.Get(
-                                context: context,
-                                addresses: Address).Join(",")
-                        }.Send(context: context, ss: ss);
+                            new OutgoingMailModel()
+                            {
+                                Title = new Title(Prefix + title),
+                                Body = body,
+                                From = mailFrom,
+                                To = to
+                            }.Send(context: context, ss: ss);
+                        }
                     }
                     break;
                 case Types.Slack:
