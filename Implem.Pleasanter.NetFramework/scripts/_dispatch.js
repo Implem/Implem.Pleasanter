@@ -137,6 +137,10 @@ $p.setByJsonElement = function (jsonElement, data, $control) {
             break;
         case 'Disabled':
             $(target).prop('disabled', value);
+        case 'Log':
+            if (value) {
+                console.log(value);
+            }
             break;
     }
 }

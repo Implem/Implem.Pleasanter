@@ -70,6 +70,9 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: invalid);
             }
+            var scriptValues = new ItemModel().SetByBeforeOpeningPageServerScript(
+                context: context,
+                ss: ss);
             return hb.Template(
                 context: context,
                 ss: ss,
@@ -82,6 +85,7 @@ namespace Implem.Pleasanter.Models
                 script: JavaScripts.ViewMode(viewMode),
                 userScript: ss.ViewModeScripts(context: context),
                 userStyle: ss.ViewModeStyles(context: context),
+                scriptValues: scriptValues,
                 action: () => hb
                     .Form(
                         attributes: new HtmlAttributes()
@@ -357,6 +361,7 @@ namespace Implem.Pleasanter.Models
                 .Val("#GridColumns", columns.Select(o => o.ColumnName).ToJson())
                 .Paging("#Grid")
                 .Message(message)
+                .Log(context.GetLog())
                 .ToJson();
         }
 
@@ -545,6 +550,7 @@ namespace Implem.Pleasanter.Models
                     .Message(
                         message: Messages.NotFound(context: context),
                         target: "row_" + issueId)
+                    .Log(context.GetLog())
                     .ToJson()
                 : res
                     .ReplaceAll(
@@ -561,6 +567,7 @@ namespace Implem.Pleasanter.Models
                             editRow: true,
                             checkRow: false,
                             idColumn: "IssueId"))
+                    .Log(context.GetLog())
                     .ToJson();
         }
 
@@ -1339,7 +1346,7 @@ namespace Implem.Pleasanter.Models
             ss.SetColumnAccessControls(
                 context: context,
                 mine: issueModel.Mine(context: context));
-            issueModel.SetByBeforeOpeningPageServerScript(
+            var scriptValues = issueModel.SetByBeforeOpeningPageServerScript(
                 context: context,
                 ss: ss);
             return editInDialog
@@ -1375,6 +1382,7 @@ namespace Implem.Pleasanter.Models
                         context: context, methodType: issueModel.MethodType),
                     userStyle: ss.EditorStyles(
                         context: context, methodType: issueModel.MethodType),
+                    scriptValues: scriptValues,
                     action: () => hb
                         .Editor(
                             context: context,
@@ -1507,6 +1515,7 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     verType: issueModel.VerType,
+                                    readOnly: issueModel.ReadOnly,
                                     updateButton: true,
                                     copyButton: true,
                                     moveButton: true,
@@ -1919,37 +1928,37 @@ namespace Implem.Pleasanter.Models
                         hb
                             .Div(
                                 id: $"SectionFields{section.Key.Id}Container",
-                                    css: "section-fields-container",
-                                    action: () => hb
-                                        .Div(action: () => hb.Label(
-                                            css: "field-section" + (section.Key.AllowExpand == true
-                                                ? " expand"
-                                                : string.Empty),
-                                            attributes: new HtmlAttributes()
-                                                .For($"SectionFields{section.Key.Id}"),
-                                            action: () => hb
-                                                .Span(css: section.Key.AllowExpand == true
-                                                    ? section.Key.Expand == true
-                                                        ? "ui-icon ui-icon-triangle-1-s"
-                                                        : "ui-icon ui-icon-triangle-1-e"
-                                                    : string.Empty)
-                                                .Text(text: section.Key.LabelText)))
-                                        .Div(
-                                            id: $"SectionFields{section.Key.Id}",
-                                            css: section.Key.AllowExpand == true && section.Key.Expand != true
-                                                ? "section-fields hidden"
-                                                : "section-fields",
-                                            action: () => hb.Fields(
-                                                context: context,
-                                                ss: ss,
-                                                id: id,
-                                                columnNames: section.Value,
-                                                dataSet: dataSet,
-                                                links: links,
-                                                issueModel: issueModel,
-                                                preview: preview,
-                                                editInDialog: editInDialog,
-                                                tabIndex: tabIndex)));
+                                css: "section-fields-container",
+                                action: () => hb
+                                    .Div(action: () => hb.Label(
+                                        css: "field-section" + (section.Key.AllowExpand == true
+                                            ? " expand"
+                                            : string.Empty),
+                                        attributes: new HtmlAttributes()
+                                            .For($"SectionFields{section.Key.Id}"),
+                                        action: () => hb
+                                            .Span(css: section.Key.AllowExpand == true
+                                                ? section.Key.Expand == true
+                                                    ? "ui-icon ui-icon-triangle-1-s"
+                                                    : "ui-icon ui-icon-triangle-1-e"
+                                                : string.Empty)
+                                            .Text(text: section.Key.LabelText)))
+                                    .Div(
+                                        id: $"SectionFields{section.Key.Id}",
+                                        css: section.Key.AllowExpand == true && section.Key.Expand != true
+                                            ? "section-fields hidden"
+                                            : "section-fields",
+                                        action: () => hb.Fields(
+                                            context: context,
+                                            ss: ss,
+                                            id: id,
+                                            columnNames: section.Value,
+                                            dataSet: dataSet,
+                                            links: links,
+                                            issueModel: issueModel,
+                                            preview: preview,
+                                            editInDialog: editInDialog,
+                                            tabIndex: tabIndex)));
                     }
                 });
             return hb;
@@ -2183,7 +2192,7 @@ namespace Implem.Pleasanter.Models
                         icon: "ui-icon-extlink",
                         action: "EditSeparateSettings",
                         method: "post",
-                        _using: context.CanUpdate(ss: ss)
+                        _using: context.CanUpdate(ss: ss) && !issueModel.ReadOnly
                             && ss.AllowSeparate == true)
                     : hb;
         }
@@ -2230,6 +2239,7 @@ namespace Implem.Pleasanter.Models
                         editInDialog: editInDialog))
                     .Invoke("openEditorDialog")
                     .Events("on_editor_load")
+                    .Log(context.GetLog())
                 : new IssuesResponseCollection(issueModel)
                     .Response("id", issueModel.IssueId.ToString())
                     .Invoke("clearDialogs")
@@ -2241,7 +2251,8 @@ namespace Implem.Pleasanter.Models
                     .Invoke("initRelatingColumnEditor")
                     .Message(message)
                     .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"))
-                    .Events("on_editor_load");
+                    .Events("on_editor_load")
+                    .Log(context.GetLog());
         }
 
         private static List<long> GetSwitchTargets(Context context, SiteSettings ss, long issueId, long siteId)
@@ -5452,8 +5463,8 @@ namespace Implem.Pleasanter.Models
                 default: return null;
             }
             var export = ss.GetExport(
-                    context: context,
-                    id: context.QueryStrings.Int("id"));
+                context: context,
+                id: context.QueryStrings.Int("id"));
             var content = ExportUtilities.Export(
                 context: context,
                 ss: ss,
@@ -5492,8 +5503,8 @@ namespace Implem.Pleasanter.Models
             System.Threading.Tasks.Task.Factory.StartNew(() =>
             {
                 var export = ss.GetExport(
-                        context: context,
-                        id: context.Forms.Int("ExportId"));
+                    context: context,
+                    id: context.Forms.Int("ExportId"));
                 var fileName = ExportUtilities.FileName(
                     context: context,
                     title: ss.Title,

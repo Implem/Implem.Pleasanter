@@ -217,7 +217,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         context: context,
                         column: column))
                 : new Dictionary<string, bool>();
-            BaseItemModel rowModel = null;
+            ServerScriptModelRow serverScriptRowValues = null;
+            var depts = new Dictionary<string, DeptModel>();
+            var groups = new Dictionary<string, GroupModel>();
+            var registrations = new Dictionary<string, RegistrationModel>();
+            var users = new Dictionary<string, UserModel>();
+            var sites = new Dictionary<string, SiteModel>();
+            var issues = new Dictionary<string, IssueModel>();
+            var results = new Dictionary<string, ResultModel>();
             switch (ss.ReferenceType)
             {
                 case "Issues":
@@ -232,7 +239,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ss.SetColumnAccessControls(
                         context: context,
                         mine: issueModel.Mine(context: context));
-                    rowModel = issueModel;
+                    serverScriptRowValues = issueModel?.SetByBeforeOpeningRowServerScript(
+                        context: context,
+                        ss: ss);
+                    issues.Add("Issues", issueModel);
                     break;
                 case "Results":
                     var resultModel = new ResultModel(
@@ -246,12 +256,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ss.SetColumnAccessControls(
                         context: context,
                         mine: resultModel.Mine(context: context));
-                    rowModel = resultModel;
+                    serverScriptRowValues = resultModel?.SetByBeforeOpeningRowServerScript(
+                        context: context,
+                        ss: ss);
+                    results.Add("Results", resultModel);
                     break;
             };
-            var serverScriptRowValues = rowModel?.SetByBeforeOpeningPageServerScript(
-                context: context,
-                ss: ss);
             var extendedRowCss = serverScriptRowValues?.ExtendedRowCss;
             extendedRowCss = extendedRowCss.IsNullOrEmpty() ? string.Empty : " " + extendedRowCss;
             return hb.Tr(
@@ -299,14 +309,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 dataId: dataId.ToString(),
                                 _using: !isHistory));
                     }
-                    var depts = new Dictionary<string, DeptModel>();
-                    var groups = new Dictionary<string, GroupModel>();
-                    var registrations = new Dictionary<string, RegistrationModel>();
-                    var users = new Dictionary<string, UserModel>();
-                    var sites = new Dictionary<string, SiteModel>();
-                    var issues = new Dictionary<string, IssueModel>();
-                    var results = new Dictionary<string, ResultModel>();
-                    ServerScriptModelRow serverScriptValues = null;
                     columns.ForEach(column =>
                     {
                         var key = column.TableName();
@@ -325,9 +327,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: deptModel.Mine(context: context));
-                                    serverScriptValues = deptModel.SetByBeforeOpeningPageServerScript(
-                                        context: context,
-                                        ss: ss);
                                 }
                                 hb.TdValue(
                                     context: context,
@@ -348,9 +347,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: groupModel.Mine(context: context));
-                                    serverScriptValues = groupModel.SetByBeforeOpeningPageServerScript(
-                                        context: context,
-                                        ss: ss);
                                 }
                                 hb.TdValue(
                                     context: context,
@@ -371,9 +367,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: registrationModel.Mine(context: context));
-                                    serverScriptValues = registrationModel.SetByBeforeOpeningPageServerScript(
-                                        context: context,
-                                        ss: ss);
                                 }
                                 hb.TdValue(
                                     context: context,
@@ -394,9 +387,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: userModel.Mine(context: context));
-                                    serverScriptValues = userModel.SetByBeforeOpeningPageServerScript(
-                                        context: context,
-                                        ss: ss);
                                 }
                                 hb.TdValue(
                                     context: context,
@@ -420,9 +410,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: siteModel.Mine(context: context));
-                                    serverScriptValues = siteModel.SetByBeforeOpeningPageServerScript(
-                                        context: context,
-                                        ss: ss);
                                 }
                                 hb.TdValue(
                                     context: context,
@@ -447,11 +434,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: issueModel.Mine(context: context));
-                                    serverScriptValues = issueModel.SetByBeforeOpeningPageServerScript(
-                                        context: context,
-                                        ss: ss);
                                 }
                                 if (!issueModel.Locked
+                                    && !issueModel.ReadOnly
                                     && EditColumns.Get(column.ColumnName)
                                     && column.CanEdit(
                                         context: context,
@@ -476,7 +461,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         ss: column.SiteSettings,
                                         column: column,
                                         issueModel: issueModel,
-                                        serverScriptValues: serverScriptValues
+                                        serverScriptValues: serverScriptRowValues
                                             ?.Columns
                                             ?.Get(column?.ColumnName));
                                 }
@@ -498,11 +483,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss.SetColumnAccessControls(
                                         context: context,
                                         mine: resultModel.Mine(context: context));
-                                    serverScriptValues = resultModel.SetByBeforeOpeningPageServerScript(
-                                        context: context,
-                                        ss: ss);
                                 }
                                 if (!resultModel.Locked
+                                    && !resultModel.ReadOnly
                                     && EditColumns.Get(column.ColumnName)
                                     && column.CanEdit(
                                         context: context,
@@ -527,7 +510,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         ss: column.SiteSettings,
                                         column: column,
                                         resultModel: resultModel,
-                                        serverScriptValues: serverScriptValues
+                                        serverScriptValues: serverScriptRowValues
                                             ?.Columns
                                             ?.Get(column?.ColumnName));
                                 }

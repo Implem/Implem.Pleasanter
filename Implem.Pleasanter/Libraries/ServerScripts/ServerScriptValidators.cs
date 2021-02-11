@@ -1,9 +1,6 @@
 ﻿using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
-using Implem.Pleasanter.Models;
-using System;
-using System.Collections.Generic;
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public class ServerScriptValidators

@@ -876,7 +876,7 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll("#MainContainer", New(context: context))
                 .WindowScrollTop()
                 .FocusMainForm()
-                .ClearFormData()
+                .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"))
                 .PushState("Edit", Locations.Get(
                     context: context,
                     parts: new string[]
@@ -2956,8 +2956,8 @@ namespace Implem.Pleasanter.Models
                 initSiteSettings: true);
             switch (Site.ReferenceType)
             {
-                    case "Issues":
-                    case "Results":
+                case "Issues":
+                case "Results":
                     return SiteUtilities.LockTable(
                         context: context,
                         ss: Site.SiteSettings);
@@ -2973,8 +2973,8 @@ namespace Implem.Pleasanter.Models
                 initSiteSettings: true);
             switch (Site.ReferenceType)
             {
-                    case "Issues":
-                    case "Results":
+                case "Issues":
+                case "Results":
                     return SiteUtilities.UnlockTable(
                         context: context,
                         ss: Site.SiteSettings);
@@ -2990,8 +2990,8 @@ namespace Implem.Pleasanter.Models
                 initSiteSettings: true);
             switch (Site.ReferenceType)
             {
-                    case "Issues":
-                    case "Results":
+                case "Issues":
+                case "Results":
                     return SiteUtilities.ForceUnlockTable(
                         context: context,
                         ss: Site.SiteSettings);

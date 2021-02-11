@@ -58,8 +58,8 @@ namespace Implem.Pleasanter.Models
             {
                 case BaseModel.MethodTypes.Edit:
                     return
-                        context.CanRead(ss: ss) &&
-                        userModel.AccessStatus != Databases.AccessStatuses.NotFound
+                        context.CanRead(ss: ss)
+                        && userModel.AccessStatus != Databases.AccessStatuses.NotFound
                             ? new ErrorData(type: Error.Types.None)
                             : new ErrorData(type: Error.Types.NotFound);
                 case BaseModel.MethodTypes.New:
@@ -84,7 +84,7 @@ namespace Implem.Pleasanter.Models
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
-            if (!context.CanCreate(ss: ss))
+            if (!context.CanCreate(ss: ss) || userModel.ReadOnly)
             {
                 return !context.CanRead(ss: ss)
                     ? new ErrorData(type: Error.Types.NotFound)
@@ -352,7 +352,7 @@ namespace Implem.Pleasanter.Models
             {
                 return new ErrorData(type: Error.Types.PermissionNotSelfChange);
             }
-            if (!context.CanUpdate(ss: ss))
+            if (!context.CanUpdate(ss: ss) || userModel.ReadOnly)
             {
                 return !context.CanRead(ss: ss)
                     ? new ErrorData(type: Error.Types.NotFound)
@@ -614,7 +614,7 @@ namespace Implem.Pleasanter.Models
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
-            return context.CanDelete(ss: ss)
+            return context.CanDelete(ss: ss) && !userModel.ReadOnly
                 ? new ErrorData(type: Error.Types.None)
                 : !context.CanRead(ss: ss)
                     ? new ErrorData(type: Error.Types.NotFound)

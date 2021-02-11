@@ -1,0 +1,29 @@
+﻿{
+    "Id": "OutputLog",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Output log"
+        },
+        {
+            "Language": "zh",
+            "Body": "输出日志"
+        },
+        {
+            "Language": "ja",
+            "Body": "ログを出力する"
+        },
+        {
+            "Language": "de",
+            "Body": "Ausgabeprotokoll"
+        },
+        {
+            "Language": "ko",
+            "Body": "출력 로그"
+        },
+        {
+            "Language": "es",
+            "Body": "Registro di output"
+        }
+    ]
+}

@@ -16,10 +16,12 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Dynamic;
 using System.Globalization;
 using System.IdentityModel.Services;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
@@ -29,6 +31,8 @@ namespace Implem.Pleasanter.NetFramework.Libraries.Requests
     public class ContextImplement : Context
     {
         public override Stopwatch Stopwatch { get; set; } = new Stopwatch();
+        public override StringBuilder LogBuilder { get; set; } = new StringBuilder();
+        public override ExpandoObject UserData { get; set; } = new ExpandoObject();
         public override bool Authenticated { get; set; }
         public override bool SwitchUser { get; set; }
         public override string SessionGuid { get; set; } = Strings.NewGuid();
@@ -581,6 +585,11 @@ namespace Implem.Pleasanter.NetFramework.Libraries.Requests
         public override IScriptEngine CreateScriptEngin()
         {
             return new ScriptEngine();
+        }
+
+        public override string GetLog()
+        {
+            return LogBuilder?.ToString();
         }
     }
 }
