@@ -3165,6 +3165,12 @@ namespace Implem.Pleasanter.Models
         {
             var sub = Rds.SelectIssues(
                 column: Rds.IssuesColumn().IssueId(),
+                join: ss.Join(
+                    context: context,
+                    join: new IJoin[]
+                    {
+                        where
+                    }),
                 where: where);
             var verUpWhere = VerUpWhere(
                 context: context,
@@ -4619,7 +4625,10 @@ namespace Implem.Pleasanter.Models
                 column: Rds.IssuesColumn().IssueId(),
                 join: ss.Join(
                     context: context,
-                    join: where),
+                    join: new IJoin[]
+                    {
+                        where
+                    }),
                 where: where);
             var sites = ss.IntegratedSites?.Any() == true
                 ? ss.AllowedIntegratedSites
@@ -4642,7 +4651,13 @@ namespace Implem.Pleasanter.Models
                     .ReferenceId_In(sub: sub)));
             statements.Add(Rds.DeleteIssues(
                 factory: context,
-                where: where));
+                where: Rds.IssuesWhere()
+                    .SiteId_In(sites)
+                    .IssueId_In(sub: Rds.SelectItems(
+                        column: Rds.ItemsColumn().ReferenceId(),
+                        where: Rds.ItemsWhere()
+                            .SiteId_In(sites)
+                            .ReferenceType(guid)))));
             statements.Add(Rds.RowCount());
             statements.Add(Rds.DeleteItems(
                 factory: context,
