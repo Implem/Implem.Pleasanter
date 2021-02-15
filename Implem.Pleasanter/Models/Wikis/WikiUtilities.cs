@@ -967,24 +967,19 @@ namespace Implem.Pleasanter.Models
                 ?.Aggregate(new List<KeyValuePair<Section, List<string>>>(), (columns, column) =>
                 {
                     var sectionId = ss.SectionId(column.ColumnName);
-                    if (sectionId != 0)
+                    var section = ss
+                        .Sections
+                        ?.FirstOrDefault(o => o.Id == sectionId);
+                    if (section != null)
                     {
                         columns.Add(new KeyValuePair<Section, List<string>>(
                             new Section
                             {
-                                Id = sectionId,
-                                LabelText = ss
-                                    .Sections
-                                    ?.FirstOrDefault(o => o.Id == sectionId)
-                                    ?.LabelText,
-                                AllowExpand = ss
-                                    .Sections
-                                    ?.FirstOrDefault(o => o.Id == sectionId)
-                                    ?.AllowExpand,
-                                Expand = ss
-                                    .Sections
-                                    ?.FirstOrDefault(o => o.Id == sectionId)
-                                    ?.Expand
+                                Id = section.Id,
+                                LabelText = section.LabelText,
+                                AllowExpand = section.AllowExpand,
+                                Expand = section.Expand,
+                                Hide = section.Hide
                             },
                             new List<string>()));
                     }
@@ -1015,7 +1010,7 @@ namespace Implem.Pleasanter.Models
                             editInDialog: editInDialog,
                             tabIndex: tabIndex);
                     }
-                    else
+                    else if (section.Key.Hide != true)
                     {
                         hb
                             .Div(
