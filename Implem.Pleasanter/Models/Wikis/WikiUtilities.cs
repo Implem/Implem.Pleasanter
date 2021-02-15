@@ -967,24 +967,19 @@ namespace Implem.Pleasanter.Models
                 ?.Aggregate(new List<KeyValuePair<Section, List<string>>>(), (columns, column) =>
                 {
                     var sectionId = ss.SectionId(column.ColumnName);
-                    if (sectionId != 0)
+                    var section = ss
+                        .Sections
+                        ?.FirstOrDefault(o => o.Id == sectionId);
+                    if (section != null)
                     {
                         columns.Add(new KeyValuePair<Section, List<string>>(
                             new Section
                             {
-                                Id = sectionId,
-                                LabelText = ss
-                                    .Sections
-                                    ?.FirstOrDefault(o => o.Id == sectionId)
-                                    ?.LabelText,
-                                AllowExpand = ss
-                                    .Sections
-                                    ?.FirstOrDefault(o => o.Id == sectionId)
-                                    ?.AllowExpand,
-                                Expand = ss
-                                    .Sections
-                                    ?.FirstOrDefault(o => o.Id == sectionId)
-                                    ?.Expand
+                                Id = section.Id,
+                                LabelText = section.LabelText,
+                                AllowExpand = section.AllowExpand,
+                                Expand = section.Expand,
+                                Hide = section.Hide
                             },
                             new List<string>()));
                     }
@@ -1015,7 +1010,7 @@ namespace Implem.Pleasanter.Models
                             editInDialog: editInDialog,
                             tabIndex: tabIndex);
                     }
-                    else
+                    else if (section.Key.Hide != true)
                     {
                         hb
                             .Div(
@@ -1617,30 +1612,30 @@ namespace Implem.Pleasanter.Models
                     .Select(o => o.ColumnName)
                     .ForEach(columnName =>
                         column.Add($"[{columnName}]"));
-                var attachments = Repository.ExecuteTable(
-                    context: context,
-                    statements: Rds.SelectWikis(
-                        tableType: Sqls.TableTypes.Deleted,
-                        column: column,
-                        where: Rds.WikisWhere()
-                            .SiteId(ss.SiteId)
-                            .WikiId_In(sub: sub)))
-                    .AsEnumerable()
-                    .Select(dataRow => new
-                    {
-                        wikiId = dataRow.Long("WikiId"),
-                        attachments = dataRow
-                            .Columns()
-                            .Where(columnName => columnName.StartsWith("Attachments"))
-                            .SelectMany(columnName => 
-                                Jsons.Deserialize<IEnumerable<Attachment>>(dataRow.String(columnName)) 
-                                    ?? Enumerable.Empty<Attachment>())
-                            .Where(o => o != null)
-                            .Select(o => o.Guid)
-                            .Distinct()
-                            .ToArray()
-                    })
-                    .Where(o => o.attachments.Length > 0);
+            var attachments = Repository.ExecuteTable(
+                context: context,
+                statements: Rds.SelectWikis(
+                    tableType: Sqls.TableTypes.Deleted,
+                    column: column,
+                    where: Rds.WikisWhere()
+                        .SiteId(ss.SiteId)
+                        .WikiId_In(sub: sub)))
+                .AsEnumerable()
+                .Select(dataRow => new
+                {
+                    wikiId = dataRow.Long("WikiId"),
+                    attachments = dataRow
+                        .Columns()
+                        .Where(columnName => columnName.StartsWith("Attachments"))
+                        .SelectMany(columnName => 
+                            Jsons.Deserialize<IEnumerable<Attachment>>(dataRow.String(columnName)) 
+                                ?? Enumerable.Empty<Attachment>())
+                        .Where(o => o != null)
+                        .Select(o => o.Guid)
+                        .Distinct()
+                        .ToArray()
+                })
+                .Where(o => o.attachments.Length > 0);
             var guid = Strings.NewGuid();
             var count = Repository.ExecuteScalar_response(
                 context: context,

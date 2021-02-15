@@ -485,20 +485,20 @@ namespace Implem.Pleasanter.Models
                 ss.GetEditorColumnNames(
                     context: context,
                     columnOnly: true)
-                    .Select(columnName => ss.GetColumn(
-                        context: context,
-                        columnName: columnName))
-                    .Where(column => column.CanUpdate)
-                    .Where(column => !column.Id_Ver)
-                    .Where(column => !columns.Any(p =>
-                        p.ColumnName == column.ColumnName))
-                    .ForEach(column =>
-                        res.SetFormData(
-                            $"{ss.ReferenceType}_{column.ColumnName}_{ss.SiteId}_{newRowId}",
-                            resultModel.ControlValue(
-                                context: context,
-                                ss: ss,
-                                column: column)));
+                        .Select(columnName => ss.GetColumn(
+                            context: context,
+                            columnName: columnName))
+                        .Where(column => column.CanUpdate)
+                        .Where(column => !column.Id_Ver)
+                        .Where(column => !columns.Any(p =>
+                            p.ColumnName == column.ColumnName))
+                        .ForEach(column =>
+                            res.SetFormData(
+                                $"{ss.ReferenceType}_{column.ColumnName}_{ss.SiteId}_{newRowId}",
+                                resultModel.ControlValue(
+                                    context: context,
+                                    ss: ss,
+                                    column: column)));
             }
             return res;
         }
@@ -1765,24 +1765,19 @@ namespace Implem.Pleasanter.Models
                 ?.Aggregate(new List<KeyValuePair<Section, List<string>>>(), (columns, column) =>
                 {
                     var sectionId = ss.SectionId(column.ColumnName);
-                    if (sectionId != 0)
+                    var section = ss
+                        .Sections
+                        ?.FirstOrDefault(o => o.Id == sectionId);
+                    if (section != null)
                     {
                         columns.Add(new KeyValuePair<Section, List<string>>(
                             new Section
                             {
-                                Id = sectionId,
-                                LabelText = ss
-                                    .Sections
-                                    ?.FirstOrDefault(o => o.Id == sectionId)
-                                    ?.LabelText,
-                                AllowExpand = ss
-                                    .Sections
-                                    ?.FirstOrDefault(o => o.Id == sectionId)
-                                    ?.AllowExpand,
-                                Expand = ss
-                                    .Sections
-                                    ?.FirstOrDefault(o => o.Id == sectionId)
-                                    ?.Expand
+                                Id = section.Id,
+                                LabelText = section.LabelText,
+                                AllowExpand = section.AllowExpand,
+                                Expand = section.Expand,
+                                Hide = section.Hide
                             },
                             new List<string>()));
                     }
@@ -1813,7 +1808,7 @@ namespace Implem.Pleasanter.Models
                             editInDialog: editInDialog,
                             tabIndex: tabIndex);
                     }
-                    else
+                    else if (section.Key.Hide != true)
                     {
                         hb
                             .Div(
@@ -2700,7 +2695,7 @@ namespace Implem.Pleasanter.Models
                                     column: ss.GetColumn(context: context, columnName: "Comments"),
                                     comments: resultModel.Comments,
                                     verType: resultModel.VerType)
-                                        .ToJson();                
+                                .ToJson();
                         default:
                             return ResponseByUpdate(res, context, ss, resultModel)
                                 .ToJson();
@@ -2981,6 +2976,12 @@ namespace Implem.Pleasanter.Models
         {
             var sub = Rds.SelectResults(
                 column: Rds.ResultsColumn().ResultId(),
+                join: ss.Join(
+                    context: context,
+                    join: new IJoin[]
+                    {
+                        where
+                    }),
                 where: where);
             var verUpWhere = VerUpWhere(
                 context: context,
@@ -3840,30 +3841,30 @@ namespace Implem.Pleasanter.Models
                     .Select(o => o.ColumnName)
                     .ForEach(columnName =>
                         column.Add($"[{columnName}]"));
-                var attachments = Repository.ExecuteTable(
-                    context: context,
-                    statements: Rds.SelectResults(
-                        tableType: Sqls.TableTypes.Deleted,
-                        column: column,
-                        where: Rds.ResultsWhere()
-                            .SiteId(ss.SiteId)
-                            .ResultId_In(sub: sub)))
-                    .AsEnumerable()
-                    .Select(dataRow => new
-                    {
-                        resultId = dataRow.Long("ResultId"),
-                        attachments = dataRow
-                            .Columns()
-                            .Where(columnName => columnName.StartsWith("Attachments"))
-                            .SelectMany(columnName => 
-                                Jsons.Deserialize<IEnumerable<Attachment>>(dataRow.String(columnName)) 
-                                    ?? Enumerable.Empty<Attachment>())
-                            .Where(o => o != null)
-                            .Select(o => o.Guid)
-                            .Distinct()
-                            .ToArray()
-                    })
-                    .Where(o => o.attachments.Length > 0);
+            var attachments = Repository.ExecuteTable(
+                context: context,
+                statements: Rds.SelectResults(
+                    tableType: Sqls.TableTypes.Deleted,
+                    column: column,
+                    where: Rds.ResultsWhere()
+                        .SiteId(ss.SiteId)
+                        .ResultId_In(sub: sub)))
+                .AsEnumerable()
+                .Select(dataRow => new
+                {
+                    resultId = dataRow.Long("ResultId"),
+                    attachments = dataRow
+                        .Columns()
+                        .Where(columnName => columnName.StartsWith("Attachments"))
+                        .SelectMany(columnName => 
+                            Jsons.Deserialize<IEnumerable<Attachment>>(dataRow.String(columnName)) 
+                                ?? Enumerable.Empty<Attachment>())
+                        .Where(o => o != null)
+                        .Select(o => o.Guid)
+                        .Distinct()
+                        .ToArray()
+                })
+                .Where(o => o.attachments.Length > 0);
             var guid = Strings.NewGuid();
             var count = Repository.ExecuteScalar_response(
                 context: context,
@@ -4282,7 +4283,10 @@ namespace Implem.Pleasanter.Models
                 column: Rds.ResultsColumn().ResultId(),
                 join: ss.Join(
                     context: context,
-                    join: where),
+                    join: new IJoin[]
+                    {
+                        where
+                    }),
                 where: where);
             var sites = ss.IntegratedSites?.Any() == true
                 ? ss.AllowedIntegratedSites
@@ -4305,7 +4309,13 @@ namespace Implem.Pleasanter.Models
                     .ReferenceId_In(sub: sub)));
             statements.Add(Rds.DeleteResults(
                 factory: context,
-                where: where));
+                where: Rds.ResultsWhere()
+                    .SiteId_In(sites)
+                    .ResultId_In(sub: Rds.SelectItems(
+                        column: Rds.ItemsColumn().ReferenceId(),
+                        where: Rds.ItemsWhere()
+                            .SiteId_In(sites)
+                            .ReferenceType(guid)))));
             statements.Add(Rds.RowCount());
             statements.Add(Rds.DeleteItems(
                 factory: context,
@@ -5175,7 +5185,7 @@ namespace Implem.Pleasanter.Models
                         : System.Text.RegularExpressions.Regex.Replace(
                             Parameters.Service.AbsoluteUri.TrimEnd('/'),
                             $"{context.ApplicationPath.TrimEnd('/')}$",
-                            string.Empty);    
+                            string.Empty);
                     new OutgoingMailModel()
                     {
                         Title = new Title(Displays.ExportEmailTitle(

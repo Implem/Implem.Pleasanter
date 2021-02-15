@@ -696,12 +696,28 @@ namespace Implem.Pleasanter.Models
                         return;
                 }
             }
-            ServerScriptUtilities.Execute(
+            var scriptValues = ServerScriptUtilities.Execute(
                 context: context,
                 ss: ss,
                 itemModel: null,
                 view: null,
                 where: script => script.WhenloadingSiteSettings == true);
+            scriptValues?.Columns
+                .Where(column => column.Value?.ChoiceHash != null)
+                .ForEach(column =>
+                {
+                    var ssColumn = ss.GetColumn(
+                        context: context,
+                        columnName: column.Key);
+                    if (ssColumn != null)
+                    {
+                        ssColumn.ChoiceHash = column.Value
+                            ?.ChoiceHash
+                            ?.ToDictionary(
+                                o => o.Key.ToString(),
+                                o => new Choice(o.Value?.ToString()));
+                    }
+                });
         }
 
         public virtual void SetByAfterFormulaServerScript(Context context, SiteSettings ss)

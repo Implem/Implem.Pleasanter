@@ -873,9 +873,9 @@ namespace Implem.Pleasanter.Models
                                 .ReferenceId(ReferenceId)
                                 .BinaryType("SiteImage"),
                             param: Rds.BinariesParamDefault(
-                                    context: context,
-                                    binaryModel: this,
-                                    setDefault: true)));
+                                context: context,
+                                binaryModel: this,
+                                setDefault: true)));
                     break;
             }
             return Error.Types.None;
@@ -905,9 +905,9 @@ namespace Implem.Pleasanter.Models
                                 .ReferenceId(ReferenceId)
                                 .BinaryType("TenantImage"),
                             param: Rds.BinariesParamDefault(
-                                    context: context,
-                                    binaryModel: this,
-                                    setDefault: true)));
+                                context: context,
+                                binaryModel: this,
+                                setDefault: true)));
                     break;
             }
             return Error.Types.None;

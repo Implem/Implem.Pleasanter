@@ -7,7 +7,6 @@ using Implem.Pleasanter.Libraries.Settings;
 using System.Linq;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Libraries.DataSources.SqlServer;
-
 namespace Implem.Pleasanter.Libraries.ViewModes
 {
     public static class GanttUtilities

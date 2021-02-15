@@ -1323,6 +1323,12 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         users: users);
                 }
+                var values = ss.IncludedColumns(notification.Address)
+                    .ToDictionary(
+                        column => column,
+                        column => PropertyValue(
+                            context: context,
+                            name: column.ColumnName));
                 switch (type)
                 {
                     case "Created":
@@ -1335,7 +1341,8 @@ namespace Implem.Pleasanter.Models
                             body: NoticeBody(
                                 context: context,
                                 ss: ss,
-                                notification: notification));
+                                notification: notification),
+                            values: values);
                         break;
                     case "Updated":
                         if (notification.MonitorChangesColumns.Any(columnName => PropertyUpdated(
@@ -1353,7 +1360,8 @@ namespace Implem.Pleasanter.Models
                                 title: Displays.Updated(
                                     context: context,
                                     data: Title.DisplayValue).ToString(),
-                                body: body);
+                                body: body,
+                                values: values);
                         }
                         break;
                     case "Deleted":
@@ -1366,7 +1374,8 @@ namespace Implem.Pleasanter.Models
                             body: NoticeBody(
                                 context: context,
                                 ss: ss,
-                                notification: notification));
+                                notification: notification),
+                            values: values);
                         break;
                 }
             });

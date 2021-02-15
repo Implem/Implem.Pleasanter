@@ -192,14 +192,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             if (viewerSwitchingTypes != Column.ViewerSwitchingTypes.Disabled)
             {
                 hb
-                   .Div(attributes: new HtmlAttributes()
-                       .Id(controlId + ".viewer")
-                       .Class("control-markup not-send")
+                    .Div(attributes: new HtmlAttributes()
+                        .Id(controlId + ".viewer")
+                        .Class("control-markup not-send")
                        .OnDblClick($"$p.editMarkdown($('#{controlId}'));"))
-                   .Div(
-                       attributes: new HtmlAttributes()
-                           .Id(controlId + ".editor")
-                           .Class("ui-icon ui-icon-pencil button-edit-markdown")
+                    .Div(
+                        attributes: new HtmlAttributes()
+                            .Id(controlId + ".editor")
+                            .Class("ui-icon ui-icon-pencil button-edit-markdown")
                            .OnClick($"$p.editMarkdown($('#{controlId}'));"),
                        _using: !readOnly);
             }
@@ -215,16 +215,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ? " manual"
                                     : string.Empty)
                                 + (CanUploadImage(context, readOnly, allowImage, preview)
-                                    ? " upload-image"
-                                    : string.Empty),
-                            controlCss))
-                        .Placeholder(placeholder)
-                        .DataAlwaysSend(alwaysSend)
-                        .DataValidateMaxLength(validateMaxLength)
-                        .DataValidateRequired(validateRequired, _using: !readOnly)
-                        .DataValidateRegex(validateRegex)
-                        .DataValidateRegexErrorMessage(validateRegexErrorMessage)
-                        .Add(attributes),
+                                        ? " upload-image"
+                                        : string.Empty),
+                                controlCss))
+                                    .Placeholder(placeholder)
+                                    .DataAlwaysSend(alwaysSend)
+                                    .DataValidateMaxLength(validateMaxLength)
+                                    .DataValidateRequired(validateRequired, _using: !readOnly)
+                                    .DataValidateRegex(validateRegex)
+                                    .DataValidateRegexErrorMessage(validateRegexErrorMessage)
+                                    .Add(attributes),
                     text: text)
                 .MarkDownCommands(
                     context: context,

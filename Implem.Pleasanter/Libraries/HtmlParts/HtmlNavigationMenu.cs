@@ -441,8 +441,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     .Text(text: Displays.Version(context: context)))));
         }
 
-
-
         private static string SiteSettingsDisplayName(Context context, SiteSettings ss)
         {
             switch (ss.ReferenceType)
@@ -525,11 +523,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Li(
                     id: "AccountMenu_Logout",
                     action: () => hb
-                    .A(
-                        href: Locations.Logout(context: context),
-                        action: () => hb
-                            .Span(css: "ui-icon ui-icon-locked")
-                            .Text(text: Displays.Logout(context: context))))
+                        .A(
+                            href: Locations.Logout(context: context),
+                            action: () => hb
+                                .Span(css: "ui-icon ui-icon-locked")
+                                .Text(text: Displays.Logout(context: context))))
                 .Li(
                     id: "AccountMenu_ShowStartGuide",
                     action: () => hb

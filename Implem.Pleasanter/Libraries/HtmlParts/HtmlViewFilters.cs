@@ -540,5 +540,5 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 _using: context.Controller == "items"
                     || context.Controller == "publishes");
         }
-    }   
+    }
 }

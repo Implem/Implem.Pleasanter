@@ -233,8 +233,8 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     break;
                 default:
                     var match = System.Text.RegularExpressions.Regex.Match(source, @"(?<=\[\[).+(?=\]\])");
-                    srcId = (match?.Success == true) 
-                        ? match.Value.Split_1st().ToString() 
+                    srcId = (match?.Success == true)
+                        ? match.Value.Split_1st().ToString()
                         : string.Empty;
                     break;
             }

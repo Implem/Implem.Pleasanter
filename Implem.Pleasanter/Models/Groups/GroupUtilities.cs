@@ -1785,7 +1785,22 @@ namespace Implem.Pleasanter.Models
             Context context, GroupModel groupModel)
         {
             var data = new Dictionary<string, ControlData>();
-            Repository.ExecuteTable(
+            GroupMembers(
+                context: context,
+                groupId: groupModel.GroupId)
+                    .ForEach(dataRow =>
+                        data.AddMember(
+                            context: context,
+                            dataRow: dataRow));
+            return data;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static EnumerableRowCollection<DataRow> GroupMembers(Context context, int groupId)
+        {
+            return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectGroupMembers(
                     column: Rds.GroupMembersColumn()
@@ -1793,18 +1808,63 @@ namespace Implem.Pleasanter.Models
                         .UserId()
                         .Admin(),
                     where: Rds.GroupMembersWhere()
-                        .GroupId(groupModel.GroupId)
+                        .GroupId(groupId)
                         .Add(or: Rds.GroupMembersWhere()
                             .Sub(sub: Rds.ExistsDepts(where: Rds.DeptsWhere()
                                 .DeptId(raw: "[GroupMembers].[DeptId]")))
                             .Sub(sub: Rds.ExistsUsers(where: Rds.UsersWhere()
                                 .UserId(raw: "[GroupMembers].[UserId]"))))))
-                                    .AsEnumerable()
-                                    .ForEach(dataRow =>
-                                        data.AddMember(
-                                            context: context,
-                                            dataRow: dataRow));
-            return data;
+                                    .AsEnumerable();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static bool Contains(Context context, int groupId, Dept dept)
+        {
+            return Contains(
+                context: context,
+                groupId: groupId,
+                deptId: dept?.Id ?? 0,
+                userId: 0);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static bool Contains(Context context, int groupId, User user)
+        {
+            return Contains(
+                context: context,
+                groupId: groupId,
+                deptId: user?.DeptId ?? 0,
+                userId: user?.Id ?? 0);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static bool Contains(Context context, int groupId, int deptId, int userId)
+        {
+            return deptId > 0 || userId > 0
+                ? Repository.ExecuteTable(
+                    context: context,
+                    statements: Rds.SelectGroupMembers(
+                        column: Rds.GroupMembersColumn().GroupId(),
+                        where: Rds.GroupMembersWhere()
+                            .GroupId(groupId)
+                            .Add(or: Rds.GroupMembersWhere()
+                                .DeptId(deptId, _using: deptId > 0)
+                                .UserId(userId, _using: userId > 0))
+                            .Add(or: Rds.GroupMembersWhere()
+                                .Sub(sub: Rds.ExistsDepts(where: Rds.DeptsWhere()
+                                    .DeptId(raw: "[GroupMembers].[DeptId]")))
+                                .Sub(sub: Rds.ExistsUsers(where: Rds.UsersWhere()
+                                    .UserId(raw: "[GroupMembers].[UserId]")))),
+                        top: 1))
+                            .AsEnumerable()
+                            .Count() == 1
+                : false;
         }
 
         /// <summary>

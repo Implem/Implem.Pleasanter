@@ -237,6 +237,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 var serverScriptColumn = datam.Value as ServerScriptModelColumn;
                 scriptValues[datam.Key] = new ServerScriptModelColumn
                 {
+                    ChoiceHash = serverScriptColumn?.ChoiceHash,
                     ExtendedFieldCss = serverScriptColumn?.ExtendedFieldCss,
                     ExtendedCellCss = serverScriptColumn?.ExtendedCellCss,
                     ExtendedHtmlBeforeField = serverScriptColumn?.ExtendedHtmlBeforeField,
@@ -592,6 +593,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         engine.ContinuationCallback = model.ContinuationCallback;
                         engine.AddHostObject("context", model.Context);
                         engine.AddHostObject("model", model.Model);
+                        engine.AddHostObject("depts", model.Depts);
+                        engine.AddHostObject("groups", model.Groups);
+                        engine.AddHostObject("users", model.Users);
                         engine.AddHostObject("columns", model.Columns);
                         engine.AddHostObject("siteSettings", model.SiteSettings);
                         engine.AddHostObject("view", model.View);

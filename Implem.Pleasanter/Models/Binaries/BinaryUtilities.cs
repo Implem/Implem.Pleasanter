@@ -219,7 +219,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 referenceId: tenantModel.TenantId,
                 binaryType: "TenantImage");
-            return  (
+            return (
                 binaryModel.TenantImage(
                     context: context,
                     sizeType: Libraries.Images.ImageData.SizeTypes.Logo,

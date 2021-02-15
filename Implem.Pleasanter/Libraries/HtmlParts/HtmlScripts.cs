@@ -19,9 +19,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string script = null,
             string userScript = null)
         {
-
             if (!context.Ajax)
-            { 
+            {
                 var extendedScripts = ExtendedScripts(context: context);
                 return hb
                     .Script(src: Responses.Locations.Get(

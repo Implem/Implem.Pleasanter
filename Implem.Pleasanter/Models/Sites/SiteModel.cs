@@ -3330,7 +3330,8 @@ namespace Implem.Pleasanter.Models
                     id: SiteSettings.Notifications.MaxOrDefault(o => o.Id) + 1,
                     type: (Notification.Types)context.Forms.Int("NotificationType"),
                     prefix: context.Forms.Data("NotificationPrefix"),
-                    address: context.Forms.Data("NotificationAddress"),
+                    address: SiteSettings.LabelTextToColumnName(
+                        context.Forms.Data("NotificationAddress")),
                     token: context.Forms.Data("NotificationToken"),
                     useCustomFormat: context.Forms.Bool("NotificationUseCustomFormat"),
                     format: SiteSettings.LabelTextToColumnName(
@@ -3365,7 +3366,8 @@ namespace Implem.Pleasanter.Models
                     notification.Update(
                         type: (Notification.Types)context.Forms.Int("NotificationType"),
                         prefix: context.Forms.Data("NotificationPrefix"),
-                        address: context.Forms.Data("NotificationAddress"),
+                        address: SiteSettings.LabelTextToColumnName(
+                            context.Forms.Data("NotificationAddress")),
                         token: context.Forms.Data("NotificationToken"),
                         useCustomFormat: context.Forms.Bool("NotificationUseCustomFormat"),
                         format: SiteSettings.LabelTextToColumnName(

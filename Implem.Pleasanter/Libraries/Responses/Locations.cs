@@ -10,8 +10,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Top(Context context)
         {
             return (!Parameters.Locations.TopUrl.IsNullOrEmpty() && !Permissions.PrivilegedUsers(context.LoginId))
-                    ? Get(context: context, Parameters.Locations.TopUrl)
-                    : Get(context: context);
+                ? Get(context: context, Parameters.Locations.TopUrl)
+                : Get(context: context);
         }
 
         public static string BaseUrl(Context context)
@@ -52,7 +52,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                 {
                     "Users",
                     "Logout"
-                }); 
+                });
         }
 
         public static string Admins(Context context)

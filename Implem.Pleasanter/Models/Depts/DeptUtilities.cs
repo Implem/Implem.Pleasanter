@@ -1821,5 +1821,28 @@ namespace Implem.Pleasanter.Models
                 }
             }.ToJson());
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static EnumerableRowCollection<DataRow> Users(Context context, int deptId)
+        {
+            return Repository.ExecuteTable(
+                context: context,
+                statements: Rds.SelectUsers(
+                    column: Rds.UsersColumn()
+                        .UserId()
+                        .DeptId()
+                        .LoginId()
+                        .Name()
+                        .UserCode()
+                        .TenantManager()
+                        .ServiceManager()
+                        .Disabled(),
+                    where: Rds.UsersWhere()
+                        .TenantId(context.TenantId)
+                        .DeptId(deptId)))
+                            .AsEnumerable();
+        }
     }
 }

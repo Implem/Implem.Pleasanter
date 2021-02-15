@@ -1,6 +1,5 @@
 ﻿using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
-
 namespace Implem.Pleasanter.Libraries.General
 {
     public class ErrorData

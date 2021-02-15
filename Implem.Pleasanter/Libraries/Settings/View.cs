@@ -1006,27 +1006,60 @@ namespace Implem.Pleasanter.Libraries.Settings
                 });
         }
 
-        public void SetColumnsWhere(Context context, SiteSettings ss, SqlWhereCollection where)
+        public void SetColumnsWhere(
+            Context context,
+            SiteSettings ss,
+            SqlWhereCollection where)
         {
-            var prefix = "ViewFilters_" + ss.ReferenceType + "_";
-            var prefixLength = prefix.Length;
             SetByWhenViewProcessingServerScript(
                 context: context,
                 ss: ss);
-            ColumnFilterHash?
+            SetColumnsWhere(
+                context: context,
+                ss: ss,
+                where: where,
+                columnFilterHash: ColumnFilterHash);
+        }
+
+        private void SetColumnsWhere(
+            Context context,
+            SiteSettings ss,
+            SqlWhereCollection where,
+            Dictionary<string, string> columnFilterHash)
+        {
+            columnFilterHash?
                 .Select(data => new
                 {
-                    Column = ss.GetColumn(context: context, columnName: data.Key),
+                    Column = ss.GetColumn(
+                        context: context,
+                        columnName: data.Key),
                     ColumnName = data.Key,
-                    data.Value
+                    data.Value,
+                    Or = data.Key.StartsWith("or_")
                 })
-                .Where(o => o.Column != null)
+                .Where(o => o.Column != null || o.Or)
                 .ForEach(data =>
                 {
-                    if (data.ColumnName == "SiteTitle")
+                    if (data.Or)
+                    {
+                        var orColumnFilterHash = data.Value.Deserialize<Dictionary<string, string>>();
+                        if (orColumnFilterHash?.Any() == true)
+                        {
+                            var or = new SqlWhereCollection();
+                            SetColumnsWhere(
+                                context: context,
+                                ss: ss,
+                                where: or,
+                                columnFilterHash: orColumnFilterHash);
+                            if (or.Any()) where.Or(or: or);
+                        }
+                    }
+                    else if (data.ColumnName == "SiteTitle")
                     {
                         CsNumericColumns(
-                            column: ss.GetColumn(context: context, columnName: "SiteId"),
+                            column: ss.GetColumn(
+                                context: context,
+                                columnName: "SiteId"),
                             value: data.Value,
                             where: where);
                     }

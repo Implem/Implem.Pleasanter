@@ -746,7 +746,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.UseRelatingColumnsOnFilter = UseRelatingColumnsOnFilter;
             }
-            if(OutputFormulaLogs == true)
+            if (OutputFormulaLogs == true)
             {
                 ss.OutputFormulaLogs = OutputFormulaLogs;
             }

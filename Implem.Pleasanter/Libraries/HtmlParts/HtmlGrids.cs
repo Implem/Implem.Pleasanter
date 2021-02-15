@@ -227,40 +227,40 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var results = new Dictionary<string, ResultModel>();
             switch (ss.ReferenceType)
             {
-                    case "Issues":
-                        var issueModel = new IssueModel(
-                            context: context,
-                            ss: ss,
-                            dataRow: dataRow,
-                            formData: editRow
-                                ? formDataSet?.FirstOrDefault(o =>
-                                    o.Id == dataRow.Long("IssueId"))?.Data
-                                : null);
-                        ss.SetColumnAccessControls(
-                            context: context,
-                            mine: issueModel.Mine(context: context));
-                        serverScriptRowValues = issueModel?.SetByBeforeOpeningRowServerScript(
-                            context: context,
-                            ss: ss);
-                        issues.Add("Issues", issueModel);
-                        break;
-                    case "Results":
-                        var resultModel = new ResultModel(
-                            context: context,
-                            ss: ss,
-                            dataRow: dataRow,
-                            formData: editRow
-                                ? formDataSet?.FirstOrDefault(o =>
-                                    o.Id == dataRow.Long("ResultId"))?.Data
-                                : null);
-                        ss.SetColumnAccessControls(
-                            context: context,
-                            mine: resultModel.Mine(context: context));
-                        serverScriptRowValues = resultModel?.SetByBeforeOpeningRowServerScript(
-                            context: context,
-                            ss: ss);
-                        results.Add("Results", resultModel);
-                        break;
+                case "Issues":
+                    var issueModel = new IssueModel(
+                        context: context,
+                        ss: ss,
+                        dataRow: dataRow,
+                        formData: editRow
+                            ? formDataSet?.FirstOrDefault(o =>
+                                o.Id == dataRow.Long("IssueId"))?.Data
+                            : null);
+                    ss.SetColumnAccessControls(
+                        context: context,
+                        mine: issueModel.Mine(context: context));
+                    serverScriptRowValues = issueModel?.SetByBeforeOpeningRowServerScript(
+                        context: context,
+                        ss: ss);
+                    issues.Add("Issues", issueModel);
+                    break;
+                case "Results":
+                    var resultModel = new ResultModel(
+                        context: context,
+                        ss: ss,
+                        dataRow: dataRow,
+                        formData: editRow
+                            ? formDataSet?.FirstOrDefault(o =>
+                                o.Id == dataRow.Long("ResultId"))?.Data
+                            : null);
+                    ss.SetColumnAccessControls(
+                        context: context,
+                        mine: resultModel.Mine(context: context));
+                    serverScriptRowValues = resultModel?.SetByBeforeOpeningRowServerScript(
+                        context: context,
+                        ss: ss);
+                    results.Add("Results", resultModel);
+                    break;
             };
             var extendedRowCss = serverScriptRowValues?.ExtendedRowCss;
             extendedRowCss = extendedRowCss.IsNullOrEmpty() ? string.Empty : " " + extendedRowCss;

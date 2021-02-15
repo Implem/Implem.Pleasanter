@@ -4849,8 +4849,8 @@ namespace Implem.Pleasanter.Models
             Context context, SiteSettings ss, Column column, IEnumerable<string> titleColumns)
         {
             var hb = new HtmlBuilder();
-            if (column.TypeName == "nvarchar" 
-                    && column.ControlType != "Attachments") 
+            if (column.TypeName == "nvarchar"
+                && column.ControlType != "Attachments")
             {
                 return hb.Form(
                 attributes: new HtmlAttributes()
@@ -4992,7 +4992,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Column column, Context context, SiteSettings ss)
         {
             return hb.FieldSet(
-                id: "EditorDetailsettingTab", 
+                id: "EditorDetailsettingTab",
                 action: () => hb
                     .FieldSet(
                        css: " enclosed",
@@ -5034,7 +5034,7 @@ namespace Implem.Pleasanter.Models
                 action: () => hb
                     .FieldSet(
                         css: " enclosed",
-                        legendText: column.LabelTextDefault, 
+                        legendText: column.LabelTextDefault,
                         action: () =>
                         {
                             hb
@@ -7622,7 +7622,7 @@ namespace Implem.Pleasanter.Models
                         .Td(action: () => hb
                             .Text(text: notification.Prefix))
                         .Td(action: () => hb
-                            .Text(text: notification.Address))
+                            .Text(text: ss.ColumnNameToLabelText(notification.Address)))
                         .Td(action: () => hb
                             .Text(text: notification.MonitorChangesColumns?
                                 .Select(columnName => ss.GetColumn(
@@ -7683,7 +7683,7 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-wide",
                         controlCss: " always-send",
                         labelText: Displays.Address(context: context),
-                        text: notification.Address,
+                        text: ss.ColumnNameToLabelText(notification.Address),
                         validateRequired: true)
                     .FieldTextBox(
                         fieldId: "NotificationTokenField",

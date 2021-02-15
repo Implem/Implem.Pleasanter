@@ -13,12 +13,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             var optionCollection = ss.Exports
-                .ToDictionary(o => new
-                {
-                    id = o.Id,
-                    mailNotify = o.ExecutionType == Export.ExecutionTypes.MailNotify
-                }.ToJson(), 
-                o => o.Name);
+                .ToDictionary(
+                    o => new
+                    {
+                        id = o.Id,
+                        mailNotify = o.ExecutionType == Export.ExecutionTypes.MailNotify
+                    }.ToJson(),
+                    o => o.Name);
             optionCollection.Add("{\"id\":0, \"mailNotify\":false}", Displays.Standard(context: context));
             return hb
                 .FieldDropDown(

@@ -13,12 +13,15 @@ using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Collections;
-
+using Implem.Pleasanter.Libraries.Server;
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public class ServerScriptModel : IDisposable
     {
         public readonly ExpandoObject Model = new ExpandoObject();
+        public readonly ServerScriptModelDepts Depts;
+        public readonly ServerScriptModelGroups Groups;
+        public readonly ServerScriptModelUsers Users;
         public readonly ExpandoObject Columns = new ExpandoObject();
         public readonly ServerScriptModelContext Context;
         public readonly ServerScriptModelSiteSettings SiteSettings;
@@ -40,6 +43,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             bool onTesting)
         {
             data?.ForEach(datam => ((IDictionary<string, object>)Model)[datam.Name] = datam.Value);
+            Depts = new ServerScriptModelDepts(context: context);
+            Groups = new ServerScriptModelGroups(context: context);
+            Users = new ServerScriptModelUsers(context: context);
             columns?.ForEach(
                 datam => ((IDictionary<string, object>)Columns)[datam.Name] = datam.Value);
             columnFilterHach?.ForEach(columnFilter =>
@@ -122,6 +128,88 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public bool ContinuationCallback()
         {
             return TimeOut > DateTime.Now;
+        }
+
+        public class ServerScriptModelDepts
+        {
+            private readonly Context Context;
+
+            public ServerScriptModelDepts(Context context)
+            {
+                Context = context;
+            }
+
+            public ServerScriptModelDeptModel Get(object id)
+            {
+                var dept = SiteInfo.Dept(
+                    tenantId: Context.TenantId,
+                    deptId: id.ToInt());
+                var deptModel = dept.Id > 0
+                    ? new ServerScriptModelDeptModel(
+                        context: Context,
+                        tenantId: dept.TenantId,
+                        deptId: dept.Id,
+                        deptCode: dept.Code,
+                        deptName: dept.Name)
+                    : null;
+                return deptModel;
+            }
+        }
+
+        public class ServerScriptModelGroups
+        {
+            private readonly Context Context;
+
+            public ServerScriptModelGroups(Context context)
+            {
+                Context = context;
+            }
+
+            public ServerScriptModelGroupModel Get(object id)
+            {
+                var group = SiteInfo.Group(
+                    tenantId: Context.TenantId,
+                    groupId: id.ToInt());
+                var groupModel = group.Id > 0
+                    ? new ServerScriptModelGroupModel(
+                        context: Context,
+                        tenantId: group.TenantId,
+                        groupId: group.Id,
+                        groupName: group.Name)
+                    : null;
+                return groupModel;
+            }
+        }
+
+        public class ServerScriptModelUsers
+        {
+            private readonly Context Context;
+
+            public ServerScriptModelUsers(Context context)
+            {
+                Context = context;
+            }
+
+            public ServerScriptModelUserModel Get(object id)
+            {
+                var user = SiteInfo.User(
+                    context: Context,
+                    userId: id.ToInt());
+                var userModel = !user.Anonymous()
+                    ? new ServerScriptModelUserModel(
+                        context: Context,
+                        tenantId: user.TenantId,
+                        userId: user.Id,
+                        deptId: user.DeptId,
+                        loginId: user.LoginId,
+                        name: user.Name,
+                        userCode: user.UserCode,
+                        tenantManager: user.TenantManager,
+                        serviceManager: user.ServiceManager,
+                        disabled: user.Disabled)
+                    : null;
+                return userModel;
+            }
         }
 
         public class ServerScriptModelContext
@@ -255,6 +343,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public class ServerScriptModelColumn
         {
+            public Dictionary<object, object> ChoiceHash { get; set; }
             public bool ReadOnly { get; set; }
             public string ExtendedFieldCss { get; set; }
             public string ExtendedCellCss { get; set; }
@@ -262,6 +351,15 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             public string ExtendedHtmlAfterField { get; set; }
             public bool Hide { get; set; }
             public string RawText { get; set; }
+
+            public void AddChoiceHash(object key, object value)
+            {
+                if (ChoiceHash == null)
+                {
+                    ChoiceHash = new Dictionary<object, object>();
+                }
+                ChoiceHash.Add(key, value);
+            }
         }
 
         public class ServerScriptModelSiteSettings

@@ -379,6 +379,10 @@
     <Compile Include="Libraries\Security\Defenses.cs" />
     <Compile Include="Libraries\Security\Permission.cs" />
     <Compile Include="Libraries\ServerScripts\ServerScriptModel.cs" />
+    <Compile Include="Libraries\ServerScripts\ServerScriptModelGroupModel.cs" />
+    <Compile Include="Libraries\ServerScripts\ServerScriptModelUserModel.cs" />
+    <Compile Include="Libraries\ServerScripts\ServerScriptModelGroupMemberModel.cs" />
+    <Compile Include="Libraries\ServerScripts\ServerScriptModelDeptModel.cs" />
     <Compile Include="Libraries\ServerScripts\ServerScriptModelNorificationModel.cs" />
     <Compile Include="Libraries\ServerScripts\ServerScriptModelApiModel.cs" />
     <Compile Include="Libraries\ServerScripts\ServerScriptUtilities.cs" />
@@ -1680,7 +1684,6 @@
     <Content Include="App_Data\Displays\BeforeUpdate.json" />
     <Content Include="App_Data\Displays\Manual.json" />
     <Content Include="App_Data\Displays\ViewerSwitchingType.json" />
-    <Content Include="App_Data\Displays\AllowAutoPostBack.json" />
     <Content Include="App_Data\Displays\FullTextTypes.json" />
     <Content Include="App_Data\Displays\None.json" />
     <Content Include="App_Data\Displays\ValueAndDisplayName.json" />
@@ -1690,6 +1693,7 @@
     <Content Include="App_Data\Displays\ExtendedControlCss.json" />
     <Content Include="App_Data\Displays\BeforeOpeningRow.json" />
     <Content Include="App_Data\Displays\OutputLog.json" />
+    <Content Include="App_Data\Displays\AutoPostBack.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />
