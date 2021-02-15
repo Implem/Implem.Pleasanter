@@ -343,6 +343,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public class ServerScriptModelColumn
         {
+            public Dictionary<object, object> ChoiceHash { get; set; }
             public bool ReadOnly { get; set; }
             public string ExtendedFieldCss { get; set; }
             public string ExtendedCellCss { get; set; }
@@ -350,6 +351,15 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             public string ExtendedHtmlAfterField { get; set; }
             public bool Hide { get; set; }
             public string RawText { get; set; }
+
+            public void AddChoiceHash(object key, object value)
+            {
+                if (ChoiceHash == null)
+                {
+                    ChoiceHash = new Dictionary<object, object>();
+                }
+                ChoiceHash.Add(key, value);
+            }
         }
 
         public class ServerScriptModelSiteSettings
