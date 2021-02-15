@@ -237,6 +237,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 var serverScriptColumn = datam.Value as ServerScriptModelColumn;
                 scriptValues[datam.Key] = new ServerScriptModelColumn
                 {
+                    ChoiceHash = serverScriptColumn?.ChoiceHash,
                     ExtendedFieldCss = serverScriptColumn?.ExtendedFieldCss,
                     ExtendedCellCss = serverScriptColumn?.ExtendedCellCss,
                     ExtendedHtmlBeforeField = serverScriptColumn?.ExtendedHtmlBeforeField,

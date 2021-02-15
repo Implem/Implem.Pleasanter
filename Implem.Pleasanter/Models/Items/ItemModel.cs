@@ -313,7 +313,9 @@ namespace Implem.Pleasanter.Models
 
         public System.Web.Mvc.ContentResult ExportByApi(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true);
             if (!Site.WithinApiLimits())
             {
                 return ApiResults.Get(ApiResponses.OverLimitApi(
@@ -328,9 +330,7 @@ namespace Implem.Pleasanter.Models
                     {
                         return IssueUtilities.ExportByApi(
                             context: context,
-                            ss: Site.IssuesSiteSettings(
-                                context: context,
-                                referenceId: ReferenceId),
+                            ss: Site.SiteSettings,
                             siteModel: Site);
                     }
                     break;
@@ -339,9 +339,7 @@ namespace Implem.Pleasanter.Models
                     {
                         return ResultUtilities.ExportByApi(
                             context: context,
-                            ss: Site.ResultsSiteSettings(
-                                context: context,
-                                referenceId: ReferenceId),
+                            ss: Site.SiteSettings,
                             siteModel: Site);
                     }
                     break;
@@ -374,9 +372,13 @@ namespace Implem.Pleasanter.Models
                 case "Sites":
                     return SiteUtilities.SiteMenu(context: context, siteModel: Site);
                 case "Issues":
-                    return IssueUtilities.Index(context: context, ss: Site.SiteSettings);
+                    return IssueUtilities.Index(
+                        context: context,
+                        ss: Site.SiteSettings);
                 case "Results":
-                    return ResultUtilities.Index(context: context, ss: Site.SiteSettings);
+                    return ResultUtilities.Index(
+                        context: context,
+                        ss: Site.SiteSettings);
                 default:
                     return HtmlTemplates.Error(
                         context: context,
@@ -398,9 +400,13 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Issues":
-                    return IssueUtilities.IndexJson(context: context, ss: Site.SiteSettings);
+                    return IssueUtilities.IndexJson(
+                        context: context,
+                        ss: Site.SiteSettings);
                 case "Results":
-                    return ResultUtilities.IndexJson(context: context, ss: Site.SiteSettings);
+                    return ResultUtilities.IndexJson(
+                        context: context,
+                        ss: Site.SiteSettings);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
@@ -427,11 +433,17 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Sites":
-                    return SiteUtilities.TrashBox(context: context, ss: Site.SiteSettings);
+                    return SiteUtilities.TrashBox(
+                        context: context,
+                        ss: Site.SiteSettings);
                 case "Issues":
-                    return IssueUtilities.TrashBox(context: context, ss: Site.SiteSettings);
+                    return IssueUtilities.TrashBox(
+                        context: context,
+                        ss: Site.SiteSettings);
                 case "Results":
-                    return ResultUtilities.TrashBox(context: context, ss: Site.SiteSettings);
+                    return ResultUtilities.TrashBox(
+                        context: context,
+                        ss: Site.SiteSettings);
                 default:
                     return HtmlTemplates.Error(
                         context: context,
@@ -454,11 +466,17 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Sites":
-                    return SiteUtilities.TrashBoxJson(context: context, ss: Site.SiteSettings);
+                    return SiteUtilities.TrashBoxJson(
+                        context: context,
+                        ss: Site.SiteSettings);
                 case "Issues":
-                    return IssueUtilities.TrashBoxJson(context: context, ss: Site.SiteSettings);
+                    return IssueUtilities.TrashBoxJson(
+                        context: context,
+                        ss: Site.SiteSettings);
                 case "Results":
-                    return ResultUtilities.TrashBoxJson(context: context, ss: Site.SiteSettings);
+                    return ResultUtilities.TrashBoxJson(
+                        context: context,
+                        ss: Site.SiteSettings);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
@@ -466,26 +484,22 @@ namespace Implem.Pleasanter.Models
 
         public string Calendar(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
             ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.Calendar(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: true));
+                        ss: Site.SiteSettings);
                 case "Results":
                     return ResultUtilities.Calendar(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: true));
+                        ss: Site.SiteSettings);
                 default:
                     return HtmlTemplates.Error(
                         context: context,
@@ -495,26 +509,22 @@ namespace Implem.Pleasanter.Models
 
         public string CalendarJson(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
             ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.CalendarJson(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: true));
+                        ss: Site.SiteSettings);
                 case "Results":
                     return ResultUtilities.CalendarJson(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: true));
+                        ss: Site.SiteSettings);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
@@ -522,26 +532,22 @@ namespace Implem.Pleasanter.Models
 
         public string Crosstab(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
             ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.Crosstab(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: true));
+                        ss: Site.SiteSettings);
                 case "Results":
                     return ResultUtilities.Crosstab(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: true));
+                        ss: Site.SiteSettings);
                 default:
                     return HtmlTemplates.Error(
                         context: context,
@@ -551,26 +557,22 @@ namespace Implem.Pleasanter.Models
 
         public string CrosstabJson(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
             ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.CrosstabJson(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: true));
+                        ss: Site.SiteSettings);
                 case "Results":
                     return ResultUtilities.CrosstabJson(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: true));
+                        ss: Site.SiteSettings);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
@@ -578,18 +580,18 @@ namespace Implem.Pleasanter.Models
 
         public string Gantt(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
             ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.Gantt(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: true));
+                        ss: Site.SiteSettings);
                 default:
                     return HtmlTemplates.Error(
                         context: context,
@@ -599,18 +601,18 @@ namespace Implem.Pleasanter.Models
 
         public string GanttJson(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
             ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.GanttJson(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: true));
+                        ss: Site.SiteSettings);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
@@ -618,18 +620,18 @@ namespace Implem.Pleasanter.Models
 
         public string BurnDown(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
             ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.BurnDown(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: true));
+                        ss: Site.SiteSettings);
                 default:
                     return HtmlTemplates.Error(
                         context: context,
@@ -639,18 +641,18 @@ namespace Implem.Pleasanter.Models
 
         public string BurnDownJson(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
             ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.BurnDownJson(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: true));
+                        ss: Site.SiteSettings);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
@@ -658,17 +660,17 @@ namespace Implem.Pleasanter.Models
 
         public string BurnDownRecordDetailsJson(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.BurnDownRecordDetails(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: true));
+                        ss: Site.SiteSettings);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
@@ -676,26 +678,22 @@ namespace Implem.Pleasanter.Models
 
         public string TimeSeries(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
             ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.TimeSeries(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: true));
+                        ss: Site.SiteSettings);
                 case "Results":
                     return ResultUtilities.TimeSeries(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: true));
+                        ss: Site.SiteSettings);
                 default:
                     return HtmlTemplates.Error(
                         context: context,
@@ -705,26 +703,22 @@ namespace Implem.Pleasanter.Models
 
         public string TimeSeriesJson(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
             ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.TimeSeriesJson(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: true));
+                        ss: Site.SiteSettings);
                 case "Results":
                     return ResultUtilities.TimeSeriesJson(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: true));
+                        ss: Site.SiteSettings);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
@@ -732,26 +726,22 @@ namespace Implem.Pleasanter.Models
 
         public string Kamban(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
             ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.Kamban(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: true));
+                        ss: Site.SiteSettings);
                 case "Results":
                     return ResultUtilities.Kamban(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: true));
+                        ss: Site.SiteSettings);
                 default:
                     return HtmlTemplates.Error(
                         context: context,
@@ -761,26 +751,22 @@ namespace Implem.Pleasanter.Models
 
         public string KambanJson(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
             ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.KambanJson(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: true));
+                        ss: Site.SiteSettings);
                 case "Results":
                     return ResultUtilities.KambanJson(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: true));
+                        ss: Site.SiteSettings);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
@@ -788,26 +774,22 @@ namespace Implem.Pleasanter.Models
 
         public string ImageLib(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
             ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.ImageLib(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: true));
+                        ss: Site.SiteSettings);
                 case "Results":
                     return ResultUtilities.ImageLib(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: true));
+                        ss: Site.SiteSettings);
                 default:
                     return HtmlTemplates.Error(
                         context: context,
@@ -817,26 +799,22 @@ namespace Implem.Pleasanter.Models
 
         public string ImageLibJson(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
             ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.ImageLibJson(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: true));
+                        ss: Site.SiteSettings);
                 case "Results":
                     return ResultUtilities.ImageLibJson(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: true));
+                        ss: Site.SiteSettings);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
@@ -937,7 +915,10 @@ namespace Implem.Pleasanter.Models
 
         public string Editor(Context context)
         {
-            SetSite(context: context, linkedSsDataSetHash: LinkedSsDataSetHash(context: context));
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                linkedSsDataSetHash: LinkedSsDataSetHash(context: context));
             switch (ReferenceType)
             {
                 case "Sites":
@@ -948,25 +929,19 @@ namespace Implem.Pleasanter.Models
                 case "Issues":
                     return IssueUtilities.Editor(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId),
+                        ss: Site.SiteSettings,
                         issueId: ReferenceId,
                         clearSessions: true);
                 case "Results":
                     return ResultUtilities.Editor(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId),
+                        ss: Site.SiteSettings,
                         resultId: ReferenceId,
                         clearSessions: true);
                 case "Wikis":
                     return WikiUtilities.Editor(
                         context: context,
-                        ss: Site.WikisSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId),
+                        ss: Site.SiteSettings,
                         wikiId: ReferenceId,
                         clearSessions: true);
                 default:
@@ -1009,24 +984,21 @@ namespace Implem.Pleasanter.Models
 
         public string OpenExportSelectorDialog(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.OpenExportSelectorDialog(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true),
+                        ss: Site.SiteSettings,
                         siteModel: Site);
                 case "Results":
                     return ResultUtilities.OpenExportSelectorDialog(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true),
+                        ss: Site.SiteSettings,
                         siteModel: Site);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
@@ -1095,26 +1067,22 @@ namespace Implem.Pleasanter.Models
 
         public ResponseFile Export(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.Export(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: false),
+                        ss: Site.SiteSettings,
                         siteModel: Site);
                 case "Results":
                     return ResultUtilities.Export(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: false),
+                        ss: Site.SiteSettings,
                         siteModel: Site);
                 default:
                     return null;
@@ -1123,7 +1091,11 @@ namespace Implem.Pleasanter.Models
 
         public string ExportAsync(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
             var export = Site.SiteSettings.Exports?
                 .Where(exp => exp.Id == context.Forms.Int("ExportId"))?
                 .FirstOrDefault();
@@ -1143,20 +1115,12 @@ namespace Implem.Pleasanter.Models
                 case "Issues":
                     return IssueUtilities.ExportAsync(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: false),
+                        ss: Site.SiteSettings,
                         siteModel: Site);
                 case "Results":
                     return ResultUtilities.ExportAsync(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: false),
+                        ss: Site.SiteSettings,
                         siteModel: Site);
                 default:
                     return Error.Types.InvalidRequest.MessageJson(context: context);
@@ -1165,24 +1129,21 @@ namespace Implem.Pleasanter.Models
 
         public ResponseFile ExportCrosstab(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.ExportCrosstab(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true),
+                        ss: Site.SiteSettings,
                         siteModel: Site);
                 case "Results":
                     return ResultUtilities.ExportCrosstab(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true),
+                        ss: Site.SiteSettings,
                         siteModel: Site);
                 default:
                     return null;
@@ -1547,24 +1508,21 @@ namespace Implem.Pleasanter.Models
 
         public string GridRows(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.GridRows(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true),
+                        ss: Site.SiteSettings,
                         offset: context.Forms.Int("GridOffset"));
                 case "Results":
                     return ResultUtilities.GridRows(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true),
+                        ss: Site.SiteSettings,
                         offset: context.Forms.Int("GridOffset"));
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
@@ -1573,25 +1531,22 @@ namespace Implem.Pleasanter.Models
 
         public string ReloadRow(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
             var id = context.Forms.Long("Id");
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.ReloadRow(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true),
+                        ss: Site.SiteSettings,
                         issueId: id);
                 case "Results":
                     return ResultUtilities.ReloadRow(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true),
+                        ss: Site.SiteSettings,
                         resultId: id);
                 default:
                     return ItemUtilities.ClearItemDataResponse(
@@ -1627,27 +1582,23 @@ namespace Implem.Pleasanter.Models
 
         public string TrashBoxGridRows(Context context)
         {
-            SetSite(context: context, tableType: Sqls.TableTypes.Deleted);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                tableType: Sqls.TableTypes.Deleted);
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.GridRows(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            tableType: Sqls.TableTypes.Deleted),
+                        ss: Site.SiteSettings,
                         offset: context.Forms.Int("GridOffset"),
                         action: "TrashBoxGridRows");
                 case "Results":
                     return ResultUtilities.GridRows(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            tableType: Sqls.TableTypes.Deleted),
+                        ss: Site.SiteSettings,
                         offset: context.Forms.Int("GridOffset"),
                         action: "TrashBoxGridRows");
                 default:
@@ -1657,24 +1608,21 @@ namespace Implem.Pleasanter.Models
 
         public string ImageLibNext(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.ImageLibNext(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true),
+                        ss: Site.SiteSettings,
                         offset: context.Forms.Int("ImageLibOffset"));
                 case "Results":
                     return ResultUtilities.ImageLibNext(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true),
+                        ss: Site.SiteSettings,
                         offset: context.Forms.Int("ImageLibOffset"));
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
@@ -1683,7 +1631,9 @@ namespace Implem.Pleasanter.Models
 
         public System.Web.Mvc.ContentResult GetByApi(Context context, bool internalRequest = false)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true);
             if (!Site.WithinApiLimits())
             {
                 return ApiResults.Get(ApiResponses.OverLimitApi(
@@ -1698,18 +1648,14 @@ namespace Implem.Pleasanter.Models
                     {
                         return IssueUtilities.GetByApi(
                             context: context,
-                            ss: Site.IssuesSiteSettings(
-                                context: context,
-                                referenceId: ReferenceId),
+                            ss: Site.SiteSettings,
                             internalRequest: internalRequest);
                     }
                     else
                     {
                         return IssueUtilities.GetByApi(
                             context: context,
-                            ss: Site.IssuesSiteSettings(
-                                context: context,
-                                referenceId: ReferenceId),
+                            ss: Site.SiteSettings,
                             issueId: ReferenceId,
                             internalRequest: internalRequest);
                     }
@@ -1718,18 +1664,14 @@ namespace Implem.Pleasanter.Models
                     {
                         return ResultUtilities.GetByApi(
                             context: context,
-                            ss: Site.ResultsSiteSettings(
-                                context: context,
-                                referenceId: ReferenceId),
+                            ss: Site.SiteSettings,
                             internalRequest: internalRequest);
                     }
                     else
                     {
                         return ResultUtilities.GetByApi(
                             context: context,
-                            ss: Site.ResultsSiteSettings(
-                                context: context,
-                                referenceId: ReferenceId),
+                            ss: Site.SiteSettings,
                             resultId: ReferenceId,
                             internalRequest: internalRequest);
                     }
@@ -1802,7 +1744,9 @@ namespace Implem.Pleasanter.Models
 
         public string Create(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true);
             switch (Site.ReferenceType)
             {
                 case "Sites":
@@ -1813,15 +1757,11 @@ namespace Implem.Pleasanter.Models
                 case "Issues":
                     return IssueUtilities.Create(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId));
+                        ss: Site.SiteSettings);
                 case "Results":
                     return ResultUtilities.Create(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId));
+                        ss: Site.SiteSettings);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
@@ -1829,7 +1769,9 @@ namespace Implem.Pleasanter.Models
 
         public System.Web.Mvc.ContentResult CreateByApi(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true);
             if (!Site.WithinApiLimits())
             {
                 return ApiResults.Get(ApiResponses.OverLimitApi(
@@ -1842,15 +1784,11 @@ namespace Implem.Pleasanter.Models
                 case "Issues":
                     return IssueUtilities.CreateByApi(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId));
+                        ss: Site.SiteSettings);
                 case "Results":
                     return ResultUtilities.CreateByApi(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId));
+                        ss: Site.SiteSettings);
                 default:
                     return ApiResults.Get(ApiResponses.NotFound(context: context));
             }
@@ -1867,8 +1805,8 @@ namespace Implem.Pleasanter.Models
             {
                 case "Issues":
                     var issueSs = Site.IssuesSiteSettings(
-                            context: apiContext,
-                            referenceId: ReferenceId);
+                        context: apiContext,
+                        referenceId: ReferenceId);
                     if (model is string issueRequestString)
                     {
                         apiContext.ApiRequestBody = issueRequestString;
@@ -1888,8 +1826,8 @@ namespace Implem.Pleasanter.Models
                         ss: issueSs);
                 case "Results":
                     var resultSs = Site.IssuesSiteSettings(
-                            context: apiContext,
-                            referenceId: ReferenceId);
+                        context: apiContext,
+                        referenceId: ReferenceId);
                     if (model is string resultRequestString)
                     {
                         apiContext.ApiRequestBody = resultRequestString;
@@ -1958,7 +1896,10 @@ namespace Implem.Pleasanter.Models
 
         public string Update(Context context)
         {
-            SetSite(context: context, linkedSsDataSetHash: LinkedSsDataSetHash(context: context));
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                linkedSsDataSetHash: LinkedSsDataSetHash(context: context));
             switch (ReferenceType)
             {
                 case "Sites":
@@ -1969,23 +1910,17 @@ namespace Implem.Pleasanter.Models
                 case "Issues":
                     return IssueUtilities.Update(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId),
+                        ss: Site.SiteSettings,
                         issueId: ReferenceId);
                 case "Results":
                     return ResultUtilities.Update(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId),
+                        ss: Site.SiteSettings,
                         resultId: ReferenceId);
                 case "Wikis":
                     return WikiUtilities.Update(
                         context: context,
-                        ss: Site.WikisSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId),
+                        ss: Site.SiteSettings,
                         wikiId: ReferenceId);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
@@ -1994,23 +1929,20 @@ namespace Implem.Pleasanter.Models
 
         public string OpenBulkUpdateSelectorDialog(Context context)
         {
-            SetSite(context: context, initSiteSettings: true);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.OpenBulkUpdateSelectorDialog(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true));
+                        ss: Site.SiteSettings);
                 case "Results":
                     return ResultUtilities.OpenBulkUpdateSelectorDialog(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true));
+                        ss: Site.SiteSettings);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
@@ -2018,23 +1950,20 @@ namespace Implem.Pleasanter.Models
 
         public string BulkUpdateSelectChanged(Context context)
         {
-            SetSite(context: context, initSiteSettings: true);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.BulkUpdateSelectChanged(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true));
+                        ss: Site.SiteSettings);
                 case "Results":
                     return ResultUtilities.BulkUpdateSelectChanged(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true));
+                        ss: Site.SiteSettings);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
@@ -2042,21 +1971,19 @@ namespace Implem.Pleasanter.Models
 
         public string BulkUpdate(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true);
             switch (Site.SiteSettings.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.BulkUpdate(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId));
+                        ss: Site.SiteSettings);
                 case "Results":
                     return ResultUtilities.BulkUpdate(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId));
+                        ss: Site.SiteSettings);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
@@ -2064,21 +1991,19 @@ namespace Implem.Pleasanter.Models
 
         public string UpdateByGrid(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true);
             switch (Site.SiteSettings.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.UpdateByGrid(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId));
+                        ss: Site.SiteSettings);
                 case "Results":
                     return ResultUtilities.UpdateByGrid(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId));
+                        ss: Site.SiteSettings);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
@@ -2086,7 +2011,9 @@ namespace Implem.Pleasanter.Models
 
         public System.Web.Mvc.ContentResult UpdateByApi(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true);
             if (!Site.WithinApiLimits())
             {
                 return ApiResults.Get(ApiResponses.OverLimitApi(
@@ -2099,16 +2026,12 @@ namespace Implem.Pleasanter.Models
                 case "Issues":
                     return IssueUtilities.UpdateByApi(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId),
+                        ss: Site.SiteSettings,
                         issueId: ReferenceId);
                 case "Results":
                     return ResultUtilities.UpdateByApi(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId),
+                        ss: Site.SiteSettings,
                         resultId: ReferenceId);
                 default:
                     return ApiResults.Get(ApiResponses.NotFound(context: context));
@@ -2126,8 +2049,8 @@ namespace Implem.Pleasanter.Models
             {
                 case "Issues":
                     var issueSs = Site.IssuesSiteSettings(
-                            context: apiContext,
-                            referenceId: ReferenceId);
+                        context: apiContext,
+                        referenceId: ReferenceId);
                     if(model is string issueRequestString)
                     {
                         apiContext.ApiRequestBody = issueRequestString;
@@ -2148,8 +2071,8 @@ namespace Implem.Pleasanter.Models
                         issueId: ReferenceId);
                 case "Results":
                     var resultSs = Site.IssuesSiteSettings(
-                            context: apiContext,
-                            referenceId: ReferenceId);
+                        context: apiContext,
+                        referenceId: ReferenceId);
                     if (model is string resultRequestString)
                     {
                         apiContext.ApiRequestBody = resultRequestString;
@@ -2175,7 +2098,9 @@ namespace Implem.Pleasanter.Models
 
         public string DeleteComment(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true);
             switch (ReferenceType)
             {
                 case "Sites":
@@ -2186,23 +2111,17 @@ namespace Implem.Pleasanter.Models
                 case "Issues":
                     return IssueUtilities.Update(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId),
+                        ss: Site.SiteSettings,
                         issueId: ReferenceId);
                 case "Results":
                     return ResultUtilities.Update(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId),
+                        ss: Site.SiteSettings,
                         resultId: ReferenceId);
                 case "Wikis":
                     return WikiUtilities.Update(
                         context: context,
-                        ss: Site.WikisSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId),
+                        ss: Site.SiteSettings,
                         wikiId: ReferenceId);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
@@ -2211,7 +2130,9 @@ namespace Implem.Pleasanter.Models
 
         public string Copy(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true);
             switch (ReferenceType)
             {
                 case "Sites":
@@ -2221,16 +2142,12 @@ namespace Implem.Pleasanter.Models
                 case "Issues":
                     return IssueUtilities.Copy(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId),
+                        ss: Site.SiteSettings,
                         issueId: ReferenceId);
                 case "Results":
                     return ResultUtilities.Copy(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId),
+                        ss: Site.SiteSettings,
                         resultId: ReferenceId);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
@@ -2251,22 +2168,20 @@ namespace Implem.Pleasanter.Models
 
         public string Move(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true);
             switch (ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.Move(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId),
+                        ss: Site.SiteSettings,
                     issueId: ReferenceId);
                 case "Results":
                     return ResultUtilities.Move(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId),
+                        ss: Site.SiteSettings,
                     resultId: ReferenceId);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
@@ -2275,23 +2190,20 @@ namespace Implem.Pleasanter.Models
 
         public string BulkMove(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.BulkMove(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true));
+                        ss: Site.SiteSettings);
                 case "Results":
                     return ResultUtilities.BulkMove(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true));
+                        ss: Site.SiteSettings);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
@@ -2299,36 +2211,30 @@ namespace Implem.Pleasanter.Models
 
         public string Delete(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true);
             switch (ReferenceType)
             {
                 case "Sites":
                     return SiteUtilities.Delete(
                         context: context,
-                        ss: Site.SitesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId),
+                        ss: Site.SiteSettings,
                         siteId: ReferenceId);
                 case "Issues":
                     return IssueUtilities.Delete(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId),
+                        ss: Site.SiteSettings,
                         issueId: ReferenceId);
                 case "Results":
                     return ResultUtilities.Delete(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId),
+                        ss: Site.SiteSettings,
                         resultId: ReferenceId);
                 case "Wikis":
                     return WikiUtilities.Delete(
                         context: context,
-                        ss: Site.WikisSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId),
+                        ss: Site.SiteSettings,
                         wikiId: ReferenceId);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
@@ -2337,7 +2243,9 @@ namespace Implem.Pleasanter.Models
 
         public System.Web.Mvc.ContentResult DeleteByApi(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true);
             if (!Site.WithinApiLimits())
             {
                 return ApiResults.Get(ApiResponses.OverLimitApi(
@@ -2350,16 +2258,12 @@ namespace Implem.Pleasanter.Models
                 case "Issues":
                     return IssueUtilities.DeleteByApi(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId),
+                        ss: Site.SiteSettings,
                         issueId: ReferenceId);
                 case "Results":
                     return ResultUtilities.DeleteByApi(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId),
+                        ss: Site.SiteSettings,
                         resultId: ReferenceId);
                 default:
                     return ApiResults.Get(ApiResponses.NotFound(context: context));
@@ -2396,23 +2300,20 @@ namespace Implem.Pleasanter.Models
 
         public string BulkDelete(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.BulkDelete(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true));
+                        ss: Site.SiteSettings);
                 case "Results":
                     return ResultUtilities.BulkDelete(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true));
+                        ss: Site.SiteSettings);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
@@ -2420,7 +2321,11 @@ namespace Implem.Pleasanter.Models
 
         public System.Web.Mvc.ContentResult BulkDeleteByApi(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                tableType: Sqls.TableTypes.Deleted);
             if (!Site.WithinApiLimits())
             {
                 return ApiResults.Get(ApiResponses.OverLimitApi(
@@ -2435,19 +2340,11 @@ namespace Implem.Pleasanter.Models
                     case "Issues":
                         return IssueUtilities.PhysicalBulkDeleteByApi(
                             context: context,
-                            ss: Site.IssuesSiteSettings(
-                                context: context,
-                                referenceId: ReferenceId,
-                                setSiteIntegration: true,
-                                tableType: Sqls.TableTypes.Deleted));
+                            ss: Site.SiteSettings);
                     case "Results":
                         return ResultUtilities.PhysicalBulkDeleteByApi(
                             context: context,
-                            ss: Site.ResultsSiteSettings(
-                                context: context,
-                                referenceId: ReferenceId,
-                                setSiteIntegration: true,
-                                tableType: Sqls.TableTypes.Deleted));
+                            ss: Site.SiteSettings);
                     default:
                         return ApiResults.Get(ApiResponses.NotFound(context: context));
                 }
@@ -2459,15 +2356,11 @@ namespace Implem.Pleasanter.Models
                     case "Issues":
                         return IssueUtilities.BulkDeleteByApi(
                             context: context,
-                            ss: Site.IssuesSiteSettings(
-                                context: context,
-                                referenceId: ReferenceId));
+                            ss: Site.SiteSettings);
                     case "Results":
                         return ResultUtilities.BulkDeleteByApi(
                             context: context,
-                            ss: Site.ResultsSiteSettings(
-                                context: context,
-                                referenceId: ReferenceId));
+                            ss: Site.SiteSettings);
                     default:
                         return ApiResults.Get(ApiResponses.NotFound(context: context));
                 }
@@ -2567,33 +2460,25 @@ namespace Implem.Pleasanter.Models
 
         public string PhysicalBulkDelete(Context context)
         {
-            SetSite(context: context, tableType: Sqls.TableTypes.Deleted);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                tableType: Sqls.TableTypes.Deleted);
             switch (Site.ReferenceType)
             {
                 case "Sites":
                     return SiteUtilities.PhysicalBulkDelete(
                         context: context,
-                        ss: Site.SitesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            tableType: Sqls.TableTypes.Deleted));
+                        ss: Site.SiteSettings);
                 case "Issues":
                     return IssueUtilities.PhysicalBulkDelete(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            tableType: Sqls.TableTypes.Deleted));
+                        ss: Site.SiteSettings);
                 case "Results":
                     return ResultUtilities.PhysicalBulkDelete(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            tableType: Sqls.TableTypes.Deleted));
+                        ss: Site.SiteSettings);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
@@ -2601,33 +2486,24 @@ namespace Implem.Pleasanter.Models
 
         public string Restore(Context context)
         {
-            SetSite(context: context, tableType: Sqls.TableTypes.Deleted);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                tableType: Sqls.TableTypes.Deleted);
             switch (Site.ReferenceType)
             {
                 case "Sites":
                     return SiteUtilities.Restore(
                         context: context,
-                        ss: SiteSettingsUtilities.SitesSiteSettings(
-                            context: context,
-                            siteModel: Site,
-                            referenceId: ReferenceId,
-                            tableType: Sqls.TableTypes.Deleted));
+                        ss: Site.SiteSettings);
                 case "Issues":
                     return IssueUtilities.Restore(
                         context: context,
-                        ss: SiteSettingsUtilities.IssuesSiteSettings(
-                            context: context,
-                            siteModel: Site,
-                            referenceId: ReferenceId,
-                            tableType: Sqls.TableTypes.Deleted));
+                        ss: Site.SiteSettings);
                 case "Results":
                     return ResultUtilities.Restore(
                         context: context,
-                        ss: SiteSettingsUtilities.ResultsSiteSettings(
-                            context: context,
-                            siteModel: Site,
-                            referenceId: ReferenceId,
-                            tableType: Sqls.TableTypes.Deleted));
+                        ss: Site.SiteSettings);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
@@ -2635,44 +2511,31 @@ namespace Implem.Pleasanter.Models
 
         public string RestoreFromHistory(Context context)
         {
-            SetSite(context: context, tableType: Sqls.TableTypes.History);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                tableType: Sqls.TableTypes.History);
             switch (ReferenceType)
             {
                 case "Sites":
                     return SiteUtilities.RestoreFromHistory(
                         context: context,
-                        ss: SiteSettingsUtilities.SitesSiteSettings(
-                            context: context,
-                            siteModel: Site,
-                            referenceId: ReferenceId,
-                            tableType: Sqls.TableTypes.History),
+                        ss: Site.SiteSettings,
                         siteId: ReferenceId);
                 case "Issues":
                     return IssueUtilities.RestoreFromHistory(
                         context: context,
-                        ss: SiteSettingsUtilities.IssuesSiteSettings(
-                            context: context,
-                            siteModel: Site,
-                            referenceId: ReferenceId,
-                            tableType: Sqls.TableTypes.History),
+                        ss: Site.SiteSettings,
                         issueId: ReferenceId);
                 case "Results":
                     return ResultUtilities.RestoreFromHistory(
                         context: context,
-                        ss: SiteSettingsUtilities.ResultsSiteSettings(
-                            context: context,
-                            siteModel: Site,
-                            referenceId: ReferenceId,
-                            tableType: Sqls.TableTypes.History),
+                        ss: Site.SiteSettings,
                         resultId: ReferenceId);
                 case "Wikis":
                     return WikiUtilities.RestoreFromHistory(
                         context: context,
-                        ss: SiteSettingsUtilities.WikisSiteSettings(
-                            context: context,
-                            siteModel: Site,
-                            referenceId: ReferenceId,
-                            tableType: Sqls.TableTypes.History),
+                        ss: Site.SiteSettings,
                         wikiId: ReferenceId);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
@@ -2681,15 +2544,15 @@ namespace Implem.Pleasanter.Models
 
         public string EditSeparateSettings(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true);
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.EditSeparateSettings(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId),
+                        ss: Site.SiteSettings,
                         issueId: ReferenceId);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
@@ -2698,15 +2561,15 @@ namespace Implem.Pleasanter.Models
 
         public string Separate(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true);
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.Separate(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId),
+                        ss: Site.SiteSettings,
                         issueId: ReferenceId);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
@@ -2779,12 +2642,14 @@ namespace Implem.Pleasanter.Models
 
         public string EditorJson(Context context)
         {
-            SetSite(context: context, initSiteSettings: true);
+            SetSite(
+                context: context,
+                initSiteSettings: true);
             switch (ReferenceType)
             {
                 case "Sites":
                     return SiteUtilities.EditorJson(
-                context: context,
+                        context: context,
                         siteModel: Site);
                 case "Issues":
                     return IssueUtilities.EditorJson(
@@ -2808,25 +2673,21 @@ namespace Implem.Pleasanter.Models
 
         public string UpdateByCalendar(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.UpdateByCalendar(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: true));
+                        ss: Site.SiteSettings);
                 case "Results":
                     return ResultUtilities.UpdateByCalendar(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: true));
+                        ss: Site.SiteSettings);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
@@ -2834,25 +2695,21 @@ namespace Implem.Pleasanter.Models
 
         public string UpdateByKamban(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.UpdateByKamban(
                         context: context,
-                        ss: Site.IssuesSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: true));
+                        ss: Site.SiteSettings);
                 case "Results":
                     return ResultUtilities.UpdateByKamban(
                         context: context,
-                        ss: Site.ResultsSiteSettings(
-                            context: context,
-                            referenceId: ReferenceId,
-                            setSiteIntegration: true,
-                            setAllChoices: true));
+                        ss: Site.SiteSettings);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
@@ -3029,7 +2886,9 @@ namespace Implem.Pleasanter.Models
 
         public string SynchronizeTitles(Context context)
         {
-            SetSite(context: context, initSiteSettings: true);
+            SetSite(
+                context: context,
+                initSiteSettings: true);
             return SiteUtilities.SynchronizeTitles(
                 context: context,
                 siteModel: Site);
@@ -3056,6 +2915,7 @@ namespace Implem.Pleasanter.Models
             bool siteOnly = false,
             bool initSiteSettings = false,
             bool setSiteIntegration = false,
+            bool setAllChoices = false,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             Dictionary<long, DataSet> linkedSsDataSetHash = null)
         {
@@ -3064,6 +2924,7 @@ namespace Implem.Pleasanter.Models
                 siteOnly: siteOnly,
                 initSiteSettings: initSiteSettings,
                 setSiteIntegration: setSiteIntegration,
+                setAllChoices: setAllChoices,
                 tableType: tableType,
                 linkedSsDataSetHash: linkedSsDataSetHash);
             SetByWhenloadingSiteSettingsServerScript(
@@ -3076,6 +2937,7 @@ namespace Implem.Pleasanter.Models
             bool siteOnly = false,
             bool initSiteSettings = false,
             bool setSiteIntegration = false,
+            bool setAllChoices = false,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             Dictionary<long, DataSet> linkedSsDataSetHash = null)
         {
@@ -3115,6 +2977,7 @@ namespace Implem.Pleasanter.Models
                     siteModel: siteModel,
                     referenceId: ReferenceId,
                     setSiteIntegration: setSiteIntegration,
+                    setAllChoices: setAllChoices,
                     tableType: tableType);
             }
             return siteModel;
