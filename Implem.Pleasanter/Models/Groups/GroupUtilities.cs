@@ -1841,6 +1841,9 @@ namespace Implem.Pleasanter.Models
                 userId: user?.Id ?? 0);
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static bool Contains(Context context, int groupId, int deptId, int userId)
         {
             return deptId > 0 || userId > 0
