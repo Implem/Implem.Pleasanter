@@ -214,21 +214,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.Li(
                 id: id,
                 action: () => hb
-                .A(
-                    attributes: postBack
-                        ? new HtmlAttributes().OnClick(
-                            "location.href='" + Locations.ItemView(
+                    .A(
+                        attributes: postBack
+                            ? new HtmlAttributes().OnClick(
+                                "location.href='" + Locations.ItemView(
+                                    context: context,
+                                    id: siteId,
+                                    action: action) + "'")
+                            : new HtmlAttributes()
+                                .OnClick("$p.viewMode($(this));")
+                                .DataAction(action),
+                        action: () => hb
+                            .Span(css: "ui-icon ui-icon-triangle-1-e")
+                            .Text(text: Displays.Get(
                                 context: context,
-                                id: siteId,
-                                action: action) + "'")
-                        : new HtmlAttributes()
-                            .OnClick("$p.viewMode($(this));")
-                            .DataAction(action),
-                    action: () => hb
-                        .Span(css: "ui-icon ui-icon-triangle-1-e")
-                        .Text(text: Displays.Get(
-                            context: context,
-                            id: action))));
+                                id: action))));
         }
 
         private static HtmlBuilder SettingsMenu(
@@ -378,70 +378,68 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Li(
                         id: "HelpMenu_UserManual",
                         action: () => hb
-                        .A(
-                            href: Parameters.General.HtmlUserManualUrl,
-                            target: "_blank",
-                            action: () => hb
-                                .Span(css: "ui-icon ui-icon-help")
-                                .Text(text: Displays.UserManual(context: context))))
+                            .A(
+                                href: Parameters.General.HtmlUserManualUrl,
+                                target: "_blank",
+                                action: () => hb
+                                    .Span(css: "ui-icon ui-icon-help")
+                                    .Text(text: Displays.UserManual(context: context))))
                     .Li(
                         id: "HelpMenu_AnnualSupportService",
                         action: () => hb
-                        .A(
-                            href: Parameters.General.HtmlAnnualSupportServiceUrl,
-                            target: "_blank",
-                            action: () => hb
-                                .Span(css: "ui-icon ui-icon-clipboard")
-                                .Text(text: Displays.AnnualSupportService(context: context))))
+                            .A(
+                                href: Parameters.General.HtmlAnnualSupportServiceUrl,
+                                target: "_blank",
+                                action: () => hb
+                                    .Span(css: "ui-icon ui-icon-clipboard")
+                                    .Text(text: Displays.AnnualSupportService(context: context))))
                     .Li(
                         id: "HelpMenu_EnterpriseEdition",
                         action: () => hb
-                        .A(
-                            href: Parameters.General.HtmlEnterPriseEditionUrl,
-                            target: "_blank",
-                            action: () => hb
-                                .Span(css: "ui-icon ui-icon-lightbulb")
-                                .Text(text: Displays.EnterpriseEdition(context: context))))
+                            .A(
+                                href: Parameters.General.HtmlEnterPriseEditionUrl,
+                                target: "_blank",
+                                action: () => hb
+                                    .Span(css: "ui-icon ui-icon-lightbulb")
+                                    .Text(text: Displays.EnterpriseEdition(context: context))))
                     .Li(
                         id: "HelpMenu_Blog",
                         action: () => hb
-                        .A(
-                            href: Parameters.General.HtmlBlogUrl,
-                            target: "_blank",
-                            action: () => hb
-                                .Span(css: "ui-icon ui-icon-info")
-                                .Text(text: Displays.Blog(context: context))))
+                            .A(
+                                href: Parameters.General.HtmlBlogUrl,
+                                target: "_blank",
+                                action: () => hb
+                                    .Span(css: "ui-icon ui-icon-info")
+                                    .Text(text: Displays.Blog(context: context))))
                     .Li(
                         id: "HelpMenu_Contact",
                         action: () => hb
-                        .A(
-                            href: Parameters.General.HtmlContactUrl,
-                            target: "_blank",
-                            action: () => hb
-                                .Span(css: "ui-icon ui-icon-contact")
-                                .Text(text: Displays.Contact(context: context))))
+                            .A(
+                                href: Parameters.General.HtmlContactUrl,
+                                target: "_blank",
+                                action: () => hb
+                                    .Span(css: "ui-icon ui-icon-contact")
+                                    .Text(text: Displays.Contact(context: context))))
                     .Li(
                         id: "HelpMenu_Portal",
                         action: () => hb
-                        .A(
-                            href: Parameters.General.HtmlPortalUrl,
-                            target: "_blank",
-                            action: () => hb
-                                .Span(css: "ui-icon ui-icon-cart")
-                                .Text(text: Displays.Portal(context: context))))
+                            .A(
+                                href: Parameters.General.HtmlPortalUrl,
+                                target: "_blank",
+                                action: () => hb
+                                    .Span(css: "ui-icon ui-icon-cart")
+                                    .Text(text: Displays.Portal(context: context))))
                     .Li(
                         id: "HelpMenu_Version",
                         action: () => hb
-                        .A(
-                            href: Locations.Get(
-                                context: context,
-                                parts: "versions"),
-                            action: () => hb
-                                .Span(css: "ui-icon ui-icon-info")
-                                .Text(text: Displays.Version(context: context)))));
+                            .A(
+                                href: Locations.Get(
+                                    context: context,
+                                    parts: "versions"),
+                                action: () => hb
+                                    .Span(css: "ui-icon ui-icon-info")
+                                    .Text(text: Displays.Version(context: context)))));
         }
-
-
 
         private static string SiteSettingsDisplayName(Context context, SiteSettings ss)
         {
@@ -472,48 +470,48 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     return hb.Li(
                         id: "LockTableMenu_LockTable",
                         action: () => hb
-                        .A(
-                            href: "javascript:void(0);",
-                            attributes: new HtmlAttributes()
-                                .OnClick("$p.send($(this),'MainForm');")
-                                .DataAction("LockTable")
-                                .DataMethod("post"),
-                            action: () => hb
-                                .Span(css: "ui-icon ui-icon-locked")
-                                .Text(text: Displays.LockTable(context: context))),
-                        _using: canManageSite && ss.AllowLockTable == true);
+                            .A(
+                                href: "javascript:void(0);",
+                                attributes: new HtmlAttributes()
+                                    .OnClick("$p.send($(this),'MainForm');")
+                                    .DataAction("LockTable")
+                                    .DataMethod("post"),
+                                action: () => hb
+                                    .Span(css: "ui-icon ui-icon-locked")
+                                    .Text(text: Displays.LockTable(context: context))),
+                            _using: canManageSite && ss.AllowLockTable == true);
                 }
                 else if (ss.LockedTableUser.Id == context.UserId)
                 {
                     return hb.Li(
                         id: "LockTableMenu_UnlockTable",
                         action: () => hb
-                        .A(
-                            href: "javascript:void(0);",
-                            attributes: new HtmlAttributes()
-                                .OnClick("$p.send($(this),'MainForm');")
-                                .DataAction("UnlockTable")
-                                .DataMethod("post"),
-                            action: () => hb
-                                .Span(css: "ui-icon ui-icon-unlocked")
-                                .Text(text: Displays.UnlockTable(context: context)),
-                            _using: ss.AllowLockTable == true));
+                            .A(
+                                href: "javascript:void(0);",
+                                attributes: new HtmlAttributes()
+                                    .OnClick("$p.send($(this),'MainForm');")
+                                    .DataAction("UnlockTable")
+                                    .DataMethod("post"),
+                                action: () => hb
+                                    .Span(css: "ui-icon ui-icon-unlocked")
+                                    .Text(text: Displays.UnlockTable(context: context)),
+                                _using: ss.AllowLockTable == true));
                 }
                 else if (context.HasPrivilege)
                 {
                     return hb.Li(
                         id: "LockTableMenu_ForceUnlockTable",
                         action: () => hb
-                        .A(
-                            href: "javascript:void(0);",
-                            attributes: new HtmlAttributes()
-                                .OnClick("$p.send($(this),'MainForm');")
-                                .DataAction("ForceUnlockTable")
-                                .DataMethod("post"),
-                        action: () => hb
-                            .Span(css: "ui-icon ui-icon-unlocked")
-                            .Text(text: Displays.ForceUnlockTable(context: context))),
-                        _using: canManageSite && ss.AllowLockTable == true);
+                            .A(
+                                href: "javascript:void(0);",
+                                attributes: new HtmlAttributes()
+                                    .OnClick("$p.send($(this),'MainForm');")
+                                    .DataAction("ForceUnlockTable")
+                                    .DataMethod("post"),
+                            action: () => hb
+                                .Span(css: "ui-icon ui-icon-unlocked")
+                                .Text(text: Displays.ForceUnlockTable(context: context))),
+                            _using: canManageSite && ss.AllowLockTable == true);
                 }
             }
             return hb;
@@ -525,11 +523,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Li(
                     id: "AccountMenu_Logout",
                     action: () => hb
-                    .A(
-                        href: Locations.Logout(context: context),
-                        action: () => hb
-                            .Span(css: "ui-icon ui-icon-locked")
-                            .Text(text: Displays.Logout(context: context))))
+                        .A(
+                            href: Locations.Logout(context: context),
+                            action: () => hb
+                                .Span(css: "ui-icon ui-icon-locked")
+                                .Text(text: Displays.Logout(context: context))))
                 .Li(
                     id: "AccountMenu_ShowStartGuide",
                     action: () => hb

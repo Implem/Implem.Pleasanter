@@ -7,6 +7,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string LabelText;
         public bool? AllowExpand;
         public bool? Expand;
+        public bool? Hide;
 
         public Section GetRecordingData(SiteSettings ss)
         {

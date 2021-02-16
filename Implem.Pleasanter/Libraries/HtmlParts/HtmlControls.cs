@@ -204,10 +204,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                        _using: !readOnly);
             }
             hb
-                    .TextArea(
-                        attributes: new HtmlAttributes()
-                            .Id(controlId)
-                            .Name(controlId)
+                .TextArea(
+                    attributes: new HtmlAttributes()
+                        .Id(controlId)
+                        .Name(controlId)
                         .Class(Css.Class((viewerSwitchingTypes == Column.ViewerSwitchingTypes.Disabled
                             ? "control-textarea"
                             : "control-markdown")
@@ -218,20 +218,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         ? " upload-image"
                                         : string.Empty),
                                 controlCss))
-                            .Placeholder(placeholder)
-                            .DataAlwaysSend(alwaysSend)
-                            .DataValidateMaxLength(validateMaxLength)
-                            .DataValidateRequired(validateRequired, _using: !readOnly)
-                            .DataValidateRegex(validateRegex)
-                            .DataValidateRegexErrorMessage(validateRegexErrorMessage)
-                            .Add(attributes),
-                        text: text)
-                    .MarkDownCommands(
-                        context: context,
-                        controlId: controlId,
-                        readOnly: readOnly,
-                        allowImage: allowImage,
-                        mobile: mobile,
+                                    .Placeholder(placeholder)
+                                    .DataAlwaysSend(alwaysSend)
+                                    .DataValidateMaxLength(validateMaxLength)
+                                    .DataValidateRequired(validateRequired, _using: !readOnly)
+                                    .DataValidateRegex(validateRegex)
+                                    .DataValidateRegexErrorMessage(validateRegexErrorMessage)
+                                    .Add(attributes),
+                    text: text)
+                .MarkDownCommands(
+                    context: context,
+                    controlId: controlId,
+                    readOnly: readOnly,
+                    allowImage: allowImage,
+                    mobile: mobile,
                     preview: preview);
             return hb;
         }

@@ -70,6 +70,9 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: invalid);
             }
+            var scriptValues = new ItemModel().SetByBeforeOpeningPageServerScript(
+                context: context,
+                ss: ss);
             return hb.Template(
                 context: context,
                 ss: ss,
@@ -82,6 +85,7 @@ namespace Implem.Pleasanter.Models
                 script: JavaScripts.ViewMode(viewMode),
                 userScript: ss.ViewModeScripts(context: context),
                 userStyle: ss.ViewModeStyles(context: context),
+                scriptValues: scriptValues,
                 action: () => hb
                     .Form(
                         attributes: new HtmlAttributes()
@@ -296,6 +300,7 @@ namespace Implem.Pleasanter.Models
                 .Val("#GridColumns", columns.Select(o => o.ColumnName).ToJson())
                 .Paging("#Grid")
                 .Message(message)
+                .Log(context.GetLog())
                 .ToJson();
         }
 
@@ -385,6 +390,7 @@ namespace Implem.Pleasanter.Models
                     .Message(
                         message: Messages.NotFound(context: context),
                         target: "row_" + userId)
+                    .Log(context.GetLog())
                     .ToJson()
                 : res
                     .ReplaceAll(
@@ -401,6 +407,7 @@ namespace Implem.Pleasanter.Models
                             editRow: true,
                             checkRow: false,
                             idColumn: "UserId"))
+                    .Log(context.GetLog())
                     .ToJson();
         }
 
@@ -1819,7 +1826,8 @@ namespace Implem.Pleasanter.Models
         public static string EditorJson(Context context, SiteSettings ss, int userId)
         {
             return EditorResponse(context, ss, new UserModel(
-                context, ss, userId)).ToJson();
+                context, ss, userId,
+                formData: context.QueryStrings.Bool("control-auto-postback") ? context.Forms : null)).ToJson();
         }
 
         private static ResponseCollection EditorResponse(
@@ -1837,7 +1845,8 @@ namespace Implem.Pleasanter.Models
                 .SetMemory("formChanged", false)
                 .Invoke("setCurrentIndex")
                 .Message(message)
-                .ClearFormData();
+                .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"))
+                .Log(context.GetLog());
         }
 
         /// <summary>
@@ -3236,47 +3245,47 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss, long userId, bool content)
         {
             hb.Form(
-                        attributes: new HtmlAttributes()
-                            .Id("ChangePasswordForm")
-                            .Action(Locations.Action(
-                                context: context,
-                                controller: "Users",
-                                id: userId))
-                            .DataEnter("#ChangePassword"),
+                attributes: new HtmlAttributes()
+                    .Id("ChangePasswordForm")
+                    .Action(Locations.Action(
+                        context: context,
+                        controller: "Users",
+                        id: userId))
+                    .DataEnter("#ChangePassword"),
                 action: content
                     ? () => hb
-                            .Field(
+                        .Field(
+                            context: context,
+                            ss: ss,
+                            column: ss.GetColumn(
                                 context: context,
-                                ss: ss,
-                                column: ss.GetColumn(
-                                    context: context,
-                                    columnName: "OldPassword"))
-                            .Field(
+                                columnName: "OldPassword"))
+                        .Field(
+                            context: context,
+                            ss: ss,
+                            column: ss.GetColumn(
                                 context: context,
-                                ss: ss,
-                                column: ss.GetColumn(
-                                    context: context,
-                                    columnName: "ChangedPassword"))
-                            .Field(
+                                columnName: "ChangedPassword"))
+                        .Field(
+                            context: context,
+                            ss: ss,
+                            column: ss.GetColumn(
                                 context: context,
-                                ss: ss,
-                                column: ss.GetColumn(
-                                    context: context,
-                                    columnName: "ChangedPasswordValidator"))
-                            .P(css: "message-dialog")
-                            .Div(css: "command-center", action: () => hb
-                                .Button(
-                                    controlId: "ChangePassword",
-                                    text: Displays.Change(context: context),
-                                    controlCss: "button-icon validate",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-disk",
-                                    action: "ChangePassword",
-                                    method: "post")
-                                .Button(
-                                    text: Displays.Cancel(context: context),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.closeDialog($(this));",
+                                columnName: "ChangedPasswordValidator"))
+                        .P(css: "message-dialog")
+                        .Div(css: "command-center", action: () => hb
+                            .Button(
+                                controlId: "ChangePassword",
+                                text: Displays.Change(context: context),
+                                controlCss: "button-icon validate",
+                                onClick: "$p.send($(this));",
+                                icon: "ui-icon-disk",
+                                action: "ChangePassword",
+                                method: "post")
+                            .Button(
+                                text: Displays.Cancel(context: context),
+                                controlCss: "button-icon",
+                                onClick: "$p.closeDialog($(this));",
                                 icon: "ui-icon-cancel"))
                     : (Action)null);
             return hb;

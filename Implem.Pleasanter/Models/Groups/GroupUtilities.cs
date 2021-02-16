@@ -119,6 +119,9 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: invalid);
             }
+            var scriptValues = new ItemModel().SetByBeforeOpeningPageServerScript(
+                context: context,
+                ss: ss);
             return hb.Template(
                 context: context,
                 ss: ss,
@@ -131,6 +134,7 @@ namespace Implem.Pleasanter.Models
                 script: JavaScripts.ViewMode(viewMode),
                 userScript: ss.ViewModeScripts(context: context),
                 userStyle: ss.ViewModeStyles(context: context),
+                scriptValues: scriptValues,
                 action: () => hb
                     .Form(
                         attributes: new HtmlAttributes()
@@ -349,6 +353,7 @@ namespace Implem.Pleasanter.Models
                 .Val("#GridColumns", columns.Select(o => o.ColumnName).ToJson())
                 .Paging("#Grid")
                 .Message(message)
+                .Log(context.GetLog())
                 .ToJson();
         }
 
@@ -438,6 +443,7 @@ namespace Implem.Pleasanter.Models
                     .Message(
                         message: Messages.NotFound(context: context),
                         target: "row_" + groupId)
+                    .Log(context.GetLog())
                     .ToJson()
                 : res
                     .ReplaceAll(
@@ -454,6 +460,7 @@ namespace Implem.Pleasanter.Models
                             editRow: true,
                             checkRow: false,
                             idColumn: "GroupId"))
+                    .Log(context.GetLog())
                     .ToJson();
         }
 
@@ -1223,7 +1230,8 @@ namespace Implem.Pleasanter.Models
         public static string EditorJson(Context context, SiteSettings ss, int groupId)
         {
             return EditorResponse(context, ss, new GroupModel(
-                context, ss, groupId)).ToJson();
+                context, ss, groupId,
+                formData: context.QueryStrings.Bool("control-auto-postback") ? context.Forms : null)).ToJson();
         }
 
         private static ResponseCollection EditorResponse(
@@ -1241,7 +1249,8 @@ namespace Implem.Pleasanter.Models
                 .SetMemory("formChanged", false)
                 .Invoke("setCurrentIndex")
                 .Message(message)
-                .ClearFormData();
+                .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"))
+                .Log(context.GetLog());
         }
 
         private static List<int> GetSwitchTargets(Context context, SiteSettings ss, int groupId)
@@ -1776,7 +1785,22 @@ namespace Implem.Pleasanter.Models
             Context context, GroupModel groupModel)
         {
             var data = new Dictionary<string, ControlData>();
-            Repository.ExecuteTable(
+            GroupMembers(
+                context: context,
+                groupId: groupModel.GroupId)
+                    .ForEach(dataRow =>
+                        data.AddMember(
+                            context: context,
+                            dataRow: dataRow));
+            return data;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static EnumerableRowCollection<DataRow> GroupMembers(Context context, int groupId)
+        {
+            return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectGroupMembers(
                     column: Rds.GroupMembersColumn()
@@ -1784,18 +1808,63 @@ namespace Implem.Pleasanter.Models
                         .UserId()
                         .Admin(),
                     where: Rds.GroupMembersWhere()
-                        .GroupId(groupModel.GroupId)
+                        .GroupId(groupId)
                         .Add(or: Rds.GroupMembersWhere()
                             .Sub(sub: Rds.ExistsDepts(where: Rds.DeptsWhere()
                                 .DeptId(raw: "\"GroupMembers\".\"DeptId\"")))
                             .Sub(sub: Rds.ExistsUsers(where: Rds.UsersWhere()
                                 .UserId(raw: "\"GroupMembers\".\"UserId\""))))))
-                                    .AsEnumerable()
-                                    .ForEach(dataRow =>
-                                        data.AddMember(
-                                            context: context,
-                                            dataRow: dataRow));
-            return data;
+                                    .AsEnumerable();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static bool Contains(Context context, int groupId, Dept dept)
+        {
+            return Contains(
+                context: context,
+                groupId: groupId,
+                deptId: dept?.Id ?? 0,
+                userId: 0);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static bool Contains(Context context, int groupId, User user)
+        {
+            return Contains(
+                context: context,
+                groupId: groupId,
+                deptId: user?.DeptId ?? 0,
+                userId: user?.Id ?? 0);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static bool Contains(Context context, int groupId, int deptId, int userId)
+        {
+            return deptId > 0 || userId > 0
+                ? Repository.ExecuteTable(
+                    context: context,
+                    statements: Rds.SelectGroupMembers(
+                        column: Rds.GroupMembersColumn().GroupId(),
+                        where: Rds.GroupMembersWhere()
+                            .GroupId(groupId)
+                            .Add(or: Rds.GroupMembersWhere()
+                                .DeptId(deptId, _using: deptId > 0)
+                                .UserId(userId, _using: userId > 0))
+                            .Add(or: Rds.GroupMembersWhere()
+                                .Sub(sub: Rds.ExistsDepts(where: Rds.DeptsWhere()
+                                    .DeptId(raw: "\"GroupMembers\".\"DeptId\"")))
+                                .Sub(sub: Rds.ExistsUsers(where: Rds.UsersWhere()
+                                    .UserId(raw: "\"GroupMembers\".\"UserId\"")))),
+                        top: 1))
+                            .AsEnumerable()
+                            .Count() == 1
+                : false;
         }
 
         /// <summary>

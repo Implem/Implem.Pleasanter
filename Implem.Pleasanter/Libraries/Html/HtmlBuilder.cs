@@ -24,7 +24,7 @@ namespace Implem.Pleasanter.Libraries.Html
             };
             AppendAttributes(element, attributes);
             if (Top == null)
-                {
+            {
                 (Top, Current) = (element, element);
             }
             else
@@ -50,20 +50,20 @@ namespace Implem.Pleasanter.Libraries.Html
         private void AppendAttributes(HtmlElement element, HtmlAttributes attributes)
         {
             if (attributes == null)
-                {
+            {
                 return;
             }
             for (var i = 0; i < attributes.Count; i += 2)
-                    {
+            {
                 if ((i + 1) < attributes.Count)
                 {
                     element.Attributes.Add((attributes[i], attributes[i + 1], false));
-                    }
-                    else
-                    {
+                }
+                else
+                {
                     element.Attributes.Add((attributes[i], null, true));
                 }
-                    }
+            }
         }
 
         public HtmlBuilder Append(string tag, Action action)
@@ -136,8 +136,8 @@ namespace Implem.Pleasanter.Libraries.Html
             {
                 return;
             }
-                if (closeLevel == -1)
-                {
+            if (closeLevel == -1)
+            {
                 Current = Top;
                 return;
             }
@@ -184,9 +184,9 @@ namespace Implem.Pleasanter.Libraries.Html
                     if (noValue)
                     {
                         builder.Append(" ").Append(key);
-                }
-                else
-                {
+                    }
+                    else
+                    {
                         builder.Append(" ").Append(key).Append("=\"").Append(value).Append("\"");
                     }
                 }
@@ -200,7 +200,7 @@ namespace Implem.Pleasanter.Libraries.Html
                     child.ToHtml(builder);
                 }
                 return builder.Append("</").Append(Tag).Append(">");
-                }
+            }
 
             public override string ToString()
             {

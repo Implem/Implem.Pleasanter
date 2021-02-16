@@ -8,13 +8,18 @@ using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Globalization;
 using System.Security.Claims;
+using System.Text;
+
 namespace Implem.Pleasanter.Libraries.Requests
 {
     public abstract class Context : ISqlObjectFactory
     {
         public abstract Stopwatch Stopwatch { get; set; }
+        public abstract StringBuilder LogBuilder { get; set; }
+        public abstract ExpandoObject UserData { get; set; }
         public abstract bool Authenticated { get; set; }
         public abstract bool SwitchUser { get; set; }
         public abstract string SessionGuid { get; set; }
@@ -220,5 +225,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         }
 
         public abstract IScriptEngine CreateScriptEngin();
+
+        public abstract string GetLog();
     }
 }

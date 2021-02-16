@@ -116,6 +116,9 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: invalid);
             }
+            var scriptValues = new ItemModel().SetByBeforeOpeningPageServerScript(
+                context: context,
+                ss: ss);
             return hb.Template(
                 context: context,
                 ss: ss,
@@ -128,6 +131,7 @@ namespace Implem.Pleasanter.Models
                 script: JavaScripts.ViewMode(viewMode),
                 userScript: ss.ViewModeScripts(context: context),
                 userStyle: ss.ViewModeStyles(context: context),
+                scriptValues: scriptValues,
                 action: () => hb
                     .Form(
                         attributes: new HtmlAttributes()
@@ -337,6 +341,7 @@ namespace Implem.Pleasanter.Models
                 .Val("#GridColumns", columns.Select(o => o.ColumnName).ToJson())
                 .Paging("#Grid")
                 .Message(message)
+                .Log(context.GetLog())
                 .ToJson();
         }
 
@@ -426,6 +431,7 @@ namespace Implem.Pleasanter.Models
                     .Message(
                         message: Messages.NotFound(context: context),
                         target: "row_" + deptId)
+                    .Log(context.GetLog())
                     .ToJson()
                 : res
                     .ReplaceAll(
@@ -442,6 +448,7 @@ namespace Implem.Pleasanter.Models
                             editRow: true,
                             checkRow: false,
                             idColumn: "DeptId"))
+                    .Log(context.GetLog())
                     .ToJson();
         }
 
@@ -1224,7 +1231,8 @@ namespace Implem.Pleasanter.Models
         public static string EditorJson(Context context, SiteSettings ss, int deptId)
         {
             return EditorResponse(context, ss, new DeptModel(
-                context, ss, deptId)).ToJson();
+                context, ss, deptId,
+                formData: context.QueryStrings.Bool("control-auto-postback") ? context.Forms : null)).ToJson();
         }
 
         private static ResponseCollection EditorResponse(
@@ -1242,7 +1250,8 @@ namespace Implem.Pleasanter.Models
                 .SetMemory("formChanged", false)
                 .Invoke("setCurrentIndex")
                 .Message(message)
-                .ClearFormData();
+                .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"))
+                .Log(context.GetLog());
         }
 
         private static List<int> GetSwitchTargets(Context context, SiteSettings ss, int deptId)
@@ -1811,6 +1820,29 @@ namespace Implem.Pleasanter.Models
                         ss: ss))
                 }
             }.ToJson());
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static EnumerableRowCollection<DataRow> Users(Context context, int deptId)
+        {
+            return Repository.ExecuteTable(
+                context: context,
+                statements: Rds.SelectUsers(
+                    column: Rds.UsersColumn()
+                        .UserId()
+                        .DeptId()
+                        .LoginId()
+                        .Name()
+                        .UserCode()
+                        .TenantManager()
+                        .ServiceManager()
+                        .Disabled(),
+                    where: Rds.UsersWhere()
+                        .TenantId(context.TenantId)
+                        .DeptId(deptId)))
+                            .AsEnumerable();
         }
     }
 }

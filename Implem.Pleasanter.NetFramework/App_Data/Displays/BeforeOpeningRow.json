@@ -1,0 +1,29 @@
+﻿{
+    "Id": "BeforeOpeningRow",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Before opening the row"
+        },
+        {
+            "Language": "zh",
+            "Body": "在打开行之前"
+        },
+        {
+            "Language": "ja",
+            "Body": "行表示の前"
+        },
+        {
+            "Language": "de",
+            "Body": "Vor dem Öffnen der Reihe"
+        },
+        {
+            "Language": "ko",
+            "Body": "행을 열기 전에"
+        },
+        {
+            "Language": "es",
+            "Body": "Antes de abrir la fila"
+        }
+    ]
+}

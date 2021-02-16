@@ -15,10 +15,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
-            Versions.VerTypes verType)
+            Versions.VerTypes verType,
+            bool readOnly = false)
         {
             var notes = new Dictionary<string, string>();
-            if (!context.Publish && !context.CanUpdate(ss: ss) && !ss.Locked())
+            if (!context.Publish && !context.CanUpdate(ss: ss) && !ss.Locked() || readOnly)
             {
                 notes.Add("readonly", Displays.CanNotUpdate(context: context));
             }

@@ -1748,7 +1748,7 @@ namespace Implem.Pleasanter.Models
                 value: o.Value));
             data.DateHash?.ForEach(o => Date(
                 columnName: o.Key,
-                value: o.Value.ToUniversal(context: context)));
+                value: o.Value.ToDateTime().ToUniversal(context: context)));
             data.DescriptionHash?.ForEach(o => Description(
                 columnName: o.Key,
                 value: o.Value));
@@ -1930,6 +1930,12 @@ namespace Implem.Pleasanter.Models
                             columnName: columnName,
                             value: value);
                         break;
+                }
+                if (ss.OutputFormulaLogs == true)
+                {
+                    context.LogBuilder?.AppendLine($"formulaSet: {formulaSet.GetRecordingData().ToJson()}");
+                    context.LogBuilder?.AppendLine($"formulaSource: {data.ToJson()}");
+                    context.LogBuilder?.AppendLine($"formulaResult: {{\"{columnName}\":{value}}}");
                 }
             });
             SetByAfterFormulaServerScript(
@@ -2142,6 +2148,12 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         users: users);
                 }
+                var values = ss.IncludedColumns(notification.Address)
+                    .ToDictionary(
+                        column => column,
+                        column => PropertyValue(
+                            context: context,
+                            name: column.ColumnName));
                 switch (type)
                 {
                     case "Created":
@@ -2154,7 +2166,8 @@ namespace Implem.Pleasanter.Models
                             body: NoticeBody(
                                 context: context,
                                 ss: ss,
-                                notification: notification));
+                                notification: notification),
+                            values: values);
                         break;
                     case "Updated":
                         if (notification.MonitorChangesColumns.Any(columnName => PropertyUpdated(
@@ -2172,7 +2185,8 @@ namespace Implem.Pleasanter.Models
                                 title: Displays.Updated(
                                     context: context,
                                     data: Title.DisplayValue).ToString(),
-                                body: body);
+                                body: body,
+                                values: values);
                         }
                         break;
                     case "Deleted":
@@ -2185,7 +2199,8 @@ namespace Implem.Pleasanter.Models
                             body: NoticeBody(
                                 context: context,
                                 ss: ss,
-                                notification: notification));
+                                notification: notification),
+                            values: values);
                         break;
                 }
             });
@@ -2549,6 +2564,9 @@ namespace Implem.Pleasanter.Models
                 }
             }
             SetTitle(context: context, ss: ss);
+            SetByWhenloadingRecordServerScript(
+                context: context,
+                ss: ss);
         }
 
         public bool Updated(Context context)

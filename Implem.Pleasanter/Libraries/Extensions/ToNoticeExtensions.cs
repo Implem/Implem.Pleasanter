@@ -153,10 +153,10 @@ namespace Implem.Pleasanter.Libraries.Extensions
                             update: update);
                     default:
                         return notificationColumnFormat.DisplayText(
-                    self: column.Choice(self).Text,
-                    saved: column.Choice(saved).Text,
-                    column: column,
-                    updated: updated,
+                            self: column.Choice(self).Text,
+                            saved: column.Choice(saved).Text,
+                            column: column,
+                            updated: updated,
                             update: update);
                 }
             }

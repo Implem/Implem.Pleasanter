@@ -138,20 +138,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                     $"$1${{name}}{context.QueryStrings.Long("FromTabIndex")}")
                                                 : $"{referer}{(referer.Contains("?") ? "&" : "?")}TabIndex={context.QueryStrings.Long("FromTabIndex")}"
                                             : context.QueryStrings.Int("back") == 1
-                                            && !referer.IsNullOrEmpty()
-                                                ? referer
-                                                : Locations.Get(
-                                                    context: context,
-                                                    parts: new string[]
-                                                    {
-                                                        context.Publish
-                                                            ? "Publishes"
-                                                            : "Items",
-                                                        siteId.ToString(),
-                                                        Requests.ViewModes.GetSessionData(
-                                                            context: context,
-                                                            siteId: siteId)
-                                                    });
+                                                && !referer.IsNullOrEmpty()
+                                                    ? referer
+                                                    : Locations.Get(
+                                                        context: context,
+                                                        parts: new string[]
+                                                        {
+                                                            context.Publish
+                                                                ? "Publishes"
+                                                                : "Items",
+                                                            siteId.ToString(),
+                                                            Requests.ViewModes.GetSessionData(
+                                                                context: context,
+                                                                siteId: siteId)
+                                                        });
                                 case "trashbox":
                                     return Locations.ItemIndex(
                                         context: context,

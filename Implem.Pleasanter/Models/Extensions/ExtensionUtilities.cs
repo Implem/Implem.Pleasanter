@@ -41,25 +41,85 @@ namespace Implem.Pleasanter.Models
             {
                 return ApiResults.BadRequest(context: context);
             }
+            var data = ExecuteDataSetAsDictionary(
+                context: context,
+                name: extendedApi.Name,
+                _params: extendedApi.Params);
+            if (data == null)
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            return ApiResults.Get(
+                statusCode: 200,
+                limitPerDate: 0,
+                limitRemaining: 0,
+                response: new
+                {
+                    Data = data
+                });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static Dictionary<string, List<Dictionary<string, object>>> ExecuteDataSetAsDictionary(
+            Context context,
+            string name,
+            Dictionary<string, object> _params)
+        {
+            var dataSet = ExecuteDataSet(context, name, _params);
+            return DataSetToDictionary(dataSet);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static System.Dynamic.ExpandoObject ExecuteDataSetAsDynamic(
+            Context context,
+            string name,
+            Dictionary<string, object> _params)
+        {
+            var dataSet = ExecuteDataSet(context, name, _params);
+            return DataSetToExpando(dataSet);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static DataSet ExecuteDataSet(
+            Context context,
+            string name,
+            Dictionary<string, object> _params)
+        {
             var extendedSql = Parameters.ExtendedSqls
                 ?.Where(o => o.Api)
-                .Where(o => o.Name == extendedApi.Name)
+                .Where(o => o.Name == name)
                 .ExtensionWhere<ParameterAccessor.Parts.ExtendedSql>(context: context)
                 .FirstOrDefault();
             if (extendedSql == null)
             {
-                return ApiResults.BadRequest(context: context);
+                return null;
             }
             var param = new SqlParamCollection();
-            extendedApi.Params?.ForEach(part =>
+            _params?.ForEach(part =>
                 param.Add(
                     variableName: part.Key,
                     value: part.Value));
             var dataSet = Repository.ExecuteDataSet(
                 context: context,
                 statements: new SqlStatement(
-                    commandText: extendedSql.CommandText,
+                    commandText: extendedSql.CommandText
+                        .Replace("{{SiteId}}", context.SiteId.ToString())
+                        .Replace("{{Id}}", context.Id.ToString()),
                     param: param));
+            return dataSet;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static Dictionary<string, List<Dictionary<string, object>>> DataSetToDictionary(DataSet dataSet)
+        {
             var data = new Dictionary<string, List<Dictionary<string, object>>>();
             foreach (DataTable dataTable in dataSet.Tables)
             {
@@ -77,14 +137,32 @@ namespace Implem.Pleasanter.Models
                 }
                 data.AddIfNotConainsKey(dataTable.TableName, table);
             }
-            return ApiResults.Get(
-                statusCode: 200,
-                limitPerDate: 0,
-                limitRemaining: 0,
-                response: new
+            return data;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static System.Dynamic.ExpandoObject DataSetToExpando(DataSet dataSet)
+        {
+            var dynamicDataSet = new System.Dynamic.ExpandoObject();
+            var dataSetDict = (IDictionary<string, object>)dynamicDataSet;
+            foreach (DataTable dataTable in dataSet.Tables)
+            {
+                var table = new List<object>();
+                foreach (DataRow dataRow in dataTable.Rows)
                 {
-                    Data = data
-                });
+                    var dynamicDataRow = new System.Dynamic.ExpandoObject();
+                    var dataRowDic = (IDictionary<string, object>)dynamicDataRow;
+                    foreach (DataColumn dataColumn in dataTable.Columns)
+                    {
+                        dataRowDic[dataColumn.ColumnName] = dataRow[dataColumn.ColumnName];
+                    }
+                    table.Add(dynamicDataRow);
+                }
+                dataSetDict[dataTable.TableName] = table;
+            }
+            return dynamicDataSet;
         }
 
         /// <summary>

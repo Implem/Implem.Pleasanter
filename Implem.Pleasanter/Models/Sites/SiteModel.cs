@@ -1117,7 +1117,7 @@ namespace Implem.Pleasanter.Models
                 value: o.Value));
             data.DateHash?.ForEach(o => Date(
                 columnName: o.Key,
-                value: o.Value.ToUniversal(context: context)));
+                value: o.Value.ToDateTime().ToUniversal(context: context)));
             data.DescriptionHash?.ForEach(o => Description(
                 columnName: o.Key,
                 value: o.Value));
@@ -2372,14 +2372,14 @@ namespace Implem.Pleasanter.Models
                     AddOrUpdateEditorColumnHash(context: context);
                     if (column != null)
                     {
-                    res.Html(
-                        "#EditorColumnDialog",
-                        SiteUtilities.EditorColumnDialog(
-                            context: context,
-                            ss: SiteSettings,
-                            column: column,
-                            titleColumns: titleColumns));
-                }
+                        res.Html(
+                            "#EditorColumnDialog",
+                            SiteUtilities.EditorColumnDialog(
+                                context: context,
+                                ss: SiteSettings,
+                                column: column,
+                                titleColumns: titleColumns));
+                    }
                     else if(section != null)
                     {
                         res.Html("#EditorColumnDialog", SiteUtilities.SectionDialog(
@@ -3330,7 +3330,8 @@ namespace Implem.Pleasanter.Models
                     id: SiteSettings.Notifications.MaxOrDefault(o => o.Id) + 1,
                     type: (Notification.Types)context.Forms.Int("NotificationType"),
                     prefix: context.Forms.Data("NotificationPrefix"),
-                    address: context.Forms.Data("NotificationAddress"),
+                    address: SiteSettings.LabelTextToColumnName(
+                        context.Forms.Data("NotificationAddress")),
                     token: context.Forms.Data("NotificationToken"),
                     useCustomFormat: context.Forms.Bool("NotificationUseCustomFormat"),
                     format: SiteSettings.LabelTextToColumnName(
@@ -3365,7 +3366,8 @@ namespace Implem.Pleasanter.Models
                     notification.Update(
                         type: (Notification.Types)context.Forms.Int("NotificationType"),
                         prefix: context.Forms.Data("NotificationPrefix"),
-                        address: context.Forms.Data("NotificationAddress"),
+                        address: SiteSettings.LabelTextToColumnName(
+                            context.Forms.Data("NotificationAddress")),
                         token: context.Forms.Data("NotificationToken"),
                         useCustomFormat: context.Forms.Bool("NotificationUseCustomFormat"),
                         format: SiteSettings.LabelTextToColumnName(
@@ -4418,17 +4420,19 @@ namespace Implem.Pleasanter.Models
             var script = new ServerScript(
                 id: context.Forms.Int("ServerScriptId"),
                 title: context.Forms.Data("ServerScriptTitle"),
-                beforeOpeningPage: context.Forms.Bool("ServerScriptBeforeOpeningPage"),
+                whenloadingSiteSettings: context.Forms.Bool("ServerScriptWhenloadingSiteSettings"),
                 whenViewProcessing: context.Forms.Bool("ServerScriptWhenViewProcessing"),
+                whenloadingRecord: context.Forms.Bool("ServerScriptWhenloadingRecord"),
                 beforeFormula: context.Forms.Bool("ServerScriptBeforeFormula"),
                 afterFormula: context.Forms.Bool("ServerScriptAfterFormula"),
-                whenloadingSiteSettings: context.Forms.Bool("ServerScriptWhenloadingSiteSettings"),
                 beforeCreate: context.Forms.Bool("ServerScriptBeforeCreate"),
                 afterCreate: context.Forms.Bool("ServerScriptAfterCreate"),
                 beforeUpdate: context.Forms.Bool("ServerScriptBeforeUpdate"),
                 afterUpdate: context.Forms.Bool("ServerScriptAfterUpdate"),
                 beforeDelete: context.Forms.Bool("ServerScriptBeforeDelete"),
                 afterDelete: context.Forms.Bool("ServerScriptAfterDelete"),
+                beforeOpeningRow: context.Forms.Bool("ServerScriptBeforeOpeningRow"),
+                beforeOpeningPage: context.Forms.Bool("ServerScriptBeforeOpeningPage"),
                 body: context.Forms.Data("ServerScriptBody"));
             var invalid = ServerScriptValidators.OnCreating(
                 context: context,
@@ -4443,17 +4447,19 @@ namespace Implem.Pleasanter.Models
             SiteSettings.ServerScripts.Add(new ServerScript(
                 id: SiteSettings.ServerScripts.MaxOrDefault(o => o.Id) + 1,
                 title: script.Title,
-                beforeOpeningPage: script.BeforeOpeningPage ?? default,
+                whenloadingSiteSettings: script.WhenloadingSiteSettings ?? default,
                 whenViewProcessing: script.WhenViewProcessing ?? default,
+                whenloadingRecord: script.WhenloadingRecord ?? default,
                 beforeFormula: script.BeforeFormula ?? default,
                 afterFormula: script.AfterFormula ?? default,
-                whenloadingSiteSettings: script.WhenloadingSiteSettings ?? default,
                 beforeCreate: script.BeforeCreate ?? default,
                 afterCreate: script.AfterCreate ?? default,
                 beforeUpdate: script.BeforeUpdate ?? default,
                 afterUpdate: script.AfterUpdate ?? default,
                 beforeDelete: script.BeforeDelete ?? default,
                 afterDelete: script.AfterDelete ?? default,
+                beforeOpeningRow: script.BeforeOpeningRow ?? default,
+                beforeOpeningPage: script.BeforeOpeningPage ?? default,
                 body: script.Body));
             res
                 .ReplaceAll("#EditServerScript", new HtmlBuilder()
@@ -4471,17 +4477,19 @@ namespace Implem.Pleasanter.Models
             var script = new ServerScript(
                 id: context.Forms.Int("ServerScriptId"),
                 title: context.Forms.Data("ServerScriptTitle"),
-                beforeOpeningPage: context.Forms.Bool("ServerScriptBeforeOpeningPage"),
+                whenloadingSiteSettings: context.Forms.Bool("ServerScriptWhenloadingSiteSettings"),
                 whenViewProcessing: context.Forms.Bool("ServerScriptWhenViewProcessing"),
+                whenloadingRecord: context.Forms.Bool("ServerScriptWhenloadingRecord"),
                 beforeFormula: context.Forms.Bool("ServerScriptBeforeFormula"),
                 afterFormula: context.Forms.Bool("ServerScriptAfterFormula"),
-                whenloadingSiteSettings: context.Forms.Bool("ServerScriptWhenloadingSiteSettings"),
                 beforeCreate: context.Forms.Bool("ServerScriptBeforeCreate"),
                 afterCreate: context.Forms.Bool("ServerScriptAfterCreate"),
                 beforeUpdate: context.Forms.Bool("ServerScriptBeforeUpdate"),
                 afterUpdate: context.Forms.Bool("ServerScriptAfterUpdate"),
                 beforeDelete: context.Forms.Bool("ServerScriptBeforeDelete"),
                 afterDelete: context.Forms.Bool("ServerScriptAfterDelete"),
+                beforeOpeningRow: context.Forms.Bool("ServerScriptBeforeOpeningRow"),
+                beforeOpeningPage: context.Forms.Bool("ServerScriptBeforeOpeningPage"),
                 body: context.Forms.Data("ServerScriptBody"));
             var invalid = ServerScriptValidators.OnUpdating(
                 context: context,
@@ -4497,17 +4505,19 @@ namespace Implem.Pleasanter.Models
                 .FirstOrDefault(o => o.Id == script.Id)?
                 .Update(
                     title: script.Title,
-                    beforeOpeningPage: script.BeforeOpeningPage ?? default,
+                    whenloadingSiteSettings: script.WhenloadingSiteSettings ?? default,
                     whenViewProcessing: script.WhenViewProcessing ?? default,
+                    whenloadingRecord: script.WhenloadingRecord ?? default,
                     beforeFormula: script.BeforeFormula ?? default,
                     afterFormula: script.AfterFormula ?? default,
-                    whenloadingSiteSettings: script.WhenloadingSiteSettings ?? default,
                     beforeCreate: script.BeforeCreate ?? default,
                     afterCreate: script.AfterCreate ?? default,
                     beforeUpdate: script.BeforeUpdate ?? default,
                     afterUpdate: script.AfterUpdate ?? default,
                     beforeDelete: script.BeforeDelete ?? default,
                     afterDelete: script.AfterDelete ?? default,
+                    beforeOpeningRow: script.BeforeOpeningRow ?? default,
+                    beforeOpeningPage: script.BeforeOpeningPage ?? default,
                     body: script.Body);
             res
                 .Html("#EditServerScript", new HtmlBuilder()

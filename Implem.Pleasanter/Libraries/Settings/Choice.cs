@@ -9,7 +9,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string CssClass;
         public string Style;
 
-        public Choice(string value, string text, string textMini = null)
+        public Choice(
+            string value,
+            string text,
+            string textMini = null,
+            string cssClass = null)
         {
             Value = value;
             Text = !text.IsNullOrEmpty()
@@ -18,6 +22,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             TextMini = !textMini.IsNullOrEmpty()
                 ? textMini
                 : Text;
+            CssClass = cssClass;
         }
 
         public Choice(string choice, bool raw = false)

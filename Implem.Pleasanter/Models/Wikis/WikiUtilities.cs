@@ -556,7 +556,7 @@ namespace Implem.Pleasanter.Models
             ss.SetColumnAccessControls(
                 context: context,
                 mine: wikiModel.Mine(context: context));
-            wikiModel.SetByBeforeOpeningPageServerScript(
+            var scriptValues = wikiModel.SetByBeforeOpeningPageServerScript(
                 context: context,
                 ss: ss);
             return editInDialog
@@ -592,6 +592,7 @@ namespace Implem.Pleasanter.Models
                         context: context, methodType: wikiModel.MethodType),
                     userStyle: ss.EditorStyles(
                         context: context, methodType: wikiModel.MethodType),
+                    scriptValues: scriptValues,
                     action: () => hb
                         .Editor(
                             context: context,
@@ -966,24 +967,19 @@ namespace Implem.Pleasanter.Models
                 ?.Aggregate(new List<KeyValuePair<Section, List<string>>>(), (columns, column) =>
                 {
                     var sectionId = ss.SectionId(column.ColumnName);
-                    if (sectionId != 0)
+                    var section = ss
+                        .Sections
+                        ?.FirstOrDefault(o => o.Id == sectionId);
+                    if (section != null)
                     {
                         columns.Add(new KeyValuePair<Section, List<string>>(
                             new Section
                             {
-                                Id = sectionId,
-                                LabelText = ss
-                                    .Sections
-                                    ?.FirstOrDefault(o => o.Id == sectionId)
-                                    ?.LabelText,
-                                AllowExpand = ss
-                                    .Sections
-                                    ?.FirstOrDefault(o => o.Id == sectionId)
-                                    ?.AllowExpand,
-                                Expand = ss
-                                    .Sections
-                                    ?.FirstOrDefault(o => o.Id == sectionId)
-                                    ?.Expand
+                                Id = section.Id,
+                                LabelText = section.LabelText,
+                                AllowExpand = section.AllowExpand,
+                                Expand = section.Expand,
+                                Hide = section.Hide
                             },
                             new List<string>()));
                     }
@@ -1014,42 +1010,42 @@ namespace Implem.Pleasanter.Models
                             editInDialog: editInDialog,
                             tabIndex: tabIndex);
                     }
-                    else
+                    else if (section.Key.Hide != true)
                     {
                         hb
                             .Div(
                                 id: $"SectionFields{section.Key.Id}Container",
-                                    css: "section-fields-container",
-                                    action: () => hb
-                                        .Div(action: () => hb.Label(
-                                            css: "field-section" + (section.Key.AllowExpand == true
-                                                ? " expand"
-                                                : string.Empty),
-                                            attributes: new HtmlAttributes()
-                                                .For($"SectionFields{section.Key.Id}"),
-                                            action: () => hb
-                                                .Span(css: section.Key.AllowExpand == true
-                                                    ? section.Key.Expand == true
-                                                        ? "ui-icon ui-icon-triangle-1-s"
-                                                        : "ui-icon ui-icon-triangle-1-e"
-                                                    : string.Empty)
-                                                .Text(text: section.Key.LabelText)))
-                                        .Div(
-                                            id: $"SectionFields{section.Key.Id}",
-                                            css: section.Key.AllowExpand == true && section.Key.Expand != true
-                                                ? "section-fields hidden"
-                                                : "section-fields",
-                                            action: () => hb.Fields(
-                                                context: context,
-                                                ss: ss,
-                                                id: id,
-                                                columnNames: section.Value,
-                                                dataSet: dataSet,
-                                                links: links,
-                                                wikiModel: wikiModel,
-                                                preview: preview,
-                                                editInDialog: editInDialog,
-                                                tabIndex: tabIndex)));
+                                css: "section-fields-container",
+                                action: () => hb
+                                    .Div(action: () => hb.Label(
+                                        css: "field-section" + (section.Key.AllowExpand == true
+                                            ? " expand"
+                                            : string.Empty),
+                                        attributes: new HtmlAttributes()
+                                            .For($"SectionFields{section.Key.Id}"),
+                                        action: () => hb
+                                            .Span(css: section.Key.AllowExpand == true
+                                                ? section.Key.Expand == true
+                                                    ? "ui-icon ui-icon-triangle-1-s"
+                                                    : "ui-icon ui-icon-triangle-1-e"
+                                                : string.Empty)
+                                            .Text(text: section.Key.LabelText)))
+                                    .Div(
+                                        id: $"SectionFields{section.Key.Id}",
+                                        css: section.Key.AllowExpand == true && section.Key.Expand != true
+                                            ? "section-fields hidden"
+                                            : "section-fields",
+                                        action: () => hb.Fields(
+                                            context: context,
+                                            ss: ss,
+                                            id: id,
+                                            columnNames: section.Value,
+                                            dataSet: dataSet,
+                                            links: links,
+                                            wikiModel: wikiModel,
+                                            preview: preview,
+                                            editInDialog: editInDialog,
+                                            tabIndex: tabIndex)));
                     }
                 });
             return hb;
@@ -1237,7 +1233,8 @@ namespace Implem.Pleasanter.Models
         public static string EditorJson(Context context, SiteSettings ss, long wikiId)
         {
             return EditorResponse(context, ss, new WikiModel(
-                context, ss, wikiId)).ToJson();
+                context, ss, wikiId,
+                formData: context.QueryStrings.Bool("control-auto-postback") ? context.Forms : null)).ToJson();
         }
 
         private static ResponseCollection EditorResponse(
@@ -1255,7 +1252,8 @@ namespace Implem.Pleasanter.Models
                 .SetMemory("formChanged", false)
                 .Invoke("setCurrentIndex")
                 .Message(message)
-                .ClearFormData();
+                .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"))
+                .Log(context.GetLog());
         }
 
         public static ResponseCollection FieldResponse(

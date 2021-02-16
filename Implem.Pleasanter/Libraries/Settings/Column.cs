@@ -64,6 +64,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? Hide;
         public string ExtendedCellCss;
         public string ExtendedFieldCss;
+        public string ExtendedControlCss;
         public string Section;
         public string GridDesign;
         public bool? ValidateRequired;
@@ -88,6 +89,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? NoDuplication;
         public bool? CopyByDefault;
         public bool? EditorReadOnly;
+        public bool? AutoPostBack;
         public bool? AllowImage;
         public bool? AllowBulkUpdate;
         public string FieldCss;
@@ -368,13 +370,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                                         {
                                             Value = o.Split_1st(),
                                             Text = o.Split_2nd(),
-                                            TextMini = o.Split_3rd()
+                                            TextMini = o.Split_3rd(),
+                                            CssClass = o.Split_4th()
                                         })
                                         .ForEach(o =>
                                             AddToChoiceHash(
                                                 value: o.Value,
                                                 text: o.Text,
-                                                textMini: o.TextMini));
+                                                textMini: o.TextMini,
+                                                cssClass: o.CssClass));
                                 }
                             }
                         }
@@ -473,14 +477,19 @@ namespace Implem.Pleasanter.Libraries.Settings
                     o.ColumnName == ColumnName && o.SiteId == fromSiteId);
         }
 
-        private void AddToChoiceHash(string value, string text, string textMini = null)
+        private void AddToChoiceHash(
+            string value,
+            string text,
+            string textMini = null,
+            string cssClass = null)
         {
             if (!ChoiceHash.Keys.Contains(value))
             {
                 ChoiceHash.Add(value, new Choice(
                     value: value,
                     text: text,
-                    textMini: textMini));
+                    textMini: textMini,
+                    cssClass: cssClass));
             }
         }
 
@@ -696,8 +705,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         || this.ColumnPermissionType(
                             context: context,
                             baseModel: null) != Permissions.ColumnPermissionTypes.Update
-                        ? Unit
-                        : string.Empty);
+                                ? Unit
+                                : string.Empty);
         }
 
         public string DisplayGrid(Context context, DateTime value)
@@ -921,6 +930,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Select(o => o?.Trim())
                 .Where(o => !o.IsNullOrEmpty())
                 .Join(" ");
+        }
+
+        public bool CanEdit(Context context)
+        {
+            switch (context.Action)
+            {
+                case "new": return CanCreate;
+                default: return CanRead;
+            }
         }
 
         private void SelectColumns(

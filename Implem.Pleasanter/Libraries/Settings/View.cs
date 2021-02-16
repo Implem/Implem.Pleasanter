@@ -1164,8 +1164,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var from = param.Split_1st();
             var to = param.Split_2nd();
-                yield return new SqlWhere(
-                    tableName: column.TableName(),
+            yield return new SqlWhere(
+                tableName: column.TableName(),
                 columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                 _operator: from == string.Empty
                     ? "<={0}".Params(to.ToDecimal())

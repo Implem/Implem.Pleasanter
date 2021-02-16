@@ -7,7 +7,6 @@ using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 namespace Implem.Pleasanter.Libraries.Extensions
 {
@@ -99,25 +98,64 @@ namespace Implem.Pleasanter.Libraries.Extensions
             {
                 if (column.HasChoices() == true)
                 {
-                    switch (column.FullTextType)
+                    switch (column.Type)
                     {
-                        case Column.FullTextTypes.DisplayName:
-                            fullText
-                                .Append(" ")
-                                .Append(column.Choice(self).Text ?? string.Empty);
+                        case Column.Types.User:
+                            var user = SiteInfo.User(
+                                context: context,
+                                userId: self.ToInt());
+                            switch (column.FullTextType)
+                            {
+                                case Column.FullTextTypes.DisplayName:
+                                    fullText
+                                        .Append(" ")
+                                        .Append(user.Anonymous()
+                                            ? string.Empty
+                                            : user.Name);
+                                    break;
+                                case Column.FullTextTypes.Value:
+                                    fullText
+                                        .Append(" ")
+                                        .Append(user.Anonymous()
+                                            ? string.Empty
+                                            : user.Id.ToString());
+                                    break;
+                                case Column.FullTextTypes.ValueAndDisplayName:
+                                    fullText
+                                        .Append(" ")
+                                        .Append(user.Anonymous()
+                                            ? string.Empty
+                                            : user.Id.ToString());
+                                    fullText
+                                        .Append(" ")
+                                        .Append(user.Anonymous()
+                                            ? string.Empty
+                                            : user.Name);
+                                    break;
+                            }
                             break;
-                        case Column.FullTextTypes.Value:
-                            fullText
-                                .Append(" ")
-                                .Append(column.Choice(self).Value ?? string.Empty);
-                            break;
-                        case Column.FullTextTypes.ValueAndDisplayName:
-                            fullText
-                                .Append(" ")
-                                .Append(column.Choice(self).Value ?? string.Empty);
-                            fullText
-                                .Append(" ")
-                                .Append(column.Choice(self).Text ?? string.Empty);
+                        default:
+                            switch (column.FullTextType)
+                            {
+                                case Column.FullTextTypes.DisplayName:
+                                    fullText
+                                        .Append(" ")
+                                        .Append(column.Choice(self).Text ?? string.Empty);
+                                    break;
+                                case Column.FullTextTypes.Value:
+                                    fullText
+                                        .Append(" ")
+                                        .Append(column.Choice(self).Value ?? string.Empty);
+                                    break;
+                                case Column.FullTextTypes.ValueAndDisplayName:
+                                    fullText
+                                        .Append(" ")
+                                        .Append(column.Choice(self).Value ?? string.Empty);
+                                    fullText
+                                        .Append(" ")
+                                        .Append(column.Choice(self).Text ?? string.Empty);
+                                    break;
+                            }
                             break;
                     }
                 }

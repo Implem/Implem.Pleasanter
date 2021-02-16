@@ -33,6 +33,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string SamlThumbprint;
         public string SamlLoginUrl;
         public int? AllowOriginalLogin;
+        public bool? AllowNewFeatures;
 
         public ContractSettings()
         {
@@ -121,6 +122,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             return AllowIpAddresses
                 .Select(addr => IpRange.FromCidr(addr))
                 .Any(range => range.InRange(ipAddress));
+        }
+
+        public bool NewFeatures()
+        {
+            return AllowNewFeatures == true || !Parameters.Service.RestrictNewFeatures;
         }
     }
 }

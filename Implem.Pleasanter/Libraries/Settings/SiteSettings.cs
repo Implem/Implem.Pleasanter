@@ -123,6 +123,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public DateTime ApiCountDate;
         [NonSerialized]
         public int ApiCount;
+        [NonSerialized]
+        public List<ServerScript> ServerScriptsAndExtended;
         public string ReferenceType;
         public decimal? NearCompletionTimeAfterDays;
         public decimal? NearCompletionTimeBeforeDays;
@@ -178,6 +180,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? UseFiltersArea;
         public bool? UseGridHeaderFilters;
         public bool? UseRelatingColumnsOnFilter;
+        public bool? OutputFormulaLogs;
         public string TitleSeparator;
         public SearchTypes? SearchType;
         public SaveViewTypes? SaveViewType;
@@ -299,6 +302,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             UseFiltersArea = UseFiltersArea ?? true;
             UseGridHeaderFilters = UseGridHeaderFilters ?? false;
             UseRelatingColumnsOnFilter = UseRelatingColumnsOnFilter ?? false;
+            OutputFormulaLogs = OutputFormulaLogs ?? false;
             SearchType = SearchType ?? SearchTypes.PartialMatch;
             SaveViewType = SaveViewType ?? SaveViewTypes.Session;
         }
@@ -743,6 +747,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.UseRelatingColumnsOnFilter = UseRelatingColumnsOnFilter;
             }
+            if (OutputFormulaLogs == true)
+            {
+                ss.OutputFormulaLogs = OutputFormulaLogs;
+            }
             if (ImageLibPageSize != Parameters.General.ImageLibPageSize)
             {
                 ss.ImageLibPageSize = ImageLibPageSize;
@@ -1035,6 +1043,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.ExtendedFieldCss = column.ExtendedFieldCss;
                     }
+                    if (column.ExtendedControlCss?.Trim().IsNullOrEmpty() == false)
+                    {
+                        enabled = true;
+                        newColumn.ExtendedControlCss = column.ExtendedControlCss;
+                    }
                     if (column.Section?.Trim().IsNullOrEmpty() == false)
                     {
                         enabled = true;
@@ -1140,6 +1153,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         enabled = true;
                         newColumn.EditorReadOnly = column.EditorReadOnly;
+                    }
+                    if (column.AutoPostBack == true)
+                    {
+                        enabled = true;
+                        newColumn.AutoPostBack = column.AutoPostBack;
                     }
                     if (column.AllowImage != true)
                     {
@@ -1504,6 +1522,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.NoDuplication = column.NoDuplication ?? false;
                 column.CopyByDefault = column.CopyByDefault ?? false;
                 column.EditorReadOnly = column.EditorReadOnly ?? columnDefinition.EditorReadOnly;
+                column.AutoPostBack = column.AutoPostBack ?? false;
                 column.AllowBulkUpdate = column.AllowBulkUpdate ?? false;
                 column.AllowImage = column.AllowImage ?? true;
                 column.ThumbnailLimitSize = column.ThumbnailLimitSize ?? Parameters.BinaryStorage.ThumbnailLimitSize;
@@ -2980,6 +2999,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "UseFiltersArea": UseFiltersArea = value.ToBool(); break;
                 case "UseGridHeaderFilters": UseGridHeaderFilters = value.ToBool(); break;
                 case "UseRelatingColumnsOnFilter": UseRelatingColumnsOnFilter = value.ToBool(); break;
+                case "OutputFormulaLogs": OutputFormulaLogs = value.ToBool(); break;
                 case "ImageLibPageSize": ImageLibPageSize = value.ToInt(); break;
                 case "SearchType": SearchType = (SearchTypes)value.ToInt(); break;
                 case "SaveViewType": SaveViewType = (SaveViewTypes)value.ToInt(); break;
@@ -3137,6 +3157,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "Hide": column.Hide = value.ToBool(); break;
                 case "ExtendedCellCss": column.ExtendedCellCss = value; break;
                 case "ExtendedFieldCss": column.ExtendedFieldCss = value; break;
+                case "ExtendedControlCss": column.ExtendedControlCss = value; break;
                 case "Section": column.Section = value; break;
                 case "GridDesign":
                     column.GridDesign = LabelTextToColumnName(column, value);
@@ -3161,6 +3182,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "NoDuplication": column.NoDuplication = value.ToBool(); break;
                 case "CopyByDefault": column.CopyByDefault = value.ToBool(); break;
                 case "EditorReadOnly": column.EditorReadOnly = value.ToBool(); break;
+                case "AutoPostBack": column.AutoPostBack = value.ToBool(); break;
                 case "AllowBulkUpdate": column.AllowBulkUpdate = value.ToBool(); break;
                 case "AllowImage": column.AllowImage = value.ToBool(); break;
                 case "ThumbnailLimitSize": column.ThumbnailLimitSize = value.ToDecimal(); break;
@@ -4355,6 +4377,34 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return ColumnDefinitionHash.FilterDefinitions(enableOnly: false)
                 .Any(o => o.ColumnName == column.Name);
+        }
+
+        public List<ServerScript> GetServerScripts(Context context)
+        {
+            ServerScriptsAndExtended = ServerScriptsAndExtended ?? Parameters.ExtendedServerScripts
+                .ExtensionWhere<ParameterAccessor.Parts.ExtendedServerScript>(
+                    context: context,
+                    siteId: SiteId)
+                .Select(extendedServerScript => new ServerScript()
+                {
+                    WhenloadingSiteSettings = extendedServerScript.WhenloadingSiteSettings,
+                    WhenViewProcessing = extendedServerScript.WhenViewProcessing,
+                    WhenloadingRecord = extendedServerScript.WhenloadingRecord,
+                    BeforeFormula = extendedServerScript.BeforeFormula,
+                    AfterFormula = extendedServerScript.AfterFormula,
+                    BeforeCreate = extendedServerScript.BeforeCreate,
+                    AfterCreate = extendedServerScript.AfterCreate,
+                    BeforeUpdate = extendedServerScript.BeforeUpdate,
+                    AfterUpdate = extendedServerScript.AfterUpdate,
+                    BeforeDelete = extendedServerScript.BeforeDelete,
+                    AfterDelete = extendedServerScript.AfterDelete,
+                    BeforeOpeningRow = extendedServerScript.BeforeOpeningRow,
+                    BeforeOpeningPage = extendedServerScript.BeforeOpeningPage,
+                    Body = extendedServerScript.Body
+                })
+                    .Concat(ServerScripts)
+                    .ToList();
+            return ServerScriptsAndExtended;
         }
     }
 }
