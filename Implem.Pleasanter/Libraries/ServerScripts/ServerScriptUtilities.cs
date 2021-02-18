@@ -115,6 +115,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             {
                 values.Add(ReadNameValue(
                     ss: ss,
+                    columnName: nameof(ResultModel.ResultId),
+                    value: resultModel.ResultId));
+                values.Add(ReadNameValue(
+                    ss: ss,
                     columnName: nameof(ResultModel.Title),
                     value: resultModel.Title?.Value));
                 values.Add(ReadNameValue(
@@ -140,6 +144,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             }
             if (model is IssueModel issueModel)
             {
+                values.Add(ReadNameValue(
+                    ss: ss,
+                    columnName: nameof(IssueModel.IssueId),
+                    value: issueModel.IssueId));
                 values.Add(ReadNameValue(
                     ss: ss,
                     columnName: nameof(IssueModel.Title),
