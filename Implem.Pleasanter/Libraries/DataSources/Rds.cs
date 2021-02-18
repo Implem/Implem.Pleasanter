@@ -15424,11 +15424,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"TenantName\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"TenantName\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Tenants_Title_WhereLike(
@@ -15437,11 +15438,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Title\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Title\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Tenants_Body_WhereLike(
@@ -15450,11 +15452,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Body\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Body\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Tenants_HtmlTitleTop_WhereLike(
@@ -15463,11 +15466,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"HtmlTitleTop\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"HtmlTitleTop\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Tenants_HtmlTitleSite_WhereLike(
@@ -15476,11 +15480,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"HtmlTitleSite\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"HtmlTitleSite\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Tenants_HtmlTitleRecord_WhereLike(
@@ -15489,11 +15494,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"HtmlTitleRecord\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"HtmlTitleRecord\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static TenantsColumnCollection TenantsColumn(
@@ -19329,11 +19335,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Title\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Title\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static DemosColumnCollection DemosColumn(
@@ -40283,11 +40290,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"DeptCode\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"DeptCode\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Depts_DeptName_WhereLike(
@@ -40296,11 +40304,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"DeptName\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"DeptName\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Depts_Body_WhereLike(
@@ -40309,11 +40318,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Body\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Body\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Depts_DeptId_WhereLike(
@@ -43064,11 +43074,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"GroupName\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"GroupName\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Groups_Body_WhereLike(
@@ -43077,11 +43088,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Body\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Body\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Groups_TenantId_WhereLike(
@@ -48038,11 +48050,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"MailAddress\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"MailAddress\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Registrations_Name_WhereLike(
@@ -48051,11 +48064,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Name\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Name\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static RegistrationsColumnCollection RegistrationsColumn(
@@ -52487,11 +52501,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"LoginId\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"LoginId\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Users_Name_WhereLike(
@@ -52500,11 +52515,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Name\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Name\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Users_UserCode_WhereLike(
@@ -52513,11 +52529,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"UserCode\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"UserCode\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Users_Body_WhereLike(
@@ -52526,11 +52543,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Body\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Body\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static UsersColumnCollection UsersColumn(
@@ -63486,11 +63504,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"MailAddress\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"MailAddress\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static MailAddressesColumnCollection MailAddressesColumn(
@@ -70066,11 +70085,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Title\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Title\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Items_FullText_WhereLike(
@@ -70079,11 +70099,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"FullText\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"FullText\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static ItemsColumnCollection ItemsColumn(
@@ -72893,11 +72914,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Title\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Title\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Sites_Body_WhereLike(
@@ -72906,11 +72928,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Body\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Body\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static SitesColumnCollection SitesColumn(
@@ -85747,11 +85770,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Body\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Body\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static BinariesColumnCollection BinariesColumn(
@@ -93448,11 +93472,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Title\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Title\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Issues_Body_WhereLike(
@@ -93461,11 +93486,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Body\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Body\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static IssuesColumnCollection IssuesColumn(
@@ -98285,11 +98311,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Title\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Title\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Results_Body_WhereLike(
@@ -98298,11 +98325,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Body\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Body\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static ResultsColumnCollection ResultsColumn(
@@ -101979,11 +102007,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Title\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Title\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Wikis_Body_WhereLike(
@@ -101992,11 +102021,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Body\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Body\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static WikisColumnCollection WikisColumn(
