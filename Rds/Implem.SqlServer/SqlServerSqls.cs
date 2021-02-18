@@ -11,6 +11,8 @@ namespace Implem.SqlServer
 
         public string CurrentDateTime { get; } = " getdate() ";
 
+        public string Like { get; } = " like ";
+
         public string WhereLikeTemplateForward { get; } = "'%' + ";
 
         public string WhereLikeTemplate { get; } = "#ParamCount#_#CommandCount# + '%')";

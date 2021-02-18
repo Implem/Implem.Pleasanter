@@ -1270,14 +1270,19 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : null;
         }
 
-        private void CsStringColumns(Context context, Column column, string value, SqlWhereCollection where)
+        private void CsStringColumns(
+            Context context, Column column, string value, SqlWhereCollection where)
         {
             if (column.HasChoices())
             {
                 var param = value.Deserialize<List<string>>();
                 if (param?.Any() == true)
                 {
-                    CreateCsStringSqlWhereCollection(column, where, param);
+                    CreateCsStringSqlWhereCollection(
+                        context: context,
+                        column: column,
+                        where: where,
+                        param: param);
                 }
             }
             else if (!value.IsNullOrEmpty())
@@ -1288,7 +1293,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         var param = value.ToSingleList();
                         if (param?.Any() == true)
                         {
-                            CreateCsStringSqlWhereCollection(column, where, param);
+                            CreateCsStringSqlWhereCollection(
+                                context: context,
+                                column: column,
+                                where: where,
+                                param: param);
                         }
                         break;
                     case Column.SearchTypes.ForwardMatch:
@@ -1297,7 +1306,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             column: column,
                             value: value,
                             where: where,
-                            query: "(\"{0}\".\"{1}\" like @{3}{4}");
+                            query: "(\"{0}\".\"{1}\"" + context.Sqls.Like + "@{3}{4}");
                         break;
                     default:
                         CreateCsStringSqlWhereLike(
@@ -1305,17 +1314,26 @@ namespace Implem.Pleasanter.Libraries.Settings
                             column: column,
                             value: value,
                             where: where,
-                            query: "(\"{0}\".\"{1}\" like {2}@{3}{4}");
+                            query: "(\"{0}\".\"{1}\"" + context.Sqls.Like + "{2}@{3}{4}");
                         break;
                 }
             }
         }
 
-        private void CreateCsStringSqlWhereCollection(Column column, SqlWhereCollection where, List<string> param)
+        private void CreateCsStringSqlWhereCollection(
+            Context context,
+            Column column,
+            SqlWhereCollection where,
+            List<string> param)
         {
             where.Add(or: new SqlWhereCollection(
-                CsStringColumnsWhere(column, param),
-                CsStringColumnsWhereNull(column, param)));
+                CsStringColumnsWhere(
+                    context: context,
+                    column: column,
+                    param: param),
+                CsStringColumnsWhereNull(
+                    column: column,
+                    param: param)));
         }
 
         private void CreateCsStringSqlWhereLike(Context context, Column column, string value, SqlWhereCollection where, string query)
@@ -1336,7 +1354,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     .ToSingleList());
         }
 
-        private SqlWhere CsStringColumnsWhere(Column column, List<string> param)
+        private SqlWhere CsStringColumnsWhere(
+            Context context, Column column, List<string> param)
         {
             return param.Any(o => o != "\t")
                 ? new SqlWhere(
@@ -1348,9 +1367,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Select(value => column.MultipleSelections == true
                             ? StringInJson(value: value)
                             : value),
-                    _operator: column.MultipleSelections == true
-                        ? " like "
-                        : "=",
+                    _operator: context.Sqls.Like,
                     multiParamOperator: " or ")
                 : null;
         }

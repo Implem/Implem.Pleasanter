@@ -12,6 +12,8 @@ namespace Implem.PostgreSql
 
         public string CurrentDateTime { get; } = " CURRENT_TIMESTAMP ";
 
+        public string Like { get; } = " ilike ";
+
         public string WhereLikeTemplateForward { get; } = "'%' || ";
 
         public string WhereLikeTemplate { get; } = "#ParamCount#_#CommandCount# || '%')";
