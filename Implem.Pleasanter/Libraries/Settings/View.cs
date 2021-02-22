@@ -1184,12 +1184,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                 tableName: column.TableName(),
                     columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
                     _operator: " is null");
-            yield return new SqlWhere(
-                tableName: column.TableName(),
-                columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
-                _operator: "={0}".Params(column.Type == Column.Types.User
-                    ? User.UserTypes.Anonymous.ToInt()
-                    : 0));
+            if (column.Nullable != true)
+            {
+                yield return new SqlWhere(
+                    tableName: column.TableName(),
+                    columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
+                    _operator: "={0}".Params(column.Type == Column.Types.User
+                        ? User.UserTypes.Anonymous.ToInt()
+                        : 0));
+            }
         }
 
         private IEnumerable<SqlWhere> CsNumericRangeColumns(Column column, string param)
@@ -1204,9 +1207,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                     : to == string.Empty
                         ? ">={0}".Params(from.ToDecimal())
                         : " between {0} and {1}".Params(from.ToDecimal(), to.ToDecimal()));
-            if ((to == string.Empty && from.ToDecimal() <= 0)
-                || (from == string.Empty && to.ToDecimal() >= 0)
-                || (from != string.Empty && to != string.Empty && from.ToDecimal() <= 0 && to.ToDecimal() >= 0))
+            if (column.Nullable != true
+                && ((to == string.Empty && from.ToDecimal() <= 0)
+                    || (from == string.Empty && to.ToDecimal() >= 0)
+                    || (from != string.Empty && to != string.Empty && from.ToDecimal() <= 0 && to.ToDecimal() >= 0)))
             {
                 yield return new SqlWhere(
                     tableName: column.TableName(),

@@ -14,7 +14,7 @@ namespace Implem.Pleasanter.Models.Shared
     {
         public decimal ApiVersion { get; set; } = 1.000M;
         public Dictionary<string, string> ClassHash { get; set; } = new Dictionary<string, string>();
-        public Dictionary<string, decimal> NumHash { get; set; } = new Dictionary<string, decimal>();
+        public Dictionary<string, decimal?> NumHash { get; set; } = new Dictionary<string, decimal?>();
         public Dictionary<string, DateTime> DateHash { get; set; } = new Dictionary<string, DateTime>();
         public Dictionary<string, string> DescriptionHash { get; set; } = new Dictionary<string, string>();
         public Dictionary<string, bool> CheckHash { get; set; } = new Dictionary<string, bool>();
@@ -2320,35 +2320,26 @@ namespace Implem.Pleasanter.Models.Shared
             Column column,
             bool toLocal = false)
         {
-            return Value(
-                context: context,
-                columnName: column.ColumnName,
-                toLocal: toLocal);
-        }
-
-        public string Value(
-            Context context,
-            string columnName,
-            bool toLocal = false)
-        {
-            switch (Def.ExtendedColumnTypes.Get(columnName))
+            switch (Def.ExtendedColumnTypes.Get(column?.ColumnName))
             {
                 case "Class":
-                    return Class(columnName: columnName);
+                    return Class(columnName: column.ColumnName);
                 case "Num":
-                    return Num(columnName: columnName).ToString();
+                    return column.Nullable != true
+                        ? Num(columnName: column.ColumnName)?.ToString() ?? "0"
+                        : Num(columnName: column.ColumnName)?.ToString() ?? string.Empty;
                 case "Date":
                     return toLocal
-                        ? Date(columnName: columnName)
+                        ? Date(columnName: column.ColumnName)
                             .ToLocal(context: context)
                             .ToString()
-                        : Date(columnName: columnName).ToString();
+                        : Date(columnName: column.ColumnName).ToString();
                 case "Description":
-                    return Description(columnName: columnName);
+                    return Description(columnName: column.ColumnName);
                 case "Check":
-                    return Check(columnName: columnName).ToString();
+                    return Check(columnName: column.ColumnName).ToString();
                 case "Attachments":
-                    return Attachments(columnName: columnName).ToJson();
+                    return Attachments(columnName: column.ColumnName).ToJson();
                 default:
                     return null;
             }
@@ -2360,51 +2351,41 @@ namespace Implem.Pleasanter.Models.Shared
             string value,
             bool toUniversal = false)
         {
-            Value(
-                context: context,
-                columnName: column.ColumnName,
-                value: value,
-                toUniversal: toUniversal);
-        }
-
-        public void Value(
-            Context context,
-            string columnName,
-            string value,
-            bool toUniversal = false)
-        {
-            switch (Def.ExtendedColumnTypes.Get(columnName))
+            switch (Def.ExtendedColumnTypes.Get(column.ColumnName))
             {
                 case "Class":
                     Class(
-                        columnName: columnName,
+                        columnName: column.ColumnName,
                         value: value);
                     break;
                 case "Num":
                     Num(
-                        columnName: columnName,
-                        value: value.ToDecimal());
+                        columnName: column.ColumnName,
+                        value: new Num(
+                            context: context,
+                            column: column,
+                            value: value).Value);
                     break;
                 case "Date":
                     Date(
-                        columnName: columnName,
+                        columnName: column.ColumnName,
                         value: toUniversal
                             ? value.ToDateTime().ToUniversal(context: context)
                             : value.ToDateTime());
                     break;
                 case "Description":
                     Description(
-                        columnName: columnName,
+                        columnName: column.ColumnName,
                         value: value);
                     break;
                 case "Check":
                     Check(
-                        columnName: columnName,
+                        columnName: column.ColumnName,
                         value: value.ToBool());
                     break;
                 case "Attachments":
                     Attachments(
-                        columnName: columnName,
+                        columnName: column.ColumnName,
                         value: value.Deserialize<Attachments>());
                     break;
             }
@@ -2439,24 +2420,24 @@ namespace Implem.Pleasanter.Models.Shared
             }
         }
 
-        public decimal Num(Column column)
+        public decimal? Num(Column column)
         {
             return Num(columnName: column.ColumnName);
         }
 
-        public decimal Num(string columnName)
+        public decimal? Num(string columnName)
         {
             return NumHash.Get(columnName);
         }
 
-        public void Num(Column column, decimal value)
+        public void Num(Column column, decimal? value)
         {
             Num(
                 columnName: column.ColumnName,
                 value: value);
         }
 
-        public void Num(string columnName, decimal value)
+        public void Num(string columnName, decimal? value)
         {
             if (!NumHash.ContainsKey(columnName))
             {

@@ -37,20 +37,5 @@ namespace Implem.Pleasanter.Libraries.Extensions
         {
             return self.ToString(column.StringFormat);
         }
-
-        public static string ToControl(
-            this decimal self, Context context, SiteSettings ss, Column column)
-        {
-            return column.ControlType == "Spinner"
-                ? column.Display(
-                    context: context,
-                    value: self,
-                    format: false)
-                : column.Display(
-                    context: context,
-                    ss: ss,
-                    value: self,
-                    format: column.Format == "C" || column.Format == "N");
-        }
     }
 }

@@ -80,6 +80,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ExtendedHtmlBeforeField;
         public string ExtendedHtmlAfterField;
         public int? DecimalPlaces;
+        public bool? Nullable;
+        public string Unit;
         public SiteSettings.RoundingTypes? RoundingType;
         public decimal? Min;
         public decimal? Max;
@@ -95,14 +97,13 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string FieldCss;
         public ViewerSwitchingTypes? ViewerSwitchingType;
         public SiteSettings.TextAlignTypes? TextAlign;
-        public string Unit;
         public bool? Link;
         public ColumnUtilities.CheckFilterControlTypes? CheckFilterControlType;
         public decimal? NumFilterMin;
         public decimal? NumFilterMax;
         public decimal? NumFilterStep;
         public ColumnUtilities.DateFilterSetMode? DateFilterSetMode;
-        public Column.SearchTypes? SearchType;
+        public SearchTypes? SearchType;
         public FullTextTypes? FullTextType;
         public int? DateFilterMinSpan;
         public int? DateFilterMaxSpan;
@@ -668,19 +669,23 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public string Display(
-            Context context, decimal value, bool unit = false, bool format = true)
+            Context context, decimal? value, bool unit = false, bool format = true)
         {
+            if (value == null && Nullable == true)
+            {
+                return string.Empty;
+            }
             try
             {
                 return (!Format.IsNullOrEmpty() && format
-                    ? value.ToString(
+                    ? value.ToDecimal().ToString(
                         Format + (Format == "C" || Format == "N"
                             ? DecimalPlaces.ToString()
                             : string.Empty),
                         context.CultureInfo())
                     : DecimalPlaces.ToInt() == 0
-                        ? value.ToString("0", "0")
-                        : DisplayValue(value))
+                        ? value.ToDecimal().ToString("0", "0")
+                        : DisplayValue(value.ToDecimal()))
                             + (unit ? Unit : string.Empty);
             }
             catch (FormatException)

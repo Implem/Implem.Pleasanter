@@ -37,14 +37,6 @@ namespace Implem.Pleasanter.Libraries.Extensions
             return value.ToString(column.StringFormat) + column.Unit;
         }
 
-        public static string GridText(this decimal value, Context context, Column column)
-        {
-            return column.Display(
-                context: context,
-                value: value,
-                unit: true);
-        }
-
         public static string GridText(this DateTime value, Context context, Column column)
         {
             return column.DisplayGrid(

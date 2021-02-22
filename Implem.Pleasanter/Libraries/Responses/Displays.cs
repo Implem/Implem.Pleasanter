@@ -269,16 +269,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string AutoPostBack(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "AutoPostBack",
-                data: data);
-        }
-
         public static string AllowBulkUpdate(
             Context context,
             params string[] data)
@@ -646,6 +636,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "AutoDataBaseOrLocalFolder",
+                data: data);
+        }
+
+        public static string AutoPostBack(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AutoPostBack",
                 data: data);
         }
 
@@ -4926,6 +4926,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "NoWrap",
+                data: data);
+        }
+
+        public static string Nullable(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Nullable",
                 data: data);
         }
 

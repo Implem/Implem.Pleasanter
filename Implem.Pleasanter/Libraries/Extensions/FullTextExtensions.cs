@@ -49,24 +49,6 @@ namespace Implem.Pleasanter.Libraries.Extensions
         }
 
         public static void FullText(
-            this decimal self,
-            Context context,
-            Column column,
-            StringBuilder fullText)
-        {
-            switch (column?.FullTextType)
-            {
-                case Column.FullTextTypes.DisplayName:
-                case Column.FullTextTypes.Value:
-                case Column.FullTextTypes.ValueAndDisplayName:
-                    fullText
-                        .Append(" ")
-                        .Append(self.ToString());
-                    break;
-            }
-        }
-
-        public static void FullText(
             this DateTime self,
             Context context,
             Column column,

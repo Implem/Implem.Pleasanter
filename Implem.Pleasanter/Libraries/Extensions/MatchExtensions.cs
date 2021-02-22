@@ -1,4 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,11 @@ namespace Implem.Pleasanter.Libraries.Extensions
         public static bool Matched(this long value, Column column, string condition)
         {
             return value.ToDecimal().Matched(column, condition);
+        }
+
+        public static bool Matched(this Num value, Column column, string condition)
+        {
+            return value.Value.ToDecimal().Matched(column, condition);
         }
 
         public static bool Matched(this decimal value, Column column, string condition)

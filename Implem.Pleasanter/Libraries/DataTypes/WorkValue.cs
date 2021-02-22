@@ -107,7 +107,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public string ToNotice(
             Context context,
-            decimal saved,
+            decimal? saved,
             Column column,
             NotificationColumnFormat notificationColumnFormat,
             bool updated,
@@ -120,7 +120,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     unit: true),
                 saved: column.Display(
                     context: context,
-                    value: saved,
+                    value: saved.ToDecimal(),
                     unit: true),
                 column: column,
                 updated: updated,

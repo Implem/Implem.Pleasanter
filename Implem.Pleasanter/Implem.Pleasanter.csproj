@@ -275,6 +275,7 @@
     <Compile Include="Libraries\DataSources\Saml.cs" />
     <Compile Include="Libraries\DataSources\Teams.cs" />
     <Compile Include="Libraries\DataTypes\Group.cs" />
+    <Compile Include="Libraries\DataTypes\Num.cs" />
     <Compile Include="Libraries\Extensions\FormatExtension.cs" />
     <Compile Include="Libraries\Extensions\InitialValueExtensions.cs" />
     <Compile Include="Libraries\Extensions\GridTextExtensions.cs" />
@@ -1694,6 +1695,7 @@
     <Content Include="App_Data\Displays\BeforeOpeningRow.json" />
     <Content Include="App_Data\Displays\OutputLog.json" />
     <Content Include="App_Data\Displays\AutoPostBack.json" />
+    <Content Include="App_Data\Displays\Nullable.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />
