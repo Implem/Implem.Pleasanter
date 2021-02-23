@@ -45,17 +45,19 @@ namespace Implem.Pleasanter.Libraries.Search
                             ss: ss,
                             issueId: id);
                         ss.Links?
-                            .Where(o => ss.GetColumn(
+                            .Select(o => ss.GetColumn(
                                 context: context,
-                                columnName: o.ColumnName).UseSearch == true)
-                            .ForEach(link =>
+                                columnName: o.ColumnName))
+                            .Where(column => column?.UseSearch == true)
+                            .ForEach(column =>
                                 ss.SetChoiceHash(
                                     context: context,
-                                    columnName: link.ColumnName,
+                                    columnName: column.ColumnName,
                                     selectedValues: new List<string>
                                     {
                                         issueModel.PropertyValue(
-                                            context: context, name: link.ColumnName)
+                                            context: context,
+                                            column: column)
                                     }));
                         CreateFullText(
                             context: context,
@@ -71,17 +73,19 @@ namespace Implem.Pleasanter.Libraries.Search
                             ss: ss,
                             resultId: id);
                         ss.Links?
-                            .Where(o => ss.GetColumn(
+                            .Select(o => ss.GetColumn(
                                 context: context,
-                                columnName: o.ColumnName).UseSearch == true)
-                            .ForEach(link =>
+                                columnName: o.ColumnName))
+                            .Where(column => column?.UseSearch == true)
+                            .ForEach(column =>
                                 ss.SetChoiceHash(
                                     context: context,
-                                    columnName: link.ColumnName,
+                                    columnName: column.ColumnName,
                                     selectedValues: new List<string>
                                     {
                                         resultModel.PropertyValue(
-                                            context: context, name: link.ColumnName)
+                                            context: context,
+                                            column: column)
                                     }));
                         CreateFullText(
                             context: context,

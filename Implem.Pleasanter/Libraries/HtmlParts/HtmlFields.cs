@@ -550,13 +550,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 labelText: column.LabelText,
                                 labelRequired: required,
                                 controlOnly: controlOnly,
-                                value: value.ToDecimal(),
+                                value: !value.IsNullOrEmpty()
+                                    ? (decimal?)value.ToDecimal()
+                                    : null,
                                 min: column.MinNumber(),
                                 max: column.MaxNumber(),
                                 step: column.Step.ToDecimal(),
                                 width: 50,
                                 unit: column.Unit,
-                                alwaysSend: alwaysSend);
+                                alwaysSend: alwaysSend,
+                                allowBlank: true);
                         case ControlTypes.Attachments:
                             return hb.FieldAttachments(
                                 context: context,
@@ -1276,6 +1279,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             int width = 50,
             string unit = null,
             bool alwaysSend = false,
+            bool allowBlank = false,
             string onChange = null,
             string action = null,
             string method = null,
@@ -1304,6 +1308,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             step: step,
                             width: width,
                             alwaysSend: alwaysSend,
+                            allowBalnk: allowBlank,
                             onChange: onChange,
                             action: action,
                             method: method);

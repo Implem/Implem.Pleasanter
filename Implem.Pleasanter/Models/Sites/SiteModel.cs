@@ -230,9 +230,9 @@ namespace Implem.Pleasanter.Models
                 page: true);
         }
 
-        public string PropertyValue(Context context, string name)
+        public string PropertyValue(Context context, Column column)
         {
-            switch (name)
+            switch (column?.ColumnName)
             {
                 case "TenantId": return TenantId.ToString();
                 case "SiteId": return SiteId.ToString();
@@ -265,111 +265,113 @@ namespace Implem.Pleasanter.Models
                 case "Timestamp": return Timestamp;
                 default: return Value(
                     context: context,
-                    columnName: name);
+                    column: column);
             }
         }
 
-        public Dictionary<string, string> PropertyValues(Context context, IEnumerable<string> names)
+        public Dictionary<string, string> PropertyValues(Context context, List<Column> columns)
         {
             var hash = new Dictionary<string, string>();
-            names?.ForEach(name =>
-            {
-                switch (name)
+            columns?
+                .Where(column => column != null)
+                .ForEach(column =>
                 {
-                    case "TenantId":
-                        hash.Add("TenantId", TenantId.ToString());
-                        break;
-                    case "SiteId":
-                        hash.Add("SiteId", SiteId.ToString());
-                        break;
-                    case "UpdatedTime":
-                        hash.Add("UpdatedTime", UpdatedTime.Value.ToString());
-                        break;
-                    case "Ver":
-                        hash.Add("Ver", Ver.ToString());
-                        break;
-                    case "Title":
-                        hash.Add("Title", Title.Value);
-                        break;
-                    case "Body":
-                        hash.Add("Body", Body);
-                        break;
-                    case "TitleBody":
-                        hash.Add("TitleBody", TitleBody.ToString());
-                        break;
-                    case "GridGuide":
-                        hash.Add("GridGuide", GridGuide);
-                        break;
-                    case "EditorGuide":
-                        hash.Add("EditorGuide", EditorGuide);
-                        break;
-                    case "ReferenceType":
-                        hash.Add("ReferenceType", ReferenceType);
-                        break;
-                    case "ParentId":
-                        hash.Add("ParentId", ParentId.ToString());
-                        break;
-                    case "InheritPermission":
-                        hash.Add("InheritPermission", InheritPermission.ToString());
-                        break;
-                    case "SiteSettings":
-                        hash.Add("SiteSettings", SiteSettings.RecordingJson(context: context));
-                        break;
-                    case "Publish":
-                        hash.Add("Publish", Publish.ToString());
-                        break;
-                    case "LockedTime":
-                        hash.Add("LockedTime", LockedTime.Value.ToString());
-                        break;
-                    case "LockedUser":
-                        hash.Add("LockedUser", LockedUser.Id.ToString());
-                        break;
-                    case "Ancestors":
-                        hash.Add("Ancestors", Ancestors.ToString());
-                        break;
-                    case "SiteMenu":
-                        hash.Add("SiteMenu", SiteMenu.ToString());
-                        break;
-                    case "MonitorChangesColumns":
-                        hash.Add("MonitorChangesColumns", MonitorChangesColumns.ToString());
-                        break;
-                    case "TitleColumns":
-                        hash.Add("TitleColumns", TitleColumns.ToString());
-                        break;
-                    case "Export":
-                        hash.Add("Export", Export.ToString());
-                        break;
-                    case "ApiCountDate":
-                        hash.Add("ApiCountDate", ApiCountDate.ToString());
-                        break;
-                    case "ApiCount":
-                        hash.Add("ApiCount", ApiCount.ToString());
-                        break;
-                    case "Comments":
-                        hash.Add("Comments", Comments.ToJson());
-                        break;
-                    case "Creator":
-                        hash.Add("Creator", Creator.Id.ToString());
-                        break;
-                    case "Updator":
-                        hash.Add("Updator", Updator.Id.ToString());
-                        break;
-                    case "CreatedTime":
-                        hash.Add("CreatedTime", CreatedTime.Value.ToString());
-                        break;
-                    case "VerUp":
-                        hash.Add("VerUp", VerUp.ToString());
-                        break;
-                    case "Timestamp":
-                        hash.Add("Timestamp", Timestamp);
-                        break;
-                    default:
-                        hash.Add(name, Value(
-                            context: context,
-                            columnName: name));
-                        break;
-                }
-            });
+                    switch (column.ColumnName)
+                    {
+                        case "TenantId":
+                            hash.Add("TenantId", TenantId.ToString());
+                            break;
+                        case "SiteId":
+                            hash.Add("SiteId", SiteId.ToString());
+                            break;
+                        case "UpdatedTime":
+                            hash.Add("UpdatedTime", UpdatedTime.Value.ToString());
+                            break;
+                        case "Ver":
+                            hash.Add("Ver", Ver.ToString());
+                            break;
+                        case "Title":
+                            hash.Add("Title", Title.Value);
+                            break;
+                        case "Body":
+                            hash.Add("Body", Body);
+                            break;
+                        case "TitleBody":
+                            hash.Add("TitleBody", TitleBody.ToString());
+                            break;
+                        case "GridGuide":
+                            hash.Add("GridGuide", GridGuide);
+                            break;
+                        case "EditorGuide":
+                            hash.Add("EditorGuide", EditorGuide);
+                            break;
+                        case "ReferenceType":
+                            hash.Add("ReferenceType", ReferenceType);
+                            break;
+                        case "ParentId":
+                            hash.Add("ParentId", ParentId.ToString());
+                            break;
+                        case "InheritPermission":
+                            hash.Add("InheritPermission", InheritPermission.ToString());
+                            break;
+                        case "SiteSettings":
+                            hash.Add("SiteSettings", SiteSettings.RecordingJson(context: context));
+                            break;
+                        case "Publish":
+                            hash.Add("Publish", Publish.ToString());
+                            break;
+                        case "LockedTime":
+                            hash.Add("LockedTime", LockedTime.Value.ToString());
+                            break;
+                        case "LockedUser":
+                            hash.Add("LockedUser", LockedUser.Id.ToString());
+                            break;
+                        case "Ancestors":
+                            hash.Add("Ancestors", Ancestors.ToString());
+                            break;
+                        case "SiteMenu":
+                            hash.Add("SiteMenu", SiteMenu.ToString());
+                            break;
+                        case "MonitorChangesColumns":
+                            hash.Add("MonitorChangesColumns", MonitorChangesColumns.ToString());
+                            break;
+                        case "TitleColumns":
+                            hash.Add("TitleColumns", TitleColumns.ToString());
+                            break;
+                        case "Export":
+                            hash.Add("Export", Export.ToString());
+                            break;
+                        case "ApiCountDate":
+                            hash.Add("ApiCountDate", ApiCountDate.ToString());
+                            break;
+                        case "ApiCount":
+                            hash.Add("ApiCount", ApiCount.ToString());
+                            break;
+                        case "Comments":
+                            hash.Add("Comments", Comments.ToJson());
+                            break;
+                        case "Creator":
+                            hash.Add("Creator", Creator.Id.ToString());
+                            break;
+                        case "Updator":
+                            hash.Add("Updator", Updator.Id.ToString());
+                            break;
+                        case "CreatedTime":
+                            hash.Add("CreatedTime", CreatedTime.Value.ToString());
+                            break;
+                        case "VerUp":
+                            hash.Add("VerUp", VerUp.ToString());
+                            break;
+                        case "Timestamp":
+                            hash.Add("Timestamp", Timestamp);
+                            break;
+                        default:
+                            hash.Add(column.ColumnName, Value(
+                                context: context,
+                                column: column));
+                            break;
+                    }
+                });
             return hash;
         }
 
@@ -1012,8 +1014,10 @@ namespace Implem.Pleasanter.Models
                                 case "Num":
                                     Num(
                                         columnName: column.ColumnName,
-                                        value: column.Round(value.ToDecimal(
-                                            cultureInfo: context.CultureInfo())));
+                                        value: new Num(
+                                            context: context,
+                                            column: column,
+                                            value: value));
                                     break;
                                 case "Date":
                                     Date(
@@ -1114,7 +1118,7 @@ namespace Implem.Pleasanter.Models
                 value: o.Value));
             data.NumHash?.ForEach(o => Num(
                 columnName: o.Key,
-                value: o.Value));
+                value: new Num(o.Value)));
             data.DateHash?.ForEach(o => Date(
                 columnName: o.Key,
                 value: o.Value.ToDateTime().ToUniversal(context: context)));
@@ -1345,10 +1349,12 @@ namespace Implem.Pleasanter.Models
                                 case "Num":
                                     Num(
                                         columnName: column.Name,
-                                        value: dataRow[column.ColumnName].ToDecimal());
+                                        value: new Num(
+                                            dataRow: dataRow,
+                                            name: column.ColumnName));
                                     SavedNum(
                                         columnName: column.Name,
-                                        value: Num(columnName: column.Name));
+                                        value: Num(columnName: column.Name).Value);
                                     break;
                                 case "Date":
                                     Date(

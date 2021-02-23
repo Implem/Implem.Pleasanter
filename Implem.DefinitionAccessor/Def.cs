@@ -451,6 +451,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_PushState_Item": Code.Model_PushState_Item = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PushState_Item, definitionRow, CodeXls); break;
                     case "Model_SetTitle": Code.Model_SetTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetTitle, definitionRow, CodeXls); break;
                     case "Model_SetTitleExec": Code.Model_SetTitleExec = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetTitleExec, definitionRow, CodeXls); break;
+                    case "Model_SetByWhenloadingRecordServerScript": Code.Model_SetByWhenloadingRecordServerScript = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByWhenloadingRecordServerScript, definitionRow, CodeXls); break;
                     case "Model_Matched": Code.Model_Matched = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched, definitionRow, CodeXls); break;
                     case "Model_Matched_Incomplete": Code.Model_Matched_Incomplete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched_Incomplete, definitionRow, CodeXls); break;
                     case "Model_Matched_Own": Code.Model_Matched_Own = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched_Own, definitionRow, CodeXls); break;
@@ -865,6 +866,7 @@ namespace Implem.DefinitionAccessor
                     case "HtmlLinks_TableCases": Code.HtmlLinks_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_TableCases, definitionRow, CodeXls); break;
                     case "HtmlGrid": Code.HtmlGrid = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlGrid, definitionRow, CodeXls); break;
                     case "HtmlGrid_ModelHash": Code.HtmlGrid_ModelHash = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlGrid_ModelHash, definitionRow, CodeXls); break;
+                    case "HtmlGrid_Model": Code.HtmlGrid_Model = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlGrid_Model, definitionRow, CodeXls); break;
                     case "HtmlGrid_Td": Code.HtmlGrid_Td = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlGrid_Td, definitionRow, CodeXls); break;
                     case "HtmlGrid_Td_Only": Code.HtmlGrid_Td_Only = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlGrid_Td_Only, definitionRow, CodeXls); break;
                     case "HtmlGrid_Td_Or_Editor": Code.HtmlGrid_Td_Or_Editor = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlGrid_Td_Or_Editor, definitionRow, CodeXls); break;
@@ -7433,6 +7435,7 @@ namespace Implem.DefinitionAccessor
         public string Model_PushState_Item;
         public string Model_SetTitle;
         public string Model_SetTitleExec;
+        public string Model_SetByWhenloadingRecordServerScript;
         public string Model_Matched;
         public string Model_Matched_Incomplete;
         public string Model_Matched_Own;
@@ -7847,6 +7850,7 @@ namespace Implem.DefinitionAccessor
         public string HtmlLinks_TableCases;
         public string HtmlGrid;
         public string HtmlGrid_ModelHash;
+        public string HtmlGrid_Model;
         public string HtmlGrid_Td;
         public string HtmlGrid_Td_Only;
         public string HtmlGrid_Td_Or_Editor;
@@ -8090,6 +8094,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_PushState_Item = new CodeDefinition();
         public CodeDefinition Model_SetTitle = new CodeDefinition();
         public CodeDefinition Model_SetTitleExec = new CodeDefinition();
+        public CodeDefinition Model_SetByWhenloadingRecordServerScript = new CodeDefinition();
         public CodeDefinition Model_Matched = new CodeDefinition();
         public CodeDefinition Model_Matched_Incomplete = new CodeDefinition();
         public CodeDefinition Model_Matched_Own = new CodeDefinition();
@@ -8504,6 +8509,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition HtmlLinks_TableCases = new CodeDefinition();
         public CodeDefinition HtmlGrid = new CodeDefinition();
         public CodeDefinition HtmlGrid_ModelHash = new CodeDefinition();
+        public CodeDefinition HtmlGrid_Model = new CodeDefinition();
         public CodeDefinition HtmlGrid_Td = new CodeDefinition();
         public CodeDefinition HtmlGrid_Td_Only = new CodeDefinition();
         public CodeDefinition HtmlGrid_Td_Or_Editor = new CodeDefinition();

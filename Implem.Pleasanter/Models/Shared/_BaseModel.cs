@@ -81,8 +81,8 @@ namespace Implem.Pleasanter.Models
 
         public Dictionary<string, string> ClassHash = new Dictionary<string, string>();
         public Dictionary<string, string> SavedClassHash = new Dictionary<string, string>();
-        public Dictionary<string, decimal> NumHash = new Dictionary<string, decimal>();
-        public Dictionary<string, decimal> SavedNumHash = new Dictionary<string, decimal>();
+        public Dictionary<string, Num> NumHash = new Dictionary<string, Num>();
+        public Dictionary<string, decimal?> SavedNumHash = new Dictionary<string, decimal?>();
         public Dictionary<string, DateTime> DateHash = new Dictionary<string, DateTime>();
         public Dictionary<string, DateTime> SavedDateHash = new Dictionary<string, DateTime>();
         public Dictionary<string, string> DescriptionHash = new Dictionary<string, string>();
@@ -112,35 +112,26 @@ namespace Implem.Pleasanter.Models
             Column column,
             bool toLocal = false)
         {
-            return Value(
-                context: context,
-                columnName: column.ColumnName,
-                toLocal: toLocal);
-        }
-
-        public string Value(
-            Context context,
-            string columnName,
-            bool toLocal = false)
-        {
-            switch (Def.ExtendedColumnTypes.Get(columnName))
+            switch (Def.ExtendedColumnTypes.Get(column.ColumnName))
             {
                 case "Class":
-                    return Class(columnName: columnName);
+                    return Class(columnName: column.ColumnName);
                 case "Num":
-                    return Num(columnName: columnName).ToString();
+                    return !column.Nullable != true
+                        ? Num(columnName: column.ColumnName).Value?.ToString() ?? "0"
+                        : Num(columnName: column.ColumnName).Value?.ToString() ?? string.Empty;
                 case "Date":
                     return toLocal
-                        ? Date(columnName: columnName)
+                        ? Date(columnName: column.ColumnName)
                             .ToLocal(context: context)
                             .ToString()
-                        : Date(columnName: columnName).ToString();
+                        : Date(columnName: column.ColumnName).ToString();
                 case "Description":
-                    return Description(columnName: columnName);
+                    return Description(columnName: column.ColumnName);
                 case "Check":
-                    return Check(columnName: columnName).ToString();
+                    return Check(columnName: column.ColumnName).ToString();
                 case "Attachments":
-                    return Attachments(columnName: columnName).ToJson();
+                    return Attachments(columnName: column.ColumnName).ToJson();
                 default:
                     return null;
             }
@@ -152,51 +143,41 @@ namespace Implem.Pleasanter.Models
             string value,
             bool toUniversal = false)
         {
-            Value(
-                context: context,
-                columnName: column.ColumnName,
-                value: value,
-                toUniversal: toUniversal);
-        }
-
-        public void Value(
-            Context context,
-            string columnName,
-            string value,
-            bool toUniversal = false)
-        {
-            switch (Def.ExtendedColumnTypes.Get(columnName))
+            switch (Def.ExtendedColumnTypes.Get(column.ColumnName))
             {
                 case "Class":
                     Class(
-                        columnName: columnName,
+                        columnName: column.ColumnName,
                         value: value);
                     break;
                 case "Num":
                     Num(
-                        columnName: columnName,
-                        value: value.ToDecimal());
+                        columnName: column.ColumnName,
+                        value: new Num(
+                            context: context,
+                            column: column,
+                            value: value));
                     break;
                 case "Date":
                     Date(
-                        columnName: columnName,
+                        columnName: column.ColumnName,
                         value: toUniversal
                             ? value.ToDateTime().ToUniversal(context: context)
                             : value.ToDateTime());
                     break;
                 case "Description":
                     Description(
-                        columnName: columnName,
+                        columnName: column.ColumnName,
                         value: value);
                     break;
                 case "Check":
                     Check(
-                        columnName: columnName,
+                        columnName: column.ColumnName,
                         value: value.ToBool());
                     break;
                 case "Attachments":
                     Attachments(
-                        columnName: columnName,
+                        columnName: column.ColumnName,
                         value: value.Deserialize<Attachments>());
                     break;
             }
@@ -282,41 +263,41 @@ namespace Implem.Pleasanter.Models
                     || column.GetDefaultInput(context: context) != value);
         }
 
-        public decimal Num(Column column)
+        public Num Num(Column column)
         {
             return Num(columnName: column.ColumnName);
         }
 
-        public decimal SavedNum(Column column)
+        public decimal? SavedNum(Column column)
         {
             return SavedNum(columnName: column.ColumnName);
         }
 
-        public decimal Num(string columnName)
+        public Num Num(string columnName)
         {
-            return NumHash.Get(columnName);
+            return NumHash.Get(columnName) ?? new Num();
         }
 
-        public decimal SavedNum(string columnName)
+        public decimal? SavedNum(string columnName)
         {
             return SavedNumHash.Get(columnName);
         }
 
-        public void Num(Column column, decimal value)
+        public void Num(Column column, Num value)
         {
             Num(
                 columnName: column.ColumnName,
                 value: value);
         }
 
-        public void SavedNum(Column column, decimal value)
+        public void SavedNum(Column column, decimal? value)
         {
             SavedNum(
                 columnName: column.ColumnName,
                 value: value);
         }
 
-        public void Num(string columnName, decimal value)
+        public void Num(string columnName, Num value)
         {
             if (!NumHash.ContainsKey(columnName))
             {
@@ -328,7 +309,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public void SavedNum(string columnName, decimal value)
+        public void SavedNum(string columnName, decimal? value)
         {
             if (!SavedNumHash.ContainsKey(columnName))
             {
@@ -345,7 +326,7 @@ namespace Implem.Pleasanter.Models
             Context context = null,
             Column column = null)
         {
-            var value = Num(columnName: columnName);
+            var value = Num(columnName: columnName)?.Value;
             return value != SavedNum(columnName: columnName)
                 && (column == null
                     || column.DefaultInput.IsNullOrEmpty()
@@ -652,7 +633,7 @@ namespace Implem.Pleasanter.Models
                             fullText: fullText);
                         break;
                     case "Num":
-                        Num(column.ColumnName).FullText(
+                        Num(column.ColumnName)?.FullText(
                             context: context,
                             column: column,
                             fullText: fullText);
@@ -714,7 +695,9 @@ namespace Implem.Pleasanter.Models
                             ?.ChoiceHash
                             ?.ToDictionary(
                                 o => o.Key.ToString(),
-                                o => new Choice(o.Value?.ToString()));
+                                o => new Choice(
+                                    o.Key.ToString(),
+                                    o.Value?.ToString()));
                     }
                 });
         }

@@ -27,7 +27,7 @@ namespace Implem.Pleasanter.Models
         public CompletionTime CompletionTime { get; set; }
         public WorkValue WorkValue { get; set; }
         public ProgressRate ProgressRate { get; set; }
-        public decimal? RemainingWorkValue { get; set; }
+        public Num RemainingWorkValue { get; set; }
         public Status Status { get; set; }
         public User Manager { get; set; }
         public User Owner { get; set; }
@@ -247,7 +247,7 @@ namespace Implem.Pleasanter.Models
                             ProgressRate = new ProgressRate(dataRow, column);
                             break;
                         case "RemainingWorkValue":
-                            RemainingWorkValue = dataRow[column.ColumnName].ToDecimal();
+                            RemainingWorkValue = new Num(dataRow, "RemainingWorkValue");
                             break;
                         case "Status":
                             Status = new Status(dataRow, column);

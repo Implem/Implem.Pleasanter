@@ -175,7 +175,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             string name = binder.Name;
             Model.Value(
                 context: Context,
-                columnName: name,
+                column: new Column(name),
                 value: value.ToStr());
             switch (name)
             {

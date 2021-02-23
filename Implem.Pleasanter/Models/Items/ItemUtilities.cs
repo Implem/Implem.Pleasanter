@@ -161,7 +161,9 @@ namespace Implem.Pleasanter.Models
                         selectedValues: issues
                             .Select(o => o.PropertyValue(
                                 context: context,
-                                name: link.ColumnName))
+                                column: ss.GetColumn(
+                                    context: context,
+                                    columnName: link.ColumnName)))
                             .Distinct(),
                         noLimit: true,
                         searchColumnOnly: false));
@@ -176,7 +178,7 @@ namespace Implem.Pleasanter.Models
                         isHistory: issueModel.VerType == Versions.VerTypes.History, 
                         data: issueModel.PropertyValues(
                             context: context,
-                            names: ss.TitleColumns)));
+                            columns: ss.GetTitleColumns(context: context))));
             }
             issues.ForEach(issueModel =>
                 Repository.ExecuteNonQuery(
@@ -237,7 +239,9 @@ namespace Implem.Pleasanter.Models
                         selectedValues: results
                             .Select(o => o.PropertyValue(
                                 context: context,
-                                name: link.ColumnName))
+                                column: ss.GetColumn(
+                                    context: context,
+                                    columnName: link.ColumnName)))
                             .Distinct(),
                         noLimit: true,
                         searchColumnOnly: false));
@@ -252,7 +256,7 @@ namespace Implem.Pleasanter.Models
                         isHistory: resultModel.VerType == Versions.VerTypes.History, 
                         data: resultModel.PropertyValues(
                             context: context,
-                            names: ss.TitleColumns)));
+                            columns: ss.GetTitleColumns(context: context))));
             }
             results.ForEach(resultModel =>
                 Repository.ExecuteNonQuery(
@@ -313,7 +317,9 @@ namespace Implem.Pleasanter.Models
                         selectedValues: wikis
                             .Select(o => o.PropertyValue(
                                 context: context,
-                                name: link.ColumnName))
+                                column: ss.GetColumn(
+                                    context: context,
+                                    columnName: link.ColumnName)))
                             .Distinct(),
                         noLimit: true,
                         searchColumnOnly: false));
@@ -328,7 +334,7 @@ namespace Implem.Pleasanter.Models
                         isHistory: wikiModel.VerType == Versions.VerTypes.History, 
                         data: wikiModel.PropertyValues(
                             context: context,
-                            names: ss.TitleColumns)));
+                            columns: ss.GetTitleColumns(context: context))));
             }
             wikis.ForEach(wikiModel =>
                 Repository.ExecuteNonQuery(

@@ -1,0 +1,29 @@
+﻿{
+    "Id": "Nullable",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Nullable"
+        },
+        {
+            "Language": "zh",
+            "Body": "可空"
+        },
+        {
+            "Language": "ja",
+            "Body": "NULL許容"
+        },
+        {
+            "Language": "de",
+            "Body": "Nullable"
+        },
+        {
+            "Language": "ko",
+            "Body": "널 가능"
+        },
+        {
+            "Language": "es",
+            "Body": "Anulable"
+        }
+    ]
+}

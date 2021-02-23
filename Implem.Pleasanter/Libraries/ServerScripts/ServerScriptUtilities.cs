@@ -92,7 +92,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 .Select(element => ReadNameValue(
                     ss: ss,
                     columnName: element.Key,
-                    value: element.Value)));
+                    value: element.Value.Value)));
             values.AddRange(model
                 .DateHash
                 .Select(element => ReadNameValue(
@@ -281,13 +281,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             ExpandoObject data,
             Column[] columns)
         {
-            columns
-                ?.ForEach(column => model.Value(
-                    context: context,
-                    columnName: column.ColumnName,
-                    value: String(
-                        data: data,
-                        columnName: column.ColumnName)));
+            columns?.ForEach(column => model.Value(
+                context: context,
+                column: column,
+                value: String(
+                    data: data,
+                    columnName: column.ColumnName)));
         }
 
         private static void SetColumnFilterHachValues(

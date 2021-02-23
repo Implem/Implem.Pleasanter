@@ -31,7 +31,7 @@ namespace Implem.Pleasanter.Models
         public CompletionTime CompletionTime = new CompletionTime();
         public WorkValue WorkValue = new WorkValue();
         public ProgressRate ProgressRate = new ProgressRate();
-        public decimal RemainingWorkValue = 0;
+        public Num RemainingWorkValue = new Num();
         public Status Status = new Status();
         public User Manager = new User();
         public User Owner = new User();
@@ -56,9 +56,9 @@ namespace Implem.Pleasanter.Models
         public long SavedIssueId = 0;
         public DateTime SavedStartTime = 0.ToDateTime();
         public DateTime SavedCompletionTime = 0.ToDateTime();
-        public decimal SavedWorkValue = 0;
-        public decimal SavedProgressRate = 0;
-        public decimal SavedRemainingWorkValue = 0;
+        public decimal? SavedWorkValue = 0;
+        public decimal? SavedProgressRate = 0;
+        public decimal? SavedRemainingWorkValue = 0;
         public int SavedStatus = 0;
         public int SavedManager = 0;
         public int SavedOwner = 0;
@@ -128,9 +128,9 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != CompletionTime.Value.Date);
         }
 
-        public string PropertyValue(Context context, string name)
+        public string PropertyValue(Context context, Column column)
         {
-            switch (name)
+            switch (column?.ColumnName)
             {
                 case "SiteId": return SiteId.ToString();
                 case "UpdatedTime": return UpdatedTime.Value.ToString();
@@ -143,7 +143,7 @@ namespace Implem.Pleasanter.Models
                 case "CompletionTime": return CompletionTime.Value.ToString();
                 case "WorkValue": return WorkValue.Value.ToString();
                 case "ProgressRate": return ProgressRate.Value.ToString();
-                case "RemainingWorkValue": return RemainingWorkValue.ToString();
+                case "RemainingWorkValue": return RemainingWorkValue.Value.ToString();
                 case "Status": return Status.Value.ToString();
                 case "Manager": return Manager.Id.ToString();
                 case "Owner": return Owner.Id.ToString();
@@ -157,93 +157,95 @@ namespace Implem.Pleasanter.Models
                 case "Timestamp": return Timestamp;
                 default: return Value(
                     context: context,
-                    columnName: name);
+                    column: column);
             }
         }
 
-        public Dictionary<string, string> PropertyValues(Context context, IEnumerable<string> names)
+        public Dictionary<string, string> PropertyValues(Context context, List<Column> columns)
         {
             var hash = new Dictionary<string, string>();
-            names?.ForEach(name =>
-            {
-                switch (name)
+            columns?
+                .Where(column => column != null)
+                .ForEach(column =>
                 {
-                    case "SiteId":
-                        hash.Add("SiteId", SiteId.ToString());
-                        break;
-                    case "UpdatedTime":
-                        hash.Add("UpdatedTime", UpdatedTime.Value.ToString());
-                        break;
-                    case "IssueId":
-                        hash.Add("IssueId", IssueId.ToString());
-                        break;
-                    case "Ver":
-                        hash.Add("Ver", Ver.ToString());
-                        break;
-                    case "Title":
-                        hash.Add("Title", Title.Value);
-                        break;
-                    case "Body":
-                        hash.Add("Body", Body);
-                        break;
-                    case "TitleBody":
-                        hash.Add("TitleBody", TitleBody.ToString());
-                        break;
-                    case "StartTime":
-                        hash.Add("StartTime", StartTime.ToString());
-                        break;
-                    case "CompletionTime":
-                        hash.Add("CompletionTime", CompletionTime.Value.ToString());
-                        break;
-                    case "WorkValue":
-                        hash.Add("WorkValue", WorkValue.Value.ToString());
-                        break;
-                    case "ProgressRate":
-                        hash.Add("ProgressRate", ProgressRate.Value.ToString());
-                        break;
-                    case "RemainingWorkValue":
-                        hash.Add("RemainingWorkValue", RemainingWorkValue.ToString());
-                        break;
-                    case "Status":
-                        hash.Add("Status", Status.Value.ToString());
-                        break;
-                    case "Manager":
-                        hash.Add("Manager", Manager.Id.ToString());
-                        break;
-                    case "Owner":
-                        hash.Add("Owner", Owner.Id.ToString());
-                        break;
-                    case "Locked":
-                        hash.Add("Locked", Locked.ToString());
-                        break;
-                    case "SiteTitle":
-                        hash.Add("SiteTitle", SiteTitle.SiteId.ToString());
-                        break;
-                    case "Comments":
-                        hash.Add("Comments", Comments.ToJson());
-                        break;
-                    case "Creator":
-                        hash.Add("Creator", Creator.Id.ToString());
-                        break;
-                    case "Updator":
-                        hash.Add("Updator", Updator.Id.ToString());
-                        break;
-                    case "CreatedTime":
-                        hash.Add("CreatedTime", CreatedTime.Value.ToString());
-                        break;
-                    case "VerUp":
-                        hash.Add("VerUp", VerUp.ToString());
-                        break;
-                    case "Timestamp":
-                        hash.Add("Timestamp", Timestamp);
-                        break;
-                    default:
-                        hash.Add(name, Value(
-                            context: context,
-                            columnName: name));
-                        break;
-                }
-            });
+                    switch (column.ColumnName)
+                    {
+                        case "SiteId":
+                            hash.Add("SiteId", SiteId.ToString());
+                            break;
+                        case "UpdatedTime":
+                            hash.Add("UpdatedTime", UpdatedTime.Value.ToString());
+                            break;
+                        case "IssueId":
+                            hash.Add("IssueId", IssueId.ToString());
+                            break;
+                        case "Ver":
+                            hash.Add("Ver", Ver.ToString());
+                            break;
+                        case "Title":
+                            hash.Add("Title", Title.Value);
+                            break;
+                        case "Body":
+                            hash.Add("Body", Body);
+                            break;
+                        case "TitleBody":
+                            hash.Add("TitleBody", TitleBody.ToString());
+                            break;
+                        case "StartTime":
+                            hash.Add("StartTime", StartTime.ToString());
+                            break;
+                        case "CompletionTime":
+                            hash.Add("CompletionTime", CompletionTime.Value.ToString());
+                            break;
+                        case "WorkValue":
+                            hash.Add("WorkValue", WorkValue.Value.ToString());
+                            break;
+                        case "ProgressRate":
+                            hash.Add("ProgressRate", ProgressRate.Value.ToString());
+                            break;
+                        case "RemainingWorkValue":
+                            hash.Add("RemainingWorkValue", RemainingWorkValue.Value.ToString());
+                            break;
+                        case "Status":
+                            hash.Add("Status", Status.Value.ToString());
+                            break;
+                        case "Manager":
+                            hash.Add("Manager", Manager.Id.ToString());
+                            break;
+                        case "Owner":
+                            hash.Add("Owner", Owner.Id.ToString());
+                            break;
+                        case "Locked":
+                            hash.Add("Locked", Locked.ToString());
+                            break;
+                        case "SiteTitle":
+                            hash.Add("SiteTitle", SiteTitle.SiteId.ToString());
+                            break;
+                        case "Comments":
+                            hash.Add("Comments", Comments.ToJson());
+                            break;
+                        case "Creator":
+                            hash.Add("Creator", Creator.Id.ToString());
+                            break;
+                        case "Updator":
+                            hash.Add("Updator", Updator.Id.ToString());
+                            break;
+                        case "CreatedTime":
+                            hash.Add("CreatedTime", CreatedTime.Value.ToString());
+                            break;
+                        case "VerUp":
+                            hash.Add("VerUp", VerUp.ToString());
+                            break;
+                        case "Timestamp":
+                            hash.Add("Timestamp", Timestamp);
+                            break;
+                        default:
+                            hash.Add(column.ColumnName, Value(
+                                context: context,
+                                column: column));
+                            break;
+                    }
+                });
             return hash;
         }
 
@@ -821,7 +823,7 @@ namespace Implem.Pleasanter.Models
                     case "StartTime": data.StartTime = StartTime.ToLocal(context: context); break;
                     case "WorkValue": data.WorkValue = WorkValue.Value; break;
                     case "ProgressRate": data.ProgressRate = ProgressRate.Value; break;
-                    case "RemainingWorkValue": data.RemainingWorkValue = RemainingWorkValue; break;
+                    case "RemainingWorkValue": data.RemainingWorkValue = RemainingWorkValue.Value; break;
                     case "Status": data.Status = Status.Value; break;
                     case "Manager": data.Manager = Manager.Id; break;
                     case "Owner": data.Owner = Owner.Id; break;
@@ -834,7 +836,7 @@ namespace Implem.Pleasanter.Models
                     default: 
                         data.Value(
                             context: context,
-                            columnName: column.ColumnName,
+                            column: column,
                             value: Value(
                                 context: context,
                                 column: column,
@@ -1149,7 +1151,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             userId: PropertyValue(
                                 context: context,
-                                name: o.ColumnName).ToInt()))));
+                                column: o).ToInt()))));
             return statements;
         }
 
@@ -1653,14 +1655,29 @@ namespace Implem.Pleasanter.Models
                                             referenceId: IssueId));
                                     break;
                                 case "Num":
-                                    if (Num(column: column) != 0)
-                                        statements.Add(column.IfDuplicatedStatement(
-                                            param: param.Add(
-                                                columnBracket: $"\"{column.ColumnName}\"",
-                                                name: column.ColumnName,
-                                                value: Num(column: column)),
-                                            siteId: SiteId,
-                                            referenceId: IssueId));
+                                    var num = Num(column: column);
+                                    if (column.Nullable == true)
+                                    {
+                                        if (num?.Value != null)
+                                            statements.Add(column.IfDuplicatedStatement(
+                                                param: param.Add(
+                                                    columnBracket: $"[{column.ColumnName}]",
+                                                    name: column.ColumnName,
+                                                    value: num.Value),
+                                                siteId: SiteId,
+                                                referenceId: IssueId));
+                                    }
+                                    else
+                                    {
+                                        if (num?.Value != null && num?.Value != 0)
+                                            statements.Add(column.IfDuplicatedStatement(
+                                                param: param.Add(
+                                                    columnBracket: $"[{column.ColumnName}]",
+                                                    name: column.ColumnName,
+                                                    value: num.Value),
+                                                siteId: SiteId,
+                                                referenceId: IssueId));
+                                    }
                                     break;
                                 case "Date":
                                     if (Date(column: column) != 0.ToDateTime())
@@ -1709,31 +1726,32 @@ namespace Implem.Pleasanter.Models
 
         public void SetDefault(Context context, SiteSettings ss, Column column)
         {
+            var defaultInput = column.GetDefaultInput(context: context);
             switch (column.ColumnName)
             {
                 case "IssueId":
-                    IssueId = column.GetDefaultInput(context: context).ToLong();
+                    IssueId = defaultInput.ToLong();
                     break;
                 case "Title":
-                    Title.Value = column.GetDefaultInput(context: context).ToString();
+                    Title.Value = defaultInput.ToString();
                     break;
                 case "Body":
-                    Body = column.GetDefaultInput(context: context).ToString();
+                    Body = defaultInput.ToString();
                     break;
                 case "WorkValue":
-                    WorkValue.Value = column.GetDefaultInput(context: context).ToDecimal();
+                    WorkValue.Value = defaultInput.ToDecimal();
                     break;
                 case "ProgressRate":
-                    ProgressRate.Value = column.GetDefaultInput(context: context).ToDecimal();
+                    ProgressRate.Value = defaultInput.ToDecimal();
                     break;
                 case "Status":
-                    Status.Value = column.GetDefaultInput(context: context).ToInt();
+                    Status.Value = defaultInput.ToInt();
                     break;
                 case "Locked":
-                    Locked = column.GetDefaultInput(context: context).ToBool();
+                    Locked = defaultInput.ToBool();
                     break;
                 case "Timestamp":
-                    Timestamp = column.GetDefaultInput(context: context).ToString();
+                    Timestamp = defaultInput.ToString();
                     break;
                 case "Manager":
                     Manager = SiteInfo.User(
@@ -1761,12 +1779,15 @@ namespace Implem.Pleasanter.Models
                         case "Class":
                             Class(
                                 column: column,
-                                value: column.GetDefaultInput(context: context).ToString());
+                                value: defaultInput);
                             break;
                         case "Num":
                             Num(
                                 column: column,
-                                value: column.GetDefaultInput(context: context).ToDecimal());
+                                value: new Num(
+                                    context: context,
+                                    column: column,
+                                    value: defaultInput));
                             break;
                         case "Date":
                             Date(
@@ -1776,12 +1797,12 @@ namespace Implem.Pleasanter.Models
                         case "Description":
                             Description(
                                 column: column,
-                                value: column.GetDefaultInput(context: context).ToString());
+                                value: defaultInput.ToString());
                             break;
                         case "Check":
                             Check(
                                 column: column,
-                                value: column.GetDefaultInput(context: context).ToBool());
+                                value: defaultInput.ToBool());
                             break;
                         case "Attachments":
                             Attachments(
@@ -1844,8 +1865,10 @@ namespace Implem.Pleasanter.Models
                                 case "Num":
                                     Num(
                                         columnName: column.ColumnName,
-                                        value: column.Round(value.ToDecimal(
-                                            cultureInfo: context.CultureInfo())));
+                                        value: new Num(
+                                            context: context,
+                                            column: column,
+                                            value: value));
                                     break;
                                 case "Date":
                                     Date(
@@ -1884,7 +1907,7 @@ namespace Implem.Pleasanter.Models
                     columnName: ss.Links.FirstOrDefault(o => o.SiteId == fromSiteId).ColumnName);
                 var value = PropertyValue(
                     context: context,
-                    name: column?.ColumnName);
+                    column: column);
                 column.Linking = column.MultipleSelections == true
                     ? value.Deserialize<List<string>>()?.Contains(context.Forms.Data("LinkId")) == true
                     : value == context.Forms.Data("LinkId");
@@ -1954,7 +1977,7 @@ namespace Implem.Pleasanter.Models
                 value: o.Value));
             data.NumHash?.ForEach(o => Num(
                 columnName: o.Key,
-                value: o.Value));
+                value: new Num(o.Value)));
             data.DateHash?.ForEach(o => Date(
                 columnName: o.Key,
                 value: o.Value.ToDateTime().ToUniversal(context: context)));
@@ -2127,11 +2150,13 @@ namespace Implem.Pleasanter.Models
                 }
                 var data = new Dictionary<string, decimal>
                 {
-                    { "WorkValue", WorkValue.Value },
-                    { "ProgressRate", ProgressRate.Value },
-                    { "RemainingWorkValue", RemainingWorkValue }
+                    { "WorkValue", WorkValue.Value.ToDecimal() },
+                    { "ProgressRate", ProgressRate.Value.ToDecimal() },
+                    { "RemainingWorkValue", RemainingWorkValue.Value.ToDecimal() }
                 };
-                data.AddRange(NumHash);
+                data.AddRange(NumHash.ToDictionary(
+                    o => o.Key,
+                    o => o.Value?.Value?.ToDecimal() ?? 0));
                 var value = formula?.GetResult(
                     data: data,
                     column: ss.GetColumn(
@@ -2148,7 +2173,7 @@ namespace Implem.Pleasanter.Models
                     default:
                         Num(
                             columnName: columnName,
-                            value: value);
+                            value: new Num(value));
                         break;
                 }
                 if (ss.OutputFormulaLogs == true)
@@ -2175,7 +2200,7 @@ namespace Implem.Pleasanter.Models
                     isHistory: VerType == Versions.VerTypes.History,
                     data: PropertyValues(
                         context: context,
-                        names: ss.TitleColumns));
+                        columns: ss.GetTitleColumns(context: context)));
             }
         }
 
@@ -2413,7 +2438,7 @@ namespace Implem.Pleasanter.Models
                         column => column,
                         column => PropertyValue(
                             context: context,
-                            name: column.ColumnName));
+                            column: column));
                 switch (type)
                 {
                     case "Created":
@@ -2704,12 +2729,12 @@ namespace Implem.Pleasanter.Models
             {
                 ss.GetUseSearchLinks(context: context).ForEach(link =>
                 {
-                    var value = PropertyValue(
-                        context: context,
-                        name: link.ColumnName);
                     var column = ss.GetColumn(
                         context: context,
                         columnName: link.ColumnName);
+                    var value = PropertyValue(
+                        context: context,
+                        column: column);
                     if (!value.IsNullOrEmpty() 
                         && column?.ChoiceHash.Any(o => o.Value.Value == value) != true)
                     {
@@ -2783,8 +2808,8 @@ namespace Implem.Pleasanter.Models
                             SavedProgressRate = ProgressRate.Value;
                             break;
                         case "RemainingWorkValue":
-                            RemainingWorkValue = dataRow[column.ColumnName].ToDecimal();
-                            SavedRemainingWorkValue = RemainingWorkValue;
+                            RemainingWorkValue = new Num(dataRow, "RemainingWorkValue");
+                            SavedRemainingWorkValue = RemainingWorkValue.Value;
                             break;
                         case "Status":
                             Status = new Status(dataRow, column);
@@ -2836,10 +2861,12 @@ namespace Implem.Pleasanter.Models
                                 case "Num":
                                     Num(
                                         columnName: column.Name,
-                                        value: dataRow[column.ColumnName].ToDecimal());
+                                        value: new Num(
+                                            dataRow: dataRow,
+                                            name: column.ColumnName));
                                     SavedNum(
                                         columnName: column.Name,
-                                        value: Num(columnName: column.Name));
+                                        value: Num(columnName: column.Name).Value);
                                     break;
                                 case "Date":
                                     Date(

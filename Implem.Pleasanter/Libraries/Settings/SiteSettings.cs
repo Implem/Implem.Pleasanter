@@ -1114,6 +1114,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.ExtendedHtmlAfterField = column.ExtendedHtmlAfterField;
                     }
+                    if (column.Nullable == true)
+                    {
+                        enabled = true;
+                        newColumn.Nullable = column.Nullable;
+                    }
+                    if (column.Unit != columnDefinition.Unit)
+                    {
+                        enabled = true;
+                        newColumn.Unit = column.Unit;
+                    }
                     if (column.DecimalPlaces != columnDefinition.DecimalPlaces)
                     {
                         enabled = true;
@@ -1183,11 +1193,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         enabled = true;
                         newColumn.TextAlign = column.TextAlign;
-                    }
-                    if (column.Unit != columnDefinition.Unit)
-                    {
-                        enabled = true;
-                        newColumn.Unit = column.Unit;
                     }
                     if (column.Link == true)
                     {
@@ -1512,6 +1517,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.ClientRegexValidation = column.ClientRegexValidation ?? columnDefinition.ClientRegexValidation;
                 column.ServerRegexValidation = column.ServerRegexValidation ?? columnDefinition.ServerRegexValidation;
                 column.RegexValidationMessage = column.RegexValidationMessage ?? columnDefinition.RegexValidationMessage;
+                column.Nullable = column.Nullable ?? false;
+                column.Unit = column.Unit ?? columnDefinition.Unit;
                 column.DecimalPlaces = column.DecimalPlaces ?? columnDefinition.DecimalPlaces;
                 column.RoundingType = column.RoundingType ?? RoundingTypes.AwayFromZero;
                 column.Min = column.Min ?? DefaultMin(columnDefinition);
@@ -1529,7 +1536,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.FieldCss = column.FieldCss ?? columnDefinition.FieldCss;
                 column.ViewerSwitchingType = column.ViewerSwitchingType ?? (Column.ViewerSwitchingTypes)Parameters.General.ViewerSwitchingType;
                 column.TextAlign = column.TextAlign ?? TextAlignTypes.Left;
-                column.Unit = column.Unit ?? columnDefinition.Unit;
                 column.CheckFilterControlType = column.CheckFilterControlType ?? ColumnUtilities.CheckFilterControlTypes.OnOnly;
                 column.NumFilterMin = column.NumFilterMin ?? columnDefinition.NumFilterMin;
                 column.NumFilterMax = column.NumFilterMax ?? columnDefinition.NumFilterMax;
@@ -3174,6 +3180,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "RegexValidationMessage": column.RegexValidationMessage = value; break;
                 case "ExtendedHtmlBeforeField": column.ExtendedHtmlBeforeField = value; break;
                 case "ExtendedHtmlAfterField": column.ExtendedHtmlAfterField = value; break;
+                case "Nullable": column.Nullable = value.ToBool(); break;
+                case "Unit": column.Unit = value; break;
                 case "DecimalPlaces": column.DecimalPlaces = value.ToInt(); break;
                 case "RoundingType": column.RoundingType = (RoundingTypes)value.ToInt(); break;
                 case "Max": column.Max = value.ToDecimal(); break;
@@ -3198,7 +3206,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "GridFormat": column.GridFormat = value; break;
                 case "EditorFormat": column.EditorFormat = value; break;
                 case "ExportFormat": column.ExportFormat = value; break;
-                case "Unit": column.Unit = value; break;
                 case "CheckFilterControlType": column.CheckFilterControlType =
                     (ColumnUtilities.CheckFilterControlTypes)value.ToInt(); break;
                 case "NumFilterMin": column.NumFilterMin = value.ToDecimal(); break;
