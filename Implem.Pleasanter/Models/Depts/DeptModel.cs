@@ -256,7 +256,7 @@ namespace Implem.Pleasanter.Models
                     default: 
                         data.Value(
                             context: context,
-                            columnName: column.ColumnName,
+                            column: column,
                             value: Value(
                                 context: context,
                                 column: column,
@@ -573,8 +573,10 @@ namespace Implem.Pleasanter.Models
                                 case "Num":
                                     Num(
                                         columnName: column.ColumnName,
-                                        value: column.Round(value.ToDecimal(
-                                            cultureInfo: context.CultureInfo())));
+                                        value: new Num(
+                                            context: context,
+                                            column: column,
+                                            value: value));
                                     break;
                                 case "Date":
                                     Date(
@@ -653,7 +655,7 @@ namespace Implem.Pleasanter.Models
                 value: o.Value));
             data.NumHash?.ForEach(o => Num(
                 columnName: o.Key,
-                value: o.Value));
+                value: new Num(o.Value)));
             data.DateHash?.ForEach(o => Date(
                 columnName: o.Key,
                 value: o.Value.ToDateTime().ToUniversal(context: context)));
@@ -769,10 +771,12 @@ namespace Implem.Pleasanter.Models
                                 case "Num":
                                     Num(
                                         columnName: column.Name,
-                                        value: dataRow[column.ColumnName].ToDecimal());
+                                        value: new Num(
+                                            dataRow: dataRow,
+                                            name: column.ColumnName));
                                     SavedNum(
                                         columnName: column.Name,
-                                        value: Num(columnName: column.Name));
+                                        value: Num(columnName: column.Name).Value);
                                     break;
                                 case "Date":
                                     Date(

@@ -42,21 +42,6 @@ namespace Implem.Pleasanter.Libraries.Extensions
         }
 
         public static string ToResponse(
-            this decimal self, Context context, SiteSettings ss, Column column)
-        {
-            return column.ControlType == "Spinner"
-                ? column.Display(
-                    context: context,
-                    value: self,
-                    format: false)
-                : column.Display(
-                    context: context,
-                    ss: ss,
-                    value: self,
-                    format: column.Format == "C" || column.Format == "N");
-        }
-
-        public static string ToResponse(
             this string self, Context context, SiteSettings ss, Column column)
         {
             return !column.HasChoices()

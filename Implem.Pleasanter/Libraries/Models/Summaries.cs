@@ -2,6 +2,7 @@
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
@@ -250,7 +251,7 @@ namespace Implem.Pleasanter.Libraries.Models
                         case "Num":
                             issueModel.Num(
                                 columnName: destinationColumn,
-                                value: value);
+                                value: new Num(value));
                             break;
                     }
                     break;
@@ -386,7 +387,7 @@ namespace Implem.Pleasanter.Libraries.Models
                         case "Num":
                             resultModel.Num(
                                 columnName: destinationColumn,
-                                value: value);
+                                value: new Num(value));
                             break;
                     }
                     break;

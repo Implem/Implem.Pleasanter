@@ -5205,12 +5205,18 @@ namespace Implem.Pleasanter.Models
                                             .FieldTextBox(
                                                 controlId: "DefaultInput",
                                                 labelText: Displays.DefaultInput(context: context),
-                                                text: column.DefaultInput.ToLong().ToString(),
+                                                text: !column.DefaultInput.IsNullOrEmpty()
+                                                    ? column.DefaultInput.ToLong().ToString()
+                                                    : string.Empty,
                                                 validateNumber: true,
                                                 _using: !column.Id_Ver)
                                             .EditorColumnFormatProperties(
                                                 context: context,
                                                 column: column)
+                                            .FieldCheckBox(
+                                                controlId: "Nullable",
+                                                labelText: Displays.Nullable(context: context),
+                                                _checked: column.Nullable.ToBool())
                                             .FieldTextBox(
                                                 controlId: "Unit",
                                                 controlCss: " w50",

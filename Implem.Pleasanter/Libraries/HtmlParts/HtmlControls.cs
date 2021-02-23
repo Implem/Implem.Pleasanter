@@ -491,6 +491,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             decimal step = -1,
             int width = -1,
             bool alwaysSend = false,
+            bool allowBalnk = false,
             string onChange = null,
             string action = null,
             string method = null,
@@ -500,7 +501,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ? hb.Input(attributes: new HtmlAttributes()
                     .Id(controlId)
                     .Name(controlId)
-                    .Class(Css.Class("control-spinner", controlCss))
+                    .Class(Css.Class("control-spinner", controlCss)
+                        + (allowBalnk
+                            ? " allow-blank"
+                            : string.Empty))
                     .Type("number")
                     .Value(value != null
                         ? value.ToString()

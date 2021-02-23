@@ -11,6 +11,7 @@
     "LinkColumn": "300",
     "HistoryColumn": "300",
     "TypeName": "decimal",
+    "TypeCs": "Num",
     "Size": "19,4",
     "DefaultMinValue": "-999999999999999",
     "DefaultMaxValue": "999999999999999",

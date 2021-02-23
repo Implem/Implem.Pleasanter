@@ -80,6 +80,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ExtendedHtmlBeforeField;
         public string ExtendedHtmlAfterField;
         public int? DecimalPlaces;
+        public bool? Nullable;
+        public string Unit;
         public SiteSettings.RoundingTypes? RoundingType;
         public decimal? Min;
         public decimal? Max;
@@ -95,14 +97,13 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string FieldCss;
         public ViewerSwitchingTypes? ViewerSwitchingType;
         public SiteSettings.TextAlignTypes? TextAlign;
-        public string Unit;
         public bool? Link;
         public ColumnUtilities.CheckFilterControlTypes? CheckFilterControlType;
         public decimal? NumFilterMin;
         public decimal? NumFilterMax;
         public decimal? NumFilterStep;
         public ColumnUtilities.DateFilterSetMode? DateFilterSetMode;
-        public Column.SearchTypes? SearchType;
+        public SearchTypes? SearchType;
         public FullTextTypes? FullTextType;
         public int? DateFilterMinSpan;
         public int? DateFilterMaxSpan;
@@ -668,23 +669,34 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public string Display(
-            Context context, decimal value, bool unit = false, bool format = true)
+            Context context, decimal? value, bool unit = false, bool format = true)
         {
-            var ret = (!Format.IsNullOrEmpty() && format
-                ? value.ToString(
-                    Format + (Format == "C" || Format == "N"
-                        ? DecimalPlaces.ToString()
-                        : string.Empty))
-                : DecimalPlaces.ToInt() == 0
-                    ? value.ToString("0", "0")
-                    : DisplayValue(value))
-                        + (unit ? Unit : string.Empty);
-            switch (context.Language)
+            if (value == null && Nullable == true)
             {
-                case "ja":
-                    return ret.Replace("￥", "¥");
-                default:
-                    return ret;
+                return string.Empty;
+            }
+            try
+            {
+                var ret = (!Format.IsNullOrEmpty() && format
+                    ? value.ToDecimal().ToString(
+                        Format + (Format == "C" || Format == "N"
+                            ? DecimalPlaces.ToString()
+                            : string.Empty))
+                    : DecimalPlaces.ToInt() == 0
+                        ? value.ToDecimal().ToString("0", "0")
+                        : DisplayValue(value.ToDecimal()))
+                            + (unit ? Unit : string.Empty);
+                switch (context.Language)
+                {
+                    case "ja":
+                        return ret.Replace("￥", "¥");
+                    default:
+                        return ret;
+                }
+            }
+            catch (FormatException)
+            {
+                return ((int)value).ToString(Format);
             }
         }
 
@@ -937,7 +949,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             switch (context.Action)
             {
                 case "new": return CanCreate;
-                default: return CanRead;
+                default: return CanUpdate;
             }
         }
 

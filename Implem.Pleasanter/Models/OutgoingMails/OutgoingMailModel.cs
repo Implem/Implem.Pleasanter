@@ -651,10 +651,12 @@ namespace Implem.Pleasanter.Models
                                 case "Num":
                                     Num(
                                         columnName: column.Name,
-                                        value: dataRow[column.ColumnName].ToDecimal());
+                                        value: new Num(
+                                            dataRow: dataRow,
+                                            name: column.ColumnName));
                                     SavedNum(
                                         columnName: column.Name,
-                                        value: Num(columnName: column.Name));
+                                        value: Num(columnName: column.Name).Value);
                                     break;
                                 case "Date":
                                     Date(

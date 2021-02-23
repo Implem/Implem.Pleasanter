@@ -8,7 +8,7 @@ namespace Implem.Libraries.Utilities
     {
         public const string CsInt = "int";
         public const string CsLong = "long";
-        public const string CsDecimal = "decimal";
+        public const string CsDecimal = "decimal?";
         public const string CsSingle = "Single";
         public const string CsDouble = "double";
         public const string CsString = "string";
