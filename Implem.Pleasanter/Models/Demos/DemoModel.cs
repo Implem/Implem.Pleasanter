@@ -558,7 +558,7 @@ namespace Implem.Pleasanter.Models
                                         columnName: column.Name,
                                         value: new Num(
                                             dataRow: dataRow,
-                                            name: column.Name));
+                                            name: column.ColumnName));
                                     SavedNum(
                                         columnName: column.Name,
                                         value: Num(columnName: column.Name).Value);

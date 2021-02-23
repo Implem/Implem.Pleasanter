@@ -695,12 +695,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             }
             if (baseModel == null || baseModel.ServerScriptModelRows?.Any() != true)
             {
-                return column.CanUpdate;
+                return column.CanEdit(context: context);
             }
             var serverScriptReadOnly = ReadOnly(
                 columnName: column.ColumnName,
                 serverScriptModelRows: baseModel?.ServerScriptModelRows);
-            var canUpdate = column.CanUpdate && !serverScriptReadOnly;
+            var canUpdate = column.CanEdit(context: context) && !serverScriptReadOnly;
             return canUpdate;
         }
 

@@ -943,7 +943,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             switch (context.Action)
             {
                 case "new": return CanCreate;
-                default: return CanRead;
+                default: return CanUpdate;
             }
         }
 
