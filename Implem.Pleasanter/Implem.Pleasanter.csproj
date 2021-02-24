@@ -84,6 +84,9 @@
     <None Update="App_Data\Parameters\ExtendedHtmls\Sample.html.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="App_Data\Parameters\ExtendedServerScripts\Sample.json.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
