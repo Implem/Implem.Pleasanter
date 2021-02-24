@@ -139,23 +139,6 @@ namespace Implem.Pleasanter.Libraries.Extensions
             this HtmlBuilder hb,
             Context context,
             Column column,
-            decimal value,
-            int? tabIndex,
-            ServerScriptModelColumn serverScriptValues = null)
-        {
-            return hb.Td(
-                css: column.CellCss(serverScriptValues?.ExtendedCellCss),
-                action: () => hb
-                    .Text(text: column.Display(
-                        context: context,
-                        value: value,
-                        unit: true)));
-        }
-
-        public static HtmlBuilder Td(
-            this HtmlBuilder hb,
-            Context context,
-            Column column,
             DateTime value,
             int? tabIndex,
             ServerScriptModelColumn serverScriptValues = null)

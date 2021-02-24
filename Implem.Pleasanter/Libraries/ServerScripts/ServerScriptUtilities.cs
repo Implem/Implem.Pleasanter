@@ -92,7 +92,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 .Select(element => ReadNameValue(
                     ss: ss,
                     columnName: element.Key,
-                    value: element.Value)));
+                    value: element.Value.Value)));
             values.AddRange(model
                 .DateHash
                 .Select(element => ReadNameValue(
@@ -113,6 +113,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     value: element.Value)));
             if (model is ResultModel resultModel)
             {
+                values.Add(ReadNameValue(
+                    ss: ss,
+                    columnName: nameof(ResultModel.ResultId),
+                    value: resultModel.ResultId));
                 values.Add(ReadNameValue(
                     ss: ss,
                     columnName: nameof(ResultModel.Title),
@@ -140,6 +144,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             }
             if (model is IssueModel issueModel)
             {
+                values.Add(ReadNameValue(
+                    ss: ss,
+                    columnName: nameof(IssueModel.IssueId),
+                    value: issueModel.IssueId));
                 values.Add(ReadNameValue(
                     ss: ss,
                     columnName: nameof(IssueModel.Title),
@@ -273,13 +281,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             ExpandoObject data,
             Column[] columns)
         {
-            columns
-                ?.ForEach(column => model.Value(
-                    context: context,
-                    columnName: column.ColumnName,
-                    value: String(
-                        data: data,
-                        columnName: column.ColumnName)));
+            columns?.ForEach(column => model.Value(
+                context: context,
+                column: column,
+                value: String(
+                    data: data,
+                    columnName: column.ColumnName)));
         }
 
         private static void SetColumnFilterHachValues(

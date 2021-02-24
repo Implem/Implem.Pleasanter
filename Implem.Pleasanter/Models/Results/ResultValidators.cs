@@ -634,7 +634,7 @@ namespace Implem.Pleasanter.Models
                 {
                     var value = resultModel.PropertyValue(
                         context: context,
-                        column.ColumnName);
+                        column: column);
                     if (column.TypeCs == "Comments")
                     {
                         var savedCommentId = resultModel

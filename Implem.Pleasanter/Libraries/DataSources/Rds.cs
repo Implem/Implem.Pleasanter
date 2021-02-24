@@ -15424,11 +15424,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"TenantName\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"TenantName\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Tenants_Title_WhereLike(
@@ -15437,11 +15438,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Title\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Title\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Tenants_Body_WhereLike(
@@ -15450,11 +15452,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Body\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Body\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Tenants_HtmlTitleTop_WhereLike(
@@ -15463,11 +15466,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"HtmlTitleTop\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"HtmlTitleTop\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Tenants_HtmlTitleSite_WhereLike(
@@ -15476,11 +15480,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"HtmlTitleSite\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"HtmlTitleSite\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Tenants_HtmlTitleRecord_WhereLike(
@@ -15489,11 +15494,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"HtmlTitleRecord\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"HtmlTitleRecord\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static TenantsColumnCollection TenantsColumn(
@@ -19329,11 +19335,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Title\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Title\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static DemosColumnCollection DemosColumn(
@@ -40283,11 +40290,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"DeptCode\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"DeptCode\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Depts_DeptName_WhereLike(
@@ -40296,11 +40304,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"DeptName\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"DeptName\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Depts_Body_WhereLike(
@@ -40309,11 +40318,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Body\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Body\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Depts_DeptId_WhereLike(
@@ -43064,11 +43074,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"GroupName\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"GroupName\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Groups_Body_WhereLike(
@@ -43077,11 +43088,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Body\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Body\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Groups_TenantId_WhereLike(
@@ -48038,11 +48050,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"MailAddress\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"MailAddress\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Registrations_Name_WhereLike(
@@ -48051,11 +48064,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Name\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Name\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static RegistrationsColumnCollection RegistrationsColumn(
@@ -52487,11 +52501,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"LoginId\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"LoginId\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Users_Name_WhereLike(
@@ -52500,11 +52515,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Name\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Name\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Users_UserCode_WhereLike(
@@ -52513,11 +52529,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"UserCode\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"UserCode\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Users_Body_WhereLike(
@@ -52526,11 +52543,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Body\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Body\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static UsersColumnCollection UsersColumn(
@@ -63486,11 +63504,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"MailAddress\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"MailAddress\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static MailAddressesColumnCollection MailAddressesColumn(
@@ -70066,11 +70085,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Title\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Title\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Items_FullText_WhereLike(
@@ -70079,11 +70099,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"FullText\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"FullText\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static ItemsColumnCollection ItemsColumn(
@@ -72893,11 +72914,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Title\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Title\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Sites_Body_WhereLike(
@@ -72906,11 +72928,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Body\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Body\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static SitesColumnCollection SitesColumn(
@@ -85747,11 +85770,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Body\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Body\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static BinariesColumnCollection BinariesColumn(
@@ -93448,11 +93472,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Title\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Title\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Issues_Body_WhereLike(
@@ -93461,11 +93486,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Body\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Body\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static IssuesColumnCollection IssuesColumn(
@@ -95596,7 +95622,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static IssuesWhereCollection WorkValue_In(
             this IssuesWhereCollection self,
-            IEnumerable<decimal> value = null,
+            IEnumerable<decimal?> value = null,
             string tableName = "Issues",
             SqlStatement sub = null,
             bool negative = false,
@@ -95634,7 +95660,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static IssuesWhereCollection ProgressRate_In(
             this IssuesWhereCollection self,
-            IEnumerable<decimal> value = null,
+            IEnumerable<decimal?> value = null,
             string tableName = "Issues",
             SqlStatement sub = null,
             bool negative = false,
@@ -95672,7 +95698,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static IssuesWhereCollection RemainingWorkValue_In(
             this IssuesWhereCollection self,
-            IEnumerable<decimal> value = null,
+            IEnumerable<decimal?> value = null,
             string tableName = "Issues",
             SqlStatement sub = null,
             bool negative = false,
@@ -96040,8 +96066,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static IssuesWhereCollection WorkValue_Between(
             this IssuesWhereCollection self,
-            decimal begin,
-            decimal end,
+            decimal? begin,
+            decimal? end,
             string tableName = "Issues",
             bool _using = true)
         {
@@ -96057,8 +96083,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static SqlWhereCollection Issues_WorkValue_Between(
             this SqlWhereCollection self,
-            decimal begin,
-            decimal end,
+            decimal? begin,
+            decimal? end,
             string tableName = "Issues",
             bool _using = true)
         {
@@ -96074,8 +96100,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static IssuesWhereCollection ProgressRate_Between(
             this IssuesWhereCollection self,
-            decimal begin,
-            decimal end,
+            decimal? begin,
+            decimal? end,
             string tableName = "Issues",
             bool _using = true)
         {
@@ -96091,8 +96117,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static SqlWhereCollection Issues_ProgressRate_Between(
             this SqlWhereCollection self,
-            decimal begin,
-            decimal end,
+            decimal? begin,
+            decimal? end,
             string tableName = "Issues",
             bool _using = true)
         {
@@ -96108,8 +96134,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static IssuesWhereCollection RemainingWorkValue_Between(
             this IssuesWhereCollection self,
-            decimal begin,
-            decimal end,
+            decimal? begin,
+            decimal? end,
             string tableName = "Issues",
             bool _using = true)
         {
@@ -96125,8 +96151,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static SqlWhereCollection Issues_RemainingWorkValue_Between(
             this SqlWhereCollection self,
-            decimal begin,
-            decimal end,
+            decimal? begin,
+            decimal? end,
             string tableName = "Issues",
             bool _using = true)
         {
@@ -98285,11 +98311,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Title\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Title\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Results_Body_WhereLike(
@@ -98298,11 +98325,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Body\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Body\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static ResultsColumnCollection ResultsColumn(
@@ -101979,11 +102007,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Title\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Title\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Wikis_Body_WhereLike(
@@ -101992,11 +102021,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string name = "SearchText",
             bool forward = false)
         {
-            return "(\"" + tableName + "\".\"Body\" like " + 
-                (forward
+            return "(\"" + tableName + "\".\"Body\""
+                + factory.Sqls.Like
+                + (forward
                     ? string.Empty
-                    : factory.Sqls.WhereLikeTemplateForward) +
-                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+                    : factory.Sqls.WhereLikeTemplateForward)
+                + $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static WikisColumnCollection WikisColumn(
@@ -104638,10 +104668,22 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     || (otherInitValue && !tenantModel.Num(columnName: o.Key)
                         .InitialValue(context: context)))
                 .ForEach(o =>
-                    param.Add(
-                        columnBracket: $"\"{o.Key}\"",
-                        name: o.Key,
-                        value: o.Value));
+                {
+                    if (o.Value?.Value != null)
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            value: o.Value.Value);
+                    }
+                    else
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            raw: "null");
+                    }
+                });
             tenantModel.DateHash
                 .Where(o => tenantModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !tenantModel.Date(columnName: o.Key)
@@ -104747,10 +104789,22 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     || (otherInitValue && !demoModel.Num(columnName: o.Key)
                         .InitialValue(context: context)))
                 .ForEach(o =>
-                    param.Add(
-                        columnBracket: $"\"{o.Key}\"",
-                        name: o.Key,
-                        value: o.Value));
+                {
+                    if (o.Value?.Value != null)
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            value: o.Value.Value);
+                    }
+                    else
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            raw: "null");
+                    }
+                });
             demoModel.DateHash
                 .Where(o => demoModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !demoModel.Date(columnName: o.Key)
@@ -104856,10 +104910,22 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     || (otherInitValue && !extensionModel.Num(columnName: o.Key)
                         .InitialValue(context: context)))
                 .ForEach(o =>
-                    param.Add(
-                        columnBracket: $"\"{o.Key}\"",
-                        name: o.Key,
-                        value: o.Value));
+                {
+                    if (o.Value?.Value != null)
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            value: o.Value.Value);
+                    }
+                    else
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            raw: "null");
+                    }
+                });
             extensionModel.DateHash
                 .Where(o => extensionModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !extensionModel.Date(columnName: o.Key)
@@ -104966,10 +105032,22 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     || (otherInitValue && !sessionModel.Num(columnName: o.Key)
                         .InitialValue(context: context)))
                 .ForEach(o =>
-                    param.Add(
-                        columnBracket: $"\"{o.Key}\"",
-                        name: o.Key,
-                        value: o.Value));
+                {
+                    if (o.Value?.Value != null)
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            value: o.Value.Value);
+                    }
+                    else
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            raw: "null");
+                    }
+                });
             sessionModel.DateHash
                 .Where(o => sessionModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !sessionModel.Date(columnName: o.Key)
@@ -105129,10 +105207,22 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     || (otherInitValue && !sysLogModel.Num(columnName: o.Key)
                         .InitialValue(context: context)))
                 .ForEach(o =>
-                    param.Add(
-                        columnBracket: $"\"{o.Key}\"",
-                        name: o.Key,
-                        value: o.Value));
+                {
+                    if (o.Value?.Value != null)
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            value: o.Value.Value);
+                    }
+                    else
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            raw: "null");
+                    }
+                });
             sysLogModel.DateHash
                 .Where(o => sysLogModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !sysLogModel.Date(columnName: o.Key)
@@ -105232,10 +105322,22 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     || (otherInitValue && !statusModel.Num(columnName: o.Key)
                         .InitialValue(context: context)))
                 .ForEach(o =>
-                    param.Add(
-                        columnBracket: $"\"{o.Key}\"",
-                        name: o.Key,
-                        value: o.Value));
+                {
+                    if (o.Value?.Value != null)
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            value: o.Value.Value);
+                    }
+                    else
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            raw: "null");
+                    }
+                });
             statusModel.DateHash
                 .Where(o => statusModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !statusModel.Date(columnName: o.Key)
@@ -105335,10 +105437,22 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     || (otherInitValue && !reminderScheduleModel.Num(columnName: o.Key)
                         .InitialValue(context: context)))
                 .ForEach(o =>
-                    param.Add(
-                        columnBracket: $"\"{o.Key}\"",
-                        name: o.Key,
-                        value: o.Value));
+                {
+                    if (o.Value?.Value != null)
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            value: o.Value.Value);
+                    }
+                    else
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            raw: "null");
+                    }
+                });
             reminderScheduleModel.DateHash
                 .Where(o => reminderScheduleModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !reminderScheduleModel.Date(columnName: o.Key)
@@ -105442,10 +105556,22 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     || (otherInitValue && !deptModel.Num(columnName: o.Key)
                         .InitialValue(context: context)))
                 .ForEach(o =>
-                    param.Add(
-                        columnBracket: $"\"{o.Key}\"",
-                        name: o.Key,
-                        value: o.Value));
+                {
+                    if (o.Value?.Value != null)
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            value: o.Value.Value);
+                    }
+                    else
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            raw: "null");
+                    }
+                });
             deptModel.DateHash
                 .Where(o => deptModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !deptModel.Date(columnName: o.Key)
@@ -105546,10 +105672,22 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     || (otherInitValue && !groupModel.Num(columnName: o.Key)
                         .InitialValue(context: context)))
                 .ForEach(o =>
-                    param.Add(
-                        columnBracket: $"\"{o.Key}\"",
-                        name: o.Key,
-                        value: o.Value));
+                {
+                    if (o.Value?.Value != null)
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            value: o.Value.Value);
+                    }
+                    else
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            raw: "null");
+                    }
+                });
             groupModel.DateHash
                 .Where(o => groupModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !groupModel.Date(columnName: o.Key)
@@ -105650,10 +105788,22 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     || (otherInitValue && !groupMemberModel.Num(columnName: o.Key)
                         .InitialValue(context: context)))
                 .ForEach(o =>
-                    param.Add(
-                        columnBracket: $"\"{o.Key}\"",
-                        name: o.Key,
-                        value: o.Value));
+                {
+                    if (o.Value?.Value != null)
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            value: o.Value.Value);
+                    }
+                    else
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            raw: "null");
+                    }
+                });
             groupMemberModel.DateHash
                 .Where(o => groupMemberModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !groupMemberModel.Date(columnName: o.Key)
@@ -105774,10 +105924,22 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     || (otherInitValue && !registrationModel.Num(columnName: o.Key)
                         .InitialValue(context: context)))
                 .ForEach(o =>
-                    param.Add(
-                        columnBracket: $"\"{o.Key}\"",
-                        name: o.Key,
-                        value: o.Value));
+                {
+                    if (o.Value?.Value != null)
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            value: o.Value.Value);
+                    }
+                    else
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            raw: "null");
+                    }
+                });
             registrationModel.DateHash
                 .Where(o => registrationModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !registrationModel.Date(columnName: o.Key)
@@ -105943,10 +106105,22 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     || (otherInitValue && !userModel.Num(columnName: o.Key)
                         .InitialValue(context: context)))
                 .ForEach(o =>
-                    param.Add(
-                        columnBracket: $"\"{o.Key}\"",
-                        name: o.Key,
-                        value: o.Value));
+                {
+                    if (o.Value?.Value != null)
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            value: o.Value.Value);
+                    }
+                    else
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            raw: "null");
+                    }
+                });
             userModel.DateHash
                 .Where(o => userModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !userModel.Date(columnName: o.Key)
@@ -106050,10 +106224,22 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     || (otherInitValue && !loginKeyModel.Num(columnName: o.Key)
                         .InitialValue(context: context)))
                 .ForEach(o =>
-                    param.Add(
-                        columnBracket: $"\"{o.Key}\"",
-                        name: o.Key,
-                        value: o.Value));
+                {
+                    if (o.Value?.Value != null)
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            value: o.Value.Value);
+                    }
+                    else
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            raw: "null");
+                    }
+                });
             loginKeyModel.DateHash
                 .Where(o => loginKeyModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !loginKeyModel.Date(columnName: o.Key)
@@ -106155,10 +106341,22 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     || (otherInitValue && !mailAddressModel.Num(columnName: o.Key)
                         .InitialValue(context: context)))
                 .ForEach(o =>
-                    param.Add(
-                        columnBracket: $"\"{o.Key}\"",
-                        name: o.Key,
-                        value: o.Value));
+                {
+                    if (o.Value?.Value != null)
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            value: o.Value.Value);
+                    }
+                    else
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            raw: "null");
+                    }
+                });
             mailAddressModel.DateHash
                 .Where(o => mailAddressModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !mailAddressModel.Date(columnName: o.Key)
@@ -106279,10 +106477,22 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     || (otherInitValue && !outgoingMailModel.Num(columnName: o.Key)
                         .InitialValue(context: context)))
                 .ForEach(o =>
-                    param.Add(
-                        columnBracket: $"\"{o.Key}\"",
-                        name: o.Key,
-                        value: o.Value));
+                {
+                    if (o.Value?.Value != null)
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            value: o.Value.Value);
+                    }
+                    else
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            raw: "null");
+                    }
+                });
             outgoingMailModel.DateHash
                 .Where(o => outgoingMailModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !outgoingMailModel.Date(columnName: o.Key)
@@ -106386,10 +106596,22 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     || (otherInitValue && !itemModel.Num(columnName: o.Key)
                         .InitialValue(context: context)))
                 .ForEach(o =>
-                    param.Add(
-                        columnBracket: $"\"{o.Key}\"",
-                        name: o.Key,
-                        value: o.Value));
+                {
+                    if (o.Value?.Value != null)
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            value: o.Value.Value);
+                    }
+                    else
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            raw: "null");
+                    }
+                });
             itemModel.DateHash
                 .Where(o => itemModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !itemModel.Date(columnName: o.Key)
@@ -106514,10 +106736,22 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     || (otherInitValue && !siteModel.Num(columnName: o.Key)
                         .InitialValue(context: context)))
                 .ForEach(o =>
-                    param.Add(
-                        columnBracket: $"\"{o.Key}\"",
-                        name: o.Key,
-                        value: o.Value));
+                {
+                    if (o.Value?.Value != null)
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            value: o.Value.Value);
+                    }
+                    else
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            raw: "null");
+                    }
+                });
             siteModel.DateHash
                 .Where(o => siteModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !siteModel.Date(columnName: o.Key)
@@ -106620,10 +106854,22 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     || (otherInitValue && !orderModel.Num(columnName: o.Key)
                         .InitialValue(context: context)))
                 .ForEach(o =>
-                    param.Add(
-                        columnBracket: $"\"{o.Key}\"",
-                        name: o.Key,
-                        value: o.Value));
+                {
+                    if (o.Value?.Value != null)
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            value: o.Value.Value);
+                    }
+                    else
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            raw: "null");
+                    }
+                });
             orderModel.DateHash
                 .Where(o => orderModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !orderModel.Date(columnName: o.Key)
@@ -106729,10 +106975,22 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     || (otherInitValue && !exportSettingModel.Num(columnName: o.Key)
                         .InitialValue(context: context)))
                 .ForEach(o =>
-                    param.Add(
-                        columnBracket: $"\"{o.Key}\"",
-                        name: o.Key,
-                        value: o.Value));
+                {
+                    if (o.Value?.Value != null)
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            value: o.Value.Value);
+                    }
+                    else
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            raw: "null");
+                    }
+                });
             exportSettingModel.DateHash
                 .Where(o => exportSettingModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !exportSettingModel.Date(columnName: o.Key)
@@ -106843,10 +107101,22 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     || (otherInitValue && !linkModel.Num(columnName: o.Key)
                         .InitialValue(context: context)))
                 .ForEach(o =>
-                    param.Add(
-                        columnBracket: $"\"{o.Key}\"",
-                        name: o.Key,
-                        value: o.Value));
+                {
+                    if (o.Value?.Value != null)
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            value: o.Value.Value);
+                    }
+                    else
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            raw: "null");
+                    }
+                });
             linkModel.DateHash
                 .Where(o => linkModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !linkModel.Date(columnName: o.Key)
@@ -106968,10 +107238,22 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     || (otherInitValue && !binaryModel.Num(columnName: o.Key)
                         .InitialValue(context: context)))
                 .ForEach(o =>
-                    param.Add(
-                        columnBracket: $"\"{o.Key}\"",
-                        name: o.Key,
-                        value: o.Value));
+                {
+                    if (o.Value?.Value != null)
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            value: o.Value.Value);
+                    }
+                    else
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            raw: "null");
+                    }
+                });
             binaryModel.DateHash
                 .Where(o => binaryModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !binaryModel.Date(columnName: o.Key)
@@ -107089,10 +107371,22 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     || (otherInitValue && !permissionModel.Num(columnName: o.Key)
                         .InitialValue(context: context)))
                 .ForEach(o =>
-                    param.Add(
-                        columnBracket: $"\"{o.Key}\"",
-                        name: o.Key,
-                        value: o.Value));
+                {
+                    if (o.Value?.Value != null)
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            value: o.Value.Value);
+                    }
+                    else
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            raw: "null");
+                    }
+                });
             permissionModel.DateHash
                 .Where(o => permissionModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !permissionModel.Date(columnName: o.Key)
@@ -107234,10 +107528,22 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     || (otherInitValue && !issueModel.Num(columnName: o.Key)
                         .InitialValue(context: context)))
                 .ForEach(o =>
-                    param.Add(
-                        columnBracket: $"\"{o.Key}\"",
-                        name: o.Key,
-                        value: o.Value));
+                {
+                    if (o.Value?.Value != null)
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            value: o.Value.Value);
+                    }
+                    else
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            raw: "null");
+                    }
+                });
             issueModel.DateHash
                 .Where(o => issueModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !issueModel.Date(columnName: o.Key)
@@ -107370,10 +107676,22 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     || (otherInitValue && !resultModel.Num(columnName: o.Key)
                         .InitialValue(context: context)))
                 .ForEach(o =>
-                    param.Add(
-                        columnBracket: $"\"{o.Key}\"",
-                        name: o.Key,
-                        value: o.Value));
+                {
+                    if (o.Value?.Value != null)
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            value: o.Value.Value);
+                    }
+                    else
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            raw: "null");
+                    }
+                });
             resultModel.DateHash
                 .Where(o => resultModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !resultModel.Date(columnName: o.Key)
@@ -107496,10 +107814,22 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     || (otherInitValue && !wikiModel.Num(columnName: o.Key)
                         .InitialValue(context: context)))
                 .ForEach(o =>
-                    param.Add(
-                        columnBracket: $"\"{o.Key}\"",
-                        name: o.Key,
-                        value: o.Value));
+                {
+                    if (o.Value?.Value != null)
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            value: o.Value.Value);
+                    }
+                    else
+                    {
+                        param.Add(
+                            columnBracket: $"\"{o.Key}\"",
+                            name: o.Key,
+                            raw: "null");
+                    }
+                });
             wikiModel.DateHash
                 .Where(o => wikiModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !wikiModel.Date(columnName: o.Key)

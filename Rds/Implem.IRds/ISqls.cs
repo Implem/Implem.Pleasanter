@@ -10,6 +10,8 @@
 
         string CurrentDateTime { get; }
 
+        string Like { get; }
+
         string WhereLikeTemplateForward { get; }
 
         string WhereLikeTemplate { get; }

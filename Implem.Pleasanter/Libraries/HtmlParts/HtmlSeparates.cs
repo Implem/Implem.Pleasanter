@@ -64,10 +64,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         fieldCss: "field-auto-thin",
                         controlCss: " w100",
                         labelText: Displays.WorkValue(context: context) + "-1",
-                        text: workValue.ToControl(
-                            context: context,
-                            ss: ss,
-                            column: column),
+                        text: column.ControlType == "Spinner"
+                            ? column.Display(
+                                context: context,
+                                value: workValue,
+                                format: false)
+                            : column.Display(
+                                context: context,
+                                ss: ss,
+                                value: workValue,
+                                format: column.Format == "C" || column.Format == "N"),
                         dataValue: workValue.ToString())
                     .Hidden(
                         controlId: "WorkValueUnit",

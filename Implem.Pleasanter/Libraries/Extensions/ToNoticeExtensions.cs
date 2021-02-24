@@ -62,29 +62,6 @@ namespace Implem.Pleasanter.Libraries.Extensions
         }
 
         public static string ToNotice(
-            this decimal self,
-            Context context,
-            decimal saved,
-            Column column,
-            NotificationColumnFormat notificationColumnFormat,
-            bool updated,
-            bool update)
-        {
-            return notificationColumnFormat.DisplayText(
-                self: column.Display(
-                    context: context,
-                    value: self,
-                    unit: true),
-                saved: column.Display(
-                    context: context,
-                    value: saved,
-                    unit: true),
-                column: column,
-                updated: updated,
-                update: update);
-        }
-
-        public static string ToNotice(
             this DateTime self,
             Context context,
             DateTime saved,

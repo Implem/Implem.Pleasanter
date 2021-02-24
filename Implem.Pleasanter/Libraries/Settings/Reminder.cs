@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
@@ -132,57 +133,68 @@ namespace Implem.Pleasanter.Libraries.Settings
         public void Remind(Context context, SiteSettings ss, bool test = false)
         {
             if (Disabled == true && !test) return;
-            ss.SetChoiceHash(
-                context: context,
-                withLink: true,
-                all: true);
-            var toColumns = ss.IncludedColumns(To);
-            var subjectColumns = ss.IncludedColumns(Subject);
-            var bodyColumns = ss.IncludedColumns(Body);
-            var fixedTo = GetFixedTo(
-                context: context,
-                toColumns: toColumns);
-            GetDataHash(
-                context: context,
-                ss: ss,
-                toColumns: toColumns,
-                subjectColumns: subjectColumns,
-                bodyColumns: bodyColumns,
-                fixedTo: fixedTo)
-                    .Where(data => !data.Key.IsNullOrEmpty())
-                    .Where(data => data.Value.Count > 0
-                        || NotSendIfNotApplicable != true)
-                    .ForEach(data =>
-                    {
-                        new OutgoingMailModel()
-                        {
-                            Title = GetSubject(
-                                context: context,
-                                ss: ss,
-                                dataRows: data.Value.Values.ToList(),
-                                test: test),
-                            Body = GetBody(
-                                context: context,
-                                ss: ss,
-                                dataRows: data.Value.Values.ToList()),
-                            From = new MailAddress(From),
-                            To = data.Key
-                        }.Send(
-                            context: context,
-                            ss: ss);
-                    });
-            if (!test)
+            try
             {
-                Repository.ExecuteNonQuery(
+                ss.SetChoiceHash(
                     context: context,
-                    statements: Rds.UpdateReminderSchedules(
-                        param: Rds.ReminderSchedulesParam()
-                            .ScheduledTime(StartDateTime.Next(
+                    withLink: true,
+                    all: true);
+                var toColumns = ss.IncludedColumns(To);
+                var subjectColumns = ss.IncludedColumns(Subject);
+                var bodyColumns = ss.IncludedColumns(Body);
+                var fixedTo = GetFixedTo(
+                    context: context,
+                    toColumns: toColumns);
+                GetDataHash(
+                    context: context,
+                    ss: ss,
+                    toColumns: toColumns,
+                    subjectColumns: subjectColumns,
+                    bodyColumns: bodyColumns,
+                    fixedTo: fixedTo)
+                        .Where(data => !data.Key.IsNullOrEmpty())
+                        .Where(data => data.Value.Count > 0
+                            || NotSendIfNotApplicable != true)
+                        .ForEach(data =>
+                        {
+                            new OutgoingMailModel()
+                            {
+                                Title = GetSubject(
+                                    context: context,
+                                    ss: ss,
+                                    dataRows: data.Value.Values.ToList(),
+                                    test: test),
+                                Body = GetBody(
+                                    context: context,
+                                    ss: ss,
+                                    dataRows: data.Value.Values.ToList()),
+                                From = new MailAddress(From),
+                                To = data.Key
+                            }.Send(
                                 context: context,
-                                type: Type)),
-                        where: Rds.ReminderSchedulesWhere()
-                            .SiteId(ss.SiteId)
-                            .Id(Id)));
+                                ss: ss);
+                        });
+                if (!test)
+                {
+                    Repository.ExecuteNonQuery(
+                        context: context,
+                        statements: Rds.UpdateReminderSchedules(
+                            param: Rds.ReminderSchedulesParam()
+                                .ScheduledTime(StartDateTime.Next(
+                                    context: context,
+                                    type: Type)),
+                            where: Rds.ReminderSchedulesWhere()
+                                .SiteId(ss.SiteId)
+                                .Id(Id)));
+                }
+            }
+            catch (Exception e)
+            {
+                new SysLogModel(context: context, e: e);
+                if (test)
+                {
+                    throw e;
+                }
             }
         }
 
@@ -345,7 +357,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             columns.ForEach(o => column.Add(column: o));
             if (columns.Any(o => o.ColumnName == "Status"))
             {
-                columns.Add(ss.GetColumn(context: context, columnName: "Status"));
+                columns.Add(ss.GetColumn(
+                    context: context,
+                    columnName: "Status"));
             }
             var view = ss.Views?.Get(Condition) ?? new View();
             var where = view.Where(
@@ -354,22 +368,34 @@ namespace Implem.Pleasanter.Libraries.Settings
                 checkPermission: false)
                     .Add(
                         tableName: ss.ReferenceType,
-                        columnBrackets: new string[] { $"\"{orderByColumn.ColumnName}\"" },
+                        columnBrackets: new string[]
+                        {
+                            "\"" + orderByColumn.ColumnName + "\""
+                        },
                         _operator: "<'{0}'".Params(
                             DateTime.Now.ToLocal(context: context).Date.AddDays(Range)))
                     .Add(
                         tableName: ss.ReferenceType,
-                        columnBrackets: ($"\"{orderByColumn.ColumnName}\"").ToSingleArray(),
-                        _operator: $">{context.Sqls.CurrentDateTime}",
+                        columnBrackets: new string[]
+                        {
+                            "\"" + orderByColumn.ColumnName + "\""
+                        },
+                        _operator: ">getdate()",
                         _using: ExcludeOverdue == true)
                     .Add(or: new SqlWhereCollection()
                         .Add(
                             tableName: ss.ReferenceType,
-                            columnBrackets: new string[] { "\"Status\"" },
+                            columnBrackets: new string[]
+                            {
+                                "\"Status\""
+                            },
                             _operator: " is null")
                         .Add(
                             tableName: ss.ReferenceType,
-                            columnBrackets: new string[] { "\"Status\"" },
+                            columnBrackets: new string[]
+                            {
+                                "\"Status\""
+                            },
                             _operator: "<{0}".Params(Parameters.General.CompletionCode))
                         .Add(
                             tableName: ss.ReferenceType,
@@ -389,9 +415,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                 statements: Rds.Select(
                     tableName: ss.ReferenceType,
                     column: column,
-                    join: new SqlJoinCollection().ItemJoin(
-                        tableType: Sqls.TableTypes.Normal,
-                        tableName: ss.ReferenceType),
+                    join: ss.Join(
+                        context: context,
+                        join: new IJoin[]
+                        {
+                            column,
+                            where,
+                            orderBy
+                        }),
                     where: where,
                     orderBy: orderBy,
                     top: Parameters.Reminder.Limit));

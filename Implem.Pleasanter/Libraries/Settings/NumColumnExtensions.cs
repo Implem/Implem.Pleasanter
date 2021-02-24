@@ -24,7 +24,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     context: context,
                     column: column,
                     from: 0,
-                    to: min,
+                    to: min - 0.0001M,
                     lessThan: true);
                 for (var num = min; num < max; num += step)
                 {

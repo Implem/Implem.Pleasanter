@@ -2901,7 +2901,7 @@ namespace Implem.Pleasanter.Models
                 formData: context.Forms);
             resultModel.PropertyValue(
                 context: context,
-                name: column.ColumnName);
+                column: column);
             var selectedWhere = SelectedWhere(
                 context: context,
                 ss: ss);
@@ -2948,7 +2948,7 @@ namespace Implem.Pleasanter.Models
                     Displays.Value(context: context),
                     resultModel.PropertyValue(
                           context: context,
-                          name: column.ColumnName));
+                          column: column));
                 notification.Send(
                     context: context,
                     ss: ss,
@@ -2997,7 +2997,7 @@ namespace Implem.Pleasanter.Models
                 formData: context.Forms);
                 resultModel.PropertyValue(
                     context: context,
-                    name: column.ColumnName);
+                    column: column);
             var statements = new List<SqlStatement>();
             statements.OnBulkUpdatingExtendedSqls(
                 context: context,
@@ -4950,7 +4950,7 @@ namespace Implem.Pleasanter.Models
                                 default:
                                     resultModel.Value(
                                         context: context,
-                                        columnName: column.Value.Column.ColumnName,
+                                        column: column.Value.Column,
                                         value: recordingData);
                                     break;
                             }
@@ -6566,7 +6566,9 @@ namespace Implem.Pleasanter.Models
                     selectedValues: results
                         .Select(o => o.PropertyValue(
                             context: context,
-                            name: link.ColumnName))
+                            column: ss.GetColumn(
+                                context: context,
+                                columnName: link.ColumnName)))
                         .Distinct()));
             if (links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
             {
