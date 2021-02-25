@@ -2324,8 +2324,7 @@ namespace Implem.Pleasanter.Models
             SetSite(
                 context: context,
                 initSiteSettings: true,
-                setSiteIntegration: true,
-                tableType: Sqls.TableTypes.Deleted);
+                setSiteIntegration: true);
             if (!Site.WithinApiLimits())
             {
                 return ApiResults.Get(ApiResponses.OverLimitApi(
