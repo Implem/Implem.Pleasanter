@@ -2117,7 +2117,7 @@ namespace Implem.Pleasanter.Models
                                 param.Add(
                                     columnBracket: $"\"{formulaSet.Target}\"",
                                     name: formulaSet.Target,
-                                    value: Num(formulaSet.Target));
+                                    value: Num(formulaSet.Target).Value);
                             }
                             break;
                     }
