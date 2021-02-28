@@ -797,6 +797,7 @@ namespace Implem.Pleasanter.Models
         public void UpdateRelatedRecords(
             Context context,
             bool get = false,
+            string previousTitle = null,
             bool addUpdatedTimeParam = true,
             bool addUpdatorParam = true,
             bool updateItems = true)

@@ -1361,7 +1361,7 @@ namespace Implem.Pleasanter.Models
             return res;
         }
 
-        public static string Update(Context context, SiteSettings ss, long wikiId)
+        public static string Update(Context context, SiteSettings ss, long wikiId, string previousTitle)
         {
             var wikiModel = new WikiModel(
                 context: context,
@@ -1385,6 +1385,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 notice: true,
+                previousTitle: previousTitle,
                 permissions: context.Forms.List("CurrentPermissionsAll"),
                 permissionChanged: context.Forms.Exists("CurrentPermissionsAll"));
             switch (errorData.Type)
