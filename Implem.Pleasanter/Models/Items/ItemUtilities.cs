@@ -74,14 +74,6 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static void UpdateTitles(Context context, SiteSettings ss, long id)
-        {
-            UpdateTitles(
-                context: context,
-                ss: ss,
-                idList: id.ToSingleList());
-        }
-
         public static void UpdateSourceTitles(Context context, SiteSettings ss, IList<long> idList)
         {
             ss.Sources
@@ -153,20 +145,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 idList: idList);
-            ss.Links?
-                .ForEach(link =>
-                    ss.SetChoiceHash(
-                        context: context,
-                        columnName: link.ColumnName,
-                        selectedValues: issues
-                            .Select(o => o.PropertyValue(
-                                context: context,
-                                column: ss.GetColumn(
-                                    context: context,
-                                    columnName: link.ColumnName)))
-                            .Distinct(),
-                        noLimit: true,
-                        searchColumnOnly: false));
             if (ss.Links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
             {
                 issues.ForEach(issueModel =>
@@ -178,7 +156,8 @@ namespace Implem.Pleasanter.Models
                         isHistory: issueModel.VerType == Versions.VerTypes.History, 
                         data: issueModel.PropertyValues(
                             context: context,
-                            columns: ss.GetTitleColumns(context: context))));
+                            columns: ss.GetTitleColumns(context: context)),
+                        getLinkedTitle: true));
             }
             issues.ForEach(issueModel =>
                 Repository.ExecuteNonQuery(
@@ -231,20 +210,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 idList: idList);
-            ss.Links?
-                .ForEach(link =>
-                    ss.SetChoiceHash(
-                        context: context,
-                        columnName: link.ColumnName,
-                        selectedValues: results
-                            .Select(o => o.PropertyValue(
-                                context: context,
-                                column: ss.GetColumn(
-                                    context: context,
-                                    columnName: link.ColumnName)))
-                            .Distinct(),
-                        noLimit: true,
-                        searchColumnOnly: false));
             if (ss.Links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
             {
                 results.ForEach(resultModel =>
@@ -256,7 +221,8 @@ namespace Implem.Pleasanter.Models
                         isHistory: resultModel.VerType == Versions.VerTypes.History, 
                         data: resultModel.PropertyValues(
                             context: context,
-                            columns: ss.GetTitleColumns(context: context))));
+                            columns: ss.GetTitleColumns(context: context)),
+                        getLinkedTitle: true));
             }
             results.ForEach(resultModel =>
                 Repository.ExecuteNonQuery(
@@ -309,20 +275,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 idList: idList);
-            ss.Links?
-                .ForEach(link =>
-                    ss.SetChoiceHash(
-                        context: context,
-                        columnName: link.ColumnName,
-                        selectedValues: wikis
-                            .Select(o => o.PropertyValue(
-                                context: context,
-                                column: ss.GetColumn(
-                                    context: context,
-                                    columnName: link.ColumnName)))
-                            .Distinct(),
-                        noLimit: true,
-                        searchColumnOnly: false));
             if (ss.Links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
             {
                 wikis.ForEach(wikiModel =>
@@ -334,7 +286,8 @@ namespace Implem.Pleasanter.Models
                         isHistory: wikiModel.VerType == Versions.VerTypes.History, 
                         data: wikiModel.PropertyValues(
                             context: context,
-                            columns: ss.GetTitleColumns(context: context))));
+                            columns: ss.GetTitleColumns(context: context)),
+                        getLinkedTitle: true));
             }
             wikis.ForEach(wikiModel =>
                 Repository.ExecuteNonQuery(

@@ -41,7 +41,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         }
 
         public Title(
-            Context context, SiteSettings ss, DataRow dataRow, ColumnNameInfo column = null)
+            Context context,
+            SiteSettings ss,
+            DataRow dataRow,
+            ColumnNameInfo column = null)
         {
             Id = dataRow.Long((column?.Joined == true
                 ? column.TableAlias + ","
@@ -67,7 +70,14 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 displayValue: displayValue);
         }
 
-        public Title(Context context, SiteSettings ss, long id, int ver, bool isHistory, Dictionary<string, string> data)
+        public Title(
+            Context context,
+            SiteSettings ss,
+            long id,
+            int ver,
+            bool isHistory,
+            Dictionary<string, string> data,
+            bool getLinkedTitle = false)
         {
             Id = id;
             Ver = ver;
@@ -78,7 +88,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     context: context,
                     ss: ss,
                     column: column,
-                    data: data))
+                    data: data,
+                    getLinkedTitle: getLinkedTitle))
                 .Where(o => !o.IsNullOrEmpty())
                 .Join(ss.TitleSeparator);
             DisplayValue = GetNoTitle(
@@ -98,7 +109,11 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         }
 
         private string GetDisplayValue(
-            Context context, SiteSettings ss, Column column, DataRow dataRow, string path)
+            Context context,
+            SiteSettings ss,
+            Column column,
+            DataRow dataRow,
+            string path)
         {
             switch (column.TypeName.CsTypeSummary())
             {
@@ -140,7 +155,11 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         }
 
         private string GetDisplayValue(
-            Context context, SiteSettings ss, Column column, Dictionary<string, string> data)
+            Context context,
+            SiteSettings ss,
+            Column column,
+            Dictionary<string, string> data,
+            bool getLinkedTitle = false)
         {
             switch (column.TypeName.CsTypeSummary())
             {
@@ -175,7 +194,11 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     }
                 case Types.CsString:
                     return column.HasChoices()
-                        ? column.Choice(data.Get(column.ColumnName)).Text
+                        ? getLinkedTitle
+                            ? column.LinkedTitleChoice(
+                                context: context,
+                                selectedValue: data.Get(column.ColumnName)).Text
+                            : column.Choice(selectedValue: data.Get(column.ColumnName)).Text
                         : data.Get(column.ColumnName);
                 default:
                     return data.Get(column.ColumnName);
