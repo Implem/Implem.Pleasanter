@@ -3047,7 +3047,7 @@ namespace Implem.Pleasanter.Models
                             param.Add(
                                 columnBracket: columnNameBracket,
                                 name: column.ColumnName,
-                                value: resultModel.Num(column.ColumnName));
+                                value: resultModel.Num(column.ColumnName).Value);
                             break;
                         case "Date":
                             param.Add(
