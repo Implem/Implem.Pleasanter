@@ -41,12 +41,20 @@ namespace Implem.Pleasanter.Libraries.Responses
                         fileDownloadName: dataRow.String("FileName"),
                         contentType: contentType).FileStream();
                 default:
-                    return dataRow != null
-                        ? new ResponseFile(
-                            fileContent: new MemoryStream(Bytes(dataRow: dataRow).bytes, false),
-                            fileDownloadName: dataRow.String("FileName"),
-                            contentType: dataRow.String("ContentType")).FileStream()
-                        : null;
+                    if (dataRow != null)
+                    {
+                        var bytesData = Bytes(dataRow: dataRow);
+                        return bytesData.bytes != null
+                            ? new ResponseFile(
+                                fileContent: new MemoryStream(bytesData.bytes, false),
+                                fileDownloadName: dataRow.String("FileName"),
+                                contentType: dataRow.String("ContentType")).FileStream()
+                            : null;
+                    }
+                    else
+                    {
+                        return null;
+                    }
             }
         }
 

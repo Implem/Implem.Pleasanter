@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Requests;
+﻿using Implem.Pleasanter.Filters;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Models;
 using System.Net.Http;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 namespace Implem.Pleasanter.Controllers.Api
 {
+    [CheckApiContextAttributes]
     [AllowAnonymous]
     public class OutgoingMailsController : ApiController
     {

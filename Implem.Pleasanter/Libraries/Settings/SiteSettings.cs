@@ -3453,7 +3453,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             string columnName,
             List<string> searchIndexes = null,
             IEnumerable<string> selectedValues = null,
-            bool noLimit = false,
             bool setTotalCount = false,
             bool searchColumnOnly = true)
         {
@@ -3467,7 +3466,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                     searchIndexes: searchIndexes,
                     searchColumnOnly: searchColumnOnly,
                     selectedValues: selectedValues,
-                    noLimit: noLimit,
                     setTotalCount: setTotalCount));
         }
 
@@ -3561,7 +3559,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool searchColumnOnly = true,
             IEnumerable<string> selectedValues = null,
             int offset = 0,
-            bool noLimit = false,
             string parentClass = "",
             IEnumerable<long> parentIds = null,
             bool setTotalCount = false)
@@ -3583,7 +3580,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                     link: link,
                     hash: hash,
                     offset: offset,
-                    noLimit: noLimit,
                     referenceType: Destinations
                         ?.Values
                         .Where(d => d.SiteId == link.SiteId)
@@ -3602,7 +3598,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             Link link,
             Dictionary<string, List<string>> hash,
             int offset,
-            bool noLimit,
             string referenceType,
             Column parentColumn,
             IEnumerable<long> parentIds,
@@ -3657,12 +3652,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     join: join,
                     where: where,
                     orderBy: Rds.ItemsOrderBy().Title(),
-                    offset: !noLimit
-                        ? offset
-                        : 0,
-                    pageSize: !noLimit
-                        ? Parameters.General.DropDownSearchPageSize
-                        : 0)
+                    offset: offset,
+                    pageSize: Parameters.General.DropDownSearchPageSize)
             };
             if (setTotalCount)
             {

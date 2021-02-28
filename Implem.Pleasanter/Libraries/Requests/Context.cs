@@ -12,13 +12,13 @@ using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Dynamic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using System.Dynamic;
 namespace Implem.Pleasanter.Libraries.Requests
 {
     public class Context
@@ -181,11 +181,6 @@ namespace Implem.Pleasanter.Libraries.Requests
                 UserHostAddress = GetUserHostAddress(request);
                 UserAgent = request.UserAgent;
             }
-        }
-
-        public string Token()
-        {
-            return HttpContext.Current?.Request?.Cookies["ASP.NET_SessionId"]?.Value.Sha512Cng();
         }
 
         private void SetSessionGuid()

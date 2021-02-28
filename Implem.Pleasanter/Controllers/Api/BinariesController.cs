@@ -4,8 +4,10 @@ using System.Web.Http;
 using System.Net.Http;
 using Implem.Pleasanter.Libraries.Responses;
 using System.Threading.Tasks;
+using Implem.Pleasanter.Filters;
 namespace Implem.Pleasanter.Controllers.Api
 {
+    [CheckApiContextAttributes]
     [AllowAnonymous]
     public class BinariesController : ApiController
     {

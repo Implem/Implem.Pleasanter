@@ -40,7 +40,7 @@ namespace Implem.Pleasanter.Filters
             if (context.Authenticated
                 && Parameters.Security.TokenCheck
                 && filterContext.HttpContext.Request.Form.Count > 0
-                && filterContext.HttpContext.Request.Form["Token"] != context.Token())
+                && filterContext.HttpContext.Request.Form["Token"] != Authentications.Token())
             {
                 filterContext.HttpContext.Response.StatusCode = 400;
                 if (filterContext.HttpContext.Request.IsAjaxRequest())

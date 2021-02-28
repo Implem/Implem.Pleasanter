@@ -1164,6 +1164,7 @@ namespace Implem.Pleasanter.Models
             bool synchronizeSummary = true,
             bool forceSynchronizeSourceSummary = false,
             bool notice = false,
+            string previousTitle = null,
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
@@ -1245,6 +1246,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 extendedSqls: extendedSqls,
+                previousTitle: previousTitle,
                 get: get,
                 addUpdatedTimeParam: true,
                 addUpdatorParam: true,
@@ -1343,6 +1345,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             bool extendedSqls = false,
             bool get = false,
+            string previousTitle = null,
             bool addUpdatedTimeParam = true,
             bool addUpdatorParam = true,
             bool updateItems = true)
@@ -1358,6 +1361,7 @@ namespace Implem.Pleasanter.Models
                     addUpdatorParam: addUpdatorParam,
                     updateItems: updateItems)
                         .ToArray());
+            var titleUpdated = Title_Updated(context: context);
             if (get && Rds.ExtendedSqls(
                 context: context,
                 siteId: SiteId,
@@ -1368,7 +1372,9 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss);
             }
-            if (ss.Sources?.Any() == true)
+            if (previousTitle != null
+                && previousTitle != Title.DisplayValue
+                && ss.Sources?.Any() == true)
             {
                 ItemUtilities.UpdateSourceTitles(
                     context: context,
@@ -2111,7 +2117,7 @@ namespace Implem.Pleasanter.Models
                                 param.Add(
                                     columnBracket: $"[{formulaSet.Target}]",
                                     name: formulaSet.Target,
-                                    value: Num(formulaSet.Target));
+                                    value: Num(formulaSet.Target).Value);
                             }
                             break;
                     }

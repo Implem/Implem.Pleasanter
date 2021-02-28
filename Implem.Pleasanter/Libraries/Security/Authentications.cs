@@ -1,15 +1,24 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Configuration;
 using System.IdentityModel.Services;
+using System.Web;
 using System.Web.Configuration;
 using System.Web.Security;
 namespace Implem.Pleasanter.Libraries.Security
 {
     public static class Authentications
     {
+        public enum AuthenticationCodeCharacterTypes
+        {
+            Number,
+            Letter,
+            NumberAndLetter
+        }
+
         public static string SignIn(Context context, string returnUrl)
         {
             return new UserModel(
@@ -54,11 +63,9 @@ namespace Implem.Pleasanter.Libraries.Security
                 || Parameters.Authentication.Provider == "SAML-MultiTenant";
         }
 
-        public enum AuthenticationCodeCharacterTypes
+        public static string Token()
         {
-            Number,
-            Letter,
-            NumberAndLetter
+            return HttpContext.Current?.Request?.Cookies["ASP.NET_SessionId"]?.Value.Sha512Cng();
         }
     }
 }

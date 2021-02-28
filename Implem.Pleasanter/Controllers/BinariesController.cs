@@ -159,21 +159,29 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpGet]
-        public FileContentResult Download(string reference, string guid)
+        public ActionResult Download(string reference, string guid)
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
             var file = BinaryUtilities.Donwload(context: context, guid: guid);
+            if (file == null)
+            {
+                return RedirectToAction("notfound", "errors");
+            }
             log.Finish(context: context, responseSize: file?.FileContents.Length ?? 0);
             return file;
         }
 
         [HttpGet]
-        public FileContentResult DownloadTemp(string reference, string guid)
+        public ActionResult DownloadTemp(string reference, string guid)
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
             var file = BinaryUtilities.DownloadTemp(context: context, guid: guid);
+            if (file == null)
+            {
+                return RedirectToAction("notfound", "errors");
+            }
             log.Finish(context: context, responseSize: file?.FileContents.Length ?? 0);
             return file;
         }
@@ -184,6 +192,10 @@ namespace Implem.Pleasanter.Controllers
             var context = new Context();
             var log = new SysLogModel(context: context);
             var file = BinaryUtilities.Donwload(context: context, guid: guid);
+            if (file == null)
+            {
+                return RedirectToAction("notfound", "errors");
+            }
             log.Finish(context: context, responseSize: file?.FileContents.Length ?? 0);
             return file != null
                 ? File(file.FileContents, file.ContentType)

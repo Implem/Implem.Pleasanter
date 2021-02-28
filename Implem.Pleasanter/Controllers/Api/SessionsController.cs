@@ -4,8 +4,10 @@ using Implem.Pleasanter.Models;
 using System.Net.Http;
 using System.Web.Http;
 using System.Threading.Tasks;
+using Implem.Pleasanter.Filters;
 namespace Implem.Pleasanter.Controllers.Api
 {
+    [CheckApiContextAttributes]
     public class SessionsController : ApiController
     {
         [HttpPost]

@@ -264,6 +264,7 @@
     <Compile Include="Filters\PublishesAttributes.cs" />
     <Compile Include="Filters\CheckContextAttributes.cs" />
     <Compile Include="Filters\HandleErrorExAttribute.cs" />
+    <Compile Include="Filters\CheckApiContextAttributes.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

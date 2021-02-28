@@ -1318,29 +1318,38 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             else if (!value.IsNullOrEmpty())
             {
-                switch (column.SearchType)
+                if (value == " " || value == "　")
                 {
-                    case Column.SearchTypes.ExactMatch:
-                        var param = value.ToSingleList();
-                        if (param?.Any() == true)
-                        {
-                            CreateCsStringSqlWhereCollection(column, where, param);
-                        }
-                        break;
-                    case Column.SearchTypes.ForwardMatch:
-                        CreateCsStringSqlWhereLike(
-                            column: column,
-                            value: value,
-                            where: where,
-                            query: "([{0}].[{1}] like @{2}#ParamCount#_#CommandCount# + '%')");
-                        break;
-                    default:
-                        CreateCsStringSqlWhereLike(
-                            column: column,
-                            value: value,
-                            where: where,
-                            query: "([{0}].[{1}] like '%' + @{2}#ParamCount#_#CommandCount# + '%')");
-                        break;
+                    where.Add(CsStringColumnsWhereNull(
+                        column: column,
+                        param: "\t".ToSingleList()));
+                }
+                else
+                {
+                    switch (column.SearchType)
+                    {
+                        case Column.SearchTypes.ExactMatch:
+                            var param = value.ToSingleList();
+                            if (param?.Any() == true)
+                            {
+                                CreateCsStringSqlWhereCollection(column, where, param);
+                            }
+                            break;
+                        case Column.SearchTypes.ForwardMatch:
+                            CreateCsStringSqlWhereLike(
+                                column: column,
+                                value: value,
+                                where: where,
+                                query: "([{0}].[{1}] like @{2}#ParamCount#_#CommandCount# + '%')");
+                            break;
+                        default:
+                            CreateCsStringSqlWhereLike(
+                                column: column,
+                                value: value,
+                                where: where,
+                                query: "([{0}].[{1}] like '%' + @{2}#ParamCount#_#CommandCount# + '%')");
+                            break;
+                    }
                 }
             }
         }

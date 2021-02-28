@@ -2655,7 +2655,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Update(Context context, SiteSettings ss, long resultId)
+        public static string Update(Context context, SiteSettings ss, long resultId, string previousTitle)
         {
             var resultModel = new ResultModel(
                 context: context,
@@ -2679,6 +2679,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 notice: true,
+                previousTitle: previousTitle,
                 permissions: context.Forms.List("CurrentPermissionsAll"),
                 permissionChanged: context.Forms.Exists("CurrentPermissionsAll"));
             switch (errorData.Type)
@@ -3046,7 +3047,7 @@ namespace Implem.Pleasanter.Models
                             param.Add(
                                 columnBracket: columnNameBracket,
                                 name: column.ColumnName,
-                                value: resultModel.Num(column.ColumnName));
+                                value: resultModel.Num(column.ColumnName).Value);
                             break;
                         case "Date":
                             param.Add(
@@ -3379,7 +3380,10 @@ namespace Implem.Pleasanter.Models
         }
 
         public static System.Web.Mvc.ContentResult UpdateByApi(
-            Context context, SiteSettings ss, long resultId)
+            Context context,
+            SiteSettings ss,
+            long resultId,
+            string previousTitle)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
@@ -3413,7 +3417,8 @@ namespace Implem.Pleasanter.Models
             var errorData = resultModel.Update(
                 context: context,
                 ss: ss,
-                notice: true);
+                notice: true,
+                previousTitle: previousTitle);
             switch (errorData.Type)
             {
                 case Error.Types.None:
@@ -3442,7 +3447,8 @@ namespace Implem.Pleasanter.Models
         public static bool UpdateByServerScript(
             Context context,
             SiteSettings ss,
-            long resultId)
+            long resultId,
+            string previousTitle)
         {
             var resultModel = new ResultModel(
                 context: context,
@@ -3471,7 +3477,8 @@ namespace Implem.Pleasanter.Models
             var errorData = resultModel.Update(
                 context: context,
                 ss: ss,
-                notice: true);
+                notice: true,
+                previousTitle: previousTitle);
             switch (errorData.Type)
             {
                 case Error.Types.None:
@@ -4882,6 +4889,7 @@ namespace Implem.Pleasanter.Models
                             siteId: ss.SiteId)
                                 .ToArray());
                 var resultHash = new Dictionary<int, ResultModel>();
+                var previousTitle = string.Empty;
                 csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
                 {
                     var resultModel = new ResultModel(
@@ -4900,6 +4908,7 @@ namespace Implem.Pleasanter.Models
                             resultModel = model;
                         }
                     }
+                    previousTitle = resultModel.Title.DisplayValue;
                     columnHash
                         .Where(column => (column.Value.Column.CanCreate && resultModel.ResultId == 0)
                             || (column.Value.Column.CanUpdate && resultModel.ResultId > 0))
@@ -4980,6 +4989,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 extendedSqls: false,
+                                previousTitle: previousTitle,
                                 get: false);
                             switch (errorData.Type)
                             {

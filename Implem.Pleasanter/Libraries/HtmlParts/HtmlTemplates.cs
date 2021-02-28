@@ -533,7 +533,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Hidden(controlId: "ApplicationPath", value: Locations.Get(context: context))
                     .Hidden(
                         controlId: "Token",
-                        value: context.Token(),
+                        value: Authentications.Token(),
                         _using: Parameters.Security.TokenCheck)
                     .Hidden(controlId: "Language", value: context.Language)
                     .Hidden(controlId: "DeptId", value: context.DeptId.ToString())
