@@ -1487,7 +1487,7 @@ namespace Implem.Pleasanter.Models
                                         if (num?.Value != null)
                                             statements.Add(column.IfDuplicatedStatement(
                                                 param: param.Add(
-                                                    columnBracket: $"[{column.ColumnName}]",
+                                                    columnBracket: $"\"{column.ColumnName}\"",
                                                     name: column.ColumnName,
                                                     value: num.Value),
                                                 siteId: SiteId,
@@ -1498,7 +1498,7 @@ namespace Implem.Pleasanter.Models
                                         if (num?.Value != null && num?.Value != 0)
                                             statements.Add(column.IfDuplicatedStatement(
                                                 param: param.Add(
-                                                    columnBracket: $"[{column.ColumnName}]",
+                                                    columnBracket: $"\"{column.ColumnName}\"",
                                                     name: column.ColumnName,
                                                     value: num.Value),
                                                 siteId: SiteId,
