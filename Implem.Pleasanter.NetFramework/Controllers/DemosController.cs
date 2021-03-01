@@ -11,7 +11,7 @@ namespace Implem.Pleasanter.NetFramework.Controllers
         public string Register()
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.DemosController();
+            var controller = new Pleasanter.Controllers.DemosController();
             var json = controller.Register(context: context);
             return json;
         }
@@ -21,7 +21,7 @@ namespace Implem.Pleasanter.NetFramework.Controllers
         public ActionResult Login()
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.DemosController();
+            var controller = new Pleasanter.Controllers.DemosController();
             var (redirectUrl, errors, notFound) = controller.Login(context: context);
             if (!string.IsNullOrWhiteSpace(redirectUrl)) { 
                 return Redirect(redirectUrl);

@@ -11,7 +11,7 @@ namespace Implem.Pleasanter.NetCore.Controllers
         public ContentResult Get(long id)
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.Api_ItemsController();
+            var controller = new Pleasanter.Controllers.Api_ItemsController();
             var result = controller.Get(context: context, id: id);
             return result.ToHttpResponse(request: Request);
         }
@@ -20,7 +20,7 @@ namespace Implem.Pleasanter.NetCore.Controllers
         public ContentResult Create(long id)
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.Api_ItemsController();
+            var controller = new Pleasanter.Controllers.Api_ItemsController();
             var result = controller.Create(context: context, id: id);
             return result.ToHttpResponse(request: Request);
         }
@@ -29,7 +29,7 @@ namespace Implem.Pleasanter.NetCore.Controllers
         public ContentResult Update(long id)
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.Api_ItemsController();
+            var controller = new Pleasanter.Controllers.Api_ItemsController();
             var result = controller.Update(context: context, id: id);
             return result.ToHttpResponse(request: Request);
         }
@@ -38,7 +38,7 @@ namespace Implem.Pleasanter.NetCore.Controllers
         public ContentResult Delete(long id)
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.Api_ItemsController();
+            var controller = new Pleasanter.Controllers.Api_ItemsController();
             var result = controller.Delete(context: context, id: id);
             return result.ToHttpResponse(request: Request);
         }

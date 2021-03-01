@@ -16,7 +16,7 @@ namespace Implem.Pleasanter.NetFramework.Controllers
         public ActionResult Index()
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.RegistrationsController();
+            var controller = new Pleasanter.Controllers.RegistrationsController();
             var htmlOrJson = controller.Index(context: context);
             if (!Request.IsAjaxRequest())
             {
@@ -33,7 +33,7 @@ namespace Implem.Pleasanter.NetFramework.Controllers
         public ActionResult New(long id = 0)
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.RegistrationsController();
+            var controller = new Pleasanter.Controllers.RegistrationsController();
             var html = controller.New(context: context, id: id);
             ViewBag.HtmlBody = html;
             return View();
@@ -43,7 +43,7 @@ namespace Implem.Pleasanter.NetFramework.Controllers
         public ActionResult Edit(int id)
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.RegistrationsController();
+            var controller = new Pleasanter.Controllers.RegistrationsController();
             var htmlOrJson = controller.Edit(context: context, id: id);
             if (!Request.IsAjaxRequest())
             {
@@ -60,7 +60,7 @@ namespace Implem.Pleasanter.NetFramework.Controllers
         public string GridRows()
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.RegistrationsController();
+            var controller = new Pleasanter.Controllers.RegistrationsController();
             var json = controller.GridRows(context: context);
             return json;
         }
@@ -69,7 +69,7 @@ namespace Implem.Pleasanter.NetFramework.Controllers
         public string Create()
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.RegistrationsController();
+            var controller = new Pleasanter.Controllers.RegistrationsController();
             var json = controller.Create(context: context);
             return json;
         }
@@ -78,7 +78,7 @@ namespace Implem.Pleasanter.NetFramework.Controllers
         public string Update(int id)
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.RegistrationsController();
+            var controller = new Pleasanter.Controllers.RegistrationsController();
             var json = controller.Update(context: context, id: id);
             return json;
         }
@@ -87,7 +87,7 @@ namespace Implem.Pleasanter.NetFramework.Controllers
         public string Delete(int id)
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.RegistrationsController();
+            var controller = new Pleasanter.Controllers.RegistrationsController();
             var json = controller.Delete(context: context, id: id);
             return json;
         }
@@ -96,7 +96,7 @@ namespace Implem.Pleasanter.NetFramework.Controllers
         public string DeleteComment(int id)
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.RegistrationsController();
+            var controller = new Pleasanter.Controllers.RegistrationsController();
             var json = controller.DeleteComment(context: context, id: id);
             return json;
         }
@@ -105,7 +105,7 @@ namespace Implem.Pleasanter.NetFramework.Controllers
         public string Histories(int id)
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.RegistrationsController();
+            var controller = new Pleasanter.Controllers.RegistrationsController();
             var json = controller.Histories(context: context, id: id);
             return json;
         }
@@ -114,7 +114,7 @@ namespace Implem.Pleasanter.NetFramework.Controllers
         public string History(int id)
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.RegistrationsController();
+            var controller = new Pleasanter.Controllers.RegistrationsController();
             var json = controller.History(context: context, id: id);
             return json;
         }
@@ -126,7 +126,7 @@ namespace Implem.Pleasanter.NetFramework.Controllers
         public string BulkDelete(long id)
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.RegistrationsController();
+            var controller = new Pleasanter.Controllers.RegistrationsController();
             var json = controller.BulkDelete(context: context, id: id);
             return json;
         }
@@ -139,7 +139,7 @@ namespace Implem.Pleasanter.NetFramework.Controllers
         public ActionResult Login()
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.RegistrationsController();
+            var controller = new Pleasanter.Controllers.RegistrationsController();
             var html = controller.Login(context: context);
             ViewBag.HtmlBody = html;
             return View();
@@ -153,7 +153,7 @@ namespace Implem.Pleasanter.NetFramework.Controllers
         public string ApprovalRequest(int id)
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.RegistrationsController();
+            var controller = new Pleasanter.Controllers.RegistrationsController();
             var json = controller.ApprovalRequest(context: context, id: id);
             return json;
         }
@@ -165,7 +165,7 @@ namespace Implem.Pleasanter.NetFramework.Controllers
         public string Approval(int id)
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.RegistrationsController();
+            var controller = new Pleasanter.Controllers.RegistrationsController();
             var json = controller.Approval(context: context, id: id);
             return json;
         }

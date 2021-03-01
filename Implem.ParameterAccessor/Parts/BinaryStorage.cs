@@ -6,6 +6,7 @@
         public string Path;
         public bool Attachments;
         public bool Images;
+        public bool RestoreLocalFiles;
         public decimal LimitQuantity;
         public decimal LimitSize;
         public decimal LimitTotalSize;

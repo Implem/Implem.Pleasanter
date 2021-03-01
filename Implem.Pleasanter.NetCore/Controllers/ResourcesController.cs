@@ -12,7 +12,7 @@ namespace Implem.Pleasanter.NetCore.Controllers
         public ContentResult Scripts()
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.ResourcesController();
+            var controller = new Pleasanter.Controllers.ResourcesController();
             var result = controller.Scripts(context: context);
             return result.ToRecourceContentResult(request: Request);
         }
@@ -22,7 +22,7 @@ namespace Implem.Pleasanter.NetCore.Controllers
         public ContentResult Styles()
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.ResourcesController();
+            var controller = new Pleasanter.Controllers.ResourcesController();
             var result = controller.Styles(context: context);
             return result.ToRecourceContentResult(request: Request);
         }

@@ -11,7 +11,7 @@ namespace Implem.Pleasanter.NetCore.Controllers
         public ActionResult Index(long id = 0)
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.PublishesController();
+            var controller = new Pleasanter.Controllers.PublishesController();
             var htmlOrJson = controller.Index(context: context, id: id);
             if (!context.Ajax)
             {
@@ -28,7 +28,7 @@ namespace Implem.Pleasanter.NetCore.Controllers
         public ActionResult SearchDropDown(long id = 0)
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.PublishesController();
+            var controller = new Pleasanter.Controllers.PublishesController();
             var json = controller.SearchDropDown(context: context, id: id);
             return Content(json);
         }
@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.NetCore.Controllers
         public ActionResult SelectSearchDropDown(long id = 0)
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.PublishesController();
+            var controller = new Pleasanter.Controllers.PublishesController();
             var json = controller.SelectSearchDropDown(context: context, id: id);
             return Content(json);
         }
@@ -46,7 +46,7 @@ namespace Implem.Pleasanter.NetCore.Controllers
         public string GridRows(long id)
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.PublishesController();
+            var controller = new Pleasanter.Controllers.PublishesController();
             var json = controller.GridRows(context: context, id: id);
             return json;
         }
@@ -55,7 +55,7 @@ namespace Implem.Pleasanter.NetCore.Controllers
         public ActionResult Edit(long id)
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.PublishesController();
+            var controller = new Pleasanter.Controllers.PublishesController();
             var htmlOrJson = controller.Edit(context: context, id: id);
             if (!context.Ajax)
             {

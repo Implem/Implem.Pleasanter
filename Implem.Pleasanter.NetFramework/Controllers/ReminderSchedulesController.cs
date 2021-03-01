@@ -10,7 +10,7 @@ namespace Implem.Pleasanter.NetFramework.Controllers
         public string Remind()
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.ReminderSchedulesController();
+            var controller = new Pleasanter.Controllers.ReminderSchedulesController();
             var json = controller.Remind(context: context);
             return json;
         }
