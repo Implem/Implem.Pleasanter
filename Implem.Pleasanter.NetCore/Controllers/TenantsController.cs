@@ -11,7 +11,7 @@ namespace Implem.Pleasanter.NetCore.Controllers
         public ActionResult Edit()
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.TenantsController();
+            var controller = new Pleasanter.Controllers.TenantsController();
             var htmlOrJson = controller.Edit(context: context);
             if (!context.Ajax)
             {
@@ -28,7 +28,7 @@ namespace Implem.Pleasanter.NetCore.Controllers
         public string Update()
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.TenantsController();
+            var controller = new Pleasanter.Controllers.TenantsController();
             var json = controller.Update(context: context);
             return json;
         }

@@ -13,7 +13,7 @@ namespace Implem.Pleasanter.NetCore.Controllers
         {
             var context = new ContextImplement();
 
-            var controller = new Implem.Pleasanter.Controllers.BackgroundTasksController();
+            var controller = new Pleasanter.Controllers.BackgroundTasksController();
             var html = controller.Do(context: context, backgroundTasks: new BackgroundTasks(context: context));
             return html;
         }
