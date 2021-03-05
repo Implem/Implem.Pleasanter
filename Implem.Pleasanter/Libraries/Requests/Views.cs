@@ -65,14 +65,14 @@ namespace Implem.Pleasanter.Libraries.Requests
             if (view == null)
             {
                 view = ss.Views.Get(ss.LinkTableView);
-                if (view != null && view.GridColumns?.Any() != true)
-                {
-                    view.GridColumns = ss.GridColumns;
-                }
             }
             if (view == null)
             {
                 view = new View();
+            }
+            if (view.GridColumns?.Any() != true)
+            {
+                view.GridColumns = ss.GridColumns;
             }
             if (setSession)
             {
