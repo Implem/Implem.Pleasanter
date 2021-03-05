@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using System.Data.SqlClient;
 using System.Text;
 namespace Implem.Libraries.DataSources.SqlServer
@@ -27,61 +28,69 @@ namespace Implem.Libraries.DataSources.SqlServer
                 case Sqls.TableTypes.History:
                     AddTableTypeColumn("History");
                     BuildHistoryWithoutFlag(
-                        sqlContainer,
-                        sqlCommand,
-                        commandText,
-                        commandCount,
-                        Sqls.UnionTypes.None);
+                        sqlContainer: sqlContainer,
+                        sqlCommand: sqlCommand,
+                        commandText: commandText,
+                        commandCount: commandCount,
+                        unionType: Sqls.UnionTypes.None);
                     break;
                 case Sqls.TableTypes.HistoryWithoutFlag:
                     BuildHistoryWithoutFlag(
-                        sqlContainer,
-                        sqlCommand,
-                        commandText,
-                        commandCount,
-                        Sqls.UnionTypes.None);
+                        sqlContainer: sqlContainer,
+                        sqlCommand: sqlCommand,
+                        commandText: commandText,
+                        commandCount: commandCount,
+                        unionType: Sqls.UnionTypes.None);
                     break;
                 case Sqls.TableTypes.NormalAndDeleted:
                     BuildNormalAndDeleted(
-                        sqlContainer,
-                        sqlCommand,
-                        commandText,
-                        commandCount);
+                        sqlContainer: sqlContainer,
+                        sqlCommand: sqlCommand,
+                        commandText: commandText,
+                        commandCount: commandCount);
                     break;
                 case Sqls.TableTypes.NormalAndHistory:
                     BuildNormalAndHistory(
-                        sqlContainer,
-                        sqlCommand,
-                        commandText,
-                        commandCount);
+                        sqlContainer: sqlContainer,
+                        sqlCommand: sqlCommand,
+                        commandText: commandText,
+                        commandCount: commandCount);
                     break;
                 case Sqls.TableTypes.Deleted:
                     BuildDeleted(
-                        sqlContainer,
-                        sqlCommand,
-                        commandText,
-                        commandCount,
-                        Sqls.UnionTypes.None);
+                        sqlContainer: sqlContainer,
+                        sqlCommand: sqlCommand,
+                        commandText: commandText,
+                        commandCount: commandCount,
+                        unionType: Sqls.UnionTypes.None);
                     break;
                 case Sqls.TableTypes.All:
                     AddTableTypeColumn("Normal");
-                    BuildNormal(sqlContainer, sqlCommand, commandText, commandCount);
+                    BuildNormal(
+                        sqlContainer: sqlContainer,
+                        sqlCommand: sqlCommand,
+                        commandText: commandText,
+                        commandCount: commandCount);
                     BuildDeleted(
-                        sqlContainer,
-                        sqlCommand,
-                        commandText,
-                        commandCount,
-                        Sqls.UnionTypes.Union);
+                        sqlContainer: sqlContainer,
+                        sqlCommand: sqlCommand,
+                        commandText: commandText,
+                        commandCount: commandCount,
+                        unionType: Sqls.UnionTypes.Union);
                     AddTableTypeColumn("History");
                     BuildHistoryWithoutFlag(
-                        sqlContainer,
-                        sqlCommand,
-                        commandText,
-                        commandCount,
-                        Sqls.UnionTypes.Union);
+                        sqlContainer: sqlContainer,
+                        sqlCommand: sqlCommand,
+                        commandText: commandText,
+                        commandCount: commandCount,
+                        unionType: Sqls.UnionTypes.Union);
                     break;
                 default:
-                    BuildNormal(sqlContainer, sqlCommand, commandText, commandCount);
+                    BuildNormal(
+                        sqlContainer: sqlContainer,
+                        sqlCommand: sqlCommand,
+                        commandText: commandText,
+                        commandCount: commandCount);
                     break;
             }
         }
@@ -192,17 +201,17 @@ namespace Implem.Libraries.DataSources.SqlServer
             {
                 case Sqls.TableTypes.NormalAndDeleted:
                     SqlColumnCollection?.Add(new SqlColumn(
-                        deleted + " as [IsDeleted]", adHoc: true));
+                        deleted + " as \"IsDeleted\"", adHoc: true));
                     break;
                 case Sqls.TableTypes.NormalAndHistory:
                     SqlColumnCollection?.Add(new SqlColumn(
-                        history + " as [IsHistory]", adHoc: true));
+                        history + " as \"IsHistory\"", adHoc: true));
                     break;
                 case Sqls.TableTypes.All:
                     SqlColumnCollection?.Add(new SqlColumn(
-                        deleted + " as [IsDeleted]", adHoc: true));
+                        deleted + " as \"IsDeleted\"", adHoc: true));
                     SqlColumnCollection?.Add(new SqlColumn(
-                        history + " as [IsHistory]", adHoc: true));
+                        history + " as \"IsHistory\"", adHoc: true));
                     break;
                 default:
                     break;
@@ -264,8 +273,16 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             if (PageSize != 0)
             {
-                AddParam(sqlCommand, "_Offset", Offset, commandCount);
-                AddParam(sqlCommand, "_PageSize", PageSize, commandCount);
+                AddParam(
+                    sqlCommand: sqlCommand,
+                    name: $"{Parameters.Parameter.SqlParameterPrefix}Offset",
+                    value: Offset,
+                    commandCount: commandCount);
+                AddParam(
+                    sqlCommand: sqlCommand,
+                    name: $"{Parameters.Parameter.SqlParameterPrefix}PageSize",
+                    value: PageSize,
+                    commandCount: commandCount);
             }
         }
 
@@ -282,7 +299,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                     break;
             }
             return "from " + tableBlacket + (!_as.IsNullOrEmpty()
-                ? " as [" + _as + "]"
+                ? " as \"" + _as + "\""
                 : " as " + TableBracket) + "\n";
         }
     }

@@ -2539,9 +2539,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 join: Rds.ItemsJoin().Add(new SqlJoin(
-                    tableBracket: "[Items]",
+                    tableBracket: "\"Items\"",
                     joinType: SqlJoin.JoinTypes.Inner,
-                    joinExpression: "[Issues].[IssueId]=[Issues_Items].[ReferenceId]",
+                    joinExpression: "\"Issues\".\"IssueId\"=\"Issues_Items\".\"ReferenceId\"",
                     _as: "Issues_Items")),
                 where: view.Where(context: context, ss: ss),
                 orderBy: view.OrderBy(
@@ -2633,9 +2633,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 join: Rds.ItemsJoin().Add(new SqlJoin(
-                    tableBracket: "[Items]",
+                    tableBracket: "\"Items\"",
                     joinType: SqlJoin.JoinTypes.Inner,
-                    joinExpression: "[Issues].[IssueId]=[Issues_Items].[ReferenceId]",
+                    joinExpression: "\"Issues\".\"IssueId\"=\"Issues_Items\".\"ReferenceId\"",
                     _as: "Issues_Items")),
                 where: view.Where(context: context, ss: ss),
                 orderBy: view.OrderBy(
@@ -3198,7 +3198,7 @@ namespace Implem.Pleasanter.Models
                 issueModel.ColumnNames()));
             statements.Add(Rds.UpdateIssues(
                 where: verUpWhere,
-                param: Rds.IssuesParam().Ver(raw: "[Ver]+1"),
+                param: Rds.IssuesParam().Ver(raw: "\"Ver\"+1"),
                 addUpdatorParam: false,
                 addUpdatedTimeParam: false));
             var param = new Rds.IssuesParamCollection();
@@ -3235,7 +3235,7 @@ namespace Implem.Pleasanter.Models
                     param.Locked(issueModel.Locked);
                     break;
                 default:
-                    var columnNameBracket = $"[{column.ColumnName}]";
+                    var columnNameBracket = $"\"{column.ColumnName}\"";
                     switch (Def.ExtendedColumnTypes.Get(column.ColumnName))
                     {
                         case "Class":
@@ -4048,7 +4048,7 @@ namespace Implem.Pleasanter.Models
                     .Where(o => o.TypeCs == "Attachments")
                     .Select(o => o.ColumnName)
                     .ForEach(columnName =>
-                        column.Add($"[{columnName}]"));
+                        column.Add($"\"{columnName}\""));
             var attachments = Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectIssues(
@@ -5948,14 +5948,14 @@ namespace Implem.Pleasanter.Models
             {
                 where.Add(
                     tableName: "Issues",
-                    raw: $"[Issues].[{fromColumn.ColumnName}] between '{begin}' and '{end}'");
+                    raw: $"\"Issues\".\"{fromColumn.ColumnName}\" between '{begin}' and '{end}'");
             }
             else
             {
                 where.Add(or: Rds.IssuesWhere()
-                    .Add(raw: $"[Issues].[{fromColumn.ColumnName}] between '{begin}' and '{end}'")
-                    .Add(raw: $"[Issues].[{toColumn.ColumnName}] between '{begin}' and '{end}'")
-                    .Add(raw: $"[Issues].[{fromColumn.ColumnName}]<='{begin}' and [Issues].[{toColumn.ColumnName}]>='{end}'"));
+                    .Add(raw: $"\"Issues\".\"{fromColumn.ColumnName}\" between '{begin}' and '{end}'")
+                    .Add(raw: $"\"Issues\".\"{toColumn.ColumnName}\" between '{begin}' and '{end}'")
+                    .Add(raw: $"\"Issues\".\"{fromColumn.ColumnName}\"<='{begin}' and \"Issues\".\"{toColumn.ColumnName}\">='{end}'"));
             }
             where = view.Where(context: context, ss: ss, where: where);
             return Rds.ExecuteTable(

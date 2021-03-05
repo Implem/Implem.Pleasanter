@@ -8,6 +8,7 @@ using Implem.Pleasanter.Libraries.Search;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.ServerScripts;
+using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -892,14 +893,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 where.Add(
                     tableName: ss.ReferenceType,
-                    columnBrackets: "[Status]".ToSingleArray(),
+                    columnBrackets: "\"Status\"".ToSingleArray(),
                     _operator: "<" + Parameters.General.CompletionCode);
             }
             if (Own == true && HasOwnColumns(context, ss))
             {
                 where.Add(
                     tableName: ss.ReferenceType,
-                    columnBrackets: new string[] { "[Manager]", "[Owner]" },
+                    columnBrackets: new string[] { "\"Manager\"", "\"Owner\"" },
                     name: "_U",
                     value: context.UserId);
             }
@@ -909,7 +910,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 where.Add(
                     tableName: ss.ReferenceType,
-                    columnBrackets: "[CompletionTime]".ToSingleArray(),
+                    columnBrackets: "\"CompletionTime\"".ToSingleArray(),
                     _operator: " between '{0}' and '{1}'".Params(
                         DateTime.Now.ToLocal(context: context).Date
                             .AddDays(ss.NearCompletionTimeBeforeDays.ToInt() * (-1)),
@@ -925,12 +926,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 where
                     .Add(
                         tableName: ss.ReferenceType,
-                        columnBrackets: "[Status]".ToSingleArray(),
+                        columnBrackets: "\"Status\"".ToSingleArray(),
                         name: "_U",
                         _operator: "<{0}".Params(Parameters.General.CompletionCode))
                     .Add(
                         tableName: ss.ReferenceType,
-                        columnBrackets: "[ProgressRate]".ToSingleArray(),
+                        columnBrackets: "\"ProgressRate\"".ToSingleArray(),
                         _operator: "<",
                         raw: Def.Sql.ProgressRateDelay
                             .Replace("#TableName#", ss.ReferenceType));
@@ -942,13 +943,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                 where
                     .Add(
                         tableName: ss.ReferenceType,
-                        columnBrackets: "[Status]".ToSingleArray(),
+                        columnBrackets: "\"Status\"".ToSingleArray(),
                         name: "_U",
                         _operator: "<{0}".Params(Parameters.General.CompletionCode))
                     .Add(
                         tableName: ss.ReferenceType,
-                        columnBrackets: "[CompletionTime]".ToSingleArray(),
-                        _operator: "<getdate()");
+                        columnBrackets: "\"CompletionTime\"".ToSingleArray(),
+                        _operator: $"<{context.Sqls.CurrentDateTime}");
             }
         }
 
@@ -1105,19 +1106,19 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case ColumnUtilities.CheckFilterControlTypes.OnOnly:
                     if (value.ToBool())
                     {
-                        where.Bool(column, "=1");
+                        where.Bool(column, true);
                     }
                     break;
                 case ColumnUtilities.CheckFilterControlTypes.OnAndOff:
                     switch ((ColumnUtilities.CheckFilterTypes)value.ToInt())
                     {
                         case ColumnUtilities.CheckFilterTypes.On:
-                            where.Bool(column, "=1");
+                            where.Bool(column, true);
                             break;
                         case ColumnUtilities.CheckFilterTypes.Off:
                             where.Add(or: new SqlWhereCollection()
-                                .Bool(column, " is null")
-                                .Bool(column, "=0"));
+                                .Bool(column, null)
+                                .Bool(column, false));
                             break;
                     }
                     break;
@@ -1162,7 +1163,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return new SqlWhere(
                 tableName: column.TableName(),
-                columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
+                columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                 name: column.Name,
                 value: param);
         }
@@ -1173,7 +1174,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!numList.Any()) { return null; }
             return new SqlWhere(
                 tableName: column.TableName(),
-                columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
+                columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                 name: column.Name,
                 _operator: " in ({0})".Params(numList.Join()));
         }
@@ -1182,16 +1183,16 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             yield return new SqlWhere(
                 tableName: column.TableName(),
-                    columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
+                    columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                     _operator: " is null");
             if (column.Nullable != true)
             {
                 yield return new SqlWhere(
-                    tableName: column.TableName(),
-                    columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
-                    _operator: "={0}".Params(column.Type == Column.Types.User
-                        ? User.UserTypes.Anonymous.ToInt()
-                        : 0));
+                tableName: column.TableName(),
+                columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                _operator: "={0}".Params(column.Type == Column.Types.User
+                    ? User.UserTypes.Anonymous.ToInt()
+                    : 0));
             }
         }
 
@@ -1201,20 +1202,20 @@ namespace Implem.Pleasanter.Libraries.Settings
             var to = param.Split_2nd();
             yield return new SqlWhere(
                 tableName: column.TableName(),
-                columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
+                columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                 _operator: from == string.Empty
                     ? "<={0}".Params(to.ToDecimal())
                     : to == string.Empty
                         ? ">={0}".Params(from.ToDecimal())
                         : " between {0} and {1}".Params(from.ToDecimal(), to.ToDecimal()));
             if (column.Nullable != true
-                && ((to == string.Empty && from.ToDecimal() <= 0)
+                && (to == string.Empty && from.ToDecimal() <= 0)
                     || (from == string.Empty && to.ToDecimal() >= 0)
-                    || (from != string.Empty && to != string.Empty && from.ToDecimal() <= 0 && to.ToDecimal() >= 0)))
+                    || (from != string.Empty && to != string.Empty && from.ToDecimal() <= 0 && to.ToDecimal() >= 0))
             {
                 yield return new SqlWhere(
                     tableName: column.TableName(),
-                    columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
+                    columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                     _operator: " is null");
             }
         }
@@ -1249,7 +1250,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         var to = range.Split_2nd();
                         if (!from.IsNullOrEmpty() && !to.IsNullOrEmpty())
                         {
-                            return "#TableBracket#.[{0}] between '{1}' and '{2}'".Params(
+                            return "#TableBracket#.\"{0}\" between '{1}' and '{2}'".Params(
                                 column.Name,
                                 ConvertDateTimeParam(from, column).ToUniversal(context: context)
                                     .ToString("yyyy/M/d H:m:s"),
@@ -1258,14 +1259,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                         }
                         else if (to.IsNullOrEmpty())
                         {
-                            return "#TableBracket#.[{0}] >= '{1}'".Params(
+                            return "#TableBracket#.\"{0}\" >= '{1}'".Params(
                                 column.Name,
                                 ConvertDateTimeParam(from, column).ToDateTime().ToUniversal(context: context)
                                     .ToString("yyyy/M/d H:m:s"));
                         }
                         else
                         {
-                            return "#TableBracket#.[{0}] <= '{1}'".Params(
+                            return "#TableBracket#.\"{0}\" <= '{1}'".Params(
                                 column.Name,
                                 ConvertDateTimeParam(to, column).ToDateTime().ToUniversal(context: context)
                                     .ToString("yyyy/M/d H:m:s.fff"));
@@ -1293,11 +1294,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ? new SqlWhere(or: new SqlWhereCollection(
                     new SqlWhere(
                         tableName: column.TableName(),
-                        columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
+                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                         _operator: " is null"),
                     new SqlWhere(
                         tableName: column.TableName(),
-                        columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
+                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                         _operator: " not between '{0}' and '{1}'".Params(
                             Parameters.General.MinTime.ToUniversal(context: context)
                                 .ToString("yyyy/M/d H:m:s"),
@@ -1306,14 +1307,19 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : null;
         }
 
-        private void CsStringColumns(Context context, Column column, string value, SqlWhereCollection where)
+        private void CsStringColumns(
+            Context context, Column column, string value, SqlWhereCollection where)
         {
             if (column.HasChoices())
             {
                 var param = value.Deserialize<List<string>>();
                 if (param?.Any() == true)
                 {
-                    CreateCsStringSqlWhereCollection(column, where, param);
+                    CreateCsStringSqlWhereCollection(
+                        context: context,
+                        column: column,
+                        where: where,
+                        param: param);
                 }
             }
             else if (!value.IsNullOrEmpty())
@@ -1332,36 +1338,51 @@ namespace Implem.Pleasanter.Libraries.Settings
                             var param = value.ToSingleList();
                             if (param?.Any() == true)
                             {
-                                CreateCsStringSqlWhereCollection(column, where, param);
+                                CreateCsStringSqlWhereCollection(
+                                    context: context,
+                                    column: column,
+                                    where: where,
+                                    param: param);
                             }
                             break;
                         case Column.SearchTypes.ForwardMatch:
                             CreateCsStringSqlWhereLike(
+                                context: context,
                                 column: column,
                                 value: value,
                                 where: where,
-                                query: "([{0}].[{1}] like @{2}#ParamCount#_#CommandCount# + '%')");
+                                query: "(\"{0}\".\"{1}\"" + context.Sqls.Like + "@{3}{4}");
                             break;
                         default:
                             CreateCsStringSqlWhereLike(
+                                context: context,
                                 column: column,
                                 value: value,
                                 where: where,
-                                query: "([{0}].[{1}] like '%' + @{2}#ParamCount#_#CommandCount# + '%')");
+                                query: "(\"{0}\".\"{1}\"" + context.Sqls.Like + "{2}@{3}{4}");
                             break;
                     }
                 }
             }
         }
 
-        private void CreateCsStringSqlWhereCollection(Column column, SqlWhereCollection where, List<string> param)
+        private void CreateCsStringSqlWhereCollection(
+            Context context,
+            Column column,
+            SqlWhereCollection where,
+            List<string> param)
         {
             where.Add(or: new SqlWhereCollection(
-                CsStringColumnsWhere(column, param),
-                CsStringColumnsWhereNull(column, param)));
+                CsStringColumnsWhere(
+                    context: context,
+                    column: column,
+                    param: param),
+                CsStringColumnsWhereNull(
+                    column: column,
+                    param: param)));
         }
 
-        private void CreateCsStringSqlWhereLike(Column column, string value, SqlWhereCollection where, string query)
+        private void CreateCsStringSqlWhereLike(Context context, Column column, string value, SqlWhereCollection where, string query)
         {
             var tableName = column.TableName();
             var name = Strings.NewGuid();
@@ -1370,25 +1391,29 @@ namespace Implem.Pleasanter.Libraries.Settings
                 name: name,
                 searchText: value,
                 clauseCollection: query
-                    .Params(tableName, column.Name, name)
+                    .Params(
+                        tableName,
+                        column.Name,
+                        context.Sqls.WhereLikeTemplateForward,
+                        name,
+                        context.Sqls.WhereLikeTemplate)
                     .ToSingleList());
         }
 
-        private SqlWhere CsStringColumnsWhere(Column column, List<string> param)
+        private SqlWhere CsStringColumnsWhere(
+            Context context, Column column, List<string> param)
         {
             return param.Any(o => o != "\t")
                 ? new SqlWhere(
                     tableName: column.TableName(),
-                    columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
+                    columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                     name: column.ParamName(),
                     value: param
                         .Where(value => value != "\t")
                         .Select(value => column.MultipleSelections == true
                             ? StringInJson(value: value)
                             : value),
-                    _operator: column.MultipleSelections == true
-                        ? " like "
-                        : "=",
+                    _operator: context.Sqls.Like,
                     multiParamOperator: " or ")
                 : null;
         }
@@ -1406,15 +1431,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ? new SqlWhere(or: new SqlWhereCollection(
                     new SqlWhere(
                         tableName: column.TableName(),
-                        columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
+                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                         _operator: " is null"),
                     new SqlWhere(
                         tableName: column.TableName(),
-                        columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
+                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                         _operator: "=''"),
                     new SqlWhere(
                         tableName: column.TableName(),
-                        columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
+                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                         _operator: "='[]'",
                         _using: column.MultipleSelections == true)))
                 : null;
@@ -1438,26 +1463,26 @@ namespace Implem.Pleasanter.Libraries.Settings
             SqlOrderByCollection orderBy = null)
         {
             orderBy = orderBy ?? new SqlOrderByCollection();
-            ColumnSorterHash?.ForEach(data =>
+            if (ColumnSorterHash?.Any() == true)
             {
-                var column = ss.GetColumn(
-                    context: context,
-                    columnName: data.Key);
-                if (column != null)
+                ColumnSorterHash?.ForEach(data =>
                 {
+                    var column = ss.GetColumn(
+                        context: context,
+                        columnName: data.Key);
                     var tableName = column.TableName();
                     switch (column.Name)
                     {
                         case "Title":
                         case "ItemTitle":
                             orderBy.Add(new SqlOrderBy(
-                                columnBracket: "[Title]",
+                                columnBracket: "\"Title\"",
                                 orderType: data.Value,
                                 tableName: $"{tableName}_Items"));
                             break;
                         case "TitleBody":
                             orderBy.Add(new SqlOrderBy(
-                                columnBracket: "[Title]",
+                                columnBracket: "\"Title\"",
                                 orderType: data.Value,
                                 tableName: $"{tableName}_Items"));
                             orderBy.Add(
@@ -1479,7 +1504,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                             .SiteId_In(column.SiteSettings.Links
                                                 .Where(o => o.ColumnName == column.Name)
                                                 .Select(o => o.SiteId))
-                                            .ReferenceId(raw: $"try_cast([{tableName}].[{column.Name}] as bigint)"))));
+                                            .ReferenceId(raw: $"{context.SqlCommandText.CreateTryCast(tableName, column.Name, column.TypeName, "bigint")}"))));
                             }
                             else
                             {
@@ -1489,12 +1514,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                             }
                             break;
                     }
-                }
-            });
+                });
+            }
             return orderBy?.Any() != true
                 ? new SqlOrderByCollection().Add(
                     tableName: ss.ReferenceType,
-                    columnBracket: "[UpdatedTime]",
+                    columnBracket: "\"UpdatedTime\"",
                     orderType: SqlOrderBy.Types.desc)
                 : orderBy;
         }

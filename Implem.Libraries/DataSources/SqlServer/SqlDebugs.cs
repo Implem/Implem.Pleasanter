@@ -16,7 +16,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         public static void WriteSqlLog(string rdsName, SqlCommand sqlCommand, string logsPath, ref string commandText)
         {
             var commandTextForDebugging = new StringBuilder();
-            commandTextForDebugging.Append("use [", rdsName, "];\r\n");
+            commandTextForDebugging.Append("use \"", rdsName, "\";\r\n");
             commandTextForDebugging.Append(DeclareParametersText(sqlCommand));
             commandTextForDebugging.Append(FormattedCommandText(sqlCommand));
             var commandTextStringForDebugging = commandTextForDebugging.ToString();

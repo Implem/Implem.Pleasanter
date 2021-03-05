@@ -25,32 +25,32 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 return hb
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "Scripts/Plugins/jquery-3.1.0.min.js"))
+                        parts: "scripts/plugins/jquery-3.1.0.min.js"))
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "Scripts/Plugins/jquery-ui.min.js"))
+                        parts: "scripts/plugins/jquery-ui.min.js"))
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "Scripts/Plugins/jquery.datetimepicker.full.min.js"))
+                        parts: "scripts/plugins/jquery.datetimepicker.full.min.js"))
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "Scripts/Plugins/jquery.multiselect.min.js"))
+                        parts: "scripts/plugins/jquery.multiselect.min.js"))
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "Scripts/Plugins/jquery.multiselect.filter.min.js"))
+                        parts: "scripts/plugins/jquery.multiselect.filter.min.js"))
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "Scripts/Plugins/jquery.validate.min.js"))
+                        parts: "scripts/plugins/jquery.validate.min.js"))
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "Scripts/Plugins/d3.min.js"))
+                        parts: "scripts/plugins/d3.min.js"))
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "Scripts/Plugins/hogan-3.0.2.min.js"))
+                        parts: "scripts/plugins/hogan-3.0.2.min.js"))
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "Scripts/Plugins/marked.min.js"))
-                    .Generals()
+                        parts: "scripts/plugins/marked.min.js"))
+                    .Generals(context: context)
                     .Script(
                         src: Responses.Locations.Get(
                             context: context,
@@ -109,7 +109,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Join("\n");
         }
 
-        private static HtmlBuilder Generals(this HtmlBuilder hb)
+        private static HtmlBuilder Generals(this HtmlBuilder hb, Context context)
         {
             if (!System.Diagnostics.Debugger.IsAttached)
             {

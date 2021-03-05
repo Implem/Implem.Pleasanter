@@ -107,19 +107,19 @@ namespace Implem.Pleasanter.Libraries.Responses
                             .UpdatedTime(),
                         join: Rds.BinariesJoinDefault()
                             .Add(new SqlJoin(
-                                tableBracket: "[Items]",
+                                tableBracket: "\"Items\"",
                                 joinType: SqlJoin.JoinTypes.Inner,
-                                joinExpression: "[Binaries].[ReferenceId]=[Items].[ReferenceId]"))
+                                joinExpression: "\"Binaries\".\"ReferenceId\"=\"Items\".\"ReferenceId\""))
                             .Add(new SqlJoin(
-                                tableBracket: "[Sites]",
+                                tableBracket: "\"Sites\"",
                                 joinType: SqlJoin.JoinTypes.Inner,
-                                joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
+                                joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
                         where: Rds.BinariesWhere()
                             .TenantId(context.TenantId)
                             .Guid(guid)
                             .CanRead(
                                 context: context,
-                                idColumnBracket: "[Binaries].[ReferenceId]",
+                                idColumnBracket: "\"Binaries\".\"ReferenceId\"",
                                 _using: !context.Publish)),
                     Rds.SelectBinaries(
                         column: Rds.BinariesColumn()
@@ -139,17 +139,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                             .UpdatedTime(),
                         join: Rds.BinariesJoinDefault()
                             .Add(new SqlJoin(
-                                tableBracket: "[Items]",
+                                tableBracket: "\"Items\"",
                                 joinType: SqlJoin.JoinTypes.Inner,
-                                joinExpression: "[Binaries].[ReferenceId]=[Items].[ReferenceId]"))
+                                joinExpression: "\"Binaries\".\"ReferenceId\"=\"Items\".\"ReferenceId\""))
                             .Add(new SqlJoin(
-                                tableBracket: "[Sites]",
+                                tableBracket: "\"Sites\"",
                                 joinType: SqlJoin.JoinTypes.Inner,
-                                joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
+                                joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
                         where: Rds.BinariesWhere()
                             .TenantId(context.TenantId)
                             .Guid(guid)
-                            .Add(raw: $"([Binaries].[CreatedTime]=[Binaries].[UpdatedTime] and [Binaries].[Creator]={context.UserId})"),
+                            .Add(raw: $"(\"Binaries\".\"CreatedTime\"=\"Binaries\".\"UpdatedTime\" and \"Binaries\".\"Creator\"={context.UserId})"),
                         unionType: Sqls.UnionTypes.UnionAll)})
                             .AsEnumerable()
                             .FirstOrDefault();

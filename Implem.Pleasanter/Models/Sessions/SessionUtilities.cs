@@ -42,7 +42,7 @@ namespace Implem.Pleasanter.Models
                             .Value(),
                         where: Rds.SessionsWhere()
                             .SessionGuid(sessionGuid?? context.SessionGuid)
-                            .Add(raw: "(([UserArea] is null) or ([UserArea] <> 1))", _using: !includeUserArea)
+                            .Add(raw: $"((\"UserArea\" is null) or (\"UserArea\" {context.Sqls.IsNotTrue}))", _using: !includeUserArea)
                             .Add(or: Rds.SessionsWhere()
                                 .Page(context.Page, _using: context.Page != null)
                                 .Page(raw: "''"))),
@@ -56,7 +56,7 @@ namespace Implem.Pleasanter.Models
                             .UpdatedTime(
                                 DateTime.Now.AddMinutes(Parameters.Session.RetentionPeriod * -1),
                                 _operator: "<")
-                            .Add(raw: "( [SessionGuid] not like '@%' )"))
+                            .Add(raw: "( \"SessionGuid\" not like '@%' )"))
                 })
                     .AsEnumerable()
                     .ToDictionary(

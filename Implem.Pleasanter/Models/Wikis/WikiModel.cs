@@ -1094,7 +1094,7 @@ namespace Implem.Pleasanter.Models
                             if (Def.ExtendedColumnTypes.ContainsKey(formulaSet.Target))
                             {
                                 param.Add(
-                                    columnBracket: $"[{formulaSet.Target}]",
+                                    columnBracket: $"\"{formulaSet.Target}\"",
                                     name: formulaSet.Target,
                                     value: Num(formulaSet.Target).Value);
                             }

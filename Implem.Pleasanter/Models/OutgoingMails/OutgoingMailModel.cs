@@ -872,7 +872,7 @@ namespace Implem.Pleasanter.Models
                 bcc: Bcc,
                 subject: Title.Value,
                 body: Body)
-                    .Send(context: context);
+                    .SendAsync(context: context);
         }
     }
 }

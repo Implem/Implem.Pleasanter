@@ -1360,6 +1360,7 @@ namespace Implem.Pleasanter.Models
             IEnumerable<string> permissions = null,
             bool permissionChanged = false,
             bool updateMailAddresses = true,
+            bool refleshSiteInfo = true,
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
@@ -1411,7 +1412,10 @@ namespace Implem.Pleasanter.Models
             {
                 UpdateMailAddresses(context: context);
             }
-            SetSiteInfo(context: context);
+            if (refleshSiteInfo)
+            {
+                SiteInfo.Reflesh(context: context);
+            }
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -2143,14 +2147,6 @@ namespace Implem.Pleasanter.Models
                     transactional: true,
                     statements: statements.ToArray());
             }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void SetSiteInfo(Context context)
-        {
-            SiteInfo.Reflesh(context: context);
         }
 
         /// <summary>

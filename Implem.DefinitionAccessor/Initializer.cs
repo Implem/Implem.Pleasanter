@@ -101,6 +101,7 @@ namespace Implem.DefinitionAccessor
             Parameters.Site = Read<ParameterAccessor.Parts.Site>();
             Parameters.SitePackage = Read<ParameterAccessor.Parts.SitePackage>();
             Parameters.SysLog = Read<ParameterAccessor.Parts.SysLog>();
+            Parameters.Parameter = Read<ParameterAccessor.Parts.Parameter>();
             Parameters.Locations= Read<ParameterAccessor.Parts.Locations>();
             Parameters.Validation = Read<ParameterAccessor.Parts.Validation>();
         }

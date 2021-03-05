@@ -195,7 +195,7 @@ namespace Implem.Pleasanter.Models
                     where: Rds.SitesWhere()
                         .TenantId(context.TenantId)
                         .SiteId(ss.SiteId, _operator: "<>")
-                        .InheritPermission(raw: "[Sites].[SiteId]")
+                        .InheritPermission(raw: "\"Sites\".\"SiteId\"")
                         .Add(
                             raw: Def.Sql.CanReadSites,
                             _using: !context.HasPrivilege),
@@ -378,7 +378,7 @@ namespace Implem.Pleasanter.Models
                     Rds.SelectDepts(
                         column: Rds.DeptsColumn()
                             .DeptId(_as: "Id")
-                            .Add(columnBracket: "'Dept' as [Name]"),
+                            .Add(columnBracket: "'Dept' as \"Name\""),
                         where: Rds.DeptsWhere()
                             .TenantId(context.TenantId)
                             .DeptId(_operator: ">0")
@@ -395,7 +395,7 @@ namespace Implem.Pleasanter.Models
                     Rds.SelectGroups(
                         column: Rds.GroupsColumn()
                             .GroupId(_as: "Id")
-                            .Add(columnBracket: "'Group' as [Name]"),
+                            .Add(columnBracket: "'Group' as \"Name\""),
                         where: Rds.GroupsWhere()
                             .TenantId(context.TenantId)
                             .GroupId(_operator: ">0")
@@ -413,17 +413,17 @@ namespace Implem.Pleasanter.Models
                     Rds.SelectUsers(
                         column: Rds.UsersColumn()
                             .UserId(_as: "Id")
-                            .Add(columnBracket: "'User' as [Name]"),
+                            .Add(columnBracket: "'User' as \"Name\""),
                         join: Rds.UsersJoin()
                             .Add(new SqlJoin(
-                                tableBracket: "[Depts]",
+                                tableBracket: "\"Depts\"",
                                 joinType: SqlJoin.JoinTypes.LeftOuter,
-                                joinExpression: "[Users].[DeptId]=[Depts].[DeptId]")),
+                                joinExpression: "\"Users\".\"DeptId\"=\"Depts\".\"DeptId\"")),
                         where: Rds.UsersWhere()
                             .TenantId(context.TenantId)
                             .UserId(_operator: ">0")
                             .SqlWhereLike(
-                                tableName: "Users",
+                                tableName: "\"Users\"",
                                 name: "SearchText",
                                 searchText: searchText,
                                 clauseCollection: new List<string>()

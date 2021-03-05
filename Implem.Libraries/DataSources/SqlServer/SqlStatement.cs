@@ -83,7 +83,10 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         protected void AddParam(
-            SqlCommand sqlCommand, string name, object value, int? commandCount)
+            SqlCommand sqlCommand,
+            string name,
+            object value,
+            int? commandCount)
         {
             var key = name + commandCount;
             if (!sqlCommand.Parameters.Contains(key))
@@ -98,7 +101,9 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         private void AddParams_Where(
-            SqlCommand sqlCommand, SqlWhereCollection sqlWhereCollection, int? commandCount)
+            SqlCommand sqlCommand,
+            SqlWhereCollection sqlWhereCollection,
+            int? commandCount)
         {
             sqlWhereCollection?
                 .Where(o => o != null)
@@ -138,7 +143,9 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         private void AddParams_Having(
-            SqlCommand sqlCommand, SqlHavingCollection sqlHavingCollection, int? commandCount)
+            SqlCommand sqlCommand,
+            SqlHavingCollection sqlHavingCollection,
+            int? commandCount)
         {
             sqlHavingCollection?
                 .Where(o => o.Using)

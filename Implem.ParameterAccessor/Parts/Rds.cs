@@ -2,6 +2,7 @@
 {
     public class Rds
     {
+        public string Dbms;
         public string Provider;
         public string TimeZoneInfo;
         public string SaConnectionString;

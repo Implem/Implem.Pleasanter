@@ -370,7 +370,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         tableName: ss.ReferenceType,
                         columnBrackets: new string[]
                         {
-                            "[" + orderByColumn.ColumnName + "]"
+                            "\"" + orderByColumn.ColumnName + "\""
                         },
                         _operator: "<'{0}'".Params(
                             DateTime.Now.ToLocal(context: context).Date.AddDays(Range)))
@@ -378,7 +378,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         tableName: ss.ReferenceType,
                         columnBrackets: new string[]
                         {
-                            "[" + orderByColumn.ColumnName + "]"
+                            "\"" + orderByColumn.ColumnName + "\""
                         },
                         _operator: ">getdate()",
                         _using: ExcludeOverdue == true)
@@ -387,21 +387,21 @@ namespace Implem.Pleasanter.Libraries.Settings
                             tableName: ss.ReferenceType,
                             columnBrackets: new string[]
                             {
-                                "[Status]"
+                                "\"Status\""
                             },
                             _operator: " is null")
                         .Add(
                             tableName: ss.ReferenceType,
                             columnBrackets: new string[]
                             {
-                                "[Status]"
+                                "\"Status\""
                             },
                             _operator: "<{0}".Params(Parameters.General.CompletionCode))
                         .Add(
                             tableName: ss.ReferenceType,
                             columnBrackets: new string[]
                             {
-                                "[" + orderByColumn.ColumnName + "]"
+                                "\"" + orderByColumn.ColumnName + "\""
                             },
                             _operator: "<'{0}'".Params(
                                 DateTime.Now.ToLocal(context: context).Date),

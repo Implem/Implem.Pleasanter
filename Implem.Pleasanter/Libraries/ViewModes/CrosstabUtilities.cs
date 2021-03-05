@@ -71,15 +71,15 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             switch (timePeriod)
             {
                 case "Yearly":
-                    return "substring(convert(varchar,{0},111),1,4)".Params(columnBracket);
+                    return context.Sqls.DateGroupYearly.Params(columnBracket);
                 case "Monthly":
-                    return "substring(convert(varchar,{0},111),1,7)".Params(columnBracket);
+                    return context.Sqls.DateGroupMonthly.Params(columnBracket);
                 case "Weekly":
-                    var part = "case datepart(weekday,{0}) when 1 then dateadd(day,-6,{0}) else dateadd(day,(2-datepart(weekday,{0})),{0}) end".Params(
+                    var part = context.Sqls.DateGroupWeeklyPart.Params(
                         columnBracket);
-                    return "datepart(year,{0}) * 100 + datepart(week,{0})".Params(part);
+                    return context.Sqls.DateGroupWeekly.Params(part);
                 case "Daily":
-                    return "convert(varchar,{0},111)".Params(columnBracket);
+                    return context.Sqls.DateGroupDaily.Params(columnBracket);
                 default:
                     return null;
             }
@@ -105,7 +105,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                         tableName: column.TableName(),
                         columnBrackets: new string[]
                         {
-                            "[{0}] between '{1}' and '{2:yyyy/MM/dd HH:mm:ss.fff}'".Params(
+                            "\"{0}\" between '{1}' and '{2:yyyy/MM/dd HH:mm:ss.fff}'".Params(
                                 column.Name,
                                 year.AddYears(-11).ToUniversal(context: context),
                                 year.AddYears(1).AddMilliseconds(-3).ToUniversal(context: context))
@@ -115,7 +115,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                         tableName: column.TableName(),
                         columnBrackets: new string[]
                         {
-                            "[{0}] between '{1}' and '{2:yyyy/MM/dd HH:mm:ss.fff}'".Params(
+                            "\"{0}\" between '{1}' and '{2:yyyy/MM/dd HH:mm:ss.fff}'".Params(
                                 column.Name,
                                 month.AddMonths(-11).ToUniversal(context: context),
                                 month.AddMonths(1).AddMilliseconds(-3).ToUniversal(context: context))
@@ -126,7 +126,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                         tableName: column.TableName(),
                         columnBrackets: new string[]
                         {
-                            "[{0}] between '{1}' and '{2:yyyy/MM/dd HH:mm:ss.fff}'".Params(
+                            "\"{0}\" between '{1}' and '{2:yyyy/MM/dd HH:mm:ss.fff}'".Params(
                                 column.Name,
                                 end.AddDays(-77).ToUniversal(context: context),
                                 end.AddDays(7).AddMilliseconds(-3).ToUniversal(context: context))
@@ -136,7 +136,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                         tableName: column.TableName(),
                         columnBrackets: new string[]
                         {
-                            "[{0}] between '{1}' and '{2:yyyy/MM/dd HH:mm:ss.fff}'".Params(
+                            "\"{0}\" between '{1}' and '{2:yyyy/MM/dd HH:mm:ss.fff}'".Params(
                                 column.Name,
                                 month.ToUniversal(context: context),
                                 month.AddMonths(1).AddMilliseconds(-3).ToUniversal(context: context))
@@ -147,13 +147,13 @@ namespace Implem.Pleasanter.Libraries.ViewModes
 
         private static string ColumnBracket(Context context, Column column)
         {
-            var columnBracket = "[{0}].[{1}]".Params(column.TableName(), column.Name);
+            var columnBracket = "\"{0}\".\"{1}\"".Params(column.TableName(), column.Name);
             var diff = Diff(
                 context: context,
                 column: column);
             if (diff != 0)
             {
-                columnBracket = $"dateadd(hour,{diff},{columnBracket})";
+                columnBracket = context.Sqls.DateAddHour(diff,columnBracket);
             }
             return columnBracket;
         }

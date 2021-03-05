@@ -1612,7 +1612,7 @@ namespace Implem.Pleasanter.Models
                     .Where(o => o.TypeCs == "Attachments")
                     .Select(o => o.ColumnName)
                     .ForEach(columnName =>
-                        column.Add($"[{columnName}]"));
+                        column.Add($"\"{columnName}\""));
             var attachments = Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectWikis(

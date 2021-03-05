@@ -53,7 +53,9 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             commandText.Append("select ");
             Build_DistinctClause(commandText, distinct);
-            Build_TopClause(commandText, top);
+            Build_TopClause(
+                commandText: commandText,
+                top: top);
             if (this.Any())
             {
                 commandText.Append(this

@@ -22,7 +22,9 @@ namespace Implem.Libraries.DataSources.SqlServer
                 sqlCommand: sqlCommand,
                 commandText: commandText,
                 commandCount: commandCount);
-            AddParams_Where(sqlCommand, commandCount);
+            AddParams_Where(
+                sqlCommand: sqlCommand,
+                commandCount: commandCount);
             AddTermination(commandText);
             Build_EndIf(commandText);
         }

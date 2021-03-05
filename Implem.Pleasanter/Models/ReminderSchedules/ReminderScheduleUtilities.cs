@@ -46,13 +46,13 @@ namespace Implem.Pleasanter.Models
                             .Users_DeptId(),
                         join: Rds.ReminderSchedulesJoin()
                             .Add(
-                                tableName: "Sites",
+                                tableName: "\"Sites\"",
                                 joinType: SqlJoin.JoinTypes.Inner,
-                                joinExpression: "[Sites].[SiteId]=[ReminderSchedules].[SiteId]")
+                                joinExpression: "\"Sites\".\"SiteId\"=\"ReminderSchedules\".\"SiteId\"")
                             .Add(
-                                tableName: "Users",
+                                tableName: "\"Users\"",
                                 joinType: SqlJoin.JoinTypes.LeftOuter,
-                                joinExpression: "[Users].[UserId]=[Sites].[Updator]"),
+                                joinExpression: "\"Users\".\"UserId\"=\"Sites\".\"Updator\""),
                         where: Rds.ReminderSchedulesWhere()
                             .ScheduledTime(
                                 DateTime.Now.ToLocal(context: context),
@@ -71,7 +71,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static void Remind(Context context, DataRow dataRow)
         {
-            context = new Context(
+            context = context.CreateContext(
                 tenantId: dataRow.Int("TenantId"),
                 userId: dataRow.Int("Updator"),
                 deptId: dataRow.Int("DeptId"));

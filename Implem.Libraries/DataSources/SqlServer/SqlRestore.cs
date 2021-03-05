@@ -17,9 +17,17 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             if (!Using) return;
             Build_If(commandText);
-            Build_RestoreStatement(sqlContainer, sqlCommand, commandText, commandCount);
-            AddParams_Where(sqlCommand, commandCount);
-            AddParams_Param(sqlCommand, commandCount);
+            Build_RestoreStatement(
+                sqlContainer: sqlContainer,
+                sqlCommand: sqlCommand,
+                commandText: commandText,
+                commandCount: commandCount);
+            AddParams_Where(
+                sqlCommand: sqlCommand,
+                commandCount: commandCount);
+            AddParams_Param(
+                sqlCommand: sqlCommand,
+                commandCount: commandCount);
             AddTermination(commandText);
             Build_EndIf(commandText);
         }

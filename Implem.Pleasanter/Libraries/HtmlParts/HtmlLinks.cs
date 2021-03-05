@@ -304,7 +304,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         direction: direction))
                     .CanRead(
                         context: context,
-                        idColumnBracket: "[Issues].[IssueId]")
+                        idColumnBracket: "\"Issues\".\"IssueId\"")
                     .Sites_TenantId(context.TenantId));
             var orderBy = view.OrderBy(
                 context: context,
@@ -323,9 +323,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         orderBy
                     })
                         .Add(
-                            tableName: "Sites",
+                            tableName: "\"Sites\"",
                             joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "[Sites].[SiteId]=[Issues].[SiteId]"),
+                            joinExpression: "\"Sites\".\"SiteId\"=\"Issues\".\"SiteId\""),
                 where: where,
                 orderBy: orderBy);
         }
@@ -380,7 +380,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         direction: direction))
                     .CanRead(
                         context: context,
-                        idColumnBracket: "[Results].[ResultId]")
+                        idColumnBracket: "\"Results\".\"ResultId\"")
                     .Sites_TenantId(context.TenantId));
             var orderBy = view.OrderBy(
                 context: context,
@@ -399,9 +399,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         orderBy
                     })
                         .Add(
-                            tableName: "Sites",
+                            tableName: "\"Sites\"",
                             joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "[Sites].[SiteId]=[Results].[SiteId]"),
+                            joinExpression: "\"Sites\".\"SiteId\"=\"Results\".\"SiteId\""),
                 where: where,
                 orderBy: orderBy);
         }

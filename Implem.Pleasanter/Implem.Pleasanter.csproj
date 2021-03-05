@@ -1697,6 +1697,7 @@
     <Content Include="App_Data\Displays\OutputLog.json" />
     <Content Include="App_Data\Displays\AutoPostBack.json" />
     <Content Include="App_Data\Displays\Nullable.json" />
+    <Content Include="App_Data\Parameters\Parameter.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

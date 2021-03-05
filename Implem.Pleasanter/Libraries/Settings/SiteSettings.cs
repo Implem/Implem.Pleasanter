@@ -3406,13 +3406,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Title(),
                     join: new SqlJoinCollection(
                         new SqlJoin(
-                            tableBracket: "[Sites]",
+                            tableBracket: "\"Sites\"",
                             joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
+                            joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
                     where: Rds.ItemsWhere()
                         .ReferenceId_In(idList)
                         .SiteId_In(siteIdList, _using: siteIdList != null)
-                        .CanRead(context: context, idColumnBracket: "[Items].[ReferenceId]")))
+                        .CanRead(context: context, idColumnBracket: "\"Items\".\"ReferenceId\"")))
                             .AsEnumerable();
         }
 
@@ -3515,34 +3515,36 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Select(o => o.SiteId)
                 .Distinct()
                 .ToList();
-            var dataSet = Repository.ExecuteDataSet(
-                context: context,
-                statements: siteIdList.Select(siteId =>
-                    Rds.SelectItems(
-                        dataTableName: siteId.ToString(),
-                        column: Rds.ItemsColumn()
-                            .ReferenceId()
-                            .ReferenceType()
-                            .SiteId()
-                            .Title(),
-                        join: new SqlJoinCollection(
-                            new SqlJoin(
-                                tableBracket: "[Sites]",
-                                joinType: SqlJoin.JoinTypes.Inner,
-                                joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
-                        where: Rds.ItemsWhere()
-                            .ReferenceType("Sites", _operator: "<>")
-                            .SiteId(siteId)
-                            .CanRead(context: context, idColumnBracket: "[Items].[ReferenceId]")
-                            .Add(
-                                or: Rds.ItemsWhere()
-                                    .ReferenceType(raw: "'Wikis'")
-                                    .SiteId_In(notUseSearchSiteIdList),
-                                _using: !all),
-                        orderBy: Rds.ItemsOrderBy().Title(),
-                        top: all
-                            ? 0
-                            : Parameters.General.DropDownSearchPageSize)).ToArray());
+            var dataSet = siteIdList.Any()
+                ? Repository.ExecuteDataSet(
+                    context: context,
+                    statements: siteIdList.Select(siteId =>
+                        Rds.SelectItems(
+                            dataTableName: siteId.ToString(),
+                            column: Rds.ItemsColumn()
+                                .ReferenceId()
+                                .ReferenceType()
+                                .SiteId()
+                                .Title(),
+                            join: new SqlJoinCollection(
+                                new SqlJoin(
+                                    tableBracket: "\"Sites\"",
+                                    joinType: SqlJoin.JoinTypes.Inner,
+                                    joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
+                            where: Rds.ItemsWhere()
+                                .ReferenceType("Sites", _operator: "<>")
+                                .SiteId(siteId)
+                                .CanRead(context: context, idColumnBracket: "\"Items\".\"ReferenceId\"")
+                                .Add(
+                                    or: Rds.ItemsWhere()
+                                        .ReferenceType(raw: "'Wikis'")
+                                        .SiteId_In(notUseSearchSiteIdList),
+                                    _using: !all),
+                            orderBy: Rds.ItemsOrderBy().Title(),
+                            top: all
+                                ? 0
+                                : Parameters.General.DropDownSearchPageSize)).ToArray())
+                : null;
             return siteIdList.ToDictionary(
                 siteId => $"[[{siteId}]]",
                 siteId => LinkValue(
@@ -3610,9 +3612,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 siteIdList: link.SiteId.ToSingleList());
             var join = new SqlJoinCollection(
                 new SqlJoin(
-                    tableBracket: "[Sites]",
+                    tableBracket: "\"Sites\"",
                     joinType: SqlJoin.JoinTypes.Inner,
-                    joinExpression: "[Items].[SiteId]=[Sites].[SiteId]"));
+                    joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\""));
             var where = Rds.ItemsWhere()
                 .ReferenceId(
                     _operator: " in ",
@@ -3639,7 +3641,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         && parentColumn != null)
                 .ReferenceType("Sites", _operator: "<>")
                 .SiteId(link.SiteId)
-                .CanRead(context: context, idColumnBracket: "[Items].[ReferenceId]");
+                .CanRead(context: context, idColumnBracket: "\"Items\".\"ReferenceId\"");
             var statements = new List<SqlStatement>
             {
                 Rds.SelectItems(
@@ -4047,6 +4049,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 var currentSs = JoinedSsHash.Get(siteId);
                 var tableName = currentSs?.ReferenceType;
                 var name = part.Split_1st('~').RegexFirst("[A-Za-z0-9]+");
+                var column = currentSs?.GetColumn(
+                    context: context,
+                    columnName: name);
                 path.Add(part);
                 var alias = path.Join("-");
                 if (!tableName.IsNullOrEmpty() && !name.IsNullOrEmpty())
@@ -4054,27 +4059,27 @@ namespace Implem.Pleasanter.Libraries.Settings
                     if (alias.Contains("~~"))
                     {
                         join.Add(new SqlJoin(
-                            tableBracket: "[" + tableName + "]",
+                            tableBracket: "\"" + tableName + "\"",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
-                            joinExpression: $"[{leftAlias}].[{Rds.IdColumn(leftTableName)}]=try_cast([{alias}].[{name}] as bigint) and [{alias}].[SiteId]={siteId}",
+                            joinExpression: $"\"{leftAlias}\".\"{Rds.IdColumn(leftTableName)}\"={context.SqlCommandText.CreateTryCast(alias, name, column.TypeName, "bigint")} and \"{alias}\".\"SiteId\"={siteId}",
                             _as: alias));
                         join.Add(
-                            tableName: "Items",
+                            tableName: "\"Items\"",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
-                            joinExpression: $"[{alias}].[{Rds.IdColumn(tableName)}]=[{alias}_Items].[ReferenceId]",
+                            joinExpression: $"\"{alias}\".\"{Rds.IdColumn(tableName)}\"=\"{alias}_Items\".\"ReferenceId\"",
                             _as: alias + "_Items");
                     }
                     else
                     {
                         join.Add(
-                            tableName: "Items",
+                            tableName: "\"Items\"",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
-                            joinExpression: $"try_cast([{(left.Any() ? left.Join("-") : ReferenceType)}].[{name}] as bigint)=[{alias}_Items].[ReferenceId] and [{alias}_Items].[SiteId]={siteId}",
+                            joinExpression: $"{context.SqlCommandText.CreateTryCast(left.Any() ? left.Join("-") : ReferenceType, name, column.TypeName, "bigint")}=\"{alias}_Items\".\"ReferenceId\" and \"{alias}_Items\".\"SiteId\"={siteId}",
                             _as: alias + "_Items");
                         join.Add(new SqlJoin(
-                            tableBracket: "[" + tableName + "]",
+                            tableBracket: "\"" + tableName + "\"",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
-                            joinExpression: $"[{alias}_Items].[ReferenceId]=[{alias}].[{Rds.IdColumn(tableName)}]",
+                            joinExpression: $"\"{alias}_Items\".\"ReferenceId\"=\"{alias}\".\"{Rds.IdColumn(tableName)}\"",
                             _as: alias));
                     }
                     left.Add(part);
@@ -4242,7 +4247,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public Dictionary<string, ControlData> RelatingColumnSelectableOptions(
-            Context context,  int id, bool enabled = true)
+            Context context, int id, bool enabled = true)
         {
             return enabled
                 ? ColumnUtilities.SelectableOptions(
@@ -4271,12 +4276,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 return null;
             }
             var whereNullorEmpty = parentIds?.Contains(-1) == true
-                ? $"[{parentColumn.ColumnName}] is null or [{parentColumn.ColumnName}] = '' " : string.Empty;
+                ? $"\"{parentColumn.ColumnName}\" is null or \"{parentColumn.ColumnName}\" = '' " : string.Empty;
             var whereIn = parentIds.Where(n => n >= 0).Any()
-                ? $"try_cast([{parentColumn.ColumnName}] as bigint) in ({parentIds.Where(n => n >= 0).Join()})"
+                ? $"{context.SqlCommandText.CreateTryCast(referenceType, parentColumn.ColumnName, parentColumn.TypeName, "bigint")} in ({parentIds.Where(n => n >= 0).Join()})"
                 : string.Empty;
             var Or = (whereNullorEmpty == string.Empty || whereIn == string.Empty) ? string.Empty : " or ";
-            return $"select [{Rds.IdColumn(referenceType)}] from [{referenceType}] where " + whereNullorEmpty + Or + whereIn;
+            return $"select \"{Rds.IdColumn(referenceType)}\" from \"{referenceType}\" where " + whereNullorEmpty + Or + whereIn;
         }
 
         public void SetRelatingColumnsLinkedClass()

@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -48,16 +49,16 @@ namespace Implem.Libraries.DataSources.SqlServer
                 case Sqls.TableTypes.Deleted: tableBracket = DeletedTableBracket; break;
             }
             var updateColumnNameCollection = new List<string>();
-            if (AddUpdatorParam) updateColumnNameCollection.Add("[Updator] = @_U");
-            if (AddUpdatedTimeParam) updateColumnNameCollection.Add("[UpdatedTime] = getdate()");
+            if (AddUpdatorParam) updateColumnNameCollection.Add($"\"Updator\" = {Parameters.Parameter.SqlParameterPrefix}U");
+            if (AddUpdatedTimeParam) updateColumnNameCollection.Add("\"UpdatedTime\"=getdate()");
             var insertColumnNameCollection = new List<string>
             {
-                "[Creator]",
-                "[Updator]"
+                "\"Creator\"",
+                "\"Updator\""
             };
-            var valueCollection = new List<string> { "@_U", "@_U" };
+            var valueCollection = new List<string> { $"{Parameters.Parameter.SqlParameterPrefix}U", $"{Parameters.Parameter.SqlParameterPrefix}U" };
             SqlParamCollection
-                .Where(o => (o as SqlParam).Using)
+                .Where(o => o.Using)
                 .ForEach(sqlParam =>
                 {
                     insertColumnNameCollection.Add(sqlParam.ColumnBracket);
@@ -69,10 +70,10 @@ namespace Implem.Libraries.DataSources.SqlServer
                                 if (sqlParam.Updating)
                                 {
                                     updateColumnNameCollection.Add(
-                                        sqlParam.ColumnBracket + "=@_I");
+                                        sqlParam.ColumnBracket + $"={Parameters.Parameter.SqlParameterPrefix}I");
                                 }
                                 valueCollection.Add(
-                                    sqlParam.ColumnBracket + "@_I");
+                                    sqlParam.ColumnBracket + $"{Parameters.Parameter.SqlParameterPrefix}I");
                                 break;
                             default:
                                 if (sqlParam.Updating)

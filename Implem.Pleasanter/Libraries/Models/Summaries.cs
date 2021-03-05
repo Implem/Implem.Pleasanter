@@ -589,7 +589,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     {
                         case "Num":
                             return issuesColumn.Add(
-                                columnBracket: $"[{sourceColumn}]",
+                                columnBracket: $"\"{sourceColumn}\"",
                                 columnName: sourceColumn,
                                 _as: "Value",
                                 function: Sqls.Functions.Sum);
@@ -610,7 +610,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     {
                         case "Num":
                             return resultsColumn.Add(
-                                columnBracket: $"[{sourceColumn}]",
+                                columnBracket: $"\"{sourceColumn}\"",
                                 columnName: sourceColumn,
                                 _as: "Value",
                                 function: Sqls.Functions.Sum);
@@ -669,7 +669,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     {
                         case "Num":
                             return issuesColumn.Add(
-                                columnBracket: $"[{sourceColumn}]",
+                                columnBracket: $"\"{sourceColumn}\"",
                                 columnName: sourceColumn,
                                 _as: "Value",
                                 function: Sqls.Functions.Avg);
@@ -690,7 +690,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     {
                         case "Num":
                             return resultsColumn.Add(
-                                columnBracket: $"[{sourceColumn}]",
+                                columnBracket: $"\"{sourceColumn}\"",
                                 columnName: sourceColumn,
                                 _as: "Value",
                                 function: Sqls.Functions.Avg);
@@ -749,7 +749,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     {
                         case "Num":
                             return issuesColumn.Add(
-                                columnBracket: $"[{sourceColumn}]",
+                                columnBracket: $"\"{sourceColumn}\"",
                                 columnName: sourceColumn,
                                 _as: "Value",
                                 function: Sqls.Functions.Min);
@@ -770,7 +770,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     {
                         case "Num":
                             return resultsColumn.Add(
-                                columnBracket: $"[{sourceColumn}]",
+                                columnBracket: $"\"{sourceColumn}\"",
                                 columnName: sourceColumn,
                                 _as: "Value",
                                 function: Sqls.Functions.Min);
@@ -829,7 +829,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     {
                         case "Num":
                             return issuesColumn.Add(
-                                columnBracket: $"[{sourceColumn}]",
+                                columnBracket: $"\"{sourceColumn}\"",
                                 columnName: sourceColumn,
                                 _as: "Value",
                                 function: Sqls.Functions.Max);
@@ -850,7 +850,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     {
                         case "Num":
                             return resultsColumn.Add(
-                                columnBracket: $"[{sourceColumn}]",
+                                columnBracket: $"\"{sourceColumn}\"",
                                 columnName: sourceColumn,
                                 _as: "Value",
                                 function: Sqls.Functions.Max);
@@ -867,7 +867,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 ? Rds.IssuesWhere()
                     .SiteId(value: sourceSiteId)
                     .Add(
-                        columnBrackets: new string[] { $"[{linkColumn}]" },
+                        columnBrackets: new string[] { $"\"{linkColumn}\"" },
                         raw: "({0})".Params(destinations
                             .Select(o => "'" + o + "'")
                             .Join(",")),
@@ -882,7 +882,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 ? Rds.ResultsWhere()
                     .SiteId(value: sourceSiteId)
                     .Add(
-                        columnBrackets: new string[] { $"[{linkColumn}]" },
+                        columnBrackets: new string[] { $"\"{linkColumn}\"" },
                         raw: "({0})".Params(destinations
                             .Select(o => "'" + o + "'")
                             .Join(",")),

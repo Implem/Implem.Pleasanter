@@ -46,9 +46,9 @@ namespace Implem.Libraries.DataSources.SqlServer
                 if (!sqlFrom.As.IsNullOrEmpty())
                 {
                     commandText.Append(
-                        "as [",
+                        "as \"",
                         sqlFrom.As,
-                        "] ");
+                        "\" ");
                 }
                 if (sqlFrom.JoinExpression != null)
                 {

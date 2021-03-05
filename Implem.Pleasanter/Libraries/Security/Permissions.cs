@@ -99,7 +99,7 @@ namespace Implem.Pleasanter.Libraries.Security
                             .Permissions_PermissionType(),
                         join: Rds.SitesJoinDefault()
                             .Add(new SqlJoin(
-                                tableBracket: "[Permissions]",
+                                tableBracket: "\"Permissions\"",
                                 joinType: SqlJoin.JoinTypes.Inner,
                                 joinExpression: "[Permissions].[ReferenceId]=[Sites].[InheritPermission]")),
                         where: Rds.SitesWhere()
@@ -138,7 +138,7 @@ namespace Implem.Pleasanter.Libraries.Security
                     {
                         where.Add(
                             tableName: ss.ReferenceType,
-                            raw: $"[{ss.ReferenceType}].[SiteId]={ss.SiteId}");
+                            raw: $"\"{ss.ReferenceType}\".\"SiteId\"={ss.SiteId}");
                         if (!context.CanRead(ss: ss, site: true) && checkPermission)
                         {
                             where.CheckRecordPermission(ss);
@@ -165,18 +165,18 @@ namespace Implem.Pleasanter.Libraries.Security
                         {
                             where.Add(
                                 tableName: ss.ReferenceType,
-                                raw: $"[{ss.ReferenceType}].[SiteId] in ({ss.AllowedIntegratedSites.Join()})");
+                                raw: $"\"{ss.ReferenceType}\".\"SiteId\" in ({ss.AllowedIntegratedSites.Join()})");
                         }
                         else
                         {
                             where.Add(or: new SqlWhereCollection()
                                 .Add(
                                     tableName: ss.ReferenceType,
-                                    raw: $"[{ss.ReferenceType}].[SiteId] in ({ss.AllowedIntegratedSites.Join()})")
+                                    raw: $"\"{ss.ReferenceType}\".\"SiteId\" in ({ss.AllowedIntegratedSites.Join()})")
                                 .Add(and: new SqlWhereCollection()
                                     .Add(
                                         tableName: ss.ReferenceType,
-                                        raw: $"[{ss.ReferenceType}].[SiteId] in ({denySites.Join()})")
+                                        raw: $"\"{ss.ReferenceType}\".\"SiteId\" in ({denySites.Join()})")
                                     .CheckRecordPermission(ss, ss.IntegratedSites)));
                         }
                     }
@@ -188,8 +188,8 @@ namespace Implem.Pleasanter.Libraries.Security
         public static SqlWhereCollection SiteUserWhere(
             this Rds.UsersWhereCollection where, long siteId)
         {
-            var deptRaw = "[Users].[DeptId] and [Users].[DeptId]>0";
-            var userRaw = "[Users].[UserId] and [Users].[UserId]>0";
+            var deptRaw = "\"Users\".\"DeptId\" and \"Users\".\"DeptId\">0";
+            var userRaw = "\"Users\".\"UserId\" and \"Users\".\"UserId\">0";
             return where.Add(
                 subLeft: Rds.SelectPermissions(
                     column: Rds.PermissionsColumn()
@@ -203,11 +203,11 @@ namespace Implem.Pleasanter.Libraries.Security
                                     column: Rds.GroupMembersColumn()
                                         .GroupMembersCount(),
                                     where: Rds.GroupMembersWhere()
-                                        .GroupId(raw: "[Permissions].[GroupId]")
+                                        .GroupId(raw: "\"Permissions\".\"GroupId\"")
                                         .Add(or: Rds.GroupMembersWhere()
                                             .DeptId(raw: deptRaw)
                                             .UserId(raw: userRaw))
-                                        .Add(raw: "[Permissions].[GroupId]>0")),
+                                        .Add(raw: "\"Permissions\".\"GroupId\">0")),
                                 _operator: ">0")
                             .UserId(raw: userRaw)
                             .UserId(-1))),
@@ -253,7 +253,7 @@ namespace Implem.Pleasanter.Libraries.Security
                         sub: Rds.SelectItems(
                         column: Rds.ItemsColumn().ReferenceId(),
                             where: Rds.ItemsWhere()
-                                .ReferenceId(raw: "[Permissions].[ReferenceId]")
+                                .ReferenceId(raw: "\"Permissions\".\"ReferenceId\"")
                                 .SiteId_In(siteIdList)),
                         _using: siteIdList?.Any() == true)
                     .PermissionType(_operator: " & 1 = 1")
@@ -272,7 +272,7 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static string DeptOrUser(string tableName)
         {
-            return "((@_D<>0 and [{0}].[DeptId]=@_D)or(@_U<>0 and [{0}].[UserId]=@_U)or([{0}].[UserId]=-1))"
+            return $"(({Parameters.Parameter.SqlParameterPrefix}D<>0 and \"{{0}}\".\"DeptId\"={Parameters.Parameter.SqlParameterPrefix}D)or({Parameters.Parameter.SqlParameterPrefix}U<>0 and \"{{0}}\".\"UserId\"={Parameters.Parameter.SqlParameterPrefix}U)or(\"{{0}}\".\"UserId\"=-1))"
                 .Params(tableName);
         }
 

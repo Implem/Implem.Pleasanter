@@ -56,7 +56,8 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         .DeptId(0)
                         .FirstAndLastNameOrder(1)
                         .PasswordExpirationTime(
-                            passwordExpirationTime?.ToString(),
+                        context.Sqls.DateTimeValue(
+                            value: passwordExpirationTime?.ToString()),
                             _using: passwordExpirationTime != null)
                         .TenantManager(tenantManager)));
         }

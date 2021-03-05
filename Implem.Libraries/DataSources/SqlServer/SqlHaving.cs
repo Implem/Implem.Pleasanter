@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -52,7 +53,11 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             if (Sub != null)
             {
-                return Sql_Sub(sqlContainer, sqlCommand, tableBracket, commandCount);
+                return Sql_Sub(
+                    sqlContainer: sqlContainer,
+                    sqlCommand: sqlCommand,
+                    tableBracket: tableBracket,
+                    commandCount: commandCount);
             }
             else if (!Raw.IsNullOrEmpty())
             {
@@ -60,7 +65,10 @@ namespace Implem.Libraries.DataSources.SqlServer
             }
             else if (Or != null)
             {
-                return Sql_Or(sqlContainer, sqlCommand, commandCount);
+                return Sql_Or(
+                    sqlContainer: sqlContainer,
+                    sqlCommand: sqlCommand,
+                    commandCount: commandCount);
             }
             else
             {
@@ -148,7 +156,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             switch (Raw)
             {
                 case "@@identity":
-                    return Operator + "@_I";
+                    return Operator + $"{Parameters.Parameter.SqlParameterPrefix}I";
                 default:
                     return Operator + Raw.Replace("#CommandCount#", commandCount.ToString());
             }

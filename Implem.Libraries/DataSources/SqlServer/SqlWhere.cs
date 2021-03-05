@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -286,7 +287,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             switch (Raw)
             {
                 case "@@identity":
-                    return Operator + "@_I";
+                    return Operator + $"{Parameters.Parameter.SqlParameterPrefix}I";
                 default:
                     return Operator + Raw
                         .Replace("#TableBracket#", tableBracket)

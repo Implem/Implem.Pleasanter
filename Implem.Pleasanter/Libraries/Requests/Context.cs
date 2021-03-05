@@ -86,6 +86,8 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string RequestDataString { get => ApiRequestBody ?? FormString; }
         public string ContentType;
         public long ServerScriptDepth = 0;
+        public SqlServerSqls Sqls = new SqlServerSqls();
+        public SqlServerCommandText SqlCommandText = new SqlServerCommandText();
 
         public Context(
             bool request = true,
@@ -130,6 +132,14 @@ namespace Implem.Pleasanter.Libraries.Requests
         {
             Set();
             SetPostedFiles(files: files);
+        }
+
+        public Context CreateContext(int tenantId, int deptId, int userId)
+        {
+            return new Context(
+                tenantId: tenantId,
+                deptId: deptId,
+                userId: userId);
         }
 
         public void Set(

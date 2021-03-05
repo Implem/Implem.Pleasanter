@@ -257,9 +257,9 @@ namespace Implem.Pleasanter.Models
                         .SourceId()
                         .DestinationId(),
                     join: new SqlJoinCollection(new SqlJoin(
-                        tableBracket: "[Sites]",
+                        tableBracket: "\"Sites\"",
                         joinType: SqlJoin.JoinTypes.Inner,
-                        joinExpression: "[Links].[DestinationId]=[Sites].[SiteId]")),
+                        joinExpression: "\"Links\".\"DestinationId\"=\"Sites\".\"SiteId\"")),
                     where: Rds.LinksWhere()
                         .DestinationId_In(ids)
                         .Sites_TenantId(context.TenantId)
@@ -3165,9 +3165,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 join: Rds.ItemsJoin().Add(
                     new SqlJoin(
-                        "[Sites]",
+                        "\"Sites\"",
                         SqlJoin.JoinTypes.Inner,
-                        "[Sites].[SiteId] = [Items].[SiteId] and [Sites].[TenantId] = @_T")));
+                        $"\"Sites\".\"SiteId\" = \"Items\".\"SiteId\" and \"Sites\".\"TenantId\" = {Parameters.Parameter.SqlParameterPrefix}T")));
             OnConstructed(context: context);
         }
     }

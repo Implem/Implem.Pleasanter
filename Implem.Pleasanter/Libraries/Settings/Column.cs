@@ -632,18 +632,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                     column: Rds.ItemsColumn().Title(),
                     join: new SqlJoinCollection(
                         new SqlJoin(
-                            tableBracket: "[Sites]",
+                            tableBracket: "\"Sites\"",
                             joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
+                            joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
                     where: Rds.ItemsWhere()
                         .SiteId_In(SiteSettings.Links
                             .Where(o => o.ColumnName == ColumnName)
                             .Select(o => o.SiteId)
                             .ToList())
-                        .ReferenceId(selectedValue)
+                        .ReferenceId(selectedValue.ToLong())
                         .CanRead(
                             context: context,
-                            idColumnBracket: "[Items].[ReferenceId]")));
+                            idColumnBracket: "\"Items\".\"ReferenceId\"")));
         }
 
         public List<string> ChoiceParts(
@@ -905,7 +905,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ? ColumnName
                     : null);
             sql.Add(
-                columnBracket: "[UpdatedTime]",
+                columnBracket: "\"UpdatedTime\"",
                 tableName: Joined
                     ? TableAlias
                     : tableName,
@@ -1053,7 +1053,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 case "Check":
                                 case "Attachments":
                                     sql.Add(
-                                        columnBracket: $"[{columnName}]",
+                                        columnBracket: $"\"{columnName}\"",
                                         tableName: path,
                                         columnName: columnName,
                                         _as: _as);
@@ -1105,7 +1105,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 case "Check":
                                 case "Attachments":
                                     sql.Add(
-                                        columnBracket: $"[{columnName}]",
+                                        columnBracket: $"\"{columnName}\"",
                                         tableName: path,
                                         columnName: columnName,
                                         _as: _as);
@@ -1187,7 +1187,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 case "Check":
                                 case "Attachments":
                                     sql.Add(
-                                        columnBracket: $"[{columnName}]",
+                                        columnBracket: $"\"{columnName}\"",
                                         tableName: path,
                                         columnName: columnName,
                                         _as: _as);
@@ -1335,7 +1335,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 case "Check":
                                 case "Attachments":
                                     sql.Add(
-                                        columnBracket: $"[{columnName}]",
+                                        columnBracket: $"\"{columnName}\"",
                                         tableName: path,
                                         columnName: columnName,
                                         _as: _as);
@@ -1431,7 +1431,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 case "Check":
                                 case "Attachments":
                                     sql.Add(
-                                        columnBracket: $"[{columnName}]",
+                                        columnBracket: $"\"{columnName}\"",
                                         tableName: path,
                                         columnName: columnName,
                                         _as: _as);
@@ -1524,7 +1524,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 case "Check":
                                 case "Attachments":
                                     sql.Add(
-                                        columnBracket: $"[{columnName}]",
+                                        columnBracket: $"\"{columnName}\"",
                                         tableName: path,
                                         columnName: columnName,
                                         _as: _as);
@@ -1602,7 +1602,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 case "Check":
                                 case "Attachments":
                                     sql.Add(
-                                        columnBracket: $"[{columnName}]",
+                                        columnBracket: $"\"{columnName}\"",
                                         tableName: path,
                                         columnName: columnName,
                                         _as: _as);

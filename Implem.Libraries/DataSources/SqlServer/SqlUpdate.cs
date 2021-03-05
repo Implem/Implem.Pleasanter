@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -52,11 +53,11 @@ namespace Implem.Libraries.DataSources.SqlServer
                 case Sqls.TableTypes.Deleted: tableBracket = DeletedTableBracket; break;
             }
             var columnNameCollection = new List<string>();
-            if (AddUpdatorParam) columnNameCollection.Add("[Updator] = @_U");
-            if (AddUpdatedTimeParam) columnNameCollection.Add("[UpdatedTime] = getdate()");
+            if (AddUpdatorParam) columnNameCollection.Add($"\"Updator\" = {Parameters.Parameter.SqlParameterPrefix}U");
+            if (AddUpdatedTimeParam) columnNameCollection.Add("\"UpdatedTime\"=getdate()");
             SqlParamCollection?
-                .Where(o => (o as SqlParam).Using)
-                .Where(o => (o as SqlParam).Updating)
+                .Where(o => o.Using)
+                .Where(o => o.Updating)
                 .ForEach(sqlParam =>
                 {
                     if (!sqlParam.Raw.IsNullOrEmpty())
@@ -65,7 +66,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                         {
                             case "@@identity":
                                 columnNameCollection.Add(
-                                    sqlParam.ColumnBracket + "=@_I");
+                                    sqlParam.ColumnBracket + $"={Parameters.Parameter.SqlParameterPrefix}I");
                                 break;
                             default:
                                 columnNameCollection.Add(
@@ -91,13 +92,6 @@ namespace Implem.Libraries.DataSources.SqlServer
                 });
             commandText.Append("update ", tableBracket,
                 " set ", columnNameCollection.Join(), " ");
-        }
-
-        private void Build_CopyToHistoryStatement(
-            StringBuilder commandText, string commandText_MoveToHistory, int? commandCount)
-        {
-            commandText.Append(commandText_MoveToHistory
-                .Replace("[[CommandCount]]", commandCount.ToString()));
         }
     }
 }

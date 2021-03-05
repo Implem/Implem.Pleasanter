@@ -218,7 +218,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
         {
             return !columnDefinition.ComputeColumn.IsNullOrEmpty()
                 ? columnDefinition.ComputeColumn
-                : "[" + columnDefinition.ColumnName + "]";
+                : "\\\"" + columnDefinition.ColumnName + "\\\"";
         }
 
         private static string ComputeColumn(

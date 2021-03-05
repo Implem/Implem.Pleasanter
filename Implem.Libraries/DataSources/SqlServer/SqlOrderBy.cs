@@ -36,7 +36,6 @@ namespace Implem.Libraries.DataSources.SqlServer
             string tableBracket,
             Sqls.TableTypes tableType)
         {
-
             var orderType = " " + OrderType.ToString().ToLower();
             if (Sub != null)
             {
@@ -69,7 +68,10 @@ namespace Implem.Libraries.DataSources.SqlServer
             }
         }
 
-        private string Sql_Sub(SqlContainer sqlContainer, SqlCommand sqlCommand, string orderType)
+        private string Sql_Sub(
+            SqlContainer sqlContainer,
+            SqlCommand sqlCommand,
+            string orderType)
         {
             return "(" + Sub.GetCommandText(
                 sqlContainer: sqlContainer,

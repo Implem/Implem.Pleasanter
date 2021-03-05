@@ -27,7 +27,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 select: true);
             commandText.Append(")");
             AddTermination(commandText);
-            AddParams_Where(sqlCommand, commandCount);
+            AddParams_Where(sqlCommand: sqlCommand, commandCount: commandCount);
             switch (TableType)
             {
                 case Sqls.TableTypes.History:

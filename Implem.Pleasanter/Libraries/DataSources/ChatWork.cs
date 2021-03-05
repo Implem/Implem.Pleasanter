@@ -25,10 +25,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             Task.Run(() =>
             {
-                var postDataBytes = Encoding.ASCII.GetBytes("body=" + Uri.EscapeDataString(text));
+                var postDataBytes = Encoding.UTF8.GetBytes("body=" + Uri.EscapeDataString(text));
                 var req = WebRequest.Create(url);
                 req.Method = "POST";
-                req.ContentType = "application/x-www-form-urlencoded";
+                req.ContentType = "application/x-www-form-urlencoded;charset=UTF-8";
                 req.ContentLength = postDataBytes.Length;
                 req.Headers.Add($"X-ChatWorkToken: {token}");
                 using (var reqStream = req.GetRequestStream())
@@ -36,6 +36,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     try
                     {
                         reqStream.Write(postDataBytes, 0, postDataBytes.Length);
+                        req.GetResponse();
                     }
                     catch(Exception e)
                     {

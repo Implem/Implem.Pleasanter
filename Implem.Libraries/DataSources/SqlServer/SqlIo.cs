@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -37,9 +38,15 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         private void SetCommandUserParams()
         {
-            SqlCommand.Parameters.AddWithValue("_T", SqlContainer.RdsUser.TenantId);
-            SqlCommand.Parameters.AddWithValue("_D", SqlContainer.RdsUser.DeptId);
-            SqlCommand.Parameters.AddWithValue("_U", SqlContainer.RdsUser.UserId);
+            SqlCommand.Parameters.AddWithValue(
+                parameterName: $"{Parameters.Parameter.SqlParameterPrefix}T",
+                value: SqlContainer.RdsUser.TenantId);
+            SqlCommand.Parameters.AddWithValue(
+                parameterName: $"{Parameters.Parameter.SqlParameterPrefix}D",
+                value: SqlContainer.RdsUser.DeptId);
+            SqlCommand.Parameters.AddWithValue(
+                parameterName: $"{Parameters.Parameter.SqlParameterPrefix}U",
+                value: SqlContainer.RdsUser.UserId);
         }
 
         private void SetCommandText()

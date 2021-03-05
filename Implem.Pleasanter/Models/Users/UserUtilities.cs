@@ -2761,6 +2761,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 updateMailAddresses: false,
+                                refleshSiteInfo: false,
                                 get: false);
                             switch (errorData.Type)
                             {
@@ -2793,6 +2794,9 @@ namespace Implem.Pleasanter.Models
                         insertCount++;
                     }
                 }
+                SiteInfo.Reflesh(
+                    context: context,
+                    force: true);
                 return GridRows(
                     context: context,
                     ss: ss,
@@ -3823,7 +3827,7 @@ namespace Implem.Pleasanter.Models
                 where: view.Where(context: context, ss: ss)
                 .Users_TenantId(context.TenantId)
                 .SqlWhereLike(
-                    tableName: "Users",
+                    tableName: "\"Users\"",
                     name: "SearchText",
                     searchText: view.ColumnFilterHash
                         ?.Where(f => f.Key == "SearchText")

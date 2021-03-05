@@ -40,7 +40,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Body = body;
         }
 
-        public void Send(Context context)
+        public void SendAsync(Context context)
         {
             Task.Run(() =>
             {

@@ -553,7 +553,7 @@ namespace Implem.Pleasanter.Models
             context.PostedFiles.ForEach(file => attachments.Add(new Attachment()
             {
                 Guid = file.Guid,
-                Name = file.FileName.Split('\\').Last(),
+                Name = file.FileName.Split(System.IO.Path.DirectorySeparatorChar).Last(),
                 Size = file.Size,
                 Extention = file.Extension,
                 ContentType = file.ContentType,
