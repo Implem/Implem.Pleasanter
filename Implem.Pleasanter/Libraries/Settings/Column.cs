@@ -602,7 +602,8 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Choice LinkedTitleChoice(Context context, string selectedValue, string nullCase = null)
         {
-            if (selectedValue != null)
+            var referenceId = selectedValue.ToLong();
+            if (referenceId > 0)
             {
                 if (Linked())
                 {
@@ -610,9 +611,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         return LinkedTitleHash[selectedValue];
                     }
-                    var choice = new Choice(LinkedTitle(
-                        context: context,
-                        selectedValue: selectedValue), raw: true);
+                    var choice = new Choice(
+                        choice: LinkedTitle(
+                            context: context,
+                            referenceId: referenceId),
+                        raw: true);
                     LinkedTitleHash.AddIfNotConainsKey(selectedValue, choice);
                     return LinkedTitleHash[selectedValue];
                 }
@@ -624,7 +627,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return new Choice(nullCase, raw: true);
         }
 
-        private string LinkedTitle(Context context, string selectedValue)
+        private string LinkedTitle(Context context, long referenceId)
         {
             return Repository.ExecuteScalar_string(
                 context: context,
@@ -640,7 +643,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             .Where(o => o.ColumnName == ColumnName)
                             .Select(o => o.SiteId)
                             .ToList())
-                        .ReferenceId(selectedValue.ToLong())
+                        .ReferenceId(referenceId)
                         .CanRead(
                             context: context,
                             idColumnBracket: "\"Items\".\"ReferenceId\"")));
