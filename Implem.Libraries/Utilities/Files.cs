@@ -204,6 +204,10 @@ namespace Implem.Libraries.Utilities
             {
                 return;
             }
+            if (!Directory.Exists(sourcePath))
+            {
+                return;
+            }
             if (!Directory.Exists(destinationPath))
             {
                 Directory.CreateDirectory(destinationPath);
