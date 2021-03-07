@@ -180,6 +180,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public Dictionary<string, Choice> ChoiceHash;
         [NonSerialized]
+        public Dictionary<string, Choice> LinkedTitleHash = new Dictionary<string, Choice>();
+        [NonSerialized]
         public Dictionary<string, string> ChoiceValueHash;
         [NonSerialized]
         public bool CanCreate = true;
@@ -596,6 +598,55 @@ namespace Implem.Pleasanter.Libraries.Settings
                 && ChoiceHash.ContainsKey(selectedValue)
                     ? ChoiceHash[selectedValue]
                     : new Choice(nullCase, raw: true);
+        }
+
+        public Choice LinkedTitleChoice(Context context, string selectedValue, string nullCase = null)
+        {
+            var referenceId = selectedValue.ToLong();
+            if (referenceId > 0)
+            {
+                if (Linked())
+                {
+                    if (LinkedTitleHash.ContainsKey(selectedValue))
+                    {
+                        return LinkedTitleHash[selectedValue];
+                    }
+                    var choice = new Choice(
+                        choice: LinkedTitle(
+                            context: context,
+                            referenceId: referenceId),
+                        raw: true);
+                    LinkedTitleHash.AddIfNotConainsKey(selectedValue, choice);
+                    return LinkedTitleHash[selectedValue];
+                }
+                else if (ChoiceHash?.ContainsKey(selectedValue) == true)
+                {
+                    return ChoiceHash[selectedValue];
+                }
+            }
+            return new Choice(nullCase, raw: true);
+        }
+
+        private string LinkedTitle(Context context, long referenceId)
+        {
+            return Repository.ExecuteScalar_string(
+                context: context,
+                statements: Rds.SelectItems(
+                    column: Rds.ItemsColumn().Title(),
+                    join: new SqlJoinCollection(
+                        new SqlJoin(
+                            tableBracket: "\"Sites\"",
+                            joinType: SqlJoin.JoinTypes.Inner,
+                            joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
+                    where: Rds.ItemsWhere()
+                        .SiteId_In(SiteSettings.Links
+                            .Where(o => o.ColumnName == ColumnName)
+                            .Select(o => o.SiteId)
+                            .ToList())
+                        .ReferenceId(referenceId)
+                        .CanRead(
+                            context: context,
+                            idColumnBracket: "\"Items\".\"ReferenceId\"")));
         }
 
         public List<string> ChoiceParts(

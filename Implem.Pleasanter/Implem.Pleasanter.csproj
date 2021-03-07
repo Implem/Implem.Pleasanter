@@ -5,8 +5,8 @@
     <Copyright>Copyright © Implem Inc 2014 - 2019</Copyright>
     <Description>Business application platform</Description>
     <AssemblyName>Implem.Pleasanter</AssemblyName>
-    <AssemblyVersion>1.1.14.0</AssemblyVersion>
-    <FileVersion>1.1.14.0</FileVersion>
+    <AssemblyVersion>1.1.15.0</AssemblyVersion>
+    <FileVersion>1.1.15.0</FileVersion>
     <LangVersion>7.2</LangVersion>
   </PropertyGroup>
 
@@ -82,6 +82,9 @@
 
   <ItemGroup>
     <None Update="App_Data\Parameters\ExtendedHtmls\Sample.html.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Parameters\ExtendedServerScripts\Sample.json.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

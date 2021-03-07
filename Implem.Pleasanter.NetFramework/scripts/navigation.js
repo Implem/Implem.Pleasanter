@@ -32,6 +32,12 @@ $p.setCurrentIndex = function () {
 $p.back = function () {
     var $control = $('#BackUrl');
     if ($control.length === 1) {
-        location.href = $control.val();
+        try {
+            location.href = $control.val();
+        } catch (e) {
+            if (e.number !== -2147467259) {
+                throw e;
+            }
+        }
     }
 }

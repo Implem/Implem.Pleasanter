@@ -10,7 +10,7 @@ namespace Implem.Pleasanter.NetFramework.Controllers
         public string Edit(string reference, long id)
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.OutgoingMailsController();
+            var controller = new Pleasanter.Controllers.OutgoingMailsController();
             var json = controller.Edit(context: context, reference: reference, id: id);
             return json;
         }
@@ -19,7 +19,7 @@ namespace Implem.Pleasanter.NetFramework.Controllers
         public string Reply(string reference, long id)
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.OutgoingMailsController();
+            var controller = new Pleasanter.Controllers.OutgoingMailsController();
             var json = controller.Reply(context: context, reference: reference, id: id);
             return json;
         }
@@ -28,7 +28,7 @@ namespace Implem.Pleasanter.NetFramework.Controllers
         public string GetDestinations(string reference, long id)
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.OutgoingMailsController();
+            var controller = new Pleasanter.Controllers.OutgoingMailsController();
             var json = controller.GetDestinations(context: context, reference: reference, id: id);
             return json;
         }
@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.NetFramework.Controllers
         public string Send(string reference, long id)
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.OutgoingMailsController();
+            var controller = new Pleasanter.Controllers.OutgoingMailsController();
             var json = controller.Send(context: context, reference: reference, id: id);
             return json;
         }

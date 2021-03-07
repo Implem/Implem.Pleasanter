@@ -1911,17 +1911,20 @@ namespace Implem.Pleasanter.Models
                     return IssueUtilities.Update(
                         context: context,
                         ss: Site.SiteSettings,
-                        issueId: ReferenceId);
+                        issueId: ReferenceId,
+                        previousTitle: Title);
                 case "Results":
                     return ResultUtilities.Update(
                         context: context,
                         ss: Site.SiteSettings,
-                        resultId: ReferenceId);
+                        resultId: ReferenceId,
+                        previousTitle: Title);
                 case "Wikis":
                     return WikiUtilities.Update(
                         context: context,
                         ss: Site.SiteSettings,
-                        wikiId: ReferenceId);
+                        wikiId: ReferenceId,
+                        previousTitle: Title);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
@@ -2027,12 +2030,14 @@ namespace Implem.Pleasanter.Models
                     return IssueUtilities.UpdateByApi(
                         context: context,
                         ss: Site.SiteSettings,
-                        issueId: ReferenceId);
+                        issueId: ReferenceId,
+                        previousTitle: Title);
                 case "Results":
                     return ResultUtilities.UpdateByApi(
                         context: context,
                         ss: Site.SiteSettings,
-                        resultId: ReferenceId);
+                        resultId: ReferenceId,
+                        previousTitle: Title);
                 default:
                     return ApiResults.Get(ApiResponses.NotFound(context: context));
             }
@@ -2068,16 +2073,17 @@ namespace Implem.Pleasanter.Models
                     return IssueUtilities.UpdateByServerScript(
                         context: apiContext,
                         ss: issueSs,
-                        issueId: ReferenceId);
+                        issueId: ReferenceId,
+                        previousTitle: Title);
                 case "Results":
-                    var resultSs = Site.IssuesSiteSettings(
+                    var resultSs = Site.ResultsSiteSettings(
                         context: apiContext,
                         referenceId: ReferenceId);
-                    if (model is string resultRequestString)
+                    if(model is string resultRequestString)
                     {
                         apiContext.ApiRequestBody = resultRequestString;
                     }
-                    else if (model is ServerScriptModelApiModel resultApiModel)
+                    else if(model is ServerScriptModelApiModel resultApiModel)
                     {
                         apiContext.ApiRequestBody = resultApiModel.ToJsonString(
                             context: apiContext,
@@ -2090,7 +2096,8 @@ namespace Implem.Pleasanter.Models
                     return ResultUtilities.UpdateByServerScript(
                         context: apiContext,
                         ss: resultSs,
-                        resultId: ReferenceId);
+                        resultId: ReferenceId,
+                        previousTitle: Title);
                 default:
                     return false;
             }
@@ -2112,17 +2119,20 @@ namespace Implem.Pleasanter.Models
                     return IssueUtilities.Update(
                         context: context,
                         ss: Site.SiteSettings,
-                        issueId: ReferenceId);
+                        issueId: ReferenceId,
+                        previousTitle: Title);
                 case "Results":
                     return ResultUtilities.Update(
                         context: context,
                         ss: Site.SiteSettings,
-                        resultId: ReferenceId);
+                        resultId: ReferenceId,
+                        previousTitle: Title);
                 case "Wikis":
                     return WikiUtilities.Update(
                         context: context,
                         ss: Site.SiteSettings,
-                        wikiId: ReferenceId);
+                        wikiId: ReferenceId,
+                        previousTitle: Title);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
@@ -2324,8 +2334,7 @@ namespace Implem.Pleasanter.Models
             SetSite(
                 context: context,
                 initSiteSettings: true,
-                setSiteIntegration: true,
-                tableType: Sqls.TableTypes.Deleted);
+                setSiteIntegration: true);
             if (!Site.WithinApiLimits())
             {
                 return ApiResults.Get(ApiResponses.OverLimitApi(

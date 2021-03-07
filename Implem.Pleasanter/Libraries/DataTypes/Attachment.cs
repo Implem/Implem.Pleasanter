@@ -70,7 +70,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     "Attachments",
                     Guid));
             }
-            else if (Deleted == true)
+            else if (Deleted == true && !Parameters.BinaryStorage.RestoreLocalFiles)
             {
                 Files.DeleteFile(Path.Combine(
                     Directories.BinaryStorage(),

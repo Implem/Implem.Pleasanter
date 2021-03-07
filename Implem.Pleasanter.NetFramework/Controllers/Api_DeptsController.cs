@@ -9,7 +9,7 @@ namespace Implem.Pleasanter.NetFramework.Controllers
         public ContentResult Get()
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.Api_DeptsController();
+            var controller = new Pleasanter.Controllers.Api_DeptsController();
             var result = controller.Get(context: context);
             return result;
         }

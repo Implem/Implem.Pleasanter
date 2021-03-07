@@ -1324,35 +1324,44 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             else if (!value.IsNullOrEmpty())
             {
-                switch (column.SearchType)
+                if (value == " " || value == "　")
                 {
-                    case Column.SearchTypes.ExactMatch:
-                        var param = value.ToSingleList();
-                        if (param?.Any() == true)
-                        {
-                            CreateCsStringSqlWhereCollection(
+                    where.Add(CsStringColumnsWhereNull(
+                        column: column,
+                        param: "\t".ToSingleList()));
+                }
+                else
+                {
+                    switch (column.SearchType)
+                    {
+                        case Column.SearchTypes.ExactMatch:
+                            var param = value.ToSingleList();
+                            if (param?.Any() == true)
+                            {
+                                CreateCsStringSqlWhereCollection(
+                                    context: context,
+                                    column: column,
+                                    where: where,
+                                    param: param);
+                            }
+                            break;
+                        case Column.SearchTypes.ForwardMatch:
+                            CreateCsStringSqlWhereLike(
                                 context: context,
                                 column: column,
+                                value: value,
                                 where: where,
-                                param: param);
-                        }
-                        break;
-                    case Column.SearchTypes.ForwardMatch:
-                        CreateCsStringSqlWhereLike(
-                            context: context,
-                            column: column,
-                            value: value,
-                            where: where,
-                            query: "(\"{0}\".\"{1}\"" + context.Sqls.Like + "@{3}{4}");
-                        break;
-                    default:
-                        CreateCsStringSqlWhereLike(
-                            context: context,
-                            column: column,
-                            value: value,
-                            where: where,
-                            query: "(\"{0}\".\"{1}\"" + context.Sqls.Like + "{2}@{3}{4}");
-                        break;
+                                query: "(\"{0}\".\"{1}\"" + context.Sqls.Like + "@{3}{4}");
+                            break;
+                        default:
+                            CreateCsStringSqlWhereLike(
+                                context: context,
+                                column: column,
+                                value: value,
+                                where: where,
+                                query: "(\"{0}\".\"{1}\"" + context.Sqls.Like + "{2}@{3}{4}");
+                            break;
+                    }
                 }
             }
         }

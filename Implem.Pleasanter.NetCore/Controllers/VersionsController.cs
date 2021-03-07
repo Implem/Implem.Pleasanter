@@ -9,7 +9,7 @@ namespace Implem.Pleasanter.NetCore.Controllers
         public ActionResult Index()
         {
             var context = new ContextImplement();
-            var controller = new Implem.Pleasanter.Controllers.VersionsController();
+            var controller = new Pleasanter.Controllers.VersionsController();
             var html = controller.Index(context: context);
             ViewBag.HtmlBody = html;
             return View();
