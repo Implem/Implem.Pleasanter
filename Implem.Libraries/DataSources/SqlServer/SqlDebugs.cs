@@ -55,7 +55,8 @@ namespace Implem.Libraries.DataSources.SqlServer
             {
                 commandParameters.Append(
                     "{0, -50}".Params(DeclareParameterText(parameter)),
-                    "set @", parameter.ParameterName,
+                    "set @",
+                    GetParameterName(parameter),
                     " = '",
                     parameter.Value.ToStr(),
                     "';\r\n");
@@ -67,12 +68,19 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             return parameter.Size == 0
                 ? "declare @{0} {1}; ".Params(
-                    parameter.ParameterName,
+                    GetParameterName(parameter),
                     parameter.SqlDbType.ToString().ToLower())
                 : "declare @{0} {1}({2}); ".Params(
-                    parameter.ParameterName,
+                    GetParameterName(parameter),
                     parameter.SqlDbType.ToString().ToLower(),
                     parameter.Size);
+        }
+
+        private static string GetParameterName(SqlParameter parameter)
+        {
+            return parameter.ParameterName.StartsWith("@")
+                ? parameter.ParameterName.Substring(2)
+                : parameter.ParameterName;
         }
 
         private static string[] NewLineDelimiters()

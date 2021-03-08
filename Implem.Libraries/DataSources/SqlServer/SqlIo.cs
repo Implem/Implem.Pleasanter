@@ -39,13 +39,13 @@ namespace Implem.Libraries.DataSources.SqlServer
         private void SetCommandUserParams()
         {
             SqlCommand.Parameters.AddWithValue(
-                parameterName: $"{Parameters.Parameter.SqlParameterPrefix}T",
+                parameterName: $"_T",
                 value: SqlContainer.RdsUser.TenantId);
             SqlCommand.Parameters.AddWithValue(
-                parameterName: $"{Parameters.Parameter.SqlParameterPrefix}D",
+                parameterName: $"_D",
                 value: SqlContainer.RdsUser.DeptId);
             SqlCommand.Parameters.AddWithValue(
-                parameterName: $"{Parameters.Parameter.SqlParameterPrefix}U",
+                parameterName: $"_U",
                 value: SqlContainer.RdsUser.UserId);
         }
 
