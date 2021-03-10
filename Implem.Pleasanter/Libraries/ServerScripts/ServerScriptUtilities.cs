@@ -289,41 +289,41 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     columnName: column.ColumnName)));
         }
 
-        private static void SetColumnFilterHachValues(
+        private static void SetColumnFilterHashValues(
             Context context,
             View view,
-            ExpandoObject columnFilterHach)
+            ExpandoObject columnFilterHash)
         {
             if (view == null)
             {
                 return;
             }
-            columnFilterHach?.ForEach(columnFilter =>
+            columnFilterHash?.ForEach(columnFilter =>
             {
                 if (view.ColumnFilterHash == null)
                 {
                     view.ColumnFilterHash = new Dictionary<string, string>();
                 }
-                view.ColumnFilterHash[columnFilter.Key] = String(columnFilterHach, columnFilter.Key);
+                view.ColumnFilterHash[columnFilter.Key] = Value(columnFilterHash, columnFilter.Key).ToString();
             });
         }
 
-        private static void SetColumnSorterHachValues(
+        private static void SetColumnSorterHashValues(
             Context context,
             View view,
-            ExpandoObject columnSorterHach)
+            ExpandoObject columnSorterHash)
         {
             if (view == null)
             {
                 return;
             }
-            columnSorterHach?.ForEach(columnFilter =>
+            columnSorterHash?.ForEach(columnFilter =>
             {
                 if (view.ColumnSorterHash == null)
                 {
                     view.ColumnSorterHash = new Dictionary<string, SqlOrderBy.Types>();
                 }
-                if (Enum.TryParse<SqlOrderBy.Types>(String(columnSorterHach, columnFilter.Key), out var value))
+                if (Enum.TryParse<SqlOrderBy.Types>(String(columnSorterHash, columnFilter.Key), out var value))
                 {
                     view.ColumnSorterHash[columnFilter.Key] = value;
                 }
@@ -521,14 +521,14 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 model: model,
                 data: data.Model,
                 columns: valueColumns);
-            SetColumnFilterHachValues(
+            SetColumnFilterHashValues(
                 context: context,
                 view: view,
-                columnFilterHach: data.View.Filters);
-            SetColumnSorterHachValues(
+                columnFilterHash: data.View.Filters);
+            SetColumnSorterHashValues(
                 context: context,
                 view: view,
-                columnSorterHach: data.View.Sorters);
+                columnSorterHash: data.View.Sorters);
             model.ReadOnly = Bool(
                 data: data.Model,
                 name: "ReadOnly");
@@ -588,8 +588,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ss: ss,
                     model: itemModel),
                 columns: Columns(ss),
-                columnFilterHach: view?.ColumnFilterHash,
-                columnSorterHach: view?.ColumnSorterHash,
+                columnFilterHash: view?.ColumnFilterHash,
+                columnSorterHash: view?.ColumnSorterHash,
                 onTesting: onTesting))
             {
                 using (var engine = context.CreateScriptEngin())
