@@ -38,7 +38,8 @@ namespace Implem.Pleasanter.Libraries.Server
                                 .TenantId()
                                 .DeptId()
                                 .DeptCode()
-                                .DeptName(),
+                                .DeptName()
+                                .Disabled(),
                             where: Rds.DeptsWhere().TenantId(context.TenantId),
                             _using: monitor.DeptsUpdated || force),
                         Rds.SelectGroups(
@@ -46,7 +47,8 @@ namespace Implem.Pleasanter.Libraries.Server
                             column: Rds.GroupsColumn()
                                 .TenantId()
                                 .GroupId()
-                                .GroupName(),
+                                .GroupName()
+                                .Disabled(),
                             where: Rds.GroupsWhere().TenantId(context.TenantId),
                             _using: monitor.GroupsUpdated || force),
                         Rds.SelectUsers(
@@ -59,6 +61,8 @@ namespace Implem.Pleasanter.Libraries.Server
                                 .Name()
                                 .TenantManager()
                                 .ServiceManager()
+                                .AllowCreationAtTopSite()
+                                .AllowGroupAdministration()
                                 .Disabled(),
                             where: Rds.UsersWhere().TenantId(context.TenantId),
                             _using: monitor.UsersUpdated || force)
@@ -98,6 +102,8 @@ namespace Implem.Pleasanter.Libraries.Server
             }
             if (monitor.SitesUpdated || force)
             {
+                tenantCache.Sites = GetSites(context: context);
+                tenantCache.Links = GetLinks(context: context);
                 tenantCache.SiteMenu = new SiteMenu(context: context);
             }
             if (monitor.Updated || force)
@@ -323,7 +329,9 @@ namespace Implem.Pleasanter.Libraries.Server
                     column: Rds.UsersColumn().UserId(),
                     where: Rds.UsersWhere()
                         .TenantId(context.TenantId)
-                        .SiteUserWhere(siteId: siteId)));
+                        .SiteUserWhere(
+                            context: context,
+                            siteId: siteId)));
         }
 
         public static string Name(Context context, int id, Settings.Column.Types type)
@@ -413,6 +421,93 @@ namespace Implem.Pleasanter.Libraries.Server
                 : notSet
                     ? Displays.NotSet(context: context)
                     : string.Empty;
+        }
+
+        public static DataRow Site(Context context, long siteId)
+        {
+            return TenantCaches.Get(context.TenantId).Sites.Get(siteId);
+        }
+
+        public static Dictionary<long, DataRow> Sites(Context context)
+        {
+            return TenantCaches.Get(context.TenantId).Sites;
+        }
+
+        private static Dictionary<long, DataRow> GetSites(Context context)
+        {
+            var dataRows = Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectSites(
+                    column: Rds.SitesColumn()
+                        .SiteId()
+                        .Title()
+                        .Body()
+                        .GridGuide()
+                        .EditorGuide()
+                        .ReferenceType()
+                        .ParentId()
+                        .InheritPermission()
+                        .SiteSettings(),
+                    where: Rds.SitesWhere().TenantId(context.TenantId)))
+                        .AsEnumerable()
+                        .ToDictionary(
+                            dataRow => dataRow.Long("SiteId"),
+                            dataRow => dataRow);
+            return dataRows;
+        }
+
+        public static LinkKeyValues Links(Context context)
+        {
+            return TenantCaches.Get(context.TenantId).Links;
+        }
+
+        private static LinkKeyValues GetLinks(Context context)
+        {
+            var dataRows = Rds.ExecuteTable(
+                context: context,
+                statements: new SqlStatement[]
+                {
+                    Rds.SelectSites(
+                        column: Rds.LinksColumn()
+                            .DestinationId()
+                            .SourceId(),
+                        join: new SqlJoinCollection(
+                            new SqlJoin(
+                                tableBracket: "\"Links\"",
+                                joinType: SqlJoin.JoinTypes.Inner,
+                                joinExpression: "\"Sites\".\"SiteId\"=\"Links\".\"DestinationId\"")),
+                        where: Rds.SitesWhere()
+                            .TenantId(context.TenantId)
+                            .ReferenceType("Wikis", _operator: "<>")),
+                    Rds.SelectSites(
+                        column: Rds.LinksColumn()
+                            .DestinationId()
+                            .SourceId(),
+                        join: new SqlJoinCollection(
+                            new SqlJoin(
+                                tableBracket: "\"Links\"",
+                                joinType: SqlJoin.JoinTypes.Inner,
+                                joinExpression: "\"Sites\".\"SiteId\"=\"Links\".\"SourceId\"")),
+                        where: Rds.SitesWhere()
+                            .TenantId(context.TenantId)
+                            .ReferenceType("Wikis", _operator: "<>"),
+                        unionType: Sqls.UnionTypes.UnionAll)
+                })
+                    .AsEnumerable();
+            var linkKeyValues = new LinkKeyValues()
+            {
+                DestinationKeyValues = dataRows
+                    .GroupBy(dataRow => dataRow.Long("DestinationId"))
+                    .ToDictionary(
+                        data => data.Key, data =>
+                        data.Select(dataRow => dataRow.Long("SourceId")).ToList()),
+                SourceKeyValues = dataRows
+                    .GroupBy(dataRow => dataRow.Long("SourceId"))
+                    .ToDictionary(
+                        data => data.Key,
+                        data => data.Select(dataRow => dataRow.Long("DestinationId")).ToList())
+            };
+            return linkKeyValues;
         }
     }
 }

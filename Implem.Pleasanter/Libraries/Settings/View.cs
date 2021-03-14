@@ -152,9 +152,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             return CrosstabAggregateType;
         }
 
-        public string GetCrosstabValue(SiteSettings ss)
+        public string GetCrosstabValue(Context context, SiteSettings ss)
         {
-            var options = ss.CrosstabColumnsOptions();
+            var options = ss.CrosstabColumnsOptions(context: context);
             if (CrosstabValue.IsNullOrEmpty())
             {
                 CrosstabValue = options.ContainsKey(Definition(ss, "Crosstab")?.Option4)
@@ -202,9 +202,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : string.Empty;
         }
 
-        public string GetTimeSeriesGroupBy(SiteSettings ss)
+        public string GetTimeSeriesGroupBy(Context context, SiteSettings ss)
         {
-            var options = ss.TimeSeriesGroupByOptions();
+            var options = ss.TimeSeriesGroupByOptions(context: context);
             if (TimeSeriesGroupBy.IsNullOrEmpty())
             {
                 TimeSeriesGroupBy = options.ContainsKey(Definition(ss, "TimeSeries")?.Option1)
@@ -226,9 +226,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             return TimeSeriesAggregateType;
         }
 
-        public string GetTimeSeriesValue(SiteSettings ss)
+        public string GetTimeSeriesValue(Context context, SiteSettings ss)
         {
-            var options = ss.TimeSeriesValueOptions();
+            var options = ss.TimeSeriesValueOptions(context: context);
             if (TimeSeriesValue.IsNullOrEmpty())
             {
                 TimeSeriesValue = options.ContainsKey(Definition(ss, "TimeSeries")?.Option3)
@@ -274,9 +274,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             return KambanAggregateType;
         }
 
-        public string GetKambanValue(SiteSettings ss)
+        public string GetKambanValue(Context context, SiteSettings ss)
         {
-            var options = ss.KambanValueOptions();
+            var options = ss.KambanValueOptions(context: context);
             if (KambanValue.IsNullOrEmpty())
             {
                 KambanValue = options.ContainsKey(Definition(ss, "Kamban")?.Option4)

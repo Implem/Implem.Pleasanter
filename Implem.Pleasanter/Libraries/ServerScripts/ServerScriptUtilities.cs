@@ -69,75 +69,92 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return Value(data, name).ToBool();
         }
 
-        private static (string, object) ReadNameValue(SiteSettings ss, string columnName, object value)
+        private static (string, object) ReadNameValue(
+            Context context, SiteSettings ss, string columnName, object value)
         {
             return (
                 columnName,
-                ss?.ColumnHash.Get(columnName)?.CanRead == true
-                    ? value
-                    : null);
+                ss?.ColumnHash.Get(columnName)?.CanRead(
+                    context: context,
+                    ss: ss,
+                    mine: null) == true
+                        ? value
+                        : null);
         }
 
-        public static IEnumerable<(string Name, object Value)> Values(SiteSettings ss, BaseItemModel model)
+        public static IEnumerable<(string Name, object Value)> Values(
+            Context context, SiteSettings ss, BaseItemModel model)
         {
             var values = new List<(string, object)>();
             values.AddRange(model
                 .ClassHash
                 .Select(element => ReadNameValue(
+                    context: context,
                     ss: ss,
                     columnName: element.Key,
                     value: element.Value)));
             values.AddRange(model
                 .NumHash
                 .Select(element => ReadNameValue(
+                    context: context,
                     ss: ss,
                     columnName: element.Key,
                     value: element.Value.Value)));
             values.AddRange(model
                 .DateHash
                 .Select(element => ReadNameValue(
+                    context: context,
                     ss: ss,
                     columnName: element.Key,
                     value: element.Value)));
             values.AddRange(model
                 .DescriptionHash
                 .Select(element => ReadNameValue(
+                    context: context,
                     ss: ss,
                     columnName: element.Key,
                     value: element.Value)));
             values.AddRange(model
                 .CheckHash
                 .Select(element => ReadNameValue(
+                    context: context,
                     ss: ss,
                     columnName: element.Key,
                     value: element.Value)));
             if (model is ResultModel resultModel)
             {
                 values.Add(ReadNameValue(
+                    context: context,
                     ss: ss,
                     columnName: nameof(ResultModel.ResultId),
                     value: resultModel.ResultId));
                 values.Add(ReadNameValue(
+                    context: context,
                     ss: ss,
                     columnName: nameof(ResultModel.Title),
                     value: resultModel.Title?.Value));
                 values.Add(ReadNameValue(
+                    context: context,
                     ss: ss,
                     columnName: nameof(ResultModel.Body),
                     value: resultModel.Body));
                 values.Add(ReadNameValue(
+                    context: context,
                     ss: ss,
                     columnName: nameof(ResultModel.Status),
                     value: resultModel.Status?.Value));
                 values.Add(ReadNameValue(
+                    context: context,
                     ss: ss,
                     columnName: nameof(ResultModel.Manager),
                     value: resultModel.Manager.Id));
                 values.Add(ReadNameValue(
+                    context: context,
                     ss: ss,
                     columnName: nameof(ResultModel.Owner),
                     value: resultModel.Owner.Id));
                 values.Add(ReadNameValue(
+                    context: context,
                     ss: ss,
                     columnName: nameof(ResultModel.Locked),
                     value: resultModel.Locked));
@@ -145,46 +162,57 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             if (model is IssueModel issueModel)
             {
                 values.Add(ReadNameValue(
+                    context: context,
                     ss: ss,
                     columnName: nameof(IssueModel.IssueId),
                     value: issueModel.IssueId));
                 values.Add(ReadNameValue(
+                    context: context,
                     ss: ss,
                     columnName: nameof(IssueModel.Title),
                     value: issueModel.Title?.Value));
                 values.Add(ReadNameValue(
+                    context: context,
                     ss: ss,
                     columnName: nameof(IssueModel.Body),
                     value: issueModel.Body));
                 values.Add(ReadNameValue(
+                    context: context,
                     ss: ss,
                     columnName: nameof(IssueModel.StartTime),
                     value: issueModel.StartTime));
                 values.Add(ReadNameValue(
+                    context: context,
                     ss: ss,
                     columnName: nameof(IssueModel.CompletionTime),
                     value: issueModel.CompletionTime.Value));
                 values.Add(ReadNameValue(
+                    context: context,
                     ss: ss,
                     columnName: nameof(IssueModel.WorkValue),
                     value: issueModel.WorkValue.Value));
                 values.Add(ReadNameValue(
+                    context: context,
                     ss: ss,
                     columnName: nameof(IssueModel.ProgressRate),
                     value: issueModel.ProgressRate.Value));
                 values.Add(ReadNameValue(
+                    context: context,
                     ss: ss,
                     columnName: nameof(IssueModel.Status),
                     value: issueModel.Status?.Value));
                 values.Add(ReadNameValue(
+                    context: context,
                     ss: ss,
                     columnName: nameof(IssueModel.Manager),
                     value: issueModel.Manager.Id));
                 values.Add(ReadNameValue(
+                    context: context,
                     ss: ss,
                     columnName: nameof(IssueModel.Owner),
                     value: issueModel.Owner.Id));
                 values.Add(ReadNameValue(
+                    context: context,
                     ss: ss,
                     columnName: nameof(IssueModel.Locked),
                     value: issueModel.Locked));
@@ -192,7 +220,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return values.ToArray();
         }
 
-        public static IEnumerable<(string Name, ServerScriptModelColumn Value)> Columns(SiteSettings ss)
+        public static IEnumerable<(string Name, ServerScriptModelColumn Value)> Columns(
+            Context context, SiteSettings ss)
         {
             var columns = Def
                 .ColumnDefinitionCollection
@@ -204,7 +233,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         definition.ColumnName,
                         new ServerScriptModelColumn
                         {
-                            ReadOnly = !(column?.CanRead == true && column?.CanUpdate == true),
+                            ReadOnly = !(column?.CanRead(
+                                context: context,
+                                ss: ss,
+                                mine: null) == true && column?.CanUpdate(
+                                    context: context,
+                                    ss: ss,
+                                    mine: null) == true),
                             ExtendedFieldCss = string.Empty,
                             ExtendedCellCss = string.Empty,
                             ExtendedHtmlBeforeField = string.Empty,
@@ -218,6 +253,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         }
 
         private static Column[] FilterCanUpdateColumns(
+            Context context,
             SiteSettings ss,
             IEnumerable<string> columnNames)
         {
@@ -226,12 +262,21 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 .Select(columnName => ss.ColumnHash.TryGetValue(columnName, out var column)
                     ? column
                     : null)
-                .Where(column => column != null && column.CanRead && column.CanUpdate)
+                .Where(column => column != null
+                    && column.CanRead(
+                        context: context,
+                        ss: ss,
+                        mine: null)
+                    && column.CanUpdate(
+                        context: context,
+                        ss: ss,
+                        mine: null))
                 .ToArray();
             return columns;
         }
 
         private static Dictionary<string, ServerScriptModelColumn> SetColumns(
+            Context context,
             SiteSettings ss,
             ExpandoObject columns)
         {
@@ -252,13 +297,18 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ExtendedHtmlAfterField = serverScriptColumn?.ExtendedHtmlAfterField,
                     Hide = serverScriptColumn?.Hide == true,
                     RawText = serverScriptColumn?.RawText,
-                    ReadOnly = !(column.CanUpdate && serverScriptColumn?.ReadOnly != true)
+                    ReadOnly = !(column.CanUpdate(
+                        context: context,
+                        ss: ss,
+                        mine: null)
+                            && serverScriptColumn?.ReadOnly != true)
                 };
             });
             return scriptValues;
         }
 
         private static ServerScriptModelRow SetRow(
+            Context context,
             SiteSettings ss,
             ExpandoObject model,
             ExpandoObject columns,
@@ -268,6 +318,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             {
                 ExtendedRowCss = String(model, nameof(ServerScriptModelRow.ExtendedRowCss)),
                 Columns = SetColumns(
+                    context: context,
                     ss: ss,
                     columns: columns),
                 Hidden = hidden.GetAll()
@@ -289,41 +340,41 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     columnName: column.ColumnName)));
         }
 
-        private static void SetColumnFilterHachValues(
+        private static void SetColumnFilterHashValues(
             Context context,
             View view,
-            ExpandoObject columnFilterHach)
+            ExpandoObject columnFilterHash)
         {
             if (view == null)
             {
                 return;
             }
-            columnFilterHach?.ForEach(columnFilter =>
+            columnFilterHash?.ForEach(columnFilter =>
             {
                 if (view.ColumnFilterHash == null)
                 {
                     view.ColumnFilterHash = new Dictionary<string, string>();
                 }
-                view.ColumnFilterHash[columnFilter.Key] = String(columnFilterHach, columnFilter.Key);
+                view.ColumnFilterHash[columnFilter.Key] = Value(columnFilterHash, columnFilter.Key).ToString();
             });
         }
 
-        private static void SetColumnSorterHachValues(
+        private static void SetColumnSorterHashValues(
             Context context,
             View view,
-            ExpandoObject columnSorterHach)
+            ExpandoObject columnSorterHash)
         {
             if (view == null)
             {
                 return;
             }
-            columnSorterHach?.ForEach(columnFilter =>
+            columnSorterHash?.ForEach(columnFilter =>
             {
                 if (view.ColumnSorterHash == null)
                 {
                     view.ColumnSorterHash = new Dictionary<string, SqlOrderBy.Types>();
                 }
-                if (Enum.TryParse<SqlOrderBy.Types>(String(columnSorterHach, columnFilter.Key), out var value))
+                if (Enum.TryParse<SqlOrderBy.Types>(String(columnSorterHash, columnFilter.Key), out var value))
                 {
                     view.ColumnSorterHash[columnFilter.Key] = value;
                 }
@@ -505,6 +556,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             ServerScriptModel data)
         {
             var valueColumns = FilterCanUpdateColumns(
+                context: context,
                 ss: ss,
                 columnNames: data.GetChangeItemNames());
             var valueColumnDictionary = valueColumns
@@ -512,6 +564,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     column => column.ColumnName,
                     column => column);
             var scriptValues = SetRow(
+                context: context,
                 ss: ss,
                 model: data.Model,
                 columns: data.Columns,
@@ -521,14 +574,14 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 model: model,
                 data: data.Model,
                 columns: valueColumns);
-            SetColumnFilterHachValues(
+            SetColumnFilterHashValues(
                 context: context,
                 view: view,
-                columnFilterHach: data.View.Filters);
-            SetColumnSorterHachValues(
+                columnFilterHash: data.View.Filters);
+            SetColumnSorterHashValues(
                 context: context,
                 view: view,
-                columnSorterHach: data.View.Sorters);
+                columnSorterHash: data.View.Sorters);
             model.ReadOnly = Bool(
                 data: data.Model,
                 name: "ReadOnly");
@@ -585,11 +638,14 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 context: context,
                 ss: ss,
                 data: Values(
+                    context: context,
                     ss: ss,
                     model: itemModel),
-                columns: Columns(ss),
-                columnFilterHach: view?.ColumnFilterHash,
-                columnSorterHach: view?.ColumnSorterHash,
+                columns: Columns(
+                    context: context,
+                    ss: ss),
+                columnFilterHash: view?.ColumnFilterHash,
+                columnSorterHash: view?.ColumnSorterHash,
                 onTesting: onTesting))
             {
                 using (var engine = new Microsoft.ClearScript.V8.V8ScriptEngine(
@@ -651,13 +707,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             {
                 return null;
             }
-            ss.SetColumnAccessControls(
-                context: context,
-                mine: (itemModel is ResultModel resultModel)
-                    ? resultModel.Mine(context: context)
-                    : (itemModel is IssueModel issueModel)
-                        ? issueModel.Mine(context: context)
-                        : null);
             var scriptValues = Execute(
                 context: context,
                 ss: ss,
@@ -687,6 +736,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public static bool CanEdit(
             this Column column,
             Context context,
+            SiteSettings ss,
             BaseModel baseModel)
         {
             if (column == null)
@@ -695,12 +745,19 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             }
             if (baseModel == null || baseModel.ServerScriptModelRows?.Any() != true)
             {
-                return column.CanEdit(context: context);
+                return column.CanEdit(
+                    context: context,
+                    ss: ss,
+                    mine: baseModel?.Mine(context: context));
             }
             var serverScriptReadOnly = ReadOnly(
                 columnName: column.ColumnName,
                 serverScriptModelRows: baseModel?.ServerScriptModelRows);
-            var canUpdate = column.CanEdit(context: context) && !serverScriptReadOnly;
+            var canUpdate = column.CanEdit(
+                context: context,
+                ss: ss,
+                mine: baseModel?.Mine(context: context))
+                    && !serverScriptReadOnly;
             return canUpdate;
         }
 
@@ -803,7 +860,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             if(where != null
                 && column?.TypeName == "decimal"
                 && apiContext.CanRead(ss: ss)
-                && column.CanRead)
+                && column.CanRead(
+                    context: context,
+                    ss: ss,
+                    mine: null))
             {
                 switch (ss.ReferenceType)
                 {

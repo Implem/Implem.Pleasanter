@@ -216,7 +216,6 @@ namespace Implem.Pleasanter.Models
         private static GridData GetGridData(
             Context context, SiteSettings ss, View view, int offset = 0)
         {
-            ss.SetColumnAccessControls(context: context);
             return new GridData(
                 context: context,
                 ss: ss,
@@ -380,7 +379,6 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         dataRows: gridData.DataRows,
                         columns: columns,
-                        recordSelector: null,
                         checkRow: checkRow));
         }
 
@@ -409,7 +407,6 @@ namespace Implem.Pleasanter.Models
 
         public static string ReloadRow(Context context, SiteSettings ss, long deptId)
         {
-            ss.SetColumnAccessControls(context: context);
             var view = Views.GetBySession(
                 context: context,
                 ss: ss);
@@ -488,7 +485,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -507,7 +503,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -526,7 +521,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -545,7 +539,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -564,7 +557,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -578,12 +570,29 @@ namespace Implem.Pleasanter.Models
                                     value: string.Empty,
                                     tabIndex: tabIndex,
                                     serverScriptValues: serverScriptValues);
+                    case "Disabled":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: deptModel.Disabled,
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues);
                     case "Comments":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -602,7 +611,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -621,7 +629,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -640,7 +647,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -659,7 +665,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -681,7 +686,6 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     column: column,
-                                    type: ss.PermissionType,
                                     mine: mine)
                                         ? hb.Td(
                                             context: context,
@@ -700,7 +704,6 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     column: column,
-                                    type: ss.PermissionType,
                                     mine: mine)
                                         ? hb.Td(
                                             context: context,
@@ -719,7 +722,6 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     column: column,
-                                    type: ss.PermissionType,
                                     mine: mine)
                                         ? hb.Td(
                                             context: context,
@@ -738,7 +740,6 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     column: column,
-                                    type: ss.PermissionType,
                                     mine: mine)
                                         ? hb.Td(
                                             context: context,
@@ -757,7 +758,6 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     column: column,
-                                    type: ss.PermissionType,
                                     mine: mine)
                                         ? hb.Td(
                                             context: context,
@@ -776,7 +776,6 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     column: column,
-                                    type: ss.PermissionType,
                                     mine: mine)
                                         ? hb.Td(
                                             context: context,
@@ -824,6 +823,9 @@ namespace Implem.Pleasanter.Models
                     case "Body": value = deptModel.Body.GridText(
                         context: context,
                         column: column); break;
+                    case "Disabled": value = deptModel.Disabled.GridText(
+                        context: context,
+                        column: column); break;
                     case "Comments": value = deptModel.Comments.GridText(
                         context: context,
                         column: column); break;
@@ -848,9 +850,9 @@ namespace Implem.Pleasanter.Models
                                     column: column);
                                 break;
                             case "Num":
-                                value = deptModel.Num(columnName: column.Name).GridText(
+                                value = deptModel.Num(columnName: column.Name)?.Value?.GridText(
                                     context: context,
-                                    column: column);
+                                    column: column) ?? string.Empty;
                                 break;
                             case "Date":
                                 value = deptModel.Date(columnName: column.Name).GridText(
@@ -921,9 +923,6 @@ namespace Implem.Pleasanter.Models
                     errorData: invalid);
             }
             var hb = new HtmlBuilder();
-            ss.SetColumnAccessControls(
-                context: context,
-                mine: deptModel.Mine(context: context));
             return hb.Template(
                 context: context,
                 ss: ss,
@@ -945,10 +944,11 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss, DeptModel deptModel)
         {
             var commentsColumn = ss.GetColumn(context: context, columnName: "Comments");
-            var commentsColumnPermissionType = commentsColumn
-                .ColumnPermissionType(
-                    context: context,
-                    baseModel: deptModel);
+            var commentsColumnPermissionType =  Permissions.ColumnPermissionType(
+                context: context,
+                ss: ss,
+                column: commentsColumn,
+                baseModel: deptModel);
             var showComments = ss.ShowComments(commentsColumnPermissionType);
             var tabsCss = showComments ? null : "max";
             return hb.Div(id: "Editor", action: () => hb
@@ -1062,7 +1062,6 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             DeptModel deptModel)
         {
-            var mine = deptModel.Mine(context: context);
             return hb.FieldSet(id: "FieldSetGeneral", action: () => hb
                 .FieldSetGeneralColumns(
                     context: context, ss: ss, deptModel: deptModel));
@@ -1116,8 +1115,10 @@ namespace Implem.Pleasanter.Models
                     column: column,
                     methodType: deptModel.MethodType,
                     value: value,
-                    columnPermissionType: column.ColumnPermissionType(
+                    columnPermissionType: Permissions.ColumnPermissionType(
                         context: context,
+                        ss: ss,
+                        column: column,
                         baseModel: deptModel),
                     controlOnly: controlOnly,
                     alwaysSend: alwaysSend,
@@ -1162,6 +1163,12 @@ namespace Implem.Pleasanter.Models
                             column: column);
                 case "Body":
                     return deptModel.Body
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Disabled":
+                    return deptModel.Disabled
                         .ToControl(
                             context: context,
                             ss: ss,
@@ -1338,6 +1345,11 @@ namespace Implem.Pleasanter.Models
                                 "#Depts_Body" + idSuffix,
                                 deptModel.Body.ToResponse(context: context, ss: ss, column: column));
                             break;
+                        case "Disabled":
+                            res.Val(
+                                "#Depts_Disabled" + idSuffix,
+                                deptModel.Disabled);
+                            break;
                         default:
                             switch (Def.ExtendedColumnTypes.Get(column.Name))
                             {
@@ -1394,8 +1406,10 @@ namespace Implem.Pleasanter.Models
                                                 fieldDescription: column.Description,
                                                 labelText: column.LabelText,
                                                 value: deptModel.Attachments(columnName: column.Name).ToJson(),
-                                                readOnly: column.ColumnPermissionType(
+                                                readOnly: Permissions.ColumnPermissionType(
                                                     context: context,
+                                                    ss: ss,
+                                                    column: column,
                                                     baseModel: deptModel)
                                                         != Permissions.ColumnPermissionTypes.Update));
                                     break;
@@ -1500,6 +1514,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             DeptModel deptModel)
         {
+            ss.ClearColumnAccessControlCaches(baseModel: deptModel);
             if (context.Forms.Bool("IsDialogEditorForm"))
             {
                 var view = Views.GetBySession(
@@ -1523,8 +1538,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             dataRows: gridData.DataRows,
-                            columns: columns,
-                            recordSelector: null))
+                            columns: columns))
                     .CloseDialog()
                     .Message(Messages.Updated(
                         context: context,
@@ -1597,9 +1611,6 @@ namespace Implem.Pleasanter.Models
             Context context, SiteSettings ss, int deptId, Message message = null)
         {
             var deptModel = new DeptModel(context: context, ss: ss, deptId: deptId);
-            ss.SetColumnAccessControls(
-                context: context,
-                mine: deptModel.Mine(context: context));
             var columns = ss.GetHistoryColumns(context: context, checkPermission: true);
             if (!context.CanRead(ss: ss))
             {
@@ -1686,9 +1697,6 @@ namespace Implem.Pleasanter.Models
         public static string History(Context context, SiteSettings ss, int deptId)
         {
             var deptModel = new DeptModel(context: context, ss: ss, deptId: deptId);
-            ss.SetColumnAccessControls(
-                context: context,
-                mine: deptModel.Mine(context: context));
             deptModel.Get(
                 context: context,
                 ss: ss,

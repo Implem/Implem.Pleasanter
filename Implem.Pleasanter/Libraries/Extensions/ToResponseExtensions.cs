@@ -3,6 +3,7 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
+using System.Collections.Generic;
 namespace Implem.Pleasanter.Libraries.Extensions
 {
     public static class ToResponseExtensions
@@ -42,12 +43,20 @@ namespace Implem.Pleasanter.Libraries.Extensions
         }
 
         public static string ToResponse(
-            this string self, Context context, SiteSettings ss, Column column)
+            this string self,
+            Context context,
+            SiteSettings ss,
+            Column column,
+            List<string> mine = null)
         {
             return !column.HasChoices()
-                || (column.CanUpdate && column.EditorReadOnly != true)
-                    ? self.ToString()
-                    : column.Choice(self).Text;
+                || (column.CanUpdate(
+                    context: context,
+                    ss: ss,
+                    mine: mine)
+                        && column.EditorReadOnly != true)
+                            ? self.ToString()
+                            : column.Choice(self).Text;
         }
     }
 }

@@ -30,6 +30,7 @@ namespace Implem.Pleasanter.Models
         public int GroupId = 0;
         public string GroupName = string.Empty;
         public string Body = string.Empty;
+        public bool Disabled = false;
 
         public Title Title
         {
@@ -43,6 +44,7 @@ namespace Implem.Pleasanter.Models
         public int SavedGroupId = 0;
         public string SavedGroupName = string.Empty;
         public string SavedBody = string.Empty;
+        public bool SavedDisabled = false;
 
         public bool TenantId_Updated(Context context, Column column = null)
         {
@@ -74,6 +76,14 @@ namespace Implem.Pleasanter.Models
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.GetDefaultInput(context: context).ToString() != Body);
+        }
+
+        public bool Disabled_Updated(Context context, Column column = null)
+        {
+            return Disabled != SavedDisabled &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToBool() != Disabled);
         }
 
         public List<int> SwitchTargets;
@@ -220,7 +230,7 @@ namespace Implem.Pleasanter.Models
             {
                 ApiVersion = context.ApiVersion
             };
-            ss.ReadableColumns(noJoined: true).ForEach(column =>
+            ss.ReadableColumns(context: context, noJoined: true).ForEach(column =>
             {
                 switch (column.ColumnName)
                 {
@@ -229,6 +239,7 @@ namespace Implem.Pleasanter.Models
                     case "Ver": data.Ver = Ver; break;
                     case "GroupName": data.GroupName = GroupName; break;
                     case "Body": data.Body = Body; break;
+                    case "Disabled": data.Disabled = Disabled; break;
                     case "Creator": data.Creator = Creator.Id; break;
                     case "Updator": data.Updator = Updator.Id; break;
                     case "CreatedTime": data.CreatedTime = CreatedTime.Value.ToLocal(context: context); break;
@@ -556,6 +567,7 @@ namespace Implem.Pleasanter.Models
                     case "Groups_TenantId": TenantId = value.ToInt(); break;
                     case "Groups_GroupName": GroupName = value.ToString(); break;
                     case "Groups_Body": Body = value.ToString(); break;
+                    case "Groups_Disabled": Disabled = value.ToBool(); break;
                     case "Groups_Timestamp": Timestamp = value.ToString(); break;
                     case "Comments": Comments.Prepend(
                         context: context,
@@ -635,6 +647,7 @@ namespace Implem.Pleasanter.Models
             TenantId = groupModel.TenantId;
             GroupName = groupModel.GroupName;
             Body = groupModel.Body;
+            Disabled = groupModel.Disabled;
             Comments = groupModel.Comments;
             Creator = groupModel.Creator;
             Updator = groupModel.Updator;
@@ -660,6 +673,7 @@ namespace Implem.Pleasanter.Models
             if (data.TenantId != null) TenantId = data.TenantId.ToInt().ToInt();
             if (data.GroupName != null) GroupName = data.GroupName.ToString().ToString();
             if (data.Body != null) Body = data.Body.ToString().ToString();
+            if (data.Disabled != null) Disabled = data.Disabled.ToBool().ToBool();
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             data.ClassHash?.ForEach(o => Class(
@@ -740,6 +754,10 @@ namespace Implem.Pleasanter.Models
                         case "Body":
                             Body = dataRow[column.ColumnName].ToString();
                             SavedBody = Body;
+                            break;
+                        case "Disabled":
+                            Disabled = dataRow[column.ColumnName].ToBool();
+                            SavedDisabled = Disabled;
                             break;
                         case "Comments":
                             Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
@@ -834,18 +852,23 @@ namespace Implem.Pleasanter.Models
                 || Ver_Updated(context: context)
                 || GroupName_Updated(context: context)
                 || Body_Updated(context: context)
+                || Disabled_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);
         }
 
-        public List<string> Mine(Context context)
+        public override List<string> Mine(Context context)
         {
-            var mine = new List<string>();
-            var userId = context.UserId;
-            if (SavedCreator == userId) mine.Add("Creator");
-            if (SavedUpdator == userId) mine.Add("Updator");
-            return mine;
+            if (MineCache == null)
+            {
+                var mine = new List<string>();
+                var userId = context.UserId;
+                if (SavedCreator == userId) mine.Add("Creator");
+                if (SavedUpdator == userId) mine.Add("Updator");
+                MineCache = mine;
+            }
+            return MineCache;
         }
 
         /// <summary>

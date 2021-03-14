@@ -1420,13 +1420,17 @@ namespace Implem.Pleasanter.Models
                 || Updator_Updated(context: context);
         }
 
-        public List<string> Mine(Context context)
+        public override List<string> Mine(Context context)
         {
-            var mine = new List<string>();
-            var userId = context.UserId;
-            if (SavedCreator == userId) mine.Add("Creator");
-            if (SavedUpdator == userId) mine.Add("Updator");
-            return mine;
+            if (MineCache == null)
+            {
+                var mine = new List<string>();
+                var userId = context.UserId;
+                if (SavedCreator == userId) mine.Add("Creator");
+                if (SavedUpdator == userId) mine.Add("Updator");
+                MineCache = mine;
+            }
+            return MineCache;
         }
 
         /// <summary>

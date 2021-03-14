@@ -27,7 +27,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",
                     labelText: Displays.GroupBy(context: context),
-                    optionCollection: ss.TimeSeriesGroupByOptions(),
+                    optionCollection: ss.TimeSeriesGroupByOptions(context: context),
                     selectedValue: groupBy?.ColumnName,
                     addSelectedValue: false,
                     method: "post")
@@ -48,7 +48,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",
                     labelText: Displays.AggregationTarget(context: context),
-                    optionCollection: ss.TimeSeriesValueOptions(),
+                    optionCollection: ss.TimeSeriesValueOptions(context: context),
                     selectedValue: value?.ColumnName,
                     addSelectedValue: false,
                     method: "post")

@@ -8769,6 +8769,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Depts_Disabled(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Depts_Disabled",
+                data: data);
+        }
+
         public static string Groups_TenantId(
             Context context,
             params string[] data)
@@ -8816,6 +8826,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Groups_Title",
+                data: data);
+        }
+
+        public static string Groups_Disabled(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_Disabled",
                 data: data);
         }
 
@@ -9306,6 +9326,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Users_ServiceManager",
+                data: data);
+        }
+
+        public static string Users_AllowCreationAtTopSite(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_AllowCreationAtTopSite",
+                data: data);
+        }
+
+        public static string Users_AllowGroupAdministration(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_AllowGroupAdministration",
                 data: data);
         }
 
@@ -14276,6 +14316,1566 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Depts_AttachmentsZ",
+                data: data);
+        }
+
+        public static string Groups_ClassA(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_ClassA",
+                data: data);
+        }
+
+        public static string Groups_ClassB(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_ClassB",
+                data: data);
+        }
+
+        public static string Groups_ClassC(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_ClassC",
+                data: data);
+        }
+
+        public static string Groups_ClassD(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_ClassD",
+                data: data);
+        }
+
+        public static string Groups_ClassE(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_ClassE",
+                data: data);
+        }
+
+        public static string Groups_ClassF(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_ClassF",
+                data: data);
+        }
+
+        public static string Groups_ClassG(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_ClassG",
+                data: data);
+        }
+
+        public static string Groups_ClassH(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_ClassH",
+                data: data);
+        }
+
+        public static string Groups_ClassI(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_ClassI",
+                data: data);
+        }
+
+        public static string Groups_ClassJ(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_ClassJ",
+                data: data);
+        }
+
+        public static string Groups_ClassK(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_ClassK",
+                data: data);
+        }
+
+        public static string Groups_ClassL(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_ClassL",
+                data: data);
+        }
+
+        public static string Groups_ClassM(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_ClassM",
+                data: data);
+        }
+
+        public static string Groups_ClassN(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_ClassN",
+                data: data);
+        }
+
+        public static string Groups_ClassO(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_ClassO",
+                data: data);
+        }
+
+        public static string Groups_ClassP(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_ClassP",
+                data: data);
+        }
+
+        public static string Groups_ClassQ(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_ClassQ",
+                data: data);
+        }
+
+        public static string Groups_ClassR(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_ClassR",
+                data: data);
+        }
+
+        public static string Groups_ClassS(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_ClassS",
+                data: data);
+        }
+
+        public static string Groups_ClassT(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_ClassT",
+                data: data);
+        }
+
+        public static string Groups_ClassU(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_ClassU",
+                data: data);
+        }
+
+        public static string Groups_ClassV(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_ClassV",
+                data: data);
+        }
+
+        public static string Groups_ClassW(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_ClassW",
+                data: data);
+        }
+
+        public static string Groups_ClassX(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_ClassX",
+                data: data);
+        }
+
+        public static string Groups_ClassY(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_ClassY",
+                data: data);
+        }
+
+        public static string Groups_ClassZ(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_ClassZ",
+                data: data);
+        }
+
+        public static string Groups_NumA(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_NumA",
+                data: data);
+        }
+
+        public static string Groups_NumB(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_NumB",
+                data: data);
+        }
+
+        public static string Groups_NumC(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_NumC",
+                data: data);
+        }
+
+        public static string Groups_NumD(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_NumD",
+                data: data);
+        }
+
+        public static string Groups_NumE(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_NumE",
+                data: data);
+        }
+
+        public static string Groups_NumF(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_NumF",
+                data: data);
+        }
+
+        public static string Groups_NumG(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_NumG",
+                data: data);
+        }
+
+        public static string Groups_NumH(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_NumH",
+                data: data);
+        }
+
+        public static string Groups_NumI(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_NumI",
+                data: data);
+        }
+
+        public static string Groups_NumJ(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_NumJ",
+                data: data);
+        }
+
+        public static string Groups_NumK(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_NumK",
+                data: data);
+        }
+
+        public static string Groups_NumL(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_NumL",
+                data: data);
+        }
+
+        public static string Groups_NumM(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_NumM",
+                data: data);
+        }
+
+        public static string Groups_NumN(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_NumN",
+                data: data);
+        }
+
+        public static string Groups_NumO(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_NumO",
+                data: data);
+        }
+
+        public static string Groups_NumP(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_NumP",
+                data: data);
+        }
+
+        public static string Groups_NumQ(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_NumQ",
+                data: data);
+        }
+
+        public static string Groups_NumR(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_NumR",
+                data: data);
+        }
+
+        public static string Groups_NumS(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_NumS",
+                data: data);
+        }
+
+        public static string Groups_NumT(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_NumT",
+                data: data);
+        }
+
+        public static string Groups_NumU(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_NumU",
+                data: data);
+        }
+
+        public static string Groups_NumV(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_NumV",
+                data: data);
+        }
+
+        public static string Groups_NumW(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_NumW",
+                data: data);
+        }
+
+        public static string Groups_NumX(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_NumX",
+                data: data);
+        }
+
+        public static string Groups_NumY(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_NumY",
+                data: data);
+        }
+
+        public static string Groups_NumZ(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_NumZ",
+                data: data);
+        }
+
+        public static string Groups_DateA(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DateA",
+                data: data);
+        }
+
+        public static string Groups_DateB(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DateB",
+                data: data);
+        }
+
+        public static string Groups_DateC(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DateC",
+                data: data);
+        }
+
+        public static string Groups_DateD(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DateD",
+                data: data);
+        }
+
+        public static string Groups_DateE(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DateE",
+                data: data);
+        }
+
+        public static string Groups_DateF(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DateF",
+                data: data);
+        }
+
+        public static string Groups_DateG(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DateG",
+                data: data);
+        }
+
+        public static string Groups_DateH(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DateH",
+                data: data);
+        }
+
+        public static string Groups_DateI(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DateI",
+                data: data);
+        }
+
+        public static string Groups_DateJ(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DateJ",
+                data: data);
+        }
+
+        public static string Groups_DateK(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DateK",
+                data: data);
+        }
+
+        public static string Groups_DateL(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DateL",
+                data: data);
+        }
+
+        public static string Groups_DateM(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DateM",
+                data: data);
+        }
+
+        public static string Groups_DateN(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DateN",
+                data: data);
+        }
+
+        public static string Groups_DateO(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DateO",
+                data: data);
+        }
+
+        public static string Groups_DateP(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DateP",
+                data: data);
+        }
+
+        public static string Groups_DateQ(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DateQ",
+                data: data);
+        }
+
+        public static string Groups_DateR(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DateR",
+                data: data);
+        }
+
+        public static string Groups_DateS(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DateS",
+                data: data);
+        }
+
+        public static string Groups_DateT(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DateT",
+                data: data);
+        }
+
+        public static string Groups_DateU(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DateU",
+                data: data);
+        }
+
+        public static string Groups_DateV(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DateV",
+                data: data);
+        }
+
+        public static string Groups_DateW(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DateW",
+                data: data);
+        }
+
+        public static string Groups_DateX(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DateX",
+                data: data);
+        }
+
+        public static string Groups_DateY(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DateY",
+                data: data);
+        }
+
+        public static string Groups_DateZ(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DateZ",
+                data: data);
+        }
+
+        public static string Groups_DescriptionA(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DescriptionA",
+                data: data);
+        }
+
+        public static string Groups_DescriptionB(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DescriptionB",
+                data: data);
+        }
+
+        public static string Groups_DescriptionC(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DescriptionC",
+                data: data);
+        }
+
+        public static string Groups_DescriptionD(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DescriptionD",
+                data: data);
+        }
+
+        public static string Groups_DescriptionE(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DescriptionE",
+                data: data);
+        }
+
+        public static string Groups_DescriptionF(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DescriptionF",
+                data: data);
+        }
+
+        public static string Groups_DescriptionG(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DescriptionG",
+                data: data);
+        }
+
+        public static string Groups_DescriptionH(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DescriptionH",
+                data: data);
+        }
+
+        public static string Groups_DescriptionI(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DescriptionI",
+                data: data);
+        }
+
+        public static string Groups_DescriptionJ(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DescriptionJ",
+                data: data);
+        }
+
+        public static string Groups_DescriptionK(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DescriptionK",
+                data: data);
+        }
+
+        public static string Groups_DescriptionL(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DescriptionL",
+                data: data);
+        }
+
+        public static string Groups_DescriptionM(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DescriptionM",
+                data: data);
+        }
+
+        public static string Groups_DescriptionN(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DescriptionN",
+                data: data);
+        }
+
+        public static string Groups_DescriptionO(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DescriptionO",
+                data: data);
+        }
+
+        public static string Groups_DescriptionP(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DescriptionP",
+                data: data);
+        }
+
+        public static string Groups_DescriptionQ(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DescriptionQ",
+                data: data);
+        }
+
+        public static string Groups_DescriptionR(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DescriptionR",
+                data: data);
+        }
+
+        public static string Groups_DescriptionS(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DescriptionS",
+                data: data);
+        }
+
+        public static string Groups_DescriptionT(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DescriptionT",
+                data: data);
+        }
+
+        public static string Groups_DescriptionU(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DescriptionU",
+                data: data);
+        }
+
+        public static string Groups_DescriptionV(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DescriptionV",
+                data: data);
+        }
+
+        public static string Groups_DescriptionW(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DescriptionW",
+                data: data);
+        }
+
+        public static string Groups_DescriptionX(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DescriptionX",
+                data: data);
+        }
+
+        public static string Groups_DescriptionY(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DescriptionY",
+                data: data);
+        }
+
+        public static string Groups_DescriptionZ(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_DescriptionZ",
+                data: data);
+        }
+
+        public static string Groups_CheckA(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_CheckA",
+                data: data);
+        }
+
+        public static string Groups_CheckB(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_CheckB",
+                data: data);
+        }
+
+        public static string Groups_CheckC(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_CheckC",
+                data: data);
+        }
+
+        public static string Groups_CheckD(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_CheckD",
+                data: data);
+        }
+
+        public static string Groups_CheckE(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_CheckE",
+                data: data);
+        }
+
+        public static string Groups_CheckF(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_CheckF",
+                data: data);
+        }
+
+        public static string Groups_CheckG(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_CheckG",
+                data: data);
+        }
+
+        public static string Groups_CheckH(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_CheckH",
+                data: data);
+        }
+
+        public static string Groups_CheckI(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_CheckI",
+                data: data);
+        }
+
+        public static string Groups_CheckJ(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_CheckJ",
+                data: data);
+        }
+
+        public static string Groups_CheckK(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_CheckK",
+                data: data);
+        }
+
+        public static string Groups_CheckL(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_CheckL",
+                data: data);
+        }
+
+        public static string Groups_CheckM(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_CheckM",
+                data: data);
+        }
+
+        public static string Groups_CheckN(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_CheckN",
+                data: data);
+        }
+
+        public static string Groups_CheckO(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_CheckO",
+                data: data);
+        }
+
+        public static string Groups_CheckP(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_CheckP",
+                data: data);
+        }
+
+        public static string Groups_CheckQ(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_CheckQ",
+                data: data);
+        }
+
+        public static string Groups_CheckR(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_CheckR",
+                data: data);
+        }
+
+        public static string Groups_CheckS(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_CheckS",
+                data: data);
+        }
+
+        public static string Groups_CheckT(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_CheckT",
+                data: data);
+        }
+
+        public static string Groups_CheckU(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_CheckU",
+                data: data);
+        }
+
+        public static string Groups_CheckV(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_CheckV",
+                data: data);
+        }
+
+        public static string Groups_CheckW(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_CheckW",
+                data: data);
+        }
+
+        public static string Groups_CheckX(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_CheckX",
+                data: data);
+        }
+
+        public static string Groups_CheckY(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_CheckY",
+                data: data);
+        }
+
+        public static string Groups_CheckZ(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_CheckZ",
+                data: data);
+        }
+
+        public static string Groups_AttachmentsA(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_AttachmentsA",
+                data: data);
+        }
+
+        public static string Groups_AttachmentsB(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_AttachmentsB",
+                data: data);
+        }
+
+        public static string Groups_AttachmentsC(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_AttachmentsC",
+                data: data);
+        }
+
+        public static string Groups_AttachmentsD(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_AttachmentsD",
+                data: data);
+        }
+
+        public static string Groups_AttachmentsE(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_AttachmentsE",
+                data: data);
+        }
+
+        public static string Groups_AttachmentsF(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_AttachmentsF",
+                data: data);
+        }
+
+        public static string Groups_AttachmentsG(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_AttachmentsG",
+                data: data);
+        }
+
+        public static string Groups_AttachmentsH(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_AttachmentsH",
+                data: data);
+        }
+
+        public static string Groups_AttachmentsI(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_AttachmentsI",
+                data: data);
+        }
+
+        public static string Groups_AttachmentsJ(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_AttachmentsJ",
+                data: data);
+        }
+
+        public static string Groups_AttachmentsK(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_AttachmentsK",
+                data: data);
+        }
+
+        public static string Groups_AttachmentsL(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_AttachmentsL",
+                data: data);
+        }
+
+        public static string Groups_AttachmentsM(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_AttachmentsM",
+                data: data);
+        }
+
+        public static string Groups_AttachmentsN(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_AttachmentsN",
+                data: data);
+        }
+
+        public static string Groups_AttachmentsO(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_AttachmentsO",
+                data: data);
+        }
+
+        public static string Groups_AttachmentsP(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_AttachmentsP",
+                data: data);
+        }
+
+        public static string Groups_AttachmentsQ(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_AttachmentsQ",
+                data: data);
+        }
+
+        public static string Groups_AttachmentsR(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_AttachmentsR",
+                data: data);
+        }
+
+        public static string Groups_AttachmentsS(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_AttachmentsS",
+                data: data);
+        }
+
+        public static string Groups_AttachmentsT(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_AttachmentsT",
+                data: data);
+        }
+
+        public static string Groups_AttachmentsU(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_AttachmentsU",
+                data: data);
+        }
+
+        public static string Groups_AttachmentsV(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_AttachmentsV",
+                data: data);
+        }
+
+        public static string Groups_AttachmentsW(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_AttachmentsW",
+                data: data);
+        }
+
+        public static string Groups_AttachmentsX(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_AttachmentsX",
+                data: data);
+        }
+
+        public static string Groups_AttachmentsY(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_AttachmentsY",
+                data: data);
+        }
+
+        public static string Groups_AttachmentsZ(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_AttachmentsZ",
                 data: data);
         }
 

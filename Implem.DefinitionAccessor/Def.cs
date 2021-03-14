@@ -1532,11 +1532,13 @@ namespace Implem.DefinitionAccessor
                     case "Depts_DeptName": Column.Depts_DeptName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Depts_DeptName, definitionRow, ColumnXls); break;
                     case "Depts_Body": Column.Depts_Body = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Depts_Body, definitionRow, ColumnXls); break;
                     case "Depts_Title": Column.Depts_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Depts_Title, definitionRow, ColumnXls); break;
+                    case "Depts_Disabled": Column.Depts_Disabled = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Depts_Disabled, definitionRow, ColumnXls); break;
                     case "Groups_TenantId": Column.Groups_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Groups_TenantId, definitionRow, ColumnXls); break;
                     case "Groups_GroupId": Column.Groups_GroupId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Groups_GroupId, definitionRow, ColumnXls); break;
                     case "Groups_GroupName": Column.Groups_GroupName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Groups_GroupName, definitionRow, ColumnXls); break;
                     case "Groups_Body": Column.Groups_Body = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Groups_Body, definitionRow, ColumnXls); break;
                     case "Groups_Title": Column.Groups_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Groups_Title, definitionRow, ColumnXls); break;
+                    case "Groups_Disabled": Column.Groups_Disabled = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Groups_Disabled, definitionRow, ColumnXls); break;
                     case "GroupMembers_GroupId": Column.GroupMembers_GroupId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.GroupMembers_GroupId, definitionRow, ColumnXls); break;
                     case "GroupMembers_DeptId": Column.GroupMembers_DeptId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.GroupMembers_DeptId, definitionRow, ColumnXls); break;
                     case "GroupMembers_UserId": Column.GroupMembers_UserId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.GroupMembers_UserId, definitionRow, ColumnXls); break;
@@ -1586,6 +1588,8 @@ namespace Implem.DefinitionAccessor
                     case "Users_NumberOfDenial": Column.Users_NumberOfDenial = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_NumberOfDenial, definitionRow, ColumnXls); break;
                     case "Users_TenantManager": Column.Users_TenantManager = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_TenantManager, definitionRow, ColumnXls); break;
                     case "Users_ServiceManager": Column.Users_ServiceManager = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_ServiceManager, definitionRow, ColumnXls); break;
+                    case "Users_AllowCreationAtTopSite": Column.Users_AllowCreationAtTopSite = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AllowCreationAtTopSite, definitionRow, ColumnXls); break;
+                    case "Users_AllowGroupAdministration": Column.Users_AllowGroupAdministration = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AllowGroupAdministration, definitionRow, ColumnXls); break;
                     case "Users_Disabled": Column.Users_Disabled = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Disabled, definitionRow, ColumnXls); break;
                     case "Users_Lockout": Column.Users_Lockout = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Lockout, definitionRow, ColumnXls); break;
                     case "Users_LockoutCounter": Column.Users_LockoutCounter = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_LockoutCounter, definitionRow, ColumnXls); break;
@@ -6674,6 +6678,7 @@ namespace Implem.DefinitionAccessor
             var tableNames = new List<string>()
             {
                 "Depts",
+                "Groups",
                 "Users",
                 "Issues",
                 "Results"
@@ -6763,6 +6768,9 @@ namespace Implem.DefinitionAccessor
             {
                 case "Depts":
                     columnDefinition.Add("ModelName", "Dept");
+                    break;
+                case "Groups":
+                    columnDefinition.Add("ModelName", "Group");
                     break;
                 case "Users":
                     columnDefinition.Add("ModelName", "User");
@@ -9105,11 +9113,13 @@ namespace Implem.DefinitionAccessor
         public string Depts_DeptName;
         public string Depts_Body;
         public string Depts_Title;
+        public string Depts_Disabled;
         public string Groups_TenantId;
         public string Groups_GroupId;
         public string Groups_GroupName;
         public string Groups_Body;
         public string Groups_Title;
+        public string Groups_Disabled;
         public string GroupMembers_GroupId;
         public string GroupMembers_DeptId;
         public string GroupMembers_UserId;
@@ -9159,6 +9169,8 @@ namespace Implem.DefinitionAccessor
         public string Users_NumberOfDenial;
         public string Users_TenantManager;
         public string Users_ServiceManager;
+        public string Users_AllowCreationAtTopSite;
+        public string Users_AllowGroupAdministration;
         public string Users_Disabled;
         public string Users_Lockout;
         public string Users_LockoutCounter;
@@ -9601,11 +9613,13 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Depts_DeptName = new ColumnDefinition();
         public ColumnDefinition Depts_Body = new ColumnDefinition();
         public ColumnDefinition Depts_Title = new ColumnDefinition();
+        public ColumnDefinition Depts_Disabled = new ColumnDefinition();
         public ColumnDefinition Groups_TenantId = new ColumnDefinition();
         public ColumnDefinition Groups_GroupId = new ColumnDefinition();
         public ColumnDefinition Groups_GroupName = new ColumnDefinition();
         public ColumnDefinition Groups_Body = new ColumnDefinition();
         public ColumnDefinition Groups_Title = new ColumnDefinition();
+        public ColumnDefinition Groups_Disabled = new ColumnDefinition();
         public ColumnDefinition GroupMembers_GroupId = new ColumnDefinition();
         public ColumnDefinition GroupMembers_DeptId = new ColumnDefinition();
         public ColumnDefinition GroupMembers_UserId = new ColumnDefinition();
@@ -9655,6 +9669,8 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Users_NumberOfDenial = new ColumnDefinition();
         public ColumnDefinition Users_TenantManager = new ColumnDefinition();
         public ColumnDefinition Users_ServiceManager = new ColumnDefinition();
+        public ColumnDefinition Users_AllowCreationAtTopSite = new ColumnDefinition();
+        public ColumnDefinition Users_AllowGroupAdministration = new ColumnDefinition();
         public ColumnDefinition Users_Disabled = new ColumnDefinition();
         public ColumnDefinition Users_Lockout = new ColumnDefinition();
         public ColumnDefinition Users_LockoutCounter = new ColumnDefinition();

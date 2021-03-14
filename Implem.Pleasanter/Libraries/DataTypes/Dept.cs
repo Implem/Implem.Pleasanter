@@ -14,6 +14,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public int Id;
         public string Code;
         public string Name;
+        public bool Disabled;
 
         public Dept()
         {
@@ -25,6 +26,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Id = dataRow.Int("DeptId");
             Code = dataRow.String("DeptCode");
             Name = dataRow.String("DeptName");
+            Disabled = dataRow.Bool("Disabled");
         }
 
         public string ToControl(Context context, SiteSettings ss, Column column)

@@ -70,12 +70,12 @@ namespace Implem.DefinitionAccessor
 
         public static void SetParameters()
         {
-            Parameters.Api = Read<ParameterAccessor.Parts.Api>();
-            Parameters.Authentication = Read<ParameterAccessor.Parts.Authentication>();
-            Parameters.BackgroundTask = Read<ParameterAccessor.Parts.BackgroundTask>();
-            Parameters.BinaryStorage = Read<ParameterAccessor.Parts.BinaryStorage>();
+            Parameters.Api = Read<Api>();
+            Parameters.Authentication = Read<Authentication>();
+            Parameters.BackgroundTask = Read<BackgroundTask>();
+            Parameters.BinaryStorage = Read<BinaryStorage>();
             Parameters.CustomDefinitions = CustomDefinitionsHash();
-            Parameters.Deleted = Read<ParameterAccessor.Parts.Deleted>();
+            Parameters.Deleted = Read<Deleted>();
             Parameters.ExtendedColumnDefinitions = ExtendedColumnDefinitions();
             Parameters.ExtendedColumnsSet = ExtendedColumnsSet();
             Parameters.ExtendedSqls = ExtendedSqls();
@@ -84,26 +84,27 @@ namespace Implem.DefinitionAccessor
             Parameters.ExtendedServerScripts = ExtendedServerScripts();
             Parameters.ExtendedHtmls = ExtendedHtmls();
             Parameters.ExtendedTags = ExtendedTags();
-            Parameters.General = Read<ParameterAccessor.Parts.General>();
-            Parameters.History = Read<ParameterAccessor.Parts.History>();
+            Parameters.General = Read<General>();
+            Parameters.History = Read<History>();
             Parameters.Version = Read<ParameterAccessor.Parts.Version>();
-            Parameters.Mail = Read<ParameterAccessor.Parts.Mail>();
-            Parameters.Notification = Read<ParameterAccessor.Parts.Notification>();
-            Parameters.Permissions = Read< ParameterAccessor.Parts.Permissions>();
-            Parameters.Rds = Read<ParameterAccessor.Parts.Rds>();
-            Parameters.Registration = Read<ParameterAccessor.Parts.Registration>();
-            Parameters.Reminder = Read<ParameterAccessor.Parts.Reminder>();
-            Parameters.Script = Read<ParameterAccessor.Parts.Script>();
-            Parameters.Search = Read<ParameterAccessor.Parts.Search>();
-            Parameters.Security = Read<ParameterAccessor.Parts.Security>();
-            Parameters.Service = Read<ParameterAccessor.Parts.Service>();
-            Parameters.Session = Read<ParameterAccessor.Parts.Session>();
-            Parameters.Site = Read<ParameterAccessor.Parts.Site>();
-            Parameters.SitePackage = Read<ParameterAccessor.Parts.SitePackage>();
-            Parameters.SysLog = Read<ParameterAccessor.Parts.SysLog>();
-            Parameters.Parameter = Read<ParameterAccessor.Parts.Parameter>();
-            Parameters.Locations= Read<ParameterAccessor.Parts.Locations>();
-            Parameters.Validation = Read<ParameterAccessor.Parts.Validation>();
+            Parameters.Mail = Read<Mail>();
+            Parameters.Notification = Read<Notification>();
+            Parameters.Permissions = Read<Permissions>();
+            Parameters.Rds = Read<Rds>();
+            Parameters.Registration = Read<Registration>();
+            Parameters.Reminder = Read<Reminder>();
+            Parameters.Script = Read<Script>();
+            Parameters.Search = Read<Search>();
+            Parameters.Security = Read<Security>();
+            Parameters.Service = Read<Service>();
+            Parameters.Session = Read<Session>();
+            Parameters.Site = Read<Site>();
+            Parameters.SitePackage = Read<SitePackage>();
+            Parameters.SysLog = Read<SysLog>();
+            Parameters.User = Read<User>();
+            Parameters.Parameter = Read<Parameter>();
+            Parameters.Locations= Read<Locations>();
+            Parameters.Validation = Read<Validation>();
         }
 
         public static void ReloadParameters()
@@ -176,10 +177,10 @@ namespace Implem.DefinitionAccessor
             return hash;
         }
 
-        private static List<ParameterAccessor.Parts.ExtendedColumns> ExtendedColumnsSet(
-            string path = null, List<ParameterAccessor.Parts.ExtendedColumns> list = null)
+        private static List<ExtendedColumns> ExtendedColumnsSet(
+            string path = null, List<ExtendedColumns> list = null)
         {
-            list = list ?? new List<ParameterAccessor.Parts.ExtendedColumns>();
+            list = list ?? new List<ExtendedColumns>();
             path = path ?? Path.Combine(
                 Environments.CurrentDirectoryPath,
                 "App_Data",
@@ -191,7 +192,7 @@ namespace Implem.DefinitionAccessor
                 foreach (var file in dir.GetFiles("*.json"))
                 {
                     var extendedColumns = Files.Read(file.FullName)
-                        .Deserialize<ParameterAccessor.Parts.ExtendedColumns>();
+                        .Deserialize<ExtendedColumns>();
                     if (extendedColumns != null)
                     {
                         list.Add(extendedColumns);

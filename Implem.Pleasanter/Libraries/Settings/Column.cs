@@ -184,11 +184,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public Dictionary<string, string> ChoiceValueHash;
         [NonSerialized]
-        public bool CanCreate = true;
+        public bool? CanCreateCache;
         [NonSerialized]
-        public bool CanRead = true;
+        public bool? CanReadCache;
         [NonSerialized]
-        public bool CanUpdate = true;
+        public bool? CanUpdateCache;
         [NonSerialized]
         public SiteSettings SiteSettings;
         [NonSerialized]
@@ -276,6 +276,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         SiteInfo.TenantCaches.Get(context.TenantId)?
                             .DeptHash
                             .Where(o => o.Value.TenantId == context.TenantId)
+                            .Where(o => !o.Value.Disabled)
                             .Where(o => searchIndexes?.Any() != true ||
                                 searchIndexes.All(p =>
                                     o.Key == p.ToInt() ||
@@ -293,6 +294,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         SiteInfo.SiteGroups(context: context, siteId: siteId)
                             .ToDictionary(o => o, o => SiteInfo.Group(context.TenantId, o))
                             .Where(o => o.Value.TenantId == context.TenantId)
+                            .Where(o => !o.Value.Disabled)
                             .Where(o => searchIndexes?.Any() != true ||
                                 searchIndexes.All(p =>
                                     o.Key == p.ToInt() ||
@@ -310,6 +312,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         SiteInfo.TenantCaches.Get(context.TenantId)?
                             .GroupHash
                             .Where(o => o.Value.TenantId == context.TenantId)
+                            .Where(o => !o.Value.Disabled)
                             .Where(o => searchIndexes?.Any() != true ||
                                 searchIndexes.All(p =>
                                     o.Key == p.ToInt() ||
@@ -759,8 +762,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 value: value,
                 format: format)
                     + (EditorReadOnly == true
-                        || this.ColumnPermissionType(
+                        || Permissions.ColumnPermissionType(
                             context: context,
+                            ss: ss,
+                            column: this,
                             baseModel: null) != Permissions.ColumnPermissionTypes.Update
                                 ? Unit
                                 : string.Empty);
@@ -989,12 +994,75 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Join(" ");
         }
 
-        public bool CanEdit(Context context)
+        public bool CanCreate(
+            Context context,
+            SiteSettings ss,
+            List<string> mine)
+        {
+            if (CanCreateCache == null)
+            {
+                var columnAccessControl = ss.CreateColumnAccessControls?.FirstOrDefault(o => o.ColumnName == ColumnName)
+                    ?? new ColumnAccessControl(ss, this, "Create");
+                CanCreateCache = columnAccessControl.Allowed(
+                    context: context,
+                    ss: ss,
+                    mine: mine);
+                ss.ColumnAccessControlCaches.AddIfNotConainsKey(ColumnName, this);
+            }
+            return CanCreateCache == true;
+        }
+
+        public bool CanRead(
+            Context context,
+            SiteSettings ss,
+            List<string> mine)
+        {
+            if (CanReadCache == null)
+            {
+                var columnAccessControl = ss.ReadColumnAccessControls?.FirstOrDefault(o => o.ColumnName == ColumnName)
+                    ?? new ColumnAccessControl(ss, this, "Read");
+                CanReadCache = columnAccessControl.Allowed(
+                    context: context,
+                    ss: ss,
+                    mine: mine);
+                ss.ColumnAccessControlCaches.AddIfNotConainsKey(ColumnName, this);
+            }
+            return CanReadCache == true;
+        }
+
+        public bool CanUpdate(
+            Context context,
+            SiteSettings ss,
+            List<string> mine)
+        {
+            if (CanUpdateCache == null)
+            {
+                var columnAccessControl = ss.UpdateColumnAccessControls?.FirstOrDefault(o => o.ColumnName == ColumnName)
+                    ?? new ColumnAccessControl(ss, this, "Update");
+                CanUpdateCache = columnAccessControl.Allowed(
+                    context: context,
+                    ss: ss,
+                    mine: mine);
+                ss.ColumnAccessControlCaches.AddIfNotConainsKey(ColumnName, this);
+            }
+            return CanUpdateCache == true;
+        }
+
+        public bool CanEdit(
+            Context context,
+            SiteSettings ss,
+            List<string> mine)
         {
             switch (context.Action)
             {
-                case "new": return CanCreate;
-                default: return CanUpdate;
+                case "new": return CanCreate(
+                    context: context,
+                    ss: ss,
+                    mine: mine);
+                default: return CanUpdate(
+                    context: context,
+                    ss: ss,
+                    mine: mine);
             }
         }
 
@@ -1030,6 +1098,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                             break;
                         case "Body":
                             sql.Depts_Body(tableName: path, _as: _as);
+                            break;
+                        case "Disabled":
+                            sql.Depts_Disabled(tableName: path, _as: _as);
                             break;
                         case "Comments":
                             sql.Depts_Comments(tableName: path, _as: _as);
@@ -1082,6 +1153,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                             break;
                         case "Body":
                             sql.Groups_Body(tableName: path, _as: _as);
+                            break;
+                        case "Disabled":
+                            sql.Groups_Disabled(tableName: path, _as: _as);
                             break;
                         case "Comments":
                             sql.Groups_Comments(tableName: path, _as: _as);
@@ -1282,6 +1356,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                             break;
                         case "ServiceManager":
                             sql.Users_ServiceManager(tableName: path, _as: _as);
+                            break;
+                        case "AllowCreationAtTopSite":
+                            sql.Users_AllowCreationAtTopSite(tableName: path, _as: _as);
+                            break;
+                        case "AllowGroupAdministration":
+                            sql.Users_AllowGroupAdministration(tableName: path, _as: _as);
                             break;
                         case "Disabled":
                             sql.Users_Disabled(tableName: path, _as: _as);

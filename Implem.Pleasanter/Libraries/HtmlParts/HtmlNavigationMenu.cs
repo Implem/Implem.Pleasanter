@@ -46,7 +46,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             long siteId,
             string referenceType)
         {
-            var canManageGroups = context.UserSettings?.DisableGroupAdmin != true;
+            var canManageGroups = context.UserSettings?.AllowGroupAdministration(context: context) == true;
             var canManageSite = siteId != 0 && context.CanManageSite(ss: ss, site: true);
             var canManageDepts = Permissions.CanManageTenant(context: context);
             var canManageUsers = Permissions.CanManageTenant(context: context);
@@ -327,7 +327,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             && ss.ReferenceType == "Sites"
                             || (context.Controller == "items"
                                 && ss.SiteId == 0
-                                && context.UserSettings.DisableTopSiteCreation != true))
+                                && context.UserSettings?.AllowCreationAtTopSite(context: context) == true))
                     .Li(
                         id: "SettingsMenu_ExportSitePackage",
                         action: () => hb

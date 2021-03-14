@@ -50,7 +50,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         result = Model.Class(name);
                         return true;
                     case "Num":
-                        result = Model.Num(name);
+                        result = Model.Num(name).Value;
                         return true;
                     case "Date":
                         result = Model.Date(name);

@@ -174,10 +174,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
-            IEnumerable<Column> columns,
+            List<Column> columns,
             EnumerableRowCollection<DataRow> dataRows,
             FormDataSet formDataSet = null,
-            RecordSelector recordSelector = null,
             bool editRow = false,
             bool checkRow = true)
         {
@@ -185,8 +184,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 hb.Tr(
                     context: context,
                     ss: ss,
-                    dataRow: dataRow,
                     columns: columns,
+                    dataRow: dataRow,
                     recordSelector: new RecordSelector(context),
                     editRow: editRow,
                     checkRow: checkRow,
@@ -199,8 +198,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
+            List<Column> columns,
             DataRow dataRow,
-            IEnumerable<Column> columns,
             bool editRow,
             bool checkRow,
             string idColumn,
@@ -210,13 +209,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var dataId = dataRow.Long(idColumn);
             var dataVersion = dataRow.Int("Ver");
             var isHistory = dataRow.Bool("IsHistory");
-            var EditColumns = !isHistory
-                ? columns.ToDictionary(
-                    column => column.ColumnName,
-                    column => EditColumn(
-                        context: context,
-                        column: column))
-                : new Dictionary<string, bool>();
             ServerScriptModelRow serverScriptRowValues = null;
             var depts = new Dictionary<string, DeptModel>();
             var groups = new Dictionary<string, GroupModel>();
@@ -236,9 +228,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             ? formDataSet?.FirstOrDefault(o =>
                                 o.Id == dataRow.Long("IssueId"))?.Data
                             : null);
-                    ss.SetColumnAccessControls(
-                        context: context,
-                        mine: issueModel.Mine(context: context));
+                    ss.ClearColumnAccessControlCaches(baseModel: issueModel);
                     serverScriptRowValues = issueModel?.SetByBeforeOpeningRowServerScript(
                         context: context,
                         ss: ss);
@@ -253,9 +243,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             ? formDataSet?.FirstOrDefault(o =>
                                 o.Id == dataRow.Long("ResultId"))?.Data
                             : null);
-                    ss.SetColumnAccessControls(
-                        context: context,
-                        mine: resultModel.Mine(context: context));
+                    ss.ClearColumnAccessControlCaches(baseModel: resultModel);
                     serverScriptRowValues = resultModel?.SetByBeforeOpeningRowServerScript(
                         context: context,
                         ss: ss);
@@ -324,9 +312,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         dataRow: dataRow,
                                         tableAlias: column.TableAlias);
                                     depts.Add(key, deptModel);
-                                    ss.SetColumnAccessControls(
-                                        context: context,
-                                        mine: deptModel.Mine(context: context));
+                                    ss.ClearColumnAccessControlCaches(baseModel: deptModel);
                                 }
                                 hb.TdValue(
                                     context: context,
@@ -344,9 +330,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         dataRow: dataRow,
                                         tableAlias: column.TableAlias);
                                     groups.Add(key, groupModel);
-                                    ss.SetColumnAccessControls(
-                                        context: context,
-                                        mine: groupModel.Mine(context: context));
+                                    ss.ClearColumnAccessControlCaches(baseModel: groupModel);
                                 }
                                 hb.TdValue(
                                     context: context,
@@ -364,9 +348,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         dataRow: dataRow,
                                         tableAlias: column.TableAlias);
                                     registrations.Add(key, registrationModel);
-                                    ss.SetColumnAccessControls(
-                                        context: context,
-                                        mine: registrationModel.Mine(context: context));
+                                    ss.ClearColumnAccessControlCaches(baseModel: registrationModel);
                                 }
                                 hb.TdValue(
                                     context: context,
@@ -384,9 +366,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         dataRow: dataRow,
                                         tableAlias: column.TableAlias);
                                     users.Add(key, userModel);
-                                    ss.SetColumnAccessControls(
-                                        context: context,
-                                        mine: userModel.Mine(context: context));
+                                    ss.ClearColumnAccessControlCaches(baseModel: userModel);
                                 }
                                 hb.TdValue(
                                     context: context,
@@ -407,9 +387,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             : null,
                                         tableAlias: column.TableAlias);
                                     sites.Add(key, siteModel);
-                                    ss.SetColumnAccessControls(
-                                        context: context,
-                                        mine: siteModel.Mine(context: context));
+                                    ss.ClearColumnAccessControlCaches(baseModel: siteModel);
                                 }
                                 hb.TdValue(
                                     context: context,
@@ -431,15 +409,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             : null,
                                         tableAlias: column.TableAlias);
                                     issues.Add(key, issueModel);
-                                    ss.SetColumnAccessControls(
-                                        context: context,
-                                        mine: issueModel.Mine(context: context));
+                                    ss.ClearColumnAccessControlCaches(baseModel: issueModel);
                                 }
                                 if (!issueModel.Locked
                                     && !issueModel.ReadOnly
-                                    && EditColumns.Get(column.ColumnName)
+                                    && !isHistory
+                                    && EditColumn(
+                                        context: context,
+                                        ss: ss,
+                                        column: column,
+                                        mine: issueModel.Mine(context: context))
                                     && column.CanEdit(
                                         context: context,
+                                        ss: ss,
                                         baseModel: issueModel))
                                 {
                                     hb.Td(
@@ -480,15 +462,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             : null,
                                         tableAlias: column.TableAlias);
                                     results.Add(key, resultModel);
-                                    ss.SetColumnAccessControls(
-                                        context: context,
-                                        mine: resultModel.Mine(context: context));
+                                    ss.ClearColumnAccessControlCaches(baseModel: resultModel);
                                 }
                                 if (!resultModel.Locked
                                     && !resultModel.ReadOnly
-                                    && EditColumns.Get(column.ColumnName)
+                                    && !isHistory
+                                    && EditColumn(
+                                        context: context,
+                                        ss: ss,
+                                        column: column,
+                                        mine: resultModel.Mine(context: context))
                                     && column.CanEdit(
                                         context: context,
+                                        ss: ss,
                                         baseModel: resultModel))
                                 {
                                     hb.Td(
@@ -520,7 +506,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 });
         }
 
-        private static bool EditColumn(Context context, Column column)
+        private static bool EditColumn(
+            Context context,
+            SiteSettings ss,
+            Column column,
+            List<string> mine)
         {
             switch (column.ColumnName)
             {
@@ -534,7 +524,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case "SiteTitle":
                     return false;
             }
-            if (!column.CanUpdate)
+            if (!column.CanUpdate(
+                context: context,
+                ss: ss,
+                mine: mine))
             {
                 return false;
             }
