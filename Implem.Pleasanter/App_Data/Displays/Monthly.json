@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Mensualmente"
+        },
+        {
+            "Language": "vn",
+            "Body": "Hàng tháng"
         }
     ]
 }

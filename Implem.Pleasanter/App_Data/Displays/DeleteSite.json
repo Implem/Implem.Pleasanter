@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Eliminar sitio"
+        },
+        {
+            "Language": "vn",
+            "Body": "Xóa trang"
         }
     ]
 }

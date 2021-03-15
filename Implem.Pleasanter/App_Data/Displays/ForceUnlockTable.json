@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Forzar desbloqueo de la tabla."
+        },
+        {
+            "Language": "vn",
+            "Body": "Bắt buộc mở khóa bảng"
         }
     ]
 }

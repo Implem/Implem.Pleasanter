@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "No se hereda el permiso"
+        },
+        {
+            "Language": "vn",
+            "Body": "Không kế thừa quyền truy cập"
         }
     ]
 }

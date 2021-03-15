@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "{0} Correo electrónico de notificación de aprobación"
+        },
+        {
+            "Language": "vn",
+            "Body": "Email yêu cầu phê duyệt {0}"
         }
     ]
 }

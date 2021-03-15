@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Destinatarios predeterminados"
+        },
+        {
+            "Language": "vn",
+            "Body": "Người nhận mặc định"
         }
     ]
 }

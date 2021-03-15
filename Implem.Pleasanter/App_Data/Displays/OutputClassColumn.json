@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Clasificación de salida a columna"
+        },
+        {
+            "Language": "vn",
+            "Body": "Phân loại đầu ra thành cột"
         }
     ]
 }

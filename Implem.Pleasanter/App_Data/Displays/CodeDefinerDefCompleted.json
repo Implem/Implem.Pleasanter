@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Se ha creado la definición del código."
+        },
+        {
+            "Language": "vn",
+            "Body": "Đã hoàn thành xử lí tạo định nghĩa code."
         }
     ]
 }

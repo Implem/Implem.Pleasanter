@@ -25,6 +25,10 @@
         {
             "Language": "es",
             "Body": "¿Está seguro de que quiere sincronizar los datos?"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bạn có chắc muốn đồng bộ dữ liệu không?"
         }
     ]
 }

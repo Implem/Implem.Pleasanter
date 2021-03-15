@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Se ha creado un sitio."
+        },
+        {
+            "Language": "vn",
+            "Body": "Trang web đã được tạo."
         }
     ]
 }

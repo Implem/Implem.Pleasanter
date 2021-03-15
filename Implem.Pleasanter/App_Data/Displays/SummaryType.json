@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Tipo de resumen"
+        },
+        {
+            "Language": "vn",
+            "Body": "Loại tổng hợp"
         }
     ]
 }

@@ -2561,6 +2561,11 @@ namespace Implem.DefinitionAccessor
                                 data.ToString();
                             newColumnDefinition.SavedLabelText_es = newColumnDefinition.LabelText_es;
                             break;
+                        case "LabelText_vn":
+                            newColumnDefinition.LabelText_vn = customDefinitionRow.Get("LabelText_vn")?.ToString() ??
+                                data.ToString();
+                            newColumnDefinition.SavedLabelText_vn = newColumnDefinition.LabelText_vn;
+                            break;
                         default: break;
                     }
                 });
@@ -2692,6 +2697,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("LabelText_de")) { definition.LabelText_de = definitionRow["LabelText_de"].ToString(); definition.SavedLabelText_de = definition.LabelText_de; }
             if (definitionRow.ContainsKey("LabelText_ko")) { definition.LabelText_ko = definitionRow["LabelText_ko"].ToString(); definition.SavedLabelText_ko = definition.LabelText_ko; }
             if (definitionRow.ContainsKey("LabelText_es")) { definition.LabelText_es = definitionRow["LabelText_es"].ToString(); definition.SavedLabelText_es = definition.LabelText_es; }
+            if (definitionRow.ContainsKey("LabelText_vn")) { definition.LabelText_vn = definitionRow["LabelText_vn"].ToString(); definition.SavedLabelText_vn = definition.LabelText_vn; }
         }
 
         private static void ConstructColumnDefinitions()
@@ -6359,6 +6365,7 @@ namespace Implem.DefinitionAccessor
                         case "LabelText_de": columnDefinition.LabelText_de = optionValue.ToString(); break;
                         case "LabelText_ko": columnDefinition.LabelText_ko = optionValue.ToString(); break;
                         case "LabelText_es": columnDefinition.LabelText_es = optionValue.ToString(); break;
+                        case "LabelText_vn": columnDefinition.LabelText_vn = optionValue.ToString(); break;
                     }
                 });
         }
@@ -8624,6 +8631,7 @@ namespace Implem.DefinitionAccessor
         public string LabelText_de; public string SavedLabelText_de;
         public string LabelText_ko; public string SavedLabelText_ko;
         public string LabelText_es; public string SavedLabelText_es;
+        public string LabelText_vn; public string SavedLabelText_vn;
 
         public ColumnDefinition()
         {
@@ -8753,6 +8761,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("LabelText_de")) LabelText_de = propertyCollection["LabelText_de"].ToString(); else LabelText_de = string.Empty;
             if (propertyCollection.ContainsKey("LabelText_ko")) LabelText_ko = propertyCollection["LabelText_ko"].ToString(); else LabelText_ko = string.Empty;
             if (propertyCollection.ContainsKey("LabelText_es")) LabelText_es = propertyCollection["LabelText_es"].ToString(); else LabelText_es = string.Empty;
+            if (propertyCollection.ContainsKey("LabelText_vn")) LabelText_vn = propertyCollection["LabelText_vn"].ToString(); else LabelText_vn = string.Empty;
         }
 
         public object this[string key]
@@ -8882,6 +8891,7 @@ namespace Implem.DefinitionAccessor
                     case "LabelText_de": return LabelText_de;
                     case "LabelText_ko": return LabelText_ko;
                     case "LabelText_es": return LabelText_es;
+                    case "LabelText_vn": return LabelText_vn;
                     default: return null;
                 }
             }
@@ -9011,6 +9021,7 @@ namespace Implem.DefinitionAccessor
             LabelText_de = SavedLabelText_de;
             LabelText_ko = SavedLabelText_ko;
             LabelText_es = SavedLabelText_es;
+            LabelText_vn = SavedLabelText_vn;
         }
     }
 

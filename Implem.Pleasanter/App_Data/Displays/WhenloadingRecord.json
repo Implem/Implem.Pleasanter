@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Al cargar el registro"
+        },
+        {
+            "Language": "vn",
+            "Body": "Khi tải bản ghi"
         }
     ]
 }

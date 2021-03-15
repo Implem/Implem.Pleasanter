@@ -465,35 +465,27 @@ namespace Implem.Pleasanter.Libraries.Server
         {
             var dataRows = Rds.ExecuteTable(
                 context: context,
-                statements: new SqlStatement[]
-                {
-                    Rds.SelectSites(
-                        column: Rds.LinksColumn()
-                            .DestinationId()
-                            .SourceId(),
-                        join: new SqlJoinCollection(
-                            new SqlJoin(
-                                tableBracket: "\"Links\"",
-                                joinType: SqlJoin.JoinTypes.Inner,
-                                joinExpression: "\"Sites\".\"SiteId\"=\"Links\".\"DestinationId\"")),
-                        where: Rds.SitesWhere()
-                            .TenantId(context.TenantId)
-                            .ReferenceType("Wikis", _operator: "<>")),
-                    Rds.SelectSites(
-                        column: Rds.LinksColumn()
-                            .DestinationId()
-                            .SourceId(),
-                        join: new SqlJoinCollection(
-                            new SqlJoin(
-                                tableBracket: "\"Links\"",
-                                joinType: SqlJoin.JoinTypes.Inner,
-                                joinExpression: "\"Sites\".\"SiteId\"=\"Links\".\"SourceId\"")),
-                        where: Rds.SitesWhere()
-                            .TenantId(context.TenantId)
-                            .ReferenceType("Wikis", _operator: "<>"),
-                        unionType: Sqls.UnionTypes.UnionAll)
-                })
-                    .AsEnumerable();
+                statements: Rds.SelectLinks(
+                    column: Rds.LinksColumn()
+                        .DestinationId()
+                        .SourceId(),
+                    join: new SqlJoinCollection(
+                        new SqlJoin(
+                            tableBracket: "\"Sites\"",
+                            joinType: SqlJoin.JoinTypes.Inner,
+                            joinExpression: "\"DestinationSites\".\"SiteId\"=\"Links\".\"DestinationId\"",
+                            _as: "DestinationSites"),
+                        new SqlJoin(
+                            tableBracket: "\"Sites\"",
+                            joinType: SqlJoin.JoinTypes.Inner,
+                            joinExpression: "\"SourceSites\".\"SiteId\"=\"Links\".\"SourceId\"",
+                            _as: "SourceSites")),
+                    where: Rds.SitesWhere()
+                        .TenantId(context.TenantId, tableName: "DestinationSites")
+                        .TenantId(context.TenantId, tableName: "SourceSites")
+                        .ReferenceType("Wikis", tableName: "DestinationSites", _operator: "<>")
+                        .ReferenceType("Wikis", tableName: "SourceSites", _operator: "<>")))
+                            .AsEnumerable();
             var linkKeyValues = new LinkKeyValues()
             {
                 DestinationKeyValues = dataRows

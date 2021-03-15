@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Titular de la licencia"
+        },
+        {
+            "Language": "vn",
+            "Body": "Người được cấp giấy phép"
         }
     ]
 }

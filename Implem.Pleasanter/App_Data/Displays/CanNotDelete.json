@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "No puede eliminar {0}."
+        },
+        {
+            "Language": "vn",
+            "Body": "Không thể xóa {0}."
         }
     ]
 }

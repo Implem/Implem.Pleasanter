@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "El número de registros ha alcanzado el límite superior."
+        },
+        {
+            "Language": "vn",
+            "Body": "Số bản ghi đã đạt giới hạn."
         }
     ]
 }

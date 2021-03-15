@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Usar período trimestral"
+        },
+        {
+            "Language": "vn",
+            "Body": "Sử dụng một quý"
         }
     ]
 }

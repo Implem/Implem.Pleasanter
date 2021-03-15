@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Este registro no está bloqueado."
+        },
+        {
+            "Language": "vn",
+            "Body": "Bản ghi này không bị khóa."
         }
     ]
 }

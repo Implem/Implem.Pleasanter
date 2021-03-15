@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "No puede actualizarse porque es una versión previa."
+        },
+        {
+            "Language": "vn",
+            "Body": "Không thể cập nhật vì đang là phiên bản cũ."
         }
     ]
 }

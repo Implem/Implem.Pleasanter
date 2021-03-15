@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Hace {0} meses"
+        },
+        {
+            "Language": "vn",
+            "Body": "{0} tháng trước"
         }
     ]
 }

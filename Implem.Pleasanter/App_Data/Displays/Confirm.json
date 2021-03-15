@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Confirmar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Xác nhận"
         }
     ]
 }

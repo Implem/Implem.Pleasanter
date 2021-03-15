@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "No puede actualizarse porque {0} está duplicado."
+        },
+        {
+            "Language": "vn",
+            "Body": "Không thể cập nhật vì {0} đã bị trùng."
         }
     ]
 }

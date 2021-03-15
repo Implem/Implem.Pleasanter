@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Se ha terminado de subir el archivo."
+        },
+        {
+            "Language": "vn",
+            "Body": "Tải tệp tin lên đã hoàn thành."
         }
     ]
 }

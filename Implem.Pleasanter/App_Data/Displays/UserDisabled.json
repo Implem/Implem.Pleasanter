@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "El ID de inicio de sesión especificado está desactivado."
+        },
+        {
+            "Language": "vn",
+            "Body": "ID đăng nhập đã bị vô hiệu hóa."
         }
     ]
 }

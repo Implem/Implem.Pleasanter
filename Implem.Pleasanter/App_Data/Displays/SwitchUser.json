@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Cambiar a este usuario"
+        },
+        {
+            "Language": "vn",
+            "Body": "Chuyển sang người dùng này"
         }
     ]
 }

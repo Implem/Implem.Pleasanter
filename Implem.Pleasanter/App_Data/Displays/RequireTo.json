@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Añadir al menos un destinatario."
+        },
+        {
+            "Language": "vn",
+            "Body": "Xin mời thêm tối thiểu 1 người nhận."
         }
     ]
 }

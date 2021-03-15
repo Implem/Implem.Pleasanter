@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Redondeado"
+        },
+        {
+            "Language": "vn",
+            "Body": "Làm tròn lên"
         }
     ]
 }

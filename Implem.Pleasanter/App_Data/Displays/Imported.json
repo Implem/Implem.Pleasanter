@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Se han añadido {0} entradas y se han actualizado {1}."
+        },
+        {
+            "Language": "vn",
+            "Body": "{0} bản ghi đã được thêm và {1} bản ghi đã được cập nhật."
         }
     ]
 }
