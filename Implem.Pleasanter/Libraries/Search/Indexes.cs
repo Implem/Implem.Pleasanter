@@ -433,7 +433,9 @@ namespace Implem.Pleasanter.Libraries.Search
             switch (ss?.SearchType)
             {
                 case SiteSettings.SearchTypes.FullText:
-                    var words = Words(searchText.SearchIndexes().Join(" "));
+                    var words = context.SqlCommandText.CreateSearchTextWords(
+                        words: Words(searchText.SearchIndexes().Join(" ")),
+                        searchText: searchText.SearchIndexes().Join(" "));
                     if (words?.Any() != true) return null;
                     return SelectByFullText(
                         context: context,
@@ -512,7 +514,9 @@ namespace Implem.Pleasanter.Libraries.Search
             switch (ss?.SearchType)
             {
                 case SiteSettings.SearchTypes.FullText:
-                    var words = Words(searchText);
+                    var words = context.SqlCommandText.CreateSearchTextWords(
+                        words: Words(searchText.SearchIndexes().Join(" ")),
+                        searchText: searchText.SearchIndexes().Join(" "));
                     if (words?.Any() != true) return where;
                     if (itemJoin)
                     {
@@ -700,7 +704,9 @@ namespace Implem.Pleasanter.Libraries.Search
             int pageSize = 0,
             bool countRecord = false)
         {
-            var words = Words(searchText);
+            var words = context.SqlCommandText.CreateSearchTextWords(
+                words: Words(searchText.SearchIndexes().Join(" ")),
+                searchText: searchText.SearchIndexes().Join(" "));
             if (words?.Any() != true) return null;
             var statements = new List<SqlStatement>
             {
