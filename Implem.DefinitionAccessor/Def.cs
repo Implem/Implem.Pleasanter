@@ -511,6 +511,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_BulkUpdateSelectChangedCases": Code.Model_BulkUpdateSelectChangedCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BulkUpdateSelectChangedCases, definitionRow, CodeXls); break;
                     case "Model_BulkUpdateCases": Code.Model_BulkUpdateCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BulkUpdateCases, definitionRow, CodeXls); break;
                     case "Model_UpdateByApiCases": Code.Model_UpdateByApiCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateByApiCases, definitionRow, CodeXls); break;
+                    case "Model_UpdateByServerScriptCases": Code.Model_UpdateByServerScriptCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateByServerScriptCases, definitionRow, CodeXls); break;
                     case "Model_DeleteCommentCases": Code.Model_DeleteCommentCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteCommentCases, definitionRow, CodeXls); break;
                     case "Model_CopyCases": Code.Model_CopyCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CopyCases, definitionRow, CodeXls); break;
                     case "Model_MoveCases": Code.Model_MoveCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_MoveCases, definitionRow, CodeXls); break;
@@ -555,6 +556,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_SiteSettingsParameterBeforeComma": Code.Model_SiteSettingsParameterBeforeComma = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsParameterBeforeComma, definitionRow, CodeXls); break;
                     case "Model_SiteSettingsContext": Code.Model_SiteSettingsContext = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsContext, definitionRow, CodeXls); break;
                     case "Model_ExtendedSqls": Code.Model_ExtendedSqls = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExtendedSqls, definitionRow, CodeXls); break;
+                    case "Model_PreviousTitle": Code.Model_PreviousTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PreviousTitle, definitionRow, CodeXls); break;
                     case "Model_ExtendedSqlsParameter": Code.Model_ExtendedSqlsParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExtendedSqlsParameter, definitionRow, CodeXls); break;
                     case "Model_LinkedSsDataSetHashBeforeComma": Code.Model_LinkedSsDataSetHashBeforeComma = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_LinkedSsDataSetHashBeforeComma, definitionRow, CodeXls); break;
                     case "Model_LinkedSsDataSetHashParameter": Code.Model_LinkedSsDataSetHashParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_LinkedSsDataSetHashParameter, definitionRow, CodeXls); break;
@@ -645,6 +647,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_Update_Response": Code.Model_Utilities_Update_Response = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Update_Response, definitionRow, CodeXls); break;
                     case "Model_Utilities_Update_Response_Tables": Code.Model_Utilities_Update_Response_Tables = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Update_Response_Tables, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpdateParameters_Sites": Code.Model_Utilities_UpdateParameters_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateParameters_Sites, definitionRow, CodeXls); break;
+                    case "Model_Utilities_PreviousTitle": Code.Model_Utilities_PreviousTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_PreviousTitle, definitionRow, CodeXls); break;
                     case "Model_Utilities_Update_NewModel": Code.Model_Utilities_Update_NewModel = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Update_NewModel, definitionRow, CodeXls); break;
                     case "Model_Utilities_Update_NewModel_Sites": Code.Model_Utilities_Update_NewModel_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Update_NewModel_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpdateInvalid_Users": Code.Model_Utilities_UpdateInvalid_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateInvalid_Users, definitionRow, CodeXls); break;
@@ -1596,6 +1599,8 @@ namespace Implem.DefinitionAccessor
                     case "Users_NumberOfDenial": Column.Users_NumberOfDenial = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_NumberOfDenial, definitionRow, ColumnXls); break;
                     case "Users_TenantManager": Column.Users_TenantManager = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_TenantManager, definitionRow, ColumnXls); break;
                     case "Users_ServiceManager": Column.Users_ServiceManager = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_ServiceManager, definitionRow, ColumnXls); break;
+                    case "Users_AllowCreationAtTopSite": Column.Users_AllowCreationAtTopSite = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AllowCreationAtTopSite, definitionRow, ColumnXls); break;
+                    case "Users_AllowGroupAdministration": Column.Users_AllowGroupAdministration = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AllowGroupAdministration, definitionRow, ColumnXls); break;
                     case "Users_Disabled": Column.Users_Disabled = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Disabled, definitionRow, ColumnXls); break;
                     case "Users_Lockout": Column.Users_Lockout = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Lockout, definitionRow, ColumnXls); break;
                     case "Users_LockoutCounter": Column.Users_LockoutCounter = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_LockoutCounter, definitionRow, ColumnXls); break;
@@ -7495,6 +7500,7 @@ namespace Implem.DefinitionAccessor
         public string Model_BulkUpdateSelectChangedCases;
         public string Model_BulkUpdateCases;
         public string Model_UpdateByApiCases;
+        public string Model_UpdateByServerScriptCases;
         public string Model_DeleteCommentCases;
         public string Model_CopyCases;
         public string Model_MoveCases;
@@ -7539,6 +7545,7 @@ namespace Implem.DefinitionAccessor
         public string Model_SiteSettingsParameterBeforeComma;
         public string Model_SiteSettingsContext;
         public string Model_ExtendedSqls;
+        public string Model_PreviousTitle;
         public string Model_ExtendedSqlsParameter;
         public string Model_LinkedSsDataSetHashBeforeComma;
         public string Model_LinkedSsDataSetHashParameter;
@@ -7629,6 +7636,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_Update_Response;
         public string Model_Utilities_Update_Response_Tables;
         public string Model_Utilities_UpdateParameters_Sites;
+        public string Model_Utilities_PreviousTitle;
         public string Model_Utilities_Update_NewModel;
         public string Model_Utilities_Update_NewModel_Sites;
         public string Model_Utilities_UpdateInvalid_Users;
@@ -8154,6 +8162,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_BulkUpdateSelectChangedCases = new CodeDefinition();
         public CodeDefinition Model_BulkUpdateCases = new CodeDefinition();
         public CodeDefinition Model_UpdateByApiCases = new CodeDefinition();
+        public CodeDefinition Model_UpdateByServerScriptCases = new CodeDefinition();
         public CodeDefinition Model_DeleteCommentCases = new CodeDefinition();
         public CodeDefinition Model_CopyCases = new CodeDefinition();
         public CodeDefinition Model_MoveCases = new CodeDefinition();
@@ -8198,6 +8207,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SiteSettingsParameterBeforeComma = new CodeDefinition();
         public CodeDefinition Model_SiteSettingsContext = new CodeDefinition();
         public CodeDefinition Model_ExtendedSqls = new CodeDefinition();
+        public CodeDefinition Model_PreviousTitle = new CodeDefinition();
         public CodeDefinition Model_ExtendedSqlsParameter = new CodeDefinition();
         public CodeDefinition Model_LinkedSsDataSetHashBeforeComma = new CodeDefinition();
         public CodeDefinition Model_LinkedSsDataSetHashParameter = new CodeDefinition();
@@ -8288,6 +8298,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_Update_Response = new CodeDefinition();
         public CodeDefinition Model_Utilities_Update_Response_Tables = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpdateParameters_Sites = new CodeDefinition();
+        public CodeDefinition Model_Utilities_PreviousTitle = new CodeDefinition();
         public CodeDefinition Model_Utilities_Update_NewModel = new CodeDefinition();
         public CodeDefinition Model_Utilities_Update_NewModel_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpdateInvalid_Users = new CodeDefinition();
@@ -9230,6 +9241,8 @@ namespace Implem.DefinitionAccessor
         public string Users_NumberOfDenial;
         public string Users_TenantManager;
         public string Users_ServiceManager;
+        public string Users_AllowCreationAtTopSite;
+        public string Users_AllowGroupAdministration;
         public string Users_Disabled;
         public string Users_Lockout;
         public string Users_LockoutCounter;
@@ -9726,6 +9739,8 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Users_NumberOfDenial = new ColumnDefinition();
         public ColumnDefinition Users_TenantManager = new ColumnDefinition();
         public ColumnDefinition Users_ServiceManager = new ColumnDefinition();
+        public ColumnDefinition Users_AllowCreationAtTopSite = new ColumnDefinition();
+        public ColumnDefinition Users_AllowGroupAdministration = new ColumnDefinition();
         public ColumnDefinition Users_Disabled = new ColumnDefinition();
         public ColumnDefinition Users_Lockout = new ColumnDefinition();
         public ColumnDefinition Users_LockoutCounter = new ColumnDefinition();

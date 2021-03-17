@@ -1354,6 +1354,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "ServiceManager":
                             sql.Users_ServiceManager(tableName: path, _as: _as);
                             break;
+                        case "AllowCreationAtTopSite":
+                            sql.Users_AllowCreationAtTopSite(tableName: path, _as: _as);
+                            break;
+                        case "AllowGroupAdministration":
+                            sql.Users_AllowGroupAdministration(tableName: path, _as: _as);
+                            break;
                         case "Disabled":
                             sql.Users_Disabled(tableName: path, _as: _as);
                             break;

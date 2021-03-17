@@ -669,7 +669,6 @@ namespace Implem.Pleasanter.Models
                     _using: context.ContractSettings.StorageSize.ToDecimal() > 0));
         }
 
-
         public static HtmlBuilder Field(
             this HtmlBuilder hb,
             Context context,

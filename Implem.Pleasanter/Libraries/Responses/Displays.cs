@@ -9309,6 +9309,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Users_AllowCreationAtTopSite(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_AllowCreationAtTopSite",
+                data: data);
+        }
+
+        public static string Users_AllowGroupAdministration(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_AllowGroupAdministration",
+                data: data);
+        }
+
         public static string Users_Disabled(
             Context context,
             params string[] data)

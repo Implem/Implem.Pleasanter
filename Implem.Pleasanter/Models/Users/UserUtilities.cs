@@ -763,6 +763,42 @@ namespace Implem.Pleasanter.Models
                                     value: string.Empty,
                                     tabIndex: tabIndex,
                                     serverScriptValues: serverScriptValues);
+                    case "AllowCreationAtTopSite":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: userModel.AllowCreationAtTopSite,
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues);
+                    case "AllowGroupAdministration":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: userModel.AllowGroupAdministration,
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues);
                     case "Disabled":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -1127,6 +1163,12 @@ namespace Implem.Pleasanter.Models
                     case "TenantManager": value = userModel.TenantManager.GridText(
                         context: context,
                         column: column); break;
+                    case "AllowCreationAtTopSite": value = userModel.AllowCreationAtTopSite.GridText(
+                        context: context,
+                        column: column); break;
+                    case "AllowGroupAdministration": value = userModel.AllowGroupAdministration.GridText(
+                        context: context,
+                        column: column); break;
                     case "Disabled": value = userModel.Disabled.GridText(
                         context: context,
                         column: column); break;
@@ -1399,6 +1441,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             UserModel userModel)
         {
+            var mine = userModel.Mine(context: context);
             return hb.FieldSet(id: "FieldSetGeneral", action: () => hb
                 .FieldSetGeneralColumns(
                     context: context, ss: ss, userModel: userModel));
@@ -1596,6 +1639,18 @@ namespace Implem.Pleasanter.Models
                             column: column);
                 case "TenantManager":
                     return userModel.TenantManager
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "AllowCreationAtTopSite":
+                    return userModel.AllowCreationAtTopSite
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "AllowGroupAdministration":
+                    return userModel.AllowGroupAdministration
                         .ToControl(
                             context: context,
                             ss: ss,
@@ -1978,6 +2033,16 @@ namespace Implem.Pleasanter.Models
                             res.Val(
                                 "#Users_TenantManager" + idSuffix,
                                 userModel.TenantManager);
+                            break;
+                        case "AllowCreationAtTopSite":
+                            res.Val(
+                                "#Users_AllowCreationAtTopSite" + idSuffix,
+                                userModel.AllowCreationAtTopSite);
+                            break;
+                        case "AllowGroupAdministration":
+                            res.Val(
+                                "#Users_AllowGroupAdministration" + idSuffix,
+                                userModel.AllowGroupAdministration);
                             break;
                         case "Disabled":
                             res.Val(

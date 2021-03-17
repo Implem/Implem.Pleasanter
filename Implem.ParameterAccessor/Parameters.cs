@@ -40,6 +40,7 @@ namespace Implem.DefinitionAccessor
         public static Site Site;
         public static SitePackage SitePackage;
         public static SysLog SysLog;
+        public static User User;
         public static Locations Locations;
         public static Validation Validation;
 
