@@ -2731,6 +2731,12 @@ namespace Implem.Pleasanter.Models
                             case "ServiceManager":
                                 userModel.ServiceManager = recordingData.ToBool();
                                 break;
+                            case "AllowCreationAtTopSite":
+                                userModel.AllowCreationAtTopSite = recordingData.ToBool();
+                                break;
+                            case "AllowGroupAdministration":
+                                userModel.AllowGroupAdministration = recordingData.ToBool();
+                                break;
                             case "Disabled":
                                 userModel.Disabled = recordingData.ToBool();
                                 break;
@@ -2784,6 +2790,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 updateMailAddresses: false,
+                                refleshSiteInfo: false,
                                 get: false);
                             switch (errorData.Type)
                             {
@@ -2816,6 +2823,9 @@ namespace Implem.Pleasanter.Models
                         insertCount++;
                     }
                 }
+                SiteInfo.Reflesh(
+                    context: context,
+                    force: true);
                 return GridRows(
                     context: context,
                     ss: ss,
