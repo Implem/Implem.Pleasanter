@@ -204,75 +204,78 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static DataSet DataSet(Context context, SiteSettings ss, long id)
         {
+            var targets = ss.EditorColumnHash.Values
+                .SelectMany(o => o
+                    .Where(p => p.StartsWith("_Links-"))
+                    .Select(p => p.Split_2nd('-').ToLong()))
+                .ToList();
             var cache = ss.LinkedSsDataSetHash
                 ?? ItemModel.LinkedSsDataSetHash(context, ss.SiteId);
-            var tasks = new List<Task<SqlStatement>>();
-            tasks.AddRange(ss.Sources
+            var statements = new List<SqlStatement>();
+            statements.AddRange(ss.Sources
                 .Values
+                .Where(o => !targets.Any() || targets.Contains(o.SiteId))
                 .Where(currentSs => currentSs.ReferenceType == "Issues")
-                .Select(currentSs =>
-                    Task.Run(() => SelectIssues(
+                .Select(currentSs => SelectIssues(
+                    context: context,
+                    ss: currentSs,
+                    view: Views.GetBySession(
                         context: context,
                         ss: currentSs,
-                        view: Views.GetBySession(
-                            context: context,
+                        dataTableName: DataTableName(
                             ss: currentSs,
-                            dataTableName: DataTableName(
-                                ss: currentSs,
-                                direction: "Source")),
-                        id: id,
-                        direction: "Source",
-                        cache: cache))));
-            tasks.AddRange(ss.Destinations
+                            direction: "Source")),
+                    id: id,
+                    direction: "Source",
+                    cache: cache)));
+            statements.AddRange(ss.Destinations
                 .Values
+                .Where(o => !targets.Any() || targets.Contains(o.SiteId))
                 .Where(currentSs => currentSs.ReferenceType == "Issues")
-                .Select(currentSs =>
-                    Task.Run(() => SelectIssues(
+                .Select(currentSs => SelectIssues(
+                    context: context,
+                    ss: currentSs,
+                    view: Views.GetBySession(
                         context: context,
                         ss: currentSs,
-                        view: Views.GetBySession(
-                            context: context,
+                        dataTableName: DataTableName(
                             ss: currentSs,
-                            dataTableName: DataTableName(
-                                ss: currentSs,
-                                direction: "Destination")),
-                        id: id,
-                        direction: "Destination",
-                        cache: cache))));
-            tasks.AddRange(ss.Sources
+                            direction: "Destination")),
+                    id: id,
+                    direction: "Destination",
+                    cache: cache)));
+            statements.AddRange(ss.Sources
                 .Values
+                .Where(o => !targets.Any() || targets.Contains(o.SiteId))
                 .Where(currentSs => currentSs.ReferenceType == "Results")
-                .Select(currentSs =>
-                    Task.Run(() => SelectResults(
+                .Select(currentSs => SelectResults(
+                    context: context,
+                    ss: currentSs,
+                    view: Views.GetBySession(
                         context: context,
                         ss: currentSs,
-                        view: Views.GetBySession(
-                            context: context,
+                        dataTableName: DataTableName(
                             ss: currentSs,
-                            dataTableName: DataTableName(
-                                ss: currentSs,
-                                direction: "Source")),
-                        id: id,
-                        direction: "Source",
-                        cache: cache))));
-            tasks.AddRange(ss.Destinations
+                            direction: "Source")),
+                    id: id,
+                    direction: "Source",
+                    cache: cache)));
+            statements.AddRange(ss.Destinations
                 .Values
+                .Where(o => !targets.Any() || targets.Contains(o.SiteId))
                 .Where(currentSs => currentSs.ReferenceType == "Results")
-                .Select(currentSs =>
-                    Task.Run(() => SelectResults(
+                .Select(currentSs => SelectResults(
+                    context: context,
+                    ss: currentSs,
+                    view: Views.GetBySession(
                         context: context,
                         ss: currentSs,
-                        view: Views.GetBySession(
-                            context: context,
+                        dataTableName: DataTableName(
                             ss: currentSs,
-                            dataTableName: DataTableName(
-                                ss: currentSs,
-                                direction: "Destination")),
-                        id: id,
-                        direction: "Destination",
-                        cache: cache))));
-            Task.WaitAll(tasks.ToArray());
-            var statements = new List<SqlStatement>(tasks.Select(task => task.Result));
+                            direction: "Destination")),
+                    id: id,
+                    direction: "Destination",
+                    cache: cache)));
             return statements.Any()
                 ? Repository.ExecuteDataSet(
                     context: context,
@@ -550,7 +553,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static EnumerableRowCollection<DataRow> DataRows(
             DataSet dataSet, SiteSettings ss, string dataTableName)
         {
-            return dataSet.Tables[dataTableName]?
+            return dataSet?.Tables[dataTableName]?
                 .AsEnumerable()
                 .Where(dataRow => dataRow.Long("SiteId") == ss.SiteId);
         }
@@ -655,7 +658,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string dataTableName,
             int tabIndex = 0)
         {
-            ss.SetChoiceHash(dataRows: dataRows);
+            if (dataRows != null) ss.SetChoiceHash(dataRows: dataRows);
             return hb.Table(
                 id: dataTableName,
                 css: "grid",
