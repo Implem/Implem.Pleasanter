@@ -70,7 +70,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             {
                 view = new View();
             }
-            if (view.GridColumns?.Any() != true)
+            if (ss.LinkTableView != null && view.GridColumns?.Any() != true)
             {
                 view.GridColumns = ss.GridColumns;
             }
