@@ -870,102 +870,121 @@ namespace Implem.Pleasanter.Models
                 .Where(column => column != null)
                 .ForEach(column =>
                 {
+                    var serverScriptModelColumn = tenantModel
+                        ?.ServerScriptModelRows
+                        ?.Select(row => row.Columns.Get(column.ColumnName))
+                        .FirstOrDefault();
                     switch (column.Name)
                     {
                         case "TenantName":
                             res.Val(
-                                "#Tenants_TenantName" + idSuffix,
-                                tenantModel.TenantName.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Tenants_TenantName" + idSuffix,
+                                value: tenantModel.TenantName.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "Title":
                             res.Val(
-                                "#Tenants_Title" + idSuffix,
-                                tenantModel.Title.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Tenants_Title" + idSuffix,
+                                value: tenantModel.Title.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "Body":
                             res.Val(
-                                "#Tenants_Body" + idSuffix,
-                                tenantModel.Body.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Tenants_Body" + idSuffix,
+                                value: tenantModel.Body.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "ContractDeadline":
                             res.Val(
-                                "#Tenants_ContractDeadline" + idSuffix,
-                                tenantModel.ContractDeadline.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Tenants_ContractDeadline" + idSuffix,
+                                value: tenantModel.ContractDeadline.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "DisableAllUsersPermission":
                             res.Val(
-                                "#Tenants_DisableAllUsersPermission" + idSuffix,
-                                tenantModel.DisableAllUsersPermission);
+                                target: "#Tenants_DisableAllUsersPermission" + idSuffix,
+                                value: tenantModel.DisableAllUsersPermission,
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "DisableStartGuide":
                             res.Val(
-                                "#Tenants_DisableStartGuide" + idSuffix,
-                                tenantModel.DisableStartGuide);
+                                target: "#Tenants_DisableStartGuide" + idSuffix,
+                                value: tenantModel.DisableStartGuide,
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "LogoType":
                             res.Val(
-                                "#Tenants_LogoType" + idSuffix,
-                                tenantModel.LogoType.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Tenants_LogoType" + idSuffix,
+                                value: tenantModel.LogoType.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "HtmlTitleTop":
                             res.Val(
-                                "#Tenants_HtmlTitleTop" + idSuffix,
-                                tenantModel.HtmlTitleTop.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Tenants_HtmlTitleTop" + idSuffix,
+                                value: tenantModel.HtmlTitleTop.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "HtmlTitleSite":
                             res.Val(
-                                "#Tenants_HtmlTitleSite" + idSuffix,
-                                tenantModel.HtmlTitleSite.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Tenants_HtmlTitleSite" + idSuffix,
+                                value: tenantModel.HtmlTitleSite.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "HtmlTitleRecord":
                             res.Val(
-                                "#Tenants_HtmlTitleRecord" + idSuffix,
-                                tenantModel.HtmlTitleRecord.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Tenants_HtmlTitleRecord" + idSuffix,
+                                value: tenantModel.HtmlTitleRecord.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         default:
                             switch (Def.ExtendedColumnTypes.Get(column.Name))
                             {
                                 case "Class":
                                     res.Val(
-                                        $"#Tenants_{column.Name}{idSuffix}",
-                                        tenantModel.Class(columnName: column.Name).ToResponse(
+                                        target: $"#Tenants_{column.Name}{idSuffix}",
+                                        value: tenantModel.Class(columnName: column.Name).ToResponse(
                                             context: context,
                                             ss: ss,
-                                            column: column));
+                                            column: column),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Num":
                                     res.Val(
-                                        $"#Tenants_{column.Name}{idSuffix}",
-                                        tenantModel.Num(columnName: column.Name).ToResponse(
+                                        target: $"#Tenants_{column.Name}{idSuffix}",
+                                        value: tenantModel.Num(columnName: column.Name).ToResponse(
                                             context: context,
                                             ss: ss,
-                                            column: column));
+                                            column: column),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Date":
                                     res.Val(
-                                        $"#Tenants_{column.Name}{idSuffix}",
-                                        tenantModel.Date(columnName: column.Name).ToResponse(
+                                        target: $"#Tenants_{column.Name}{idSuffix}",
+                                        value: tenantModel.Date(columnName: column.Name).ToResponse(
                                             context: context,
                                             ss: ss,
-                                            column: column));
+                                            column: column),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Description":
                                     res.Val(
-                                        $"#Tenants_{column.Name}{idSuffix}",
-                                        tenantModel.Description(columnName: column.Name).ToResponse(
+                                        target: $"#Tenants_{column.Name}{idSuffix}",
+                                        value: tenantModel.Description(columnName: column.Name).ToResponse(
                                             context: context,
                                             ss: ss,
-                                            column: column));
+                                            column: column),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Check":
                                     res.Val(
-                                        $"#Tenants_{column.Name}{idSuffix}",
-                                        tenantModel.Check(columnName: column.Name));
+                                        target: $"#Tenants_{column.Name}{idSuffix}",
+                                        value: tenantModel.Check(columnName: column.Name),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Attachments":
                                     res.ReplaceAll(
-                                        $"#Tenants_{column.Name}Field",
-                                        new HtmlBuilder()
+                                        target: $"#Tenants_{column.Name}Field",
+                                        value: new HtmlBuilder()
                                             .FieldAttachments(
                                                 context: context,
                                                 fieldId: $"Tenants_{column.Name}Field",
@@ -983,7 +1002,8 @@ namespace Implem.Pleasanter.Models
                                                     ss: ss,
                                                     column: column,
                                                     baseModel: tenantModel)
-                                                        != Permissions.ColumnPermissionTypes.Update));
+                                                        != Permissions.ColumnPermissionTypes.Update),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                             }
                             break;

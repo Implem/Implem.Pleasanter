@@ -1606,7 +1606,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             UpdateColumnAccessControls = columnAccessControls;
         }
 
-        private void Update_ColumnAccessControls()
+        public void Update_ColumnAccessControls()
         {
             var accessControlColumns = Columns
                 .Where(o => o.EditorColumn || o.ColumnName == "Comments")

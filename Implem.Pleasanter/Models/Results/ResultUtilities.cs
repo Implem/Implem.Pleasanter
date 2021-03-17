@@ -2034,30 +2034,63 @@ namespace Implem.Pleasanter.Models
         {
             resultModel.MethodType = BaseModel.MethodTypes.Edit;
             var editInDialog = context.Forms.Bool("EditInDialog");
-            return editInDialog
-                ? new ResultsResponseCollection(resultModel)
-                    .Response("id", resultModel.ResultId.ToString())
-                    .Html("#EditInDialogBody", Editor(
-                        context: context,
-                        ss: ss,
-                        resultModel: resultModel,
-                        editInDialog: editInDialog))
-                    .Invoke("openEditorDialog")
-                    .Events("on_editor_load")
-                    .Log(context.GetLog())
-                : new ResultsResponseCollection(resultModel)
-                    .Response("id", resultModel.ResultId.ToString())
-                    .Invoke("clearDialogs")
-                    .ReplaceAll("#MainContainer", Editor(context, ss, resultModel))
-                    .Val("#Id", resultModel.ResultId.ToString())
-                    .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
-                    .SetMemory("formChanged", false)
-                    .Invoke("setCurrentIndex")
-                    .Invoke("initRelatingColumnEditor")
-                    .Message(message)
-                    .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"))
-                    .Events("on_editor_load")
-                    .Log(context.GetLog());
+            return context.QueryStrings.Bool("control-auto-postback")
+                ? EditorFields(
+                    context: context,
+                    ss: ss,
+                    resultModel: resultModel)
+                : editInDialog
+                    ? new ResultsResponseCollection(resultModel)
+                        .Response("id", resultModel.ResultId.ToString())
+                        .Html("#EditInDialogBody", Editor(
+                            context: context,
+                            ss: ss,
+                            resultModel: resultModel,
+                            editInDialog: editInDialog))
+                        .Invoke("openEditorDialog")
+                        .Events("on_editor_load")
+                        .Log(context.GetLog())
+                    : new ResultsResponseCollection(resultModel)
+                        .Response("id", resultModel.ResultId.ToString())
+                        .Invoke("clearDialogs")
+                        .ReplaceAll("#MainContainer", Editor(context, ss, resultModel))
+                        .Val("#Id", resultModel.ResultId.ToString())
+                        .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
+                        .SetMemory("formChanged", false)
+                        .Invoke("setCurrentIndex")
+                        .Invoke("initRelatingColumnEditor")
+                        .Message(message)
+                        .ClearFormData()
+                        .Events("on_editor_load")
+                        .Log(context.GetLog());
+        }
+
+        private static ResponseCollection EditorFields(
+            Context context,
+            SiteSettings ss,
+            ResultModel resultModel)
+        {
+            var invalid = ResultValidators.OnEditing(
+                context: context,
+                ss: ss,
+                resultModel: resultModel);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return new ResponseCollection()
+                        .Message(invalid.Message(context: context));
+            }
+            resultModel.SetByBeforeOpeningPageServerScript(
+                context: context,
+                ss: ss);
+            var ret = new ResponseCollection()
+                .FieldResponse(
+                    context: context,
+                    ss: ss,
+                    resultModel: resultModel)
+                .Log(context.GetLog());
+            return ret;
         }
 
         private static List<long> GetSwitchTargets(Context context, SiteSettings ss, long resultId, long siteId)
@@ -2122,87 +2155,103 @@ namespace Implem.Pleasanter.Models
                 .Where(column => column != null)
                 .ForEach(column =>
                 {
+                    var serverScriptModelColumn = resultModel
+                        ?.ServerScriptModelRows
+                        ?.Select(row => row.Columns.Get(column.ColumnName))
+                        .FirstOrDefault();
                     switch (column.Name)
                     {
                         case "ResultId":
                             res.Val(
-                                "#Results_ResultId" + idSuffix,
-                                resultModel.ResultId.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Results_ResultId" + idSuffix,
+                                value: resultModel.ResultId.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "Title":
                             res.Val(
-                                "#Results_Title" + idSuffix,
-                                resultModel.Title.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Results_Title" + idSuffix,
+                                value: resultModel.Title.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "Body":
                             res.Val(
-                                "#Results_Body" + idSuffix,
-                                resultModel.Body.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Results_Body" + idSuffix,
+                                value: resultModel.Body.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "Status":
                             res.Val(
-                                "#Results_Status" + idSuffix,
-                                resultModel.Status.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Results_Status" + idSuffix,
+                                value: resultModel.Status.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "Manager":
                             res.Val(
-                                "#Results_Manager" + idSuffix,
-                                resultModel.Manager.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Results_Manager" + idSuffix,
+                                value: resultModel.Manager.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "Owner":
                             res.Val(
-                                "#Results_Owner" + idSuffix,
-                                resultModel.Owner.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Results_Owner" + idSuffix,
+                                value: resultModel.Owner.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "Locked":
                             res.Val(
-                                "#Results_Locked" + idSuffix,
-                                resultModel.Locked);
+                                target: "#Results_Locked" + idSuffix,
+                                value: resultModel.Locked,
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         default:
                             switch (Def.ExtendedColumnTypes.Get(column.Name))
                             {
                                 case "Class":
                                     res.Val(
-                                        $"#Results_{column.Name}{idSuffix}",
-                                        resultModel.Class(columnName: column.Name).ToResponse(
+                                        target: $"#Results_{column.Name}{idSuffix}",
+                                        value: resultModel.Class(columnName: column.Name).ToResponse(
                                             context: context,
                                             ss: ss,
-                                            column: column));
+                                            column: column),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Num":
                                     res.Val(
-                                        $"#Results_{column.Name}{idSuffix}",
-                                        resultModel.Num(columnName: column.Name).ToResponse(
+                                        target: $"#Results_{column.Name}{idSuffix}",
+                                        value: resultModel.Num(columnName: column.Name).ToResponse(
                                             context: context,
                                             ss: ss,
-                                            column: column));
+                                            column: column),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Date":
                                     res.Val(
-                                        $"#Results_{column.Name}{idSuffix}",
-                                        resultModel.Date(columnName: column.Name).ToResponse(
+                                        target: $"#Results_{column.Name}{idSuffix}",
+                                        value: resultModel.Date(columnName: column.Name).ToResponse(
                                             context: context,
                                             ss: ss,
-                                            column: column));
+                                            column: column),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Description":
                                     res.Val(
-                                        $"#Results_{column.Name}{idSuffix}",
-                                        resultModel.Description(columnName: column.Name).ToResponse(
+                                        target: $"#Results_{column.Name}{idSuffix}",
+                                        value: resultModel.Description(columnName: column.Name).ToResponse(
                                             context: context,
                                             ss: ss,
-                                            column: column));
+                                            column: column),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Check":
                                     res.Val(
-                                        $"#Results_{column.Name}{idSuffix}",
-                                        resultModel.Check(columnName: column.Name));
+                                        target: $"#Results_{column.Name}{idSuffix}",
+                                        value: resultModel.Check(columnName: column.Name),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Attachments":
                                     res.ReplaceAll(
-                                        $"#Results_{column.Name}Field",
-                                        new HtmlBuilder()
+                                        target: $"#Results_{column.Name}Field",
+                                        value: new HtmlBuilder()
                                             .FieldAttachments(
                                                 context: context,
                                                 fieldId: $"Results_{column.Name}Field",
@@ -2220,7 +2269,8 @@ namespace Implem.Pleasanter.Models
                                                     ss: ss,
                                                     column: column,
                                                     baseModel: resultModel)
-                                                        != Permissions.ColumnPermissionTypes.Update));
+                                                        != Permissions.ColumnPermissionTypes.Update),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                             }
                             break;

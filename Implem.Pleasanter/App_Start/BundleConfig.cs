@@ -110,6 +110,7 @@ namespace Implem.Pleasanter
                 "~/Scripts/Validator.js",
                 "~/Scripts/Video.js",
                 "~/Scripts/ViewMode.js",
+                "~/Scripts/Visibility.js",
                 "~/Scripts/_Show.js",
                 "~/Scripts/RelatingColumns.js",
                 "~/Scripts/FieldSelectable.js",

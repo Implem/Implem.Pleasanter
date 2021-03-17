@@ -2191,30 +2191,63 @@ namespace Implem.Pleasanter.Models
         {
             issueModel.MethodType = BaseModel.MethodTypes.Edit;
             var editInDialog = context.Forms.Bool("EditInDialog");
-            return editInDialog
-                ? new IssuesResponseCollection(issueModel)
-                    .Response("id", issueModel.IssueId.ToString())
-                    .Html("#EditInDialogBody", Editor(
-                        context: context,
-                        ss: ss,
-                        issueModel: issueModel,
-                        editInDialog: editInDialog))
-                    .Invoke("openEditorDialog")
-                    .Events("on_editor_load")
-                    .Log(context.GetLog())
-                : new IssuesResponseCollection(issueModel)
-                    .Response("id", issueModel.IssueId.ToString())
-                    .Invoke("clearDialogs")
-                    .ReplaceAll("#MainContainer", Editor(context, ss, issueModel))
-                    .Val("#Id", issueModel.IssueId.ToString())
-                    .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
-                    .SetMemory("formChanged", false)
-                    .Invoke("setCurrentIndex")
-                    .Invoke("initRelatingColumnEditor")
-                    .Message(message)
-                    .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"))
-                    .Events("on_editor_load")
-                    .Log(context.GetLog());
+            return context.QueryStrings.Bool("control-auto-postback")
+                ? EditorFields(
+                    context: context,
+                    ss: ss,
+                    issueModel: issueModel)
+                : editInDialog
+                    ? new IssuesResponseCollection(issueModel)
+                        .Response("id", issueModel.IssueId.ToString())
+                        .Html("#EditInDialogBody", Editor(
+                            context: context,
+                            ss: ss,
+                            issueModel: issueModel,
+                            editInDialog: editInDialog))
+                        .Invoke("openEditorDialog")
+                        .Events("on_editor_load")
+                        .Log(context.GetLog())
+                    : new IssuesResponseCollection(issueModel)
+                        .Response("id", issueModel.IssueId.ToString())
+                        .Invoke("clearDialogs")
+                        .ReplaceAll("#MainContainer", Editor(context, ss, issueModel))
+                        .Val("#Id", issueModel.IssueId.ToString())
+                        .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
+                        .SetMemory("formChanged", false)
+                        .Invoke("setCurrentIndex")
+                        .Invoke("initRelatingColumnEditor")
+                        .Message(message)
+                        .ClearFormData()
+                        .Events("on_editor_load")
+                        .Log(context.GetLog());
+        }
+
+        private static ResponseCollection EditorFields(
+            Context context,
+            SiteSettings ss,
+            IssueModel issueModel)
+        {
+            var invalid = IssueValidators.OnEditing(
+                context: context,
+                ss: ss,
+                issueModel: issueModel);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return new ResponseCollection()
+                        .Message(invalid.Message(context: context));
+            }
+            issueModel.SetByBeforeOpeningPageServerScript(
+                context: context,
+                ss: ss);
+            var ret = new ResponseCollection()
+                .FieldResponse(
+                    context: context,
+                    ss: ss,
+                    issueModel: issueModel)
+                .Log(context.GetLog());
+            return ret;
         }
 
         private static List<long> GetSwitchTargets(Context context, SiteSettings ss, long issueId, long siteId)
@@ -2279,107 +2312,127 @@ namespace Implem.Pleasanter.Models
                 .Where(column => column != null)
                 .ForEach(column =>
                 {
+                    var serverScriptModelColumn = issueModel
+                        ?.ServerScriptModelRows
+                        ?.Select(row => row.Columns.Get(column.ColumnName))
+                        .FirstOrDefault();
                     switch (column.Name)
                     {
                         case "IssueId":
                             res.Val(
-                                "#Issues_IssueId" + idSuffix,
-                                issueModel.IssueId.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Issues_IssueId" + idSuffix,
+                                value: issueModel.IssueId.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "Title":
                             res.Val(
-                                "#Issues_Title" + idSuffix,
-                                issueModel.Title.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Issues_Title" + idSuffix,
+                                value: issueModel.Title.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "Body":
                             res.Val(
-                                "#Issues_Body" + idSuffix,
-                                issueModel.Body.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Issues_Body" + idSuffix,
+                                value: issueModel.Body.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "StartTime":
                             res.Val(
-                                "#Issues_StartTime" + idSuffix,
-                                issueModel.StartTime.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Issues_StartTime" + idSuffix,
+                                value: issueModel.StartTime.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "CompletionTime":
                             res.Val(
-                                "#Issues_CompletionTime" + idSuffix,
-                                issueModel.CompletionTime.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Issues_CompletionTime" + idSuffix,
+                                value: issueModel.CompletionTime.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "WorkValue":
                             res.Val(
-                                "#Issues_WorkValue" + idSuffix,
-                                issueModel.WorkValue.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Issues_WorkValue" + idSuffix,
+                                value: issueModel.WorkValue.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "ProgressRate":
                             res.Val(
-                                "#Issues_ProgressRate" + idSuffix,
-                                issueModel.ProgressRate.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Issues_ProgressRate" + idSuffix,
+                                value: issueModel.ProgressRate.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "Status":
                             res.Val(
-                                "#Issues_Status" + idSuffix,
-                                issueModel.Status.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Issues_Status" + idSuffix,
+                                value: issueModel.Status.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "Manager":
                             res.Val(
-                                "#Issues_Manager" + idSuffix,
-                                issueModel.Manager.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Issues_Manager" + idSuffix,
+                                value: issueModel.Manager.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "Owner":
                             res.Val(
-                                "#Issues_Owner" + idSuffix,
-                                issueModel.Owner.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Issues_Owner" + idSuffix,
+                                value: issueModel.Owner.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "Locked":
                             res.Val(
-                                "#Issues_Locked" + idSuffix,
-                                issueModel.Locked);
+                                target: "#Issues_Locked" + idSuffix,
+                                value: issueModel.Locked,
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         default:
                             switch (Def.ExtendedColumnTypes.Get(column.Name))
                             {
                                 case "Class":
                                     res.Val(
-                                        $"#Issues_{column.Name}{idSuffix}",
-                                        issueModel.Class(columnName: column.Name).ToResponse(
+                                        target: $"#Issues_{column.Name}{idSuffix}",
+                                        value: issueModel.Class(columnName: column.Name).ToResponse(
                                             context: context,
                                             ss: ss,
-                                            column: column));
+                                            column: column),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Num":
                                     res.Val(
-                                        $"#Issues_{column.Name}{idSuffix}",
-                                        issueModel.Num(columnName: column.Name).ToResponse(
+                                        target: $"#Issues_{column.Name}{idSuffix}",
+                                        value: issueModel.Num(columnName: column.Name).ToResponse(
                                             context: context,
                                             ss: ss,
-                                            column: column));
+                                            column: column),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Date":
                                     res.Val(
-                                        $"#Issues_{column.Name}{idSuffix}",
-                                        issueModel.Date(columnName: column.Name).ToResponse(
+                                        target: $"#Issues_{column.Name}{idSuffix}",
+                                        value: issueModel.Date(columnName: column.Name).ToResponse(
                                             context: context,
                                             ss: ss,
-                                            column: column));
+                                            column: column),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Description":
                                     res.Val(
-                                        $"#Issues_{column.Name}{idSuffix}",
-                                        issueModel.Description(columnName: column.Name).ToResponse(
+                                        target: $"#Issues_{column.Name}{idSuffix}",
+                                        value: issueModel.Description(columnName: column.Name).ToResponse(
                                             context: context,
                                             ss: ss,
-                                            column: column));
+                                            column: column),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Check":
                                     res.Val(
-                                        $"#Issues_{column.Name}{idSuffix}",
-                                        issueModel.Check(columnName: column.Name));
+                                        target: $"#Issues_{column.Name}{idSuffix}",
+                                        value: issueModel.Check(columnName: column.Name),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Attachments":
                                     res.ReplaceAll(
-                                        $"#Issues_{column.Name}Field",
-                                        new HtmlBuilder()
+                                        target: $"#Issues_{column.Name}Field",
+                                        value: new HtmlBuilder()
                                             .FieldAttachments(
                                                 context: context,
                                                 fieldId: $"Issues_{column.Name}Field",
@@ -2397,7 +2450,8 @@ namespace Implem.Pleasanter.Models
                                                     ss: ss,
                                                     column: column,
                                                     baseModel: issueModel)
-                                                        != Permissions.ColumnPermissionTypes.Update));
+                                                        != Permissions.ColumnPermissionTypes.Update),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                             }
                             break;

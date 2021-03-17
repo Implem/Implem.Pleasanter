@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.Settings
 {
     public class Column
@@ -881,6 +882,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                     break;
             }
             return DefaultInput;
+        }
+
+        public string ResponseValOptions(ServerScriptModelColumn serverScriptModelColumn)
+        {
+            return new
+            {
+                Hide = Hide == true || serverScriptModelColumn?.Hide == true
+            }.ToJson();
         }
 
         private int DefaultGroupId(Context context)

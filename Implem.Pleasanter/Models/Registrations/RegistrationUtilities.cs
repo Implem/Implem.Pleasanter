@@ -1461,117 +1461,139 @@ namespace Implem.Pleasanter.Models
                 .Where(column => column != null)
                 .ForEach(column =>
                 {
+                    var serverScriptModelColumn = registrationModel
+                        ?.ServerScriptModelRows
+                        ?.Select(row => row.Columns.Get(column.ColumnName))
+                        .FirstOrDefault();
                     switch (column.Name)
                     {
                         case "RegistrationId":
                             res.Val(
-                                "#Registrations_RegistrationId" + idSuffix,
-                                registrationModel.RegistrationId.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Registrations_RegistrationId" + idSuffix,
+                                value: registrationModel.RegistrationId.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "MailAddress":
                             res.Val(
-                                "#Registrations_MailAddress" + idSuffix,
-                                registrationModel.MailAddress.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Registrations_MailAddress" + idSuffix,
+                                value: registrationModel.MailAddress.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "Invitee":
                             res.Val(
-                                "#Registrations_Invitee" + idSuffix,
-                                registrationModel.Invitee.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Registrations_Invitee" + idSuffix,
+                                value: registrationModel.Invitee.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "InviteeName":
                             res.Val(
-                                "#Registrations_InviteeName" + idSuffix,
-                                registrationModel.InviteeName.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Registrations_InviteeName" + idSuffix,
+                                value: registrationModel.InviteeName.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "LoginId":
                             res.Val(
-                                "#Registrations_LoginId" + idSuffix,
-                                registrationModel.LoginId.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Registrations_LoginId" + idSuffix,
+                                value: registrationModel.LoginId.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "Name":
                             res.Val(
-                                "#Registrations_Name" + idSuffix,
-                                registrationModel.Name.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Registrations_Name" + idSuffix,
+                                value: registrationModel.Name.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "Password":
                             res.Val(
-                                "#Registrations_Password" + idSuffix,
-                                registrationModel.Password.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Registrations_Password" + idSuffix,
+                                value: registrationModel.Password.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "Language":
                             res.Val(
-                                "#Registrations_Language" + idSuffix,
-                                registrationModel.Language.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Registrations_Language" + idSuffix,
+                                value: registrationModel.Language.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "Passphrase":
                             res.Val(
-                                "#Registrations_Passphrase" + idSuffix,
-                                registrationModel.Passphrase.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Registrations_Passphrase" + idSuffix,
+                                value: registrationModel.Passphrase.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "Invitingflg":
                             res.Val(
-                                "#Registrations_Invitingflg" + idSuffix,
-                                registrationModel.Invitingflg.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Registrations_Invitingflg" + idSuffix,
+                                value: registrationModel.Invitingflg.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "UserId":
                             res.Val(
-                                "#Registrations_UserId" + idSuffix,
-                                registrationModel.UserId.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Registrations_UserId" + idSuffix,
+                                value: registrationModel.UserId.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "DeptId":
                             res.Val(
-                                "#Registrations_DeptId" + idSuffix,
-                                registrationModel.DeptId.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Registrations_DeptId" + idSuffix,
+                                value: registrationModel.DeptId.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "GroupId":
                             res.Val(
-                                "#Registrations_GroupId" + idSuffix,
-                                registrationModel.GroupId.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Registrations_GroupId" + idSuffix,
+                                value: registrationModel.GroupId.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         default:
                             switch (Def.ExtendedColumnTypes.Get(column.Name))
                             {
                                 case "Class":
                                     res.Val(
-                                        $"#Registrations_{column.Name}{idSuffix}",
-                                        registrationModel.Class(columnName: column.Name).ToResponse(
+                                        target: $"#Registrations_{column.Name}{idSuffix}",
+                                        value: registrationModel.Class(columnName: column.Name).ToResponse(
                                             context: context,
                                             ss: ss,
-                                            column: column));
+                                            column: column),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Num":
                                     res.Val(
-                                        $"#Registrations_{column.Name}{idSuffix}",
-                                        registrationModel.Num(columnName: column.Name).ToResponse(
+                                        target: $"#Registrations_{column.Name}{idSuffix}",
+                                        value: registrationModel.Num(columnName: column.Name).ToResponse(
                                             context: context,
                                             ss: ss,
-                                            column: column));
+                                            column: column),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Date":
                                     res.Val(
-                                        $"#Registrations_{column.Name}{idSuffix}",
-                                        registrationModel.Date(columnName: column.Name).ToResponse(
+                                        target: $"#Registrations_{column.Name}{idSuffix}",
+                                        value: registrationModel.Date(columnName: column.Name).ToResponse(
                                             context: context,
                                             ss: ss,
-                                            column: column));
+                                            column: column),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Description":
                                     res.Val(
-                                        $"#Registrations_{column.Name}{idSuffix}",
-                                        registrationModel.Description(columnName: column.Name).ToResponse(
+                                        target: $"#Registrations_{column.Name}{idSuffix}",
+                                        value: registrationModel.Description(columnName: column.Name).ToResponse(
                                             context: context,
                                             ss: ss,
-                                            column: column));
+                                            column: column),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Check":
                                     res.Val(
-                                        $"#Registrations_{column.Name}{idSuffix}",
-                                        registrationModel.Check(columnName: column.Name));
+                                        target: $"#Registrations_{column.Name}{idSuffix}",
+                                        value: registrationModel.Check(columnName: column.Name),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Attachments":
                                     res.ReplaceAll(
-                                        $"#Registrations_{column.Name}Field",
-                                        new HtmlBuilder()
+                                        target: $"#Registrations_{column.Name}Field",
+                                        value: new HtmlBuilder()
                                             .FieldAttachments(
                                                 context: context,
                                                 fieldId: $"Registrations_{column.Name}Field",
@@ -1589,7 +1611,8 @@ namespace Implem.Pleasanter.Models
                                                     ss: ss,
                                                     column: column,
                                                     baseModel: registrationModel)
-                                                        != Permissions.ColumnPermissionTypes.Update));
+                                                        != Permissions.ColumnPermissionTypes.Update),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                             }
                             break;

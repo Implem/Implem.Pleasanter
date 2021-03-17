@@ -1324,77 +1324,91 @@ namespace Implem.Pleasanter.Models
                 .Where(column => column != null)
                 .ForEach(column =>
                 {
+                    var serverScriptModelColumn = groupModel
+                        ?.ServerScriptModelRows
+                        ?.Select(row => row.Columns.Get(column.ColumnName))
+                        .FirstOrDefault();
                     switch (column.Name)
                     {
                         case "TenantId":
                             res.Val(
-                                "#Groups_TenantId" + idSuffix,
-                                groupModel.TenantId.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Groups_TenantId" + idSuffix,
+                                value: groupModel.TenantId.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "GroupId":
                             res.Val(
-                                "#Groups_GroupId" + idSuffix,
-                                groupModel.GroupId.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Groups_GroupId" + idSuffix,
+                                value: groupModel.GroupId.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "GroupName":
                             res.Val(
-                                "#Groups_GroupName" + idSuffix,
-                                groupModel.GroupName.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Groups_GroupName" + idSuffix,
+                                value: groupModel.GroupName.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "Body":
                             res.Val(
-                                "#Groups_Body" + idSuffix,
-                                groupModel.Body.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Groups_Body" + idSuffix,
+                                value: groupModel.Body.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "Disabled":
                             res.Val(
-                                "#Groups_Disabled" + idSuffix,
-                                groupModel.Disabled);
+                                target: "#Groups_Disabled" + idSuffix,
+                                value: groupModel.Disabled,
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         default:
                             switch (Def.ExtendedColumnTypes.Get(column.Name))
                             {
                                 case "Class":
                                     res.Val(
-                                        $"#Groups_{column.Name}{idSuffix}",
-                                        groupModel.Class(columnName: column.Name).ToResponse(
+                                        target: $"#Groups_{column.Name}{idSuffix}",
+                                        value: groupModel.Class(columnName: column.Name).ToResponse(
                                             context: context,
                                             ss: ss,
-                                            column: column));
+                                            column: column),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Num":
                                     res.Val(
-                                        $"#Groups_{column.Name}{idSuffix}",
-                                        groupModel.Num(columnName: column.Name).ToResponse(
+                                        target: $"#Groups_{column.Name}{idSuffix}",
+                                        value: groupModel.Num(columnName: column.Name).ToResponse(
                                             context: context,
                                             ss: ss,
-                                            column: column));
+                                            column: column),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Date":
                                     res.Val(
-                                        $"#Groups_{column.Name}{idSuffix}",
-                                        groupModel.Date(columnName: column.Name).ToResponse(
+                                        target: $"#Groups_{column.Name}{idSuffix}",
+                                        value: groupModel.Date(columnName: column.Name).ToResponse(
                                             context: context,
                                             ss: ss,
-                                            column: column));
+                                            column: column),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Description":
                                     res.Val(
-                                        $"#Groups_{column.Name}{idSuffix}",
-                                        groupModel.Description(columnName: column.Name).ToResponse(
+                                        target: $"#Groups_{column.Name}{idSuffix}",
+                                        value: groupModel.Description(columnName: column.Name).ToResponse(
                                             context: context,
                                             ss: ss,
-                                            column: column));
+                                            column: column),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Check":
                                     res.Val(
-                                        $"#Groups_{column.Name}{idSuffix}",
-                                        groupModel.Check(columnName: column.Name));
+                                        target: $"#Groups_{column.Name}{idSuffix}",
+                                        value: groupModel.Check(columnName: column.Name),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Attachments":
                                     res.ReplaceAll(
-                                        $"#Groups_{column.Name}Field",
-                                        new HtmlBuilder()
+                                        target: $"#Groups_{column.Name}Field",
+                                        value: new HtmlBuilder()
                                             .FieldAttachments(
                                                 context: context,
                                                 fieldId: $"Groups_{column.Name}Field",
@@ -1412,7 +1426,8 @@ namespace Implem.Pleasanter.Models
                                                     ss: ss,
                                                     column: column,
                                                     baseModel: groupModel)
-                                                        != Permissions.ColumnPermissionTypes.Update));
+                                                        != Permissions.ColumnPermissionTypes.Update),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                             }
                             break;
