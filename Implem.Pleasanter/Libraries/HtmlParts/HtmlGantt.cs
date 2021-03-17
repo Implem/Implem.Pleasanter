@@ -33,7 +33,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",
                     labelText: Displays.GroupBy(context: context),
-                    optionCollection: ss.GanttGroupByOptions(),
+                    optionCollection: ss.GanttGroupByOptions(context: context),
                     selectedValue: groupBy?.ColumnName,
                     insertBlank: true,
                     method: "post")

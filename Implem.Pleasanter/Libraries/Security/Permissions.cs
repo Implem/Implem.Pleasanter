@@ -338,16 +338,26 @@ namespace Implem.Pleasanter.Libraries.Security
         }
 
         public static IEnumerable<Column> AllowedColumns(
-            this IEnumerable<Column> columns, bool checkPermission)
+            this IEnumerable<Column> columns,
+            Context context,
+            SiteSettings ss,
+            bool checkPermission)
         {
-            return columns.Where(o => !checkPermission || o.CanRead);
+            return columns.Where(o => !checkPermission
+                || o.CanRead(
+                    context: context,
+                    ss: ss,
+                    mine: null));
         }
 
-        public static IEnumerable<string> AllowedColumns(SiteSettings ss)
+        public static IEnumerable<string> AllowedColumns(
+            Context context, SiteSettings ss)
         {
-            return ss.Columns.AllowedColumns(checkPermission: true)
-                .Select(o => o.ColumnName)
-                .ToList();
+            return ss.Columns.AllowedColumns(
+                context: context,
+                ss: ss,
+                checkPermission: true)
+                    .Select(o => o.ColumnName);
         }
 
         public static bool Allowed(
@@ -355,7 +365,6 @@ namespace Implem.Pleasanter.Libraries.Security
             Context context,
             SiteSettings ss,
             Column column,
-            Types? type,
             List<string> mine)
         {
             return columnAccessControls?
@@ -363,7 +372,6 @@ namespace Implem.Pleasanter.Libraries.Security
                 .Allowed(
                     context: context,
                     ss: ss,
-                    type: type,
                     mine: mine) != false;
         }
 
@@ -559,27 +567,43 @@ namespace Implem.Pleasanter.Libraries.Security
         }
 
         public static ColumnPermissionTypes ColumnPermissionType(
-            this Column self,
             Context context,
+            SiteSettings ss,
+            Column column,
             BaseModel baseModel)
         {
-            var canEdit = self.CanEdit(
+            var canEdit = column.CanEdit(
                 context: context,
+                ss: ss,
                 baseModel: baseModel);
             switch (context.Action)
             {
                 case "new":
-                    return self.CanCreate && canEdit
-                        ? ColumnPermissionTypes.Update
-                        : self.CanRead
-                            ? ColumnPermissionTypes.Read
-                            : ColumnPermissionTypes.Deny;
+                    return column.CanCreate(
+                        context: context,
+                        ss: ss,
+                        mine: baseModel?.Mine(context: context))
+                            && canEdit
+                                ? ColumnPermissionTypes.Update
+                                : column.CanRead(
+                                    context: context,
+                                    ss: ss,
+                                    mine: baseModel?.Mine(context: context))
+                                        ? ColumnPermissionTypes.Read
+                                        : ColumnPermissionTypes.Deny;
                 default:
-                    return self.CanRead && canEdit
-                        ? ColumnPermissionTypes.Update
-                        : self.CanRead
-                            ? ColumnPermissionTypes.Read
-                            : ColumnPermissionTypes.Deny;
+                    return column.CanRead(
+                        context: context,
+                        ss: ss,
+                        mine: baseModel?.Mine(context: context))
+                            && canEdit
+                                ? ColumnPermissionTypes.Update
+                                : column.CanRead(
+                                    context: context,
+                                    ss: ss,
+                                    mine: baseModel?.Mine(context: context))
+                                        ? ColumnPermissionTypes.Read
+                                        : ColumnPermissionTypes.Deny;
             }
         }
 

@@ -358,7 +358,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => o != null)
                 .GroupBy(o => o.ColumnName)
                 .Select(o => o.First())
-                .AllowedColumns(checkPermission: true)
+                .AllowedColumns(
+                    context: context,
+                    ss: ss,
+                    checkPermission: true)
                 .ToList();
         }
 

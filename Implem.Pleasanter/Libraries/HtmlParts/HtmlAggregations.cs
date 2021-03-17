@@ -142,7 +142,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder Parts(
             this HtmlBuilder hb, Context context, SiteSettings ss, Aggregations aggregations)
         {
-            var allowedColumns = Permissions.AllowedColumns(ss);
+            var allowedColumns = Permissions.AllowedColumns(
+                context: context,
+                ss: ss);
             aggregations.AggregationCollection
                 .Where(o => o.Target.IsNullOrEmpty() || allowedColumns.Contains(o.Target))
                 .Where(o => o.GroupBy == "[NotGroupBy]" || allowedColumns.Contains(o.GroupBy))

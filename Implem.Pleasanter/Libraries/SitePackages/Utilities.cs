@@ -769,11 +769,13 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             var view = new View(context: context, ss: ss)
             {
                 GridColumns = export.Columns
-                    .Where(o => o.Column.CanRead)
+                    .Where(o => o.Column.CanRead(
+                        context: context,
+                        ss: ss,
+                        mine: null))
                     .Select(o => o.ColumnName)
                     .ToList()
             };
-            ss.SetColumnAccessControls(context: context);
             var gridData = new GridData(
                 context: context,
                 ss: ss,

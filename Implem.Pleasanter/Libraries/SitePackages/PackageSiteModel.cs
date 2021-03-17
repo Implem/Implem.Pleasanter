@@ -50,6 +50,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             ParentId = siteModel.ParentId;
             InheritPermission = siteModel.InheritPermission;
             SiteSettings = siteModel.SiteSettings;
+            SiteSettings.Update_ColumnAccessControls();
             Publish = siteModel.Publish;
             Comments = siteModel.Comments;
         }

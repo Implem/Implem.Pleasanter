@@ -39,7 +39,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",
                     labelText: Displays.GroupBy(context: context),
-                    optionCollection: ss.CalendarGroupByOptions(),
+                    optionCollection: ss.CalendarGroupByOptions(context: context),
                     selectedValue: groupBy?.ColumnName,
                     insertBlank: true,
                     method: "post")
@@ -134,7 +134,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     value: (
                         !fromColumn.RecordedTime
                         && fromColumn.EditorReadOnly != true
-                        && fromColumn.CanUpdate
+                        && fromColumn.CanUpdate(
+                            context: context,
+                            ss: ss,
+                            mine: null)
                         && timePeriod != "Yearly"
                         && groupBy == null).ToOneOrZeroString())
                 .Hidden(

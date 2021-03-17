@@ -72,7 +72,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool Allowed(
             Context context,
             SiteSettings ss,
-            Permissions.Types? type,
             List<string> mine)
         {
             if (Depts?.Any() != true
@@ -97,7 +96,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             else if (Type != null
                 && Type != Permissions.Types.NotSet
-                && (Type & type) == Type)
+                && (Type & ss.PermissionType) == Type)
             {
                 return true;
             }

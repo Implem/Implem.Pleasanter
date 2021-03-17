@@ -57,7 +57,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         fieldCss: "field-auto-thin",
                         controlCss: " auto-postback",
                         labelText: Displays.NumericColumn(context: context),
-                        optionCollection: ss.CrosstabColumnsOptions(),
+                        optionCollection: ss.CrosstabColumnsOptions(context: context),
                         selectedValue: view.CrosstabColumns,
                         multiple: true,
                         method: "post")
@@ -77,7 +77,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         fieldCss: "field-auto-thin",
                         controlCss: " auto-postback",
                         labelText: Displays.AggregationTarget(context: context),
-                        optionCollection: ss.CrosstabColumnsOptions(),
+                        optionCollection: ss.CrosstabColumnsOptions(context: context),
                         selectedValue: view.CrosstabValue,
                         addSelectedValue: false,
                         method: "post")

@@ -673,7 +673,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     var siteMenu = SiteInfo.TenantCaches.Get(context.TenantId)?.SiteMenu;
                     if (dataRows != null && dataRows.Any())
                     {
-                        ss.SetColumnAccessControls(context: context);
                         var columns = ss.GetLinkTableColumns(
                             context: context,
                             view: view,
@@ -723,10 +722,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             action: "LinkTable"))
                                     .TBody(action: () => issueCollection
                                         .ForEach(issueModel =>
-                                        {
-                                            ss.SetColumnAccessControls(
-                                                context: context,
-                                                mine: issueModel.Mine(context: context));
                                             hb.Tr(
                                                 attributes: new HtmlAttributes()
                                                     .Class("grid-row")
@@ -738,8 +733,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                             ss: ss,
                                                             column: column,
                                                             issueModel: issueModel,
-                                                            tabIndex: tabIndex)));
-                                        }));
+                                                            tabIndex: tabIndex)))));
                                 break;
                             case "Results":
                                 var resultCollection = new ResultCollection(
@@ -784,10 +778,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             action: "LinkTable"))
                                     .TBody(action: () => resultCollection
                                         .ForEach(resultModel =>
-                                        {
-                                            ss.SetColumnAccessControls(
-                                                context: context,
-                                                mine: resultModel.Mine(context: context));
                                             hb.Tr(
                                                 attributes: new HtmlAttributes()
                                                     .Class("grid-row")
@@ -799,8 +789,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                             ss: ss,
                                                             column: column,
                                                             resultModel: resultModel,
-                                                            tabIndex: tabIndex)));
-                                        }));
+                                                            tabIndex: tabIndex)))));
                                 break;
                         }
                     }
