@@ -320,51 +320,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 return;
             }
             cache = cache ?? LinkedSsDataSetHash;
-            var dataSet = cache == null
-                ? Repository.ExecuteDataSet(
-                    context: context,
-                    statements: new SqlStatement[]
-                    {
-                        Rds.SelectSites(
-                            dataTableName: "Destinations",
-                            column: Rds.SitesColumn()
-                                .SiteId()
-                                .Title()
-                                .Body()
-                                .GridGuide()
-                                .EditorGuide()
-                                .ReferenceType()
-                                .ParentId()
-                                .InheritPermission()
-                                .SiteSettings(),
-                            where: Rds.SitesWhere()
-                                .TenantId(context.TenantId)
-                                .SiteId_In(sub: Rds.SelectLinks(
-                                    column: Rds.LinksColumn().DestinationId(),
-                                    where: Rds.LinksWhere().SourceId(SiteId)))
-                                .ReferenceType("Wikis", _operator: "<>"),
-                            _using: destinations),
-                        Rds.SelectSites(
-                            dataTableName: "Sources",
-                            column: Rds.SitesColumn()
-                                .SiteId()
-                                .Title()
-                                .Body()
-                                .GridGuide()
-                                .EditorGuide()
-                                .ReferenceType()
-                                .ParentId()
-                                .InheritPermission()
-                                .SiteSettings(),
-                            where: Rds.SitesWhere()
-                                .TenantId(context.TenantId)
-                                .SiteId_In(sub: Rds.SelectLinks(
-                                    column: Rds.LinksColumn().SourceId(),
-                                    where: Rds.LinksWhere().DestinationId(SiteId)))
-                                .ReferenceType("Wikis", _operator: "<>"),
-                            _using: sources)
-                    })
-                : cache.Get(SiteId);
             if (joinedSsHash == null)
             {
                 joinedSsHash = new Dictionary<long, SiteSettings>()
@@ -377,7 +332,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 Destinations = SiteSettingsList(
                     context: context,
-                    dataSet: dataSet,
                     direction: "Destinations",
                     joinedSsHash: joinedSsHash,
                     joinStacks: JoinStacks,
@@ -389,7 +343,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 Sources = SiteSettingsList(
                     context: context,
-                    dataSet: dataSet,
                     direction: "Sources",
                     joinedSsHash: joinedSsHash,
                     joinStacks: JoinStacks,
@@ -405,7 +358,6 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private Dictionary<long, SiteSettings> SiteSettingsList(
             Context context,
-            DataSet dataSet,
             string direction,
             Dictionary<long, SiteSettings> joinedSsHash,
             List<JoinStack> joinStacks,
@@ -414,7 +366,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             Dictionary<long, DataSet> cache = null)
         {
             var hash = new Dictionary<long, SiteSettings>();
-            dataSet.Tables[direction].AsEnumerable()
+            var linkIds = direction == "Destinations"
+                ? SiteInfo.Links(context: context).SourceKeyValues.Get(SiteId)
+                : SiteInfo.Links(context: context).DestinationKeyValues.Get(SiteId);
+            SiteInfo.Sites(context: context)
+                .Where(o => linkIds?.Any(siteId => siteId == o.Key) == true)
+                .Select(o => o.Value)
                 .Where(dataRow => previously?.Contains(dataRow.Long("SiteId")) != true)
                 .ToList()
                 .ForEach(dataRow =>

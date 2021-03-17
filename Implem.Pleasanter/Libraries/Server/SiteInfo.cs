@@ -100,6 +100,8 @@ namespace Implem.Pleasanter.Libraries.Server
             }
             if (monitor.SitesUpdated || force)
             {
+                tenantCache.Sites = GetSites(context: context);
+                tenantCache.Links = GetLinks(context: context);
                 tenantCache.SiteMenu = new SiteMenu(context: context);
             }
             if (monitor.Updated || force)
@@ -415,6 +417,85 @@ namespace Implem.Pleasanter.Libraries.Server
                 : notSet
                     ? Displays.NotSet(context: context)
                     : string.Empty;
+        }
+
+        public static DataRow Site(Context context, long siteId)
+        {
+            return TenantCaches.Get(context.TenantId).Sites.Get(siteId);
+        }
+
+        public static Dictionary<long, DataRow> Sites(Context context)
+        {
+            return TenantCaches.Get(context.TenantId).Sites;
+        }
+
+        private static Dictionary<long, DataRow> GetSites(Context context)
+        {
+            var dataRows = Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectSites(
+                    column: Rds.SitesColumn()
+                        .SiteId()
+                        .Title()
+                        .Body()
+                        .GridGuide()
+                        .EditorGuide()
+                        .ReferenceType()
+                        .ParentId()
+                        .InheritPermission()
+                        .SiteSettings(),
+                    where: Rds.SitesWhere().TenantId(context.TenantId)))
+                        .AsEnumerable()
+                        .ToDictionary(
+                            dataRow => dataRow.Long("SiteId"),
+                            dataRow => dataRow);
+            return dataRows;
+        }
+
+        public static LinkKeyValues Links(Context context)
+        {
+            return TenantCaches.Get(context.TenantId).Links;
+        }
+
+        private static LinkKeyValues GetLinks(Context context)
+        {
+            var dataRows = Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectLinks(
+                    column: Rds.LinksColumn()
+                        .DestinationId()
+                        .SourceId(),
+                    join: new SqlJoinCollection(
+                        new SqlJoin(
+                            tableBracket: "\"Sites\"",
+                            joinType: SqlJoin.JoinTypes.Inner,
+                            joinExpression: "\"DestinationSites\".\"SiteId\"=\"Links\".\"DestinationId\"",
+                            _as: "DestinationSites"),
+                        new SqlJoin(
+                            tableBracket: "\"Sites\"",
+                            joinType: SqlJoin.JoinTypes.Inner,
+                            joinExpression: "\"SourceSites\".\"SiteId\"=\"Links\".\"SourceId\"",
+                            _as: "SourceSites")),
+                    where: Rds.SitesWhere()
+                        .TenantId(context.TenantId, tableName: "DestinationSites")
+                        .TenantId(context.TenantId, tableName: "SourceSites")
+                        .ReferenceType("Wikis", tableName: "DestinationSites", _operator: "<>")
+                        .ReferenceType("Wikis", tableName: "SourceSites", _operator: "<>")))
+                            .AsEnumerable();
+            var linkKeyValues = new LinkKeyValues()
+            {
+                DestinationKeyValues = dataRows
+                    .GroupBy(dataRow => dataRow.Long("DestinationId"))
+                    .ToDictionary(
+                        data => data.Key, data =>
+                        data.Select(dataRow => dataRow.Long("SourceId")).ToList()),
+                SourceKeyValues = dataRows
+                    .GroupBy(dataRow => dataRow.Long("SourceId"))
+                    .ToDictionary(
+                        data => data.Key,
+                        data => data.Select(dataRow => dataRow.Long("DestinationId")).ToList())
+            };
+            return linkKeyValues;
         }
     }
 }

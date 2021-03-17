@@ -1,6 +1,5 @@
 ﻿using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Models;
@@ -543,36 +542,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.AccessStatus = siteModel.AccessStatus;
             ss.Init(context: context);
             return ss;
-        }
-
-        public static SiteSettings GetByDataRow(Context context, long siteId)
-        {
-            var dataRow = Repository.ExecuteTable(
-                context: context,
-                statements: Rds.SelectSites(
-                    column: Rds.SitesColumn()
-                        .SiteSettings()
-                        .Title()
-                        .InheritPermission(),
-                    where: Rds.SitesWhere()
-                        .TenantId(context.TenantId)
-                        .SiteId(siteId)))
-                            .AsEnumerable()
-                            .FirstOrDefault();
-            if (dataRow != null)
-            {
-                var ss = dataRow
-                    .String("SiteSettings")
-                    .DeserializeSiteSettings(context: context) ?? new SiteSettings();
-                ss.SiteId = siteId;
-                ss.Title = dataRow.String("Title");
-                ss.InheritPermission = dataRow.Long("InheritPermission");
-                return ss;
-            }
-            else
-            {
-                return null;
-            }
         }
 
         /// <summary>
