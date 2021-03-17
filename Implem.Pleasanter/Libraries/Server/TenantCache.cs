@@ -1,11 +1,14 @@
 ﻿using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Requests;
 using System.Collections.Generic;
+using System.Data;
 namespace Implem.Pleasanter.Libraries.Server
 {
     public class TenantCache
     {
         public int TenantId;
+        public Dictionary<long, DataRow> Sites;
+        public LinkKeyValues Links;
         public SiteMenu SiteMenu;
         public Dictionary<int, Dept> DeptHash;
         public Dictionary<int, Group> GroupHash;
