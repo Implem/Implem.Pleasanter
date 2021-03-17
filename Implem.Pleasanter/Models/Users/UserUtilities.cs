@@ -1208,9 +1208,9 @@ namespace Implem.Pleasanter.Models
                                     column: column);
                                 break;
                             case "Num":
-                                value = userModel.Num(columnName: column.Name).GridText(
+                                value = userModel.Num(columnName: column.Name)?.Value?.GridText(
                                     context: context,
-                                    column: column);
+                                    column: column) ?? string.Empty;
                                 break;
                             case "Date":
                                 value = userModel.Date(columnName: column.Name).GridText(

@@ -1115,9 +1115,9 @@ namespace Implem.Pleasanter.Models
                                     column: column);
                                 break;
                             case "Num":
-                                value = resultModel.Num(columnName: column.Name).GridText(
+                                value = resultModel.Num(columnName: column.Name)?.Value?.GridText(
                                     context: context,
-                                    column: column);
+                                    column: column) ?? string.Empty;
                                 break;
                             case "Date":
                                 value = resultModel.Date(columnName: column.Name).GridText(
@@ -1298,7 +1298,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 column: commentsColumn,
-                    baseModel: resultModel);
+                baseModel: resultModel);
             var showComments = ss.ShowComments(commentsColumnPermissionType);
             var tabsCss = showComments ? null : "max";
             var linksDataSet = HtmlLinks.DataSet(
