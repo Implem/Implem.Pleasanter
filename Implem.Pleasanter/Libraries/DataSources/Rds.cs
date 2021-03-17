@@ -1189,6 +1189,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "NumberOfDenial": return "\"NumberOfDenial\"";
                         case "TenantManager": return "\"TenantManager\"";
                         case "ServiceManager": return "\"ServiceManager\"";
+                        case "AllowCreationAtTopSite": return "\"AllowCreationAtTopSite\"";
+                        case "AllowGroupAdministration": return "\"AllowGroupAdministration\"";
                         case "Disabled": return "\"Disabled\"";
                         case "Lockout": return "\"Lockout\"";
                         case "LockoutCounter": return "\"LockoutCounter\"";
@@ -2662,6 +2664,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 function: function);
                         case "ServiceManager":
                             return self.Users_ServiceManager(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "AllowCreationAtTopSite":
+                            return self.Users_AllowCreationAtTopSite(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "AllowGroupAdministration":
+                            return self.Users_AllowGroupAdministration(
                                 tableName: column.TableName(),
                                 orderType: orderType,
                                 function: function);
@@ -10498,6 +10510,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             column.NumberOfDenial(function: Sqls.Functions.SingleColumn); param.NumberOfDenial();
             column.TenantManager(function: Sqls.Functions.SingleColumn); param.TenantManager();
             column.ServiceManager(function: Sqls.Functions.SingleColumn); param.ServiceManager();
+            column.AllowCreationAtTopSite(function: Sqls.Functions.SingleColumn); param.AllowCreationAtTopSite();
+            column.AllowGroupAdministration(function: Sqls.Functions.SingleColumn); param.AllowGroupAdministration();
             column.Disabled(function: Sqls.Functions.SingleColumn); param.Disabled();
             column.Lockout(function: Sqls.Functions.SingleColumn); param.Lockout();
             column.LockoutCounter(function: Sqls.Functions.SingleColumn); param.LockoutCounter();
@@ -13309,6 +13323,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""NumberOfDenial"",
                     ""TenantManager"",
                     ""ServiceManager"",
+                    ""AllowCreationAtTopSite"",
+                    ""AllowGroupAdministration"",
                     ""Disabled"",
                     ""Lockout"",
                     ""LockoutCounter"",
@@ -13352,6 +13368,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Users"".""NumberOfDenial"",
                     ""Users"".""TenantManager"",
                     ""Users"".""ServiceManager"",
+                    ""Users"".""AllowCreationAtTopSite"",
+                    ""Users"".""AllowGroupAdministration"",
                     ""Users"".""Disabled"",
                     ""Users"".""Lockout"",
                     ""Users"".""LockoutCounter"",
@@ -14572,6 +14590,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""NumberOfDenial"",
                     ""TenantManager"",
                     ""ServiceManager"",
+                    ""AllowCreationAtTopSite"",
+                    ""AllowGroupAdministration"",
                     ""Disabled"",
                     ""Lockout"",
                     ""LockoutCounter"",
@@ -14615,6 +14635,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Users_deleted"".""NumberOfDenial"",
                     ""Users_deleted"".""TenantManager"",
                     ""Users_deleted"".""ServiceManager"",
+                    ""Users_deleted"".""AllowCreationAtTopSite"",
+                    ""Users_deleted"".""AllowGroupAdministration"",
                     ""Users_deleted"".""Disabled"",
                     ""Users_deleted"".""Lockout"",
                     ""Users_deleted"".""LockoutCounter"",
@@ -52613,6 +52635,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     return self.TenantManager(_as: _as, function: function);
                 case "ServiceManager":
                     return self.ServiceManager(_as: _as, function: function);
+                case "AllowCreationAtTopSite":
+                    return self.AllowCreationAtTopSite(_as: _as, function: function);
+                case "AllowGroupAdministration":
+                    return self.AllowGroupAdministration(_as: _as, function: function);
                 case "Disabled":
                     return self.Disabled(_as: _as, function: function);
                 case "Lockout":
@@ -53497,6 +53523,74 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return self.Add(
                 columnBracket: "\"ServiceManager\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static UsersColumnCollection AllowCreationAtTopSite(
+            this UsersColumnCollection self,
+            string tableName = "Users",
+            string columnName = "AllowCreationAtTopSite",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"AllowCreationAtTopSite\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Users_AllowCreationAtTopSite(
+            this SqlColumnCollection self,
+            string tableName = "Users",
+            string columnName = "AllowCreationAtTopSite",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"AllowCreationAtTopSite\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static UsersColumnCollection AllowGroupAdministration(
+            this UsersColumnCollection self,
+            string tableName = "Users",
+            string columnName = "AllowGroupAdministration",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"AllowGroupAdministration\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Users_AllowGroupAdministration(
+            this SqlColumnCollection self,
+            string tableName = "Users",
+            string columnName = "AllowGroupAdministration",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"AllowGroupAdministration\"",
                 tableName: tableName,
                 columnName: columnName,
                 _as: _as,
@@ -55543,6 +55637,122 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
+        public static UsersWhereCollection AllowCreationAtTopSite(
+            this UsersWhereCollection self,
+            object value = null,
+            string tableName = "Users",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"AllowCreationAtTopSite\"" },
+                    tableName: tableName,
+                    name: "AllowCreationAtTopSite",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Users_AllowCreationAtTopSite(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Users",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"AllowCreationAtTopSite\"" },
+                    tableName: tableName,
+                    name: "AllowCreationAtTopSite",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static UsersWhereCollection AllowGroupAdministration(
+            this UsersWhereCollection self,
+            object value = null,
+            string tableName = "Users",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"AllowGroupAdministration\"" },
+                    tableName: tableName,
+                    name: "AllowGroupAdministration",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Users_AllowGroupAdministration(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Users",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"AllowGroupAdministration\"" },
+                    tableName: tableName,
+                    name: "AllowGroupAdministration",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
         public static UsersWhereCollection Disabled(
             this UsersWhereCollection self,
             object value = null,
@@ -57560,6 +57770,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     case "NumberOfDenial": return self.NumberOfDenial();
                     case "TenantManager": return self.TenantManager();
                     case "ServiceManager": return self.ServiceManager();
+                    case "AllowCreationAtTopSite": return self.AllowCreationAtTopSite();
+                    case "AllowGroupAdministration": return self.AllowGroupAdministration();
                     case "Disabled": return self.Disabled();
                     case "Lockout": return self.Lockout();
                     case "LockoutCounter": return self.LockoutCounter();
@@ -57909,6 +58121,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlGroupByCollection self, string tableName = "Users")
         {
             return self.Add(columnBracket: "\"ServiceManager\"", tableName: tableName);
+        }
+
+        public static UsersGroupByCollection AllowCreationAtTopSite(
+            this UsersGroupByCollection self, string tableName = "Users")
+        {
+            return self.Add(columnBracket: "\"AllowCreationAtTopSite\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Users_AllowCreationAtTopSite(
+            this SqlGroupByCollection self, string tableName = "Users")
+        {
+            return self.Add(columnBracket: "\"AllowCreationAtTopSite\"", tableName: tableName);
+        }
+
+        public static UsersGroupByCollection AllowGroupAdministration(
+            this UsersGroupByCollection self, string tableName = "Users")
+        {
+            return self.Add(columnBracket: "\"AllowGroupAdministration\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Users_AllowGroupAdministration(
+            this SqlGroupByCollection self, string tableName = "Users")
+        {
+            return self.Add(columnBracket: "\"AllowGroupAdministration\"", tableName: tableName);
         }
 
         public static UsersGroupByCollection Disabled(
@@ -58540,6 +58776,36 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return self;
         }
 
+        public static UsersOrderByCollection AllowCreationAtTopSite(
+            this UsersOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Users",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"AllowCreationAtTopSite\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static UsersOrderByCollection AllowGroupAdministration(
+            this UsersOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Users",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"AllowGroupAdministration\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
         public static UsersOrderByCollection Disabled(
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
@@ -59162,6 +59428,36 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ServiceManager\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Users_AllowCreationAtTopSite(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Users",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"AllowCreationAtTopSite\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Users_AllowGroupAdministration(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Users",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"AllowGroupAdministration\"" }.ForEach(columnBracket =>
                 self.Add(
                     columnBracket: columnBracket,
                     orderType: orderType,
@@ -60215,6 +60511,74 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 ? self.Add(
                     columnBracket: "\"ServiceManager\"",
                     name: "ServiceManager",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static UsersParamCollection AllowCreationAtTopSite(
+            this UsersParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"AllowCreationAtTopSite\"",
+                    name: "AllowCreationAtTopSite",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Users_AllowCreationAtTopSite(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"AllowCreationAtTopSite\"",
+                    name: "AllowCreationAtTopSite",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static UsersParamCollection AllowGroupAdministration(
+            this UsersParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"AllowGroupAdministration\"",
+                    name: "AllowGroupAdministration",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Users_AllowGroupAdministration(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"AllowGroupAdministration\"",
+                    name: "AllowGroupAdministration",
                     value: value,
                     sub: sub,
                     raw: raw)
@@ -106009,6 +106373,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .NumberOfDenial()
                 .TenantManager()
                 .ServiceManager()
+                .AllowCreationAtTopSite()
+                .AllowGroupAdministration()
                 .Disabled()
                 .Lockout()
                 .LockoutCounter()
@@ -106080,6 +106446,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .NumberOfDenial(userModel.NumberOfDenial, _using: userModel.NumberOfDenial_Updated(context) || (otherInitValue && !userModel.NumberOfDenial.InitialValue(context)))
                 .TenantManager(userModel.TenantManager, _using: userModel.TenantManager_Updated(context) || setDefault || (otherInitValue && !userModel.TenantManager.InitialValue(context)))
                 .ServiceManager(userModel.ServiceManager, _using: userModel.ServiceManager_Updated(context) || setDefault || (otherInitValue && !userModel.ServiceManager.InitialValue(context)))
+                .AllowCreationAtTopSite(userModel.AllowCreationAtTopSite, _using: userModel.AllowCreationAtTopSite_Updated(context) || setDefault || (otherInitValue && !userModel.AllowCreationAtTopSite.InitialValue(context)))
+                .AllowGroupAdministration(userModel.AllowGroupAdministration, _using: userModel.AllowGroupAdministration_Updated(context) || setDefault || (otherInitValue && !userModel.AllowGroupAdministration.InitialValue(context)))
                 .Disabled(userModel.Disabled, _using: userModel.Disabled_Updated(context) || setDefault || (otherInitValue && !userModel.Disabled.InitialValue(context)))
                 .Lockout(userModel.Lockout, _using: userModel.Lockout_Updated(context) || setDefault || (otherInitValue && !userModel.Lockout.InitialValue(context)))
                 .LockoutCounter(userModel.LockoutCounter, _using: userModel.LockoutCounter_Updated(context) || setDefault || (otherInitValue && !userModel.LockoutCounter.InitialValue(context)))

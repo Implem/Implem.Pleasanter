@@ -196,6 +196,18 @@ namespace Implem.Pleasanter.Models
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
+                    case "AllowCreationAtTopSite":
+                        if (userModel.AllowCreationAtTopSite_Updated(context: context, column: column))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "AllowGroupAdministration":
+                        if (userModel.AllowGroupAdministration_Updated(context: context, column: column))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
                     case "Disabled":
                         if (userModel.Disabled_Updated(context: context, column: column))
                         {
@@ -485,6 +497,18 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "TenantManager":
                         if (userModel.TenantManager_Updated(context: context))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "AllowCreationAtTopSite":
+                        if (userModel.AllowCreationAtTopSite_Updated(context: context))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "AllowGroupAdministration":
+                        if (userModel.AllowGroupAdministration_Updated(context: context))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }

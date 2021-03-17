@@ -59,5 +59,19 @@ namespace Implem.Pleasanter.Libraries.Settings
                 && DisableStartGuide == true
                 && DisableTopSiteCreation != true;
         }
+
+        public bool AllowCreationAtTopSite(Context context)
+        {
+            return (!Parameters.User.DisableTopSiteCreation
+                || context.User.AllowCreationAtTopSite)
+                    && DisableTopSiteCreation != true;
+        }
+
+        public bool AllowGroupAdministration(Context context)
+        {
+            return (!Parameters.User.DisableGroupAdmin
+                || context.User.AllowGroupAdministration)
+                    && DisableGroupAdmin != true;
+        }
     }
 }

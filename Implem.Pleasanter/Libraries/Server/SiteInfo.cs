@@ -59,6 +59,8 @@ namespace Implem.Pleasanter.Libraries.Server
                                 .Name()
                                 .TenantManager()
                                 .ServiceManager()
+                                .AllowCreationAtTopSite()
+                                .AllowGroupAdministration()
                                 .Disabled(),
                             where: Rds.UsersWhere().TenantId(context.TenantId),
                             _using: monitor.UsersUpdated || force)

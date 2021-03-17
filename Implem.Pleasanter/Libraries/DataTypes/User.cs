@@ -27,6 +27,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public string UserCode;
         public bool TenantManager;
         public bool ServiceManager;
+        public bool AllowCreationAtTopSite;
+        public bool AllowGroupAdministration;
         public bool Disabled;
 
         public enum UserTypes : int
@@ -56,6 +58,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                             .UserSettings()
                             .TenantManager()
                             .ServiceManager()
+                            .AllowCreationAtTopSite()
+                            .AllowGroupAdministration()
                             .Disabled(),
                         where: Rds.UsersWhere()
                             .UserId(userId)));
@@ -88,11 +92,13 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 tenantId: TenantId,
                 deptId: DeptId);
             LoginId = dataRow.String("LoginId");
-            Name = dataRow.String("Name");
+            Name = Strings.CoalesceEmpty(dataRow.String("Name"), LoginId);
             UserCode = dataRow.String("UserCode");
             TenantManager = dataRow.Bool("TenantManager")
                 || Permissions.PrivilegedUsers(loginId: dataRow.String("LoginId"));
             ServiceManager = dataRow.Bool("ServiceManager");
+            AllowCreationAtTopSite = dataRow.Bool("AllowCreationAtTopSite");
+            AllowGroupAdministration = dataRow.Bool("AllowGroupAdministration");
             Disabled = dataRow.Bool("Disabled");
         }
 
