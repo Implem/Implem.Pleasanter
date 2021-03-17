@@ -84,9 +84,11 @@ namespace Implem.Pleasanter.Models
                     ? new ErrorData(type: Error.Types.NotFound)
                     : new ErrorData(type: Error.Types.HasNotPermission);
             }
-            ss.SetColumnAccessControls(context: context, mine: wikiModel.Mine(context: context));
             foreach (var column in ss.Columns
-                .Where(o => !o.CanCreate)
+                .Where(o => !o.CanCreate(
+                    context: context,
+                    ss: ss,
+                    mine: wikiModel.Mine(context: context)))
                 .Where(o => !ss.FormulaTarget(o.ColumnName))
                 .Where(o => !o.Linking))
             {
@@ -214,9 +216,11 @@ namespace Implem.Pleasanter.Models
                     ? new ErrorData(type: Error.Types.NotFound)
                     : new ErrorData(type: Error.Types.HasNotPermission);
             }
-            ss.SetColumnAccessControls(context: context, mine: wikiModel.Mine(context: context));
             foreach (var column in ss.Columns
-                .Where(o => !o.CanUpdate)
+                .Where(o => !o.CanUpdate(
+                    context: context,
+                    ss: ss,
+                    mine: wikiModel.Mine(context: context)))
                 .Where(o => !ss.FormulaTarget(o.ColumnName)))
             {
                 switch (column.ColumnName)

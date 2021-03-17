@@ -182,7 +182,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         {
             return columns?.Any() == true
                 ? columns
-                : ss.CrosstabColumnsOptions().Select(o => ss
+                : ss.CrosstabColumnsOptions(context: context).Select(o => ss
                     .GetColumn(
                         context: context,
                         columnName: o.Key)).ToList();

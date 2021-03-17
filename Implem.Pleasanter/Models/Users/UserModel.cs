@@ -453,7 +453,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? TenantId.ToExport(
                                 context: context,
@@ -466,7 +465,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? UserId.ToExport(
                                 context: context,
@@ -479,7 +477,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? Ver.ToExport(
                                 context: context,
@@ -492,7 +489,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? LoginId.ToExport(
                                 context: context,
@@ -505,7 +501,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? GlobalId.ToExport(
                                 context: context,
@@ -518,7 +513,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? Name.ToExport(
                                 context: context,
@@ -531,7 +525,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? UserCode.ToExport(
                                 context: context,
@@ -544,7 +537,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? Password.ToExport(
                                 context: context,
@@ -557,7 +549,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? LastName.ToExport(
                                 context: context,
@@ -570,7 +561,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? FirstName.ToExport(
                                 context: context,
@@ -583,7 +573,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? Birthday.ToExport(
                                 context: context,
@@ -596,7 +585,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? Gender.ToExport(
                                 context: context,
@@ -609,7 +597,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? Language.ToExport(
                                 context: context,
@@ -622,7 +609,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? TimeZone.ToExport(
                                 context: context,
@@ -635,7 +621,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? TimeZoneInfo.ToExport(
                                 context: context,
@@ -648,7 +633,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? DeptCode.ToExport(
                                 context: context,
@@ -661,7 +645,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? DeptId.ToExport(
                                 context: context,
@@ -674,7 +657,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? Dept.ToExport(
                                 context: context,
@@ -687,7 +669,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? FirstAndLastNameOrder.ToExport(
                                 context: context,
@@ -700,7 +681,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? Body.ToExport(
                                 context: context,
@@ -713,7 +693,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? LastLoginTime.ToExport(
                                 context: context,
@@ -726,7 +705,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? PasswordExpirationTime.ToExport(
                                 context: context,
@@ -739,7 +717,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? PasswordChangeTime.ToExport(
                                 context: context,
@@ -752,7 +729,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? NumberOfLogins.ToExport(
                                 context: context,
@@ -765,7 +741,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? NumberOfDenial.ToExport(
                                 context: context,
@@ -778,7 +753,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? TenantManager.ToExport(
                                 context: context,
@@ -791,7 +765,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? ServiceManager.ToExport(
                                 context: context,
@@ -804,7 +777,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? Disabled.ToExport(
                                 context: context,
@@ -817,7 +789,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? Lockout.ToExport(
                                 context: context,
@@ -830,7 +801,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? LockoutCounter.ToExport(
                                 context: context,
@@ -843,7 +813,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? Developer.ToExport(
                                 context: context,
@@ -856,7 +825,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? UserSettings.ToExport(
                                 context: context,
@@ -869,7 +837,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? ApiKey.ToExport(
                                 context: context,
@@ -882,7 +849,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? SecondaryAuthenticationCode.ToExport(
                                 context: context,
@@ -895,7 +861,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? SecondaryAuthenticationCodeExpirationTime.ToExport(
                                 context: context,
@@ -908,7 +873,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? LdapSearchRoot.ToExport(
                                 context: context,
@@ -921,7 +885,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? SynchronizedTime.ToExport(
                                 context: context,
@@ -934,7 +897,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? Comments.ToExport(
                                 context: context,
@@ -947,7 +909,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? Creator.ToExport(
                                 context: context,
@@ -960,7 +921,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? Updator.ToExport(
                                 context: context,
@@ -973,7 +933,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? CreatedTime.ToExport(
                                 context: context,
@@ -986,7 +945,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        type: ss.PermissionType,
                         mine: mine)
                             ? UpdatedTime.ToExport(
                                 context: context,
@@ -1002,7 +960,6 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 column: column,
-                                type: ss.PermissionType,
                                 mine: mine)
                                     ? Class(columnName: column.Name).ToExport(
                                         context: context,
@@ -1015,7 +972,6 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 column: column,
-                                type: ss.PermissionType,
                                 mine: mine)
                                     ? Num(columnName: column.Name).ToExport(
                                         context: context,
@@ -1028,7 +984,6 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 column: column,
-                                type: ss.PermissionType,
                                 mine: mine)
                                     ? Date(columnName: column.Name).ToExport(
                                         context: context,
@@ -1041,7 +996,6 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 column: column,
-                                type: ss.PermissionType,
                                 mine: mine)
                                     ? Description(columnName: column.Name).ToExport(
                                         context: context,
@@ -1054,7 +1008,6 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 column: column,
-                                type: ss.PermissionType,
                                 mine: mine)
                                     ? Check(columnName: column.Name).ToExport(
                                         context: context,
@@ -1067,7 +1020,6 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 column: column,
-                                type: ss.PermissionType,
                                 mine: mine)
                                     ? Attachments(columnName: column.Name).ToExport(
                                         context: context,
@@ -1237,7 +1189,7 @@ namespace Implem.Pleasanter.Models
             {
                 ApiVersion = context.ApiVersion
             };
-            ss.ReadableColumns(noJoined: true).ForEach(column =>
+            ss.ReadableColumns(context: context, noJoined: true).ForEach(column =>
             {
                 switch (column.ColumnName)
                 {
@@ -2111,13 +2063,17 @@ namespace Implem.Pleasanter.Models
                 || Updator_Updated(context: context);
         }
 
-        public List<string> Mine(Context context)
+        public override List<string> Mine(Context context)
         {
-            var mine = new List<string>();
-            var userId = context.UserId;
+            if (MineCache == null)
+            {
+                var mine = new List<string>();
+                var userId = context.UserId;
             if (SavedCreator == userId) mine.Add("Creator");
             if (SavedUpdator == userId) mine.Add("Updator");
-            return mine;
+                MineCache = mine;
+            }
+            return MineCache;
         }
 
         /// <summary>

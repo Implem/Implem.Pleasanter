@@ -72,14 +72,21 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                         unit: true)));
         }
 
-        public string ToControl(Context context, SiteSettings ss, Column column)
+        public string ToControl(
+            Context context,
+            SiteSettings ss,
+            Column column)
         {
             return ControlValue(
                 context: context,
+                ss: ss,
                 column: column);
         }
 
-        public string ToExport(Context context, Column column, ExportColumn exportColumn = null)
+        public string ToExport(
+            Context context,
+            Column column,
+            ExportColumn exportColumn = null)
         {
             return column.Display(
                 context: context,
@@ -87,14 +94,21 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 format: false);
         }
 
-        public string ToResponse(Context context, SiteSettings ss, Column column)
+        public string ToResponse(
+            Context context,
+            SiteSettings ss,
+            Column column)
         {
             return ControlValue(
                 context: context,
+                ss: ss,
                 column: column);
         }
 
-        private string ControlValue(Context context, Column column)
+        private string ControlValue(
+            Context context,
+            SiteSettings ss,
+            Column column)
         {
             return column.ControlType == "Spinner"
                 ? column.Display(
@@ -106,8 +120,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     value: Value,
                     format: column.Format == "C" || column.Format == "N")
                         + (column.EditorReadOnly == true
-                            || column.ColumnPermissionType(
+                            || Permissions.ColumnPermissionType(
                                 context: context,
+                                ss: ss,
+                                column: column,
                                 baseModel: null) != Permissions.ColumnPermissionTypes.Update
                                     ? column.Unit
                                     : string.Empty);

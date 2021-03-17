@@ -184,11 +184,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public Dictionary<string, string> ChoiceValueHash;
         [NonSerialized]
-        public bool CanCreate = true;
+        public bool? CanCreateCache;
         [NonSerialized]
-        public bool CanRead = true;
+        public bool? CanReadCache;
         [NonSerialized]
-        public bool CanUpdate = true;
+        public bool? CanUpdateCache;
         [NonSerialized]
         public SiteSettings SiteSettings;
         [NonSerialized]
@@ -765,8 +765,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 value: value,
                 format: format)
                     + (EditorReadOnly == true
-                        || this.ColumnPermissionType(
+                        || Permissions.ColumnPermissionType(
                             context: context,
+                            ss: ss,
+                            column: this,
                             baseModel: null) != Permissions.ColumnPermissionTypes.Update
                                 ? Unit
                                 : string.Empty);
@@ -995,12 +997,75 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Join(" ");
         }
 
-        public bool CanEdit(Context context)
+        public bool CanCreate(
+            Context context,
+            SiteSettings ss,
+            List<string> mine)
+        {
+            if (CanCreateCache == null)
+            {
+                var columnAccessControl = ss.CreateColumnAccessControls?.FirstOrDefault(o => o.ColumnName == ColumnName)
+                    ?? new ColumnAccessControl(ss, this, "Create");
+                CanCreateCache = columnAccessControl.Allowed(
+                    context: context,
+                    ss: ss,
+                    mine: mine);
+                ss.ColumnAccessControlCaches.AddIfNotConainsKey(ColumnName, this);
+            }
+            return CanCreateCache == true;
+        }
+
+        public bool CanRead(
+            Context context,
+            SiteSettings ss,
+            List<string> mine)
+        {
+            if (CanReadCache == null)
+            {
+                var columnAccessControl = ss.ReadColumnAccessControls?.FirstOrDefault(o => o.ColumnName == ColumnName)
+                    ?? new ColumnAccessControl(ss, this, "Read");
+                CanReadCache = columnAccessControl.Allowed(
+                    context: context,
+                    ss: ss,
+                    mine: mine);
+                ss.ColumnAccessControlCaches.AddIfNotConainsKey(ColumnName, this);
+            }
+            return CanReadCache == true;
+        }
+
+        public bool CanUpdate(
+            Context context,
+            SiteSettings ss,
+            List<string> mine)
+        {
+            if (CanUpdateCache == null)
+            {
+                var columnAccessControl = ss.UpdateColumnAccessControls?.FirstOrDefault(o => o.ColumnName == ColumnName)
+                    ?? new ColumnAccessControl(ss, this, "Update");
+                CanUpdateCache = columnAccessControl.Allowed(
+                    context: context,
+                    ss: ss,
+                    mine: mine);
+                ss.ColumnAccessControlCaches.AddIfNotConainsKey(ColumnName, this);
+            }
+            return CanUpdateCache == true;
+        }
+
+        public bool CanEdit(
+            Context context,
+            SiteSettings ss,
+            List<string> mine)
         {
             switch (context.Action)
             {
-                case "new": return CanCreate;
-                default: return CanUpdate;
+                case "new": return CanCreate(
+                    context: context,
+                    ss: ss,
+                    mine: mine);
+                default: return CanUpdate(
+                    context: context,
+                    ss: ss,
+                    mine: mine);
             }
         }
 
