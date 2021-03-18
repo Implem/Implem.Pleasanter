@@ -1226,7 +1226,9 @@ namespace Implem.Pleasanter.Models
             Message message = null,
             string switchTargets = null)
         {
-            wikiModel.MethodType = BaseModel.MethodTypes.Edit;
+            wikiModel.MethodType = wikiModel.WikiId == 0
+                ? BaseModel.MethodTypes.New
+                : BaseModel.MethodTypes.Edit;
             return new WikisResponseCollection(wikiModel)
                 .Invoke("clearDialogs")
                 .ReplaceAll("#MainContainer", Editor(context, ss, wikiModel))

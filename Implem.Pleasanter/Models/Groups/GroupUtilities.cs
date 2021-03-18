@@ -1250,7 +1250,9 @@ namespace Implem.Pleasanter.Models
             Message message = null,
             string switchTargets = null)
         {
-            groupModel.MethodType = BaseModel.MethodTypes.Edit;
+            groupModel.MethodType = groupModel.GroupId == 0
+                ? BaseModel.MethodTypes.New
+                : BaseModel.MethodTypes.Edit;
             return new GroupsResponseCollection(groupModel)
                 .Invoke("clearDialogs")
                 .ReplaceAll("#MainContainer", Editor(context, ss, groupModel))

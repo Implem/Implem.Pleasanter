@@ -26,6 +26,7 @@ namespace Implem.DefinitionAccessor
         public static ParameterAccessor.Parts.Version Version;
         public static Mail Mail;
         public static Notification Notification;
+        public static Parameter Parameter;
         public static Permissions Permissions;
         public static Rds Rds;
         public static Registration Registration;
@@ -39,7 +40,6 @@ namespace Implem.DefinitionAccessor
         public static SitePackage SitePackage;
         public static SysLog SysLog;
         public static User User;
-        public static Parameter Parameter;
         public static Locations Locations;
         public static Validation Validation;
 

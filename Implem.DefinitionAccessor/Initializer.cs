@@ -29,7 +29,7 @@ namespace Implem.DefinitionAccessor
             Environments.ServiceName = Parameters.Service.Name;
             SetRdsParameters();
             Environments.MachineName = Environment.MachineName;
-            Environments.Application = 
+            Environments.Application =
                 Assembly.GetExecutingAssembly().ManifestModule.Name.FileNameOnly();
             Environments.AssemblyVersion = assemblyVersion;
             SetDefinitions();
@@ -450,13 +450,13 @@ namespace Implem.DefinitionAccessor
 
         public static void SetRdsParameters()
         {
-            Parameters.Rds.SaConnectionString = 
+            Parameters.Rds.SaConnectionString =
                 Parameters.Rds.SaConnectionString.Replace(
                     "#ServiceName#", Environments.ServiceName);
-            Parameters.Rds.OwnerConnectionString = 
+            Parameters.Rds.OwnerConnectionString =
                 Parameters.Rds.OwnerConnectionString.Replace(
                     "#ServiceName#", Environments.ServiceName);
-            Parameters.Rds.UserConnectionString = 
+            Parameters.Rds.UserConnectionString =
                 Parameters.Rds.UserConnectionString.Replace(
                     "#ServiceName#", Environments.ServiceName);
             switch (Parameters.Rds.Provider)
@@ -490,7 +490,7 @@ namespace Implem.DefinitionAccessor
                 .ForEach(column =>
                     sheet.Where(o => o["Base"].ToBool()).ForEach(commonColumnDefinition =>
                     {
-                        if (IsTargetColumn(sheet, commonColumnDefinition, column.TableName) && 
+                        if (IsTargetColumn(sheet, commonColumnDefinition, column.TableName) &&
                             IsNotExists(tableCopy, commonColumnDefinition, column.TableName))
                         {
                             var copyColumnDefinition = new XlsRow();

@@ -1853,7 +1853,9 @@ namespace Implem.Pleasanter.Models
             Message message = null,
             string switchTargets = null)
         {
-            userModel.MethodType = BaseModel.MethodTypes.Edit;
+            userModel.MethodType = userModel.UserId == 0
+                ? BaseModel.MethodTypes.New
+                : BaseModel.MethodTypes.Edit;
             return new UsersResponseCollection(userModel)
                 .Invoke("clearDialogs")
                 .ReplaceAll("#MainContainer", Editor(context, ss, userModel))

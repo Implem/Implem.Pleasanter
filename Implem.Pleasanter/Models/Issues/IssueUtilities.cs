@@ -2189,7 +2189,9 @@ namespace Implem.Pleasanter.Models
             Message message = null,
             string switchTargets = null)
         {
-            issueModel.MethodType = BaseModel.MethodTypes.Edit;
+            issueModel.MethodType = issueModel.IssueId == 0
+                ? BaseModel.MethodTypes.New
+                : BaseModel.MethodTypes.Edit;
             var editInDialog = context.Forms.Bool("EditInDialog");
             return context.QueryStrings.Bool("control-auto-postback")
                 ? EditorFields(

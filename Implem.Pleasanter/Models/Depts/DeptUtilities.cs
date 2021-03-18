@@ -1249,7 +1249,9 @@ namespace Implem.Pleasanter.Models
             Message message = null,
             string switchTargets = null)
         {
-            deptModel.MethodType = BaseModel.MethodTypes.Edit;
+            deptModel.MethodType = deptModel.DeptId == 0
+                ? BaseModel.MethodTypes.New
+                : BaseModel.MethodTypes.Edit;
             return new DeptsResponseCollection(deptModel)
                 .Invoke("clearDialogs")
                 .ReplaceAll("#MainContainer", Editor(context, ss, deptModel))

@@ -796,7 +796,9 @@ namespace Implem.Pleasanter.Models
             Message message = null,
             string switchTargets = null)
         {
-            tenantModel.MethodType = BaseModel.MethodTypes.Edit;
+            tenantModel.MethodType = tenantModel.TenantId == 0
+                ? BaseModel.MethodTypes.New
+                : BaseModel.MethodTypes.Edit;
             return new TenantsResponseCollection(tenantModel)
                 .Invoke("clearDialogs")
                 .ReplaceAll("#MainContainer", Editor(context, ss, tenantModel))
