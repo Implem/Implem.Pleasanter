@@ -221,7 +221,7 @@ namespace Implem.Pleasanter.Models
                 || list.Any(o => o.ToString() == param.ToString())
                 || list
                     .Where(o => o.ToString().StartsWith("-"))
-                    .All(o => o.ToString() != $"-{param}");
+                    .Any(o => o.ToString() != $"-{param}");
         }
     }
 }
