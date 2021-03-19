@@ -217,10 +217,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .A(
                         attributes: postBack
                             ? new HtmlAttributes().OnClick(
-                                "location.href='" + Locations.ItemView(
+                                "$p.transition('" + Locations.ItemView(
                                     context: context,
                                     id: siteId,
-                                    action: action) + "'")
+                                    action: action) + "')")
                             : new HtmlAttributes()
                                 .OnClick("$p.viewMode($(this));")
                                 .DataAction(action),
