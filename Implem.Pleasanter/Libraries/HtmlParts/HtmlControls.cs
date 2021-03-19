@@ -622,7 +622,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Type(type)
                         .Title(title)
                         .AccessKey(accessKey)
-                        .OnClick(onClick + href.IsNotEmpty("location.href='" + href + "';"))
+                        .OnClick(onClick + href.IsNotEmpty("$p.transition('" + href + "');"))
                         .DataId(dataId)
                         .DataIcon(icon)
                         .DataSelector(selector)
