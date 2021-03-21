@@ -23,6 +23,9 @@ $p.setByJsonElement = function (jsonElement, data, $control) {
     var method = jsonElement.Method;
     var target = jsonElement.Target;
     var value = jsonElement.Value;
+    var options = jsonElement.Options !== undefined
+        ? JSON.parse(jsonElement.Options)
+        : {};
     switch (method) {
         case 'Html':
             $(target).html(value);
@@ -95,6 +98,7 @@ $p.setByJsonElement = function (jsonElement, data, $control) {
             break;
         case 'SetValue':
             $p.setValue($(target), value);
+            $p.hideField(target, options);
             break;
         case 'ClearFormData':
             $p.clearData(target, data, value);

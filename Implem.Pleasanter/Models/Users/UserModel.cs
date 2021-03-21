@@ -2135,8 +2135,8 @@ namespace Implem.Pleasanter.Models
             {
                 var mine = new List<string>();
                 var userId = context.UserId;
-            if (SavedCreator == userId) mine.Add("Creator");
-            if (SavedUpdator == userId) mine.Add("Updator");
+                if (SavedCreator == userId) mine.Add("Creator");
+                if (SavedUpdator == userId) mine.Add("Updator");
                 MineCache = mine;
             }
             return MineCache;
@@ -2723,7 +2723,10 @@ namespace Implem.Pleasanter.Models
                             action: () => hb.Raw(HtmlHtmls.ExtendedHtmls(
                                 context: context,
                                 id: "SecondaryAuthenticationGuideBottom"))))
-                .Val("#BackUrl", context.UrlReferrer, !context.UrlReferrer.IsNullOrEmpty())
+                .Val(
+                    target: "#BackUrl",
+                    value: context.UrlReferrer,
+                    _using: !context.UrlReferrer.IsNullOrEmpty())
                 .Focus("#SecondaryAuthenticationCode").ToJson();
         }
 

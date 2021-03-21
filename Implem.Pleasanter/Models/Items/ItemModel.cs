@@ -850,21 +850,53 @@ namespace Implem.Pleasanter.Models
 
         public string NewJson(Context context)
         {
-            return new ResponseCollection()
-                .ReplaceAll("#MainContainer", New(context: context))
-                .WindowScrollTop()
-                .FocusMainForm()
-                .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"))
-                .PushState("Edit", Locations.Get(
+            if (!context.QueryStrings.Bool("control-auto-postback"))
+            {
+                return new ResponseCollection()
+                    .ReplaceAll("#MainContainer", New(context: context))
+                    .WindowScrollTop()
+                    .FocusMainForm()
+                    .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"))
+                    .PushState("Edit", Locations.Get(
+                        context: context,
+                        parts: new string[]
+                        {
+                            "Items",
+                            ReferenceId.ToString(),
+                            "New"
+                        }))
+                    .Events("on_editor_load")
+                    .ToJson();
+            }
+            else
+            {
+                SetSite(
                     context: context,
-                    parts: new string[]
-                    {
-                        "Items",
-                        ReferenceId.ToString(),
-                        "New"
-                    }))
-                .Events("on_editor_load")
-                .ToJson();
+                    siteOnly: true,
+                    initSiteSettings: true);
+                switch (Site.ReferenceType)
+                {
+                    case "Issues":
+                        return IssueUtilities.EditorJson(
+                            context: context,
+                            ss: Site.SiteSettings,
+                            issueId: 0);
+                    case "Results":
+                        return ResultUtilities.EditorJson(
+                            context: context,
+                            ss: Site.SiteSettings,
+                            resultId: 0);
+                    case "Wikis":
+                        return WikiUtilities.EditorJson(
+                            context: context,
+                            ss: Site.SiteSettings,
+                            wikiId: 0);
+                    default:
+                        return HtmlTemplates.Error(
+                            context: context,
+                            errorData: new ErrorData(type: Error.Types.NotFound));
+                }
+            }
         }
 
         public string NewOnGrid(Context context)

@@ -878,7 +878,9 @@ namespace Implem.Pleasanter.Models
             Message message = null,
             string switchTargets = null)
         {
-            siteModel.MethodType = BaseModel.MethodTypes.Edit;
+            siteModel.MethodType = siteModel.SiteId == 0
+                ? BaseModel.MethodTypes.New
+                : BaseModel.MethodTypes.Edit;
             return new SitesResponseCollection(siteModel)
                 .Invoke("clearDialogs")
                 .ReplaceAll("#MainContainer", Editor(context, siteModel))

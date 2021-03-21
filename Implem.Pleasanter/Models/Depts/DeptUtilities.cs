@@ -1223,7 +1223,9 @@ namespace Implem.Pleasanter.Models
             Message message = null,
             string switchTargets = null)
         {
-            deptModel.MethodType = BaseModel.MethodTypes.Edit;
+            deptModel.MethodType = deptModel.DeptId == 0
+                ? BaseModel.MethodTypes.New
+                : BaseModel.MethodTypes.Edit;
             return new DeptsResponseCollection(deptModel)
                 .Invoke("clearDialogs")
                 .ReplaceAll("#MainContainer", Editor(context, ss, deptModel))
@@ -1297,72 +1299,85 @@ namespace Implem.Pleasanter.Models
                 .Where(column => column != null)
                 .ForEach(column =>
                 {
+                    var serverScriptModelColumn = deptModel
+                        ?.ServerScriptModelRows
+                        ?.Select(row => row.Columns.Get(column.ColumnName))
+                        .FirstOrDefault();
                     switch (column.Name)
                     {
                         case "DeptId":
                             res.Val(
-                                "#Depts_DeptId" + idSuffix,
-                                deptModel.DeptId.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Depts_DeptId" + idSuffix,
+                                value: deptModel.DeptId.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "DeptCode":
                             res.Val(
-                                "#Depts_DeptCode" + idSuffix,
-                                deptModel.DeptCode.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Depts_DeptCode" + idSuffix,
+                                value: deptModel.DeptCode.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "DeptName":
                             res.Val(
-                                "#Depts_DeptName" + idSuffix,
-                                deptModel.DeptName.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Depts_DeptName" + idSuffix,
+                                value: deptModel.DeptName.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "Body":
                             res.Val(
-                                "#Depts_Body" + idSuffix,
-                                deptModel.Body.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Depts_Body" + idSuffix,
+                                value: deptModel.Body.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         default:
                             switch (Def.ExtendedColumnTypes.Get(column.Name))
                             {
                                 case "Class":
                                     res.Val(
-                                        $"#Depts_{column.Name}{idSuffix}",
-                                        deptModel.Class(columnName: column.Name).ToResponse(
+                                        target: $"#Depts_{column.Name}{idSuffix}",
+                                        value: deptModel.Class(columnName: column.Name).ToResponse(
                                             context: context,
                                             ss: ss,
-                                            column: column));
+                                            column: column),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Num":
                                     res.Val(
-                                        $"#Depts_{column.Name}{idSuffix}",
-                                        deptModel.Num(columnName: column.Name).ToResponse(
+                                        target: $"#Depts_{column.Name}{idSuffix}",
+                                        value: deptModel.Num(columnName: column.Name).ToResponse(
                                             context: context,
                                             ss: ss,
-                                            column: column));
+                                            column: column),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Date":
                                     res.Val(
-                                        $"#Depts_{column.Name}{idSuffix}",
-                                        deptModel.Date(columnName: column.Name).ToResponse(
+                                        target: $"#Depts_{column.Name}{idSuffix}",
+                                        value: deptModel.Date(columnName: column.Name).ToResponse(
                                             context: context,
                                             ss: ss,
-                                            column: column));
+                                            column: column),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Description":
                                     res.Val(
-                                        $"#Depts_{column.Name}{idSuffix}",
-                                        deptModel.Description(columnName: column.Name).ToResponse(
+                                        target: $"#Depts_{column.Name}{idSuffix}",
+                                        value: deptModel.Description(columnName: column.Name).ToResponse(
                                             context: context,
                                             ss: ss,
-                                            column: column));
+                                            column: column),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Check":
                                     res.Val(
-                                        $"#Depts_{column.Name}{idSuffix}",
-                                        deptModel.Check(columnName: column.Name));
+                                        target: $"#Depts_{column.Name}{idSuffix}",
+                                        value: deptModel.Check(columnName: column.Name),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Attachments":
                                     res.ReplaceAll(
-                                        $"#Depts_{column.Name}Field",
-                                        new HtmlBuilder()
+                                        target: $"#Depts_{column.Name}Field",
+                                        value: new HtmlBuilder()
                                             .FieldAttachments(
                                                 context: context,
                                                 fieldId: $"Depts_{column.Name}Field",
@@ -1380,7 +1395,8 @@ namespace Implem.Pleasanter.Models
                                                     ss: ss,
                                                     column: column,
                                                     baseModel: deptModel)
-                                                        != Permissions.ColumnPermissionTypes.Update));
+                                                        != Permissions.ColumnPermissionTypes.Update),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                             }
                             break;

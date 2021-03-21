@@ -2602,10 +2602,10 @@ namespace Implem.Pleasanter.Models
             {
                 var mine = new List<string>();
                 var userId = context.UserId;
-            if (SavedManager == userId) mine.Add("Manager");
-            if (SavedOwner == userId) mine.Add("Owner");
-            if (SavedCreator == userId) mine.Add("Creator");
-            if (SavedUpdator == userId) mine.Add("Updator");
+                if (SavedManager == userId) mine.Add("Manager");
+                if (SavedOwner == userId) mine.Add("Owner");
+                if (SavedCreator == userId) mine.Add("Creator");
+                if (SavedUpdator == userId) mine.Add("Updator");
                 MineCache = mine;
             }
             return MineCache;
