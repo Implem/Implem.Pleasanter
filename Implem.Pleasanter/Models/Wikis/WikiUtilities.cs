@@ -1226,7 +1226,9 @@ namespace Implem.Pleasanter.Models
             Message message = null,
             string switchTargets = null)
         {
-            wikiModel.MethodType = BaseModel.MethodTypes.Edit;
+            wikiModel.MethodType = wikiModel.WikiId == 0
+                ? BaseModel.MethodTypes.New
+                : BaseModel.MethodTypes.Edit;
             return new WikisResponseCollection(wikiModel)
                 .Invoke("clearDialogs")
                 .ReplaceAll("#MainContainer", Editor(context, ss, wikiModel))
@@ -1253,72 +1255,85 @@ namespace Implem.Pleasanter.Models
                 .Where(column => column != null)
                 .ForEach(column =>
                 {
+                    var serverScriptModelColumn = wikiModel
+                        ?.ServerScriptModelRows
+                        ?.Select(row => row.Columns.Get(column.ColumnName))
+                        .FirstOrDefault();
                     switch (column.Name)
                     {
                         case "WikiId":
                             res.Val(
-                                "#Wikis_WikiId" + idSuffix,
-                                wikiModel.WikiId.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Wikis_WikiId" + idSuffix,
+                                value: wikiModel.WikiId.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "Title":
                             res.Val(
-                                "#Wikis_Title" + idSuffix,
-                                wikiModel.Title.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Wikis_Title" + idSuffix,
+                                value: wikiModel.Title.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "Body":
                             res.Val(
-                                "#Wikis_Body" + idSuffix,
-                                wikiModel.Body.ToResponse(context: context, ss: ss, column: column));
+                                target: "#Wikis_Body" + idSuffix,
+                                value: wikiModel.Body.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         case "Locked":
                             res.Val(
-                                "#Wikis_Locked" + idSuffix,
-                                wikiModel.Locked);
+                                target: "#Wikis_Locked" + idSuffix,
+                                value: wikiModel.Locked,
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         default:
                             switch (Def.ExtendedColumnTypes.Get(column.Name))
                             {
                                 case "Class":
                                     res.Val(
-                                        $"#Wikis_{column.Name}{idSuffix}",
-                                        wikiModel.Class(columnName: column.Name).ToResponse(
+                                        target: $"#Wikis_{column.Name}{idSuffix}",
+                                        value: wikiModel.Class(columnName: column.Name).ToResponse(
                                             context: context,
                                             ss: ss,
-                                            column: column));
+                                            column: column),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Num":
                                     res.Val(
-                                        $"#Wikis_{column.Name}{idSuffix}",
-                                        wikiModel.Num(columnName: column.Name).ToResponse(
+                                        target: $"#Wikis_{column.Name}{idSuffix}",
+                                        value: wikiModel.Num(columnName: column.Name).ToResponse(
                                             context: context,
                                             ss: ss,
-                                            column: column));
+                                            column: column),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Date":
                                     res.Val(
-                                        $"#Wikis_{column.Name}{idSuffix}",
-                                        wikiModel.Date(columnName: column.Name).ToResponse(
+                                        target: $"#Wikis_{column.Name}{idSuffix}",
+                                        value: wikiModel.Date(columnName: column.Name).ToResponse(
                                             context: context,
                                             ss: ss,
-                                            column: column));
+                                            column: column),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Description":
                                     res.Val(
-                                        $"#Wikis_{column.Name}{idSuffix}",
-                                        wikiModel.Description(columnName: column.Name).ToResponse(
+                                        target: $"#Wikis_{column.Name}{idSuffix}",
+                                        value: wikiModel.Description(columnName: column.Name).ToResponse(
                                             context: context,
                                             ss: ss,
-                                            column: column));
+                                            column: column),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Check":
                                     res.Val(
-                                        $"#Wikis_{column.Name}{idSuffix}",
-                                        wikiModel.Check(columnName: column.Name));
+                                        target: $"#Wikis_{column.Name}{idSuffix}",
+                                        value: wikiModel.Check(columnName: column.Name),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                                 case "Attachments":
                                     res.ReplaceAll(
-                                        $"#Wikis_{column.Name}Field",
-                                        new HtmlBuilder()
+                                        target: $"#Wikis_{column.Name}Field",
+                                        value: new HtmlBuilder()
                                             .FieldAttachments(
                                                 context: context,
                                                 fieldId: $"Wikis_{column.Name}Field",
@@ -1336,7 +1351,8 @@ namespace Implem.Pleasanter.Models
                                                     ss: ss,
                                                     column: column,
                                                     baseModel: wikiModel)
-                                                        != Permissions.ColumnPermissionTypes.Update));
+                                                        != Permissions.ColumnPermissionTypes.Update),
+                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                     break;
                             }
                             break;

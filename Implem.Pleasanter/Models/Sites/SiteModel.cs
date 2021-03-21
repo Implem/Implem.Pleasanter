@@ -1426,8 +1426,8 @@ namespace Implem.Pleasanter.Models
             {
                 var mine = new List<string>();
                 var userId = context.UserId;
-            if (SavedCreator == userId) mine.Add("Creator");
-            if (SavedUpdator == userId) mine.Add("Updator");
+                if (SavedCreator == userId) mine.Add("Creator");
+                if (SavedUpdator == userId) mine.Add("Updator");
                 MineCache = mine;
             }
             return MineCache;
