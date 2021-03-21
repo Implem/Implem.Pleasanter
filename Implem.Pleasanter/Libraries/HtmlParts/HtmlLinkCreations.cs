@@ -63,6 +63,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static Link GetLink(LinkModel linkModel, SiteSettings ss)
         {
             var link = ss?.Links
+                .Where(o => o.SiteId > 0)
                 .Where(o => o.NoAddButton != true)
                 .FirstOrDefault(o => o.SiteId == linkModel.DestinationId);
             if (link != null)

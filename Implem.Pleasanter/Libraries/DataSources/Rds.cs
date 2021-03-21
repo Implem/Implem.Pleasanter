@@ -702,6 +702,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 sqlColumn.Add(column: column);
                 var link = column.SiteSettings.Links
+                    .Where(o => o.SiteId > 0)
                     .Where(o => ss.JoinedSsHash.ContainsKey(o.SiteId))
                     .FirstOrDefault(o => o.ColumnName == column.Name);
                 if (link != null)
@@ -729,6 +730,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 groupBy.Add(column: column);
                 var link = column.SiteSettings.Links
+                    .Where(o => o.SiteId > 0)
                     .Where(o => ss.JoinedSsHash.ContainsKey(o.SiteId))
                     .FirstOrDefault(o => o.ColumnName == column.Name);
                 if (link != null)

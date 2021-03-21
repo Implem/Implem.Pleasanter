@@ -79,7 +79,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         private static string GetParameterName(SqlParameter parameter)
         {
             return parameter.ParameterName.StartsWith("@")
-                ? parameter.ParameterName.Substring(2)
+                ? parameter.ParameterName.Substring(1)
                 : parameter.ParameterName;
         }
 

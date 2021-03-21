@@ -6,7 +6,6 @@ namespace Implem.Pleasanter.Libraries.Migrators
     {
         public static void Migrate1_014(this SiteSettings ss)
         {
-            ss.Update_ColumnAccessControls();
             ss.CreateColumnAccessControls?.ForEach(columnAccessControl =>
             {
                 columnAccessControl.AllowedUsers?.ForEach(user =>

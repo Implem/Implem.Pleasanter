@@ -229,11 +229,44 @@ namespace Implem.Pleasanter.Libraries.Settings
             ColumnName = columnName;
         }
 
+        public string ChoiceHashKey()
+        {
+            return $"{ChoicesText.Trim()}{UseSearch}";
+        }
+
+        public void SetChoiceHash(
+            Context context,
+            SiteSettings ss,
+            Link link,
+            string searchText = null,
+            Column parentColumn = null,
+            List<long> parentIds = null,
+            int offset = 0,
+            bool search = false,
+            bool searchFormat = false,
+            bool setAllChoices = false,
+            bool setChoices = true)
+        {
+            if (setChoices) ChoiceHash = new Dictionary<string, Choice>();
+            link.SetChoiceHash(
+                context: context,
+                ss: ss,
+                column: this,
+                searchText: searchText,
+                parentColumn: parentColumn,
+                parentIds: parentIds,
+                offset: offset,
+                search: search,
+                searchFormat: searchFormat,
+                setAllChoices: setAllChoices,
+                setChoices: setChoices);
+        }
+
         public void SetChoiceHash(
             Context context,
             long siteId,
             Dictionary<string, List<string>> linkHash = null,
-            IEnumerable<string> searchIndexes = null,
+            List<string> searchIndexes = null,
             bool setAllChoices = false,
             bool setChoices = true)
         {
@@ -262,7 +295,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Context context,
             long siteId,
             Dictionary<string, List<string>> linkHash,
-            IEnumerable<string> searchIndexes,
+            List<string> searchIndexes,
             int index,
             string line,
             bool setAllChoices,
@@ -476,14 +509,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                     user.Name));
         }
 
-        public bool Linked(SiteSettings ss, long fromSiteId)
-        {
-            return
-                fromSiteId != 0 &&
-                ss.Links.Any(o =>
-                    o.ColumnName == ColumnName && o.SiteId == fromSiteId);
-        }
-
         private void AddToChoiceHash(
             string value,
             string text,
@@ -519,6 +544,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     case Types.Normal:
                         if (Linked()
                             && SiteSettings.Links
+                                .Where(o => o.SiteId > 0)
                                 .Where(o => o.ColumnName == ColumnName)
                                 .All(o => Permissions.CanRead(
 	                                context: context,
@@ -527,7 +553,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                             var title = SiteSettings.LinkedItemTitle(
                                 context: context,
                                 referenceId: value.ToLong(),
-                                siteIdList: SiteSettings.Links.Select(o => o.SiteId));
+                                siteIdList: SiteSettings.Links
+                                    .Where(o => o.SiteId > 0)
+                                    .Select(o => o.SiteId)
+                                    .ToList());
                             ChoiceHash.AddIfNotConainsKey(
                                 value,
                                 new Choice(title ?? "? " + value));
@@ -644,6 +673,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
                     where: Rds.ItemsWhere()
                         .SiteId_In(SiteSettings.Links
+                            .Where(o => o.SiteId > 0)
                             .Where(o => o.ColumnName == ColumnName)
                             .Select(o => o.SiteId)
                             .ToList())
@@ -911,16 +941,19 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var sql = new SqlColumnCollection();
             var tableName = Strings.CoalesceEmpty(JoinTableName, SiteSettings.ReferenceType);
-            SelectColumns(
+            SqlColumnCollection(
                 sql: sql,
-                tableName: tableName,
-                columnName: Name,
-                path: Joined
-                    ? TableAlias
-                    : tableName,
-                _as: Joined
-                    ? ColumnName
-                    : null);
+                tableName: tableName);
+            return sql;
+        }
+
+        public SqlColumnCollection SqlColumnWithUpdatedTimeCollection()
+        {
+            var sql = new SqlColumnCollection();
+            var tableName = Strings.CoalesceEmpty(JoinTableName, SiteSettings.ReferenceType);
+            SqlColumnCollection(
+                sql: sql,
+                tableName: tableName);
             sql.Add(
                 columnBracket: "\"UpdatedTime\"",
                 tableName: Joined
@@ -931,6 +964,20 @@ namespace Implem.Pleasanter.Libraries.Settings
                         ? TableAlias + ",UpdatedTime"
                         : null);
             return sql;
+        }
+
+        private void SqlColumnCollection(SqlColumnCollection sql, string tableName)
+        {
+            SelectColumns(
+                sql: sql,
+                tableName: tableName,
+                columnName: Name,
+                path: Joined
+                    ? TableAlias
+                    : tableName,
+                _as: Joined
+                    ? ColumnName
+                    : null);
         }
 
         public SqlStatement IfDuplicatedStatement(
@@ -960,9 +1007,20 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Replace("~", "_");
         }
 
+        public bool Linked(SiteSettings ss, long fromSiteId)
+        {
+            return
+                fromSiteId != 0 &&
+                ss.Links
+                    .Where(o => o.SiteId > 0)
+                    .Any(o => o.ColumnName == ColumnName
+                        && o.SiteId == fromSiteId);
+        }
+
         public bool Linked(bool withoutWiki = false)
         {
             return SiteSettings?.Links?
+                .Where(o => o.SiteId > 0)
                 .Any(o => o.ColumnName == Name
                     && (!withoutWiki
                         || SiteSettings?.JoinedSsHash?.Keys.Contains(o.SiteId) == true)) == true;

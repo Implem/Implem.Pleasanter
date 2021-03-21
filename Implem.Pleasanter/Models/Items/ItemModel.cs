@@ -1191,7 +1191,7 @@ namespace Implem.Pleasanter.Models
             var searchText = context.Forms.Data("DropDownSearchText");
             string parentClass = context.Forms.Data("DropDownSearchParentClass");
             var parentDataId = context.Forms.Data("DropDownSearchParentDataId");
-            var parentIds = parentDataId.Deserialize<long[]>();
+            var parentIds = parentDataId.Deserialize<List<long>>();
             switch (context.Forms.ControlId())
             {
                 case "DropDownSearchResults":
@@ -1220,7 +1220,7 @@ namespace Implem.Pleasanter.Models
             string searchText,
             bool filter,
             string parentClass = "",
-            IEnumerable<long> parentIds = null)
+            List<long> parentIds = null)
         {
             var offset = context.Forms.Int("DropDownSearchResultsOffset");
             var column = SearchDropDownColumn(
@@ -1251,7 +1251,7 @@ namespace Implem.Pleasanter.Models
             string searchText,
             bool filter,
             string parentClass = "",
-            IEnumerable<long> parentIds = null)
+            List<long> parentIds = null)
         {
             var column = SearchDropDownColumn(
                 context: context,
@@ -1288,12 +1288,12 @@ namespace Implem.Pleasanter.Models
             string parentClass = context.Forms.Data("RelatingDropDownParentClass");
             var selectedValue = context.Forms.Data("RelatingDropDownSelected");
             var parentDataId = context.Forms.Data("RelatingDropDownParentDataId");
-            var parentIds = parentDataId.Deserialize<long[]>();
+            var parentIds = parentDataId.Deserialize<List<long>>();
             return RelatingDropDown(
                 context: context,
                 controlId: controlId,
                 selectedValue: selectedValue,
-                searchText: "",
+                searchText: string.Empty,
                 filter: filter,
                 parentClass: parentClass,
                 parentIds: parentIds);
@@ -1306,7 +1306,7 @@ namespace Implem.Pleasanter.Models
             string selectedValue,
             bool filter,
             string parentClass = "",
-            IEnumerable<long> parentIds = null)
+            List<long> parentIds = null)
         {
             var column = SearchDropDownColumn(
                 context: context,
@@ -1357,7 +1357,8 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 controlId: controlId,
                 searchText: searchText,
-                filter: filter);
+                filter: filter,
+                searchFormat: false);
             var selected = context.Forms.List("DropDownSearchResults");
             var multiple = context.Forms.Bool("DropDownSearchMultiple");
             if (multiple)
@@ -1395,8 +1396,9 @@ namespace Implem.Pleasanter.Models
             bool filter,
             int offset = 0,
             string parentClass = "",
-            IEnumerable<long> parentIds = null,
-            bool searchColumnOnly = true)
+            List<long> parentIds = null,
+            bool searchColumnOnly = true,
+            bool searchFormat = true)
         {
             var ss = SiteSettingsUtilities.Get(
                 context: context,
@@ -1411,21 +1413,39 @@ namespace Implem.Pleasanter.Models
                         : controlId.Substring("ViewFiltersOnGridHeader__".Length))
                     : controlId.Split_2nd('_'));
             var searchIndexes = searchText.SearchIndexes();
-            if (column?.Linked() == true)
+            var link = ss.Links
+                ?.Where(o => o.JsonFormat == true)
+                .FirstOrDefault(o => o.ColumnName == column.ColumnName);
+            if (link != null)
+            {
+                column.SetChoiceHash(
+                    context: context,
+                    ss: ss,
+                    link: link,
+                    searchText: searchText,
+                    parentColumn: ss.GetColumn(
+                        context: context,
+                        columnName: parentClass),
+                    parentIds: parentIds,
+                    offset: offset,
+                    search: true,
+                    searchFormat: searchFormat);
+            }
+            else if (column?.Linked() == true)
             {
                 column?.SetChoiceHash(
+                context: context,
+                siteId: column.SiteId,
+                linkHash: column.SiteSettings.LinkHash(
                     context: context,
-                    siteId: column.SiteId,
-                    linkHash: column.SiteSettings.LinkHash(
-                        context: context,
-                        columnName: column.Name,
-                        searchIndexes: searchIndexes,
-                        searchColumnOnly: searchColumnOnly,
-                        offset: offset,
-                        parentClass: parentClass,
-                        parentIds: parentIds,
-                        setTotalCount: true),
-                    searchIndexes: searchIndexes);
+                    columnName: column.Name,
+                    searchIndexes: searchIndexes,
+                    searchColumnOnly: searchColumnOnly,
+                    offset: offset,
+                    parentClass: parentClass,
+                    parentIds: parentIds,
+                    setTotalCount: true),
+                searchIndexes: searchIndexes);
             }
             else
             {

@@ -184,7 +184,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             var title = ss.LinkedItemTitle(
                                 context: context,
                                 referenceId: referenceId,
-                                siteIdList: ss.Links.Select(o => o.SiteId));
+                                siteIdList: ss.Links
+                                    .Where(o => o.SiteId > 0)
+                                    .Select(o => o.SiteId)
+                                    .ToList());
                             if (title != null)
                             {
                                 editChoices.Add(referenceId.ToString(), new ControlData(title));
@@ -597,6 +600,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         columnName: column?.ColumnName,
                         selectedValues: id.ToSingleList());
                 }
+                column.ControlCss += " always-send";
                 return column.MultipleSelections == true
                     ? id.ToSingleList().ToJson()
                     : id;

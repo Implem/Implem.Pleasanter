@@ -478,6 +478,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_ImageLibCases": Code.Model_ImageLibCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ImageLibCases, definitionRow, CodeXls); break;
                     case "Model_ImageLibJsonCases": Code.Model_ImageLibJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ImageLibJsonCases, definitionRow, CodeXls); break;
                     case "Model_NewCases": Code.Model_NewCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_NewCases, definitionRow, CodeXls); break;
+                    case "Model_NewJsonCases": Code.Model_NewJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_NewJsonCases, definitionRow, CodeXls); break;
                     case "Model_NewOnGridCases": Code.Model_NewOnGridCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_NewOnGridCases, definitionRow, CodeXls); break;
                     case "Model_CancelNewRowCases": Code.Model_CancelNewRowCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CancelNewRowCases, definitionRow, CodeXls); break;
                     case "Model_EditorCases": Code.Model_EditorCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_EditorCases, definitionRow, CodeXls); break;
@@ -7414,6 +7415,7 @@ namespace Implem.DefinitionAccessor
         public string Model_ImageLibCases;
         public string Model_ImageLibJsonCases;
         public string Model_NewCases;
+        public string Model_NewJsonCases;
         public string Model_NewOnGridCases;
         public string Model_CancelNewRowCases;
         public string Model_EditorCases;
@@ -8075,6 +8077,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_ImageLibCases = new CodeDefinition();
         public CodeDefinition Model_ImageLibJsonCases = new CodeDefinition();
         public CodeDefinition Model_NewCases = new CodeDefinition();
+        public CodeDefinition Model_NewJsonCases = new CodeDefinition();
         public CodeDefinition Model_NewOnGridCases = new CodeDefinition();
         public CodeDefinition Model_CancelNewRowCases = new CodeDefinition();
         public CodeDefinition Model_EditorCases = new CodeDefinition();

@@ -41,3 +41,13 @@ $p.back = function () {
         }
     }
 }
+
+$p.transition = function(url) {
+    try {
+        location.href = url;
+    } catch (e) {
+        if (e.number !== -2147467259) {
+            throw e;
+        }
+    }
+};

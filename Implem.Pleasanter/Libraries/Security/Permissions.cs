@@ -190,12 +190,37 @@ namespace Implem.Pleasanter.Libraries.Security
             return where;
         }
 
+        public static SqlWhereCollection SiteDeptWhere(
+            this Rds.DeptsWhereCollection where,
+            Context context,
+            long siteId,
+            bool _using = true)
+        {
+            return _using
+                ? where.Add(raw: context.Sqls.SiteDeptWhere.Params(siteId))
+                : where;
+        }
+
+        public static SqlWhereCollection SiteGroupWhere(
+            this Rds.GroupsWhereCollection where,
+            Context context,
+            long siteId,
+            bool _using = true)
+        {
+            return _using
+                ? where.Add(raw: context.Sqls.SiteGroupWhere.Params(siteId))
+                : where;
+        }
+
         public static SqlWhereCollection SiteUserWhere(
             this Rds.UsersWhereCollection where,
             Context context,
-            long siteId)
+            long siteId,
+            bool _using = true)
         {
-            return where.Add(raw: context.Sqls.SiteUserWhere.Params(siteId));
+            return _using
+                ? where.Add(raw: context.Sqls.SiteUserWhere.Params(siteId))
+                : where;
         }
 
         public static SqlWhereCollection CanRead(
