@@ -38,7 +38,7 @@ $p.setByJsonElement = function (jsonElement, data, $control) {
             break;
         case 'Href':
             $control.addClass('no-send');
-            location.href = value;
+            $p.transition(value);
             break;
         case 'PushState':
             history.pushState(target, '', value);

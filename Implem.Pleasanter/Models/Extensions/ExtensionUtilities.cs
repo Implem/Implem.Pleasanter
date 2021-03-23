@@ -200,13 +200,13 @@ namespace Implem.Pleasanter.Models
             string columnName = null)
         {
             return extensions
-                ?.Where(o => IsContains(o.DeptIdList, deptId))
-                .Where(o => IsContains(o.UserIdList, userId))
-                .Where(o => IsContains(o.SiteIdList, siteId))
-                .Where(o => IsContains(o.IdList, id))
-                .Where(o => IsContains(o.Controllers, controller))
-                .Where(o => IsContains(o.Actions, action))
-                .Where(o => IsContains(o.ColumnList, columnName))
+                ?.Where(o => MeetConditions(o.DeptIdList, deptId))
+                .Where(o => MeetConditions(o.UserIdList, userId))
+                .Where(o => MeetConditions(o.SiteIdList, siteId))
+                .Where(o => MeetConditions(o.IdList, id))
+                .Where(o => MeetConditions(o.Controllers, controller))
+                .Where(o => MeetConditions(o.Actions, action))
+                .Where(o => MeetConditions(o.ColumnList, columnName))
                 .Where(o => !o.Disabled)
                 .Cast<T>();
         }
@@ -214,14 +214,48 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static bool IsContains<T, U>(List<T> list, U param)
+        public static bool MeetConditions<T, U>(List<T> list, U param)
         {
-            return param == null
-                || list?.Any() != true
-                || list.Any(o => o.ToString() == param.ToString())
-                || list
-                    .Where(o => o.ToString().StartsWith("-"))
-                    .Any(o => o.ToString() != $"-{param}");
+            var data = param?.ToString();
+            var items = GetItems(list);
+            return NoConditions(
+                items: items,
+                data: data)
+                    || PositiveConditions(
+                        items: items,
+                        data: data)
+                    || NegativeConditions(
+                        items: items,
+                        data: data);
+        }
+
+        private static List<string> GetItems<T>(List<T> list)
+        {
+            return list?
+                .Select(o => o?.ToString())
+                .Where(o => !o.IsNullOrEmpty())
+                .ToList();
+        }
+
+        private static bool NoConditions(List<string> items, string data)
+        {
+            return data.IsNullOrEmpty()
+                || items?.Any() != true;
+        }
+
+        private static bool PositiveConditions(List<string> items, string data)
+        {
+            return items.Any(item => item == data);
+        }
+
+        private static bool NegativeConditions(List<string> items, string data)
+        {
+            return (items
+                .Where(item => item.StartsWith("-"))
+                .Any(item => item != $"-{data}")
+                    && items
+                        .Where(item => item.StartsWith("-"))
+                        .All(item => item != $"-{data}"));
         }
     }
 }
