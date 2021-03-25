@@ -55,7 +55,11 @@ namespace Implem.Pleasanter.NetCore
             services.AddControllersWithViews();
             services.AddDistributedMemoryCache();
             services.AddMvc().AddSessionStateTempDataProvider();
-            services.AddSession();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(Parameters.Session.RetentionPeriod);
+                options.Cookie.IsEssential = true;
+            });
             var mvcBuilder = services.AddMvc(
                 options =>
                 {
