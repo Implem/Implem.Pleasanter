@@ -10,6 +10,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
@@ -554,8 +555,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             o.Value.Title
                         })
                         .ToJson())
-                    .HiddenSiteSettings(context: context, ss: ss)
-                    .HiddenServerScript(scriptValues: scriptValues)
+                    .HiddenSiteSettings(
+                        context: context,
+                        ss: ss)
+                    .HiddenServerScript(
+                        context: context,
+                        ss: ss,
+                        scriptValues: scriptValues)
                     .ExtendedSql(context: context)
                     .Hidden(
                         controlId: "Log",
@@ -580,10 +586,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder HiddenServerScript(
-            this HtmlBuilder hb, ServerScriptModelRow scriptValues)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            ServerScriptModelRow scriptValues)
         {
             scriptValues?.Hidden?.ForEach(hidden => hb
                 .Hidden(controlId: hidden.Key, value: hidden.Value));
+            var needReplaceHtml = scriptValues?.NeedReplaceHtml(
+                context: context,
+                ss: ss) ?? new List<string>();
+            hb.Hidden(
+                controlId: "NeedReplaceHtml",
+                value: needReplaceHtml.ToJson());
             return hb;
         }
 

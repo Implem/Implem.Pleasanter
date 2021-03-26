@@ -55,6 +55,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 break;
                             default:
                                 hb.Button(
+                                    controlId: "CreateCommand",
                                     text: Displays.Create(context: context),
                                     controlCss: "button-icon validate",
                                     accessKey: "s",
@@ -84,6 +85,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     case "index":
                                         hb
                                             .Button(
+                                                controlId: "BulkDeleteCommand",
                                                 text: Displays.BulkDelete(context: context),
                                                 controlCss: "button-icon",
                                                 accessKey: "r",
@@ -105,6 +107,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                 _using: context.CanImport(ss: ss)
                                                     && !readOnly)
                                             .Button(
+                                                controlId: "OpenExportSelectorDialogCommand",
                                                 text: Displays.Export(context: context),
                                                 controlCss: "button-icon",
                                                 accessKey: "x",
@@ -141,6 +144,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                 method: "put",
                                                 _using: Permissions.PrivilegedUsers(loginId: context.LoginId))
                                             .Button(
+                                                controlId: "DeleteCommand",
                                                 text: Displays.Delete(context: context),
                                                 controlCss: "button-icon",
                                                 accessKey: "r",
@@ -156,6 +160,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         break;
                                     case "index":
                                         hb.Button(
+                                            controlId: "BulkDeleteCommand",
                                             text: Displays.BulkDelete(context: context),
                                             controlCss: "button-icon",
                                             accessKey: "r",
@@ -183,6 +188,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 {
                                     hb
                                         .Button(
+                                            controlId: "UpdateByGridCommand",
                                             text: Displays.Update(context: context),
                                             controlCss: "button-icon validate",
                                             accessKey: "s",
@@ -192,6 +198,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             method: "post",
                                             _using: context.CanRead(ss: ss))
                                         .Button(
+                                            controlId: "EditOnGridCommand",
                                             text: Displays.ListMode(context: context),
                                             controlCss: "button-icon",
                                             onClick: "$p.editOnGrid($(this),0);",
@@ -207,6 +214,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         case "index":
                                             hb
                                                 .Button(
+                                                    controlId: "MoveTargetsCommand",
                                                     text: Displays.BulkMove(context: context),
                                                     controlCss: "button-icon open-dialog",
                                                     accessKey: "o",
@@ -222,6 +230,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                             .Any(o => ss.MoveTargets.Contains(o.Key.ToLong()))
                                                         && !readOnly)
                                                 .Button(
+                                                    controlId: "BulkDeleteCommand",
                                                     text: Displays.BulkDelete(context: context),
                                                     controlCss: "button-icon",
                                                     accessKey: "r",
@@ -244,6 +253,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                     _using: context.CanImport(ss: ss)
                                                         && !readOnly)
                                                 .Button(
+                                                    controlId: "OpenExportSelectorDialogCommand",
                                                     text: Displays.Export(context: context),
                                                     controlCss: "button-icon",
                                                     accessKey: "x",
@@ -253,6 +263,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                     method: "post",
                                                     _using: context.CanExport(ss: ss))
                                                 .Button(
+                                                    controlId: "OpenBulkUpdateSelectorDialogCommand",
                                                     text: Displays.BulkUpdate(context: context),
                                                     controlCss: "button-icon",
                                                     accessKey: "s",
@@ -264,6 +275,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                         && ss.GetAllowBulkUpdateColumns(context, ss).Any()
                                                         && !readOnly)
                                                 .Button(
+                                                    controlId: "EditOnGridCommand",
                                                     text: Displays.EditMode(context: context),
                                                     controlCss: "button-icon",
                                                     onClick: "$p.editOnGrid($(this),1);",
@@ -278,6 +290,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             break;
                                         case "crosstab":
                                             hb.Button(
+                                                controlId: "ExportCrosstabCommand",
                                                 text: Displays.Export(context: context),
                                                 controlCss: "button-icon",
                                                 accessKey: "x",
@@ -318,6 +331,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb
                 .Button(
+                    controlId: "UpdateCommand",
                     text: Displays.Update(context: context),
                     controlCss: "button-icon validate",
                     accessKey: "s",
@@ -329,6 +343,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         && context.CanUpdate(ss: ss)
                         && !readOnly)
                 .Button(
+                    controlId: "OpenCopyDialogCommand",
                     text: Displays.Copy(context: context),
                     controlCss: "button-icon open-dialog",
                     accessKey: "c",
@@ -336,9 +351,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     icon: "ui-icon-copy",
                     selector: "#CopyDialog",
                     _using: copyButton
-                        && context.CanCreate(ss: ss)
-                        && !readOnly)
+                        && context.CanCreate(ss: ss))
                 .Button(
+                    controlId: "MoveTargetsCommand",
                     text: Displays.Move(context: context),
                     controlCss: "button-icon open-dialog",
                     accessKey: "o",
@@ -364,6 +379,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     accessKey: "m",
                     _using: mailButton && context.CanSendMail(ss: ss))
                 .Button(
+                    controlId: "DeleteCommand",
                     text: Displays.Delete(context: context),
                     controlCss: "button-icon",
                     accessKey: "r",
@@ -377,6 +393,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         && !ss.IsSite(context: context)
                         && !readOnly)
                 .Button(
+                    controlId: "OpenDeleteSiteDialogCommand",
                     text: Displays.DeleteSite(context: context),
                     controlCss: "button-icon",
                     accessKey: "r",

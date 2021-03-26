@@ -898,15 +898,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             switch (DefaultInput)
             {
                 case "[[Self]]":
-                    switch (ChoicesText.SplitReturn().FirstOrDefault())
+                    switch (Type)
                     {
-                        case "[[Depts]]":
+                        case Types.Dept:
                             return context.DeptId.ToString();
-                        case "[[Groups]]":
-                        case "[[Groups*]]":
+                        case Types.Group:
                             return DefaultGroupId(context: context).ToString();
-                        case "[[Users]]":
-                        case "[[Users*]]":
+                        case Types.User:
                             return context.UserId.ToString();
                     }
                     break;

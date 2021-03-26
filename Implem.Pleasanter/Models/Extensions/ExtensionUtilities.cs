@@ -229,6 +229,9 @@ namespace Implem.Pleasanter.Models
                         data: data);
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static List<string> GetItems<T>(List<T> list)
         {
             return list?
@@ -237,17 +240,26 @@ namespace Implem.Pleasanter.Models
                 .ToList();
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static bool NoConditions(List<string> items, string data)
         {
             return data.IsNullOrEmpty()
                 || items?.Any() != true;
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static bool PositiveConditions(List<string> items, string data)
         {
             return items.Any(item => item == data);
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static bool NegativeConditions(List<string> items, string data)
         {
             return (items
