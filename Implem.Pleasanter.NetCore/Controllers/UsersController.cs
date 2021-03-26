@@ -239,7 +239,7 @@ namespace Implem.Pleasanter.NetCore.Controllers
         /// </summary>
         public ActionResult SsoSync()
         {
-           
+
             var context = new ContextImplement();
             var controller = new Pleasanter.Controllers.UsersController();
             var result = controller.SsoSync(context: context);
@@ -256,7 +256,10 @@ namespace Implem.Pleasanter.NetCore.Controllers
         {
             var context = new ContextImplement();
             var controller = new Pleasanter.Controllers.UsersController();
-            var json = controller.Authenticate(context: context, returnUrl: returnUrl);
+            var json = controller.Authenticate(context: context,
+                returnUrl: Url.IsLocalUrl(returnUrl)
+                    ? returnUrl
+                    : string.Empty);
             return json;
         }
 
