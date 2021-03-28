@@ -600,6 +600,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         columnName: column?.ColumnName,
                         selectedValues: id.ToSingleList());
                 }
+                column.ControlCss += " always-send";
                 return column.MultipleSelections == true
                     ? id.ToSingleList().ToJson()
                     : id;
