@@ -406,6 +406,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         tableAlias: tableAlias,
                         columnName: name)));
             currentSs.Links
+                .Where(link => link.SiteId > 0)
                 .Where(link => columns.Any(p =>
                     (!tableAlias.IsNullOrEmpty()
                         ? tableAlias + ","

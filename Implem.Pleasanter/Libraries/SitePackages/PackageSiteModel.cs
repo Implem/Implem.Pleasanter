@@ -94,8 +94,10 @@ namespace Implem.Pleasanter.Libraries.SitePackages
         {
             var ss = SiteSettings;
             ss.SiteId = SavedSiteId;
-            ss.Links?.ForEach(link =>
-                link.SiteId = header.GetConvertedId(link.SiteId));
+            ss.Links
+                ?.Where(o => o.SiteId > 0)
+                .ForEach(link =>
+                    link.SiteId = header.GetConvertedId(link.SiteId));
             ss.Summaries?.ForEach(summary =>
                 summary.SiteId = header.GetConvertedId(summary.SiteId));
             if (ss.IntegratedSites?.Any() == true)

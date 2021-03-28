@@ -1502,15 +1502,15 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         baseModel: wikiModel,
                         tableName: "Wikis"))
-                            .Html("#Links", new HtmlBuilder().Links(
-                                context: context,
-                                ss: ss,
-                                id: wikiModel.WikiId))
-                            .Links(
-                                context: context,
-                                ss: ss,
-                                id: wikiModel.WikiId,
-                                methodType: wikiModel.MethodType)
+                    .Html("#Links", new HtmlBuilder().Links(
+                        context: context,
+                        ss: ss,
+                        id: wikiModel.WikiId))
+                    .Links(
+                        context: context,
+                        ss: ss,
+                        id: wikiModel.WikiId,
+                        methodType: wikiModel.MethodType)
                     .SetMemory("formChanged", false)
                     .Message(Messages.Updated(
                         context: context,
@@ -1547,9 +1547,9 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             data: wikiModel.Title.Value));
                     var res = new WikisResponseCollection(wikiModel);
-                res
-                    .SetMemory("formChanged", false)
-                    .Invoke("back");
+                    res
+                        .SetMemory("formChanged", false)
+                        .Invoke("back");
                     return res.ToJson();
                 default:
                     return errorData.MessageJson(context: context);

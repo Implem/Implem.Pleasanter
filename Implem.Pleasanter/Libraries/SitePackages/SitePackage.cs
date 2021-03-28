@@ -249,24 +249,26 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             {
                 var savedSiteId = conv.SavedSiteId.ToLong();
                 var ss = new SiteModel(context: context, savedSiteId).SiteSettings;
-                ss.Links.ForEach(link =>
-                {
-                    var destinationType = ss.Destinations?.Get(link.SiteId)?.ReferenceType
-                        ?? string.Empty;
-                    switch (destinationType)
+                ss.Links
+                    ?.Where(o => o.SiteId > 0)
+                    .ForEach(link =>
                     {
-                        case "Issues":
-                        case "Results":
-                            Data.ForEach(jsonExport =>
-                                jsonExport.Body
-                                    .Where(e => e.SiteId == conv.SiteId)
-                                    .ForEach(body =>
-                                        body.ReplaceIdHash(
-                                            columnName: link.ColumnName,
-                                            idHash: idHash)));
-                            break;
-                    }
-                });
+                        var destinationType = ss.Destinations?.Get(link.SiteId)?.ReferenceType
+                            ?? string.Empty;
+                        switch (destinationType)
+                        {
+                            case "Issues":
+                            case "Results":
+                                Data.ForEach(jsonExport =>
+                                    jsonExport.Body
+                                        .Where(e => e.SiteId == conv.SiteId)
+                                        .ForEach(body =>
+                                            body.ReplaceIdHash(
+                                                columnName: link.ColumnName,
+                                                idHash: idHash)));
+                                break;
+                        }
+                    });
             }
         }
 
