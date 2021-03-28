@@ -277,6 +277,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         SiteInfo.TenantCaches.Get(context.TenantId)?
                             .DeptHash
                             .Where(o => o.Value.TenantId == context.TenantId)
+                            .Where(o => !o.Value.Disabled)
                             .Where(o => searchIndexes?.Any() != true ||
                                 searchIndexes.All(p =>
                                     o.Key == p.ToInt() ||
@@ -294,6 +295,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         SiteInfo.SiteGroups(context: context, siteId: siteId)
                             .ToDictionary(o => o, o => SiteInfo.Group(context.TenantId, o))
                             .Where(o => o.Value.TenantId == context.TenantId)
+                            .Where(o => !o.Value.Disabled)
                             .Where(o => searchIndexes?.Any() != true ||
                                 searchIndexes.All(p =>
                                     o.Key == p.ToInt() ||
@@ -311,6 +313,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         SiteInfo.TenantCaches.Get(context.TenantId)?
                             .GroupHash
                             .Where(o => o.Value.TenantId == context.TenantId)
+                            .Where(o => !o.Value.Disabled)
                             .Where(o => searchIndexes?.Any() != true ||
                                 searchIndexes.All(p =>
                                     o.Key == p.ToInt() ||
@@ -1111,6 +1114,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "Body":
                             sql.Depts_Body(tableName: path, _as: _as);
                             break;
+                        case "Disabled":
+                            sql.Depts_Disabled(tableName: path, _as: _as);
+                            break;
                         case "Comments":
                             sql.Depts_Comments(tableName: path, _as: _as);
                             break;
@@ -1162,6 +1168,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                             break;
                         case "Body":
                             sql.Groups_Body(tableName: path, _as: _as);
+                            break;
+                        case "Disabled":
+                            sql.Groups_Disabled(tableName: path, _as: _as);
                             break;
                         case "Comments":
                             sql.Groups_Comments(tableName: path, _as: _as);

@@ -102,6 +102,12 @@ namespace Implem.Pleasanter.Models
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
+                    case "Disabled":
+                        if (deptModel.Disabled_Updated(context: context, column: column))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
                     case "Comments":
                         if (deptModel.Comments_Updated(context: context))
                         {
@@ -208,6 +214,12 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "Body":
                         if (deptModel.Body_Updated(context: context))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "Disabled":
+                        if (deptModel.Disabled_Updated(context: context))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }

@@ -13,6 +13,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public int TenantId;
         public int Id;
         public string Name;
+        public bool Disabled;
 
         public Group()
         {
@@ -23,6 +24,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             TenantId = dataRow.Int("TenantId");
             Id = dataRow.Int("GroupId");
             Name = dataRow.String("GroupName");
+            Disabled = dataRow.Bool("Disabled");
         }
 
         public string ToControl(Context context, SiteSettings ss, Column column)

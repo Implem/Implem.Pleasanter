@@ -1022,7 +1022,6 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             RegistrationModel registrationModel)
         {
-            var mine = registrationModel.Mine(context: context);
             return hb.FieldSet(id: "FieldSetGeneral", action: () => hb
                 .FieldSetGeneralColumns(
                     context: context, ss: ss, registrationModel: registrationModel));

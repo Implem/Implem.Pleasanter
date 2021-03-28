@@ -565,6 +565,24 @@ namespace Implem.Pleasanter.Models
                                     value: string.Empty,
                                     tabIndex: tabIndex,
                                     serverScriptValues: serverScriptValues);
+                    case "Disabled":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: groupModel.Disabled,
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues);
                     case "Comments":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -795,6 +813,9 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         column: column); break;
                     case "Body": value = groupModel.Body.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Disabled": value = groupModel.Disabled.GridText(
                         context: context,
                         column: column); break;
                     case "Comments": value = groupModel.Comments.GridText(
@@ -1048,7 +1069,6 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             GroupModel groupModel)
         {
-            var mine = groupModel.Mine(context: context);
             return hb.FieldSet(id: "FieldSetGeneral", action: () => hb
                 .FieldSetGeneralColumns(
                     context: context, ss: ss, groupModel: groupModel));
@@ -1144,6 +1164,12 @@ namespace Implem.Pleasanter.Models
                             column: column);
                 case "Body":
                     return groupModel.Body
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Disabled":
+                    return groupModel.Disabled
                         .ToControl(
                             context: context,
                             ss: ss,
@@ -1328,6 +1354,12 @@ namespace Implem.Pleasanter.Models
                             res.Val(
                                 target: "#Groups_Body" + idSuffix,
                                 value: groupModel.Body.ToResponse(context: context, ss: ss, column: column),
+                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                            break;
+                        case "Disabled":
+                            res.Val(
+                                target: "#Groups_Disabled" + idSuffix,
+                                value: groupModel.Disabled,
                                 options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                             break;
                         default:

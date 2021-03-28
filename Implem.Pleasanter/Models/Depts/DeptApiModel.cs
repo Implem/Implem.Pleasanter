@@ -11,6 +11,7 @@ namespace Implem.Pleasanter.Models
         public string DeptCode { get; set; }
         public string DeptName { get; set; }
         public string Body { get; set; }
+        public bool? Disabled { get; set; }
         public string Comments { get; set; }
         public int? Creator { get; set; }
         public int? Updator { get; set; }

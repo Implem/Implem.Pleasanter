@@ -104,14 +104,14 @@ namespace Implem.Pleasanter.Libraries.Security
                                 joinExpression: "\"Permissions\".\"ReferenceId\"=\"Sites\".\"InheritPermission\"")),
                         where: Rds.SitesWhere()
                             .TenantId(context.TenantId)
-                            .PermissionsWhere()),
+                            .PermissionsWhere(context: context)),
                     Rds.SelectPermissions(
                         column: Rds.PermissionsColumn()
                             .ReferenceId()
                             .PermissionType(),
                         where: Rds.PermissionsWhere()
                             .ReferenceId(context.Id)
-                            .PermissionsWhere(),
+                            .PermissionsWhere(context: context),
                         unionType: Sqls.UnionTypes.UnionAll,
                         _using: context.Id > 0 && context.Id != context.SiteId),
                 })
@@ -141,7 +141,9 @@ namespace Implem.Pleasanter.Libraries.Security
                             raw: $"\"{ss.ReferenceType}\".\"SiteId\"={ss.SiteId}");
                         if (!context.CanRead(ss: ss, site: true) && checkPermission)
                         {
-                            where.CheckRecordPermission(ss);
+                            where.CheckRecordPermission(
+                                context: context,
+                                ss: ss);
                         }
                     }
                     else
@@ -177,7 +179,10 @@ namespace Implem.Pleasanter.Libraries.Security
                                     .Add(
                                         tableName: ss.ReferenceType,
                                         raw: $"\"{ss.ReferenceType}\".\"SiteId\" in ({denySites.Join()})")
-                                    .CheckRecordPermission(ss, ss.IntegratedSites)));
+                                    .CheckRecordPermission(
+                                        context: context,
+                                        ss: ss,
+                                        siteIdList: ss.IntegratedSites)));
                         }
                     }
                 }
@@ -185,33 +190,37 @@ namespace Implem.Pleasanter.Libraries.Security
             return where;
         }
 
-        public static SqlWhereCollection SiteUserWhere(
-            this Rds.UsersWhereCollection where, long siteId)
+        public static SqlWhereCollection SiteDeptWhere(
+            this Rds.DeptsWhereCollection where,
+            Context context,
+            long siteId,
+            bool _using = true)
         {
-            var deptRaw = "\"Users\".\"DeptId\" and \"Users\".\"DeptId\">0";
-            var userRaw = "\"Users\".\"UserId\" and \"Users\".\"UserId\">0";
-            return where.Add(
-                subLeft: Rds.SelectPermissions(
-                    column: Rds.PermissionsColumn()
-                        .PermissionType(function: Sqls.Functions.Max),
-                    where: Rds.PermissionsWhere()
-                        .ReferenceId(siteId)
-                        .Add(or: Rds.PermissionsWhere()
-                            .DeptId(raw: deptRaw)
-                            .Add(
-                                subLeft: Rds.SelectGroupMembers(
-                                    column: Rds.GroupMembersColumn()
-                                        .GroupMembersCount(),
-                                    where: Rds.GroupMembersWhere()
-                                        .GroupId(raw: "\"Permissions\".\"GroupId\"")
-                                        .Add(or: Rds.GroupMembersWhere()
-                                            .DeptId(raw: deptRaw)
-                                            .UserId(raw: userRaw))
-                                        .Add(raw: "\"Permissions\".\"GroupId\">0")),
-                                _operator: ">0")
-                            .UserId(raw: userRaw)
-                            .UserId(-1))),
-                _operator: ">0");
+            return _using
+                ? where.Add(raw: context.Sqls.SiteDeptWhere.Params(siteId))
+                : where;
+        }
+
+        public static SqlWhereCollection SiteGroupWhere(
+            this Rds.GroupsWhereCollection where,
+            Context context,
+            long siteId,
+            bool _using = true)
+        {
+            return _using
+                ? where.Add(raw: context.Sqls.SiteGroupWhere.Params(siteId))
+                : where;
+        }
+
+        public static SqlWhereCollection SiteUserWhere(
+            this Rds.UsersWhereCollection where,
+            Context context,
+            long siteId,
+            bool _using = true)
+        {
+            return _using
+                ? where.Add(raw: context.Sqls.SiteUserWhere.Params(siteId))
+                : where;
         }
 
         public static SqlWhereCollection CanRead(
@@ -229,22 +238,32 @@ namespace Implem.Pleasanter.Libraries.Security
                             raw: Def.Sql.CanReadSites)
                         .Add(
                             tableName: null,
-                            subLeft: CheckRecordPermission(idColumnBracket),
+                            subLeft: CheckRecordPermission(
+                                context: context,
+                                idColumnBracket: idColumnBracket),
                             _operator: null))
                 : where;
         }
 
         private static SqlWhereCollection CheckRecordPermission(
-            this SqlWhereCollection where, SiteSettings ss, List<long> siteIdList = null)
+            this SqlWhereCollection where,
+            Context context,
+            SiteSettings ss,
+            List<long> siteIdList = null)
         {
             return where.Add(
                 tableName: ss.ReferenceType,
-                subLeft: CheckRecordPermission(ss.IdColumnBracket(), siteIdList),
+                subLeft: CheckRecordPermission(
+                    context: context,
+                    idColumnBracket: ss.IdColumnBracket(),
+                    siteIdList: siteIdList),
                 _operator: null);
         }
 
         public static SqlExists CheckRecordPermission(
-            string idColumnBracket, List<long> siteIdList = null)
+            Context context,
+            string idColumnBracket,
+            List<long> siteIdList = null)
         {
             return Rds.ExistsPermissions(
                 where: Rds.PermissionsWhere()
@@ -256,24 +275,24 @@ namespace Implem.Pleasanter.Libraries.Security
                                 .ReferenceId(raw: "\"Permissions\".\"ReferenceId\"")
                                 .SiteId_In(siteIdList)),
                         _using: siteIdList?.Any() == true)
-                    .PermissionType(_operator: " & 1 = 1")
-                    .PermissionsWhere());
+                    .PermissionType(_operator: " & 1=1")
+                    .PermissionsWhere(context: context));
         }
 
-        private static SqlWhereCollection PermissionsWhere(this SqlWhereCollection where)
+        private static SqlWhereCollection PermissionsWhere(
+            this SqlWhereCollection where,
+            Context context)
         {
-            return where.Add(or: Rds.PermissionsWhere()
-                .GroupId_In(sub: Rds.SelectGroupMembers(
-                    column: Rds.GroupMembersColumn().GroupId(),
-                    where: Rds.GroupMembersWhere()
-                        .Add(raw: DeptOrUser("GroupMembers"))))
-                .Add(raw: DeptOrUser("Permissions")));
+            return where.Add(raw: context.Sqls.PermissionsWhere);
         }
 
         public static string DeptOrUser(string tableName)
         {
-            return $"(({Parameters.Parameter.SqlParameterPrefix}D<>0 and \"{{0}}\".\"DeptId\"={Parameters.Parameter.SqlParameterPrefix}D)or({Parameters.Parameter.SqlParameterPrefix}U<>0 and \"{{0}}\".\"UserId\"={Parameters.Parameter.SqlParameterPrefix}U)or(\"{{0}}\".\"UserId\"=-1))"
-                .Params(tableName);
+            return $"(({Parameters.Parameter.SqlParameterPrefix}D<>0 "
+                + $"and \"{tableName}\".\"DeptId\"={Parameters.Parameter.SqlParameterPrefix}D)"
+                + $"or({Parameters.Parameter.SqlParameterPrefix}U<>0 "
+                + $"and \"{tableName}\".\"UserId\"={Parameters.Parameter.SqlParameterPrefix}U)"
+                + $"or(\"{tableName}\".\"UserId\"=-1))";
         }
 
         private static Dictionary<long, Types> Hash(EnumerableRowCollection<DataRow> dataRows)
@@ -384,7 +403,7 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static Types SiteTopPermission(this Context context)
         {
-            return context.UserSettings?.DisableTopSiteCreation == true
+            return context.UserSettings?.AllowCreationAtTopSite(context: context) != true
                 ? Types.Read
                 : (Types)Parameters.Permissions.Manager;
         }
@@ -624,22 +643,20 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool CanReadGroup(Context context)
         {
-            return
-                context.UserSettings?.DisableGroupAdmin != true &&
-                (context.Id == 0 ||
-                CanManageTenant(context: context) ||
-                Groups(context: context).Any() ||
-                context.HasPrivilege);
+            return context.UserSettings?.AllowGroupAdministration(context: context) == true
+                && (context.Id == 0
+                    || CanManageTenant(context: context)
+                    || Groups(context: context).Any()
+                    || context.HasPrivilege);
         }
 
         public static bool CanEditGroup(Context context)
         {
-            return
-                context.UserSettings?.DisableGroupAdmin != true
+            return context.UserSettings?.AllowGroupAdministration(context: context) == true
                 && (context.Id == 0
-                || CanManageTenant(context: context)
-                || Groups(context: context).Any(o => o["Admin"].ToBool())
-                || context.HasPrivilege);
+                    || CanManageTenant(context: context)
+                    || Groups(context: context).Any(o => o["Admin"].ToBool())
+                    || context.HasPrivilege);
         }
 
         private static bool Can(this Context context, SiteSettings ss, Types type, bool site)

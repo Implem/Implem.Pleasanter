@@ -38,7 +38,8 @@ namespace Implem.Pleasanter.Libraries.Server
                                 .TenantId()
                                 .DeptId()
                                 .DeptCode()
-                                .DeptName(),
+                                .DeptName()
+                                .Disabled(),
                             where: Rds.DeptsWhere().TenantId(context.TenantId),
                             _using: monitor.DeptsUpdated || force),
                         Rds.SelectGroups(
@@ -46,7 +47,8 @@ namespace Implem.Pleasanter.Libraries.Server
                             column: Rds.GroupsColumn()
                                 .TenantId()
                                 .GroupId()
-                                .GroupName(),
+                                .GroupName()
+                                .Disabled(),
                             where: Rds.GroupsWhere().TenantId(context.TenantId),
                             _using: monitor.GroupsUpdated || force),
                         Rds.SelectUsers(
@@ -327,7 +329,9 @@ namespace Implem.Pleasanter.Libraries.Server
                     column: Rds.UsersColumn().UserId(),
                     where: Rds.UsersWhere()
                         .TenantId(context.TenantId)
-                        .SiteUserWhere(siteId: siteId)));
+                        .SiteUserWhere(
+                            context: context,
+                            siteId: siteId)));
         }
 
         public static string Name(Context context, int id, Settings.Column.Types type)
