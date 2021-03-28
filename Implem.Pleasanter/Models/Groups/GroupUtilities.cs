@@ -1318,7 +1318,15 @@ namespace Implem.Pleasanter.Models
             GroupModel groupModel,
             string idSuffix = null)
         {
-            var mine = groupModel.Mine(context: context);
+            var serverScriptModelRow = groupModel
+                ?.ServerScriptModelRows
+                ?.FirstOrDefault();
+            var needReplaceHtml = serverScriptModelRow?.NeedReplaceHtml(
+                context: context,
+                ss: ss);
+            res.Val(
+                target: "#NeedReplaceHtml",
+                value: needReplaceHtml?.ToJson());
             ss.GetEditorColumnNames()
                 .Select(columnName => ss.GetColumn(
                     context: context,
@@ -1326,113 +1334,125 @@ namespace Implem.Pleasanter.Models
                 .Where(column => column != null)
                 .ForEach(column =>
                 {
-                    var serverScriptModelColumn = groupModel
-                        ?.ServerScriptModelRows
-                        ?.Select(row => row.Columns.Get(column.ColumnName))
-                        .FirstOrDefault();
-                    switch (column.Name)
+                    var serverScriptModelColumn = serverScriptModelRow
+                        ?.Columns.Get(column.ColumnName);
+                    if (needReplaceHtml?.Contains(column.ColumnName) == true)
                     {
-                        case "TenantId":
-                            res.Val(
-                                target: "#Groups_TenantId" + idSuffix,
-                                value: groupModel.TenantId.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "GroupId":
-                            res.Val(
-                                target: "#Groups_GroupId" + idSuffix,
-                                value: groupModel.GroupId.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "GroupName":
-                            res.Val(
-                                target: "#Groups_GroupName" + idSuffix,
-                                value: groupModel.GroupName.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "Body":
-                            res.Val(
-                                target: "#Groups_Body" + idSuffix,
-                                value: groupModel.Body.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "Disabled":
-                            res.Val(
-                                target: "#Groups_Disabled" + idSuffix,
-                                value: groupModel.Disabled,
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        default:
-                            switch (Def.ExtendedColumnTypes.Get(column.Name))
-                            {
-                                case "Class":
-                                    res.Val(
-                                        target: $"#Groups_{column.Name}{idSuffix}",
-                                        value: groupModel.Class(columnName: column.Name).ToResponse(
-                                            context: context,
-                                            ss: ss,
-                                            column: column),
-                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                    break;
-                                case "Num":
-                                    res.Val(
-                                        target: $"#Groups_{column.Name}{idSuffix}",
-                                        value: groupModel.Num(columnName: column.Name).ToResponse(
-                                            context: context,
-                                            ss: ss,
-                                            column: column),
-                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                    break;
-                                case "Date":
-                                    res.Val(
-                                        target: $"#Groups_{column.Name}{idSuffix}",
-                                        value: groupModel.Date(columnName: column.Name).ToResponse(
-                                            context: context,
-                                            ss: ss,
-                                            column: column),
-                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                    break;
-                                case "Description":
-                                    res.Val(
-                                        target: $"#Groups_{column.Name}{idSuffix}",
-                                        value: groupModel.Description(columnName: column.Name).ToResponse(
-                                            context: context,
-                                            ss: ss,
-                                            column: column),
-                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                    break;
-                                case "Check":
-                                    res.Val(
-                                        target: $"#Groups_{column.Name}{idSuffix}",
-                                        value: groupModel.Check(columnName: column.Name),
-                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                    break;
-                                case "Attachments":
-                                    res.ReplaceAll(
-                                        target: $"#Groups_{column.Name}Field",
-                                        value: new HtmlBuilder()
-                                            .FieldAttachments(
+                        res.ReplaceAll(
+                            target: $"#Groups_{column.Name}Field" + idSuffix,
+                            value: new HtmlBuilder().Field(
+                                context: context,
+                                ss: ss,
+                                groupModel: groupModel,
+                                column: column,
+                                idSuffix: idSuffix));
+                    }
+                    else
+                    {
+                        switch (column.Name)
+                        {
+                            case "TenantId":
+                                res.Val(
+                                    target: "#Groups_TenantId" + idSuffix,
+                                    value: groupModel.TenantId.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "GroupId":
+                                res.Val(
+                                    target: "#Groups_GroupId" + idSuffix,
+                                    value: groupModel.GroupId.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "GroupName":
+                                res.Val(
+                                    target: "#Groups_GroupName" + idSuffix,
+                                    value: groupModel.GroupName.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Body":
+                                res.Val(
+                                    target: "#Groups_Body" + idSuffix,
+                                    value: groupModel.Body.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Disabled":
+                                res.Val(
+                                    target: "#Groups_Disabled" + idSuffix,
+                                    value: groupModel.Disabled,
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            default:
+                                switch (Def.ExtendedColumnTypes.Get(column.Name))
+                                {
+                                    case "Class":
+                                        res.Val(
+                                            target: $"#Groups_{column.Name}{idSuffix}",
+                                            value: groupModel.Class(columnName: column.Name).ToResponse(
                                                 context: context,
-                                                fieldId: $"Groups_{column.Name}Field",
-                                                controlId: $"Groups_{column.Name}",
-                                                columnName: column.ColumnName,
-                                                fieldCss: column.FieldCss
-                                                    + (column.TextAlign == SiteSettings.TextAlignTypes.Right
-                                                        ? " right-align"
-                                                        : string.Empty),
-                                                fieldDescription: column.Description,
-                                                labelText: column.LabelText,
-                                                value: groupModel.Attachments(columnName: column.Name).ToJson(),
-                                                readOnly: Permissions.ColumnPermissionType(
+                                                ss: ss,
+                                                column: column),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Num":
+                                        res.Val(
+                                            target: $"#Groups_{column.Name}{idSuffix}",
+                                            value: groupModel.Num(columnName: column.Name).ToResponse(
+                                                context: context,
+                                                ss: ss,
+                                                column: column),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Date":
+                                        res.Val(
+                                            target: $"#Groups_{column.Name}{idSuffix}",
+                                            value: groupModel.Date(columnName: column.Name).ToResponse(
+                                                context: context,
+                                                ss: ss,
+                                                column: column),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Description":
+                                        res.Val(
+                                            target: $"#Groups_{column.Name}{idSuffix}",
+                                            value: groupModel.Description(columnName: column.Name).ToResponse(
+                                                context: context,
+                                                ss: ss,
+                                                column: column),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Check":
+                                        res.Val(
+                                            target: $"#Groups_{column.Name}{idSuffix}",
+                                            value: groupModel.Check(columnName: column.Name),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Attachments":
+                                        res.ReplaceAll(
+                                            target: $"#Groups_{column.Name}Field",
+                                            value: new HtmlBuilder()
+                                                .FieldAttachments(
                                                     context: context,
-                                                    ss: ss,
-                                                    column: column,
-                                                    baseModel: groupModel)
-                                                        != Permissions.ColumnPermissionTypes.Update),
-                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                    break;
-                            }
-                            break;
+                                                    fieldId: $"Groups_{column.Name}Field",
+                                                    controlId: $"Groups_{column.Name}",
+                                                    columnName: column.ColumnName,
+                                                    fieldCss: column.FieldCss
+                                                        + (column.TextAlign == SiteSettings.TextAlignTypes.Right
+                                                            ? " right-align"
+                                                            : string.Empty),
+                                                    fieldDescription: column.Description,
+                                                    labelText: column.LabelText,
+                                                    value: groupModel.Attachments(columnName: column.Name).ToJson(),
+                                                    readOnly: Permissions.ColumnPermissionType(
+                                                        context: context,
+                                                        ss: ss,
+                                                        column: column,
+                                                        baseModel: groupModel)
+                                                            != Permissions.ColumnPermissionTypes.Update),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                }
+                                break;
+                        }
                     }
                 });
             return res;

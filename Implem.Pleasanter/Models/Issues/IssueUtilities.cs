@@ -2306,7 +2306,15 @@ namespace Implem.Pleasanter.Models
             IssueModel issueModel,
             string idSuffix = null)
         {
-            var mine = issueModel.Mine(context: context);
+            var serverScriptModelRow = issueModel
+                ?.ServerScriptModelRows
+                ?.FirstOrDefault();
+            var needReplaceHtml = serverScriptModelRow?.NeedReplaceHtml(
+                context: context,
+                ss: ss);
+            res.Val(
+                target: "#NeedReplaceHtml",
+                value: needReplaceHtml?.ToJson());
             ss.GetEditorColumnNames()
                 .Select(columnName => ss.GetColumn(
                     context: context,
@@ -2314,149 +2322,161 @@ namespace Implem.Pleasanter.Models
                 .Where(column => column != null)
                 .ForEach(column =>
                 {
-                    var serverScriptModelColumn = issueModel
-                        ?.ServerScriptModelRows
-                        ?.Select(row => row.Columns.Get(column.ColumnName))
-                        .FirstOrDefault();
-                    switch (column.Name)
+                    var serverScriptModelColumn = serverScriptModelRow
+                        ?.Columns.Get(column.ColumnName);
+                    if (needReplaceHtml?.Contains(column.ColumnName) == true)
                     {
-                        case "IssueId":
-                            res.Val(
-                                target: "#Issues_IssueId" + idSuffix,
-                                value: issueModel.IssueId.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "Title":
-                            res.Val(
-                                target: "#Issues_Title" + idSuffix,
-                                value: issueModel.Title.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "Body":
-                            res.Val(
-                                target: "#Issues_Body" + idSuffix,
-                                value: issueModel.Body.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "StartTime":
-                            res.Val(
-                                target: "#Issues_StartTime" + idSuffix,
-                                value: issueModel.StartTime.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "CompletionTime":
-                            res.Val(
-                                target: "#Issues_CompletionTime" + idSuffix,
-                                value: issueModel.CompletionTime.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "WorkValue":
-                            res.Val(
-                                target: "#Issues_WorkValue" + idSuffix,
-                                value: issueModel.WorkValue.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "ProgressRate":
-                            res.Val(
-                                target: "#Issues_ProgressRate" + idSuffix,
-                                value: issueModel.ProgressRate.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "Status":
-                            res.Val(
-                                target: "#Issues_Status" + idSuffix,
-                                value: issueModel.Status.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "Manager":
-                            res.Val(
-                                target: "#Issues_Manager" + idSuffix,
-                                value: issueModel.Manager.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "Owner":
-                            res.Val(
-                                target: "#Issues_Owner" + idSuffix,
-                                value: issueModel.Owner.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "Locked":
-                            res.Val(
-                                target: "#Issues_Locked" + idSuffix,
-                                value: issueModel.Locked,
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        default:
-                            switch (Def.ExtendedColumnTypes.Get(column.Name))
-                            {
-                                case "Class":
-                                    res.Val(
-                                        target: $"#Issues_{column.Name}{idSuffix}",
-                                        value: issueModel.Class(columnName: column.Name).ToResponse(
-                                            context: context,
-                                            ss: ss,
-                                            column: column),
-                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                    break;
-                                case "Num":
-                                    res.Val(
-                                        target: $"#Issues_{column.Name}{idSuffix}",
-                                        value: issueModel.Num(columnName: column.Name).ToResponse(
-                                            context: context,
-                                            ss: ss,
-                                            column: column),
-                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                    break;
-                                case "Date":
-                                    res.Val(
-                                        target: $"#Issues_{column.Name}{idSuffix}",
-                                        value: issueModel.Date(columnName: column.Name).ToResponse(
-                                            context: context,
-                                            ss: ss,
-                                            column: column),
-                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                    break;
-                                case "Description":
-                                    res.Val(
-                                        target: $"#Issues_{column.Name}{idSuffix}",
-                                        value: issueModel.Description(columnName: column.Name).ToResponse(
-                                            context: context,
-                                            ss: ss,
-                                            column: column),
-                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                    break;
-                                case "Check":
-                                    res.Val(
-                                        target: $"#Issues_{column.Name}{idSuffix}",
-                                        value: issueModel.Check(columnName: column.Name),
-                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                    break;
-                                case "Attachments":
-                                    res.ReplaceAll(
-                                        target: $"#Issues_{column.Name}Field",
-                                        value: new HtmlBuilder()
-                                            .FieldAttachments(
+                        res.ReplaceAll(
+                            target: $"#Issues_{column.Name}Field" + idSuffix,
+                            value: new HtmlBuilder().Field(
+                                context: context,
+                                ss: ss,
+                                issueModel: issueModel,
+                                column: column,
+                                idSuffix: idSuffix));
+                    }
+                    else
+                    {
+                        switch (column.Name)
+                        {
+                            case "IssueId":
+                                res.Val(
+                                    target: "#Issues_IssueId" + idSuffix,
+                                    value: issueModel.IssueId.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Title":
+                                res.Val(
+                                    target: "#Issues_Title" + idSuffix,
+                                    value: issueModel.Title.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Body":
+                                res.Val(
+                                    target: "#Issues_Body" + idSuffix,
+                                    value: issueModel.Body.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "StartTime":
+                                res.Val(
+                                    target: "#Issues_StartTime" + idSuffix,
+                                    value: issueModel.StartTime.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "CompletionTime":
+                                res.Val(
+                                    target: "#Issues_CompletionTime" + idSuffix,
+                                    value: issueModel.CompletionTime.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "WorkValue":
+                                res.Val(
+                                    target: "#Issues_WorkValue" + idSuffix,
+                                    value: issueModel.WorkValue.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "ProgressRate":
+                                res.Val(
+                                    target: "#Issues_ProgressRate" + idSuffix,
+                                    value: issueModel.ProgressRate.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Status":
+                                res.Val(
+                                    target: "#Issues_Status" + idSuffix,
+                                    value: issueModel.Status.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Manager":
+                                res.Val(
+                                    target: "#Issues_Manager" + idSuffix,
+                                    value: issueModel.Manager.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Owner":
+                                res.Val(
+                                    target: "#Issues_Owner" + idSuffix,
+                                    value: issueModel.Owner.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Locked":
+                                res.Val(
+                                    target: "#Issues_Locked" + idSuffix,
+                                    value: issueModel.Locked,
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            default:
+                                switch (Def.ExtendedColumnTypes.Get(column.Name))
+                                {
+                                    case "Class":
+                                        res.Val(
+                                            target: $"#Issues_{column.Name}{idSuffix}",
+                                            value: issueModel.Class(columnName: column.Name).ToResponse(
                                                 context: context,
-                                                fieldId: $"Issues_{column.Name}Field",
-                                                controlId: $"Issues_{column.Name}",
-                                                columnName: column.ColumnName,
-                                                fieldCss: column.FieldCss
-                                                    + (column.TextAlign == SiteSettings.TextAlignTypes.Right
-                                                        ? " right-align"
-                                                        : string.Empty),
-                                                fieldDescription: column.Description,
-                                                labelText: column.LabelText,
-                                                value: issueModel.Attachments(columnName: column.Name).ToJson(),
-                                                readOnly: Permissions.ColumnPermissionType(
+                                                ss: ss,
+                                                column: column),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Num":
+                                        res.Val(
+                                            target: $"#Issues_{column.Name}{idSuffix}",
+                                            value: issueModel.Num(columnName: column.Name).ToResponse(
+                                                context: context,
+                                                ss: ss,
+                                                column: column),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Date":
+                                        res.Val(
+                                            target: $"#Issues_{column.Name}{idSuffix}",
+                                            value: issueModel.Date(columnName: column.Name).ToResponse(
+                                                context: context,
+                                                ss: ss,
+                                                column: column),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Description":
+                                        res.Val(
+                                            target: $"#Issues_{column.Name}{idSuffix}",
+                                            value: issueModel.Description(columnName: column.Name).ToResponse(
+                                                context: context,
+                                                ss: ss,
+                                                column: column),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Check":
+                                        res.Val(
+                                            target: $"#Issues_{column.Name}{idSuffix}",
+                                            value: issueModel.Check(columnName: column.Name),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Attachments":
+                                        res.ReplaceAll(
+                                            target: $"#Issues_{column.Name}Field",
+                                            value: new HtmlBuilder()
+                                                .FieldAttachments(
                                                     context: context,
-                                                    ss: ss,
-                                                    column: column,
-                                                    baseModel: issueModel)
-                                                        != Permissions.ColumnPermissionTypes.Update),
-                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                    break;
-                            }
-                            break;
+                                                    fieldId: $"Issues_{column.Name}Field",
+                                                    controlId: $"Issues_{column.Name}",
+                                                    columnName: column.ColumnName,
+                                                    fieldCss: column.FieldCss
+                                                        + (column.TextAlign == SiteSettings.TextAlignTypes.Right
+                                                            ? " right-align"
+                                                            : string.Empty),
+                                                    fieldDescription: column.Description,
+                                                    labelText: column.LabelText,
+                                                    value: issueModel.Attachments(columnName: column.Name).ToJson(),
+                                                    readOnly: Permissions.ColumnPermissionType(
+                                                        context: context,
+                                                        ss: ss,
+                                                        column: column,
+                                                        baseModel: issueModel)
+                                                            != Permissions.ColumnPermissionTypes.Update),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                }
+                                break;
+                        }
                     }
                 });
             return res;

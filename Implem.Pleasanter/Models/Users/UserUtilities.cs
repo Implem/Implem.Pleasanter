@@ -1920,7 +1920,15 @@ namespace Implem.Pleasanter.Models
             UserModel userModel,
             string idSuffix = null)
         {
-            var mine = userModel.Mine(context: context);
+            var serverScriptModelRow = userModel
+                ?.ServerScriptModelRows
+                ?.FirstOrDefault();
+            var needReplaceHtml = serverScriptModelRow?.NeedReplaceHtml(
+                context: context,
+                ss: ss);
+            res.Val(
+                target: "#NeedReplaceHtml",
+                value: needReplaceHtml?.ToJson());
             ss.GetEditorColumnNames()
                 .Select(columnName => ss.GetColumn(
                     context: context,
@@ -1928,269 +1936,281 @@ namespace Implem.Pleasanter.Models
                 .Where(column => column != null)
                 .ForEach(column =>
                 {
-                    var serverScriptModelColumn = userModel
-                        ?.ServerScriptModelRows
-                        ?.Select(row => row.Columns.Get(column.ColumnName))
-                        .FirstOrDefault();
-                    switch (column.Name)
+                    var serverScriptModelColumn = serverScriptModelRow
+                        ?.Columns.Get(column.ColumnName);
+                    if (needReplaceHtml?.Contains(column.ColumnName) == true)
                     {
-                        case "UserId":
-                            res.Val(
-                                target: "#Users_UserId" + idSuffix,
-                                value: userModel.UserId.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "LoginId":
-                            res.Val(
-                                target: "#Users_LoginId" + idSuffix,
-                                value: userModel.LoginId.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "GlobalId":
-                            res.Val(
-                                target: "#Users_GlobalId" + idSuffix,
-                                value: userModel.GlobalId.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "Name":
-                            res.Val(
-                                target: "#Users_Name" + idSuffix,
-                                value: userModel.Name.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "UserCode":
-                            res.Val(
-                                target: "#Users_UserCode" + idSuffix,
-                                value: userModel.UserCode.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "Password":
-                            res.Val(
-                                target: "#Users_Password" + idSuffix,
-                                value: userModel.Password.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "LastName":
-                            res.Val(
-                                target: "#Users_LastName" + idSuffix,
-                                value: userModel.LastName.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "FirstName":
-                            res.Val(
-                                target: "#Users_FirstName" + idSuffix,
-                                value: userModel.FirstName.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "Birthday":
-                            res.Val(
-                                target: "#Users_Birthday" + idSuffix,
-                                value: userModel.Birthday.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "Gender":
-                            res.Val(
-                                target: "#Users_Gender" + idSuffix,
-                                value: userModel.Gender.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "Language":
-                            res.Val(
-                                target: "#Users_Language" + idSuffix,
-                                value: userModel.Language.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "TimeZone":
-                            res.Val(
-                                target: "#Users_TimeZone" + idSuffix,
-                                value: userModel.TimeZone.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "DeptId":
-                            res.Val(
-                                target: "#Users_DeptId" + idSuffix,
-                                value: userModel.DeptId.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "FirstAndLastNameOrder":
-                            res.Val(
-                                target: "#Users_FirstAndLastNameOrder" + idSuffix,
-                                value: userModel.FirstAndLastNameOrder.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "Body":
-                            res.Val(
-                                target: "#Users_Body" + idSuffix,
-                                value: userModel.Body.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "LastLoginTime":
-                            res.Val(
-                                target: "#Users_LastLoginTime" + idSuffix,
-                                value: userModel.LastLoginTime.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "PasswordExpirationTime":
-                            res.Val(
-                                target: "#Users_PasswordExpirationTime" + idSuffix,
-                                value: userModel.PasswordExpirationTime.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "PasswordChangeTime":
-                            res.Val(
-                                target: "#Users_PasswordChangeTime" + idSuffix,
-                                value: userModel.PasswordChangeTime.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "NumberOfLogins":
-                            res.Val(
-                                target: "#Users_NumberOfLogins" + idSuffix,
-                                value: userModel.NumberOfLogins.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "NumberOfDenial":
-                            res.Val(
-                                target: "#Users_NumberOfDenial" + idSuffix,
-                                value: userModel.NumberOfDenial.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "TenantManager":
-                            res.Val(
-                                target: "#Users_TenantManager" + idSuffix,
-                                value: userModel.TenantManager,
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "AllowCreationAtTopSite":
-                            res.Val(
-                                target: "#Users_AllowCreationAtTopSite" + idSuffix,
-                                value: userModel.AllowCreationAtTopSite,
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "AllowGroupAdministration":
-                            res.Val(
-                                target: "#Users_AllowGroupAdministration" + idSuffix,
-                                value: userModel.AllowGroupAdministration,
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "Disabled":
-                            res.Val(
-                                target: "#Users_Disabled" + idSuffix,
-                                value: userModel.Disabled,
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "Lockout":
-                            res.Val(
-                                target: "#Users_Lockout" + idSuffix,
-                                value: userModel.Lockout,
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "LockoutCounter":
-                            res.Val(
-                                target: "#Users_LockoutCounter" + idSuffix,
-                                value: userModel.LockoutCounter.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "ApiKey":
-                            res.Val(
-                                target: "#Users_ApiKey" + idSuffix,
-                                value: userModel.ApiKey.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "SecondaryAuthenticationCode":
-                            res.Val(
-                                target: "#Users_SecondaryAuthenticationCode" + idSuffix,
-                                value: userModel.SecondaryAuthenticationCode.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "SecondaryAuthenticationCodeExpirationTime":
-                            res.Val(
-                                target: "#Users_SecondaryAuthenticationCodeExpirationTime" + idSuffix,
-                                value: userModel.SecondaryAuthenticationCodeExpirationTime.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "LdapSearchRoot":
-                            res.Val(
-                                target: "#Users_LdapSearchRoot" + idSuffix,
-                                value: userModel.LdapSearchRoot.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "SynchronizedTime":
-                            res.Val(
-                                target: "#Users_SynchronizedTime" + idSuffix,
-                                value: userModel.SynchronizedTime.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        default:
-                            switch (Def.ExtendedColumnTypes.Get(column.Name))
-                            {
-                                case "Class":
-                                    res.Val(
-                                        target: $"#Users_{column.Name}{idSuffix}",
-                                        value: userModel.Class(columnName: column.Name).ToResponse(
-                                            context: context,
-                                            ss: ss,
-                                            column: column),
-                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                    break;
-                                case "Num":
-                                    res.Val(
-                                        target: $"#Users_{column.Name}{idSuffix}",
-                                        value: userModel.Num(columnName: column.Name).ToResponse(
-                                            context: context,
-                                            ss: ss,
-                                            column: column),
-                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                    break;
-                                case "Date":
-                                    res.Val(
-                                        target: $"#Users_{column.Name}{idSuffix}",
-                                        value: userModel.Date(columnName: column.Name).ToResponse(
-                                            context: context,
-                                            ss: ss,
-                                            column: column),
-                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                    break;
-                                case "Description":
-                                    res.Val(
-                                        target: $"#Users_{column.Name}{idSuffix}",
-                                        value: userModel.Description(columnName: column.Name).ToResponse(
-                                            context: context,
-                                            ss: ss,
-                                            column: column),
-                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                    break;
-                                case "Check":
-                                    res.Val(
-                                        target: $"#Users_{column.Name}{idSuffix}",
-                                        value: userModel.Check(columnName: column.Name),
-                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                    break;
-                                case "Attachments":
-                                    res.ReplaceAll(
-                                        target: $"#Users_{column.Name}Field",
-                                        value: new HtmlBuilder()
-                                            .FieldAttachments(
+                        res.ReplaceAll(
+                            target: $"#Users_{column.Name}Field" + idSuffix,
+                            value: new HtmlBuilder().Field(
+                                context: context,
+                                ss: ss,
+                                userModel: userModel,
+                                column: column,
+                                idSuffix: idSuffix));
+                    }
+                    else
+                    {
+                        switch (column.Name)
+                        {
+                            case "UserId":
+                                res.Val(
+                                    target: "#Users_UserId" + idSuffix,
+                                    value: userModel.UserId.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "LoginId":
+                                res.Val(
+                                    target: "#Users_LoginId" + idSuffix,
+                                    value: userModel.LoginId.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "GlobalId":
+                                res.Val(
+                                    target: "#Users_GlobalId" + idSuffix,
+                                    value: userModel.GlobalId.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Name":
+                                res.Val(
+                                    target: "#Users_Name" + idSuffix,
+                                    value: userModel.Name.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "UserCode":
+                                res.Val(
+                                    target: "#Users_UserCode" + idSuffix,
+                                    value: userModel.UserCode.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Password":
+                                res.Val(
+                                    target: "#Users_Password" + idSuffix,
+                                    value: userModel.Password.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "LastName":
+                                res.Val(
+                                    target: "#Users_LastName" + idSuffix,
+                                    value: userModel.LastName.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "FirstName":
+                                res.Val(
+                                    target: "#Users_FirstName" + idSuffix,
+                                    value: userModel.FirstName.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Birthday":
+                                res.Val(
+                                    target: "#Users_Birthday" + idSuffix,
+                                    value: userModel.Birthday.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Gender":
+                                res.Val(
+                                    target: "#Users_Gender" + idSuffix,
+                                    value: userModel.Gender.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Language":
+                                res.Val(
+                                    target: "#Users_Language" + idSuffix,
+                                    value: userModel.Language.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "TimeZone":
+                                res.Val(
+                                    target: "#Users_TimeZone" + idSuffix,
+                                    value: userModel.TimeZone.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "DeptId":
+                                res.Val(
+                                    target: "#Users_DeptId" + idSuffix,
+                                    value: userModel.DeptId.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "FirstAndLastNameOrder":
+                                res.Val(
+                                    target: "#Users_FirstAndLastNameOrder" + idSuffix,
+                                    value: userModel.FirstAndLastNameOrder.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Body":
+                                res.Val(
+                                    target: "#Users_Body" + idSuffix,
+                                    value: userModel.Body.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "LastLoginTime":
+                                res.Val(
+                                    target: "#Users_LastLoginTime" + idSuffix,
+                                    value: userModel.LastLoginTime.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "PasswordExpirationTime":
+                                res.Val(
+                                    target: "#Users_PasswordExpirationTime" + idSuffix,
+                                    value: userModel.PasswordExpirationTime.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "PasswordChangeTime":
+                                res.Val(
+                                    target: "#Users_PasswordChangeTime" + idSuffix,
+                                    value: userModel.PasswordChangeTime.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "NumberOfLogins":
+                                res.Val(
+                                    target: "#Users_NumberOfLogins" + idSuffix,
+                                    value: userModel.NumberOfLogins.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "NumberOfDenial":
+                                res.Val(
+                                    target: "#Users_NumberOfDenial" + idSuffix,
+                                    value: userModel.NumberOfDenial.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "TenantManager":
+                                res.Val(
+                                    target: "#Users_TenantManager" + idSuffix,
+                                    value: userModel.TenantManager,
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "AllowCreationAtTopSite":
+                                res.Val(
+                                    target: "#Users_AllowCreationAtTopSite" + idSuffix,
+                                    value: userModel.AllowCreationAtTopSite,
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "AllowGroupAdministration":
+                                res.Val(
+                                    target: "#Users_AllowGroupAdministration" + idSuffix,
+                                    value: userModel.AllowGroupAdministration,
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Disabled":
+                                res.Val(
+                                    target: "#Users_Disabled" + idSuffix,
+                                    value: userModel.Disabled,
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Lockout":
+                                res.Val(
+                                    target: "#Users_Lockout" + idSuffix,
+                                    value: userModel.Lockout,
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "LockoutCounter":
+                                res.Val(
+                                    target: "#Users_LockoutCounter" + idSuffix,
+                                    value: userModel.LockoutCounter.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "ApiKey":
+                                res.Val(
+                                    target: "#Users_ApiKey" + idSuffix,
+                                    value: userModel.ApiKey.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "SecondaryAuthenticationCode":
+                                res.Val(
+                                    target: "#Users_SecondaryAuthenticationCode" + idSuffix,
+                                    value: userModel.SecondaryAuthenticationCode.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "SecondaryAuthenticationCodeExpirationTime":
+                                res.Val(
+                                    target: "#Users_SecondaryAuthenticationCodeExpirationTime" + idSuffix,
+                                    value: userModel.SecondaryAuthenticationCodeExpirationTime.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "LdapSearchRoot":
+                                res.Val(
+                                    target: "#Users_LdapSearchRoot" + idSuffix,
+                                    value: userModel.LdapSearchRoot.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "SynchronizedTime":
+                                res.Val(
+                                    target: "#Users_SynchronizedTime" + idSuffix,
+                                    value: userModel.SynchronizedTime.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            default:
+                                switch (Def.ExtendedColumnTypes.Get(column.Name))
+                                {
+                                    case "Class":
+                                        res.Val(
+                                            target: $"#Users_{column.Name}{idSuffix}",
+                                            value: userModel.Class(columnName: column.Name).ToResponse(
                                                 context: context,
-                                                fieldId: $"Users_{column.Name}Field",
-                                                controlId: $"Users_{column.Name}",
-                                                columnName: column.ColumnName,
-                                                fieldCss: column.FieldCss
-                                                    + (column.TextAlign == SiteSettings.TextAlignTypes.Right
-                                                        ? " right-align"
-                                                        : string.Empty),
-                                                fieldDescription: column.Description,
-                                                labelText: column.LabelText,
-                                                value: userModel.Attachments(columnName: column.Name).ToJson(),
-                                                readOnly: Permissions.ColumnPermissionType(
+                                                ss: ss,
+                                                column: column),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Num":
+                                        res.Val(
+                                            target: $"#Users_{column.Name}{idSuffix}",
+                                            value: userModel.Num(columnName: column.Name).ToResponse(
+                                                context: context,
+                                                ss: ss,
+                                                column: column),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Date":
+                                        res.Val(
+                                            target: $"#Users_{column.Name}{idSuffix}",
+                                            value: userModel.Date(columnName: column.Name).ToResponse(
+                                                context: context,
+                                                ss: ss,
+                                                column: column),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Description":
+                                        res.Val(
+                                            target: $"#Users_{column.Name}{idSuffix}",
+                                            value: userModel.Description(columnName: column.Name).ToResponse(
+                                                context: context,
+                                                ss: ss,
+                                                column: column),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Check":
+                                        res.Val(
+                                            target: $"#Users_{column.Name}{idSuffix}",
+                                            value: userModel.Check(columnName: column.Name),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Attachments":
+                                        res.ReplaceAll(
+                                            target: $"#Users_{column.Name}Field",
+                                            value: new HtmlBuilder()
+                                                .FieldAttachments(
                                                     context: context,
-                                                    ss: ss,
-                                                    column: column,
-                                                    baseModel: userModel)
-                                                        != Permissions.ColumnPermissionTypes.Update),
-                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                    break;
-                            }
-                            break;
+                                                    fieldId: $"Users_{column.Name}Field",
+                                                    controlId: $"Users_{column.Name}",
+                                                    columnName: column.ColumnName,
+                                                    fieldCss: column.FieldCss
+                                                        + (column.TextAlign == SiteSettings.TextAlignTypes.Right
+                                                            ? " right-align"
+                                                            : string.Empty),
+                                                    fieldDescription: column.Description,
+                                                    labelText: column.LabelText,
+                                                    value: userModel.Attachments(columnName: column.Name).ToJson(),
+                                                    readOnly: Permissions.ColumnPermissionType(
+                                                        context: context,
+                                                        ss: ss,
+                                                        column: column,
+                                                        baseModel: userModel)
+                                                            != Permissions.ColumnPermissionTypes.Update),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                }
+                                break;
+                        }
                     }
                 });
             return res;
