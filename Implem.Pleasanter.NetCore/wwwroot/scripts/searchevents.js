@@ -20,7 +20,7 @@
             }
         });
         $(document).on('click', '#SearchResults .result', function () {
-            location.href = $(this).attr('data-href');
+            $p.transition($(this).attr('data-href'));
         });
     }
 });
