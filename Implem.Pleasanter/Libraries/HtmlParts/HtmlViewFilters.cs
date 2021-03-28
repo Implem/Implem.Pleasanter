@@ -373,8 +373,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         var currentSs = column.SiteSettings;
                         if (view.ColumnFilterHash?.ContainsKey(column.ColumnName) == true &&
                             column.UseSearch == true &&
-                            currentSs.Links?.Any(o =>
-                                o.ColumnName == column.ColumnName) == true)
+                            currentSs.Links
+                                ?.Where(o => o.SiteId > 0)
+                                .Any(o => o.ColumnName == column.ColumnName) == true)
                         {
                             currentSs.SetChoiceHash(
                                 context: context,

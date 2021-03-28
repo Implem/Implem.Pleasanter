@@ -2260,10 +2260,12 @@ namespace Implem.Pleasanter.Models
             SiteModel sourceSiteModel,
             SiteModel destinationSiteModel)
         {
-            if (sourceSiteModel.SiteSettings.Links?.Any(o =>
-                    o.SiteId == destinationSiteModel.SiteId) == true ||
-                destinationSiteModel.SiteSettings.Links?.Any(o =>
-                    o.SiteId == sourceSiteModel.SiteId) == true)
+            if (sourceSiteModel.SiteSettings.Links
+                ?.Where(o => o.SiteId > 0)
+                .Any(o => o.SiteId == destinationSiteModel.SiteId) == true
+                    || destinationSiteModel.SiteSettings.Links
+                        ?.Where(o => o.SiteId > 0)
+                        .Any(o => o.SiteId == sourceSiteModel.SiteId) == true)
             {
                 return SiteMenuError(
                     context: context,
@@ -2417,10 +2419,12 @@ namespace Implem.Pleasanter.Models
                         siteModel: siteModel,
                         invalid: new ErrorData(type: Error.Types.CanNotPerformed));
             }
-            if (sourceSiteModel.SiteSettings.Links?.Any(o =>
-                    o.SiteId == destinationSiteModel.SiteId) == true ||
-                destinationSiteModel.SiteSettings.Links?.Any(o =>
-                    o.SiteId == sourceSiteModel.SiteId) == true)
+            if (sourceSiteModel.SiteSettings.Links
+                ?.Where(o => o.SiteId > 0)
+                .Any(o => o.SiteId == destinationSiteModel.SiteId) == true
+                    || destinationSiteModel.SiteSettings.Links
+                        ?.Where(o => o.SiteId > 0)
+                        .Any(o => o.SiteId == sourceSiteModel.SiteId) == true)
             {
                 return SiteMenuError(
                     context: context,
@@ -2476,6 +2480,7 @@ namespace Implem.Pleasanter.Models
                     Rds.PhysicalDeleteLinks(
                         where: Rds.LinksWhere().SourceId(sourceSiteModel.SiteId)),
                     LinkUtilities.Insert(sourceSiteModel.SiteSettings.Links
+                        ?.Where(o => o.SiteId > 0)
                         .Select(o => o.SiteId)
                         .Distinct()
                         .ToDictionary(o => o, o => sourceSiteModel.SiteId))
@@ -6430,6 +6435,7 @@ namespace Implem.Pleasanter.Models
                 controlCss: " always-send",
                 labelText: Displays.SummaryLinkColumn(context: context),
                 optionCollection: ss.Links
+                    ?.Where(o => o.SiteId > 0)
                     .Where(o => o.SiteId == siteId)
                     .ToDictionary(
                         o => o.ColumnName,

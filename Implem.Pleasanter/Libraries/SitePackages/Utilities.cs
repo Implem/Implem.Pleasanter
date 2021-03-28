@@ -158,7 +158,8 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                                 .Comments(packageSiteModel.Comments.ToJson())),
                             Rds.PhysicalDeleteLinks(
                                 where: Rds.LinksWhere().SourceId(packageSiteModel.SavedSiteId)),
-                            LinkUtilities.Insert(link: packageSiteModel.SiteSettings.Links?
+                            LinkUtilities.Insert(link: packageSiteModel.SiteSettings.Links
+                                ?.Where(o => o.SiteId > 0)
                                 .Select(o => o.SiteId)
                                 .Distinct()
                                 .ToDictionary(o => o, o => packageSiteModel.SavedSiteId)

@@ -44,7 +44,8 @@ namespace Implem.Pleasanter.Libraries.Search
                             context: context,
                             ss: ss,
                             issueId: id);
-                        ss.Links?
+                        ss.Links
+                            ?.Where(o => o.SiteId > 0)
                             .Select(o => ss.GetColumn(
                                 context: context,
                                 columnName: o.ColumnName))
@@ -72,7 +73,8 @@ namespace Implem.Pleasanter.Libraries.Search
                             context: context,
                             ss: ss,
                             resultId: id);
-                        ss.Links?
+                        ss.Links
+                            ?.Where(o => o.SiteId > 0)
                             .Select(o => ss.GetColumn(
                                 context: context,
                                 columnName: o.ColumnName))

@@ -83,7 +83,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 .ReferenceId()
                                 .Title(),
                             where: Rds.ItemsWhere()
-                                .SiteId_In(column.SiteSettings.Links.Where(o => o.ColumnName == column.Name).Select(o => o.SiteId))
+                                .SiteId_In(column.SiteSettings.Links
+                                    .Where(o => o.SiteId > 0)
+                                    .Where(o => o.ColumnName == column.Name)
+                                    .Select(o => o.SiteId)
+                                    .ToList())
                                 .ReferenceType("Sites", _operator: "<>"),
                             orderBy: Rds.ItemsOrderBy()
                                 .Title()))

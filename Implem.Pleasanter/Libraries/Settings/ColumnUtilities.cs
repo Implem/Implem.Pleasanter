@@ -328,7 +328,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 context: context,
                 ss: ss,
                 columns: columns)
-                    .SelectMany(column => column.SqlColumnCollection())
+                    .SelectMany(column => column.SqlColumnWithUpdatedTimeCollection())
                     .GroupBy(o => o.ColumnBracket + o.As)
                     .Select(o => o.First())
                     .ToArray());
