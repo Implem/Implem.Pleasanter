@@ -2149,7 +2149,15 @@ namespace Implem.Pleasanter.Models
             ResultModel resultModel,
             string idSuffix = null)
         {
-            var mine = resultModel.Mine(context: context);
+            var serverScriptModelRow = resultModel
+                ?.ServerScriptModelRows
+                ?.FirstOrDefault();
+            var needReplaceHtml = serverScriptModelRow?.NeedReplaceHtml(
+                context: context,
+                ss: ss);
+            res.Val(
+                target: "#NeedReplaceHtml",
+                value: needReplaceHtml?.ToJson());
             ss.GetEditorColumnNames()
                 .Select(columnName => ss.GetColumn(
                     context: context,
@@ -2157,125 +2165,137 @@ namespace Implem.Pleasanter.Models
                 .Where(column => column != null)
                 .ForEach(column =>
                 {
-                    var serverScriptModelColumn = resultModel
-                        ?.ServerScriptModelRows
-                        ?.Select(row => row.Columns.Get(column.ColumnName))
-                        .FirstOrDefault();
-                    switch (column.Name)
+                    var serverScriptModelColumn = serverScriptModelRow
+                        ?.Columns.Get(column.ColumnName);
+                    if (needReplaceHtml?.Contains(column.ColumnName) == true)
                     {
-                        case "ResultId":
-                            res.Val(
-                                target: "#Results_ResultId" + idSuffix,
-                                value: resultModel.ResultId.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "Title":
-                            res.Val(
-                                target: "#Results_Title" + idSuffix,
-                                value: resultModel.Title.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "Body":
-                            res.Val(
-                                target: "#Results_Body" + idSuffix,
-                                value: resultModel.Body.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "Status":
-                            res.Val(
-                                target: "#Results_Status" + idSuffix,
-                                value: resultModel.Status.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "Manager":
-                            res.Val(
-                                target: "#Results_Manager" + idSuffix,
-                                value: resultModel.Manager.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "Owner":
-                            res.Val(
-                                target: "#Results_Owner" + idSuffix,
-                                value: resultModel.Owner.ToResponse(context: context, ss: ss, column: column),
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        case "Locked":
-                            res.Val(
-                                target: "#Results_Locked" + idSuffix,
-                                value: resultModel.Locked,
-                                options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                            break;
-                        default:
-                            switch (Def.ExtendedColumnTypes.Get(column.Name))
-                            {
-                                case "Class":
-                                    res.Val(
-                                        target: $"#Results_{column.Name}{idSuffix}",
-                                        value: resultModel.Class(columnName: column.Name).ToResponse(
-                                            context: context,
-                                            ss: ss,
-                                            column: column),
-                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                    break;
-                                case "Num":
-                                    res.Val(
-                                        target: $"#Results_{column.Name}{idSuffix}",
-                                        value: resultModel.Num(columnName: column.Name).ToResponse(
-                                            context: context,
-                                            ss: ss,
-                                            column: column),
-                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                    break;
-                                case "Date":
-                                    res.Val(
-                                        target: $"#Results_{column.Name}{idSuffix}",
-                                        value: resultModel.Date(columnName: column.Name).ToResponse(
-                                            context: context,
-                                            ss: ss,
-                                            column: column),
-                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                    break;
-                                case "Description":
-                                    res.Val(
-                                        target: $"#Results_{column.Name}{idSuffix}",
-                                        value: resultModel.Description(columnName: column.Name).ToResponse(
-                                            context: context,
-                                            ss: ss,
-                                            column: column),
-                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                    break;
-                                case "Check":
-                                    res.Val(
-                                        target: $"#Results_{column.Name}{idSuffix}",
-                                        value: resultModel.Check(columnName: column.Name),
-                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                    break;
-                                case "Attachments":
-                                    res.ReplaceAll(
-                                        target: $"#Results_{column.Name}Field",
-                                        value: new HtmlBuilder()
-                                            .FieldAttachments(
+                        res.ReplaceAll(
+                            target: $"#Results_{column.Name}Field" + idSuffix,
+                            value: new HtmlBuilder().Field(
+                                context: context,
+                                ss: ss,
+                                resultModel: resultModel,
+                                column: column,
+                                idSuffix: idSuffix));
+                    }
+                    else
+                    {
+                        switch (column.Name)
+                        {
+                            case "ResultId":
+                                res.Val(
+                                    target: "#Results_ResultId" + idSuffix,
+                                    value: resultModel.ResultId.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Title":
+                                res.Val(
+                                    target: "#Results_Title" + idSuffix,
+                                    value: resultModel.Title.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Body":
+                                res.Val(
+                                    target: "#Results_Body" + idSuffix,
+                                    value: resultModel.Body.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Status":
+                                res.Val(
+                                    target: "#Results_Status" + idSuffix,
+                                    value: resultModel.Status.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Manager":
+                                res.Val(
+                                    target: "#Results_Manager" + idSuffix,
+                                    value: resultModel.Manager.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Owner":
+                                res.Val(
+                                    target: "#Results_Owner" + idSuffix,
+                                    value: resultModel.Owner.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Locked":
+                                res.Val(
+                                    target: "#Results_Locked" + idSuffix,
+                                    value: resultModel.Locked,
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            default:
+                                switch (Def.ExtendedColumnTypes.Get(column.Name))
+                                {
+                                    case "Class":
+                                        res.Val(
+                                            target: $"#Results_{column.Name}{idSuffix}",
+                                            value: resultModel.Class(columnName: column.Name).ToResponse(
                                                 context: context,
-                                                fieldId: $"Results_{column.Name}Field",
-                                                controlId: $"Results_{column.Name}",
-                                                columnName: column.ColumnName,
-                                                fieldCss: column.FieldCss
-                                                    + (column.TextAlign == SiteSettings.TextAlignTypes.Right
-                                                        ? " right-align"
-                                                        : string.Empty),
-                                                fieldDescription: column.Description,
-                                                labelText: column.LabelText,
-                                                value: resultModel.Attachments(columnName: column.Name).ToJson(),
-                                                readOnly: Permissions.ColumnPermissionType(
+                                                ss: ss,
+                                                column: column),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Num":
+                                        res.Val(
+                                            target: $"#Results_{column.Name}{idSuffix}",
+                                            value: resultModel.Num(columnName: column.Name).ToResponse(
+                                                context: context,
+                                                ss: ss,
+                                                column: column),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Date":
+                                        res.Val(
+                                            target: $"#Results_{column.Name}{idSuffix}",
+                                            value: resultModel.Date(columnName: column.Name).ToResponse(
+                                                context: context,
+                                                ss: ss,
+                                                column: column),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Description":
+                                        res.Val(
+                                            target: $"#Results_{column.Name}{idSuffix}",
+                                            value: resultModel.Description(columnName: column.Name).ToResponse(
+                                                context: context,
+                                                ss: ss,
+                                                column: column),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Check":
+                                        res.Val(
+                                            target: $"#Results_{column.Name}{idSuffix}",
+                                            value: resultModel.Check(columnName: column.Name),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Attachments":
+                                        res.ReplaceAll(
+                                            target: $"#Results_{column.Name}Field",
+                                            value: new HtmlBuilder()
+                                                .FieldAttachments(
                                                     context: context,
-                                                    ss: ss,
-                                                    column: column,
-                                                    baseModel: resultModel)
-                                                        != Permissions.ColumnPermissionTypes.Update),
-                                        options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                    break;
-                            }
-                            break;
+                                                    fieldId: $"Results_{column.Name}Field",
+                                                    controlId: $"Results_{column.Name}",
+                                                    columnName: column.ColumnName,
+                                                    fieldCss: column.FieldCss
+                                                        + (column.TextAlign == SiteSettings.TextAlignTypes.Right
+                                                            ? " right-align"
+                                                            : string.Empty),
+                                                    fieldDescription: column.Description,
+                                                    labelText: column.LabelText,
+                                                    value: resultModel.Attachments(columnName: column.Name).ToJson(),
+                                                    readOnly: Permissions.ColumnPermissionType(
+                                                        context: context,
+                                                        ss: ss,
+                                                        column: column,
+                                                        baseModel: resultModel)
+                                                            != Permissions.ColumnPermissionTypes.Update),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                }
+                                break;
+                        }
                     }
                 });
             return res;
