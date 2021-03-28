@@ -340,7 +340,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string direction,
             Dictionary<long, DataSet> cache = null)
         {
-            if (ss.Links?.Any() == true)
+            if (ss?.Links
+                ?.Where(o => o.SiteId > 0)
+                .Any() == true)
             {
                 ss.SetLinkedSiteSettings(
                     context: context,
@@ -416,7 +418,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string direction,
             Dictionary<long, DataSet> cache = null)
         {
-            if (ss.Links?.Any() == true)
+            if (ss?.Links
+                ?.Where(o => o.SiteId > 0)
+                .Any() == true)
             {
                 ss.SetLinkedSiteSettings(
                     context: context,

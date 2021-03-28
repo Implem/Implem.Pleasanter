@@ -1394,6 +1394,7 @@ namespace Implem.Pleasanter.Models
         private SqlInsert InsertLinks(Context context, SiteSettings ss, bool setIdentity = false)
         {
             var link = ss.Links
+                ?.Where(o => o.SiteId > 0)
                 .Where(o => ss.Destinations.ContainsKey(o.SiteId))
                 .Select(o => ss.GetColumn(
                     context: context,
@@ -1883,7 +1884,9 @@ namespace Implem.Pleasanter.Models
             {
                 var column = ss.GetColumn(
                     context: context,
-                    columnName: ss.Links.FirstOrDefault(o => o.SiteId == fromSiteId).ColumnName);
+                    columnName: ss.Links
+                        ?.Where(o => o.SiteId > 0)
+                        .FirstOrDefault(o => o.SiteId == fromSiteId).ColumnName);
                 var value = PropertyValue(
                     context: context,
                     column: column);

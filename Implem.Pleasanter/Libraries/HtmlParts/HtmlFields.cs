@@ -184,7 +184,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             var title = ss.LinkedItemTitle(
                                 context: context,
                                 referenceId: referenceId,
-                                siteIdList: ss.Links.Select(o => o.SiteId));
+                                siteIdList: ss.Links
+                                    .Where(o => o.SiteId > 0)
+                                    .Select(o => o.SiteId)
+                                    .ToList());
                             if (title != null)
                             {
                                 editChoices.Add(referenceId.ToString(), new ControlData(title));

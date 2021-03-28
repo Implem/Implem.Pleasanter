@@ -80,7 +80,8 @@ namespace Implem.Pleasanter.Models
                 .ForEach(source =>
                 {
                     var currentSs = source.Value;
-                    var columns = currentSs?.Links?
+                    var columns = currentSs?.Links
+                        ?.Where(o => o.SiteId > 0)
                         .Where(o => o.SiteId == ss.SiteId)
                         .Select(o => o.ColumnName)
                         .ToList();
@@ -145,7 +146,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 idList: idList);
-            if (ss.Links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
+            if (ss.Links
+                ?.Where(o => o.SiteId > 0)
+                .Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
             {
                 issues.ForEach(issueModel =>
                     issueModel.Title = new Title(
@@ -210,7 +213,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 idList: idList);
-            if (ss.Links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
+            if (ss.Links
+                ?.Where(o => o.SiteId > 0)
+                .Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
             {
                 results.ForEach(resultModel =>
                     resultModel.Title = new Title(
@@ -275,7 +280,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 idList: idList);
-            if (ss.Links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
+            if (ss.Links
+                ?.Where(o => o.SiteId > 0)
+                .Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
             {
                 wikis.ForEach(wikiModel =>
                     wikiModel.Title = new Title(
