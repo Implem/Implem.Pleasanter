@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Prima di eliminare"
+        },
+        {
+            "Language": "vn",
+            "Body": "Trước khi xóa"
         }
     ]
 }

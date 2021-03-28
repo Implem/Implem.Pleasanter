@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Clasificación principal"
+        },
+        {
+            "Language": "vn",
+            "Body": "Phân loại dữ liệu gốc"
         }
     ]
 }

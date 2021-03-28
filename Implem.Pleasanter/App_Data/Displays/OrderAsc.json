@@ -25,6 +25,10 @@
         {
             "Language": "es",
             "Body": "Ascendente"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tăng dần"
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Cerca de la hora de finalización"
+        },
+        {
+            "Language": "vn",
+            "Body": "Gần đến thời hạn"
         }
     ]
 }

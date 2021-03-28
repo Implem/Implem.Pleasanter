@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Agrupar por fila"
+        },
+        {
+            "Language": "vn",
+            "Body": "Phân loại theo hàng"
         }
     ]
 }

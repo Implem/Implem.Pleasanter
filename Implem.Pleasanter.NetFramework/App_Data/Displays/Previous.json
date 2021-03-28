@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Anterior"
+        },
+        {
+            "Language": "vn",
+            "Body": "Trước"
         }
     ]
 }

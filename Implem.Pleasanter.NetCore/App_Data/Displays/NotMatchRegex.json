@@ -25,6 +25,10 @@
         {
             "Language": "es",
             "Body": "{0}"
+        },
+        {
+            "Language": "vn",
+            "Body": "{0}"
         }
     ]
 }

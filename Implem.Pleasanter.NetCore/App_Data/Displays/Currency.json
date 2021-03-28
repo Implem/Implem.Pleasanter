@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Moneda"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tiền tệ"
         }
     ]
 }

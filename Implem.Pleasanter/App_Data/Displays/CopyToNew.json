@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Copiar para crear"
+        },
+        {
+            "Language": "vn",
+            "Body": "Sao chép rồi tạo mới"
         }
     ]
 }

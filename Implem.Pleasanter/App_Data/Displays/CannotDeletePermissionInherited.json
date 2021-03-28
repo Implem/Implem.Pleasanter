@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "No puede eliminar este sitio porque la configuración de permisos la hereda el sitio {0}."
+        },
+        {
+            "Language": "vn",
+            "Body": "Bạn không thể xóa trang này vì cài đặt quyền được kế thừa bởi trang {0}."
         }
     ]
 }

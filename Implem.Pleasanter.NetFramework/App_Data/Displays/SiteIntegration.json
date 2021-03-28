@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Integración del sitio"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tích hợp trang web"
         }
     ]
 }

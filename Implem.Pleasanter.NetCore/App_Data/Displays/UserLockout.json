@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Este usuario está bloqueado."
+        },
+        {
+            "Language": "vn",
+            "Body": "Người dùng này đã bị khóa."
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Volver a crear"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tạo lại"
         }
     ]
 }

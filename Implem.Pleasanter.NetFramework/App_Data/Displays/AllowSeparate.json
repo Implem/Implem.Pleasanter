@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Permitir separar registro"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cho phép tách bản ghi"
         }
     ]
 }

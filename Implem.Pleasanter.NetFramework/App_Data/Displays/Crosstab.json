@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Tabla cruzada"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bảng chéo"
         }
     ]
 }

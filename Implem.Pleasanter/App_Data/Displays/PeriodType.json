@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Tipo de período"
+        },
+        {
+            "Language": "vn",
+            "Body": "Loại giai đoạn"
         }
     ]
 }

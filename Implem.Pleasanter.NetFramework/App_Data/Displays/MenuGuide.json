@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Guía del menú"
+        },
+        {
+            "Language": "vn",
+            "Body": "Hướng dẫn màn hình danh mục"
         }
     ]
 }

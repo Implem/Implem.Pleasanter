@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Lista de selección"
+        },
+        {
+            "Language": "vn",
+            "Body": "Danh sách có thể lựa chọn"
         }
     ]
 }

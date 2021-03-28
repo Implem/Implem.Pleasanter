@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Este es un mensaje para notificar a {0} que se ha aprobado la solicitud.\n\nPor favor, acceda a la URL siguiente para comenzar a usar.\n\n{1}"
+        },
+        {
+            "Language": "vn",
+            "Body": "Đây là email để thông báo đến {0} rằng yêu cầu đã được phê duyệt.\n\nXin mời truy cập vào URL sau để bắt đầu sử dụng.\n\n{1}"
         }
     ]
 }

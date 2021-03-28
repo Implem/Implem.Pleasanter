@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Crear"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tạo mới"
         }
     ]
 }

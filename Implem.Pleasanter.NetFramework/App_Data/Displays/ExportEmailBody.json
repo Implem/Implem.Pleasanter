@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Descargue desde el siguiente enlace."
+        },
+        {
+            "Language": "vn",
+            "Body": "Xin mời tải về từ đường dẫn sau."
         }
     ]
 }

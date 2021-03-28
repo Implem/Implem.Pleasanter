@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Nombre del sitio"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tên trang web"
         }
     ]
 }

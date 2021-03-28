@@ -38,8 +38,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             SiteSettings ss,
             IEnumerable<(string Name, object Value)> data,
             IEnumerable<(string Name, ServerScriptModelColumn Value)> columns,
-            IEnumerable<KeyValuePair<string, string>> columnFilterHach,
-            IEnumerable<KeyValuePair<string, SqlOrderBy.Types>> columnSorterHach,
+            IEnumerable<KeyValuePair<string, string>> columnFilterHash,
+            IEnumerable<KeyValuePair<string, SqlOrderBy.Types>> columnSorterHash,
             bool onTesting)
         {
             data?.ForEach(datam => ((IDictionary<string, object>)Model)[datam.Name] = datam.Value);
@@ -48,9 +48,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             Users = new ServerScriptModelUsers(context: context);
             columns?.ForEach(
                 datam => ((IDictionary<string, object>)Columns)[datam.Name] = datam.Value);
-            columnFilterHach?.ForEach(columnFilter =>
+            columnFilterHash?.ForEach(columnFilter =>
                 ((IDictionary<string, object>)View.Filters)[columnFilter.Key] = columnFilter.Value);
-            columnSorterHach?.ForEach(columnSorter =>
+            columnSorterHash?.ForEach(columnSorter =>
                 ((IDictionary<string, object>)View.Sorters)[columnSorter.Key] = Enum.GetName(
                     typeof(SqlOrderBy.Types),
                     columnSorter.Value));
@@ -360,6 +360,29 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }
                 ChoiceHash.Add(key, value);
             }
+
+            public bool NeedReplace(
+                Context context,
+                SiteSettings ss,
+                string columnName)
+            {
+                var column = ss.GetColumn(
+                    context: context,
+                    columnName: columnName);
+                return ChoiceHash?.Any() == true
+                    || ReadOnly != !(column?.CanRead(
+                        context: context,
+                        ss: ss,
+                        mine: null) == true && column?.CanUpdate(
+                            context: context,
+                            ss: ss,
+                            mine: null) == true)
+                    || !ExtendedFieldCss.IsNullOrEmpty()
+                    || !ExtendedCellCss.IsNullOrEmpty()
+                    || !ExtendedHtmlBeforeField.IsNullOrEmpty()
+                    || !ExtendedHtmlAfterField.IsNullOrEmpty()
+                    || !RawText.IsNullOrEmpty();
+            }
         }
 
         public class ServerScriptModelSiteSettings
@@ -379,6 +402,26 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             public string ExtendedRowCss { get; set; }
             public Dictionary<string, ServerScriptModelColumn> Columns { get; set; }
             public Dictionary<string, string> Hidden { get; set; }
+            private List<string> NeedReplaceHtmlCache { get; set; }
+
+            public List<string> NeedReplaceHtml(Context context, SiteSettings ss)
+            {
+                if (NeedReplaceHtmlCache == null)
+                {
+                    var targetColumns = Columns
+                        ?.Where(o => o.Value.NeedReplace(
+                            context: context,
+                            ss: ss,
+                            columnName: o.Key))
+                        .Select(o => o.Key)
+                        .ToList();
+                    NeedReplaceHtmlCache = context.Forms.List("NeedReplaceHtml")
+                        .Concat(targetColumns)
+                        .Distinct()
+                        .ToList();
+                }
+                return NeedReplaceHtmlCache;
+            }
         }
 
         public class ServerScriptModelApiItems

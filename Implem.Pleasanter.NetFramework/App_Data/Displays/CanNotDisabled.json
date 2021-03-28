@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "No puede desactivarse {0}."
+        },
+        {
+            "Language": "vn",
+            "Body": "Không thể vô hiệu hóa {0}."
         }
     ]
 }

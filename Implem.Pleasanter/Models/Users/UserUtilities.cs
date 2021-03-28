@@ -174,7 +174,6 @@ namespace Implem.Pleasanter.Models
         private static GridData GetGridData(
             Context context, SiteSettings ss, View view, int offset = 0)
         {
-            ss.SetColumnAccessControls(context: context);
             return new GridData(
                 context: context,
                 ss: ss,
@@ -339,7 +338,6 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         dataRows: gridData.DataRows,
                         columns: columns,
-                        recordSelector: null,
                         checkRow: checkRow));
         }
 
@@ -368,7 +366,6 @@ namespace Implem.Pleasanter.Models
 
         public static string ReloadRow(Context context, SiteSettings ss, long userId)
         {
-            ss.SetColumnAccessControls(context: context);
             var view = Views.GetBySession(
                 context: context,
                 ss: ss);
@@ -447,7 +444,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -466,7 +462,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -485,7 +480,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -504,7 +498,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -523,7 +516,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -542,7 +534,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -561,7 +552,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -580,7 +570,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -599,7 +588,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -618,7 +606,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -637,7 +624,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -656,7 +642,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -675,7 +660,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -694,7 +678,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -713,7 +696,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -732,7 +714,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -751,7 +732,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -770,7 +750,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -784,12 +763,47 @@ namespace Implem.Pleasanter.Models
                                     value: string.Empty,
                                     tabIndex: tabIndex,
                                     serverScriptValues: serverScriptValues);
+                    case "AllowCreationAtTopSite":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: userModel.AllowCreationAtTopSite,
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues);
+                    case "AllowGroupAdministration":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: userModel.AllowGroupAdministration,
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues);
                     case "Disabled":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -808,7 +822,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -827,7 +840,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -846,7 +858,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -865,7 +876,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -884,7 +894,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -903,7 +912,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -922,7 +930,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -941,7 +948,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -960,7 +966,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -982,7 +987,6 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     column: column,
-                                    type: ss.PermissionType,
                                     mine: mine)
                                         ? hb.Td(
                                             context: context,
@@ -1001,7 +1005,6 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     column: column,
-                                    type: ss.PermissionType,
                                     mine: mine)
                                         ? hb.Td(
                                             context: context,
@@ -1020,7 +1023,6 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     column: column,
-                                    type: ss.PermissionType,
                                     mine: mine)
                                         ? hb.Td(
                                             context: context,
@@ -1039,7 +1041,6 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     column: column,
-                                    type: ss.PermissionType,
                                     mine: mine)
                                         ? hb.Td(
                                             context: context,
@@ -1058,7 +1059,6 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     column: column,
-                                    type: ss.PermissionType,
                                     mine: mine)
                                         ? hb.Td(
                                             context: context,
@@ -1077,7 +1077,6 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     column: column,
-                                    type: ss.PermissionType,
                                     mine: mine)
                                         ? hb.Td(
                                             context: context,
@@ -1164,6 +1163,12 @@ namespace Implem.Pleasanter.Models
                     case "TenantManager": value = userModel.TenantManager.GridText(
                         context: context,
                         column: column); break;
+                    case "AllowCreationAtTopSite": value = userModel.AllowCreationAtTopSite.GridText(
+                        context: context,
+                        column: column); break;
+                    case "AllowGroupAdministration": value = userModel.AllowGroupAdministration.GridText(
+                        context: context,
+                        column: column); break;
                     case "Disabled": value = userModel.Disabled.GridText(
                         context: context,
                         column: column); break;
@@ -1203,9 +1208,9 @@ namespace Implem.Pleasanter.Models
                                     column: column);
                                 break;
                             case "Num":
-                                value = userModel.Num(columnName: column.Name).GridText(
+                                value = userModel.Num(columnName: column.Name)?.Value?.GridText(
                                     context: context,
-                                    column: column);
+                                    column: column) ?? string.Empty;
                                 break;
                             case "Date":
                                 value = userModel.Date(columnName: column.Name).GridText(
@@ -1282,9 +1287,6 @@ namespace Implem.Pleasanter.Models
                     errorData: invalid);
             }
             var hb = new HtmlBuilder();
-            ss.SetColumnAccessControls(
-                context: context,
-                mine: userModel.Mine(context: context));
             return hb.Template(
                 context: context,
                 ss: ss,
@@ -1311,10 +1313,11 @@ namespace Implem.Pleasanter.Models
             var commentsColumn = ss.GetColumn(
                 context: context,
                 columnName: "Comments");
-            var commentsColumnPermissionType = commentsColumn
-                .ColumnPermissionType(
-                    context: context,
-                    baseModel: userModel);
+            var commentsColumnPermissionType = Permissions.ColumnPermissionType(
+                context: context,
+                ss: ss,
+                column: commentsColumn,
+                baseModel: userModel);
             var showComments = ss.ShowComments(commentsColumnPermissionType);
             var tabsCss = showComments ? null : "max";
             return hb.Div(id: "Editor", action: () => hb
@@ -1438,7 +1441,6 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             UserModel userModel)
         {
-            var mine = userModel.Mine(context: context);
             return hb.FieldSet(id: "FieldSetGeneral", action: () => hb
                 .FieldSetGeneralColumns(
                     context: context, ss: ss, userModel: userModel));
@@ -1492,8 +1494,10 @@ namespace Implem.Pleasanter.Models
                     column: column,
                     methodType: userModel.MethodType,
                     value: value,
-                    columnPermissionType: column.ColumnPermissionType(
+                    columnPermissionType: Permissions.ColumnPermissionType(
                         context: context,
+                        ss: ss,
+                        column: column,
                         baseModel: userModel),
                     controlOnly: controlOnly,
                     alwaysSend: alwaysSend,
@@ -1634,6 +1638,18 @@ namespace Implem.Pleasanter.Models
                             column: column);
                 case "TenantManager":
                     return userModel.TenantManager
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "AllowCreationAtTopSite":
+                    return userModel.AllowCreationAtTopSite
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "AllowGroupAdministration":
+                    return userModel.AllowGroupAdministration
                         .ToControl(
                             context: context,
                             ss: ss,
@@ -1837,7 +1853,9 @@ namespace Implem.Pleasanter.Models
             Message message = null,
             string switchTargets = null)
         {
-            userModel.MethodType = BaseModel.MethodTypes.Edit;
+            userModel.MethodType = userModel.UserId == 0
+                ? BaseModel.MethodTypes.New
+                : BaseModel.MethodTypes.Edit;
             return new UsersResponseCollection(userModel)
                 .Invoke("clearDialogs")
                 .ReplaceAll("#MainContainer", Editor(context, ss, userModel))
@@ -1902,7 +1920,15 @@ namespace Implem.Pleasanter.Models
             UserModel userModel,
             string idSuffix = null)
         {
-            var mine = userModel.Mine(context: context);
+            var serverScriptModelRow = userModel
+                ?.ServerScriptModelRows
+                ?.FirstOrDefault();
+            var needReplaceHtml = serverScriptModelRow?.NeedReplaceHtml(
+                context: context,
+                ss: ss);
+            res.Val(
+                target: "#NeedReplaceHtml",
+                value: needReplaceHtml?.ToJson());
             ss.GetEditorColumnNames()
                 .Select(columnName => ss.GetColumn(
                     context: context,
@@ -1910,216 +1936,281 @@ namespace Implem.Pleasanter.Models
                 .Where(column => column != null)
                 .ForEach(column =>
                 {
-                    switch (column.Name)
+                    var serverScriptModelColumn = serverScriptModelRow
+                        ?.Columns.Get(column.ColumnName);
+                    if (needReplaceHtml?.Contains(column.ColumnName) == true)
                     {
-                        case "UserId":
-                            res.Val(
-                                "#Users_UserId" + idSuffix,
-                                userModel.UserId.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "LoginId":
-                            res.Val(
-                                "#Users_LoginId" + idSuffix,
-                                userModel.LoginId.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "GlobalId":
-                            res.Val(
-                                "#Users_GlobalId" + idSuffix,
-                                userModel.GlobalId.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "Name":
-                            res.Val(
-                                "#Users_Name" + idSuffix,
-                                userModel.Name.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "UserCode":
-                            res.Val(
-                                "#Users_UserCode" + idSuffix,
-                                userModel.UserCode.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "Password":
-                            res.Val(
-                                "#Users_Password" + idSuffix,
-                                userModel.Password.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "LastName":
-                            res.Val(
-                                "#Users_LastName" + idSuffix,
-                                userModel.LastName.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "FirstName":
-                            res.Val(
-                                "#Users_FirstName" + idSuffix,
-                                userModel.FirstName.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "Birthday":
-                            res.Val(
-                                "#Users_Birthday" + idSuffix,
-                                userModel.Birthday.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "Gender":
-                            res.Val(
-                                "#Users_Gender" + idSuffix,
-                                userModel.Gender.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "Language":
-                            res.Val(
-                                "#Users_Language" + idSuffix,
-                                userModel.Language.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "TimeZone":
-                            res.Val(
-                                "#Users_TimeZone" + idSuffix,
-                                userModel.TimeZone.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DeptId":
-                            res.Val(
-                                "#Users_DeptId" + idSuffix,
-                                userModel.DeptId.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "FirstAndLastNameOrder":
-                            res.Val(
-                                "#Users_FirstAndLastNameOrder" + idSuffix,
-                                userModel.FirstAndLastNameOrder.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "Body":
-                            res.Val(
-                                "#Users_Body" + idSuffix,
-                                userModel.Body.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "LastLoginTime":
-                            res.Val(
-                                "#Users_LastLoginTime" + idSuffix,
-                                userModel.LastLoginTime.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "PasswordExpirationTime":
-                            res.Val(
-                                "#Users_PasswordExpirationTime" + idSuffix,
-                                userModel.PasswordExpirationTime.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "PasswordChangeTime":
-                            res.Val(
-                                "#Users_PasswordChangeTime" + idSuffix,
-                                userModel.PasswordChangeTime.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "NumberOfLogins":
-                            res.Val(
-                                "#Users_NumberOfLogins" + idSuffix,
-                                userModel.NumberOfLogins.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "NumberOfDenial":
-                            res.Val(
-                                "#Users_NumberOfDenial" + idSuffix,
-                                userModel.NumberOfDenial.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "TenantManager":
-                            res.Val(
-                                "#Users_TenantManager" + idSuffix,
-                                userModel.TenantManager);
-                            break;
-                        case "Disabled":
-                            res.Val(
-                                "#Users_Disabled" + idSuffix,
-                                userModel.Disabled);
-                            break;
-                        case "Lockout":
-                            res.Val(
-                                "#Users_Lockout" + idSuffix,
-                                userModel.Lockout);
-                            break;
-                        case "LockoutCounter":
-                            res.Val(
-                                "#Users_LockoutCounter" + idSuffix,
-                                userModel.LockoutCounter.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "ApiKey":
-                            res.Val(
-                                "#Users_ApiKey" + idSuffix,
-                                userModel.ApiKey.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "SecondaryAuthenticationCode":
-                            res.Val(
-                                "#Users_SecondaryAuthenticationCode" + idSuffix,
-                                userModel.SecondaryAuthenticationCode.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "SecondaryAuthenticationCodeExpirationTime":
-                            res.Val(
-                                "#Users_SecondaryAuthenticationCodeExpirationTime" + idSuffix,
-                                userModel.SecondaryAuthenticationCodeExpirationTime.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "LdapSearchRoot":
-                            res.Val(
-                                "#Users_LdapSearchRoot" + idSuffix,
-                                userModel.LdapSearchRoot.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "SynchronizedTime":
-                            res.Val(
-                                "#Users_SynchronizedTime" + idSuffix,
-                                userModel.SynchronizedTime.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        default:
-                            switch (Def.ExtendedColumnTypes.Get(column.Name))
-                            {
-                                case "Class":
-                                    res.Val(
-                                        $"#Users_{column.Name}{idSuffix}",
-                                        userModel.Class(columnName: column.Name).ToResponse(
-                                            context: context,
-                                            ss: ss,
-                                            column: column));
-                                    break;
-                                case "Num":
-                                    res.Val(
-                                        $"#Users_{column.Name}{idSuffix}",
-                                        userModel.Num(columnName: column.Name).ToResponse(
-                                            context: context,
-                                            ss: ss,
-                                            column: column));
-                                    break;
-                                case "Date":
-                                    res.Val(
-                                        $"#Users_{column.Name}{idSuffix}",
-                                        userModel.Date(columnName: column.Name).ToResponse(
-                                            context: context,
-                                            ss: ss,
-                                            column: column));
-                                    break;
-                                case "Description":
-                                    res.Val(
-                                        $"#Users_{column.Name}{idSuffix}",
-                                        userModel.Description(columnName: column.Name).ToResponse(
-                                            context: context,
-                                            ss: ss,
-                                            column: column));
-                                    break;
-                                case "Check":
-                                    res.Val(
-                                        $"#Users_{column.Name}{idSuffix}",
-                                        userModel.Check(columnName: column.Name));
-                                    break;
-                                case "Attachments":
-                                    res.ReplaceAll(
-                                        $"#Users_{column.Name}Field",
-                                        new HtmlBuilder()
-                                            .FieldAttachments(
+                        res.ReplaceAll(
+                            target: $"#Users_{column.Name}Field" + idSuffix,
+                            value: new HtmlBuilder().Field(
+                                context: context,
+                                ss: ss,
+                                userModel: userModel,
+                                column: column,
+                                idSuffix: idSuffix));
+                    }
+                    else
+                    {
+                        switch (column.Name)
+                        {
+                            case "UserId":
+                                res.Val(
+                                    target: "#Users_UserId" + idSuffix,
+                                    value: userModel.UserId.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "LoginId":
+                                res.Val(
+                                    target: "#Users_LoginId" + idSuffix,
+                                    value: userModel.LoginId.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "GlobalId":
+                                res.Val(
+                                    target: "#Users_GlobalId" + idSuffix,
+                                    value: userModel.GlobalId.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Name":
+                                res.Val(
+                                    target: "#Users_Name" + idSuffix,
+                                    value: userModel.Name.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "UserCode":
+                                res.Val(
+                                    target: "#Users_UserCode" + idSuffix,
+                                    value: userModel.UserCode.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Password":
+                                res.Val(
+                                    target: "#Users_Password" + idSuffix,
+                                    value: userModel.Password.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "LastName":
+                                res.Val(
+                                    target: "#Users_LastName" + idSuffix,
+                                    value: userModel.LastName.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "FirstName":
+                                res.Val(
+                                    target: "#Users_FirstName" + idSuffix,
+                                    value: userModel.FirstName.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Birthday":
+                                res.Val(
+                                    target: "#Users_Birthday" + idSuffix,
+                                    value: userModel.Birthday.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Gender":
+                                res.Val(
+                                    target: "#Users_Gender" + idSuffix,
+                                    value: userModel.Gender.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Language":
+                                res.Val(
+                                    target: "#Users_Language" + idSuffix,
+                                    value: userModel.Language.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "TimeZone":
+                                res.Val(
+                                    target: "#Users_TimeZone" + idSuffix,
+                                    value: userModel.TimeZone.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "DeptId":
+                                res.Val(
+                                    target: "#Users_DeptId" + idSuffix,
+                                    value: userModel.DeptId.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "FirstAndLastNameOrder":
+                                res.Val(
+                                    target: "#Users_FirstAndLastNameOrder" + idSuffix,
+                                    value: userModel.FirstAndLastNameOrder.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Body":
+                                res.Val(
+                                    target: "#Users_Body" + idSuffix,
+                                    value: userModel.Body.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "LastLoginTime":
+                                res.Val(
+                                    target: "#Users_LastLoginTime" + idSuffix,
+                                    value: userModel.LastLoginTime.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "PasswordExpirationTime":
+                                res.Val(
+                                    target: "#Users_PasswordExpirationTime" + idSuffix,
+                                    value: userModel.PasswordExpirationTime.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "PasswordChangeTime":
+                                res.Val(
+                                    target: "#Users_PasswordChangeTime" + idSuffix,
+                                    value: userModel.PasswordChangeTime.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "NumberOfLogins":
+                                res.Val(
+                                    target: "#Users_NumberOfLogins" + idSuffix,
+                                    value: userModel.NumberOfLogins.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "NumberOfDenial":
+                                res.Val(
+                                    target: "#Users_NumberOfDenial" + idSuffix,
+                                    value: userModel.NumberOfDenial.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "TenantManager":
+                                res.Val(
+                                    target: "#Users_TenantManager" + idSuffix,
+                                    value: userModel.TenantManager,
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "AllowCreationAtTopSite":
+                                res.Val(
+                                    target: "#Users_AllowCreationAtTopSite" + idSuffix,
+                                    value: userModel.AllowCreationAtTopSite,
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "AllowGroupAdministration":
+                                res.Val(
+                                    target: "#Users_AllowGroupAdministration" + idSuffix,
+                                    value: userModel.AllowGroupAdministration,
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Disabled":
+                                res.Val(
+                                    target: "#Users_Disabled" + idSuffix,
+                                    value: userModel.Disabled,
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Lockout":
+                                res.Val(
+                                    target: "#Users_Lockout" + idSuffix,
+                                    value: userModel.Lockout,
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "LockoutCounter":
+                                res.Val(
+                                    target: "#Users_LockoutCounter" + idSuffix,
+                                    value: userModel.LockoutCounter.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "ApiKey":
+                                res.Val(
+                                    target: "#Users_ApiKey" + idSuffix,
+                                    value: userModel.ApiKey.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "SecondaryAuthenticationCode":
+                                res.Val(
+                                    target: "#Users_SecondaryAuthenticationCode" + idSuffix,
+                                    value: userModel.SecondaryAuthenticationCode.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "SecondaryAuthenticationCodeExpirationTime":
+                                res.Val(
+                                    target: "#Users_SecondaryAuthenticationCodeExpirationTime" + idSuffix,
+                                    value: userModel.SecondaryAuthenticationCodeExpirationTime.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "LdapSearchRoot":
+                                res.Val(
+                                    target: "#Users_LdapSearchRoot" + idSuffix,
+                                    value: userModel.LdapSearchRoot.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "SynchronizedTime":
+                                res.Val(
+                                    target: "#Users_SynchronizedTime" + idSuffix,
+                                    value: userModel.SynchronizedTime.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            default:
+                                switch (Def.ExtendedColumnTypes.Get(column.Name))
+                                {
+                                    case "Class":
+                                        res.Val(
+                                            target: $"#Users_{column.Name}{idSuffix}",
+                                            value: userModel.Class(columnName: column.Name).ToResponse(
                                                 context: context,
-                                                fieldId: $"Users_{column.Name}Field",
-                                                controlId: $"Users_{column.Name}",
-                                                columnName: column.ColumnName,
-                                                fieldCss: column.FieldCss
-                                                    + (column.TextAlign == SiteSettings.TextAlignTypes.Right
-                                                        ? " right-align"
-                                                        : string.Empty),
-                                                fieldDescription: column.Description,
-                                                labelText: column.LabelText,
-                                                value: userModel.Attachments(columnName: column.Name).ToJson(),
-                                                readOnly: column.ColumnPermissionType(
+                                                ss: ss,
+                                                column: column),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Num":
+                                        res.Val(
+                                            target: $"#Users_{column.Name}{idSuffix}",
+                                            value: userModel.Num(columnName: column.Name).ToResponse(
+                                                context: context,
+                                                ss: ss,
+                                                column: column),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Date":
+                                        res.Val(
+                                            target: $"#Users_{column.Name}{idSuffix}",
+                                            value: userModel.Date(columnName: column.Name).ToResponse(
+                                                context: context,
+                                                ss: ss,
+                                                column: column),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Description":
+                                        res.Val(
+                                            target: $"#Users_{column.Name}{idSuffix}",
+                                            value: userModel.Description(columnName: column.Name).ToResponse(
+                                                context: context,
+                                                ss: ss,
+                                                column: column),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Check":
+                                        res.Val(
+                                            target: $"#Users_{column.Name}{idSuffix}",
+                                            value: userModel.Check(columnName: column.Name),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Attachments":
+                                        res.ReplaceAll(
+                                            target: $"#Users_{column.Name}Field",
+                                            value: new HtmlBuilder()
+                                                .FieldAttachments(
                                                     context: context,
-                                                    baseModel: userModel)
-                                                        != Permissions.ColumnPermissionTypes.Update));
-                                    break;
-                            }
-                            break;
+                                                    fieldId: $"Users_{column.Name}Field",
+                                                    controlId: $"Users_{column.Name}",
+                                                    columnName: column.ColumnName,
+                                                    fieldCss: column.FieldCss
+                                                        + (column.TextAlign == SiteSettings.TextAlignTypes.Right
+                                                            ? " right-align"
+                                                            : string.Empty),
+                                                    fieldDescription: column.Description,
+                                                    labelText: column.LabelText,
+                                                    value: userModel.Attachments(columnName: column.Name).ToJson(),
+                                                    readOnly: Permissions.ColumnPermissionType(
+                                                        context: context,
+                                                        ss: ss,
+                                                        column: column,
+                                                        baseModel: userModel)
+                                                            != Permissions.ColumnPermissionTypes.Update),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                }
+                                break;
+                        }
                     }
                 });
             return res;
@@ -2240,6 +2331,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             UserModel userModel)
         {
+            ss.ClearColumnAccessControlCaches(baseModel: userModel);
             if (context.Forms.Bool("IsDialogEditorForm"))
             {
                 var view = Views.GetBySession(
@@ -2263,8 +2355,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             dataRows: gridData.DataRows,
-                            columns: columns,
-                            recordSelector: null))
+                            columns: columns))
                     .CloseDialog()
                     .Message(Messages.Updated(
                         context: context,
@@ -2337,9 +2428,6 @@ namespace Implem.Pleasanter.Models
             Context context, SiteSettings ss, int userId, Message message = null)
         {
             var userModel = new UserModel(context: context, ss: ss, userId: userId);
-            ss.SetColumnAccessControls(
-                context: context,
-                mine: userModel.Mine(context: context));
             var columns = ss.GetHistoryColumns(context: context, checkPermission: true);
             if (!context.CanRead(ss: ss))
             {
@@ -2426,9 +2514,6 @@ namespace Implem.Pleasanter.Models
         public static string History(Context context, SiteSettings ss, int userId)
         {
             var userModel = new UserModel(context: context, ss: ss, userId: userId);
-            ss.SetColumnAccessControls(
-                context: context,
-                mine: userModel.Mine(context: context));
             userModel.Get(
                 context: context,
                 ss: ss,
@@ -2708,6 +2793,12 @@ namespace Implem.Pleasanter.Models
                             case "ServiceManager":
                                 userModel.ServiceManager = recordingData.ToBool();
                                 break;
+                            case "AllowCreationAtTopSite":
+                                userModel.AllowCreationAtTopSite = recordingData.ToBool();
+                                break;
+                            case "AllowGroupAdministration":
+                                userModel.AllowGroupAdministration = recordingData.ToBool();
+                                break;
                             case "Disabled":
                                 userModel.Disabled = recordingData.ToBool();
                                 break;
@@ -2761,6 +2852,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 updateMailAddresses: false,
+                                refleshSiteInfo: false,
                                 get: false);
                             switch (errorData.Type)
                             {
@@ -2793,6 +2885,9 @@ namespace Implem.Pleasanter.Models
                         insertCount++;
                     }
                 }
+                SiteInfo.Reflesh(
+                    context: context,
+                    force: true);
                 return GridRows(
                     context: context,
                     ss: ss,
@@ -3847,7 +3942,6 @@ namespace Implem.Pleasanter.Models
             var users = siteUsers == null
                 ? userCollection
                 : userCollection.Join(siteUsers, c => c.UserId, s => s, (c, s) => c);
-            ss.SetColumnAccessControls(context: context);
             return ApiResults.Get(new
             {
                 StatusCode = 200,

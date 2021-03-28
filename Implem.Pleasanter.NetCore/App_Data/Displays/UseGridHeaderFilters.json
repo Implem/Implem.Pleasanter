@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Usar filtro en encabezado de cuadrícula"
+        },
+        {
+            "Language": "vn",
+            "Body": "Sử dụng bộ lọc trên danh mục tiêu đề danh sách"
         }
     ]
 }

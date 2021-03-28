@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Se ha eliminado el archivo."
+        },
+        {
+            "Language": "vn",
+            "Body": "Xóa tệp tin đã hoàn thành."
         }
     ]
 }

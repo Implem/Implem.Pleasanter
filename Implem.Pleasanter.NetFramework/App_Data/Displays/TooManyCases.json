@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Demasiadas entradas. Limitar a {0} entradas o menos."
+        },
+        {
+            "Language": "vn",
+            "Body": "Có quá nhiều mục. Giới hạn xuống {0} mục hoặc ít hơn."
         }
     ]
 }

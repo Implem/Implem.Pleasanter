@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "El número de sitios ha alcanzado el límite superior."
+        },
+        {
+            "Language": "vn",
+            "Body": "Số lượng trang web đã đạt mức giới hạn."
         }
     ]
 }

@@ -25,6 +25,10 @@
         {
             "Language": "es",
             "Body": "Este es un campo obligatorio."
+        },
+        {
+            "Language": "vn",
+            "Body": "Đây là trường bắt buộc nhập."
         }
     ]
 }

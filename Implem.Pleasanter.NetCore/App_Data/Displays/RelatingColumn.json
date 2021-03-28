@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Relacionar columnas"
+        },
+        {
+            "Language": "vn",
+            "Body": "Các mục liên quan"
         }
     ]
 }

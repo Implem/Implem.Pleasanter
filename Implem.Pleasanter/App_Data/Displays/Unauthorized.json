@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "No se puede autorizar."
+        },
+        {
+            "Language": "vn",
+            "Body": "Không thể xác thực."
         }
     ]
 }

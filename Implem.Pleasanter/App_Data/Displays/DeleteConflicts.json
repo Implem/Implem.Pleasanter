@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "No existe el registro. Es posible que se haya eliminado."
+        },
+        {
+            "Language": "vn",
+            "Body": "Bản ghi không tồn tại. Nó có thể đã bị xóa."
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Gráfica de series de tiempo"
+        },
+        {
+            "Language": "vn",
+            "Body": "Biểu đồ theo thời gian"
         }
     ]
 }

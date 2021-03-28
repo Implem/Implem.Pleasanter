@@ -66,7 +66,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         fieldCss: "field-auto-thin",
                         controlCss: " auto-postback",
                         labelText: Displays.AggregationTarget(context: context),
-                        optionCollection: ss.KambanValueOptions(),
+                        optionCollection: ss.KambanValueOptions(context: context),
                         selectedValue: value.ColumnName,
                         method: "post")
                     .FieldDropDown(

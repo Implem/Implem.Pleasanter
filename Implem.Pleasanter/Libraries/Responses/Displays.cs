@@ -8769,6 +8769,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Depts_Disabled(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Depts_Disabled",
+                data: data);
+        }
+
         public static string Groups_TenantId(
             Context context,
             params string[] data)
@@ -8816,6 +8826,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Groups_Title",
+                data: data);
+        }
+
+        public static string Groups_Disabled(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_Disabled",
                 data: data);
         }
 
@@ -9306,6 +9326,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Users_ServiceManager",
+                data: data);
+        }
+
+        public static string Users_AllowCreationAtTopSite(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_AllowCreationAtTopSite",
+                data: data);
+        }
+
+        public static string Users_AllowGroupAdministration(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_AllowGroupAdministration",
                 data: data);
         }
 

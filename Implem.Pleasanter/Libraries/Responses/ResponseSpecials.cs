@@ -2052,6 +2052,50 @@ namespace Implem.Pleasanter.Libraries.Responses
             return res.ValAndFormData("#Depts_Body", value);
         }
 
+        public static DeptsResponseCollection Disabled(
+            this DeptsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Depts_Disabled",
+                res.DeptModel.Disabled.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Disabled")));
+        }
+
+        public static DeptsResponseCollection Disabled(
+            this DeptsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Depts_Disabled", value);
+        }
+
+        public static DeptsResponseCollection Disabled_FormData(
+            this DeptsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Depts_Disabled",
+                res.DeptModel.Disabled.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Disabled")));
+        }
+
+        public static DeptsResponseCollection Disabled_FormData(
+            this DeptsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Depts_Disabled", value);
+        }
+
         public static DeptsResponseCollection Comments(
             this DeptsResponseCollection res,
             Context context,
@@ -2402,6 +2446,50 @@ namespace Implem.Pleasanter.Libraries.Responses
             this GroupsResponseCollection res, Context context, string value)
         {
             return res.ValAndFormData("#Groups_Body", value);
+        }
+
+        public static GroupsResponseCollection Disabled(
+            this GroupsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Groups_Disabled",
+                res.GroupModel.Disabled.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Disabled")));
+        }
+
+        public static GroupsResponseCollection Disabled(
+            this GroupsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Groups_Disabled", value);
+        }
+
+        public static GroupsResponseCollection Disabled_FormData(
+            this GroupsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Groups_Disabled",
+                res.GroupModel.Disabled.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Disabled")));
+        }
+
+        public static GroupsResponseCollection Disabled_FormData(
+            this GroupsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Groups_Disabled", value);
         }
 
         public static GroupsResponseCollection Comments(
@@ -4294,6 +4382,94 @@ namespace Implem.Pleasanter.Libraries.Responses
             this UsersResponseCollection res, Context context, string value)
         {
             return res.ValAndFormData("#Users_TenantManager", value);
+        }
+
+        public static UsersResponseCollection AllowCreationAtTopSite(
+            this UsersResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Users_AllowCreationAtTopSite",
+                res.UserModel.AllowCreationAtTopSite.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "AllowCreationAtTopSite")));
+        }
+
+        public static UsersResponseCollection AllowCreationAtTopSite(
+            this UsersResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Users_AllowCreationAtTopSite", value);
+        }
+
+        public static UsersResponseCollection AllowCreationAtTopSite_FormData(
+            this UsersResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Users_AllowCreationAtTopSite",
+                res.UserModel.AllowCreationAtTopSite.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "AllowCreationAtTopSite")));
+        }
+
+        public static UsersResponseCollection AllowCreationAtTopSite_FormData(
+            this UsersResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Users_AllowCreationAtTopSite", value);
+        }
+
+        public static UsersResponseCollection AllowGroupAdministration(
+            this UsersResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Users_AllowGroupAdministration",
+                res.UserModel.AllowGroupAdministration.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "AllowGroupAdministration")));
+        }
+
+        public static UsersResponseCollection AllowGroupAdministration(
+            this UsersResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Users_AllowGroupAdministration", value);
+        }
+
+        public static UsersResponseCollection AllowGroupAdministration_FormData(
+            this UsersResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Users_AllowGroupAdministration",
+                res.UserModel.AllowGroupAdministration.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "AllowGroupAdministration")));
+        }
+
+        public static UsersResponseCollection AllowGroupAdministration_FormData(
+            this UsersResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Users_AllowGroupAdministration", value);
         }
 
         public static UsersResponseCollection Disabled(

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Cambiar registro con Ajax"
+        },
+        {
+            "Language": "vn",
+            "Body": "Sử dụng Ajax khi di chuyển bản ghi"
         }
     ]
 }

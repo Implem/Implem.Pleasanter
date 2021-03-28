@@ -30,6 +30,8 @@ namespace Implem.Pleasanter.Models
         public int? NumberOfDenial { get; set; }
         public bool? TenantManager { get; set; }
         public bool? ServiceManager { get; set; }
+        public bool? AllowCreationAtTopSite { get; set; }
+        public bool? AllowGroupAdministration { get; set; }
         public bool? Disabled { get; set; }
         public bool? Lockout { get; set; }
         public int? LockoutCounter { get; set; }

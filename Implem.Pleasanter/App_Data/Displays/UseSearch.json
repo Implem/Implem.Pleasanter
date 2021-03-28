@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Usar función de búsqueda."
+        },
+        {
+            "Language": "vn",
+            "Body": "Sử dụng chức năng tìm kiếm."
         }
     ]
 }

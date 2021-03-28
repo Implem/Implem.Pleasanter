@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Carpeta local"
+        },
+        {
+            "Language": "vn",
+            "Body": "Thư mục cục bộ"
         }
     ]
 }

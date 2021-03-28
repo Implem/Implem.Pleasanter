@@ -328,7 +328,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 context: context,
                 ss: ss,
                 columns: columns)
-                    .SelectMany(column => column.SqlColumnCollection())
+                    .SelectMany(column => column.SqlColumnWithUpdatedTimeCollection())
                     .GroupBy(o => o.ColumnBracket + o.As)
                     .Select(o => o.First())
                     .ToArray());
@@ -358,7 +358,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => o != null)
                 .GroupBy(o => o.ColumnName)
                 .Select(o => o.First())
-                .AllowedColumns(checkPermission: true)
+                .AllowedColumns(
+                    context: context,
+                    ss: ss,
+                    checkPermission: true)
                 .ToList();
         }
 
@@ -403,6 +406,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         tableAlias: tableAlias,
                         columnName: name)));
             currentSs.Links
+                .Where(link => link.SiteId > 0)
                 .Where(link => columns.Any(p =>
                     (!tableAlias.IsNullOrEmpty()
                         ? tableAlias + ","

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Secuencia de comandos del servidor"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bản thảo máy chủ"
         }
     ]
 }

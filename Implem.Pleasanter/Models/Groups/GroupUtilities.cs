@@ -392,7 +392,6 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         dataRows: gridData.DataRows,
                         columns: columns,
-                        recordSelector: null,
                         checkRow: checkRow));
         }
 
@@ -421,7 +420,6 @@ namespace Implem.Pleasanter.Models
 
         public static string ReloadRow(Context context, SiteSettings ss, long groupId)
         {
-            ss.SetColumnAccessControls(context: context);
             var view = Views.GetBySession(
                 context: context,
                 ss: ss);
@@ -500,7 +498,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -519,7 +516,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -538,7 +534,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -557,7 +552,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -571,12 +565,29 @@ namespace Implem.Pleasanter.Models
                                     value: string.Empty,
                                     tabIndex: tabIndex,
                                     serverScriptValues: serverScriptValues);
+                    case "Disabled":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: groupModel.Disabled,
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues);
                     case "Comments":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -595,7 +606,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -614,7 +624,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -633,7 +642,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -652,7 +660,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -674,7 +681,6 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     column: column,
-                                    type: ss.PermissionType,
                                     mine: mine)
                                         ? hb.Td(
                                             context: context,
@@ -693,7 +699,6 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     column: column,
-                                    type: ss.PermissionType,
                                     mine: mine)
                                         ? hb.Td(
                                             context: context,
@@ -712,7 +717,6 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     column: column,
-                                    type: ss.PermissionType,
                                     mine: mine)
                                         ? hb.Td(
                                             context: context,
@@ -731,7 +735,6 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     column: column,
-                                    type: ss.PermissionType,
                                     mine: mine)
                                         ? hb.Td(
                                             context: context,
@@ -750,7 +753,6 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     column: column,
-                                    type: ss.PermissionType,
                                     mine: mine)
                                         ? hb.Td(
                                             context: context,
@@ -769,7 +771,6 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     column: column,
-                                    type: ss.PermissionType,
                                     mine: mine)
                                         ? hb.Td(
                                             context: context,
@@ -814,6 +815,9 @@ namespace Implem.Pleasanter.Models
                     case "Body": value = groupModel.Body.GridText(
                         context: context,
                         column: column); break;
+                    case "Disabled": value = groupModel.Disabled.GridText(
+                        context: context,
+                        column: column); break;
                     case "Comments": value = groupModel.Comments.GridText(
                         context: context,
                         column: column); break;
@@ -838,9 +842,9 @@ namespace Implem.Pleasanter.Models
                                     column: column);
                                 break;
                             case "Num":
-                                value = groupModel.Num(columnName: column.Name).GridText(
+                                value = groupModel.Num(columnName: column.Name)?.Value?.GridText(
                                     context: context,
-                                    column: column);
+                                    column: column) ?? string.Empty;
                                 break;
                             case "Date":
                                 value = groupModel.Date(columnName: column.Name).GridText(
@@ -911,9 +915,6 @@ namespace Implem.Pleasanter.Models
                     errorData: invalid);
             }
             var hb = new HtmlBuilder();
-            ss.SetColumnAccessControls(
-                context: context,
-                mine: groupModel.Mine(context: context));
             return hb.Template(
                 context: context,
                 ss: ss,
@@ -938,10 +939,11 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss, GroupModel groupModel)
         {
             var commentsColumn = ss.GetColumn(context: context, columnName: "Comments");
-            var commentsColumnPermissionType = commentsColumn
-                .ColumnPermissionType(
-                    context: context,
-                    baseModel: groupModel);
+            var commentsColumnPermissionType = Permissions.ColumnPermissionType(
+                context: context,
+                ss: ss,
+                column: commentsColumn,
+                baseModel: groupModel);
             var showComments = ss.ShowComments(commentsColumnPermissionType);
             var tabsCss = showComments ? null : "max";
             return hb.Div(id: "Editor", action: () => hb
@@ -1067,7 +1069,6 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             GroupModel groupModel)
         {
-            var mine = groupModel.Mine(context: context);
             return hb.FieldSet(id: "FieldSetGeneral", action: () => hb
                 .FieldSetGeneralColumns(
                     context: context, ss: ss, groupModel: groupModel));
@@ -1121,8 +1122,10 @@ namespace Implem.Pleasanter.Models
                     column: column,
                     methodType: groupModel.MethodType,
                     value: value,
-                    columnPermissionType: column.ColumnPermissionType(
+                    columnPermissionType: Permissions.ColumnPermissionType(
                         context: context,
+                        ss: ss,
+                        column: column,
                         baseModel: groupModel),
                     controlOnly: controlOnly,
                     alwaysSend: alwaysSend,
@@ -1161,6 +1164,12 @@ namespace Implem.Pleasanter.Models
                             column: column);
                 case "Body":
                     return groupModel.Body
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Disabled":
+                    return groupModel.Disabled
                         .ToControl(
                             context: context,
                             ss: ss,
@@ -1241,7 +1250,9 @@ namespace Implem.Pleasanter.Models
             Message message = null,
             string switchTargets = null)
         {
-            groupModel.MethodType = BaseModel.MethodTypes.Edit;
+            groupModel.MethodType = groupModel.GroupId == 0
+                ? BaseModel.MethodTypes.New
+                : BaseModel.MethodTypes.Edit;
             return new GroupsResponseCollection(groupModel)
                 .Invoke("clearDialogs")
                 .ReplaceAll("#MainContainer", Editor(context, ss, groupModel))
@@ -1307,7 +1318,15 @@ namespace Implem.Pleasanter.Models
             GroupModel groupModel,
             string idSuffix = null)
         {
-            var mine = groupModel.Mine(context: context);
+            var serverScriptModelRow = groupModel
+                ?.ServerScriptModelRows
+                ?.FirstOrDefault();
+            var needReplaceHtml = serverScriptModelRow?.NeedReplaceHtml(
+                context: context,
+                ss: ss);
+            res.Val(
+                target: "#NeedReplaceHtml",
+                value: needReplaceHtml?.ToJson());
             ss.GetEditorColumnNames()
                 .Select(columnName => ss.GetColumn(
                     context: context,
@@ -1315,91 +1334,125 @@ namespace Implem.Pleasanter.Models
                 .Where(column => column != null)
                 .ForEach(column =>
                 {
-                    switch (column.Name)
+                    var serverScriptModelColumn = serverScriptModelRow
+                        ?.Columns.Get(column.ColumnName);
+                    if (needReplaceHtml?.Contains(column.ColumnName) == true)
                     {
-                        case "TenantId":
-                            res.Val(
-                                "#Groups_TenantId" + idSuffix,
-                                groupModel.TenantId.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "GroupId":
-                            res.Val(
-                                "#Groups_GroupId" + idSuffix,
-                                groupModel.GroupId.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "GroupName":
-                            res.Val(
-                                "#Groups_GroupName" + idSuffix,
-                                groupModel.GroupName.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "Body":
-                            res.Val(
-                                "#Groups_Body" + idSuffix,
-                                groupModel.Body.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        default:
-                            switch (Def.ExtendedColumnTypes.Get(column.Name))
-                            {
-                                case "Class":
-                                    res.Val(
-                                        $"#Groups_{column.Name}{idSuffix}",
-                                        groupModel.Class(columnName: column.Name).ToResponse(
-                                            context: context,
-                                            ss: ss,
-                                            column: column));
-                                    break;
-                                case "Num":
-                                    res.Val(
-                                        $"#Groups_{column.Name}{idSuffix}",
-                                        groupModel.Num(columnName: column.Name).ToResponse(
-                                            context: context,
-                                            ss: ss,
-                                            column: column));
-                                    break;
-                                case "Date":
-                                    res.Val(
-                                        $"#Groups_{column.Name}{idSuffix}",
-                                        groupModel.Date(columnName: column.Name).ToResponse(
-                                            context: context,
-                                            ss: ss,
-                                            column: column));
-                                    break;
-                                case "Description":
-                                    res.Val(
-                                        $"#Groups_{column.Name}{idSuffix}",
-                                        groupModel.Description(columnName: column.Name).ToResponse(
-                                            context: context,
-                                            ss: ss,
-                                            column: column));
-                                    break;
-                                case "Check":
-                                    res.Val(
-                                        $"#Groups_{column.Name}{idSuffix}",
-                                        groupModel.Check(columnName: column.Name));
-                                    break;
-                                case "Attachments":
-                                    res.ReplaceAll(
-                                        $"#Groups_{column.Name}Field",
-                                        new HtmlBuilder()
-                                            .FieldAttachments(
+                        res.ReplaceAll(
+                            target: $"#Groups_{column.Name}Field" + idSuffix,
+                            value: new HtmlBuilder().Field(
+                                context: context,
+                                ss: ss,
+                                groupModel: groupModel,
+                                column: column,
+                                idSuffix: idSuffix));
+                    }
+                    else
+                    {
+                        switch (column.Name)
+                        {
+                            case "TenantId":
+                                res.Val(
+                                    target: "#Groups_TenantId" + idSuffix,
+                                    value: groupModel.TenantId.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "GroupId":
+                                res.Val(
+                                    target: "#Groups_GroupId" + idSuffix,
+                                    value: groupModel.GroupId.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "GroupName":
+                                res.Val(
+                                    target: "#Groups_GroupName" + idSuffix,
+                                    value: groupModel.GroupName.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Body":
+                                res.Val(
+                                    target: "#Groups_Body" + idSuffix,
+                                    value: groupModel.Body.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Disabled":
+                                res.Val(
+                                    target: "#Groups_Disabled" + idSuffix,
+                                    value: groupModel.Disabled,
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            default:
+                                switch (Def.ExtendedColumnTypes.Get(column.Name))
+                                {
+                                    case "Class":
+                                        res.Val(
+                                            target: $"#Groups_{column.Name}{idSuffix}",
+                                            value: groupModel.Class(columnName: column.Name).ToResponse(
                                                 context: context,
-                                                fieldId: $"Groups_{column.Name}Field",
-                                                controlId: $"Groups_{column.Name}",
-                                                columnName: column.ColumnName,
-                                                fieldCss: column.FieldCss
-                                                    + (column.TextAlign == SiteSettings.TextAlignTypes.Right
-                                                        ? " right-align"
-                                                        : string.Empty),
-                                                fieldDescription: column.Description,
-                                                labelText: column.LabelText,
-                                                value: groupModel.Attachments(columnName: column.Name).ToJson(),
-                                                readOnly: column.ColumnPermissionType(
+                                                ss: ss,
+                                                column: column),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Num":
+                                        res.Val(
+                                            target: $"#Groups_{column.Name}{idSuffix}",
+                                            value: groupModel.Num(columnName: column.Name).ToResponse(
+                                                context: context,
+                                                ss: ss,
+                                                column: column),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Date":
+                                        res.Val(
+                                            target: $"#Groups_{column.Name}{idSuffix}",
+                                            value: groupModel.Date(columnName: column.Name).ToResponse(
+                                                context: context,
+                                                ss: ss,
+                                                column: column),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Description":
+                                        res.Val(
+                                            target: $"#Groups_{column.Name}{idSuffix}",
+                                            value: groupModel.Description(columnName: column.Name).ToResponse(
+                                                context: context,
+                                                ss: ss,
+                                                column: column),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Check":
+                                        res.Val(
+                                            target: $"#Groups_{column.Name}{idSuffix}",
+                                            value: groupModel.Check(columnName: column.Name),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Attachments":
+                                        res.ReplaceAll(
+                                            target: $"#Groups_{column.Name}Field",
+                                            value: new HtmlBuilder()
+                                                .FieldAttachments(
                                                     context: context,
-                                                    baseModel: groupModel)
-                                                        != Permissions.ColumnPermissionTypes.Update));
-                                    break;
-                            }
-                            break;
+                                                    fieldId: $"Groups_{column.Name}Field",
+                                                    controlId: $"Groups_{column.Name}",
+                                                    columnName: column.ColumnName,
+                                                    fieldCss: column.FieldCss
+                                                        + (column.TextAlign == SiteSettings.TextAlignTypes.Right
+                                                            ? " right-align"
+                                                            : string.Empty),
+                                                    fieldDescription: column.Description,
+                                                    labelText: column.LabelText,
+                                                    value: groupModel.Attachments(columnName: column.Name).ToJson(),
+                                                    readOnly: Permissions.ColumnPermissionType(
+                                                        context: context,
+                                                        ss: ss,
+                                                        column: column,
+                                                        baseModel: groupModel)
+                                                            != Permissions.ColumnPermissionTypes.Update),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                }
+                                break;
+                        }
                     }
                 });
             return res;
@@ -1499,6 +1552,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             GroupModel groupModel)
         {
+            ss.ClearColumnAccessControlCaches(baseModel: groupModel);
             if (context.Forms.Bool("IsDialogEditorForm"))
             {
                 var view = Views.GetBySession(
@@ -1522,8 +1576,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             dataRows: gridData.DataRows,
-                            columns: columns,
-                            recordSelector: null))
+                            columns: columns))
                     .CloseDialog()
                     .Message(Messages.Updated(
                         context: context,
@@ -1596,9 +1649,6 @@ namespace Implem.Pleasanter.Models
             Context context, SiteSettings ss, int groupId, Message message = null)
         {
             var groupModel = new GroupModel(context: context, ss: ss, groupId: groupId);
-            ss.SetColumnAccessControls(
-                context: context,
-                mine: groupModel.Mine(context: context));
             var columns = ss.GetHistoryColumns(context: context, checkPermission: true);
             if (!context.CanRead(ss: ss))
             {
@@ -1685,9 +1735,6 @@ namespace Implem.Pleasanter.Models
         public static string History(Context context, SiteSettings ss, int groupId)
         {
             var groupModel = new GroupModel(context: context, ss: ss, groupId: groupId);
-            ss.SetColumnAccessControls(
-                context: context,
-                mine: groupModel.Mine(context: context));
             groupModel.Get(
                 context: context,
                 ss: ss,

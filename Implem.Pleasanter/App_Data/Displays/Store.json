@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Almacenar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cửa hàng/Giao dịch"
         }
     ]
 }

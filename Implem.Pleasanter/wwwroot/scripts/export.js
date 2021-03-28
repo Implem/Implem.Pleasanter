@@ -17,16 +17,16 @@ $p.export = function () {
         data["ExportId"] = exp.id;
         $p.send($("#DoExport"), "MainForm");
     } else {
-        location.href = $('.main-form').attr('action').replace('_action_', 'export')
+        $p.transition($('.main-form').attr('action').replace('_action_', 'export')
             + '?id=' + exp.id
             + '&encoding=' + encoding
             + '&GridCheckAll=' + data.GridCheckAll
             + '&GridUnCheckedItems=' + data.GridUnCheckedItems
-            + '&GridCheckedItems=' + data.GridCheckedItems;
+            + '&GridCheckedItems=' + data.GridCheckedItems);
     }
     $p.closeDialog($('#ExportSelectorDialog'));
 }
 
 $p.exportCrosstab = function () {
-    location.href = $('.main-form').attr('action').replace('_action_', 'exportcrosstab');
+    $p.transition($('.main-form').attr('action').replace('_action_', 'exportcrosstab'));
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Fin"
+        },
+        {
+            "Language": "vn",
+            "Body": "Kết thúc"
         }
     ]
 }

@@ -12,7 +12,8 @@ namespace Implem.Pleasanter.Libraries.Migrators
                 export.Columns?.ForEach(exportColumn =>
                 {
                     var index = export.Join
-                        ?.Select(o => o.SiteId)
+                        ?.Where(o => o.SiteId > 0)
+                        .Select(o => o.SiteId)
                         .ToList()
                         .IndexOf(exportColumn.SiteId.ToLong()) + 1 ?? 0;
                     if (index > 0)

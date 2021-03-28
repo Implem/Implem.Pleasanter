@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Redondeo de los banqueros"
+        },
+        {
+            "Language": "vn",
+            "Body": "Làm tròn theo ngân hàng"
         }
     ]
 }

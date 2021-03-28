@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Vista predeterminada"
+        },
+        {
+            "Language": "vn",
+            "Body": "Hiển thị mặc định"
         }
     ]
 }

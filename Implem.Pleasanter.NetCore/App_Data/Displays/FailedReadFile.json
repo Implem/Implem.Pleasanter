@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "No se ha podido leer el archivo."
+        },
+        {
+            "Language": "vn",
+            "Body": "Đọc tệp tin thất bại."
         }
     ]
 }

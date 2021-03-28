@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Copiado."
+        },
+        {
+            "Language": "vn",
+            "Body": "Đã sao chép."
         }
     ]
 }

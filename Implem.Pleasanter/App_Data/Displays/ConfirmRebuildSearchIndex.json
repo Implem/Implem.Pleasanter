@@ -25,6 +25,10 @@
         {
             "Language": "es",
             "Body": "¿Le gustaría volver a construir el índice de búsqueda?"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bạn có muốn tạo lại chỉ mục tìm kiếm không?"
         }
     ]
 }

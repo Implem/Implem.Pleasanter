@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Mostrar historial"
+        },
+        {
+            "Language": "vn",
+            "Body": "Hiển thị lịch sử"
         }
     ]
 }

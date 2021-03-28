@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Estilo de la pantalla del editor"
+        },
+        {
+            "Language": "vn",
+            "Body": "Kiểu màn hình biên tập"
         }
     ]
 }

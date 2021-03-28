@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Aceptó la exportación."
+        },
+        {
+            "Language": "vn",
+            "Body": "Chấp nhận xuất dữ liệu."
         }
     ]
 }

@@ -8,6 +8,6 @@
         undefined,
         redirect !== 1);
     if (redirect === 1) {
-        location.href = $('#ApplicationPath').val();
+        $p.transition($('#ApplicationPath').val());
     }
 }

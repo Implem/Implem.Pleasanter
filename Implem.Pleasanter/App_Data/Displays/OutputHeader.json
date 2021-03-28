@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Encabezado de salida"
+        },
+        {
+            "Language": "vn",
+            "Body": "Xuất tiêu đề"
         }
     ]
 }

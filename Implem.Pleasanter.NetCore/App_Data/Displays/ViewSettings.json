@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Ver configuraciones"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cài đặt hiển thị"
         }
     ]
 }

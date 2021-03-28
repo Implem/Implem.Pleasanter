@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Mostrar historial en la cuadrícula"
+        },
+        {
+            "Language": "vn",
+            "Body": "Hiển thị lịch sử trên danh sách"
         }
     ]
 }

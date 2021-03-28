@@ -92,6 +92,7 @@ namespace Implem.Pleasanter.Models
         public Dictionary<string, Attachments> AttachmentsHash = new Dictionary<string, Attachments>();
         public Dictionary<string, string> SavedAttachmentsHash = new Dictionary<string, string>();
         public bool ReadOnly;
+        public List<string> MineCache;
 
         public List<string> ColumnNames()
         {
@@ -735,6 +736,11 @@ namespace Implem.Pleasanter.Models
                 ServerScriptModelRows.Add(scriptValues);
             }
             return scriptValues;
+        }
+
+        public virtual List<string> Mine(Context context)
+        {
+            return null;
         }
     }
 

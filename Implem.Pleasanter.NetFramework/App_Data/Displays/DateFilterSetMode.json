@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Configurar modo"
+        },
+        {
+            "Language": "vn",
+            "Body": "Lựa chọn chế độ"
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Ocultar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Không hiển thị"
         }
     ]
 }

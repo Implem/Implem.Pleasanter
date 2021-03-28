@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Número máx. de columnas"
+        },
+        {
+            "Language": "vn",
+            "Body": "Số cột tối đa"
         }
     ]
 }

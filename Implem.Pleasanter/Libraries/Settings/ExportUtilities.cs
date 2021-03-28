@@ -69,7 +69,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Select(o => o.Column)
                 .Where(o => o.MultipleSelections == true)
                 .Where(o => o.Linked(withoutWiki: true))
-                .Where(o => o.CanRead)
+                .Where(o => o.CanRead(
+                    context: context,
+                    ss: ss,
+                    mine: null))
                 .ForEach(column =>
                 {
                     column.ChoiceHash = new Dictionary<string, Choice>();
@@ -80,7 +83,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 .ReferenceId()
                                 .Title(),
                             where: Rds.ItemsWhere()
-                                .SiteId_In(column.SiteSettings.Links.Where(o => o.ColumnName == column.Name).Select(o => o.SiteId))
+                                .SiteId_In(column.SiteSettings.Links
+                                    .Where(o => o.SiteId > 0)
+                                    .Where(o => o.ColumnName == column.Name)
+                                    .Select(o => o.SiteId)
+                                    .ToList())
                                 .ReferenceType("Sites", _operator: "<>"),
                             orderBy: Rds.ItemsOrderBy()
                                 .Title()))
@@ -96,7 +103,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Select(o => o.Column)
                 .Where(o => o.MultipleSelections == true)
                 .Where(o => o.Type == Column.Types.User)
-                .Where(o => o.CanRead)
+                .Where(o => o.CanRead(
+                    context: context,
+                    ss: ss,
+                    mine: null))
                 .ForEach(column =>
                 {
                     column.ChoiceHash = new Dictionary<string, Choice>();
@@ -116,7 +126,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (export.Header == true)
             {
                 csv.Append(export.Columns
-                    .ExportColumns()
+                    .ExportColumns(
+                        context: context,
+                        ss: ss)
                     .Select(column =>
                         $"\"{column.GetLabelText()}\"").Join(","), "\n");
             }
@@ -124,14 +136,20 @@ namespace Implem.Pleasanter.Libraries.Settings
                 context: context,
                 ss: ss,
                 csv: csv,
-                exportColumns: export.Columns.ExportColumns());
+                exportColumns: export.Columns.ExportColumns(
+                    context: context,
+                    ss: ss));
             return csv.ToString();
         }
 
-        private static IEnumerable<ExportColumn> ExportColumns(this List<ExportColumn> columns)
+        private static IEnumerable<ExportColumn> ExportColumns(
+            this List<ExportColumn> columns, Context context, SiteSettings ss)
         {
             return columns
-                .Where(o => o.Column.CanRead)
+                .Where(o => o.Column.CanRead(
+                    context: context,
+                    ss: ss,
+                    mine: null))
                 .Where(o => o.Column.TypeCs != "Attachments")
                 .SelectMany(o => o.NormalOrOutputClassColumns());
         }
@@ -165,9 +183,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             export.SetColumns(
                 context: context,
                 ss: ss);
-            ss.SetColumnAccessControls(context: context);
             view.GridColumns = export.Columns
-                .Where(o => o.Column.CanRead)
+                .Where(o => o.Column.CanRead(
+                    context: context,
+                    ss: ss,
+                    mine: null))
                 .Where(o => o.Column.TypeCs != "Attachments")
                 .Select(o => o.ColumnName)
                 .ToList();

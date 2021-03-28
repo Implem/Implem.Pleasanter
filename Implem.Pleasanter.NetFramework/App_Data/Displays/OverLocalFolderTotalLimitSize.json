@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "El tamaño adjunto es de hasta {0} Mbyte."
+        },
+        {
+            "Language": "vn",
+            "Body": "Dung lượng đính kèm tối đa là {0} Mbyte."
         }
     ]
 }

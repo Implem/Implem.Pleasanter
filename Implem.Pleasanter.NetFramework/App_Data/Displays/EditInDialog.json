@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Editar en diálogo"
+        },
+        {
+            "Language": "vn",
+            "Body": "Chỉnh sửa trong hộp thoại"
         }
     ]
 }

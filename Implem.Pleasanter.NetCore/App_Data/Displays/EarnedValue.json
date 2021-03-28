@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Valor ganado"
+        },
+        {
+            "Language": "vn",
+            "Body": "Thực thu"
         }
     ]
 }

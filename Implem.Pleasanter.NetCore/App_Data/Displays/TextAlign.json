@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Texto alineado"
+        },
+        {
+            "Language": "vn",
+            "Body": "Căn chỉnh văn bản"
         }
     ]
 }

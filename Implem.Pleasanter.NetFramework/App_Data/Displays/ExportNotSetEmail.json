@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "No se ha establecido una dirección de correo electrónico para el usuario destinatario de la notificación {0}"
+        },
+        {
+            "Language": "vn",
+            "Body": "Địa chỉ email chưa được thiết lập cho người nhận thông báo {0}"
         }
     ]
 }

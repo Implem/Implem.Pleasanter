@@ -25,6 +25,10 @@
         {
             "Language": "es",
             "Body": "Gestor"
+        },
+        {
+            "Language": "vn",
+            "Body": "Người quản lí"
         }
     ]
 }

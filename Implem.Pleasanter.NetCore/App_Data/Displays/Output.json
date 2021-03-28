@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Salida"
+        },
+        {
+            "Language": "vn",
+            "Body": "Xuất ra"
         }
     ]
 }

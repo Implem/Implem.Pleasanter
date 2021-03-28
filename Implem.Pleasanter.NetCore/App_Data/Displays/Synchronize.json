@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Sincronizar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Đồng bộ"
         }
     ]
 }

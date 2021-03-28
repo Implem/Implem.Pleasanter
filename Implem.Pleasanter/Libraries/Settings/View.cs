@@ -8,7 +8,6 @@ using Implem.Pleasanter.Libraries.Search;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.ServerScripts;
-using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -152,9 +151,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             return CrosstabAggregateType;
         }
 
-        public string GetCrosstabValue(SiteSettings ss)
+        public string GetCrosstabValue(Context context, SiteSettings ss)
         {
-            var options = ss.CrosstabColumnsOptions();
+            var options = ss.CrosstabColumnsOptions(context: context);
             if (CrosstabValue.IsNullOrEmpty())
             {
                 CrosstabValue = options.ContainsKey(Definition(ss, "Crosstab")?.Option4)
@@ -202,9 +201,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : string.Empty;
         }
 
-        public string GetTimeSeriesGroupBy(SiteSettings ss)
+        public string GetTimeSeriesGroupBy(Context context, SiteSettings ss)
         {
-            var options = ss.TimeSeriesGroupByOptions();
+            var options = ss.TimeSeriesGroupByOptions(context: context);
             if (TimeSeriesGroupBy.IsNullOrEmpty())
             {
                 TimeSeriesGroupBy = options.ContainsKey(Definition(ss, "TimeSeries")?.Option1)
@@ -226,9 +225,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             return TimeSeriesAggregateType;
         }
 
-        public string GetTimeSeriesValue(SiteSettings ss)
+        public string GetTimeSeriesValue(Context context, SiteSettings ss)
         {
-            var options = ss.TimeSeriesValueOptions();
+            var options = ss.TimeSeriesValueOptions(context: context);
             if (TimeSeriesValue.IsNullOrEmpty())
             {
                 TimeSeriesValue = options.ContainsKey(Definition(ss, "TimeSeries")?.Option3)
@@ -274,9 +273,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             return KambanAggregateType;
         }
 
-        public string GetKambanValue(SiteSettings ss)
+        public string GetKambanValue(Context context, SiteSettings ss)
         {
-            var options = ss.KambanValueOptions();
+            var options = ss.KambanValueOptions(context: context);
             if (KambanValue.IsNullOrEmpty())
             {
                 KambanValue = options.ContainsKey(Definition(ss, "Kamban")?.Option4)
@@ -1101,26 +1100,17 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private void CsBoolColumns(Column column, string value, SqlWhereCollection where)
         {
-            switch (column.CheckFilterControlType)
+            switch (value?.ToLower())
             {
-                case ColumnUtilities.CheckFilterControlTypes.OnOnly:
-                    if (value.ToBool())
-                    {
-                        where.Bool(column, true);
-                    }
+                case "1":
+                case "true":
+                    where.Bool(column, true);
                     break;
-                case ColumnUtilities.CheckFilterControlTypes.OnAndOff:
-                    switch ((ColumnUtilities.CheckFilterTypes)value.ToInt())
-                    {
-                        case ColumnUtilities.CheckFilterTypes.On:
-                            where.Bool(column, true);
-                            break;
-                        case ColumnUtilities.CheckFilterTypes.Off:
-                            where.Add(or: new SqlWhereCollection()
-                                .Bool(column, null)
-                                .Bool(column, false));
-                            break;
-                    }
+                case "2":
+                case "false":
+                    where.Add(or: new SqlWhereCollection()
+                        .Bool(column, null)
+                        .Bool(column, false));
                     break;
             }
         }
@@ -1470,49 +1460,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                     var column = ss.GetColumn(
                         context: context,
                         columnName: data.Key);
-                    var tableName = column.TableName();
-                    switch (column.Name)
+                    if (column != null)
                     {
-                        case "Title":
-                        case "ItemTitle":
-                            orderBy.Add(new SqlOrderBy(
-                                columnBracket: "\"Title\"",
-                                orderType: data.Value,
-                                tableName: $"{tableName}_Items"));
-                            break;
-                        case "TitleBody":
-                            orderBy.Add(new SqlOrderBy(
-                                columnBracket: "\"Title\"",
-                                orderType: data.Value,
-                                tableName: $"{tableName}_Items"));
-                            orderBy.Add(
-                                column: ss.GetColumn(
-                                    context: context,
-                                    columnName: column.Joined
-                                        ? $"{tableName},Body"
-                                        : "Body"),
-                                orderType: data.Value);
-                            break;
-                        default:
-                            if (column.Linked(withoutWiki: true))
-                            {
-                                orderBy.Add(new SqlOrderBy(
-                                    orderType: data.Value,
-                                    sub: Rds.SelectItems(
-                                        column: Rds.ItemsColumn().Title(),
-                                        where: Rds.ItemsWhere()
-                                            .SiteId_In(column.SiteSettings.Links
-                                                .Where(o => o.ColumnName == column.Name)
-                                                .Select(o => o.SiteId))
-                                            .ReferenceId(raw: $"{context.SqlCommandText.CreateTryCast(tableName, column.Name, column.TypeName, "bigint")}"))));
-                            }
-                            else
-                            {
-                                orderBy.Add(
-                                    column: column,
-                                    orderType: data.Value);
-                            }
-                            break;
+                        OrderBy(
+                            context: context,
+                            ss: ss,
+                            orderBy: orderBy,
+                            data: data,
+                            column: column);
                     }
                 });
             }
@@ -1522,6 +1477,60 @@ namespace Implem.Pleasanter.Libraries.Settings
                     columnBracket: "\"UpdatedTime\"",
                     orderType: SqlOrderBy.Types.desc)
                 : orderBy;
+        }
+
+        private static void OrderBy(
+            Context context,
+            SiteSettings ss,
+            SqlOrderByCollection orderBy,
+            KeyValuePair<string, SqlOrderBy.Types> data,
+            Column column)
+        {
+            var tableName = column.TableName();
+            switch (column.Name)
+            {
+                case "Title":
+                case "ItemTitle":
+                    orderBy.Add(new SqlOrderBy(
+                        columnBracket: "\"Title\"",
+                        orderType: data.Value,
+                        tableName: $"{tableName}_Items"));
+                    break;
+                case "TitleBody":
+                    orderBy.Add(new SqlOrderBy(
+                        columnBracket: "\"Title\"",
+                        orderType: data.Value,
+                        tableName: $"{tableName}_Items"));
+                    orderBy.Add(
+                        column: ss.GetColumn(
+                            context: context,
+                            columnName: column.Joined
+                                ? $"{tableName},Body"
+                                : "Body"),
+                        orderType: data.Value);
+                    break;
+                default:
+                    if (column.Linked(withoutWiki: true))
+                    {
+                        orderBy.Add(new SqlOrderBy(
+                            orderType: data.Value,
+                            sub: Rds.SelectItems(
+                                column: Rds.ItemsColumn().Title(),
+                                where: Rds.ItemsWhere()
+                                    .SiteId_In(column.SiteSettings.Links
+                                        .Where(o => o.SiteId > 0)
+                                        .Where(o => o.ColumnName == column.Name)
+                                        .Select(o => o.SiteId))
+                                    .ReferenceId(raw: $"{context.SqlCommandText.CreateTryCast(tableName, column.Name, column.TypeName, "bigint")}"))));
+                    }
+                    else
+                    {
+                        orderBy.Add(
+                            column: column,
+                            orderType: data.Value);
+                    }
+                    break;
+            }
         }
 
         private void SetSearchWhere(

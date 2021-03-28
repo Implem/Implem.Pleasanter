@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Indicar intervalo"
+        },
+        {
+            "Language": "vn",
+            "Body": "Chỉ định phạm vi"
         }
     ]
 }

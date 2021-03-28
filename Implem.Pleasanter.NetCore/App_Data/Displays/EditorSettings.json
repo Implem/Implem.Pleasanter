@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Opciones de editor"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cài đặt trình biên tập"
         }
     ]
 }

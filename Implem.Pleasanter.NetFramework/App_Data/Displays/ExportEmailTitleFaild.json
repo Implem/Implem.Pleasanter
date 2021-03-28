@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "No se pudo exportar."
+        },
+        {
+            "Language": "vn",
+            "Body": "Xuất dữ liệu thất bại."
         }
     ]
 }

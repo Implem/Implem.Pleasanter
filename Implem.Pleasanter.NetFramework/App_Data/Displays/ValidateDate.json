@@ -25,6 +25,10 @@
         {
             "Language": "es",
             "Body": "Fecha u hora no válida."
+        },
+        {
+            "Language": "vn",
+            "Body": "Ngày hoặc giờ không hợp lệ."
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Se ha terminado la reconstrucción."
+        },
+        {
+            "Language": "vn",
+            "Body": "Đã hoàn thành việc tạo lại."
         }
     ]
 }

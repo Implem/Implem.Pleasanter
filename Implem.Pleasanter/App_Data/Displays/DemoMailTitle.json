@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Uso del entorno de demostración Pleasanter"
+        },
+        {
+            "Language": "vn",
+            "Body": "Giới thiệu sử dụng môi trường giả lập Pleasanter"
         }
     ]
 }

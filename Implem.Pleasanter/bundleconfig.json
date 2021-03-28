@@ -99,6 +99,7 @@
             "wwwroot/scripts/validator.js",
             "wwwroot/scripts/video.js",
             "wwwroot/scripts/viewmode.js",
+            "wwwroot/scripts/visibility.js",
             "wwwroot/scripts/_show.js",
             "wwwroot/scripts/relatingcolumns.js",
             "wwwroot/scripts/fieldselectable.js",

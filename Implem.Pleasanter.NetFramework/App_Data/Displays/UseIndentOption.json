@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Usar opción de sangría"
+        },
+        {
+            "Language": "vn",
+            "Body": "Sử dụng chức năng thụt lề"
         }
     ]
 }

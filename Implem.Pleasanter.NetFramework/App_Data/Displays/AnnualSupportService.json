@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Servicio de soporte anual"
+        },
+        {
+            "Language": "vn",
+            "Body": "Dịch vụ hỗ trợ hàng năm"
         }
     ]
 }

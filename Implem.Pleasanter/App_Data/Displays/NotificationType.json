@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Tipo de notificación"
+        },
+        {
+            "Language": "vn",
+            "Body": "Loại thông báo"
         }
     ]
 }

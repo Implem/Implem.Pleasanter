@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Historial de cambios"
+        },
+        {
+            "Language": "vn",
+            "Body": "Danh sách lịch sử thay đổi"
         }
     ]
 }

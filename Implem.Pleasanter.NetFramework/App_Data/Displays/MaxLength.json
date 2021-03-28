@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Numero maximo de caracteres"
+        },
+        {
+            "Language": "vn",
+            "Body": "Số kí tự tối đa"
         }
     ]
 }

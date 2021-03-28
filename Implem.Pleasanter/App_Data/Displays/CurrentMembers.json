@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Miembros actuales"
+        },
+        {
+            "Language": "vn",
+            "Body": "Thành viên hiện tại"
         }
     ]
 }

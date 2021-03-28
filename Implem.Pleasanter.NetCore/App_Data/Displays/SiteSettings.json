@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Ajustes del sitio"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cài đặt trang web"
         }
     ]
 }

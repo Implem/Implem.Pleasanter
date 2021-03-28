@@ -158,7 +158,8 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                                 .Comments(packageSiteModel.Comments.ToJson())),
                             Rds.PhysicalDeleteLinks(
                                 where: Rds.LinksWhere().SourceId(packageSiteModel.SavedSiteId)),
-                            LinkUtilities.Insert(link: packageSiteModel.SiteSettings.Links?
+                            LinkUtilities.Insert(link: packageSiteModel.SiteSettings.Links
+                                ?.Where(o => o.SiteId > 0)
                                 .Select(o => o.SiteId)
                                 .Distinct()
                                 .ToDictionary(o => o, o => packageSiteModel.SavedSiteId)
@@ -769,11 +770,13 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             var view = new View(context: context, ss: ss)
             {
                 GridColumns = export.Columns
-                    .Where(o => o.Column.CanRead)
+                    .Where(o => o.Column.CanRead(
+                        context: context,
+                        ss: ss,
+                        mine: null))
                     .Select(o => o.ColumnName)
                     .ToList()
             };
-            ss.SetColumnAccessControls(context: context);
             var gridData = new GridData(
                 context: context,
                 ss: ss,

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Apagado"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tắt"
         }
     ]
 }

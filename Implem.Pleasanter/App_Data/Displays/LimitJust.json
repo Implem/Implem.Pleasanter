@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Justo ahora"
+        },
+        {
+            "Language": "vn",
+            "Body": "Hiện tại"
         }
     ]
 }

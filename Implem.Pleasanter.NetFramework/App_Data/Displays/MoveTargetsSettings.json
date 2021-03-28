@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Ajustes de destino"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cài đặt đích đến"
         }
     ]
 }

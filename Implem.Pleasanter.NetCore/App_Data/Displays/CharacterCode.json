@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Código de caracteres"
+        },
+        {
+            "Language": "vn",
+            "Body": "Mã kí tự"
         }
     ]
 }

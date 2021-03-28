@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Contar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Số lượng"
         }
     ]
 }

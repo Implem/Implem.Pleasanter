@@ -25,6 +25,10 @@
         {
             "Language": "es",
             "Body": "El número introducido es demasiado pequeño."
+        },
+        {
+            "Language": "vn",
+            "Body": "Số nhập vào quá nhỏ."
         }
     ]
 }

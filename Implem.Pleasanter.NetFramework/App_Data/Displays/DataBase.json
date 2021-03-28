@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Base de datos"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cơ sở dữ liệu"
         }
     ]
 }

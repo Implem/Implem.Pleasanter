@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Básico"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cơ bản"
         }
     ]
 }

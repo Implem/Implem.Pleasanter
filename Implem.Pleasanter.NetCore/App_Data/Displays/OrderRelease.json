@@ -25,6 +25,10 @@
         {
             "Language": "es",
             "Body": "Liberar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Chấm dứt"
         }
     ]
 }

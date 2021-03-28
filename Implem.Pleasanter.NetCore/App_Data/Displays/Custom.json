@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Personalizar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tùy chỉnh"
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Se ha creado un enlace."
+        },
+        {
+            "Language": "vn",
+            "Body": "Liên kết đã được tạo."
         }
     ]
 }

@@ -142,7 +142,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder Parts(
             this HtmlBuilder hb, Context context, SiteSettings ss, Aggregations aggregations)
         {
-            var allowedColumns = Permissions.AllowedColumns(ss);
+            var allowedColumns = Permissions.AllowedColumns(
+                context: context,
+                ss: ss);
             aggregations.AggregationCollection
                 .Where(o => o.Target.IsNullOrEmpty() || allowedColumns.Contains(o.Target))
                 .Where(o => o.GroupBy == "[NotGroupBy]" || allowedColumns.Contains(o.GroupBy))
@@ -204,7 +206,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             if (groupBy?.Linked() == true)
             {
-                var link = ss?.Links?.FirstOrDefault(o => o.ColumnName == groupBy.ColumnName);
+                var link = ss?.Links
+                    ?.Where(o => o.SiteId > 0)
+                    .FirstOrDefault(o => o.ColumnName == groupBy.ColumnName);
                 if (link != null)
                 {
                     var currentSs = ss.Destinations.Get(link.SiteId);

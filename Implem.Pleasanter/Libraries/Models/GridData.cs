@@ -213,7 +213,10 @@ namespace Implem.Pleasanter.Libraries.Models
             {
                 data.Header = new List<JsonExportColumn>();
                 export.Columns
-                    .Where(o => o.Column.CanRead)
+                    .Where(o => o.Column.CanRead(
+                        context: context,
+                        ss: ss,
+                        mine: null))
                     .ForEach(exportColumn =>
                     {
                         if (!data.Header.Any(o => o.SiteId == exportColumn.Column.SiteId))
@@ -254,7 +257,10 @@ namespace Implem.Pleasanter.Libraries.Models
             {
                 data.Header = new List<JsonExportColumn>();
                 export.Columns
-                    .Where(o => o.Column.CanRead)
+                    .Where(o => o.Column.CanRead(
+                        context: context,
+                        ss: ss,
+                        mine: null))
                     .ForEach(exportColumn =>
                     {
                         if (!data.Header.Any(o => o.SiteId == exportColumn.SiteId))

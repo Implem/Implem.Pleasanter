@@ -74,9 +74,11 @@ namespace Implem.Pleasanter.Models
                     ? new ErrorData(type: Error.Types.NotFound)
                     : new ErrorData(type: Error.Types.HasNotPermission);
             }
-            ss.SetColumnAccessControls(context: context, mine: groupModel.Mine(context: context));
             foreach (var column in ss.Columns
-                .Where(o => !o.CanCreate)
+                .Where(o => !o.CanCreate(
+                    context: context,
+                    ss: ss,
+                    mine: groupModel.Mine(context: context)))
                 .Where(o => !ss.FormulaTarget(o.ColumnName))
                 .Where(o => !o.Linking))
             {
@@ -96,6 +98,12 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "Body":
                         if (groupModel.Body_Updated(context: context, column: column))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "Disabled":
+                        if (groupModel.Disabled_Updated(context: context, column: column))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
@@ -183,9 +191,11 @@ namespace Implem.Pleasanter.Models
                     ? new ErrorData(type: Error.Types.NotFound)
                     : new ErrorData(type: Error.Types.HasNotPermission);
             }
-            ss.SetColumnAccessControls(context: context, mine: groupModel.Mine(context: context));
             foreach (var column in ss.Columns
-                .Where(o => !o.CanUpdate)
+                .Where(o => !o.CanUpdate(
+                    context: context,
+                    ss: ss,
+                    mine: groupModel.Mine(context: context)))
                 .Where(o => !ss.FormulaTarget(o.ColumnName)))
             {
                 switch (column.ColumnName)
@@ -204,6 +214,12 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "Body":
                         if (groupModel.Body_Updated(context: context))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "Disabled":
+                        if (groupModel.Disabled_Updated(context: context))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
@@ -335,7 +351,7 @@ namespace Implem.Pleasanter.Models
         public static ErrorData OnEntry(Context context, SiteSettings ss)
         {
             return
-                context.UserSettings?.DisableGroupAdmin != true
+                context.UserSettings?.AllowGroupAdministration(context: context) == true
                     || Permissions.CanManageTenant(context: context)
                         ? new ErrorData(type: Error.Types.None)
                         : new ErrorData(type: Error.Types.HasNotPermission);

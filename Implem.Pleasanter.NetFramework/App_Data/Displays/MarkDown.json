@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Reducir"
+        },
+        {
+            "Language": "vn",
+            "Body": "Đánh dấu"
         }
     ]
 }

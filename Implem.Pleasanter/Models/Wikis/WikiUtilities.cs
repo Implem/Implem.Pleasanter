@@ -63,7 +63,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -82,7 +81,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -101,7 +99,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -120,7 +117,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -139,7 +135,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -158,7 +153,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -177,7 +171,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -196,7 +189,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -215,7 +207,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -234,7 +225,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -253,7 +243,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -272,7 +261,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            type: ss.PermissionType,
                             mine: mine)
                                 ? hb.Td(
                                     context: context,
@@ -294,7 +282,6 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     column: column,
-                                    type: ss.PermissionType,
                                     mine: mine)
                                         ? hb.Td(
                                             context: context,
@@ -313,7 +300,6 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     column: column,
-                                    type: ss.PermissionType,
                                     mine: mine)
                                         ? hb.Td(
                                             context: context,
@@ -332,7 +318,6 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     column: column,
-                                    type: ss.PermissionType,
                                     mine: mine)
                                         ? hb.Td(
                                             context: context,
@@ -351,7 +336,6 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     column: column,
-                                    type: ss.PermissionType,
                                     mine: mine)
                                         ? hb.Td(
                                             context: context,
@@ -370,7 +354,6 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     column: column,
-                                    type: ss.PermissionType,
                                     mine: mine)
                                         ? hb.Td(
                                             context: context,
@@ -389,7 +372,6 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     column: column,
-                                    type: ss.PermissionType,
                                     mine: mine)
                                         ? hb.Td(
                                             context: context,
@@ -467,9 +449,9 @@ namespace Implem.Pleasanter.Models
                                     column: column);
                                 break;
                             case "Num":
-                                value = wikiModel.Num(columnName: column.Name).GridText(
+                                value = wikiModel.Num(columnName: column.Name)?.Value?.GridText(
                                     context: context,
-                                    column: column);
+                                    column: column) ?? string.Empty;
                                 break;
                             case "Date":
                                 value = wikiModel.Date(columnName: column.Name).GridText(
@@ -553,9 +535,6 @@ namespace Implem.Pleasanter.Models
                     errorData: invalid);
             }
             var hb = new HtmlBuilder();
-            ss.SetColumnAccessControls(
-                context: context,
-                mine: wikiModel.Mine(context: context));
             var scriptValues = wikiModel.SetByBeforeOpeningPageServerScript(
                 context: context,
                 ss: ss);
@@ -650,10 +629,11 @@ namespace Implem.Pleasanter.Models
             var commentsColumn = ss.GetColumn(
                 context: context,
                 columnName: "Comments");
-            var commentsColumnPermissionType = commentsColumn
-                .ColumnPermissionType(
-                    context: context,
-                    baseModel: wikiModel);
+            var commentsColumnPermissionType = Permissions.ColumnPermissionType(
+                context: context,
+                ss: ss,
+                column: commentsColumn,
+                baseModel: wikiModel);
             var showComments = ss.ShowComments(commentsColumnPermissionType);
             var tabsCss = showComments ? null : "max";
             return hb.Div(id: "Editor", action: () => hb
@@ -858,8 +838,10 @@ namespace Implem.Pleasanter.Models
                         .ToArray(),
                     methodType: wikiModel.MethodType,
                     value: value,
-                    columnPermissionType: column.ColumnPermissionType(
+                    columnPermissionType: Permissions.ColumnPermissionType(
                         context: context,
+                        ss: ss,
+                        column: column,
                         baseModel: wikiModel),
                     controlOnly: controlOnly,
                     alwaysSend: alwaysSend,
@@ -1244,7 +1226,9 @@ namespace Implem.Pleasanter.Models
             Message message = null,
             string switchTargets = null)
         {
-            wikiModel.MethodType = BaseModel.MethodTypes.Edit;
+            wikiModel.MethodType = wikiModel.WikiId == 0
+                ? BaseModel.MethodTypes.New
+                : BaseModel.MethodTypes.Edit;
             return new WikisResponseCollection(wikiModel)
                 .Invoke("clearDialogs")
                 .ReplaceAll("#MainContainer", Editor(context, ss, wikiModel))
@@ -1263,7 +1247,15 @@ namespace Implem.Pleasanter.Models
             WikiModel wikiModel,
             string idSuffix = null)
         {
-            var mine = wikiModel.Mine(context: context);
+            var serverScriptModelRow = wikiModel
+                ?.ServerScriptModelRows
+                ?.FirstOrDefault();
+            var needReplaceHtml = serverScriptModelRow?.NeedReplaceHtml(
+                context: context,
+                ss: ss);
+            res.Val(
+                target: "#NeedReplaceHtml",
+                value: needReplaceHtml?.ToJson());
             ss.GetEditorColumnNames()
                 .Select(columnName => ss.GetColumn(
                     context: context,
@@ -1271,91 +1263,119 @@ namespace Implem.Pleasanter.Models
                 .Where(column => column != null)
                 .ForEach(column =>
                 {
-                    switch (column.Name)
+                    var serverScriptModelColumn = serverScriptModelRow
+                        ?.Columns.Get(column.ColumnName);
+                    if (needReplaceHtml?.Contains(column.ColumnName) == true)
                     {
-                        case "WikiId":
-                            res.Val(
-                                "#Wikis_WikiId" + idSuffix,
-                                wikiModel.WikiId.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "Title":
-                            res.Val(
-                                "#Wikis_Title" + idSuffix,
-                                wikiModel.Title.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "Body":
-                            res.Val(
-                                "#Wikis_Body" + idSuffix,
-                                wikiModel.Body.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "Locked":
-                            res.Val(
-                                "#Wikis_Locked" + idSuffix,
-                                wikiModel.Locked);
-                            break;
-                        default:
-                            switch (Def.ExtendedColumnTypes.Get(column.Name))
-                            {
-                                case "Class":
-                                    res.Val(
-                                        $"#Wikis_{column.Name}{idSuffix}",
-                                        wikiModel.Class(columnName: column.Name).ToResponse(
-                                            context: context,
-                                            ss: ss,
-                                            column: column));
-                                    break;
-                                case "Num":
-                                    res.Val(
-                                        $"#Wikis_{column.Name}{idSuffix}",
-                                        wikiModel.Num(columnName: column.Name).ToResponse(
-                                            context: context,
-                                            ss: ss,
-                                            column: column));
-                                    break;
-                                case "Date":
-                                    res.Val(
-                                        $"#Wikis_{column.Name}{idSuffix}",
-                                        wikiModel.Date(columnName: column.Name).ToResponse(
-                                            context: context,
-                                            ss: ss,
-                                            column: column));
-                                    break;
-                                case "Description":
-                                    res.Val(
-                                        $"#Wikis_{column.Name}{idSuffix}",
-                                        wikiModel.Description(columnName: column.Name).ToResponse(
-                                            context: context,
-                                            ss: ss,
-                                            column: column));
-                                    break;
-                                case "Check":
-                                    res.Val(
-                                        $"#Wikis_{column.Name}{idSuffix}",
-                                        wikiModel.Check(columnName: column.Name));
-                                    break;
-                                case "Attachments":
-                                    res.ReplaceAll(
-                                        $"#Wikis_{column.Name}Field",
-                                        new HtmlBuilder()
-                                            .FieldAttachments(
+                        res.ReplaceAll(
+                            target: $"#Wikis_{column.Name}Field" + idSuffix,
+                            value: new HtmlBuilder().Field(
+                                context: context,
+                                ss: ss,
+                                wikiModel: wikiModel,
+                                column: column,
+                                idSuffix: idSuffix));
+                    }
+                    else
+                    {
+                        switch (column.Name)
+                        {
+                            case "WikiId":
+                                res.Val(
+                                    target: "#Wikis_WikiId" + idSuffix,
+                                    value: wikiModel.WikiId.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Title":
+                                res.Val(
+                                    target: "#Wikis_Title" + idSuffix,
+                                    value: wikiModel.Title.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Body":
+                                res.Val(
+                                    target: "#Wikis_Body" + idSuffix,
+                                    value: wikiModel.Body.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Locked":
+                                res.Val(
+                                    target: "#Wikis_Locked" + idSuffix,
+                                    value: wikiModel.Locked,
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            default:
+                                switch (Def.ExtendedColumnTypes.Get(column.Name))
+                                {
+                                    case "Class":
+                                        res.Val(
+                                            target: $"#Wikis_{column.Name}{idSuffix}",
+                                            value: wikiModel.Class(columnName: column.Name).ToResponse(
                                                 context: context,
-                                                fieldId: $"Wikis_{column.Name}Field",
-                                                controlId: $"Wikis_{column.Name}",
-                                                columnName: column.ColumnName,
-                                                fieldCss: column.FieldCss
-                                                    + (column.TextAlign == SiteSettings.TextAlignTypes.Right
-                                                        ? " right-align"
-                                                        : string.Empty),
-                                                fieldDescription: column.Description,
-                                                labelText: column.LabelText,
-                                                value: wikiModel.Attachments(columnName: column.Name).ToJson(),
-                                                readOnly: column.ColumnPermissionType(
+                                                ss: ss,
+                                                column: column),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Num":
+                                        res.Val(
+                                            target: $"#Wikis_{column.Name}{idSuffix}",
+                                            value: wikiModel.Num(columnName: column.Name).ToResponse(
+                                                context: context,
+                                                ss: ss,
+                                                column: column),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Date":
+                                        res.Val(
+                                            target: $"#Wikis_{column.Name}{idSuffix}",
+                                            value: wikiModel.Date(columnName: column.Name).ToResponse(
+                                                context: context,
+                                                ss: ss,
+                                                column: column),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Description":
+                                        res.Val(
+                                            target: $"#Wikis_{column.Name}{idSuffix}",
+                                            value: wikiModel.Description(columnName: column.Name).ToResponse(
+                                                context: context,
+                                                ss: ss,
+                                                column: column),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Check":
+                                        res.Val(
+                                            target: $"#Wikis_{column.Name}{idSuffix}",
+                                            value: wikiModel.Check(columnName: column.Name),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                    case "Attachments":
+                                        res.ReplaceAll(
+                                            target: $"#Wikis_{column.Name}Field",
+                                            value: new HtmlBuilder()
+                                                .FieldAttachments(
                                                     context: context,
-                                                    baseModel: wikiModel)
-                                                        != Permissions.ColumnPermissionTypes.Update));
-                                    break;
-                            }
-                            break;
+                                                    fieldId: $"Wikis_{column.Name}Field",
+                                                    controlId: $"Wikis_{column.Name}",
+                                                    columnName: column.ColumnName,
+                                                    fieldCss: column.FieldCss
+                                                        + (column.TextAlign == SiteSettings.TextAlignTypes.Right
+                                                            ? " right-align"
+                                                            : string.Empty),
+                                                    fieldDescription: column.Description,
+                                                    labelText: column.LabelText,
+                                                    value: wikiModel.Attachments(columnName: column.Name).ToJson(),
+                                                    readOnly: Permissions.ColumnPermissionType(
+                                                        context: context,
+                                                        ss: ss,
+                                                        column: column,
+                                                        baseModel: wikiModel)
+                                                            != Permissions.ColumnPermissionTypes.Update),
+                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                        break;
+                                }
+                                break;
+                        }
                     }
                 });
             return res;
@@ -1418,6 +1438,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             WikiModel wikiModel)
         {
+            ss.ClearColumnAccessControlCaches(baseModel: wikiModel);
             if (context.Forms.Bool("IsDialogEditorForm"))
             {
                 var view = Views.GetBySession(
@@ -1441,8 +1462,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             dataRows: gridData.DataRows,
-                            columns: columns,
-                            recordSelector: null))
+                            columns: columns))
                     .CloseDialog()
                     .Message(Messages.Updated(
                         context: context,
@@ -1482,15 +1502,15 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         baseModel: wikiModel,
                         tableName: "Wikis"))
-                            .Html("#Links", new HtmlBuilder().Links(
-                                context: context,
-                                ss: ss,
-                                id: wikiModel.WikiId))
-                            .Links(
-                                context: context,
-                                ss: ss,
-                                id: wikiModel.WikiId,
-                                methodType: wikiModel.MethodType)
+                    .Html("#Links", new HtmlBuilder().Links(
+                        context: context,
+                        ss: ss,
+                        id: wikiModel.WikiId))
+                    .Links(
+                        context: context,
+                        ss: ss,
+                        id: wikiModel.WikiId,
+                        methodType: wikiModel.MethodType)
                     .SetMemory("formChanged", false)
                     .Message(Messages.Updated(
                         context: context,
@@ -1527,9 +1547,9 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             data: wikiModel.Title.Value));
                     var res = new WikisResponseCollection(wikiModel);
-                res
-                    .SetMemory("formChanged", false)
-                    .Invoke("back");
+                    res
+                        .SetMemory("formChanged", false)
+                        .Invoke("back");
                     return res.ToJson();
                 default:
                     return errorData.MessageJson(context: context);
@@ -1772,9 +1792,6 @@ namespace Implem.Pleasanter.Models
             Context context, SiteSettings ss, long wikiId, Message message = null)
         {
             var wikiModel = new WikiModel(context: context, ss: ss, wikiId: wikiId);
-            ss.SetColumnAccessControls(
-                context: context,
-                mine: wikiModel.Mine(context: context));
             var columns = ss.GetHistoryColumns(context: context, checkPermission: true);
             if (!context.CanRead(ss: ss))
             {
@@ -1861,9 +1878,6 @@ namespace Implem.Pleasanter.Models
         public static string History(Context context, SiteSettings ss, long wikiId)
         {
             var wikiModel = new WikiModel(context: context, ss: ss, wikiId: wikiId);
-            ss.SetColumnAccessControls(
-                context: context,
-                mine: wikiModel.Mine(context: context));
             wikiModel.Get(
                 context: context,
                 ss: ss,

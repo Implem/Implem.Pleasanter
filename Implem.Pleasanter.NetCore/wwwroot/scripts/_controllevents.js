@@ -37,12 +37,14 @@
         $p.send($(this));
     });
     $(document).on('change', '.control-auto-postback', function () {
+        if ($p.disableAutPostback) return;
         var fieldSetTab = $('li[role="tab"][aria-selected=true][aria-controls^=FieldSetTab]');
         var selectedTabIndex = fieldSetTab.parent().children().index(fieldSetTab);
         var $mainForm = $('#MainForm');
         var data = $p.getData($mainForm);
         $p.setMustData($mainForm);
         data.ControlId = $(this).attr('id');
+        data.NeedReplaceHtml = $('#NeedReplaceHtml').val();
         return $p.ajax(
             $('#BaseUrl').val()
                 + $p.id()

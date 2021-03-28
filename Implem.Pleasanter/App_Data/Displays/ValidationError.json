@@ -25,6 +25,10 @@
         {
             "Language": "es",
             "Body": "El dato introducido es incorrecto."
+        },
+        {
+            "Language": "vn",
+            "Body": "Nội dung nhập vào không chính xác."
         }
     ]
 }

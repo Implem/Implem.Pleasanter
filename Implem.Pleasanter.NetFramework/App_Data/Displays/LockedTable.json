@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Esta tabla se bloqueó para {1} por {0}."
+        },
+        {
+            "Language": "vn",
+            "Body": "Bảng này bị khóa đến {1} bởi {0}."
         }
     ]
 }

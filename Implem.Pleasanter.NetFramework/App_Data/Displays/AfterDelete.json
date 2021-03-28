@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Dopo elimina"
+        },
+        {
+            "Language": "vn",
+            "Body": "Sau khi xóa"
         }
     ]
 }

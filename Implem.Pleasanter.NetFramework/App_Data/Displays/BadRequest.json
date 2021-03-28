@@ -1,6 +1,7 @@
-{
+﻿{
     "Id": "BadRequest",
     "Type": 240,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Invalid request."
@@ -24,6 +25,10 @@
         {
             "Language": "es",
             "Body": "Solicitud no válida."
+        },
+        {
+            "Language": "vn",
+            "Body": "Yêu cầu không hợp lệ."
         }
     ]
 }

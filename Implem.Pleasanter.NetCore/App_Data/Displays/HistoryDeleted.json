@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Se han eliminado {0} entradas del historial."
+        },
+        {
+            "Language": "vn",
+            "Body": "{0} bản ghi đã được xóa khỏi lịch sử."
         }
     ]
 }

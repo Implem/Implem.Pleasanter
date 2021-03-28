@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Fecha y hora (segundos)"
+        },
+        {
+            "Language": "vn",
+            "Body": "Ngày tháng và thời gian (giây)"
         }
     ]
 }

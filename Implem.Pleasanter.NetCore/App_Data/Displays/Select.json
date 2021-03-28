@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Seleccionar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Chọn"
         }
     ]
 }

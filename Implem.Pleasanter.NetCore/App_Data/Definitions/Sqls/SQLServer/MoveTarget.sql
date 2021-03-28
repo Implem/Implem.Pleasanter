@@ -19,12 +19,67 @@
         "Sites"."ReferenceType" = @ReferenceType_ and
         "Sites"."SiteId" <> @SiteId_ and
         (
-            @HasPrivilege_ = 1 or
-            (exists(select * from "Permissions" where "Permissions"."ReferenceId" = "InheritPermission" and "Permissions"."PermissionType" & 4 = 4 and ((("Permissions"."UserId" = @_U or "Permissions"."UserId" = -1) and @_U <> 0) or ("Permissions"."DeptId" = @_D and @_D <> 0) or (exists(select * from "GroupMembers" where "Permissions"."GroupId"="GroupMembers"."GroupId" and (("GroupMembers"."DeptId" = @_D and @_D <> 0) or ("GroupMembers"."UserId" = @_U and @_U <> 0)))))))
+            @HasPrivilege_=1
+            or
+            (
+                exists
+                (
+                    select * from "Permissions"
+                    where "Permissions"."ReferenceId"="InheritPermission"
+                        and "Permissions"."PermissionType" & 4=4
+                        and
+                        (
+                            exists
+                            (
+                                select * from "Depts"
+                                where "Depts"."TenantId"=@ipT
+                                    and "Depts"."DeptId"=@ipD
+                                    and "Depts"."Disabled"='false'
+                                    and "Permissions"."DeptId"="Depts"."DeptId"
+                                    and @ipD<>0
+                            )
+                            or
+                            (
+                                exists
+                                (
+                                    select *
+                                    from "GroupMembers" inner join "Groups" on "GroupMembers"."GroupId"="Groups"."GroupId"
+                                    where "Groups"."TenantId"=@ipT
+                                        and "Groups"."Disabled"='false'
+                                        and "Permissions"."GroupId"="GroupMembers"."GroupId"
+                                        and
+                                        (
+                                            exists
+                                            (
+                                                select * from "Depts"
+                                                where "Depts"."TenantId"=@ipT
+                                                    and "Depts"."DeptId"=@ipD
+                                                    and "Depts"."Disabled"='false'
+                                                    and "GroupMembers"."DeptId"="Depts"."DeptId"
+                                                    and @ipD<>0
+                                            )
+                                            or
+                                            (
+                                                "GroupMembers"."UserId"=@ipU
+                                                and @ipU<>0
+                                            )
+                                        )
+                                       
+                                )
+                            )
+                            or
+                            (
+                                (
+                                    "Permissions"."UserId"=@ipU
+                                    or "Permissions"."UserId"=-1
+                                )
+                                and @ipU<>0
+                            )
+                        )
+                )
+            )
         )
-
     union all
-
     select
         "t1"."SiteId",
         "t1"."ParentId",

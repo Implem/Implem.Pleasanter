@@ -25,6 +25,10 @@
         {
             "Language": "es",
             "Body": "¿Estás seguro de que quieres cambiar de inquilino?"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bạn có chắc muốn thay đổi người thuê không?"
         }
     ]
 }
