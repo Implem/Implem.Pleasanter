@@ -86,6 +86,46 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             Context context, SiteSettings ss, BaseItemModel model)
         {
             var values = new List<(string, object)>();
+            values.Add(ReadNameValue(
+                context: context,
+                ss: ss,
+                columnName: nameof(model.SiteId),
+                value: model.SiteId));
+            values.Add(ReadNameValue(
+                context: context,
+                ss: ss,
+                columnName: nameof(model.Title),
+                value: model.Title?.Value));
+            values.Add(ReadNameValue(
+                context: context,
+                ss: ss,
+                columnName: nameof(model.Body),
+                value: model.Body));
+            values.Add(ReadNameValue(
+                context: context,
+                ss: ss,
+                columnName: nameof(model.Ver),
+                value: model.Ver));
+            values.Add(ReadNameValue(
+                context: context,
+                ss: ss,
+                columnName: nameof(model.Creator),
+                value: model.Creator.Id));
+            values.Add(ReadNameValue(
+                context: context,
+                ss: ss,
+                columnName: nameof(model.Updator),
+                value: model.Updator.Id));
+            values.Add(ReadNameValue(
+                context: context,
+                ss: ss,
+                columnName: nameof(model.CreatedTime),
+                value: model.CreatedTime?.Value));
+            values.Add(ReadNameValue(
+                context: context,
+                ss: ss,
+                columnName: nameof(model.UpdatedTime),
+                value: model.UpdatedTime?.Value));
             values.AddRange(model
                 .ClassHash
                 .Select(element => ReadNameValue(
@@ -131,16 +171,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 values.Add(ReadNameValue(
                     context: context,
                     ss: ss,
-                    columnName: nameof(ResultModel.Title),
-                    value: resultModel.Title?.Value));
-                values.Add(ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: nameof(ResultModel.Body),
-                    value: resultModel.Body));
-                values.Add(ReadNameValue(
-                    context: context,
-                    ss: ss,
                     columnName: nameof(ResultModel.Status),
                     value: resultModel.Status?.Value));
                 values.Add(ReadNameValue(
@@ -169,16 +199,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 values.Add(ReadNameValue(
                     context: context,
                     ss: ss,
-                    columnName: nameof(IssueModel.Title),
-                    value: issueModel.Title?.Value));
-                values.Add(ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: nameof(IssueModel.Body),
-                    value: issueModel.Body));
-                values.Add(ReadNameValue(
-                    context: context,
-                    ss: ss,
                     columnName: nameof(IssueModel.StartTime),
                     value: issueModel.StartTime));
                 values.Add(ReadNameValue(
@@ -196,6 +216,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ss: ss,
                     columnName: nameof(IssueModel.ProgressRate),
                     value: issueModel.ProgressRate.Value));
+                values.Add(ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(IssueModel.RemainingWorkValue),
+                    value: issueModel.RemainingWorkValue.Value));
                 values.Add(ReadNameValue(
                     context: context,
                     ss: ss,
