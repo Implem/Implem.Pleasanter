@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Cliente/servicio"
+        },
+        {
+            "Language": "vn",
+            "Body": "Khách hàng/Dịch vụ"
         }
     ]
 }

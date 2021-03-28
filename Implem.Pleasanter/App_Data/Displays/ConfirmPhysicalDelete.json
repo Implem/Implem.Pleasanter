@@ -25,6 +25,10 @@
         {
             "Language": "es",
             "Body": "Esta operación no puede deshacerse. ¿Está seguro de que quiere eliminar?"
+        },
+        {
+            "Language": "vn",
+            "Body": "Thao tác này không thể khôi phục. Bạn có chắc muốn xóa không?"
         }
     ]
 }

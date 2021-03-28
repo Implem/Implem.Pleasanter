@@ -25,6 +25,10 @@
         {
             "Language": "es",
             "Body": "Solo pueden introducirse valores numéricos."
+        },
+        {
+            "Language": "vn",
+            "Body": "Chỉ có thể nhập giá trị số."
         }
     ]
 }

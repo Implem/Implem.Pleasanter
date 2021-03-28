@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Por favor, seleccione un archivo."
+        },
+        {
+            "Language": "vn",
+            "Body": "Xin mời chọn tệp."
         }
     ]
 }

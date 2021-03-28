@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Sesión"
+        },
+        {
+            "Language": "vn",
+            "Body": "Phiên làm việc"
         }
     ]
 }

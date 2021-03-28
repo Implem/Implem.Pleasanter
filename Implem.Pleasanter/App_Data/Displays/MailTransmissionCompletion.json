@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Se ha enviado un correo electrónico."
+        },
+        {
+            "Language": "vn",
+            "Body": "Email đã được gửi."
         }
     ]
 }

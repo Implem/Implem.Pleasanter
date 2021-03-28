@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Copiar con comentarios"
+        },
+        {
+            "Language": "vn",
+            "Body": "Sao chép bình luận"
         }
     ]
 }

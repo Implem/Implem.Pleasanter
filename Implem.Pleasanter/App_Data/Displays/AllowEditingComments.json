@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Permitir editar comentarios"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cho phép sửa bình luận"
         }
     ]
 }

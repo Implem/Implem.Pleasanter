@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "No se encontró el \" {0} \" especificado en \" {1} \"."
+        },
+        {
+            "Language": "vn",
+            "Body": "\" {0} \" được chỉ định không tìm thấy trong \" {1} \"."
         }
     ]
 }

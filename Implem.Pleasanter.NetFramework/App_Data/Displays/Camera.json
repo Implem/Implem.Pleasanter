@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Cámara"
+        },
+        {
+            "Language": "vn",
+            "Body": "Máy ảnh"
         }
     ]
 }

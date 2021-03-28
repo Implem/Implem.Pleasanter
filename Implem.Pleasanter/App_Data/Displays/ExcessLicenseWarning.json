@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "El número de usuarios supera los {0} usuarios con licencia."
+        },
+        {
+            "Language": "vn",
+            "Body": "Số lượng người dùng vượt quá {0} người dùng được cấp phép."
         }
     ]
 }

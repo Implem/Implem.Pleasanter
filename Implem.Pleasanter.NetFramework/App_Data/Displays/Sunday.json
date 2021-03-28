@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Domingo"
+        },
+        {
+            "Language": "vn",
+            "Body": "Chủ nhật"
         }
     ]
 }

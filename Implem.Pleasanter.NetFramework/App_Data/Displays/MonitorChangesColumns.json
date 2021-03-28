@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Columnas controladas para cambios"
+        },
+        {
+            "Language": "vn",
+            "Body": "Các mục cần theo dõi sự thay đổi"
         }
     ]
 }

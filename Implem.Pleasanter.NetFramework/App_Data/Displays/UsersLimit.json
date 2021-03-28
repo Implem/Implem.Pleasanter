@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "El número de usuarios ha alcanzado el límite superior."
+        },
+        {
+            "Language": "vn",
+            "Body": "Số lượng người dùng đã đạt giới hạn."
         }
     ]
 }

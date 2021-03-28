@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Al ver el procesamiento"
+        },
+        {
+            "Language": "vn",
+            "Body": "Khi xử lí hiển thị"
         }
     ]
 }

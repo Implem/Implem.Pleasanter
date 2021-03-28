@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Por favor, seleccione el destino."
+        },
+        {
+            "Language": "vn",
+            "Body": "Xin mời chọn mục tiêu."
         }
     ]
 }

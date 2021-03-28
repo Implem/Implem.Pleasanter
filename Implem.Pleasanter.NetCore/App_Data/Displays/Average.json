@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Promedio"
+        },
+        {
+            "Language": "vn",
+            "Body": "Trung bình"
         }
     ]
 }

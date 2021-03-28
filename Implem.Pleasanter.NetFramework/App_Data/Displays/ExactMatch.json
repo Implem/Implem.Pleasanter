@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Coincidencia exacta"
+        },
+        {
+            "Language": "vn",
+            "Body": "Khớp chính xác"
         }
     ]
 }

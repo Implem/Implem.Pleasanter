@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "{0} está invitado actualmente y no puede aprobarse."
+        },
+        {
+            "Language": "vn",
+            "Body": "{0} đang được mời nên không thể phê duyệt."
         }
     ]
 }

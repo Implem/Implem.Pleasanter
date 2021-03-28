@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Mover hacia arriba"
+        },
+        {
+            "Language": "vn",
+            "Body": "Chuyển lên"
         }
     ]
 }

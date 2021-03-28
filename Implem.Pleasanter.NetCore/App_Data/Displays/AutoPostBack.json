@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Publicación automática de nuevo"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tự động đăng lại"
         }
     ]
 }

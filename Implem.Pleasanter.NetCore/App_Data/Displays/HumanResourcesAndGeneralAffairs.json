@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Recursos Humanos y Asuntos Generales"
+        },
+        {
+            "Language": "vn",
+            "Body": "Nhân sự và các vấn đề chung"
         }
     ]
 }

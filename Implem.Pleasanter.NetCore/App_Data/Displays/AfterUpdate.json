@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Dopo l'aggiornamento"
+        },
+        {
+            "Language": "vn",
+            "Body": "Sau khi cập nhật"
         }
     ]
 }

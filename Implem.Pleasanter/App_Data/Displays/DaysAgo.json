@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Hace {0} días"
+        },
+        {
+            "Language": "vn",
+            "Body": "{0} ngày trước"
         }
     ]
 }

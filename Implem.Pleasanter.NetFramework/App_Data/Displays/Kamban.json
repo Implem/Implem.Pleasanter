@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Kanban"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bảng tin"
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Formato de cuadrícula"
+        },
+        {
+            "Language": "vn",
+            "Body": "Định dạng danh sách"
         }
     ]
 }

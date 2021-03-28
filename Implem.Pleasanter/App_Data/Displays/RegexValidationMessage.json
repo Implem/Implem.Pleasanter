@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Mensaje de error"
+        },
+        {
+            "Language": "vn",
+            "Body": "Thông báo lỗi"
         }
     ]
 }

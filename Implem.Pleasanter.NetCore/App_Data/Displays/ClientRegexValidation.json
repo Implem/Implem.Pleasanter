@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Expresión regular del lado del cliente"
+        },
+        {
+            "Language": "vn",
+            "Body": "Biểu thức chính quy phía người dùng"
         }
     ]
 }

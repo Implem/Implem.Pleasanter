@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Usar ejercicio fiscal"
+        },
+        {
+            "Language": "vn",
+            "Body": "Sử dụng năm tài khóa"
         }
     ]
 }

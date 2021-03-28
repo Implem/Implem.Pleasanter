@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Invitando..."
+        },
+        {
+            "Language": "vn",
+            "Body": "Đang mời..."
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Registro di output"
+        },
+        {
+            "Language": "vn",
+            "Body": "Nhật ký đầu ra"
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Operaciones"
+        },
+        {
+            "Language": "vn",
+            "Body": "Thao tác"
         }
     ]
 }

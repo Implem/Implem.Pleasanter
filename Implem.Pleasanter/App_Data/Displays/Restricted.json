@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "El uso de esta función está limitado."
+        },
+        {
+            "Language": "vn",
+            "Body": "Việc sử dụng chức năng này bị hạn chế."
         }
     ]
 }

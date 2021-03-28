@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Datos no válidos: Fila: {0} Columna: {1}"
+        },
+        {
+            "Language": "vn",
+            "Body": "Dữ liệu không hợp lệ. Dòng: {0} Cột: {1}"
         }
     ]
 }

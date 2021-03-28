@@ -9,6 +9,10 @@
         {
             "Language": "ja",
             "Body": "このページを離れようとしています。"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bạn có muốn tải lại trang web này không?"
         }
     ]
 }

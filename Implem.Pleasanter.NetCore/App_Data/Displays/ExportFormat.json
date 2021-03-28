@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Formato de exportación"
+        },
+        {
+            "Language": "vn",
+            "Body": "Định dạng xuất dữ liệu"
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Agregaciones"
+        },
+        {
+            "Language": "vn",
+            "Body": "Thống kê"
         }
     ]
 }

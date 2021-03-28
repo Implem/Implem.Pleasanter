@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "No se ha establecido la dirección de correo electrónico."
+        },
+        {
+            "Language": "vn",
+            "Body": "Địa chỉ email chưa được thiết lập."
         }
     ]
 }

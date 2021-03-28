@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Resúmenes"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tổng hợp"
         }
     ]
 }

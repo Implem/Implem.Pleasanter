@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Más reciente"
+        },
+        {
+            "Language": "vn",
+            "Body": "Mới nhất"
         }
     ]
 }

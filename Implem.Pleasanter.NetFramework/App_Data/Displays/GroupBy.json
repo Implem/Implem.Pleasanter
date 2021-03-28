@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Agrupar por"
+        },
+        {
+            "Language": "vn",
+            "Body": "Phân loại"
         }
     ]
 }

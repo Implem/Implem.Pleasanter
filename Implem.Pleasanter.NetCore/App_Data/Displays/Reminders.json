@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Recordatorios"
+        },
+        {
+            "Language": "vn",
+            "Body": "Nhắc nhở"
         }
     ]
 }

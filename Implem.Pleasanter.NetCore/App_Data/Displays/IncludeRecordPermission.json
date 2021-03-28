@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Incluir permiso de registro"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bao gồm kiểm soát truy cập bản ghi"
         }
     ]
 }

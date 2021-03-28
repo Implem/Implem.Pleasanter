@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Limpiar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Xóa"
         }
     ]
 }

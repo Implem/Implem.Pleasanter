@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Configuración de pestañas"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cài đặt tab"
         }
     ]
 }

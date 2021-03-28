@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Gestionar tabla"
+        },
+        {
+            "Language": "vn",
+            "Body": "Quản lí bảng"
         }
     ]
 }

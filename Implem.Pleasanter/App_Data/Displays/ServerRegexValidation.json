@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Expresión regular del lado del servidor"
+        },
+        {
+            "Language": "vn",
+            "Body": "Biểu thức chính quy phía máy chủ"
         }
     ]
 }

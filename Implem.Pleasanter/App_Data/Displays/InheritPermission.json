@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Heredar permiso"
+        },
+        {
+            "Language": "vn",
+            "Body": "Kế thừa quyền truy cập"
         }
     ]
 }

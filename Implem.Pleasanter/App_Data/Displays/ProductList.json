@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Lista de productos"
+        },
+        {
+            "Language": "vn",
+            "Body": "Danh sách sản phẩm"
         }
     ]
 }

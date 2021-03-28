@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Solo imagen"
+        },
+        {
+            "Language": "vn",
+            "Body": "Chỉ hình ảnh"
         }
     ]
 }

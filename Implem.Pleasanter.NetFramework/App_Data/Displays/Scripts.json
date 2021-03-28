@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Guiones"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bản thảo"
         }
     ]
 }

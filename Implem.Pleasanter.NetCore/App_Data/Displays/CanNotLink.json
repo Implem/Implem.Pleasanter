@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "No hay elementos que puedan vincularse."
+        },
+        {
+            "Language": "vn",
+            "Body": "Không có mục nào có thể kết nối."
         }
     ]
 }

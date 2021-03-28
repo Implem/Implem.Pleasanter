@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Comprimiendo..."
+        },
+        {
+            "Language": "vn",
+            "Body": "Đang nén..."
         }
     ]
 }

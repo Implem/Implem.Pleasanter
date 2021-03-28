@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Gracias por registrarse para usar el entorno de demostración.\n\nPor favor, acceda a la URL siguiente para hacer una prueba.\n\n{0}\n\nEl entorno de demostración está disponible para usar durante {1} día(s)."
+        },
+        {
+            "Language": "vn",
+            "Body": "Cảm ơn bạn đã đăng kí sử dụng môi trường giả lập.\r\n\r\n Xin mời truy cập vào URL sau để thử. \r\n\r\n{0}\r\n\r\n Môi trường giả lập có hiệu lực trong {1} ngày."
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Se ha creado la clave API."
+        },
+        {
+            "Language": "vn",
+            "Body": "Khóa API đã được tạo."
         }
     ]
 }

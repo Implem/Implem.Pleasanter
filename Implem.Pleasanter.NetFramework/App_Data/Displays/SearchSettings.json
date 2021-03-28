@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Ajustes de búsqueda"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cài đặt tìm kiếm"
         }
     ]
 }

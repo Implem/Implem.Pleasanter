@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Creado el"
+        },
+        {
+            "Language": "vn",
+            "Body": "Thời gian tạo"
         }
     ]
 }

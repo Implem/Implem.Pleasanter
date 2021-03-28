@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "No puede enviarse a una dirección de correo electrónico externa.[{0}]"
+        },
+        {
+            "Language": "vn",
+            "Body": "Không thể gửi đến địa chỉ email bên ngoài.[{0}]"
         }
     ]
 }

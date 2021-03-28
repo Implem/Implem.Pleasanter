@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Se ha realizado la sincronización."
+        },
+        {
+            "Language": "vn",
+            "Body": "Đồng bộ đã hoàn thành."
         }
     ]
 }

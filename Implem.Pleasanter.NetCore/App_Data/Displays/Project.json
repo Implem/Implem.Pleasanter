@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Proyecto"
+        },
+        {
+            "Language": "vn",
+            "Body": "Dự án"
         }
     ]
 }

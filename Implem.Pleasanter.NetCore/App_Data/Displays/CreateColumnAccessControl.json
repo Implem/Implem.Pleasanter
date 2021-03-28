@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Control de acceso durante la creación"
+        },
+        {
+            "Language": "vn",
+            "Body": "Kiểm soát truy cập trong khi tạo"
         }
     ]
 }

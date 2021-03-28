@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Movimiento en bloque"
+        },
+        {
+            "Language": "vn",
+            "Body": "Di chuyển hàng loạt"
         }
     ]
 }

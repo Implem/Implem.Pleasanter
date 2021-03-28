@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "{0} Correo electrónico de invitación"
+        },
+        {
+            "Language": "vn",
+            "Body": "Email mời {0}"
         }
     ]
 }

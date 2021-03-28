@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Sin ajuste"
+        },
+        {
+            "Language": "vn",
+            "Body": "Không bao ngoài"
         }
     ]
 }

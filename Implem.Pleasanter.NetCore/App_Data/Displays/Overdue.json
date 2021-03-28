@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Retrasado"
+        },
+        {
+            "Language": "vn",
+            "Body": "Quá hạn"
         }
     ]
 }

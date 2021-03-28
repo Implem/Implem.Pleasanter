@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "La contraseña debe ser diferente de la ID de inicio de sesión."
+        },
+        {
+            "Language": "vn",
+            "Body": "Mật khẩu phải khác với ID đăng nhập."
         }
     ]
 }

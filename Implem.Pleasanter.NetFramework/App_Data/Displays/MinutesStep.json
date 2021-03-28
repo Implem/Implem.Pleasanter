@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Minutos paso"
+        },
+        {
+            "Language": "vn",
+            "Body": "Khoảng thời gian (phút)"
         }
     ]
 }

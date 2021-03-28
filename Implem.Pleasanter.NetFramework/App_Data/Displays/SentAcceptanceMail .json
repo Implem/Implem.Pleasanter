@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Por favor, espere un poco para recibir una URL de inicio de sesión."
+        },
+        {
+            "Language": "vn",
+            "Body": "Xin chờ một lúc để nhận được URL đăng nhập."
         }
     ]
 }

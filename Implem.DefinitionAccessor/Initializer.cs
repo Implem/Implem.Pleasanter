@@ -543,7 +543,8 @@ namespace Implem.DefinitionAccessor
                     Ja = o.LabelText,
                     De = o.LabelText_de,
                     Ko = o.LabelText_ko,
-                    Es = o.LabelText_es
+                    Es = o.LabelText_es,
+                    Vn = o.LabelText_vn
                 })
                 .Union(Def.ColumnDefinitionCollection
                     .Where(o => !o.Base)
@@ -555,7 +556,8 @@ namespace Implem.DefinitionAccessor
                         Ja = o.Label,
                         De = o.TableName,
                         Ko = o.TableName,
-                        Es = o.TableName
+                        Es = o.TableName,
+                        Vn = o.TableName
                     })
                     .Distinct())
                 .Where(o => !Displays.DisplayHash.ContainsKey(o.Id))
@@ -593,6 +595,11 @@ namespace Implem.DefinitionAccessor
                             {
                                 Language = "es",
                                 Body = o.Es
+                            },
+                            new DisplayElement
+                            {
+                                Language = "vn",
+                                Body = o.Vn
                             }
                         }
                     }));

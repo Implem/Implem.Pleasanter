@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Hace una hora"
+        },
+        {
+            "Language": "vn",
+            "Body": "1 giờ trước"
         }
     ]
 }

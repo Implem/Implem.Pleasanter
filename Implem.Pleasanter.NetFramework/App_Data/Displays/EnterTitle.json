@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Por favor, introduzca el título."
+        },
+        {
+            "Language": "vn",
+            "Body": "Xin mời nhập tiêu đề."
         }
     ]
 }

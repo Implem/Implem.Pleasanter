@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Se ha creado el código MVC."
+        },
+        {
+            "Language": "vn",
+            "Body": "Đã hoàn thành xử lí tạo mã MVC."
         }
     ]
 }

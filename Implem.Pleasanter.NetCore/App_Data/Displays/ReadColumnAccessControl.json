@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Control de acceso para lectura"
+        },
+        {
+            "Language": "vn",
+            "Body": "Kiểm soát truy cập trong lúc đọc"
         }
     ]
 }

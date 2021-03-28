@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Usar medio período"
+        },
+        {
+            "Language": "vn",
+            "Body": "Sử dụng nửa khoảng thời gian"
         }
     ]
 }

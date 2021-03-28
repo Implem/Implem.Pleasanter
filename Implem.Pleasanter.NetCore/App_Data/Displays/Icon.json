@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Icono"
+        },
+        {
+            "Language": "vn",
+            "Body": "Biểu tượng"
         }
     ]
 }

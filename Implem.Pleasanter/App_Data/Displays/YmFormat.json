@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "yyyy/MM"
+        },
+        {
+            "Language": "vn",
+            "Body": "yyyy/MM"
         }
     ]
 }

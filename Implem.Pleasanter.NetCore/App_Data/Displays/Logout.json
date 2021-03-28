@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Cierre de sesión"
+        },
+        {
+            "Language": "vn",
+            "Body": "Đăng xuất"
         }
     ]
 }

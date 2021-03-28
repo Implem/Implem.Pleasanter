@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Columnas para exportar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Mục xuất dữ liệu"
         }
     ]
 }

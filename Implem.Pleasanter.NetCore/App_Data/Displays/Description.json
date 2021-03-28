@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Descripción"
+        },
+        {
+            "Language": "vn",
+            "Body": "Mô tả"
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Usuario"
+        },
+        {
+            "Language": "vn",
+            "Body": "Người dùng"
         }
     ]
 }

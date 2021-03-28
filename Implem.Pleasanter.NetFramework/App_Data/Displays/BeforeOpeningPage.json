@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Antes de abrir la página"
+        },
+        {
+            "Language": "vn",
+            "Body": "Trước khi mở trang"
         }
     ]
 }

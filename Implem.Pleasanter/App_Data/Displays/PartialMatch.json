@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Concordancia parcial"
+        },
+        {
+            "Language": "vn",
+            "Body": "Khớp một phần"
         }
     ]
 }

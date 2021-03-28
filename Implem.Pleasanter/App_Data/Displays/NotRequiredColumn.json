@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "No está incluida la columna obligatoria. Columna:{0}"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cột bắt buộc đang không được thêm vào. Cột:{0}"
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Formato de archivo incorrecto."
+        },
+        {
+            "Language": "vn",
+            "Body": "Định dạng tệp không chính xác."
         }
     ]
 }

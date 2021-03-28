@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Correo electrónico enviado"
+        },
+        {
+            "Language": "vn",
+            "Body": "Email đã gửi"
         }
     ]
 }

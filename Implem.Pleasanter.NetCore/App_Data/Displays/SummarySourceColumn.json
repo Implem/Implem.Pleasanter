@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Columna de resumen"
+        },
+        {
+            "Language": "vn",
+            "Body": "Mục tổng hợp"
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "{0} se actualizó."
+        },
+        {
+            "Language": "vn",
+            "Body": "{0} mục đã được cập nhật."
         }
     ]
 }

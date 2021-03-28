@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Por favor, seleccione una plantilla de la lista. Se mostrará la pantalla de ejemplo."
+        },
+        {
+            "Language": "vn",
+            "Body": "Xin mời chọn mẫu từ danh sách. Màn hình ví dụ sẽ được hiển thị."
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "tamaño de la uña del pulgar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Kích thước ảnh thu nhỏ"
         }
     ]
 }

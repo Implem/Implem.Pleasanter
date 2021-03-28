@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Truncar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Làm tròn xuống"
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "No hay registros aplicables."
+        },
+        {
+            "Language": "vn",
+            "Body": "Không có bản ghi mục tiêu."
         }
     ]
 }

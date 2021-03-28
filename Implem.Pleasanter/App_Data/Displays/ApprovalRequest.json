@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Solicitud de aprobación"
+        },
+        {
+            "Language": "vn",
+            "Body": "Yêu cầu phê duyệt"
         }
     ]
 }

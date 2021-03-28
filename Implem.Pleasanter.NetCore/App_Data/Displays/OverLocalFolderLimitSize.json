@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Hay un archivo que supera el tamaño límite de {0} Mbyte."
+        },
+        {
+            "Language": "vn",
+            "Body": "Có tệp vượt quá dung lượng tối đa {0} Mbyte."
         }
     ]
 }

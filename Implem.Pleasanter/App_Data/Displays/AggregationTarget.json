@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Destino de la agregación"
+        },
+        {
+            "Language": "vn",
+            "Body": "Đối tượng thống kê"
         }
     ]
 }

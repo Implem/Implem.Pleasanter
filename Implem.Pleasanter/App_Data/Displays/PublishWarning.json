@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Esta tabla está abierta al público y pueden verla los usuarios no registrados."
+        },
+        {
+            "Language": "vn",
+            "Body": "Bảng này mở công khai và cho phép người dùng chưa đăng nhập có thể xem."
         }
     ]
 }

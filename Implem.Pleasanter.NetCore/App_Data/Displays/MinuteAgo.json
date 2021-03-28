@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Hace un minuto"
+        },
+        {
+            "Language": "vn",
+            "Body": "1 phút trước"
         }
     ]
 }

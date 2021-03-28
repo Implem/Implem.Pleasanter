@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Esta licencia ha caducado y no puede usarse."
+        },
+        {
+            "Language": "vn",
+            "Body": "Giấy phép này đã hết hạn nên không thể sử dụng."
         }
     ]
 }

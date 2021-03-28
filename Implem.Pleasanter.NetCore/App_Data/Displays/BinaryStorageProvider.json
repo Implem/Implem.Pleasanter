@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Almacenamiento"
+        },
+        {
+            "Language": "vn",
+            "Body": "Nơi lưu trữ"
         }
     ]
 }

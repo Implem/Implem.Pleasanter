@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "No hay datos aplicables."
+        },
+        {
+            "Language": "vn",
+            "Body": "Không có dữ liệu phù hợp."
         }
     ]
 }

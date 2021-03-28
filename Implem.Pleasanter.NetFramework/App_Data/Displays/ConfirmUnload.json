@@ -25,6 +25,10 @@
         {
             "Language": "es",
             "Body": "¿Está seguro de que quiere salir de este sitio? Es posible que no se guarden los cambios realizados."
+        },
+        {
+            "Language": "vn",
+            "Body": "Bạn có chắc muốn rời khỏi trang web này không? Thay đổi của bạn có thể sẽ không được lưu."
         }
     ]
 }

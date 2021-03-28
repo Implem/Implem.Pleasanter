@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "{0} se ha aprobado ya y no puede aprobarse."
+        },
+        {
+            "Language": "vn",
+            "Body": "{0} đã được phê duyệt trước đó nên không thể phê duyệt lại."
         }
     ]
 }

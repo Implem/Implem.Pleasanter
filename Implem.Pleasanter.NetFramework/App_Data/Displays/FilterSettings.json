@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Ajustes del filtro"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cài đặt bộ lọc"
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Error de sintaxis en el archivo de parámetros \"{0}\". No se puede iniciar el sistema."
+        },
+        {
+            "Language": "vn",
+            "Body": "Tệp tham số \"{0}\" lỗi cú pháp. Không thể khởi động hệ thống."
         }
     ]
 }

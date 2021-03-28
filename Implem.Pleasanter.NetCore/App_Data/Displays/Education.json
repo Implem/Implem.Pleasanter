@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Educación/HRD"
+        },
+        {
+            "Language": "vn",
+            "Body": "Giáo dục/Phát triển nguồn nhân lực"
         }
     ]
 }

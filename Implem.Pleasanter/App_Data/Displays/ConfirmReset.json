@@ -25,6 +25,10 @@
         {
             "Language": "es",
             "Body": "¿Está seguro de que quiere restablecer?"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bạn có chắc muốn đặt lại không?"
         }
     ]
 }

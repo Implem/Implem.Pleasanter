@@ -25,6 +25,10 @@
         {
             "Language": "es",
             "Body": "Copiado al portapapeles"
+        },
+        {
+            "Language": "vn",
+            "Body": "Sao chép vào khay nhớ tạm"
         }
     ]
 }

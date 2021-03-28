@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Creación de elemento vinculado"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tạo mục liên kết"
         }
     ]
 }

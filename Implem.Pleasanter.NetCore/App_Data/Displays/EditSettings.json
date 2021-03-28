@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Editar configuración"
+        },
+        {
+            "Language": "vn",
+            "Body": "Thay đổi cài đặt"
         }
     ]
 }

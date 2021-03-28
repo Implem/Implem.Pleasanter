@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Se ha eliminado la imagen."
+        },
+        {
+            "Language": "vn",
+            "Body": "Ảnh đã được xóa."
         }
     ]
 }

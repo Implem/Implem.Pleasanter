@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Ha recibido una invitación para {0}.\n\nAcceda a la siguiente URL y registre su información de usuario, luego solicite aprobación.\n\n{1}\n\n"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bạn đã được mời đến {0}.\r\n\r\nTruy cập đường dẫn sau và đăng kí thông tin của bạn, sau đó yêu cầu phê duyệt.\r\n\r\n{1}\r\n\r\n"
         }
     ]
 }

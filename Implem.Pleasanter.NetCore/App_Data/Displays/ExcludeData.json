@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Excluir datos"
+        },
+        {
+            "Language": "vn",
+            "Body": "Dữ liệu loại bỏ"
         }
     ]
 }
