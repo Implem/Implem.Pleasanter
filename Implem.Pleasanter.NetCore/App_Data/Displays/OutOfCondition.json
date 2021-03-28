@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "No se cumplen las condiciones."
+        },
+        {
+            "Language": "vn",
+            "Body": "Điều kiện không đáp ứng"
         }
     ]
 }

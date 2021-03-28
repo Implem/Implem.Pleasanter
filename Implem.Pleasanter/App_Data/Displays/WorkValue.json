@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Volumen de trabajo"
+        },
+        {
+            "Language": "vn",
+            "Body": "Khối lượng công việc"
         }
     ]
 }

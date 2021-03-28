@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "No hay columnas vinculadas."
+        },
+        {
+            "Language": "vn",
+            "Body": "Không có mục đã liên kết."
         }
     ]
 }

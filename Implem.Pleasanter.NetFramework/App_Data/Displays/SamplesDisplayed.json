@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Se muestra una muestra de la pantalla de la plantilla seleccionada. Pulse el botón Crear para usar esta plantilla."
+        },
+        {
+            "Language": "vn",
+            "Body": "Màn hình ví dụ của mẫu được chọn đã hiển thị. Xin mời ấn nút \"Tạo mới\" để sử dụng mẫu này."
         }
     ]
 }

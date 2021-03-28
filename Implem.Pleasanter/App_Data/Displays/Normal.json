@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Normal"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bình thường"
         }
     ]
 }

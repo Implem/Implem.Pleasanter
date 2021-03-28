@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Se ha enviado la solicitud de aprobación para \" {0} \"."
+        },
+        {
+            "Language": "vn",
+            "Body": "Yêu cầu phê duyệt cho \" {0} \" đã được gửi."
         }
     ]
 }

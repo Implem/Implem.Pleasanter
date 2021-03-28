@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "1 hora después"
+        },
+        {
+            "Language": "vn",
+            "Body": "1 giờ sau"
         }
     ]
 }

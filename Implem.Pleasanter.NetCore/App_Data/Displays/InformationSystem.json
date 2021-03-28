@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Sistema de información"
+        },
+        {
+            "Language": "vn",
+            "Body": "Hệ thống thông tin"
         }
     ]
 }

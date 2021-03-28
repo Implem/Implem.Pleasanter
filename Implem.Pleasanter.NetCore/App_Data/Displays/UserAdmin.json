@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Administración de usuarios"
+        },
+        {
+            "Language": "vn",
+            "Body": "Quản lí người dùng"
         }
     ]
 }

@@ -28,5 +28,6 @@
     "LabelText_zh": "数字值",
     "LabelText_de": "Numerischer Wert",
     "LabelText_ko": "수치값",
-    "LabelText_es": "Valor numérico"
+    "LabelText_es": "Valor numérico",
+    "LabelText_vn": "Giá trị số"
 }

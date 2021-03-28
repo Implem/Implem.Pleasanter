@@ -25,6 +25,10 @@
         {
             "Language": "es",
             "Body": "Debes iniciar sesión para hacer esto."
+        },
+        {
+            "Language": "vn",
+            "Body": "Bạn phải đăng nhập để thực hiện thao tác này."
         }
     ]
 }

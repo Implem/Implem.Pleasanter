@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Selección múltiple"
+        },
+        {
+            "Language": "vn",
+            "Body": "Nhiều lựa chọn"
         }
     ]
 }

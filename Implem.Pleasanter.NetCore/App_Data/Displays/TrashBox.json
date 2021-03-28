@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Papelera de reciclaje"
+        },
+        {
+            "Language": "vn",
+            "Body": "Thùng rác"
         }
     ]
 }

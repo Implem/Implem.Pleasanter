@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Inicio de sesión"
+        },
+        {
+            "Language": "vn",
+            "Body": "Đăng nhập"
         }
     ]
 }

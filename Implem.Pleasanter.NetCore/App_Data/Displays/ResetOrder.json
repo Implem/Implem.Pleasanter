@@ -25,6 +25,10 @@
         {
             "Language": "es",
             "Body": "Restablecer orden"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cài lại thứ tự"
         }
     ]
 }

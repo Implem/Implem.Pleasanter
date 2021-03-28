@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Configuración de API"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cài đặt API"
         }
     ]
 }

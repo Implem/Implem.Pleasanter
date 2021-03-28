@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Se ha enviado una solicitud no válida."
+        },
+        {
+            "Language": "vn",
+            "Body": "Yêu cầu không hợp lệ đã được gửi."
         }
     ]
 }

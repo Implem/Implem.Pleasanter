@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Actualizar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cập nhật"
         }
     ]
 }

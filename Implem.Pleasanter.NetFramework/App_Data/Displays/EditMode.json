@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Modo de edición"
+        },
+        {
+            "Language": "vn",
+            "Body": "Chế độ chỉnh sửa"
         }
     ]
 }

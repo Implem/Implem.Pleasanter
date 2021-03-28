@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Dirección IP no válida."
+        },
+        {
+            "Language": "vn",
+            "Body": "Địa chỉ IP không hợp lệ."
         }
     ]
 }

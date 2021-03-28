@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "El código SSO especificado no puede usarse."
+        },
+        {
+            "Language": "vn",
+            "Body": "Mã SSO chỉ định không thể sử dụng."
         }
     ]
 }

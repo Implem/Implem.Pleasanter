@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Capacidad de almacenamiento usada"
+        },
+        {
+            "Language": "vn",
+            "Body": "Dung lượng sử dụng"
         }
     ]
 }

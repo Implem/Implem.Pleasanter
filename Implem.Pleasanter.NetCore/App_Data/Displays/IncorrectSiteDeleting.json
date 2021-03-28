@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "El título o la contraseña para el sitio especificado no es correcto."
+        },
+        {
+            "Language": "vn",
+            "Body": "Tiêu đề hoặc mật khẩu cho trang web chỉ định không chính xác."
         }
     ]
 }

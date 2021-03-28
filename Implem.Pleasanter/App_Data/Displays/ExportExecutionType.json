@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Tipo de ejecución"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cách thức xuất dữ liệu"
         }
     ]
 }

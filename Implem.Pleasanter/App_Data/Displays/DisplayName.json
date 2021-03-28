@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Nombre mostrado"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tên hiển thị"
         }
     ]
 }

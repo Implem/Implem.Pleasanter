@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Se han realizado copias de seguridad de los archivos de la solución."
+        },
+        {
+            "Language": "vn",
+            "Body": "Đã hoàn thành sao lưu các tệp giải pháp."
         }
     ]
 }

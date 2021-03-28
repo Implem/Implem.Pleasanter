@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Permiso para crear registros"
+        },
+        {
+            "Language": "vn",
+            "Body": "Các quyền cho phép khi tạo bản ghi"
         }
     ]
 }

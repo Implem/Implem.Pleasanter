@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Configuración de permisos"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cài đặt quyền"
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Use el siguiente código como código de autenticación de Pleasanter. \nCódigo de autenticación: [AuthenticationCode] \nGracias por usar Pleasanter. "
+        },
+        {
+            "Language": "vn",
+            "Body": "Sử dụng mã sau như là mã xác thực Pleasanter. \nMã xác thực: [AuthenticationCode]\nCảm ơn đã sử dụng Pleasanter."
         }
     ]
 }

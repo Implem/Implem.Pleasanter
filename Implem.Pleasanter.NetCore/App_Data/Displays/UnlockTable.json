@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Desbloquear tabla"
+        },
+        {
+            "Language": "vn",
+            "Body": "Mở khóa bảng"
         }
     ]
 }

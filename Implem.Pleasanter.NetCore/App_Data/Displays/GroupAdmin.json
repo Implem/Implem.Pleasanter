@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Administración del grupo"
+        },
+        {
+            "Language": "vn",
+            "Body": "Quản lí nhóm"
         }
     ]
 }

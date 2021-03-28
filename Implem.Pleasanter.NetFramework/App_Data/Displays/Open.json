@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Abierto"
+        },
+        {
+            "Language": "vn",
+            "Body": "Mở"
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Al cargar la configuración del sitio"
+        },
+        {
+            "Language": "vn",
+            "Body": "Khi tải cài đặt trang web"
         }
     ]
 }

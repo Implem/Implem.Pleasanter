@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Ver entorno de demostración"
+        },
+        {
+            "Language": "vn",
+            "Body": "Xem môi trường giả lập"
         }
     ]
 }

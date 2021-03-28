@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Actualizar registro con el mismo ID."
+        },
+        {
+            "Language": "vn",
+            "Body": "Cập nhật bản ghi có cùng ID."
         }
     ]
 }

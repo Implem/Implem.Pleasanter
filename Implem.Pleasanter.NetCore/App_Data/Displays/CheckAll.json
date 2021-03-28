@@ -25,6 +25,10 @@
         {
             "Language": "es",
             "Body": "Marcar todo"
+        },
+        {
+            "Language": "vn",
+            "Body": "Chọn tất cả"
         }
     ]
 }

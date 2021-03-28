@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Cifras decimales"
+        },
+        {
+            "Language": "vn",
+            "Body": "Số chữ số sau dấu thập phân"
         }
     ]
 }

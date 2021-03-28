@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Valor predeterminado"
+        },
+        {
+            "Language": "vn",
+            "Body": "Giá trị mặc định"
         }
     ]
 }

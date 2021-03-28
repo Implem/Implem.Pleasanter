@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "No puede realizarse esta operación."
+        },
+        {
+            "Language": "vn",
+            "Body": "Thao tác này không thể thực hiện."
         }
     ]
 }

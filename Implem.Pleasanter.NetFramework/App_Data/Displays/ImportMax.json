@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Los datos que superen {0} filas no pueden importarse a la vez."
+        },
+        {
+            "Language": "vn",
+            "Body": "Dữ liệu quá {0} dòng không thể nhập vào cùng một lúc."
         }
     ]
 }

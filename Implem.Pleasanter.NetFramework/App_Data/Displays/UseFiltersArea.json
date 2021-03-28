@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Usar área de filtros"
+        },
+        {
+            "Language": "vn",
+            "Body": "Sử dụng khu vực cài đặt bộ lọc"
         }
     ]
 }

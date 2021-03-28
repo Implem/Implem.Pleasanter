@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Se produjo un error durante el proceso de exportación."
+        },
+        {
+            "Language": "vn",
+            "Body": "Có lỗi xảy ra trong quá trình xuất dữ liệu.\nTên xuất ra: {0}\nThông tin lỗi: {1}"
         }
     ]
 }

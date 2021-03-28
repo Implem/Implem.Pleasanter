@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Administración de arrendatarios"
+        },
+        {
+            "Language": "vn",
+            "Body": "Quản lí người thuê"
         }
     ]
 }

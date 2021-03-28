@@ -25,6 +25,10 @@
         {
             "Language": "es",
             "Body": "¿Le gustaría crear un enlace?"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bạn có muốn tạo liên kết không?"
         }
     ]
 }

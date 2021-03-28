@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Rango numérico"
+        },
+        {
+            "Language": "vn",
+            "Body": "Khoảng giá trị số"
         }
     ]
 }

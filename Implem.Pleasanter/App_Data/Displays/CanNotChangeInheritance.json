@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "No puede modificar la configuración de herencia para sitios ya heredados."
+        },
+        {
+            "Language": "vn",
+            "Body": "Bạn không thể thay đổi cài đặt kế thừa cho các trang web đã được kế thừa."
         }
     ]
 }

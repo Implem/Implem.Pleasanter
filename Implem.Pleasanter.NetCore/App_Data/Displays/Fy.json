@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "FY {0}"
+        },
+        {
+            "Language": "vn",
+            "Body": "Năm tài khóa {0}"
         }
     ]
 }

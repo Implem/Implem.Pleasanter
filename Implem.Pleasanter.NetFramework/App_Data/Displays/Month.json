@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Mes"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tháng"
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Blog"
+        },
+        {
+            "Language": "vn",
+            "Body": "Blog"
         }
     ]
 }

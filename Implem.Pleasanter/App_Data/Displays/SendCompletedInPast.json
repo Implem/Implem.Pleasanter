@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Enviar junto con el que rellenó con anterioridad."
+        },
+        {
+            "Language": "vn",
+            "Body": "Gửi cùng với những thứ bạn đã hoàn thành"
         }
     ]
 }

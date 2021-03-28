@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Asuntos Legales"
+        },
+        {
+            "Language": "vn",
+            "Body": "Vấn đề pháp lí"
         }
     ]
 }

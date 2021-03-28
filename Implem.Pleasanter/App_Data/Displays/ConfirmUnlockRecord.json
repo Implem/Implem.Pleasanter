@@ -25,6 +25,10 @@
         {
             "Language": "es",
             "Body": "¿Estás seguro de que quieres desbloquear este registro?"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bạn có chắc muốn mở khóa bản ghi này không?"
         }
     ]
 }

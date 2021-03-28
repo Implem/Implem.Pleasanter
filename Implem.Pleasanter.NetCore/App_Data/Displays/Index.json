@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Índice"
+        },
+        {
+            "Language": "vn",
+            "Body": "Danh sách"
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Esta es una solicitud de aprobación para {0}.\n\nPor favor, acceda a la URL siguiente para la aprobación.\n\n{1}\n\n"
+        },
+        {
+            "Language": "vn",
+            "Body": "Đây là yêu cầu phê duyệt {0}.\n\nXin mời truy cập URL sau để phê duyệt.\n\n{1}\n\n"
         }
     ]
 }

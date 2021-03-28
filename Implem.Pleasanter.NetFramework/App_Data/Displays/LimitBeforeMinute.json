@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "1 minuto de más"
+        },
+        {
+            "Language": "vn",
+            "Body": "Quá 1 phút"
         }
     ]
 }

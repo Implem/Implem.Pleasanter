@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Está funcionando como el inquilino que lo cambió. Haga clic para volver al inquilino original."
+        },
+        {
+            "Language": "vn",
+            "Body": "Đang khởi chạy với người thuê được thay đổi. Bấm để quay về người thuê ban đầu."
         }
     ]
 }

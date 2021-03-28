@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "No mostrar la guía de inicio la próxima vez"
+        },
+        {
+            "Language": "vn",
+            "Body": "Không hiển thị hướng dẫn bắt đầu trong lần tới"
         }
     ]
 }

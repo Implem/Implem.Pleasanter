@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Solicitar siempre la condición de búsqueda"
+        },
+        {
+            "Language": "vn",
+            "Body": "Luôn yêu cầu điều kiện tìm kiếm"
         }
     ]
 }

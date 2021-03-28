@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Editor"
+        },
+        {
+            "Language": "vn",
+            "Body": "Trình biên tập"
         }
     ]
 }

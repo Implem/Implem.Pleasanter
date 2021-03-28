@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "La ID o la contraseña de inicio de sesión especificadas no son válidas."
+        },
+        {
+            "Language": "vn",
+            "Body": "Tài khoản đăng nhập hoặc mật khẩu không hợp lệ."
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Ejecutándose con el nuevo usuario. Haga clic para volver al usuario original."
+        },
+        {
+            "Language": "vn",
+            "Body": "Đang khởi chạy với (account) người dùng được thay đổi. Bấm để quay trở lại người dùng ban đầu."
         }
     ]
 }

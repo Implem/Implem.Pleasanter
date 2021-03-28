@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Inicio de sesión SSO"
+        },
+        {
+            "Language": "vn",
+            "Body": "Đăng nhập SSO"
         }
     ]
 }

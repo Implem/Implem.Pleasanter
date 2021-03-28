@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Por favor, arrastre y suelte el archivo."
+        },
+        {
+            "Language": "vn",
+            "Body": "Xin mời kéo thả tệp tin."
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Usuario del sitio"
+        },
+        {
+            "Language": "vn",
+            "Body": "Người dùng trang web"
         }
     ]
 }

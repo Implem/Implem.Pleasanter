@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Limite de cantidad de archivos"
+        },
+        {
+            "Language": "vn",
+            "Body": "Giới hạn số lượng tệp"
         }
     ]
 }

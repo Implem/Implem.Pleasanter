@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Clave API"
+        },
+        {
+            "Language": "vn",
+            "Body": "Khóa API"
         }
     ]
 }

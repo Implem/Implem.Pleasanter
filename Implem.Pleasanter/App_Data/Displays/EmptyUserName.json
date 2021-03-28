@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "No se ha establecido el nombre de usuario."
+        },
+        {
+            "Language": "vn",
+            "Body": "Tên người dùng chưa được cài đặt."
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Añadir al menos una dirección de correo electrónico."
+        },
+        {
+            "Language": "vn",
+            "Body": "Xin mời thêm tối thiểu 1 địa chỉ email."
         }
     ]
 }

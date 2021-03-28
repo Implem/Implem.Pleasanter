@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Pestaña Editable"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tab (có thể chỉnh sửa)"
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Compra"
+        },
+        {
+            "Language": "vn",
+            "Body": "Mua"
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Publicar para usuarios anónimos"
+        },
+        {
+            "Language": "vn",
+            "Body": "Công khai cho người dùng ẩn danh"
         }
     ]
 }

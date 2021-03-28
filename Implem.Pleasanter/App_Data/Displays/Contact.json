@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Contactar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Liên hệ"
         }
     ]
 }

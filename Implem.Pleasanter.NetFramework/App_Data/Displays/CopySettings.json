@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Copiar los ajustes"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cài đặt sao chép"
         }
     ]
 }

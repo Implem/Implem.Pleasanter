@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Notificar URL por correo electrónico"
+        },
+        {
+            "Language": "vn",
+            "Body": "Thông báo URL qua email"
         }
     ]
 }

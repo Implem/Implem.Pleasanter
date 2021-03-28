@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Nombre de visualización corto"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tên hiển thị ngắn"
         }
     ]
 }

@@ -25,6 +25,10 @@
         {
             "Language": "es",
             "Body": "No puede conectarse a la cámara."
+        },
+        {
+            "Language": "vn",
+            "Body": "Không thể kết nối đến máy ảnh."
         }
     ]
 }

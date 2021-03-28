@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Mostrar velocidad de avance"
+        },
+        {
+            "Language": "vn",
+            "Body": "Hiển thị tỉ lệ tiến độ"
         }
     ]
 }

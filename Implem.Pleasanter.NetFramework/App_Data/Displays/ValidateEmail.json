@@ -25,6 +25,10 @@
         {
             "Language": "es",
             "Body": "Dirección de correo electrónica no válida."
+        },
+        {
+            "Language": "vn",
+            "Body": "Định dạng địa chỉ email không hợp lệ."
         }
     ]
 }

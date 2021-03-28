@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "No se ha podido iniciar sesión en SAML."
+        },
+        {
+            "Language": "vn",
+            "Body": "Đăng nhập SAML thất bại."
         }
     ]
 }

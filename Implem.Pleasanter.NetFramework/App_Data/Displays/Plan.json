@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Plan"
+        },
+        {
+            "Language": "vn",
+            "Body": "Kế hoạch"
         }
     ]
 }

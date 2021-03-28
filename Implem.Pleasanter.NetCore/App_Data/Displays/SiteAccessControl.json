@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Control de acceso al sitio"
+        },
+        {
+            "Language": "vn",
+            "Body": "Kiểm soát truy cập trang web"
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Automático (base de datos o carpeta local)"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tự động (Cơ sở dữ liệu hoặc thư mục cục bộ)"
         }
     ]
 }

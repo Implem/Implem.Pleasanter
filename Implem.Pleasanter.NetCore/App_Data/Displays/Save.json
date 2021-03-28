@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Guardar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Lưu"
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Control de acceso a los registros"
+        },
+        {
+            "Language": "vn",
+            "Body": "Kiểm soát truy cập bản ghi"
         }
     ]
 }
