@@ -351,8 +351,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     icon: "ui-icon-copy",
                     selector: "#CopyDialog",
                     _using: copyButton
-                        && context.CanCreate(ss: ss)
-                        && !readOnly)
+                        && context.CanCreate(ss: ss))
                 .Button(
                     controlId: "MoveTargetsCommand",
                     text: Displays.Move(context: context),
