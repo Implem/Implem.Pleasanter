@@ -44,12 +44,12 @@ $p.exportSitePackage = function () {
     $p.setData($('#IncludeRecordPermission'));
     $p.setData($('#IncludeColumnPermission'));
     var data = $p.getData($('#SitePackageForm'));
-    location.href = $('.main-form').attr('action').replace('_action_', 'ExportSitePackage')
+    $p.transition($('.main-form').attr('action').replace('_action_', 'ExportSitePackage')
         + '?SitePackagesSelectableAll=' + data.SitePackagesSelectableAll
         + '&UseIndentOption=' + data.UseIndentOption
         + '&IncludeSitePermission=' + data.IncludeSitePermission
         + '&IncludeRecordPermission=' + data.IncludeRecordPermission
-        + '&IncludeColumnPermission=' + data.IncludeColumnPermission;
+        + '&IncludeColumnPermission=' + data.IncludeColumnPermission);
     $p.closeDialog($('#ExportSitePackageDialog'));
     $('#ExportSitePackageDialog').html('');
 }

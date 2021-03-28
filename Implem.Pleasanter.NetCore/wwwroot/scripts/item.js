@@ -17,20 +17,20 @@
                 $p.ajax(url, 'post', null, null, false);
                 if (additional !== 0) history.pushState(null, null, url);
             } else {
-                location.href = url;
+                $p.transition(url);
             }
         }
     }
 }
 
 $p.new = function ($control) {
-    location.href = $('#BaseUrl').val() +
+    $p.transition($('#BaseUrl').val() +
         $control.attr('data-to-site-id') + '/new' +
         '?FromSiteId=' + $control.attr('data-from-site-id') +
         '&LinkId=' + $control.attr('data-id') +
             ($control.attr('from-tab-index')
                 ? '&FromTabIndex=' + $control.attr('from-tab-index')
-                : '');
+                : ''));
 }
 
 $p.copy = function ($control) {
@@ -47,7 +47,7 @@ $p.search = function (searchWord, redirect, offset) {
             'items/search?text=' + escape(searchWord)
         if (offset > 0) url += '&offset=' + offset;
         if (redirect) {
-            location.href = url;
+            $p.transition(url);
         } else if (offset !== '-1') {
             $p.ajax(url, 'get', false);
             if (offset === 0) history.pushState(null, null, url);
