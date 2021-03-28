@@ -382,6 +382,7 @@ namespace Implem.Pleasanter.Models
                         where: Rds.DeptsWhere()
                             .TenantId(context.TenantId)
                             .DeptId(_operator: ">0")
+                            .Disabled(false)
                             .SqlWhereLike(
                                 tableName: "Depts",
                                 name: "SearchText",
@@ -399,6 +400,7 @@ namespace Implem.Pleasanter.Models
                         where: Rds.GroupsWhere()
                             .TenantId(context.TenantId)
                             .GroupId(_operator: ">0")
+                            .Disabled(false)
                             .SqlWhereLike(
                                 tableName: "Groups",
                                 name: "SearchText",
@@ -422,6 +424,7 @@ namespace Implem.Pleasanter.Models
                         where: Rds.UsersWhere()
                             .TenantId(context.TenantId)
                             .UserId(_operator: ">0")
+                            .Disabled(false)
                             .SqlWhereLike(
                                 tableName: "\"Users\"",
                                 name: "SearchText",
@@ -551,6 +554,7 @@ namespace Implem.Pleasanter.Models
                     column: Rds.GroupsColumn().GroupId(),
                     where: Rds.GroupsWhere()
                         .TenantId(context.TenantId)
+                        .Disabled(false)
                         .GroupId_In(sub: Rds.SelectGroupMembers(
                             column: Rds.GroupMembersColumn().GroupId(),
                             where: Rds.GroupMembersWhere()
