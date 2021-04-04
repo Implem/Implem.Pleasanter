@@ -1,10 +1,10 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
-using Implem.Pleasanter.Libraries.DataTypes;
-using Implem.Pleasanter.Libraries.Mails;
 using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
@@ -12,8 +12,6 @@ using System.ComponentModel;
 using System.Dynamic;
 using System.Linq;
 using System.Text;
-using System.Collections;
-using Implem.Pleasanter.Libraries.Server;
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public class ServerScriptModel : IDisposable
@@ -56,6 +54,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     columnSorter.Value));
             ((INotifyPropertyChanged)Model).PropertyChanged += DataPropertyChanged;
             Context = new ServerScriptModelContext(
+                logBuilder: context.LogBuilder,
+                userData: context.UserData,
+                errorData: context.ErrorData,
                 formStringRaw: context.FormStringRaw,
                 formString: context.FormString,
                 ajax: context.Ajax,
@@ -87,8 +88,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 contentType: context.ContentType,
                 onTesting: onTesting,
                 scriptDepth: context.ServerScriptDepth,
-                logBuilder: context.LogBuilder,
-                userData: context.UserData,
                 controlId: context.Forms.ControlId());
             SiteSettings = new ServerScriptModelSiteSettings
             {
@@ -216,6 +215,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             public StringBuilder LogBuilder;
             public ExpandoObject UserData;
+            public ErrorData ErrorData;
             public readonly ServerScriptModelContextServerScript ServerScript;
             public readonly string FormStringRaw;
             public readonly string FormString;
@@ -249,6 +249,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             public readonly string ControlId;
 
             public ServerScriptModelContext(
+                StringBuilder logBuilder,
+                ExpandoObject userData,
+                ErrorData errorData,
                 string formStringRaw,
                 string formString,
                 bool ajax,
@@ -280,12 +283,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 string contentType,
                 bool onTesting,
                 long scriptDepth,
-                StringBuilder logBuilder,
-                ExpandoObject userData,
                 string controlId)
             {
                 LogBuilder = logBuilder;
-                UserData = userData; 
+                UserData = userData;
+                ErrorData = errorData;
                 ServerScript = new ServerScriptModelContextServerScript(
                     onTesting: onTesting,
                     scriptDepth: scriptDepth);
@@ -324,6 +326,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             public void Log(object log)
             {
                 LogBuilder.AppendLine(log?.ToString() ?? string.Empty);
+            }
+
+            public void Error(string message)
+            {
+                ErrorData.Type = General.Error.Types.CustomError;
+                ErrorData.Data = message.ToSingleArray();
             }
         }
 

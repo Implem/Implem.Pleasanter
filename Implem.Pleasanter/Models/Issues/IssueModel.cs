@@ -987,6 +987,10 @@ namespace Implem.Pleasanter.Models
             SetByBeforeCreateServerScript(
                 context: context,
                 ss: ss);
+            if (context.ErrorData.Type != Error.Types.None)
+            {
+                return context.ErrorData;
+            }
             var statements = new List<SqlStatement>();
             if (extendedSqls)
             {
@@ -1147,6 +1151,10 @@ namespace Implem.Pleasanter.Models
             SetByBeforeUpdateServerScript(
                 context: context,
                 ss: ss);
+            if (context.ErrorData.Type != Error.Types.None)
+            {
+                return context.ErrorData;
+            }
             var notifications = GetNotifications(
                 context: context,
                 ss: ss,
@@ -1486,6 +1494,10 @@ namespace Implem.Pleasanter.Models
             SetByBeforeDeleteServerScript(
                 context: context,
                 ss: ss);
+            if (context.ErrorData.Type != Error.Types.None)
+            {
+                return context.ErrorData;
+            }
             var notifications = context.ContractSettings.Notice != false && notice
                 ? GetNotifications(
                     context: context,

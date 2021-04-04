@@ -431,6 +431,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message CustomError(Context context, params string[] data)
+        {
+            return Get(
+                id: "CustomError",
+                text: Displays.CustomError(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message DefinitionNotFound(Context context, params string[] data)
         {
             return Get(
@@ -1786,6 +1796,16 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return ResponseMessage(
                 message: Created(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseCustomError(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: CustomError(
                     context: context,
                     data: data),
                 target: target);

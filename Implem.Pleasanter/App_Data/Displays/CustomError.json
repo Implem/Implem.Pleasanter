@@ -1,0 +1,9 @@
+﻿{
+    "Id": "CustomError",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "{0}"
+        }
+    ]
+}
