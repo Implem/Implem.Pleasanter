@@ -588,6 +588,11 @@ namespace Implem.DefinitionAccessor
                             {
                                 Language = "es",
                                 Body = o.Es
+                            },
+                            new DisplayElement
+                            {
+                                Language = "vn",
+                                Body = o.Vn
                             }
                         }
                     }));

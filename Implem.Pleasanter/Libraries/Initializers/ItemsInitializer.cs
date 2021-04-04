@@ -21,30 +21,30 @@ namespace Implem.Pleasanter.Libraries.Initializers
                 context: context,
                 statements: Rds.PhysicalDeleteItems(
                     where: Rds.ItemsWhere().Add(raw: sqlExists.Params(
-                        "[Items_Deleted]",
-                        "[Items_Deleted].[ReferenceId]",
-                        "[Items].[ReferenceId]"))));
+                        "\"Items_deleted\"",
+                        "\"Items_deleted\".\"ReferenceId\"",
+                        "\"Items\".\"ReferenceId\""))));
             Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.PhysicalDeleteSites(
                     where: Rds.ItemsWhere().Add(raw: sqlExists.Params(
-                        "[Sites_Deleted]",
-                        "[Sites_Deleted].[SiteId]",
-                        "[Sites].[SiteId]"))));
+                        "\"Sites_deleted\"",
+                        "\"Sites_deleted\".\"SiteId\"",
+                        "\"Sites\".\"SiteId\""))));
             Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.DeleteSites(
                     factory: context,
                     where: Rds.ItemsWhere().Add(raw: sqlExists.Params(
-                        "[Items_Deleted]",
-                        "[Items_Deleted].[ReferenceId]",
-                        "[Sites].[SiteId]"))));
+                        "\"Items_deleted\"",
+                        "\"Items_deleted\".\"ReferenceId\"",
+                        "\"Sites\".\"SiteId\""))));
             new SiteCollection(
                 context: context,
                 where: Rds.SitesWhere().Add(raw: "not " + sqlExists.Params(
-                    "[Items]",
-                    "[Items].[ReferenceId]",
-                    "[Sites].[SiteId]")),
+                    "\"Items\"",
+                    "\"Items\".\"ReferenceId\"",
+                    "\"Sites\".\"SiteId\"")),
                 tableType: Sqls.TableTypes.Normal)
                     .ForEach(siteModel =>
                     {
@@ -78,9 +78,9 @@ namespace Implem.Pleasanter.Libraries.Initializers
             new SiteCollection(
                 context: context,
                 where: Rds.SitesWhere().Add(raw: "not " + sqlExists.Params(
-                    "[Items_Deleted]",
-                    "[Items_Deleted].[ReferenceId]",
-                    "[Sites].[SiteId]")),
+                    "\"Items_deleted\"",
+                    "\"Items_deleted\".\"ReferenceId\"",
+                    "\"Sites\".\"SiteId\"")),
                 tableType: Sqls.TableTypes.Deleted)
                     .ForEach(siteModel =>
                     {
@@ -105,17 +105,17 @@ namespace Implem.Pleasanter.Libraries.Initializers
                 context: context,
                 statements: Rds.PhysicalDeleteIssues(
                     where: Rds.ItemsWhere().Add(raw: sqlExists.Params(
-                        "[Issues_Deleted]",
-                        "[Issues_Deleted].[IssueId]",
-                        "[Issues].[IssueId]"))));
+                        "\"Issues_deleted\"",
+                        "\"Issues_deleted\".\"IssueId\"",
+                        "\"Issues\".\"IssueId\""))));
             Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.DeleteIssues(
                     factory: context,
                     where: Rds.ItemsWhere().Add(raw: sqlExists.Params(
-                        "[Items_Deleted]",
-                        "[Items_Deleted].[ReferenceId]",
-                        "[Issues].[IssueId]"))));
+                        "\"Items_deleted\"",
+                        "\"Items_deleted\".\"ReferenceId\"",
+                        "\"Issues\".\"IssueId\""))));
             Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectIssues(
@@ -127,13 +127,13 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         .Sites_TenantId(),
                     join: Rds.IssuesJoinDefault()
                         .Add(
-                            tableName: "Items",
+                            tableName: "\"Items\"",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
-                            joinExpression: "[Items].[ReferenceId]=[Issues].[IssueId]")
+                            joinExpression: "\"Items\".\"ReferenceId\"=\"Issues\".\"IssueId\"")
                         .Add(
-                            tableName: "Sites",
+                            tableName: "\"Sites\"",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
-                            joinExpression: "[Sites].[SiteId]=[Issues].[SiteId]"),
+                            joinExpression: "\"Sites\".\"SiteId\"=\"Issues\".\"SiteId\""),
                     where: Rds.ItemsWhere()
                         .ReferenceId(
                             tableName: "Items",
@@ -197,16 +197,16 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         .Ver(),
                     join: Rds.IssuesJoinDefault()
                         .Add(
-                            tableName: "Items_Deleted",
+                            tableName: "\"Items_deleted\"",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
-                            joinExpression: "[Items_Deleted].[ReferenceId]=[Issues].[IssueId]")
+                            joinExpression: "\"Items_deleted\".\"ReferenceId\"=\"Issues\".\"IssueId\"")
                         .Add(
-                            tableName: "Sites",
+                            tableName: "\"Sites\"",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
-                            joinExpression: "[Sites].[SiteId]=[Issues].[SiteId]"),
+                            joinExpression: "\"Sites\".\"SiteId\"=\"Issues\".\"SiteId\""),
                     where: Rds.ItemsWhere()
                         .ReferenceId(
-                            tableName: "Items_Deleted",
+                            tableName: "Items_deleted",
                             _operator: " is null")))
                                 .AsEnumerable()
                                 .ForEach(dataRow =>
@@ -251,17 +251,17 @@ namespace Implem.Pleasanter.Libraries.Initializers
                 context: context,
                 statements: Rds.PhysicalDeleteResults(
                     where: Rds.ItemsWhere().Add(raw: sqlExists.Params(
-                        "[Results_Deleted]",
-                        "[Results_Deleted].[ResultId]",
-                        "[Results].[ResultId]"))));
+                        "\"Results_deleted\"",
+                        "\"Results_deleted\".\"ResultId\"",
+                        "\"Results\".\"ResultId\""))));
             Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.DeleteResults(
                     factory: context,
                     where: Rds.ItemsWhere().Add(raw: sqlExists.Params(
-                        "[Items_Deleted]",
-                        "[Items_Deleted].[ReferenceId]",
-                        "[Results].[ResultId]"))));
+                        "\"Items_deleted\"",
+                        "\"Items_deleted\".\"ReferenceId\"",
+                        "\"Results\".\"ResultId\""))));
             Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectResults(
@@ -273,13 +273,13 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         .Sites_TenantId(),
                     join: Rds.ResultsJoinDefault()
                         .Add(
-                            tableName: "Items",
+                            tableName: "\"Items\"",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
-                            joinExpression: "[Items].[ReferenceId]=[Results].[ResultId]")
+                            joinExpression: "\"Items\".\"ReferenceId\"=\"Results\".\"ResultId\"")
                         .Add(
-                            tableName: "Sites",
+                            tableName: "\"Sites\"",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
-                            joinExpression: "[Sites].[SiteId]=[Results].[SiteId]"),
+                            joinExpression: "\"Sites\".\"SiteId\"=\"Results\".\"SiteId\""),
                     where: Rds.ItemsWhere()
                         .ReferenceId(
                             tableName: "Items",
@@ -343,16 +343,16 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         .Ver(),
                     join: Rds.ResultsJoinDefault()
                         .Add(
-                            tableName: "Items_Deleted",
+                            tableName: "\"Items_deleted\"",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
-                            joinExpression: "[Items_Deleted].[ReferenceId]=[Results].[ResultId]")
+                            joinExpression: "\"Items_deleted\".\"ReferenceId\"=\"Results\".\"ResultId\"")
                         .Add(
-                            tableName: "Sites",
+                            tableName: "\"Sites\"",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
-                            joinExpression: "[Sites].[SiteId]=[Results].[SiteId]"),
+                            joinExpression: "\"Sites\".\"SiteId\"=\"Results\".\"SiteId\""),
                     where: Rds.ItemsWhere()
                         .ReferenceId(
-                            tableName: "Items_Deleted",
+                            tableName: "Items_deleted",
                             _operator: " is null")))
                                 .AsEnumerable()
                                 .ForEach(dataRow =>
@@ -397,17 +397,17 @@ namespace Implem.Pleasanter.Libraries.Initializers
                 context: context,
                 statements: Rds.PhysicalDeleteWikis(
                     where: Rds.ItemsWhere().Add(raw: sqlExists.Params(
-                        "[Wikis_Deleted]",
-                        "[Wikis_Deleted].[WikiId]",
-                        "[Wikis].[WikiId]"))));
+                        "\"Wikis_deleted\"",
+                        "\"Wikis_deleted\".\"WikiId\"",
+                        "\"Wikis\".\"WikiId\""))));
             Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.DeleteWikis(
                     factory: context,
                     where: Rds.ItemsWhere().Add(raw: sqlExists.Params(
-                        "[Items_Deleted]",
-                        "[Items_Deleted].[ReferenceId]",
-                        "[Wikis].[WikiId]"))));
+                        "\"Items_deleted\"",
+                        "\"Items_deleted\".\"ReferenceId\"",
+                        "\"Wikis\".\"WikiId\""))));
             Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectWikis(
@@ -419,13 +419,13 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         .Sites_TenantId(),
                     join: Rds.WikisJoinDefault()
                         .Add(
-                            tableName: "Items",
+                            tableName: "\"Items\"",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
-                            joinExpression: "[Items].[ReferenceId]=[Wikis].[WikiId]")
+                            joinExpression: "\"Items\".\"ReferenceId\"=\"Wikis\".\"WikiId\"")
                         .Add(
-                            tableName: "Sites",
+                            tableName: "\"Sites\"",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
-                            joinExpression: "[Sites].[SiteId]=[Wikis].[SiteId]"),
+                            joinExpression: "\"Sites\".\"SiteId\"=\"Wikis\".\"SiteId\""),
                     where: Rds.ItemsWhere()
                         .ReferenceId(
                             tableName: "Items",
@@ -489,16 +489,16 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         .Ver(),
                     join: Rds.WikisJoinDefault()
                         .Add(
-                            tableName: "Items_Deleted",
+                            tableName: "\"Items_deleted\"",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
-                            joinExpression: "[Items_Deleted].[ReferenceId]=[Wikis].[WikiId]")
+                            joinExpression: "\"Items_deleted\".\"ReferenceId\"=\"Wikis\".\"WikiId\"")
                         .Add(
-                            tableName: "Sites",
+                            tableName: "\"Sites\"",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
-                            joinExpression: "[Sites].[SiteId]=[Wikis].[SiteId]"),
+                            joinExpression: "\"Sites\".\"SiteId\"=\"Wikis\".\"SiteId\""),
                     where: Rds.ItemsWhere()
                         .ReferenceId(
-                            tableName: "Items_Deleted",
+                            tableName: "Items_deleted",
                             _operator: " is null")))
                                 .AsEnumerable()
                                 .ForEach(dataRow =>

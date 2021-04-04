@@ -149,19 +149,19 @@ namespace Implem.Pleasanter.Models
             if (ss.Links
                 ?.Where(o => o.SiteId > 0)
                 .Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
-                {
-                    issues.ForEach(issueModel =>
-                        issueModel.Title = new Title(
+            {
+                issues.ForEach(issueModel =>
+                    issueModel.Title = new Title(
+                        context: context,
+                        ss: ss,
+                        id: issueModel.IssueId,
+                        ver: issueModel.Ver,
+                        isHistory: issueModel.VerType == Versions.VerTypes.History, 
+                        data: issueModel.PropertyValues(
                             context: context,
-                            ss: ss,
-                            id: issueModel.IssueId,
-                            ver: issueModel.Ver,
-                            isHistory: issueModel.VerType == Versions.VerTypes.History, 
-                            data: issueModel.PropertyValues(
-                                context: context,
-                                columns: ss.GetTitleColumns(context: context)),
-                            getLinkedTitle: true));
-                }
+                            columns: ss.GetTitleColumns(context: context)),
+                        getLinkedTitle: true));
+            }
             issues.ForEach(issueModel =>
                 Repository.ExecuteNonQuery(
                     context: context,
@@ -216,19 +216,19 @@ namespace Implem.Pleasanter.Models
             if (ss.Links
                 ?.Where(o => o.SiteId > 0)
                 .Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
-                {
-                    results.ForEach(resultModel =>
-                        resultModel.Title = new Title(
+            {
+                results.ForEach(resultModel =>
+                    resultModel.Title = new Title(
+                        context: context,
+                        ss: ss,
+                        id: resultModel.ResultId,
+                        ver: resultModel.Ver,
+                        isHistory: resultModel.VerType == Versions.VerTypes.History, 
+                        data: resultModel.PropertyValues(
                             context: context,
-                            ss: ss,
-                            id: resultModel.ResultId,
-                            ver: resultModel.Ver,
-                            isHistory: resultModel.VerType == Versions.VerTypes.History, 
-                            data: resultModel.PropertyValues(
-                                context: context,
-                                columns: ss.GetTitleColumns(context: context)),
-                            getLinkedTitle: true));
-                }
+                            columns: ss.GetTitleColumns(context: context)),
+                        getLinkedTitle: true));
+            }
             results.ForEach(resultModel =>
                 Repository.ExecuteNonQuery(
                     context: context,
@@ -283,19 +283,19 @@ namespace Implem.Pleasanter.Models
             if (ss.Links
                 ?.Where(o => o.SiteId > 0)
                 .Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
-                {
-                    wikis.ForEach(wikiModel =>
-                        wikiModel.Title = new Title(
+            {
+                wikis.ForEach(wikiModel =>
+                    wikiModel.Title = new Title(
+                        context: context,
+                        ss: ss,
+                        id: wikiModel.WikiId,
+                        ver: wikiModel.Ver,
+                        isHistory: wikiModel.VerType == Versions.VerTypes.History, 
+                        data: wikiModel.PropertyValues(
                             context: context,
-                            ss: ss,
-                            id: wikiModel.WikiId,
-                            ver: wikiModel.Ver,
-                            isHistory: wikiModel.VerType == Versions.VerTypes.History, 
-                            data: wikiModel.PropertyValues(
-                                context: context,
-                                columns: ss.GetTitleColumns(context: context)),
-                            getLinkedTitle: true));
-                }
+                            columns: ss.GetTitleColumns(context: context)),
+                        getLinkedTitle: true));
+            }
             wikis.ForEach(wikiModel =>
                 Repository.ExecuteNonQuery(
                     context: context,

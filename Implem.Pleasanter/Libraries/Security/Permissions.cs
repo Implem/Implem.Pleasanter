@@ -128,7 +128,7 @@ namespace Implem.Pleasanter.Libraries.Security
             {
                 where.Add(
                     tableName: "Sites",
-                    raw: $"[Sites].[ParentId]={ss.SiteId}");
+                    raw: $"\"Sites\".\"ParentId\"={ss.SiteId}");
             }
             else
             {

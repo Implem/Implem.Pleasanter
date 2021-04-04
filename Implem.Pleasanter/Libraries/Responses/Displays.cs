@@ -1759,6 +1759,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CustomError(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CustomError",
+                data: data);
+        }
+
         public static string Daily(
             Context context,
             params string[] data)

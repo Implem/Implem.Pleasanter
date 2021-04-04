@@ -16,7 +16,6 @@ namespace Implem.Pleasanter.Models
                 : new ErrorData(type: Error.Types.HasNotPermission);
         }
 
-
         public static ErrorData OnReading(Context context, SiteSettings ss)
         {
             return context.CanManageSite(ss: ss)

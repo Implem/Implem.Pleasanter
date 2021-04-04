@@ -144,9 +144,9 @@ namespace Implem.Pleasanter.Libraries.Search
                         .Items_Title(),
                     join: new SqlJoinCollection(
                         new SqlJoin(
-                            tableBracket: "[Items]",
+                            tableBracket: "\"Items\"",
                             joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "[Items].[ReferenceId]=[Sites].[SiteId]")),
+                            joinExpression: "\"Items\".\"ReferenceId\"=\"Sites\".\"SiteId\"")),
                     where: Rds.SitesWhere()
                         .TenantId(context.TenantId)
                         .SiteId_In(dataRows
@@ -164,9 +164,9 @@ namespace Implem.Pleasanter.Libraries.Search
                         .Items_Title(),
                     join: new SqlJoinCollection(
                         new SqlJoin(
-                            tableBracket: "[Items]",
+                            tableBracket: "\"Items\"",
                             joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "[Items].[ReferenceId]=[Issues].[IssueId]")),
+                            joinExpression: "\"Items\".\"ReferenceId\"=\"Issues\".\"IssueId\"")),
                     where: Rds.IssuesWhere()
                         .IssueId_In(dataRows
                             .Where(o => o.String("ReferenceType") == "Issues")
@@ -183,9 +183,9 @@ namespace Implem.Pleasanter.Libraries.Search
                         .Items_Title(),
                     join: new SqlJoinCollection(
                         new SqlJoin(
-                            tableBracket: "[Items]",
+                            tableBracket: "\"Items\"",
                             joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "[Items].[ReferenceId]=[Results].[ResultId]")),
+                            joinExpression: "\"Items\".\"ReferenceId\"=\"Results\".\"ResultId\"")),
                     where: Rds.ResultsWhere()
                         .ResultId_In(dataRows
                             .Where(o => o.String("ReferenceType") == "Results")
@@ -202,9 +202,9 @@ namespace Implem.Pleasanter.Libraries.Search
                         .Items_Title(),
                     join: new SqlJoinCollection(
                         new SqlJoin(
-                            tableBracket: "[Items]",
+                            tableBracket: "\"Items\"",
                             joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "[Items].[ReferenceId]=[Wikis].[WikiId]")),
+                            joinExpression: "\"Items\".\"ReferenceId\"=\"Wikis\".\"WikiId\"")),
                     where: Rds.WikisWhere()
                         .WikiId_In(dataRows
                             .Where(o => o.String("ReferenceType") == "Wikis")
@@ -667,7 +667,7 @@ namespace Implem.Pleasanter.Libraries.Search
                 columnName: columnName,
                 name: name,
                 forward: forward);
-            return $"exists(select * from [{tableName}] where [{tableName}].[ReferenceId]={ss.IdColumnBracket()} and {like})";
+            return $"exists(select * from \"{tableName}\" where \"{tableName}\".\"ReferenceId\"={ss.IdColumnBracket()} and {like})";
         }
 
         /// <summary>
@@ -768,9 +768,9 @@ namespace Implem.Pleasanter.Libraries.Search
                     column: column,
                     join: new SqlJoinCollection(
                         new SqlJoin(
-                            tableBracket: "[Sites]",
+                            tableBracket: "\"Sites\"",
                             joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
+                            joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
                     where: Rds.ItemsWhere()
                         .FullTextWhere(
                             context: context,
@@ -779,7 +779,7 @@ namespace Implem.Pleasanter.Libraries.Search
                             raw: Def.Sql.CanRead,
                             _using: !context.HasPrivilege && !context.Publish)
                         .Add(
-                            raw: "[Items].[SiteId] in ({0})".Params(siteIdList?.Join()),
+                            raw: "\"Items\".\"SiteId\" in ({0})".Params(siteIdList?.Join()),
                             _using: siteIdList?.Any() == true),
                     param: FullTextParam(words),
                     orderBy: orderBy,
@@ -789,9 +789,9 @@ namespace Implem.Pleasanter.Libraries.Search
                     tableName: "Items",
                     join: new SqlJoinCollection(
                         new SqlJoin(
-                            tableBracket: "[Sites]",
+                            tableBracket: "\"Sites\"",
                             joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
+                            joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
                     where: Rds.ItemsWhere()
                         .FullTextWhere(
                             context: context,
@@ -800,7 +800,7 @@ namespace Implem.Pleasanter.Libraries.Search
                             raw: Def.Sql.CanRead,
                             _using: !context.HasPrivilege && !context.Publish)
                         .Add(
-                            raw: "[Items].[SiteId] in ({0})".Params(siteIdList?.Join()),
+                            raw: "\"Items\".\"SiteId\" in ({0})".Params(siteIdList?.Join()),
                             _using: siteIdList?.Any() == true),
                     param: FullTextParam(words));
         }
@@ -977,15 +977,15 @@ namespace Implem.Pleasanter.Libraries.Search
                         .Users_DeptId()
                         .Users_UserId(),
                     join: Rds.ItemsJoinDefault().Add(new SqlJoin(
-                        tableBracket: "[Users]",
+                        tableBracket: "\"Users\"",
                         joinType: SqlJoin.JoinTypes.Inner,
-                        joinExpression: "[Users].[UserId]=[Items].[Updator]")),
+                        joinExpression: "\"Users\".\"UserId\"=\"Items\".\"Updator\"")),
                     where: siteId > 0
                         ? Rds.ItemsWhere().SiteId(siteId)
                         : Rds.ItemsWhere().Add(raw: new List<string>()
                         {
-                            "[Items].[SearchIndexCreatedTime] is null",
-                            "[Items].[SearchIndexCreatedTime]<>[Items].[UpdatedTime]"
+                            "\"Items\".\"SearchIndexCreatedTime\" is null",
+                            "\"Items\".\"SearchIndexCreatedTime\"<>\"Items\".\"UpdatedTime\""
                         }.Join(" or ")),
                     top: siteId > 0
                         ? 0

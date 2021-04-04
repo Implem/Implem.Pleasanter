@@ -394,7 +394,9 @@ namespace Implem.Pleasanter.Controllers
             var log = new SysLogModel(context: context);
             var json = Authentications.SignIn(
                 context: context,
-                returnUrl: returnUrl);
+                returnUrl: Url.IsLocalUrl(returnUrl)
+                    ? returnUrl
+                    : string.Empty);
             log.Finish(
                 context: context,
                 responseSize: json.Length);

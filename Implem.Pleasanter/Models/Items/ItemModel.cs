@@ -1434,18 +1434,18 @@ namespace Implem.Pleasanter.Models
             else if (column?.Linked() == true)
             {
                 column?.SetChoiceHash(
-                context: context,
-                siteId: column.SiteId,
-                linkHash: column.SiteSettings.LinkHash(
                     context: context,
-                    columnName: column.Name,
-                    searchIndexes: searchIndexes,
-                    searchColumnOnly: searchColumnOnly,
-                    offset: offset,
-                    parentClass: parentClass,
-                    parentIds: parentIds,
-                    setTotalCount: true),
-                searchIndexes: searchIndexes);
+                    siteId: column.SiteId,
+                    linkHash: column.SiteSettings.LinkHash(
+                        context: context,
+                        columnName: column.Name,
+                        searchIndexes: searchIndexes,
+                        searchColumnOnly: searchColumnOnly,
+                        offset: offset,
+                        parentClass: parentClass,
+                        parentIds: parentIds,
+                        setTotalCount: true),
+                    searchIndexes: searchIndexes);
             }
             else
             {

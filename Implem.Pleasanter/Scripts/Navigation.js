@@ -36,7 +36,7 @@ $p.back = function () {
     }
 }
 
-$p.transition = function(url) {
+$p.transition = function (url) {
     try {
         location.href = url;
     } catch (e) {
