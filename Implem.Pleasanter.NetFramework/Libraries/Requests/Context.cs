@@ -6,6 +6,7 @@ using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
@@ -33,6 +34,7 @@ namespace Implem.Pleasanter.NetFramework.Libraries.Requests
         public override Stopwatch Stopwatch { get; set; } = new Stopwatch();
         public override StringBuilder LogBuilder { get; set; } = new StringBuilder();
         public override ExpandoObject UserData { get; set; } = new ExpandoObject();
+        public override ErrorData ErrorData { get; set; } = new ErrorData(type: Error.Types.None);
         public override bool Authenticated { get; set; }
         public override bool SwitchUser { get; set; }
         public override string SessionGuid { get; set; } = Strings.NewGuid();

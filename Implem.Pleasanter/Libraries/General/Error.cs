@@ -25,6 +25,7 @@ namespace Implem.Pleasanter.Libraries.General
             CanNotLink,
             CanNotPerformed,
             CantSetAtTopOfSite,
+            CustomError,
             DefinitionNotFound,
             DeleteConflicts,
             Duplicated,
@@ -166,6 +167,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.CantSetAtTopOfSite:
                     return Messages.CantSetAtTopOfSite(
+                        context: context,
+                        data: data);
+                case Types.CustomError:
+                    return Messages.CustomError(
                         context: context,
                         data: data);
                 case Types.DefinitionNotFound:
