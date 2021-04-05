@@ -8,9 +8,9 @@ Pleasanter（プリザンター）はオープンソースのビジネスアプ�
 **2020年5月、待望の正式版をリリースしました！**  
 [クロスプラットフォーム版(.NET Core)はこちら](https://github.com/Implem/Implem.Pleasanter.NetCore)
 
-## 利用ガイド
+## ユーザマニュアル
 プリザンターのインストール手順及び、操作方法を解説します。  
-[利用ガイド](https://pleasanter.net/fs/publishes/418092/index)
+[ユーザマニュアル](https://pleasanter.org/manual)
 
 ## ダウンロード
 セットアップモジュールのダウンロードサイトです。  
