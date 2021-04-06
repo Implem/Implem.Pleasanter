@@ -2017,11 +2017,15 @@ namespace Implem.Pleasanter.Models
             }
             else if (userId > 0)
             {
+                var user = SiteInfo.User(context, userId);
+                var mailAddress = Parameters.User.IsMailAddressSelectorToolTip()
+                    ? MailAddressUtilities.Get(context, userId)
+                    : string.Empty;
                 data.Add(
-                    $"User,{userId.ToString()}," + admin,
-                    new ControlData(SiteInfo.UserName(
-                        context: context,
-                        userId: userId) + manager));
+                    $"User,{userId},{admin}",
+                    new ControlData(
+                        text: user.Name + manager,
+                        title: mailAddress.IsNullOrEmpty() ? user.LoginId : mailAddress));
             }
         }
 
