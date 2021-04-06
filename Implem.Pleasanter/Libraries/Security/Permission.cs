@@ -138,7 +138,7 @@ namespace Implem.Pleasanter.Libraries.Security
                             ? user?.Name
                             : null,
                         title: Id != 0
-                            ? (mailAddress.IsNullOrEmpty() ? user?.LoginId : mailAddress)
+                            ? Strings.CoalesceEmpty(mailAddress, user?.LoginId)
                             : null,
                         withType: withType);
                 default:

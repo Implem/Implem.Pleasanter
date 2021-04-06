@@ -2025,7 +2025,7 @@ namespace Implem.Pleasanter.Models
                     $"User,{userId},{admin}",
                     new ControlData(
                         text: user.Name + manager,
-                        title: mailAddress.IsNullOrEmpty() ? user.LoginId : mailAddress));
+                        title: Strings.CoalesceEmpty(mailAddress, user.LoginId)));
             }
         }
 
