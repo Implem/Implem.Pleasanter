@@ -342,6 +342,7 @@ namespace Implem.Pleasanter.NetFramework.Libraries.Requests
             SessionData = SessionUtilities.Get(
                 context: this,
                 includeUserArea: Controller == "sessions");
+            SessionUtilities.DeleteOldSessions(context: this);
             var request = HttpContext.Current.Request;
             request.QueryString.AllKeys
                 .Where(o => o != null)

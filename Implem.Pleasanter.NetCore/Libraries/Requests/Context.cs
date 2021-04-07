@@ -359,6 +359,7 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
             SessionData = SessionUtilities.Get(
                 context: this,
                 includeUserArea: Controller == "sessions");
+            SessionUtilities.DeleteOldSessions(context: this);
             var request = AspNetCoreHttpContext.Current.Request;
             foreach (var o in request.QueryString.Value?.PadLeft(1, '?').Substring(1).Split('&'))
             {
