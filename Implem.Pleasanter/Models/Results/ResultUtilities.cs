@@ -2402,6 +2402,12 @@ namespace Implem.Pleasanter.Models
                     errorData: invalid);
             }
             var api = context.RequestDataString.Deserialize<Api>();
+            if (api == null && !context.RequestDataString.IsNullOrEmpty())
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.InvalidJsonData));
+            }
             var view = api?.View ?? new View();
             var pageSize = Parameters.Api.PageSize;
             var tableType = (api?.TableType) ?? Sqls.TableTypes.Normal;

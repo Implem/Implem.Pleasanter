@@ -1102,6 +1102,7 @@ namespace Implem.Pleasanter.Models
             var data = context.RequestDataString.Deserialize<SiteApiModel>();
             if (data == null)
             {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
                 return;
             }
             if (data.Title != null) Title = new Title(SiteId, data.Title);

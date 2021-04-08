@@ -21,6 +21,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public abstract StringBuilder LogBuilder { get; set; }
         public abstract ExpandoObject UserData { get; set; }
         public abstract ErrorData ErrorData { get; set; }
+        public abstract bool InvalidJsonData { get; set; }
         public abstract bool Authenticated { get; set; }
         public abstract bool SwitchUser { get; set; }
         public abstract string SessionGuid { get; set; }
