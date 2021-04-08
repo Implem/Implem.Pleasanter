@@ -1,0 +1,33 @@
+﻿{
+    "Id": "InvalidJsonData",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Invalid json data."
+        },
+        {
+            "Language": "zh",
+            "Body": "无效的json数据。"
+        },
+        {
+            "Language": "ja",
+            "Body": "JSONデータが不正です。"
+        },
+        {
+            "Language": "de",
+            "Body": "Ungültige JSON-Daten."
+        },
+        {
+            "Language": "ko",
+            "Body": "잘못된 json 데이터입니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Datos json no válidos."
+        },
+        {
+            "Language": "vn",
+            "Body": "Dữ liệu json không hợp lệ."
+        }
+    ]
+}

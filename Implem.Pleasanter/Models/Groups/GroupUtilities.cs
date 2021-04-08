@@ -2062,7 +2062,7 @@ namespace Implem.Pleasanter.Models
             if (deptId > 0)
             {
                 data.Add(
-                    $"Dept,{deptId.ToString()}," + admin,
+                    $"Dept,{deptId}," + admin,
                     new ControlData(SiteInfo.Dept(
                         tenantId: context.TenantId,
                         deptId: deptId)?.Name + manager));

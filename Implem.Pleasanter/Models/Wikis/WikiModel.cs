@@ -1041,6 +1041,7 @@ namespace Implem.Pleasanter.Models
             var data = context.RequestDataString.Deserialize<WikiApiModel>();
             if (data == null)
             {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
                 return;
             }
             if (data.Title != null) Title = new Title(data.WikiId.ToLong(), data.Title);
