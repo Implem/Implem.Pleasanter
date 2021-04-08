@@ -88,6 +88,7 @@ namespace Implem.DefinitionAccessor
             Parameters.History = Read<History>();
             Parameters.Version = Read<ParameterAccessor.Parts.Version>();
             Parameters.Mail = Read<Mail>();
+            Parameters.Migration = Read<ParameterAccessor.Parts.Migration>();
             Parameters.Notification = Read<Notification>();
             Parameters.Permissions = Read<Permissions>();
             Parameters.Rds = Read<Rds>();
