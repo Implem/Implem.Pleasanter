@@ -874,22 +874,30 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public string ProcessedRequestData(Context context)
         {
-            return MaskApiKey(context.ApiRequestBody)
-                ?? context.FormStringRaw.Split('&')
+            if (!context.ApiRequestBody.IsNullOrEmpty())
+            {
+                return MaskApiData(context.ApiRequestBody) ?? string.Empty;
+            }
+            else
+            {
+                return context.FormStringRaw.Split('&')
                     .Where(o => o.Contains('='))
                     .Select(o => MaskPassword(o))
                     .Join("&");
+            }
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private string MaskApiKey(string requestData)
+        private string MaskApiData(string requestData)
         {
-            var apiKey = requestData?.RegexFirst("\"ApiKey\": \"[a-zA-Z0-9]+\"");
-            return apiKey.IsNullOrEmpty()
-                ? requestData
-                : requestData.Replace(apiKey, "\"ApiKey\": \"*\"");
+            var data = requestData;
+            var apiKey = data?.RegexFirst("\"ApiKey\":[ ]*\"[a-zA-Z0-9]+?\"");
+            var base64 = data?.RegexFirst("\"Base64\":[ ]*\".+?\"");
+            if (!apiKey.IsNullOrEmpty()) data = data.Replace(apiKey, "\"ApiKey\": \"*\"");
+            if (!base64.IsNullOrEmpty()) data = data.Replace(base64, "\"base64\": \"*\"");
+            return data;
         }
 
         /// <summary>
