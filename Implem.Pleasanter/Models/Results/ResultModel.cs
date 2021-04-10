@@ -1752,6 +1752,7 @@ namespace Implem.Pleasanter.Models
             var data = context.RequestDataString.Deserialize<ResultApiModel>();
             if (data == null)
             {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
                 return;
             }
             if (data.Title != null) Title = new Title(data.ResultId.ToLong(), data.Title);

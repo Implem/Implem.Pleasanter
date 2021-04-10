@@ -1702,6 +1702,7 @@
     <Content Include="App_Data\Parameters\Parameter.json" />
     <Content Include="App_Data\Parameters\User.json" />
     <Content Include="App_Data\Displays\CustomError.json" />
+    <Content Include="App_Data\Displays\InvalidJsonData.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

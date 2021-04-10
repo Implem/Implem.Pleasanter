@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.DataSources.SqlServer;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
@@ -17,6 +18,7 @@ namespace Implem.Pleasanter.Libraries.Server
     public static class SiteInfo
     {
         public static Dictionary<int, TenantCache> TenantCaches = new Dictionary<int, TenantCache>();
+        public static DateTime SessionCleanedUpDate;
 
         public static void Reflesh(Context context, bool force = false)
         {

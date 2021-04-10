@@ -28,6 +28,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public StringBuilder LogBuilder = new StringBuilder();
         public ExpandoObject UserData = new ExpandoObject();
         public ErrorData ErrorData = new ErrorData(type: Error.Types.None);
+        public bool InvalidJsonData;
         public bool Authenticated;
         public bool SwitchUser;
         public string SessionGuid = Strings.NewGuid();
@@ -354,6 +355,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             SessionData = SessionUtilities.Get(
                 context: this, 
                 includeUserArea: Controller == "sessions");
+            SessionUtilities.DeleteOldSessions(context: this);
             var request = HttpContext.Current.Request;
             request.QueryString.AllKeys
                 .Where(o => o != null)

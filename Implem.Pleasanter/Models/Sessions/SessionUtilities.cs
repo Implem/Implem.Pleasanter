@@ -50,13 +50,7 @@ namespace Implem.Pleasanter.Models
                         where: Rds.SessionsWhere()
                             .SessionGuid(sessionGuid ?? context.SessionGuid)
                             .ReadOnce(true),
-                        _using: context.ApiRequestBody == null),
-                    Rds.PhysicalDeleteSessions(
-                        where: Rds.SessionsWhere()
-                            .UpdatedTime(
-                                DateTime.Now.AddMinutes(Parameters.Session.RetentionPeriod * -1),
-                                _operator: "<")
-                            .Add(raw: "( \"SessionGuid\" not like '@%' )"))
+                        _using: context.ApiRequestBody == null)
                 })
                     .AsEnumerable()
                     .ToDictionary(
@@ -406,6 +400,27 @@ namespace Implem.Pleasanter.Models
                     Key = api.SessionKey
                 }
             }.ToJson());
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static void DeleteOldSessions(Context context)
+        {
+            var before = SiteInfo.SessionCleanedUpDate.ToLocal(context: context).ToString("yyyy/MM/dd");
+            var now = DateTime.Now.ToLocal(context: context).ToString("yyyy/MM/dd");
+            if (before != now)
+            {
+                SiteInfo.SessionCleanedUpDate = DateTime.Now;
+                Rds.ExecuteNonQuery(
+                    context: context,
+                    statements: Rds.PhysicalDeleteSessions(
+                        where: Rds.SessionsWhere()
+                            .UpdatedTime(
+                                DateTime.Now.AddMinutes(Parameters.Session.RetentionPeriod * -1),
+                                _operator: "<")
+                            .Add(raw: "( \"SessionGuid\" not like '@%' )")));
+            }
         }
     }
 }

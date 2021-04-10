@@ -668,6 +668,7 @@ namespace Implem.Pleasanter.Models
             var data = context.RequestDataString.Deserialize<GroupApiModel>();
             if (data == null)
             {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
                 return;
             }
             if (data.TenantId != null) TenantId = data.TenantId.ToInt().ToInt();

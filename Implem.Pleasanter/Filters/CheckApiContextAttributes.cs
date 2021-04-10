@@ -19,6 +19,14 @@ namespace Implem.Pleasanter.Filters
             CancellationToken cancellationToken,
             Func<Task<HttpResponseMessage>> continuation)
         {
+            var context = new Context(
+                sessionStatus: false,
+                sessionData: false,
+                item: false);
+            if (!context.ContractSettings.AllowedIpAddress(context.UserHostAddress))
+            {
+                return await Task.FromResult(actionContext.Request.CreateResponse(HttpStatusCode.Forbidden));
+            }
             if (Parameters.Security.TokenCheck
                 && HttpContext.Current?.User?.Identity?.IsAuthenticated == true)
             {

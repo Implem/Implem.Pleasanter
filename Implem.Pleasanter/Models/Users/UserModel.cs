@@ -1748,6 +1748,7 @@ namespace Implem.Pleasanter.Models
             var data = context.RequestDataString.Deserialize<UserApiModel>();
             if (data == null)
             {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
                 return;
             }
             if (data.LoginId != null) LoginId = data.LoginId.ToString().ToString();

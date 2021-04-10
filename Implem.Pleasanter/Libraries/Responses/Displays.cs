@@ -3499,6 +3499,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string InvalidJsonData(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "InvalidJsonData",
+                data: data);
+        }
+
         public static string InvalidRequest(
             Context context,
             params string[] data)
