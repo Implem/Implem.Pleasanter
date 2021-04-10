@@ -1952,6 +1952,7 @@ namespace Implem.Pleasanter.Models
             var data = context.RequestDataString.Deserialize<IssueApiModel>();
             if (data == null)
             {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
                 return;
             }
             if (data.Title != null) Title = new Title(data.IssueId.ToLong(), data.Title);

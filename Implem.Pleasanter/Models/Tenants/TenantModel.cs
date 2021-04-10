@@ -700,6 +700,7 @@ namespace Implem.Pleasanter.Models
             var data = context.RequestDataString.Deserialize<TenantApiModel>();
             if (data == null)
             {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
                 return;
             }
             if (data.TenantName != null) TenantName = data.TenantName.ToString().ToString();

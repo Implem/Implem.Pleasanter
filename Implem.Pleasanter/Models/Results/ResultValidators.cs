@@ -13,9 +13,16 @@ namespace Implem.Pleasanter.Models
     {
         public static ErrorData OnEntry(Context context, SiteSettings ss, bool api = false)
         {
-            if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+            if (api)
             {
-                return new ErrorData(type: Error.Types.InvalidRequest);
+                if ((context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+                {
+                    return new ErrorData(type: Error.Types.InvalidRequest);
+                }
+                if (context.InvalidJsonData)
+                {
+                    return new ErrorData(type: Error.Types.InvalidJsonData);
+                }
             }
             return context.HasPermission(ss: ss)
                 ? new ErrorData(type: Error.Types.None)
@@ -26,9 +33,16 @@ namespace Implem.Pleasanter.Models
 
         public static ErrorData OnReading(Context context, SiteSettings ss, bool api = false)
         {
-            if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+            if (api)
             {
-                return new ErrorData(type: Error.Types.InvalidRequest);
+                if ((context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+                {
+                    return new ErrorData(type: Error.Types.InvalidRequest);
+                }
+                if (context.InvalidJsonData)
+                {
+                    return new ErrorData(type: Error.Types.InvalidJsonData);
+                }
             }
             return context.CanRead(ss: ss)
                 ? new ErrorData(type: Error.Types.None)
@@ -38,9 +52,16 @@ namespace Implem.Pleasanter.Models
         public static ErrorData OnEditing(
             Context context, SiteSettings ss, ResultModel resultModel, bool api = false)
         {
-            if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+            if (api)
             {
-                return new ErrorData(type: Error.Types.InvalidRequest);
+                if ((context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+                {
+                    return new ErrorData(type: Error.Types.InvalidRequest);
+                }
+                if (context.InvalidJsonData)
+                {
+                    return new ErrorData(type: Error.Types.InvalidJsonData);
+                }
             }
             switch (resultModel.MethodType)
             {
@@ -64,9 +85,16 @@ namespace Implem.Pleasanter.Models
         public static ErrorData OnCreating(
             Context context, SiteSettings ss, ResultModel resultModel, bool api = false)
         {
-            if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+            if (api)
             {
-                return new ErrorData(type: Error.Types.InvalidRequest);
+                if ((context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+                {
+                    return new ErrorData(type: Error.Types.InvalidRequest);
+                }
+                if (context.InvalidJsonData)
+                {
+                    return new ErrorData(type: Error.Types.InvalidJsonData);
+                }
             }
             if (ss.LockedTable())
             {
@@ -219,9 +247,16 @@ namespace Implem.Pleasanter.Models
         public static ErrorData OnUpdating(
             Context context, SiteSettings ss, ResultModel resultModel, bool api = false)
         {
-            if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+            if (api)
             {
-                return new ErrorData(type: Error.Types.InvalidRequest);
+                if ((context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+                {
+                    return new ErrorData(type: Error.Types.InvalidRequest);
+                }
+                if (context.InvalidJsonData)
+                {
+                    return new ErrorData(type: Error.Types.InvalidJsonData);
+                }
             }
             if (ss.LockedTable())
             {
@@ -422,9 +457,16 @@ namespace Implem.Pleasanter.Models
         public static ErrorData OnDeleting(
             Context context, SiteSettings ss, ResultModel resultModel, bool api = false)
         {
-            if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+            if (api)
             {
-                return new ErrorData(type: Error.Types.InvalidRequest);
+                if ((context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+                {
+                    return new ErrorData(type: Error.Types.InvalidRequest);
+                }
+                if (context.InvalidJsonData)
+                {
+                    return new ErrorData(type: Error.Types.InvalidJsonData);
+                }
             }
             if (ss.LockedTable())
             {
@@ -456,9 +498,16 @@ namespace Implem.Pleasanter.Models
 
         public static ErrorData OnRestoring(Context context, SiteSettings ss, bool api = false)
         {
-            if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+            if (api)
             {
-                return new ErrorData(type: Error.Types.InvalidRequest);
+                if ((context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+                {
+                    return new ErrorData(type: Error.Types.InvalidRequest);
+                }
+                if (context.InvalidJsonData)
+                {
+                    return new ErrorData(type: Error.Types.InvalidJsonData);
+                }
             }
             if (ss.LockedTable())
             {
@@ -477,9 +526,16 @@ namespace Implem.Pleasanter.Models
 
         public static ErrorData OnImporting(Context context, SiteSettings ss, bool api = false)
         {
-            if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+            if (api)
             {
-                return new ErrorData(type: Error.Types.InvalidRequest);
+                if ((context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+                {
+                    return new ErrorData(type: Error.Types.InvalidRequest);
+                }
+                if (context.InvalidJsonData)
+                {
+                    return new ErrorData(type: Error.Types.InvalidJsonData);
+                }
             }
             if (ss.LockedTable())
             {
@@ -500,9 +556,16 @@ namespace Implem.Pleasanter.Models
 
         public static ErrorData OnExporting(Context context, SiteSettings ss, bool api = false)
         {
-            if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+            if (api)
             {
-                return new ErrorData(type: Error.Types.InvalidRequest);
+                if ((context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+                {
+                    return new ErrorData(type: Error.Types.InvalidRequest);
+                }
+                if (context.InvalidJsonData)
+                {
+                    return new ErrorData(type: Error.Types.InvalidJsonData);
+                }
             }
             return context.CanExport(ss: ss)
                 ? new ErrorData(type: Error.Types.None)
@@ -525,9 +588,16 @@ namespace Implem.Pleasanter.Models
             {
                 return new ErrorData(type: Error.Types.HasNotPermission);
             }
-            if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+            if (api)
             {
-                return new ErrorData(type: Error.Types.InvalidRequest);
+                if ((context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+                {
+                    return new ErrorData(type: Error.Types.InvalidRequest);
+                }
+                if (context.InvalidJsonData)
+                {
+                    return new ErrorData(type: Error.Types.InvalidJsonData);
+                }
             }
             if (ss.LockedRecord())
             {
@@ -546,9 +616,16 @@ namespace Implem.Pleasanter.Models
         public static ErrorData OnUnlockRecord(
             Context context, SiteSettings ss, bool api = false)
         {
-            if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+            if (api)
             {
-                return new ErrorData(type: Error.Types.InvalidRequest);
+                if ((context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+                {
+                    return new ErrorData(type: Error.Types.InvalidRequest);
+                }
+                if (context.InvalidJsonData)
+                {
+                    return new ErrorData(type: Error.Types.InvalidJsonData);
+                }
             }
             if (!ss.LockedRecord())
             {

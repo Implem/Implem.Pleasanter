@@ -36,6 +36,7 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
         public override StringBuilder LogBuilder { get; set; } = new StringBuilder();
         public override ExpandoObject UserData { get; set; } = new ExpandoObject();
         public override ErrorData ErrorData { get; set; } = new ErrorData(type: Error.Types.None);
+        public override bool InvalidJsonData { get; set; }
         public override bool Authenticated { get; set; }
         public override bool SwitchUser { get; set; }
         public override string SessionGuid { get; set; } = Strings.NewGuid();
@@ -359,6 +360,7 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
             SessionData = SessionUtilities.Get(
                 context: this,
                 includeUserArea: Controller == "sessions");
+            SessionUtilities.DeleteOldSessions(context: this);
             var request = AspNetCoreHttpContext.Current.Request;
             foreach (var o in request.QueryString.Value?.PadLeft(1, '?').Substring(1).Split('&'))
             {

@@ -24,6 +24,8 @@ namespace Implem.Pleasanter.Libraries.Responses
             {
                 case General.Error.Types.BadRequest:
                     return BadRequest(context: context);
+                case General.Error.Types.InvalidJsonData:
+                    return InvalidJsonData(context: context);
                 case General.Error.Types.Unauthorized:
                     return Unauthorized(context: context);
                 case General.Error.Types.NotFound:
@@ -79,6 +81,14 @@ namespace Implem.Pleasanter.Libraries.Responses
                 id: context.Id,
                 statusCode: 400,
                 message: Displays.BadRequest(context: context));
+        }
+
+        public static ApiResponse InvalidJsonData(Context context)
+        {
+            return new ApiResponse(
+                id: context.Id,
+                statusCode: 400,
+                message: Displays.InvalidJsonData(context: context));
         }
 
         public static ApiResponse Unauthorized(Context context)

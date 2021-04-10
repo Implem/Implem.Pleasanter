@@ -2062,18 +2062,22 @@ namespace Implem.Pleasanter.Models
             if (deptId > 0)
             {
                 data.Add(
-                    $"Dept,{deptId.ToString()}," + admin,
+                    $"Dept,{deptId}," + admin,
                     new ControlData(SiteInfo.Dept(
                         tenantId: context.TenantId,
                         deptId: deptId)?.Name + manager));
             }
             else if (userId > 0)
             {
+                var user = SiteInfo.User(context, userId);
+                var mailAddress = Parameters.User.IsMailAddressSelectorToolTip()
+                    ? MailAddressUtilities.Get(context, userId)
+                    : string.Empty;
                 data.Add(
-                    $"User,{userId.ToString()}," + admin,
-                    new ControlData(SiteInfo.UserName(
-                        context: context,
-                        userId: userId) + manager));
+                    $"User,{userId},{admin}",
+                    new ControlData(
+                        text: user.Name + manager,
+                        title: Strings.CoalesceEmpty(mailAddress, user.LoginId)));
             }
         }
 

@@ -126,6 +126,11 @@ namespace Implem.Pleasanter.Libraries.Security
                     var user = SiteInfo.User(
                         context: context,
                         userId: Id);
+                    var mailAddress = Parameters.User.IsMailAddressSelectorToolTip()
+                        ? MailAddressUtilities.Get(
+                            context: context,
+                            userId: Id)
+                        : string.Empty;
                     return DisplayText(
                         context: context,
                         text: Displays.Users(context: context),
@@ -133,7 +138,7 @@ namespace Implem.Pleasanter.Libraries.Security
                             ? user?.Name
                             : null,
                         title: Id != 0
-                            ? user?.LoginId
+                            ? Strings.CoalesceEmpty(mailAddress, user?.LoginId)
                             : null,
                         withType: withType);
                 default:
