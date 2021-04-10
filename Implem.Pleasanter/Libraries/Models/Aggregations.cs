@@ -1,8 +1,8 @@
 ﻿using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
-using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Collections.Generic;
 using System.Data;
@@ -98,7 +98,7 @@ namespace Implem.Pleasanter.Libraries.Models
         {
             return !(groupByColumn.Type == Column.Types.User && key.ToInt() == 0)
                  ? key
-                 : User.UserTypes.Anonymous.ToInt().ToString();
+                 : SiteInfo.AnonymousId.ToString();
         }
     }
 }

@@ -258,7 +258,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 .Distinct()
                                 .Where(userId => SiteInfo.User(
                                     context: context,
-                                    userId: userId).Id != User.UserTypes.Anonymous.ToInt())
+                                    userId: userId).Id != SiteInfo.AnonymousId)
                                 .Select(userId => userId.ToLong()))
                             .OwnerType("Users")))
                                 .AsEnumerable()
