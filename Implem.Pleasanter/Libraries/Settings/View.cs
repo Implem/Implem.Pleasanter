@@ -2,7 +2,6 @@
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
-using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Search;
 using Implem.Pleasanter.Libraries.Security;
@@ -1180,9 +1179,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                 yield return new SqlWhere(
                 tableName: column.TableName(),
                 columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                _operator: "={0}".Params(column.Type == Column.Types.User
-                    ? User.UserTypes.Anonymous.ToInt()
-                    : 0));
+                _operator: "=0");
+                if (column.Type == Column.Types.User && SiteInfo.AnonymousId != 0)
+                {
+                    yield return new SqlWhere(
+                    tableName: column.TableName(),
+                    columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                    _operator: $"={SiteInfo.AnonymousId}");
+                }
             }
         }
 
