@@ -243,11 +243,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static void Abandon(Context context)
         {
-            var current = System.Web.HttpContext.Current;
-            current.Session.Clear();
-            current.Session.Abandon();
-            current.Response.Cookies.Add(
-                new System.Web.HttpCookie("ASP.NET_SessionId", string.Empty));
+            context.SessionAbandon();
             RemoveAll(context: context);
         }
 

@@ -25,12 +25,6 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         context: context,
                         value: DateTime.Now),
                     tenantManager: true);
-                Create(
-                    context: context,
-                    tenantId: 0,
-                    loginId: "Anonymous",
-                    name: string.Empty,
-                    disabled: true);
             }
         }
 

@@ -1,5 +1,4 @@
-﻿using Implem.DefinitionAccessor;
-using Implem.Libraries.DataSources.SqlServer;
+﻿using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
@@ -19,9 +18,11 @@ namespace Implem.Pleasanter.Libraries.Server
     {
         public static Dictionary<int, TenantCache> TenantCaches = new Dictionary<int, TenantCache>();
         public static DateTime SessionCleanedUpDate;
+        public static int? AnonymousId;
 
         public static void Reflesh(Context context, bool force = false)
         {
+            SetAnonymousId(context: context);
             if (context.TenantId == 0)
             {
                 return;
@@ -404,7 +405,7 @@ namespace Implem.Pleasanter.Libraries.Server
         {
             return new User(
                 context: context,
-                userId: DataTypes.User.UserTypes.Anonymous.ToInt());
+                userId: AnonymousId.ToInt());
         }
 
         public static string UserName(
@@ -502,6 +503,20 @@ namespace Implem.Pleasanter.Libraries.Server
                         data => data.Select(dataRow => dataRow.Long("DestinationId")).ToList())
             };
             return linkKeyValues;
+        }
+
+        public static void SetAnonymousId(Context context)
+        {
+            if (AnonymousId == null)
+            {
+                AnonymousId = Rds.ExecuteScalar_int(
+                    context: context,
+                    statements: Rds.SelectUsers(
+                        column: Rds.UsersColumn().UserId(),
+                        where: Rds.UsersWhere()
+                            .TenantId(0)
+                            .UserId(2)));
+            }
         }
     }
 }
