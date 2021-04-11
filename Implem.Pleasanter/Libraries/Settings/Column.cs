@@ -585,7 +585,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var hash = new Dictionary<string, ControlData>();
             var blank = Type == Types.User
-                ? User.UserTypes.Anonymous.ToInt().ToString()
+                ? SiteInfo.AnonymousId.ToString()
                 : TypeName == "int"
                     ? "0"
                     : string.Empty;
@@ -1028,7 +1028,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var value = dataRow.String(ColumnName);
             return Type == Types.User && value.IsNullOrEmpty()
-                ? User.UserTypes.Anonymous.ToInt().ToString()
+                ? SiteInfo.AnonymousId.ToString()
                 : value;
         }
 

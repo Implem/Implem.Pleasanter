@@ -210,7 +210,7 @@ namespace Implem.DefinitionAccessor
         {
             return new SqlContainer
             {
-                RdsUser = rdsUser ?? new RdsUser(RdsUser.UserTypes.System),
+                RdsUser = rdsUser ?? new RdsUser(),
                 RdsName = Environments.ServiceName,
                 RdsProvider = Environments.RdsProvider,
                 ConnectionString = connectionString,

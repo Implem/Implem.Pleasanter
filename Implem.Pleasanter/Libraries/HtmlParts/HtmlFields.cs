@@ -1,6 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Resources;
@@ -54,7 +53,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool disableSection = false,
             bool _using = true)
         {
-            if (column.Type == Column.Types.User && value == User.UserTypes.Anonymous.ToInt().ToString())
+            if (column.Type == Column.Types.User && value == SiteInfo.AnonymousId.ToString())
             {
                 value = string.Empty;
             }

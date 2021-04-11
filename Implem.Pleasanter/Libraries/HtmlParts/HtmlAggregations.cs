@@ -1,7 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
-using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -331,7 +330,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 default:
                     if (groupBy.Type == Column.Types.User)
                     {
-                        if (User.UserTypes.Anonymous.ToInt().ToString() == key)
+                        if (SiteInfo.AnonymousId.ToInt().ToString() == key)
                         {
                             return "\t";
                         }
