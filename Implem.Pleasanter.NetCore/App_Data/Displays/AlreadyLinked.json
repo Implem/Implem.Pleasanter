@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Ya vinculados."
+        },
+        {
+            "Language": "vn",
+            "Body": "Đã liên kết."
         }
     ]
 }

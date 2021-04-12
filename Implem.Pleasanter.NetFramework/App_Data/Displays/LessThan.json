@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Menos de {0}"
+        },
+        {
+            "Language": "vn",
+            "Body": "Nhỏ hơn {0}"
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Prohibida la duplicación."
+        },
+        {
+            "Language": "vn",
+            "Body": "Cấm trùng lặp"
         }
     ]
 }

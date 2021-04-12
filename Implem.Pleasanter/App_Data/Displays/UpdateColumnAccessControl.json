@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Acceder al control durante la actualización."
+        },
+        {
+            "Language": "vn",
+            "Body": "Kiểm soát truy cập trong lúc cập nhật"
         }
     ]
 }

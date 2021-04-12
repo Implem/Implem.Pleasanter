@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Propios"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cá nhân"
         }
     ]
 }

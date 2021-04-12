@@ -797,6 +797,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     context: context,
                     column: column);
                 var link = column.SiteSettings.Links
+                    .Where(o => o.SiteId > 0)
                     .Where(o => ss.JoinedSsHash.ContainsKey(o.SiteId))
                     .FirstOrDefault(o => o.ColumnName == column.Name);
                 if (link != null)
@@ -824,6 +825,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 groupBy.Add(column: column);
                 var link = column.SiteSettings.Links
+                    .Where(o => o.SiteId > 0)
                     .Where(o => ss.JoinedSsHash.ContainsKey(o.SiteId))
                     .FirstOrDefault(o => o.ColumnName == column.Name);
                 if (link != null)
@@ -1071,6 +1073,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "DeptName": return "\"DeptName\"";
                         case "Body": return "\"Body\"";
                         case "Title": return "\"Title\"";
+                        case "Disabled": return "\"Disabled\"";
                         case "Comments": return "\"Comments\"";
                         case "Creator": return "\"Creator\"";
                         case "Updator": return "\"Updator\"";
@@ -1092,6 +1095,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "GroupName": return "\"GroupName\"";
                         case "Body": return "\"Body\"";
                         case "Title": return "\"Title\"";
+                        case "Disabled": return "\"Disabled\"";
                         case "Comments": return "\"Comments\"";
                         case "Creator": return "\"Creator\"";
                         case "Updator": return "\"Updator\"";
@@ -2259,6 +2263,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 tableName: column.TableName(),
                                 orderType: orderType,
                                 function: function);
+                        case "Disabled":
+                            return self.Depts_Disabled(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
                         case "Comments":
                             return self.Depts_Comments(
                                 tableName: column.TableName(),
@@ -2318,6 +2327,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 function: function);
                         case "Body":
                             return self.Groups_Body(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "Disabled":
+                            return self.Groups_Disabled(
                                 tableName: column.TableName(),
                                 orderType: orderType,
                                 function: function);
@@ -10397,6 +10411,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             column.DeptCode(function: Sqls.Functions.SingleColumn); param.DeptCode();
             column.DeptName(function: Sqls.Functions.SingleColumn); param.DeptName();
             column.Body(function: Sqls.Functions.SingleColumn); param.Body();
+            column.Disabled(function: Sqls.Functions.SingleColumn); param.Disabled();
             column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
             column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
@@ -10418,6 +10433,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
             column.GroupName(function: Sqls.Functions.SingleColumn); param.GroupName();
             column.Body(function: Sqls.Functions.SingleColumn); param.Body();
+            column.Disabled(function: Sqls.Functions.SingleColumn); param.Disabled();
             column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
             column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
@@ -13131,6 +13147,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""DeptCode"",
                     ""DeptName"",
                     ""Body"",
+                    ""Disabled"",
                     ""Comments"",
                     ""Creator"",
                     ""Updator"",
@@ -13146,6 +13163,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Depts"".""DeptCode"",
                     ""Depts"".""DeptName"",
                     ""Depts"".""Body"",
+                    ""Depts"".""Disabled"",
                     ""Depts"".""Comments"",
                     ""Depts"".""Creator"",
                     ""Depts"".""Updator"",
@@ -13170,6 +13188,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Ver"",
                     ""GroupName"",
                     ""Body"",
+                    ""Disabled"",
                     ""Comments"",
                     ""Creator"",
                     ""Updator"",
@@ -13184,6 +13203,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Groups"".""Ver"",
                     ""Groups"".""GroupName"",
                     ""Groups"".""Body"",
+                    ""Groups"".""Disabled"",
                     ""Groups"".""Comments"",
                     ""Groups"".""Creator"",
                     ""Groups"".""Updator"",
@@ -14386,6 +14406,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""DeptCode"",
                     ""DeptName"",
                     ""Body"",
+                    ""Disabled"",
                     ""Comments"",
                     ""Creator"",
                     ""Updator"",
@@ -14401,6 +14422,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Depts_deleted"".""DeptCode"",
                     ""Depts_deleted"".""DeptName"",
                     ""Depts_deleted"".""Body"",
+                    ""Depts_deleted"".""Disabled"",
                     ""Depts_deleted"".""Comments"",
                     ""Depts_deleted"".""Creator"",
                     ""Depts_deleted"".""Updator"",
@@ -14429,6 +14451,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Ver"",
                     ""GroupName"",
                     ""Body"",
+                    ""Disabled"",
                     ""Comments"",
                     ""Creator"",
                     ""Updator"",
@@ -14443,6 +14466,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Groups_deleted"".""Ver"",
                     ""Groups_deleted"".""GroupName"",
                     ""Groups_deleted"".""Body"",
+                    ""Groups_deleted"".""Disabled"",
                     ""Groups_deleted"".""Comments"",
                     ""Groups_deleted"".""Creator"",
                     ""Groups_deleted"".""Updator"",
@@ -40383,6 +40407,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     return self.DeptName(_as: _as, function: function);
                 case "Body":
                     return self.Body(_as: _as, function: function);
+                case "Disabled":
+                    return self.Disabled(_as: _as, function: function);
                 case "Comments":
                     return self.Comments(_as: _as, function: function);
                 case "Creator":
@@ -40601,6 +40627,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return self.Add(
                 columnBracket: "\"Body\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static DeptsColumnCollection Disabled(
+            this DeptsColumnCollection self,
+            string tableName = "Depts",
+            string columnName = "Disabled",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"Disabled\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Depts_Disabled(
+            this SqlColumnCollection self,
+            string tableName = "Depts",
+            string columnName = "Disabled",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"Disabled\"",
                 tableName: tableName,
                 columnName: columnName,
                 _as: _as,
@@ -41160,6 +41220,64 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBrackets: new string[] { "\"Body\"" },
                     tableName: tableName,
                     name: "Body",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static DeptsWhereCollection Disabled(
+            this DeptsWhereCollection self,
+            object value = null,
+            string tableName = "Depts",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Disabled\"" },
+                    tableName: tableName,
+                    name: "Disabled",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Depts_Disabled(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Depts",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Disabled\"" },
+                    tableName: tableName,
+                    name: "Disabled",
                     value: value,
                     _operator: _operator,
                     multiColumnOperator: multiColumnOperator,
@@ -41970,6 +42088,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     case "Dept": return self.Dept();
                     case "DeptName": return self.DeptName();
                     case "Body": return self.Body();
+                    case "Disabled": return self.Disabled();
                     case "Comments": return self.Comments();
                     case "Creator": return self.Creator();
                     case "Updator": return self.Updator();
@@ -42069,6 +42188,18 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlGroupByCollection self, string tableName = "Depts")
         {
             return self.Add(columnBracket: "\"Body\"", tableName: tableName);
+        }
+
+        public static DeptsGroupByCollection Disabled(
+            this DeptsGroupByCollection self, string tableName = "Depts")
+        {
+            return self.Add(columnBracket: "\"Disabled\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Depts_Disabled(
+            this SqlGroupByCollection self, string tableName = "Depts")
+        {
+            return self.Add(columnBracket: "\"Disabled\"", tableName: tableName);
         }
 
         public static DeptsGroupByCollection Comments(
@@ -42280,6 +42411,21 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return self;
         }
 
+        public static DeptsOrderByCollection Disabled(
+            this DeptsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Depts",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"Disabled\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
         public static DeptsOrderByCollection Comments(
             this DeptsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
@@ -42452,6 +42598,21 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Body\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Depts_Disabled(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Depts",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"Disabled\"" }.ForEach(columnBracket =>
                 self.Add(
                     columnBracket: columnBracket,
                     orderType: orderType,
@@ -42743,6 +42904,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 ? self.Add(
                     columnBracket: "\"Body\"",
                     name: "Body",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static DeptsParamCollection Disabled(
+            this DeptsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"Disabled\"",
+                    name: "Disabled",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Depts_Disabled(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"Disabled\"",
+                    name: "Disabled",
                     value: value,
                     sub: sub,
                     raw: raw)
@@ -43162,6 +43357,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     return self.GroupName(_as: _as, function: function);
                 case "Body":
                     return self.Body(_as: _as, function: function);
+                case "Disabled":
+                    return self.Disabled(_as: _as, function: function);
                 case "Comments":
                     return self.Comments(_as: _as, function: function);
                 case "Creator":
@@ -43346,6 +43543,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return self.Add(
                 columnBracket: "\"Body\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static GroupsColumnCollection Disabled(
+            this GroupsColumnCollection self,
+            string tableName = "Groups",
+            string columnName = "Disabled",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"Disabled\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Groups_Disabled(
+            this SqlColumnCollection self,
+            string tableName = "Groups",
+            string columnName = "Disabled",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"Disabled\"",
                 tableName: tableName,
                 columnName: columnName,
                 _as: _as,
@@ -43813,6 +44044,64 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBrackets: new string[] { "\"Body\"" },
                     tableName: tableName,
                     name: "Body",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static GroupsWhereCollection Disabled(
+            this GroupsWhereCollection self,
+            object value = null,
+            string tableName = "Groups",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Disabled\"" },
+                    tableName: tableName,
+                    name: "Disabled",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Groups_Disabled(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Groups",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Disabled\"" },
+                    tableName: tableName,
+                    name: "Disabled",
                     value: value,
                     _operator: _operator,
                     multiColumnOperator: multiColumnOperator,
@@ -44567,6 +44856,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     case "Ver": return self.Ver();
                     case "GroupName": return self.GroupName();
                     case "Body": return self.Body();
+                    case "Disabled": return self.Disabled();
                     case "Comments": return self.Comments();
                     case "Creator": return self.Creator();
                     case "Updator": return self.Updator();
@@ -44642,6 +44932,18 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlGroupByCollection self, string tableName = "Groups")
         {
             return self.Add(columnBracket: "\"Body\"", tableName: tableName);
+        }
+
+        public static GroupsGroupByCollection Disabled(
+            this GroupsGroupByCollection self, string tableName = "Groups")
+        {
+            return self.Add(columnBracket: "\"Disabled\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Groups_Disabled(
+            this SqlGroupByCollection self, string tableName = "Groups")
+        {
+            return self.Add(columnBracket: "\"Disabled\"", tableName: tableName);
         }
 
         public static GroupsGroupByCollection Comments(
@@ -44823,6 +45125,21 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return self;
         }
 
+        public static GroupsOrderByCollection Disabled(
+            this GroupsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Groups",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"Disabled\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
         public static GroupsOrderByCollection Comments(
             this GroupsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
@@ -44965,6 +45282,21 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Body\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Groups_Disabled(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Groups",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"Disabled\"" }.ForEach(columnBracket =>
                 self.Add(
                     columnBracket: columnBracket,
                     orderType: orderType,
@@ -45222,6 +45554,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 ? self.Add(
                     columnBracket: "\"Body\"",
                     name: "Body",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static GroupsParamCollection Disabled(
+            this GroupsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"Disabled\"",
+                    name: "Disabled",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Groups_Disabled(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"Disabled\"",
+                    name: "Disabled",
                     value: value,
                     sub: sub,
                     raw: raw)
@@ -105866,6 +106232,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Dept()
                 .DeptName()
                 .Body()
+                .Disabled()
                 .Comments()
                 .Creator()
                 .Updator()
@@ -105905,6 +106272,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .DeptCode(deptModel.DeptCode.MaxLength(1024), _using: deptModel.DeptCode_Updated(context) || setDefault || (otherInitValue && !deptModel.DeptCode.InitialValue(context)))
                 .DeptName(deptModel.DeptName.MaxLength(1024), _using: deptModel.DeptName_Updated(context) || setDefault || (otherInitValue && !deptModel.DeptName.InitialValue(context)))
                 .Body(deptModel.Body, _using: deptModel.Body_Updated(context) || (otherInitValue && !deptModel.Body.InitialValue(context)))
+                .Disabled(deptModel.Disabled, _using: deptModel.Disabled_Updated(context) || setDefault || (otherInitValue && !deptModel.Disabled.InitialValue(context)))
                 .Comments(deptModel.Comments.ToJson(), _using: deptModel.Comments_Updated(context) || (otherInitValue && !deptModel.Comments.InitialValue(context)));
             deptModel.ClassHash
                 .Where(o => deptModel.Class_Updated(columnName: o.Key)
@@ -105983,6 +106351,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Ver()
                 .GroupName()
                 .Body()
+                .Disabled()
                 .Comments()
                 .Creator()
                 .Updator()
@@ -106021,6 +106390,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Ver(groupModel.Ver, _using: groupModel.Ver_Updated(context) || setDefault || (otherInitValue && !groupModel.Ver.InitialValue(context)))
                 .GroupName(groupModel.GroupName.MaxLength(256), _using: groupModel.GroupName_Updated(context) || setDefault || (otherInitValue && !groupModel.GroupName.InitialValue(context)))
                 .Body(groupModel.Body, _using: groupModel.Body_Updated(context) || (otherInitValue && !groupModel.Body.InitialValue(context)))
+                .Disabled(groupModel.Disabled, _using: groupModel.Disabled_Updated(context) || setDefault || (otherInitValue && !groupModel.Disabled.InitialValue(context)))
                 .Comments(groupModel.Comments.ToJson(), _using: groupModel.Comments_Updated(context) || (otherInitValue && !groupModel.Comments.InitialValue(context)));
             groupModel.ClassHash
                 .Where(o => groupModel.Class_Updated(columnName: o.Key)

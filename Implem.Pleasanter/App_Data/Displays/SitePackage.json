@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Paquete del sitio"
+        },
+        {
+            "Language": "vn",
+            "Body": "Gói trang web"
         }
     ]
 }

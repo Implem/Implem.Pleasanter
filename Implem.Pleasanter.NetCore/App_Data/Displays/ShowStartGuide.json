@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Mostrar guía de inicio"
+        },
+        {
+            "Language": "vn",
+            "Body": "Hiển thị hướng dẫn bắt đầu"
         }
     ]
 }

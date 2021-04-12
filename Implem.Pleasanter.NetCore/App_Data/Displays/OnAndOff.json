@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Encendido y apagado"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bật và tắt"
         }
     ]
 }

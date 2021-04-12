@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "{0} segundos después"
+        },
+        {
+            "Language": "vn",
+            "Body": "{0} giây sau"
         }
     ]
 }

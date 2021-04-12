@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Índices de búsqueda de reconstrucciones"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tạo lại các chỉ mục tìm kiếm"
         }
     ]
 }

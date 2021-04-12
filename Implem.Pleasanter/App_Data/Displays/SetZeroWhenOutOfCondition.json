@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Poner a cero cuando no se cumplan las condiciones."
+        },
+        {
+            "Language": "vn",
+            "Body": "Chỉnh về 0 khi điều kiện không được thỏa mãn."
         }
     ]
 }

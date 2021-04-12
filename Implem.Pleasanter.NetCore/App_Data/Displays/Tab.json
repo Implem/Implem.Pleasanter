@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Pestaña"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tab"
         }
     ]
 }

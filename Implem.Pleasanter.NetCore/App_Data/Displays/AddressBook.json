@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Libreta de direcciones"
+        },
+        {
+            "Language": "vn",
+            "Body": "Sổ địa chỉ"
         }
     ]
 }

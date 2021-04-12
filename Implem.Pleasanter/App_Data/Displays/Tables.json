@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Tablas"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bảng"
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "La migración está completa."
+        },
+        {
+            "Language": "vn",
+            "Body": "Quá trình dịch chuyển đã hoàn thành."
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Historial"
+        },
+        {
+            "Language": "vn",
+            "Body": "Lịch sử"
         }
     ]
 }

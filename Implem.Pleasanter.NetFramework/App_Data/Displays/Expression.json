@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Expresión"
+        },
+        {
+            "Language": "vn",
+            "Body": "Biểu thức logic"
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Texto de la pantalla del editor"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bản thảo màn hình biên tập"
         }
     ]
 }

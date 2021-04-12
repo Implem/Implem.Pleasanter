@@ -1,5 +1,4 @@
 ﻿using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
@@ -373,8 +372,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         var currentSs = column.SiteSettings;
                         if (view.ColumnFilterHash?.ContainsKey(column.ColumnName) == true &&
                             column.UseSearch == true &&
-                            currentSs.Links?.Any(o =>
-                                o.ColumnName == column.ColumnName) == true)
+                            currentSs.Links
+                                ?.Where(o => o.SiteId > 0)
+                                .Any(o => o.ColumnName == column.ColumnName) == true)
                         {
                             currentSs.SetChoiceHash(
                                 context: context,
@@ -486,7 +486,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         var id = value.ToInt();
                         if (id > 0
                             && !(column.Type == Settings.Column.Types.User
-                                && id == User.UserTypes.Anonymous.ToInt()))
+                                && id == SiteInfo.AnonymousId))
                         {
                             optionCollection.AddIfNotConainsKey(
                                 value, new ControlData(SiteInfo.Name(

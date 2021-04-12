@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Diferencia"
+        },
+        {
+            "Language": "vn",
+            "Body": "Chênh lệch"
         }
     ]
 }

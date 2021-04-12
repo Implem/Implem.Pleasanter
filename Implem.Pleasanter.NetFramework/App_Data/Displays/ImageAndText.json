@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Imagen y texto"
+        },
+        {
+            "Language": "vn",
+            "Body": "Hình ảnh và văn bản"
         }
     ]
 }

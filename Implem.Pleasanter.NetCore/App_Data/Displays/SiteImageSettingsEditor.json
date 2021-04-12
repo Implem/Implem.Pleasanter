@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Imagen del sitio"
+        },
+        {
+            "Language": "vn",
+            "Body": "Ảnh trang web"
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "No puede eliminar su propia cuenta."
+        },
+        {
+            "Language": "vn",
+            "Body": "Không thể xóa tài khoản của bản thân."
         }
     ]
 }

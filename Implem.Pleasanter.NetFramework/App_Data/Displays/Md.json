@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Mes y fecha"
+        },
+        {
+            "Language": "vn",
+            "Body": "Ngày tháng"
         }
     ]
 }

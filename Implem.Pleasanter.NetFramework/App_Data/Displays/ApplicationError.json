@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Se produjo un problema en la aplicación."
+        },
+        {
+            "Language": "vn",
+            "Body": "Đã có sự cố xảy ra trong ứng dụng."
         }
     ]
 }

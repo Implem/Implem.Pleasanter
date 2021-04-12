@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Destinos de enlace"
+        },
+        {
+            "Language": "vn",
+            "Body": "Đích liên kết"
         }
     ]
 }

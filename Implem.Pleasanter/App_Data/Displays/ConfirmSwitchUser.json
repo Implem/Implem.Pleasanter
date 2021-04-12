@@ -25,6 +25,10 @@
         {
             "Language": "es",
             "Body": "¿Está seguro de quiere cambiar los usuarios?"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bạn có chắc muốn thay đổi người dùng không?"
         }
     ]
 }

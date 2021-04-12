@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Uso de base de datos {0}"
+        },
+        {
+            "Language": "vn",
+            "Body": "{0} lượng sử dụng cơ sở dữ liệu"
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Se han introducido los datos de prueba."
+        },
+        {
+            "Language": "vn",
+            "Body": "Dữ liệu kiểm thử đã được thêm vào."
         }
     ]
 }

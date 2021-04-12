@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Publicar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Công khai"
         }
     ]
 }

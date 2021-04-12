@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Iniciado el"
+        },
+        {
+            "Language": "vn",
+            "Body": "Thời gian bắt đầu"
         }
     ]
 }

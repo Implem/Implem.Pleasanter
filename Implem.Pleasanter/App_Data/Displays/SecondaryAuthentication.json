@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "El codigo de autenticacion especificado no es valido."
+        },
+        {
+            "Language": "vn",
+            "Body": "Mã xác thực được chỉ định không hợp lệ."
         }
     ]
 }

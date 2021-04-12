@@ -1759,6 +1759,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CustomError(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CustomError",
+                data: data);
+        }
+
         public static string Daily(
             Context context,
             params string[] data)
@@ -3486,6 +3496,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "InvalidIpAddress",
+                data: data);
+        }
+
+        public static string InvalidJsonData(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "InvalidJsonData",
                 data: data);
         }
 
@@ -8769,6 +8789,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Depts_Disabled(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Depts_Disabled",
+                data: data);
+        }
+
         public static string Groups_TenantId(
             Context context,
             params string[] data)
@@ -8816,6 +8846,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Groups_Title",
+                data: data);
+        }
+
+        public static string Groups_Disabled(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_Disabled",
                 data: data);
         }
 

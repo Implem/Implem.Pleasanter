@@ -1,7 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
-using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -206,7 +205,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             if (groupBy?.Linked() == true)
             {
-                var link = ss?.Links?.FirstOrDefault(o => o.ColumnName == groupBy.ColumnName);
+                var link = ss?.Links
+                    ?.Where(o => o.SiteId > 0)
+                    .FirstOrDefault(o => o.ColumnName == groupBy.ColumnName);
                 if (link != null)
                 {
                     var currentSs = ss.Destinations.Get(link.SiteId);
@@ -329,7 +330,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 default:
                     if (groupBy.Type == Column.Types.User)
                     {
-                        if (User.UserTypes.Anonymous.ToInt().ToString() == key)
+                        if (SiteInfo.AnonymousId.ToInt().ToString() == key)
                         {
                             return "\t";
                         }

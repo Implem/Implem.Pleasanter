@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Gráfica de trabajo pendiente"
+        },
+        {
+            "Language": "vn",
+            "Body": "Biểu đồ Burndown"
         }
     ]
 }

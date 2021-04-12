@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Eliminar de la papera de reciclaje"
+        },
+        {
+            "Language": "vn",
+            "Body": "Xóa khỏi thùng rác"
         }
     ]
 }

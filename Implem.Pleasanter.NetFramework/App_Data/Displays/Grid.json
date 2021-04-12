@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Cuadrícula"
+        },
+        {
+            "Language": "vn",
+            "Body": "Danh sách"
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "{0} años de más"
+        },
+        {
+            "Language": "vn",
+            "Body": "Quá {0} năm"
         }
     ]
 }

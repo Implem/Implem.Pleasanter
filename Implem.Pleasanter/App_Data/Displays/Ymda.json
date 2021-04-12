@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Fecha y día de la semana"
+        },
+        {
+            "Language": "vn",
+            "Body": "Thứ ngày tháng năm"
         }
     ]
 }

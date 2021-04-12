@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Importar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Nhập dữ liệu"
         }
     ]
 }

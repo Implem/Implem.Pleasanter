@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Vista de la agregación"
+        },
+        {
+            "Language": "vn",
+            "Body": "Hiển thị thống kê"
         }
     ]
 }

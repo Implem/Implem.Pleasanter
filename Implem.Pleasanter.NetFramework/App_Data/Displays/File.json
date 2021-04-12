@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Archivo"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tệp tin"
         }
     ]
 }

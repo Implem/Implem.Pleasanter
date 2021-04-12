@@ -70,11 +70,11 @@
                             if (fromTabIndex) {
                                 params.push('FromTabIndex=' + fromTabIndex);
                             }
-                            location.href = $('#BaseUrl').val() + dataId
+                            $p.transition($('#BaseUrl').val() + dataId
                                 + paramVer
                                 + (params.length
                                     ? (paramVer ? '$' : '?') + params.join('&')
-                                    : '');
+                                    : ''));
                         }
                     }
                 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Se importaron {0} sitios y se insertaron {1} registros."
+        },
+        {
+            "Language": "vn",
+            "Body": "{0} trang web và {1} bản ghi được thêm vào."
         }
     ]
 }

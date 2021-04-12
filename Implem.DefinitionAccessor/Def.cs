@@ -222,7 +222,7 @@ namespace Implem.DefinitionAccessor
         {
             return new SqlContainer
             {
-                RdsUser = rdsUser ?? new RdsUser(RdsUser.UserTypes.System),
+                RdsUser = rdsUser ?? new RdsUser(),
                 RdsName = Environments.ServiceName,
                 RdsProvider = Environments.RdsProvider,
                 ConnectionString = connectionString,
@@ -489,6 +489,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_ImageLibCases": Code.Model_ImageLibCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ImageLibCases, definitionRow, CodeXls); break;
                     case "Model_ImageLibJsonCases": Code.Model_ImageLibJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ImageLibJsonCases, definitionRow, CodeXls); break;
                     case "Model_NewCases": Code.Model_NewCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_NewCases, definitionRow, CodeXls); break;
+                    case "Model_NewJsonCases": Code.Model_NewJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_NewJsonCases, definitionRow, CodeXls); break;
                     case "Model_NewOnGridCases": Code.Model_NewOnGridCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_NewOnGridCases, definitionRow, CodeXls); break;
                     case "Model_CancelNewRowCases": Code.Model_CancelNewRowCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CancelNewRowCases, definitionRow, CodeXls); break;
                     case "Model_EditorCases": Code.Model_EditorCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_EditorCases, definitionRow, CodeXls); break;
@@ -1545,11 +1546,13 @@ namespace Implem.DefinitionAccessor
                     case "Depts_DeptName": Column.Depts_DeptName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Depts_DeptName, definitionRow, ColumnXls); break;
                     case "Depts_Body": Column.Depts_Body = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Depts_Body, definitionRow, ColumnXls); break;
                     case "Depts_Title": Column.Depts_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Depts_Title, definitionRow, ColumnXls); break;
+                    case "Depts_Disabled": Column.Depts_Disabled = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Depts_Disabled, definitionRow, ColumnXls); break;
                     case "Groups_TenantId": Column.Groups_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Groups_TenantId, definitionRow, ColumnXls); break;
                     case "Groups_GroupId": Column.Groups_GroupId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Groups_GroupId, definitionRow, ColumnXls); break;
                     case "Groups_GroupName": Column.Groups_GroupName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Groups_GroupName, definitionRow, ColumnXls); break;
                     case "Groups_Body": Column.Groups_Body = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Groups_Body, definitionRow, ColumnXls); break;
                     case "Groups_Title": Column.Groups_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Groups_Title, definitionRow, ColumnXls); break;
+                    case "Groups_Disabled": Column.Groups_Disabled = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Groups_Disabled, definitionRow, ColumnXls); break;
                     case "GroupMembers_GroupId": Column.GroupMembers_GroupId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.GroupMembers_GroupId, definitionRow, ColumnXls); break;
                     case "GroupMembers_DeptId": Column.GroupMembers_DeptId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.GroupMembers_DeptId, definitionRow, ColumnXls); break;
                     case "GroupMembers_UserId": Column.GroupMembers_UserId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.GroupMembers_UserId, definitionRow, ColumnXls); break;
@@ -2572,6 +2575,11 @@ namespace Implem.DefinitionAccessor
                                 data.ToString();
                             newColumnDefinition.SavedLabelText_es = newColumnDefinition.LabelText_es;
                             break;
+                        case "LabelText_vn":
+                            newColumnDefinition.LabelText_vn = customDefinitionRow.Get("LabelText_vn")?.ToString() ??
+                                data.ToString();
+                            newColumnDefinition.SavedLabelText_vn = newColumnDefinition.LabelText_vn;
+                            break;
                         default: break;
                     }
                 });
@@ -2703,6 +2711,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("LabelText_de")) { definition.LabelText_de = definitionRow["LabelText_de"].ToString(); definition.SavedLabelText_de = definition.LabelText_de; }
             if (definitionRow.ContainsKey("LabelText_ko")) { definition.LabelText_ko = definitionRow["LabelText_ko"].ToString(); definition.SavedLabelText_ko = definition.LabelText_ko; }
             if (definitionRow.ContainsKey("LabelText_es")) { definition.LabelText_es = definitionRow["LabelText_es"].ToString(); definition.SavedLabelText_es = definition.LabelText_es; }
+            if (definitionRow.ContainsKey("LabelText_vn")) { definition.LabelText_vn = definitionRow["LabelText_vn"].ToString(); definition.SavedLabelText_vn = definition.LabelText_vn; }
         }
 
         private static void ConstructColumnDefinitions()
@@ -6338,6 +6347,7 @@ namespace Implem.DefinitionAccessor
                         case "LabelText_de": columnDefinition.LabelText_de = optionValue.ToString(); break;
                         case "LabelText_ko": columnDefinition.LabelText_ko = optionValue.ToString(); break;
                         case "LabelText_es": columnDefinition.LabelText_es = optionValue.ToString(); break;
+                        case "LabelText_vn": columnDefinition.LabelText_vn = optionValue.ToString(); break;
                     }
                 });
         }
@@ -7478,6 +7488,7 @@ namespace Implem.DefinitionAccessor
         public string Model_ImageLibCases;
         public string Model_ImageLibJsonCases;
         public string Model_NewCases;
+        public string Model_NewJsonCases;
         public string Model_NewOnGridCases;
         public string Model_CancelNewRowCases;
         public string Model_EditorCases;
@@ -8140,6 +8151,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_ImageLibCases = new CodeDefinition();
         public CodeDefinition Model_ImageLibJsonCases = new CodeDefinition();
         public CodeDefinition Model_NewCases = new CodeDefinition();
+        public CodeDefinition Model_NewJsonCases = new CodeDefinition();
         public CodeDefinition Model_NewOnGridCases = new CodeDefinition();
         public CodeDefinition Model_CancelNewRowCases = new CodeDefinition();
         public CodeDefinition Model_EditorCases = new CodeDefinition();
@@ -8698,6 +8710,7 @@ namespace Implem.DefinitionAccessor
         public string LabelText_de; public string SavedLabelText_de;
         public string LabelText_ko; public string SavedLabelText_ko;
         public string LabelText_es; public string SavedLabelText_es;
+        public string LabelText_vn; public string SavedLabelText_vn;
 
         public ColumnDefinition()
         {
@@ -8827,6 +8840,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("LabelText_de")) LabelText_de = propertyCollection["LabelText_de"].ToString(); else LabelText_de = string.Empty;
             if (propertyCollection.ContainsKey("LabelText_ko")) LabelText_ko = propertyCollection["LabelText_ko"].ToString(); else LabelText_ko = string.Empty;
             if (propertyCollection.ContainsKey("LabelText_es")) LabelText_es = propertyCollection["LabelText_es"].ToString(); else LabelText_es = string.Empty;
+            if (propertyCollection.ContainsKey("LabelText_vn")) LabelText_vn = propertyCollection["LabelText_vn"].ToString(); else LabelText_vn = string.Empty;
         }
 
         public object this[string key]
@@ -8956,6 +8970,7 @@ namespace Implem.DefinitionAccessor
                     case "LabelText_de": return LabelText_de;
                     case "LabelText_ko": return LabelText_ko;
                     case "LabelText_es": return LabelText_es;
+                    case "LabelText_vn": return LabelText_vn;
                     default: return null;
                 }
             }
@@ -9085,6 +9100,7 @@ namespace Implem.DefinitionAccessor
             LabelText_de = SavedLabelText_de;
             LabelText_ko = SavedLabelText_ko;
             LabelText_es = SavedLabelText_es;
+            LabelText_vn = SavedLabelText_vn;
         }
     }
 
@@ -9187,11 +9203,13 @@ namespace Implem.DefinitionAccessor
         public string Depts_DeptName;
         public string Depts_Body;
         public string Depts_Title;
+        public string Depts_Disabled;
         public string Groups_TenantId;
         public string Groups_GroupId;
         public string Groups_GroupName;
         public string Groups_Body;
         public string Groups_Title;
+        public string Groups_Disabled;
         public string GroupMembers_GroupId;
         public string GroupMembers_DeptId;
         public string GroupMembers_UserId;
@@ -9685,11 +9703,13 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Depts_DeptName = new ColumnDefinition();
         public ColumnDefinition Depts_Body = new ColumnDefinition();
         public ColumnDefinition Depts_Title = new ColumnDefinition();
+        public ColumnDefinition Depts_Disabled = new ColumnDefinition();
         public ColumnDefinition Groups_TenantId = new ColumnDefinition();
         public ColumnDefinition Groups_GroupId = new ColumnDefinition();
         public ColumnDefinition Groups_GroupName = new ColumnDefinition();
         public ColumnDefinition Groups_Body = new ColumnDefinition();
         public ColumnDefinition Groups_Title = new ColumnDefinition();
+        public ColumnDefinition Groups_Disabled = new ColumnDefinition();
         public ColumnDefinition GroupMembers_GroupId = new ColumnDefinition();
         public ColumnDefinition GroupMembers_DeptId = new ColumnDefinition();
         public ColumnDefinition GroupMembers_UserId = new ColumnDefinition();

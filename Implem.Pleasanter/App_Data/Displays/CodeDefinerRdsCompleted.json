@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Se ha realizado la configuración de la base de datos."
+        },
+        {
+            "Language": "vn",
+            "Body": "Cấu hình cơ sở dữ liệu đã hoàn thành."
         }
     ]
 }

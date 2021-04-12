@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Cambiar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Thay đổi"
         }
     ]
 }

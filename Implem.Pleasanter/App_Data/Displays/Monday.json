@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Lunes"
+        },
+        {
+            "Language": "vn",
+            "Body": "Thứ hai"
         }
     ]
 }

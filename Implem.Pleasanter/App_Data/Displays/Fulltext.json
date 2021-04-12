@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Texto completo"
+        },
+        {
+            "Language": "vn",
+            "Body": "Toàn bộ văn bản"
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "No puede heredar los sitios ya heredados."
+        },
+        {
+            "Language": "vn",
+            "Body": "Bạn không thể kế thừa trang web đã được kế thừa."
         }
     ]
 }

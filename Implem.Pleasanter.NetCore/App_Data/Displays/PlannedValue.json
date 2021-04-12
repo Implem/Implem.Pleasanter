@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Valor planificado"
+        },
+        {
+            "Language": "vn",
+            "Body": "Dự tính"
         }
     ]
 }

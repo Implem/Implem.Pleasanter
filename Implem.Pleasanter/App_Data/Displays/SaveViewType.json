@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Guardar tipo de vista"
+        },
+        {
+            "Language": "vn",
+            "Body": "Loại lưu hiển thị"
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Fin del mes"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cuối tháng"
         }
     ]
 }

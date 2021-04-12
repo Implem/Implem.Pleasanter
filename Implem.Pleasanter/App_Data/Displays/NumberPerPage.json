@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "N.º de entradas mostradas por página"
+        },
+        {
+            "Language": "vn",
+            "Body": "Số bản ghi hiển thị mỗi trang"
         }
     ]
 }

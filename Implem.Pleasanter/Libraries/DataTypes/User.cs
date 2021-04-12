@@ -31,19 +31,13 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public bool AllowGroupAdministration;
         public bool Disabled;
 
-        public enum UserTypes : int
-        {
-            System = 1,
-            Anonymous = 2
-        }
-
         public User()
         {
         }
 
         public User(Context context, int userId)
         {
-            if (userId != 0 && userId != 2)
+            if (userId != 0 && userId != SiteInfo.AnonymousId)
             {
                 var dataTable = Repository.ExecuteTable(
                     context: context,
@@ -105,7 +99,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         private void SetAnonymous()
         {
             TenantId = 0;
-            Id = UserTypes.Anonymous.ToInt();
+            Id = SiteInfo.AnonymousId.ToInt();
             DeptId = 0;
             LoginId = "Anonymous";
             TenantManager = false;
@@ -133,7 +127,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             int? tabIndex,
             ServerScriptModelColumn serverScriptValues)
         {
-            return Id != UserTypes.Anonymous.ToInt()
+            return !Anonymous()
                 ? hb.Td(
                     css: column.CellCss(serverScriptValues?.ExtendedCellCss),
                     action: () => hb
@@ -148,7 +142,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public string GridText(Context context, Column column)
         {
-            return Id != UserTypes.Anonymous.ToInt()
+            return !Anonymous()
                 ? SiteInfo.UserName(
                     context: context,
                     userId: Id)
@@ -186,7 +180,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public bool Anonymous()
         {
-            return Id == UserTypes.Anonymous.ToInt();
+            return Id == 0
+                || Id == SiteInfo.AnonymousId;
         }
 
         public bool InitialValue(Context context)

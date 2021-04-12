@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Invitar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Mời"
         }
     ]
 }

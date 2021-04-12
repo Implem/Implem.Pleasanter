@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "{0} meses después"
+        },
+        {
+            "Language": "vn",
+            "Body": "{0} tháng sau"
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Guardar datos en"
+        },
+        {
+            "Language": "vn",
+            "Body": "Nơi lưu trữ dữ liệu"
         }
     ]
 }

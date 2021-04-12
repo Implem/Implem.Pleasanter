@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Validación de entrada"
+        },
+        {
+            "Language": "vn",
+            "Body": "Xác thực đầu vào"
         }
     ]
 }

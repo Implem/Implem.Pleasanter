@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Excluir vencido"
+        },
+        {
+            "Language": "vn",
+            "Body": "Không gửi quá hạn"
         }
     ]
 }

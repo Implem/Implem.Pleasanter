@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Tipos de editor de cuadrícula"
+        },
+        {
+            "Language": "vn",
+            "Body": "Loại chỉnh sửa danh sách"
         }
     ]
 }

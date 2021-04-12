@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Edición de Empresa"
+        },
+        {
+            "Language": "vn",
+            "Body": "Phiên bản doanh nghiệp"
         }
     ]
 }

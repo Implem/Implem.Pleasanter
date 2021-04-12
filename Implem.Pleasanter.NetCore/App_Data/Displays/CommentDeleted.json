@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Se ha eliminado el comentario."
+        },
+        {
+            "Language": "vn",
+            "Body": "Bình luận đã được xóa."
         }
     ]
 }

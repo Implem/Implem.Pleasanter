@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Permitir sección plegable"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cho phép mở rộng"
         }
     ]
 }

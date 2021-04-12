@@ -2052,6 +2052,50 @@ namespace Implem.Pleasanter.Libraries.Responses
             return res.ValAndFormData("#Depts_Body", value);
         }
 
+        public static DeptsResponseCollection Disabled(
+            this DeptsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Depts_Disabled",
+                res.DeptModel.Disabled.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Disabled")));
+        }
+
+        public static DeptsResponseCollection Disabled(
+            this DeptsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Depts_Disabled", value);
+        }
+
+        public static DeptsResponseCollection Disabled_FormData(
+            this DeptsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Depts_Disabled",
+                res.DeptModel.Disabled.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Disabled")));
+        }
+
+        public static DeptsResponseCollection Disabled_FormData(
+            this DeptsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Depts_Disabled", value);
+        }
+
         public static DeptsResponseCollection Comments(
             this DeptsResponseCollection res,
             Context context,
@@ -2402,6 +2446,50 @@ namespace Implem.Pleasanter.Libraries.Responses
             this GroupsResponseCollection res, Context context, string value)
         {
             return res.ValAndFormData("#Groups_Body", value);
+        }
+
+        public static GroupsResponseCollection Disabled(
+            this GroupsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Groups_Disabled",
+                res.GroupModel.Disabled.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Disabled")));
+        }
+
+        public static GroupsResponseCollection Disabled(
+            this GroupsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Groups_Disabled", value);
+        }
+
+        public static GroupsResponseCollection Disabled_FormData(
+            this GroupsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Groups_Disabled",
+                res.GroupModel.Disabled.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Disabled")));
+        }
+
+        public static GroupsResponseCollection Disabled_FormData(
+            this GroupsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Groups_Disabled", value);
         }
 
         public static GroupsResponseCollection Comments(

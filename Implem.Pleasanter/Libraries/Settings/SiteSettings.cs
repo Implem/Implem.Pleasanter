@@ -81,6 +81,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public Dictionary<long, DataSet> LinkedSsDataSetHash;
         [NonSerialized]
+        public Dictionary<string, Dictionary<string, Choice>> ChoiceHashCache = new Dictionary<string, Dictionary<string, Choice>>();
+        [NonSerialized]
         public long SiteId;
         [NonSerialized]
         public long ReferenceId;
@@ -392,6 +394,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         case "Destinations":
                             links
+                                .Where(o => o.SiteId > 0)
                                 .Where(o => o.SiteId == ss.SiteId)
                                 .ForEach(o =>
                                     ss.JoinStacks.Add(new JoinStack(
@@ -412,6 +415,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             break;
                         case "Sources":
                             ss.Links
+                                .Where(o => o.SiteId > 0)
                                 .Where(o => o.SiteId == SiteId)
                                 .ForEach(o =>
                                     ss.JoinStacks.Add(new JoinStack(
@@ -749,7 +753,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     ss.Links = new List<Link>();
                 }
-                ss.Links.Add(link.GetRecordingData());
+                ss.Links.Add(link.GetRecordingData(
+                    context: context,
+                    ss: this));
             });
             Summaries?.ForEach(summaries =>
             {
@@ -1659,12 +1665,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : 1);
         }
 
-        public Column GetColumn(Context context, string columnName)
+        public Column GetColumn(
+            Context context,
+            string columnName)
         {
             var column = ColumnHash.Get(columnName);
-            if (column == null &&
-                columnName?.Contains(',') == true &&
-                JoinOptions().ContainsKey(columnName.Split_1st()) == true)
+            if (column == null
+                && columnName?.Contains(',') == true
+                && JoinOptions().ContainsKey(columnName.Split_1st()) == true)
             {
                 column = AddJoinedColumn(context: context, columnName: columnName);
             }
@@ -3200,8 +3208,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<Link> GetUseSearchLinks(Context context)
         {
             return Links?
-                .Where(o => GetColumn(context: context, columnName: o.ColumnName)?
-                    .UseSearch == true)
+                .Where(o => o.SiteId > 0)
+                .Where(o => GetColumn(
+                    context: context,
+                    columnName: o.ColumnName)?
+                        .UseSearch == true)
                 .ToList();
         }
 
@@ -3209,28 +3220,43 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             column.Link = false;
             Links.RemoveAll(o => o.ColumnName == column.ColumnName);
-            column.ChoicesText.SplitReturn()
-                .Select(o => o.Trim())
-                .Where(o => o.RegexExists(@"^\[\[.+\]\]$"))
-                .Select(settings => new Link(
-                    columnName: column.ColumnName,
-                    settings: settings))
-                .Where(link => link.SiteId != 0)
-                .ForEach(link =>
+            var links = column.ChoicesText.Deserialize<List<Link>>();
+            if (links != null)
+            {
+                links.ForEach(link =>
                 {
-                    column.Link = true;
-                    if (!Links.Any(o => o.ColumnName == column.ColumnName
-                        && o.SiteId == link.SiteId))
-                    {
-                        if (new SiteModel(
-                            context: context,
-                            siteId: link.SiteId)
-                                .AccessStatus == Databases.AccessStatuses.Selected)
-                        {
-                            Links.Add(link);
-                        }
-                    }
+                    link.ColumnName = column.ColumnName;
+                    link.JsonFormat = true;
                 });
+                Links.AddRange(links);
+            }
+            else
+            {
+                column.ChoicesText.SplitReturn()
+                    .Select(o => o.Trim())
+                    .Where(o => o.RegexExists(@"^\[\[.+\]\]$"))
+                    .Select(settings => new Link(
+                        columnName: column.ColumnName,
+                        settings: settings))
+                    .Where(link => link.SiteId > 0)
+                    .ForEach(link =>
+                    {
+                        column.Link = true;
+                        if (!Links
+                            .Where(o => o.SiteId > 0)
+                            .Any(o => o.ColumnName == column.ColumnName
+                                && o.SiteId == link.SiteId))
+                        {
+                            if (new SiteModel(
+                                context: context,
+                                siteId: link.SiteId)
+                                    .AccessStatus == Databases.AccessStatuses.Selected)
+                            {
+                                Links.Add(link);
+                            }
+                        }
+                    });
+            }
         }
 
         public void SetChoiceHash(EnumerableRowCollection<DataRow> dataRows)
@@ -3247,6 +3273,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         column.ChoiceHash = new Dictionary<string, Choice>();
                     }
                     var links = column.SiteSettings.Links
+                        .Where(link => link.JsonFormat != true)
+                        .Where(link => link.SiteId > 0)
                         .Where(link => column.Name == link.ColumnName)
                         .Select(link => link.LinkedTableName() + ",ItemTitle")
                         .ToList();
@@ -3278,7 +3306,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public string LinkedItemTitle(
-            Context context, long referenceId, IEnumerable<long> siteIdList)
+            Context context, long referenceId, List<long> siteIdList)
         {
             var dataRows = LinkedItemTitles(
                 context: context,
@@ -3290,7 +3318,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         private EnumerableRowCollection<DataRow> LinkedItemTitles(
-            Context context, IEnumerable<long> idList, IEnumerable<long> siteIdList = null)
+            Context context, List<long> idList, List<long> siteIdList = null)
         {
             return Repository.ExecuteTable(
                 context: context,
@@ -3325,7 +3353,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             else
             {
                 var siteIdList = JoinedSsHash
-                    ?.SelectMany(o => o.Value.Links.Select(p => p.SiteId))
+                    ?.SelectMany(o => o.Value.Links
+                        .Where(p => p.JsonFormat != true)
+                        .Where(p => p.SiteId > 0)
+                        .Select(p => p.SiteId))
                     .Distinct()
                     .ToList() ?? new List<long>();
                 var linkHash = withLink
@@ -3376,8 +3407,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => columnName == null || o.ColumnName == columnName)
                 .ForEach(column =>
                 {
-                    var same = columns.FirstOrDefault(o =>
-                        $"{o.ChoicesText}{o.UseSearch}" == $"{column.ChoicesText}{column.UseSearch}");
+                    var key = column.ChoiceHashKey();
+                    var same = columns.FirstOrDefault(o => o.ChoiceHashKey() == key);
                     if (same == null)
                     {
                         columns.Add(column);
@@ -3386,13 +3417,29 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         column.ChoiceHash = same.ChoiceHash;
                     }
-                    column.SetChoiceHash(
-                        context: context,
-                        siteId: InheritPermission,
-                        linkHash: linkHash,
-                        searchIndexes: searchIndexes,
-                        setAllChoices: SetAllChoices,
-                        setChoices: same == null);
+                    var link = Links?
+                        .Where(o => o.JsonFormat == true)
+                        .FirstOrDefault(o => o.ColumnName == column.ColumnName);
+                    if (link != null)
+                    {
+                        column.SetChoiceHash(
+                            context: context,
+                            ss: this,
+                            link: link,
+                            searchText: searchIndexes?.Join(" "),
+                            setAllChoices: SetAllChoices,
+                            setChoices: same == null);
+                    }
+                    else
+                    {
+                        column.SetChoiceHash(
+                            context: context,
+                            siteId: InheritPermission,
+                            linkHash: linkHash,
+                            searchIndexes: searchIndexes,
+                            setAllChoices: SetAllChoices,
+                            setChoices: same == null);
+                    }
                 });
         }
 
@@ -3403,6 +3450,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             List<string> searchIndexes)
         {
             var notUseSearchSiteIdList = Links
+                .Where(o => o.JsonFormat != true)
+                .Where(o => o.SiteId > 0)
                 .Where(o => siteIdList.Contains(o.SiteId))
                 .Where(o => Columns.Any(p =>
                     p.ColumnName == o.ColumnName
@@ -3462,6 +3511,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var hash = new Dictionary<string, List<string>>();
             Links?
+                .Where(o => o.JsonFormat != true)
+                .Where(o => o.SiteId > 0)
                 .Where(o => o.ColumnName == columnName)
                 .Where(o => !searchColumnOnly
                     || GetColumn(
@@ -4161,7 +4212,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Where(o => o.StartsWith("Class")).ToList<string>());
         }
 
-        private static string LinkHashRelatingColumnsSubQuery(Context context, string referenceType, Column parentColumn, IEnumerable<long> parentIds)
+        public string LinkHashRelatingColumnsSubQuery(
+            Context context,
+            string referenceType,
+            Column parentColumn,
+            IEnumerable<long> parentIds)
         {
             if (parentColumn == null
                 || referenceType == "Wikis"
@@ -4202,10 +4257,12 @@ namespace Implem.Pleasanter.Libraries.Settings
         private string GetParentLinkedClass(string parentClassName, string childClassName)
         {
             var parentSiteId = Links
+                .Where(o => o.SiteId > 0)
                 .Where(o => o.ColumnName == parentClassName)
                 .Select(o => o.SiteId)
                 .FirstOrDefault();
             var childSiteId = Links
+                .Where(o => o.SiteId > 0)
                 .Where(o => o.ColumnName == childClassName)
                 .Select(o => o.SiteId)
                 .FirstOrDefault();
@@ -4213,6 +4270,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Values
                 .Where(dest => dest.SiteId == childSiteId)
                 .Select(dest => dest.Links
+                    .Where(o => o.SiteId > 0)
                     .Where(l => l.SiteId == parentSiteId)
                     .Select(l => new
                     {

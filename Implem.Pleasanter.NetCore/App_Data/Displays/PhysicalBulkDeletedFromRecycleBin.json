@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Se han eliminado \" {0} \" elementos de la papelera de reciclaje."
+        },
+        {
+            "Language": "vn",
+            "Body": "\" {0} \" mục đã được xóa khỏi thùng rác."
         }
     ]
 }

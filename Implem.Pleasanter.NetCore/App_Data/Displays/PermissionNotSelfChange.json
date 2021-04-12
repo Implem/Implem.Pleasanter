@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "No puede cambiar sus propios permisos."
+        },
+        {
+            "Language": "vn",
+            "Body": "Không thể thay đổi quyền của chính mình."
         }
     ]
 }

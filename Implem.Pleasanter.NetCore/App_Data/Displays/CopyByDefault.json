@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Copiar con los valores predeterminados"
+        },
+        {
+            "Language": "vn",
+            "Body": "Sao chép với giá trị mặc định"
         }
     ]
 }

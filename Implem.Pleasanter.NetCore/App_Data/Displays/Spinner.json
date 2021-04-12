@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Indicador giratorio"
+        },
+        {
+            "Language": "vn",
+            "Body": "Spinner"
         }
     ]
 }

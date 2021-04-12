@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Ajuste de la lista"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cài đặt danh sách"
         }
     ]
 }

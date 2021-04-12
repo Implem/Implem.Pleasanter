@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Condiciones antes del cambio"
+        },
+        {
+            "Language": "vn",
+            "Body": "Điều kiện trước khi thay đổi"
         }
     ]
 }

@@ -25,6 +25,10 @@
         {
             "Language": "es",
             "Body": "Por favor ingrese dentro de {0} caracteres."
+        },
+        {
+            "Language": "vn",
+            "Body": "Xin mời nhập trong khoảng {0} kí tự."
         }
     ]
 }

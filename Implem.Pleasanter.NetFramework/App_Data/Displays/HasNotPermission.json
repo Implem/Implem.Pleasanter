@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "No tiene permiso para realizar esta operación."
+        },
+        {
+            "Language": "vn",
+            "Body": "Bạn không có quyền để thực hiện thao tác này."
         }
     ]
 }

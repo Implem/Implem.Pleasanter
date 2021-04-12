@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Investigación y desarrollo"
+        },
+        {
+            "Language": "vn",
+            "Body": "Nghiên cứu/Phát triển"
         }
     ]
 }

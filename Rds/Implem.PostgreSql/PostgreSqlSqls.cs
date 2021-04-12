@@ -53,5 +53,146 @@ namespace Implem.PostgreSql
         public string DateGroupWeekly { get; } ="date_part('year',{0}) * 100 + date_part('week',{0})";
 
         public string DateGroupDaily { get; } = "to_char({0}, 'YYYY/MM/DD')";
+
+        public string PermissionsWhere { get; } = @"
+            (
+                exists
+                (
+                    select * from ""Depts""
+                    where ""Depts"".""TenantId""=@ipT
+                        and ""Depts"".""DeptId""=@ipD
+                        and ""Depts"".""Disabled""='false'
+                        and ""Permissions"".""DeptId""=""Depts"".""DeptId""
+                        and @ipD<>0
+                )
+                or
+                (
+                    exists
+                    (
+                        select *
+                        from ""Groups"" inner join ""GroupMembers"" on ""Groups"".""GroupId""=""GroupMembers"".""GroupId""
+                        where ""Groups"".""TenantId""=@ipT
+                            and ""Groups"".""Disabled""='false'
+                            and ""Permissions"".""GroupId""=""Groups"".""GroupId""
+                            and
+                            (
+                                exists
+                                (
+                                    select * from ""Depts""
+                                    where ""Depts"".""TenantId""=@ipT
+                                        and ""Depts"".""DeptId""=@ipD
+                                        and ""Depts"".""Disabled""='false'
+                                        and ""GroupMembers"".""DeptId""=""Depts"".""DeptId""
+                                        and @ipD<>0
+                                )
+                                or
+                                (
+                                    ""GroupMembers"".""UserId""=@ipU
+                                    and @ipU<>0
+                                )
+                            )
+                    )
+                )
+                or
+                (
+                    ""Permissions"".""UserId""=@ipU
+                    and @ipU<>0
+                )
+                or
+                (
+                    ""Permissions"".""UserId""=-1
+                )
+            )";
+
+        public string SiteDeptWhere { get; } = @"
+            (
+                exists
+                (
+                    select *
+                    from ""Permissions""
+                        left outer join ""Depts"" on ""Permissions"".""DeptId""=""Depts"".""DeptId""
+                        left outer join ""Groups"" on ""Permissions"".""GroupId""=""Groups"".""GroupId""
+                        left outer join ""GroupMembers"" on ""Groups"".""GroupId""=""GroupMembers"".""GroupId""
+                        left outer join ""Depts"" as ""GroupMemberDepts"" on ""GroupMembers"".""DeptId""=""GroupMemberDepts"".""DeptId""
+                    where
+                        ""Permissions"".""ReferenceId""={0}
+                        and
+                        (
+                            (
+                                ""Depts"".""Disabled""='false'
+                                and ""Depts"".""DeptId""=""Depts"".""DeptId""
+                            )
+                            or 
+                            (
+                                ""Groups"".""Disabled""='false' and 
+                                (
+                                    (
+                                        ""GroupMemberDepts"".""Disabled""='false'
+                                        and ""GroupMemberDepts"".""DeptId""=""Depts"".""DeptId""
+                                    )
+                                )
+                            )
+                        )
+                )
+            )";
+
+        public string SiteGroupWhere { get; } = @"
+            (
+                exists
+                (
+                    select *
+                    from ""Permissions""
+                    where
+                        ""Permissions"".""ReferenceId""={0}
+                        and ""Groups"".""Disabled""='false'
+                        and ""Permissions"".""GroupId""=""Groups"".""GroupId""
+                        and ""Groups"".""GroupId"">0
+                )
+            )";
+
+        public string SiteUserWhere { get; } = @"
+            (
+                exists
+                (
+                    select *
+                    from ""Permissions""
+                        left outer join ""Depts"" on ""Permissions"".""DeptId""=""Depts"".""DeptId""
+                        left outer join ""Groups"" on ""Permissions"".""GroupId""=""Groups"".""GroupId""
+                        left outer join ""GroupMembers"" on ""Groups"".""GroupId""=""GroupMembers"".""GroupId""
+                        left outer join ""Depts"" as ""GroupMemberDepts"" on ""GroupMembers"".""DeptId""=""GroupMemberDepts"".""DeptId""
+                    where
+                        ""Permissions"".""ReferenceId""={0}
+                        and
+                        (
+                            (
+                                ""Depts"".""Disabled""='false'
+                                and ""Depts"".""DeptId""=""Users"".""DeptId""
+                            )
+                            or 
+                            (
+                                ""Groups"".""Disabled""='false' and 
+                                (
+                                    (
+                                        ""GroupMemberDepts"".""Disabled""='false'
+                                        and ""GroupMemberDepts"".""DeptId""=""Users"".""DeptId""
+                                    )
+                                    or
+                                    (
+                                        ""GroupMembers"".""UserId""=""Users"".""UserId""
+                                    )
+                                )
+                            )
+                            or
+                            (
+                                ""Permissions"".""UserId""=""Users"".""UserId""
+                                and ""Permissions"".""UserId"">0
+                            )
+                            or
+                            (
+                                ""Permissions"".""UserId""=-1
+                            )
+                        )
+                )
+            )";
     }
 }

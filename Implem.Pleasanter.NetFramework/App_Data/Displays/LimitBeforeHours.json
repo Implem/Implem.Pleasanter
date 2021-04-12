@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "{0} horas de más"
+        },
+        {
+            "Language": "vn",
+            "Body": "Quá {0} giờ"
         }
     ]
 }

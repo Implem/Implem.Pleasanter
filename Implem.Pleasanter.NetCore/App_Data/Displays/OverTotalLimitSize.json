@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Pueden adjuntarse hasta {0} MB."
+        },
+        {
+            "Language": "vn",
+            "Body": "Dung lượng tối đa có thể đính kèm là {0}MB."
         }
     ]
 }

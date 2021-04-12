@@ -834,6 +834,7 @@ namespace Implem.Pleasanter.Models
             statements.Add(Rds.PhysicalDeleteLinks(
                 where: Rds.LinksWhere().SourceId(SiteId)));
             statements.Add(LinkUtilities.Insert(SiteSettings.Links
+                ?.Where(o => o.SiteId > 0)
                 .Select(o => o.SiteId)
                 .Distinct()
                 .ToDictionary(o => o, o => SiteId)));
@@ -1101,6 +1102,7 @@ namespace Implem.Pleasanter.Models
             var data = context.RequestDataString.Deserialize<SiteApiModel>();
             if (data == null)
             {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
                 return;
             }
             if (data.Title != null) Title = new Title(SiteId, data.Title);

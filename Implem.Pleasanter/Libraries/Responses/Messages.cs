@@ -431,6 +431,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message CustomError(Context context, params string[] data)
+        {
+            return Get(
+                id: "CustomError",
+                text: Displays.CustomError(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message DefinitionNotFound(Context context, params string[] data)
         {
             return Get(
@@ -746,6 +756,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 id: "InvalidIpAddress",
                 text: Displays.InvalidIpAddress(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message InvalidJsonData(Context context, params string[] data)
+        {
+            return Get(
+                id: "InvalidJsonData",
+                text: Displays.InvalidJsonData(
                     context: context,
                     data: data),
                 css: "alert-error");
@@ -1791,6 +1811,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseCustomError(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: CustomError(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseDefinitionNotFound(
             Context context, string target = null, params string[] data)
         {
@@ -2106,6 +2136,16 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return ResponseMessage(
                 message: InvalidIpAddress(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseInvalidJsonData(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: InvalidJsonData(
                     context: context,
                     data: data),
                 target: target);

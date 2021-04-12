@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Este ID de inicio de sesión ya está en uso."
+        },
+        {
+            "Language": "vn",
+            "Body": "ID đăng nhập này đã được sử dụng."
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Paquete de sitio de exportación"
+        },
+        {
+            "Language": "vn",
+            "Body": "Xuất dữ liệu của gói trang web"
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Se ha eliminado \" {0} \"."
+        },
+        {
+            "Language": "vn",
+            "Body": "\" {0} \" đã bị xóa."
         }
     ]
 }

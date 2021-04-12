@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Permiso obligatorio"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cho phép các truy cập bắt buộc"
         }
     ]
 }

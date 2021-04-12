@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "[{0}]Exportación completada"
+        },
+        {
+            "Language": "vn",
+            "Body": "[{0}]Xuất dữ liệu hoàn thành"
         }
     ]
 }

@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Columna de valor numérico"
+        },
+        {
+            "Language": "vn",
+            "Body": "Mục giá trị số"
         }
     ]
 }

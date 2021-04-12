@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Estilos"
+        },
+        {
+            "Language": "vn",
+            "Body": "Kiểu"
         }
     ]
 }

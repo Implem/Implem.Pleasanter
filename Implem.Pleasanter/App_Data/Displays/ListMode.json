@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Modo de lista"
+        },
+        {
+            "Language": "vn",
+            "Body": "Chế độ danh sách"
         }
     ]
 }

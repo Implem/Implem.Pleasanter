@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Imagen del logotipo"
+        },
+        {
+            "Language": "vn",
+            "Body": "Ảnh biểu tượng"
         }
     ]
 }

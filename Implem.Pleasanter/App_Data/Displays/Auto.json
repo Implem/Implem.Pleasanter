@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Automático"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tự động"
         }
     ]
 }

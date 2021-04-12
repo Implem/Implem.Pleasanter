@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Añadir permiso"
+        },
+        {
+            "Language": "vn",
+            "Body": "Thêm quyền"
         }
     ]
 }

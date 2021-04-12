@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "El registro {0} ha sido bloqueado por {1} en {2}."
+        },
+        {
+            "Language": "vn",
+            "Body": "Bản ghi {0} đã được khóa bởi {1} lúc {2}."
         }
     ]
 }

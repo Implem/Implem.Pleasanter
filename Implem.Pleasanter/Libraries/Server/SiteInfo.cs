@@ -17,9 +17,12 @@ namespace Implem.Pleasanter.Libraries.Server
     public static class SiteInfo
     {
         public static Dictionary<int, TenantCache> TenantCaches = new Dictionary<int, TenantCache>();
+        public static DateTime SessionCleanedUpDate;
+        public static int? AnonymousId;
 
         public static void Reflesh(Context context, bool force = false)
         {
+            SetAnonymousId(context: context);
             if (context.TenantId == 0)
             {
                 return;
@@ -38,7 +41,8 @@ namespace Implem.Pleasanter.Libraries.Server
                                 .TenantId()
                                 .DeptId()
                                 .DeptCode()
-                                .DeptName(),
+                                .DeptName()
+                                .Disabled(),
                             where: Rds.DeptsWhere().TenantId(context.TenantId),
                             _using: monitor.DeptsUpdated || force),
                         Rds.SelectGroups(
@@ -46,7 +50,8 @@ namespace Implem.Pleasanter.Libraries.Server
                             column: Rds.GroupsColumn()
                                 .TenantId()
                                 .GroupId()
-                                .GroupName(),
+                                .GroupName()
+                                .Disabled(),
                             where: Rds.GroupsWhere().TenantId(context.TenantId),
                             _using: monitor.GroupsUpdated || force),
                         Rds.SelectUsers(
@@ -327,7 +332,9 @@ namespace Implem.Pleasanter.Libraries.Server
                     column: Rds.UsersColumn().UserId(),
                     where: Rds.UsersWhere()
                         .TenantId(context.TenantId)
-                        .SiteUserWhere(siteId: siteId)));
+                        .SiteUserWhere(
+                            context: context,
+                            siteId: siteId)));
         }
 
         public static string Name(Context context, int id, Settings.Column.Types type)
@@ -398,7 +405,7 @@ namespace Implem.Pleasanter.Libraries.Server
         {
             return new User(
                 context: context,
-                userId: DataTypes.User.UserTypes.Anonymous.ToInt());
+                userId: AnonymousId.ToInt());
         }
 
         public static string UserName(
@@ -496,6 +503,20 @@ namespace Implem.Pleasanter.Libraries.Server
                         data => data.Select(dataRow => dataRow.Long("DestinationId")).ToList())
             };
             return linkKeyValues;
+        }
+
+        public static void SetAnonymousId(Context context)
+        {
+            if (AnonymousId == null)
+            {
+                AnonymousId = Rds.ExecuteScalar_int(
+                    context: context,
+                    statements: Rds.SelectUsers(
+                        column: Rds.UsersColumn().UserId(),
+                        where: Rds.UsersWhere()
+                            .TenantId(0)
+                            .UserId(2)));
+            }
         }
     }
 }

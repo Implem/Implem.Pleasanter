@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "El usuario se ha cambiado a \" {0} \"."
+        },
+        {
+            "Language": "vn",
+            "Body": "Người dùng đã được chuyển sang \" {0} \"."
         }
     ]
 }

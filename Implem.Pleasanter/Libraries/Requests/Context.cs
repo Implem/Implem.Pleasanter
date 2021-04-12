@@ -1,6 +1,7 @@
 ﻿using Implem.IRds;
 using Implem.Libraries.Classes;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
@@ -12,7 +13,6 @@ using System.Dynamic;
 using System.Globalization;
 using System.Security.Claims;
 using System.Text;
-
 namespace Implem.Pleasanter.Libraries.Requests
 {
     public abstract class Context : ISqlObjectFactory
@@ -20,6 +20,8 @@ namespace Implem.Pleasanter.Libraries.Requests
         public abstract Stopwatch Stopwatch { get; set; }
         public abstract StringBuilder LogBuilder { get; set; }
         public abstract ExpandoObject UserData { get; set; }
+        public abstract ErrorData ErrorData { get; set; }
+        public abstract bool InvalidJsonData { get; set; }
         public abstract bool Authenticated { get; set; }
         public abstract bool SwitchUser { get; set; }
         public abstract string SessionGuid { get; set; }

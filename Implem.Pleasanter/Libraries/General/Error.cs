@@ -25,6 +25,7 @@ namespace Implem.Pleasanter.Libraries.General
             CanNotLink,
             CanNotPerformed,
             CantSetAtTopOfSite,
+            CustomError,
             DefinitionNotFound,
             DeleteConflicts,
             Duplicated,
@@ -45,6 +46,7 @@ namespace Implem.Pleasanter.Libraries.General
             InvalidCsvData,
             InvalidFormula,
             InvalidIpAddress,
+            InvalidJsonData,
             InvalidRequest,
             InvalidSsoCode,
             ItemsLimit,
@@ -168,6 +170,10 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.CantSetAtTopOfSite(
                         context: context,
                         data: data);
+                case Types.CustomError:
+                    return Messages.CustomError(
+                        context: context,
+                        data: data);
                 case Types.DefinitionNotFound:
                     return Messages.DefinitionNotFound(
                         context: context,
@@ -246,6 +252,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.InvalidIpAddress:
                     return Messages.InvalidIpAddress(
+                        context: context,
+                        data: data);
+                case Types.InvalidJsonData:
+                    return Messages.InvalidJsonData(
                         context: context,
                         data: data);
                 case Types.InvalidRequest:

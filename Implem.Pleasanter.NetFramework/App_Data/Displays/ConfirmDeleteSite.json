@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Por favor, confirme la eliminación del sitio."
+        },
+        {
+            "Language": "vn",
+            "Body": "Xin mời xác nhận xóa trang web."
         }
     ]
 }

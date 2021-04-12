@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Primer día"
+        },
+        {
+            "Language": "vn",
+            "Body": "Ngày đầu tiên"
         }
     ]
 }

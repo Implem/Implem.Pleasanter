@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Ajustes de permiso actual"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cài đặt quyền hiện tại"
         }
     ]
 }

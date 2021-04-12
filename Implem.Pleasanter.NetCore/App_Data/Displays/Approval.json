@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Aprobación"
+        },
+        {
+            "Language": "vn",
+            "Body": "Phê duyệt"
         }
     ]
 }

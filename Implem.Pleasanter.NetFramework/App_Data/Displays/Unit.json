@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Unidad"
+        },
+        {
+            "Language": "vn",
+            "Body": "Đơn vị"
         }
     ]
 }

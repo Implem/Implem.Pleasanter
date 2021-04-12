@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "N.º de días desde la hora de finalización (después)"
+        },
+        {
+            "Language": "vn",
+            "Body": "Số ngày qua thời hạn"
         }
     ]
 }

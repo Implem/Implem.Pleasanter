@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Límite de tamaño total (MB)"
+        },
+        {
+            "Language": "vn",
+            "Body": "Giới hạn tổng dung lượng (MB)"
         }
     ]
 }

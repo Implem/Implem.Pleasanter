@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Restaurado desde la versión {0}."
+        },
+        {
+            "Language": "vn",
+            "Body": "Khôi phục từ phiên bản {0}."
         }
     ]
 }

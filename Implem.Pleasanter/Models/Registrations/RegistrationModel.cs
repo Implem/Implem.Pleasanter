@@ -726,6 +726,7 @@ namespace Implem.Pleasanter.Models
             var data = context.RequestDataString.Deserialize<RegistrationApiModel>();
             if (data == null)
             {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
                 return;
             }
             if (data.MailAddress != null) MailAddress = data.MailAddress.ToString().ToString();

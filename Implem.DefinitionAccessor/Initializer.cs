@@ -88,6 +88,7 @@ namespace Implem.DefinitionAccessor
             Parameters.History = Read<History>();
             Parameters.Version = Read<ParameterAccessor.Parts.Version>();
             Parameters.Mail = Read<Mail>();
+            Parameters.Migration = Read<ParameterAccessor.Parts.Migration>();
             Parameters.Notification = Read<Notification>();
             Parameters.Permissions = Read<Permissions>();
             Parameters.Rds = Read<Rds>();
@@ -543,7 +544,8 @@ namespace Implem.DefinitionAccessor
                     Ja = o.LabelText,
                     De = o.LabelText_de,
                     Ko = o.LabelText_ko,
-                    Es = o.LabelText_es
+                    Es = o.LabelText_es,
+                    Vn = o.LabelText_vn
                 })
                 .Union(Def.ColumnDefinitionCollection
                     .Where(o => !o.Base)
@@ -555,7 +557,8 @@ namespace Implem.DefinitionAccessor
                         Ja = o.Label,
                         De = o.TableName,
                         Ko = o.TableName,
-                        Es = o.TableName
+                        Es = o.TableName,
+                        Vn = o.TableName
                     })
                     .Distinct())
                 .Where(o => !Displays.DisplayHash.ContainsKey(o.Id))
@@ -593,6 +596,11 @@ namespace Implem.DefinitionAccessor
                             {
                                 Language = "es",
                                 Body = o.Es
+                            },
+                            new DisplayElement
+                            {
+                                Language = "vn",
+                                Body = o.Vn
                             }
                         }
                     }));

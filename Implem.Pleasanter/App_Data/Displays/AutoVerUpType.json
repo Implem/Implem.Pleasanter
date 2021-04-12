@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Actualización automática de versión"
+        },
+        {
+            "Language": "vn",
+            "Body": "Nâng cấp phiên bản tự động"
         }
     ]
 }

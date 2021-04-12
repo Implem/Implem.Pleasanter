@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Agrupación de dígitos"
+        },
+        {
+            "Language": "vn",
+            "Body": "Dấu phân cách chữ số"
         }
     ]
 }

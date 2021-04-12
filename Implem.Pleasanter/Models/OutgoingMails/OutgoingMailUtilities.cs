@@ -556,7 +556,9 @@ namespace Implem.Pleasanter.Models
                             joinDepts,
                             joinMailAddresses),
                         where: Rds.UsersWhere()
-                            .SiteUserWhere(siteId: referenceId)
+                            .SiteUserWhere(
+                                context: context,
+                                siteId: referenceId)
                             .MailAddresses_OwnerType("Users")
                             .SearchText(
                                 context: context,

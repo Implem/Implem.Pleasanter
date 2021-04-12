@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Ayuda"
+        },
+        {
+            "Language": "vn",
+            "Body": "Trợ giúp"
         }
     ]
 }

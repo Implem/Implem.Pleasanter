@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Se han realizado todos los procesos."
+        },
+        {
+            "Language": "vn",
+            "Body": "Đã hoàn thành tất cả các xử lí."
         }
     ]
 }

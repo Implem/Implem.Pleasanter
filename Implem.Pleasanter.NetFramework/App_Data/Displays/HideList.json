@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Ocultar lista"
+        },
+        {
+            "Language": "vn",
+            "Body": "Danh sách không hiển thị"
         }
     ]
 }

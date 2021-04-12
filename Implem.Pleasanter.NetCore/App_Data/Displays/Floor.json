@@ -24,6 +24,10 @@
         {
             "Language": "es",
             "Body": "Devaluación"
+        },
+        {
+            "Language": "vn",
+            "Body": "Làm tròn xuống"
         }
     ]
 }
