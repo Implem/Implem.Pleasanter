@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using System.IO.Pipelines;
 using System.Text;
 using Implem.Pleasanter.NetCore.Libraries.Requests;
+using System.IO;
 
 namespace Implem.Pleasanter.NetCore.Filters
 {
@@ -23,18 +24,21 @@ namespace Implem.Pleasanter.NetCore.Filters
             if (Parameters.Security.TokenCheck
                 && filterContext.HttpContext.User?.Identity?.IsAuthenticated == true)
             {
-                var length = filterContext.HttpContext.Request?.Body?.Length ?? 0;
-                if (length > 0)
+                if (filterContext.HttpContext.Request?.Body == null)
                 {
-                    byte[] buffer = new byte[length];
-                    filterContext.HttpContext.Request?.Body.Read(buffer);
-                    var data = Encoding.UTF8.GetString(buffer);
-                    var api = data?.Deserialize<Api>();
-                    if (api?.Token != ContextImplement.StaticToken())
-                    {
-                        filterContext.Result = new BadRequestResult();
-                    }
+                    filterContext.Result = new BadRequestResult();
+                    return;
                 }
+                var reader = new StreamReader(
+                    stream: filterContext.HttpContext.Request?.Body,
+                    encoding: Encoding.UTF8);
+                var data = reader.ReadToEnd();
+                var api = data?.Deserialize<Api>();
+                if (api?.Token != ContextImplement.StaticToken())
+                {
+                    filterContext.Result = new BadRequestResult();
+                }
+
             }
         }
 
