@@ -1,10 +1,12 @@
-﻿using Implem.Pleasanter.NetCore.Libraries.Requests;
+﻿using Implem.Pleasanter.NetCore.Filters;
+using Implem.Pleasanter.NetCore.Libraries.Requests;
 using Implem.Pleasanter.NetCore.Libraries.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
 namespace Implem.Pleasanter.NetCore.Controllers.Api
 {
+    [CheckApiContextAttributes]
     [AllowAnonymous]
     [ApiController]
     [Route("api")]

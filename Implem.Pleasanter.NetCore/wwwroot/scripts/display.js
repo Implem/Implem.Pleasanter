@@ -1,5 +1,11 @@
 ﻿$p.display = function (defaultId) {
     var displays = {
+        BadRequest: 'Invalid request.',
+        BadRequest_zh: '无效请求。',
+        BadRequest_ja: '要求が不正です。',
+        BadRequest_de: 'Anforderung ung&#252;ltig.',
+        BadRequest_ko: '유효하지 않은 요청입니다.',
+        BadRequest_es: 'Solicitud no v&#225;lida.',
         CanNotConnectCamera: 'Cannot connect to camera.',
         CanNotConnectCamera_zh: '无法连接至摄像机。',
         CanNotConnectCamera_ja: 'カメラに接続できません。',

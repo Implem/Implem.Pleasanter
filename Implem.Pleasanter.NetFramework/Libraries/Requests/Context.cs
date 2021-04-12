@@ -189,6 +189,16 @@ namespace Implem.Pleasanter.NetFramework.Libraries.Requests
             }
         }
 
+        public override string Token()
+        {
+            return StaticToken();
+        }
+
+        public static string StaticToken()
+        {
+            return HttpContext.Current?.Request?.Cookies["ASP.NET_SessionId"]?.Value.Sha512Cng();
+        }
+
         private void SetSessionGuid()
         {
             SessionGuid = HttpContext.Current?.Request?.Cookies["ASP.NET_SessionId"]?.Value

@@ -4,6 +4,7 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.NetCore.Libraries.Requests;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
@@ -42,6 +43,30 @@ namespace Implem.Pleasanter.NetCore.Filters
                     Locations.Login(context: context) + "?expired=1");
                 return;
             }
+            if (context.Authenticated
+                && Parameters.Security.TokenCheck
+                && filterContext.HttpContext.Request.HasFormContentType
+                && filterContext.HttpContext.Request.Form.Count > 0
+                && filterContext.HttpContext.Request.Form["Token"] != ContextImplement.StaticToken())
+            {
+                filterContext.HttpContext.Response.StatusCode = 400;
+                if (filterContext.HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                {
+                    filterContext.Result = new JsonResult(
+                    new
+                    {
+                        Message = Displays.InvalidRequest(context: context)
+                    });
+                }
+                else
+                {
+                    filterContext.Result = new ContentResult()
+                    {
+                        Content = Displays.InvalidRequest(context: context)
+                    };
+                }
+                return;
+            }
             if (!context.LoginId.IsNullOrEmpty())
             {
                 if (!context.Authenticated)
@@ -62,5 +87,6 @@ namespace Implem.Pleasanter.NetCore.Filters
             }
             SiteInfo.Reflesh(context: context);
         }
+
     }
 }
