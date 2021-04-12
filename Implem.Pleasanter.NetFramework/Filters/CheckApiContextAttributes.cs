@@ -20,11 +20,14 @@ namespace Implem.Pleasanter.NetFramework.Filters
             CancellationToken cancellationToken,
             Func<Task<HttpResponseMessage>> continuation)
         {
-            if (actionContext?.Request?.Content == null)
+            var stream = await actionContext?.Request?.Content?.ReadAsStreamAsync();
+            if (stream == null)
             {
                 return await Task.FromResult(actionContext.Request.CreateResponse(HttpStatusCode.BadRequest));
             }
-            var requestData = await actionContext?.Request?.Content?.ReadAsStringAsync();
+            var reader = new System.IO.StreamReader(stream, System.Text.Encoding.UTF8);
+            var requestData = await reader.ReadToEndAsync();
+            stream.Position = 0;
             var context = new ContextImplement(
                 sessionStatus: false,
                 sessionData: false,
