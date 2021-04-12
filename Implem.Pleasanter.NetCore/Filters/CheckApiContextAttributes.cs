@@ -21,6 +21,15 @@ namespace Implem.Pleasanter.NetCore.Filters
     {
         public void OnAuthorization(AuthorizationFilterContext filterContext)
         {
+            var context = new ContextImplement(
+                sessionStatus: false,
+                sessionData: false,
+                item: false);
+            if (!context.ContractSettings.AllowedIpAddress(context.UserHostAddress))
+            {
+                filterContext.Result = new ForbidResult();
+                return;
+            }
             if (Parameters.Security.TokenCheck
                 && filterContext.HttpContext.User?.Identity?.IsAuthenticated == true)
             {
@@ -34,11 +43,10 @@ namespace Implem.Pleasanter.NetCore.Filters
                     encoding: Encoding.UTF8);
                 var data = reader.ReadToEnd();
                 var api = data?.Deserialize<Api>();
-                if (api?.Token != ContextImplement.StaticToken())
+                if (api?.Token != context.Token())
                 {
                     filterContext.Result = new BadRequestResult();
                 }
-
             }
         }
 

@@ -20,12 +20,20 @@ namespace Implem.Pleasanter.NetFramework.Filters
             CancellationToken cancellationToken,
             Func<Task<HttpResponseMessage>> continuation)
         {
+            var context = new ContextImplement(
+                sessionStatus: false,
+                sessionData: false,
+                item: false);
+            if (!context.ContractSettings.AllowedIpAddress(context.UserHostAddress))
+            {
+                return await Task.FromResult(actionContext.Request.CreateResponse(HttpStatusCode.Forbidden));
+            }
             if (Parameters.Security.TokenCheck
                 && HttpContext.Current?.User?.Identity?.IsAuthenticated == true)
             {
                 var data = await actionContext.Request?.Content?.ReadAsStringAsync();
                 var api = data?.Deserialize<Api>();
-                if (api?.Token != ContextImplement.StaticToken())
+                if (api?.Token != context.Token())
                 {
                     return await Task.FromResult(actionContext.Request.CreateResponse(HttpStatusCode.BadRequest));
                 }

@@ -196,11 +196,6 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
 
         public override string Token()
         {
-            return StaticToken();
-        }
-
-        public static string StaticToken()
-        {
             return AspNetCoreHttpContext.Current?.Request?.Cookies[".AspNetCore.Session"]?.Sha512Cng();
         }
 
