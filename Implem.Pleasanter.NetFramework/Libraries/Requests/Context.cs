@@ -71,7 +71,7 @@ namespace Implem.Pleasanter.NetFramework.Libraries.Requests
         public override string TenantTitle { get; set; }
         public override string SiteTitle { get; set; }
         public override string RecordTitle { get; set; }
-        public override  bool DisableAllUsersPermission { get; set; }
+        public override bool DisableAllUsersPermission { get; set; }
         public override string HtmlTitleTop { get; set; }
         public override string HtmlTitleSite { get; set; }
         public override string HtmlTitleRecord { get; set; }
@@ -190,6 +190,11 @@ namespace Implem.Pleasanter.NetFramework.Libraries.Requests
                 UserHostAddress = GetUserHostAddress(request);
                 UserAgent = request.UserAgent;
             }
+        }
+
+        public override string Token()
+        {
+            return HttpContext.Current?.Request?.Cookies["ASP.NET_SessionId"]?.Value.Sha512Cng();
         }
 
         private void SetSessionGuid()

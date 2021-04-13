@@ -548,6 +548,7 @@
     <Compile Include="Controllers\TenantsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\VersionsController.cs" />
+    <Compile Include="Filters\CheckApiContextAttributes.cs" />
     <Compile Include="Filters\PublishesAttributes.cs" />
     <Compile Include="Filters\CheckContextAttributes.cs" />
     <Compile Include="Filters\HandleErrorExAttribute.cs" />

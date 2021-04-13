@@ -229,5 +229,8 @@ namespace Implem.Pleasanter.Libraries.Requests
         public abstract IScriptEngine CreateScriptEngin();
 
         public abstract string GetLog();
+
+        public abstract string Token();
+
     }
 }

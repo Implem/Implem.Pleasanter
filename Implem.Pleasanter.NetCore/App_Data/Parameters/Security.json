@@ -6,6 +6,7 @@
     "LockoutCount": 0,
     "PasswordExpirationPeriod": 0,
     "JoeAccountCheck": true,
+    "TokenCheck": false,
     "PasswordPolicies": [
         {
             "Enabled": true,

@@ -194,6 +194,11 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
             }
         }
 
+        public override string Token()
+        {
+            return AspNetCoreHttpContext.Current?.Request?.Cookies[".AspNetCore.Session"]?.Sha512Cng();
+        }
+
         private void SetSessionGuid()
         {
             try
@@ -734,5 +739,6 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
         {
             return LogBuilder?.ToString();
         }
+
     }
 }

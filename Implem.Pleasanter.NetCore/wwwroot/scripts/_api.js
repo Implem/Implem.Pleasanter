@@ -34,12 +34,16 @@ $p.apiBulkDeleteExec = function (url, args) {
                 : $p.data.MainForm.GridUnCheckedItems.split(',')
             : $p.data.MainForm.GridCheckedItems.split(',');
     }
+    var data = args.data !== undefined
+        ? args.data
+        : {};
+    if ($('#Token').length === 1) {
+        data.Token = $('#Token').val();
+    }
     return $.ajax({
-        type: 'Post',
+        type: 'post',
         url: url,
-        data: args.data !== undefined
-            ? JSON.stringify(args.data)
-            : "",
+        data: JSON.stringify(data),
         dataType: 'json'
     })
         .done(args.done)
@@ -54,13 +58,17 @@ $p.apiExec = function (url, args) {
     if (args.async !== undefined) {
         $.ajaxSetup({ async: args.async });
     }
+    var data = args.data !== undefined
+        ? args.data
+        : {};
+    if ($('#Token').length === 1) {
+        data.Token = $('#Token').val();
+    }
     var ajaxSetings = {
-        type: 'Post',
+        type: 'post',
         url: url,
         cache: false,
-        data: args.data !== undefined
-            ? JSON.stringify(args.data)
-            : '{}',
+        data: JSON.stringify(data),
         dataType: 'json'
     };
     if (/(?:^|\/)api\//.test(url)) {

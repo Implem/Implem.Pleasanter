@@ -10,6 +10,7 @@ namespace Implem.ParameterAccessor.Parts
         public int LockoutCount;
         public int PasswordExpirationPeriod;
         public bool JoeAccountCheck;
+        public bool TokenCheck;
         public List<PasswordPolicy> PasswordPolicies;
         public SecondaryAuthentication SecondaryAuthentication;
     }

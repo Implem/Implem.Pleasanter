@@ -1,10 +1,12 @@
-﻿using Implem.Pleasanter.NetFramework.Libraries.Requests;
+﻿using Implem.Pleasanter.NetFramework.Filters;
+using Implem.Pleasanter.NetFramework.Libraries.Requests;
 using Implem.Pleasanter.NetFramework.Libraries.Responses;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 namespace Implem.Pleasanter.NetFramework.Controllers.Api
 {
+    [CheckApiContextAttributes]
     [AllowAnonymous]
     public class OutgoingMailsController : ApiController
     {
