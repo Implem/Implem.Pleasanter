@@ -23,10 +23,17 @@ namespace Implem.Pleasanter.NetCore.Filters
     {
         public void OnAuthorization(AuthorizationFilterContext filterContext)
         {
-            if (filterContext.HttpContext.Request?.Body == null)
+            if (filterContext.HttpContext?.Request?.Body == null)
             {
                 filterContext.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-                filterContext.Result = new BadRequestResult();
+                filterContext.Result = new JsonResult(
+                    new
+                    {
+                        Message = Displays.BadRequest(context: new ContextImplement(
+                            sessionStatus: false,
+                            sessionData: false,
+                            item: false))
+                    });
                 return;
             }
             filterContext.HttpContext.Request.EnableBuffering();
