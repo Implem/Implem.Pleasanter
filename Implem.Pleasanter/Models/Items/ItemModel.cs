@@ -1318,6 +1318,7 @@ namespace Implem.Pleasanter.Models
                 searchColumnOnly: false);
             Dictionary<string, ControlData> optionCollection
                 = new Dictionary<string, ControlData>();
+            var multiple = (column.MultipleSelections ?? false) || filter;
             if (filter || parentIds?.Any() == true)
             {
                 optionCollection = column?.EditChoices(context: context, addNotSet: filter);
@@ -1326,9 +1327,9 @@ namespace Implem.Pleasanter.Models
             {
                 selectedValue = null;
             }
-            else if (!filter)
+            else if (!multiple)
             {
-                selectedValue = selectedValue.Deserialize<string[]>().FirstOrDefault();
+                selectedValue = selectedValue.Deserialize<string[]>()?.FirstOrDefault();
             }
             return new ResponseCollection()
                 .Html(
@@ -1337,7 +1338,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         optionCollection: optionCollection,
                         selectedValue: selectedValue,
-                        multiple: filter,
+                        multiple: multiple,
                         addSelectedValue: false,
                         insertBlank: !filter,
                         column: column))

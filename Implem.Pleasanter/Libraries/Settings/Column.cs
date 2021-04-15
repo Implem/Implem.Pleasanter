@@ -559,7 +559,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     .ToList());
                             ChoiceHash.AddIfNotConainsKey(
                                 value,
-                                new Choice(title ?? "? " + value));
+                                new Choice(
+                                    choice: title ?? "? " + value,
+                                    raw: true));
                         }
                         break;
                     default:
