@@ -3759,6 +3759,7 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson(context: context);
             }
             issueModel.IssueId = 0;
+            issueModel.Ver = 0;
             if (ss.GetEditorColumnNames().Contains("Title"))
             {
                 issueModel.Title.Value += Displays.SuffixCopy(context: context);
