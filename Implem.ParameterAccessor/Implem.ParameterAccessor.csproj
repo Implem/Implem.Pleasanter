@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Parameters.cs" />
+    <Compile Include="Parts\NavigationMenu.cs" />
     <Compile Include="Parts\User.cs" />
     <Compile Include="Parts\ExtendedHtml.cs" />
     <Compile Include="Parts\ExtendedServerScript.cs" />

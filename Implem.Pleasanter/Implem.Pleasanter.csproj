@@ -273,6 +273,7 @@
     <Compile Include="Interfaces\ISettingListItem.cs" />
     <Compile Include="Libraries\DataSources\Line.cs" />
     <Compile Include="Libraries\DataSources\Repository.cs" />
+    <Compile Include="Libraries\DataSources\RocketChat.cs" />
     <Compile Include="Libraries\DataSources\Saml.cs" />
     <Compile Include="Libraries\DataSources\Teams.cs" />
     <Compile Include="Libraries\DataTypes\Group.cs" />
@@ -1703,6 +1704,8 @@
     <Content Include="App_Data\Parameters\User.json" />
     <Content Include="App_Data\Displays\CustomError.json" />
     <Content Include="App_Data\Displays\InvalidJsonData.json" />
+    <Content Include="App_Data\Parameters\NavigationMenus.json" />
+    <Content Include="App_Data\Displays\RocketChat.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

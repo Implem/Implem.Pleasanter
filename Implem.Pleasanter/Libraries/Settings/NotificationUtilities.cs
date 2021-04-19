@@ -45,7 +45,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                     Notification.Types.Teams.ToInt().ToString(),
                     Displays.Teams(context: context));
             }
-
+            if (Parameters.Notification.RocketChat)
+            {
+                notificationType.Add(
+                    Notification.Types.RocketChat.ToInt().ToString(),
+                    Displays.RocketChat(context: context));
+            }
             return notificationType;
         }
 

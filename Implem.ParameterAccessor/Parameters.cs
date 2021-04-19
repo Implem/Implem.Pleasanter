@@ -25,6 +25,7 @@ namespace Implem.DefinitionAccessor
         public static History History;
         public static ParameterAccessor.Parts.Version Version;
         public static Mail Mail;
+        public static List<NavigationMenu> NavigationMenus;
         public static Notification Notification;
         public static Parameter Parameter;
         public static Permissions Permissions;

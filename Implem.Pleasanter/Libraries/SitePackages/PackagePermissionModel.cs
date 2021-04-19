@@ -1,5 +1,7 @@
-﻿using Implem.Pleasanter.Libraries.DataSources;
+﻿using Implem.Libraries.DataSources.SqlServer;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.Data;
@@ -15,23 +17,30 @@ namespace Implem.Pleasanter.Libraries.SitePackages
         {
         }
 
-        internal PackagePermissionModel(Context context, SiteModel siteModel, List<long> recordIdList)
+        internal PackagePermissionModel(Context context, SiteModel siteModel, View view)
         {
             SiteId = siteModel.SiteId;
-            recordIdList.Add(SiteId);
             var dataTable = Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectPermissions(
-                    column: Rds.PermissionsColumn()
-                        .ReferenceId()
-                        .DeptId()
-                        .GroupId()
-                        .UserId()
-                        .PermissionType(),
-                    where: Rds.PermissionsWhere()
-                        .ReferenceId_In(
-                            value: recordIdList.Where(o => o != 0),
-                            _using: recordIdList.Count() > 0)));
+                column: Rds.PermissionsColumn()
+                    .ReferenceId()
+                    .DeptId()
+                    .GroupId()
+                    .UserId()
+                    .PermissionType(),
+                where: Rds.PermissionsWhere().Or(or:
+                    Rds.PermissionsWhere()
+                        .ReferenceId(SiteId)
+                        .ReferenceId_In(sub: Rds.Select(
+                            tableName: siteModel.ReferenceType,
+                            column: new SqlColumnCollection()
+                            {
+                                Rds.IdColumn(siteModel.ReferenceType)
+                            },
+                            where: view.Where(
+                                context: context,
+                                ss: siteModel.SiteSettings))))));
             foreach (DataRow dataRow in dataTable.Rows)
             {
                 Permissions.Add(new PermissionShortModel(dataRow));

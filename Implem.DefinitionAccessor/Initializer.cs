@@ -88,6 +88,7 @@ namespace Implem.DefinitionAccessor
             Parameters.History = Read<History>();
             Parameters.Version = Read<ParameterAccessor.Parts.Version>();
             Parameters.Mail = Read<Mail>();
+            Parameters.NavigationMenus = NavigationMenus();
             Parameters.Notification = Read<Notification>();
             Parameters.Permissions = Read<Permissions>();
             Parameters.Rds = Read<Rds>();
@@ -401,6 +402,17 @@ namespace Implem.DefinitionAccessor
                 }
             }
             return hash;
+        }
+
+        private static List<NavigationMenu> NavigationMenus()
+        {
+            var name = "NavigationMenus";
+            var data = Files.Read(ParametersPath(name)).Deserialize<List<NavigationMenu>>();
+            if (data == null)
+            {
+                Parameters.SyntaxErrors.Add($"{name}.json");
+            }
+            return data;
         }
 
         private static string ParametersPath(string name)
