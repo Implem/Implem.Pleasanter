@@ -39,7 +39,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             ChatWork = 3,
             Line = 4,
             LineGroup = 5,
-            Teams = 6
+            Teams = 6,
+            RocketChat = 7
         }
 
         public enum Expressions : int
@@ -218,6 +219,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                         new Teams(
                             _context: context,
                             _text: $"*{Prefix}{title}*\n{body}")
+                                .Send(Address);
+                    }
+                    break;
+                case Types.RocketChat:
+                    if (Parameters.Notification.RocketChat)
+                    {
+                        new RocketChat(
+                            _context: context,
+                            _text: $"*{Prefix}{title}*\n{body}",
+                            _username: from)
                                 .Send(Address);
                     }
                     break;
