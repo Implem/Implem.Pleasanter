@@ -8,5 +8,6 @@
         public bool ChatWork;
         public bool Line;
         public bool Teams;
+        public bool RocketChat;
     }
 }

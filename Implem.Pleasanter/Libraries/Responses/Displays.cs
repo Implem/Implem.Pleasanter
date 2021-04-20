@@ -5939,6 +5939,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string RocketChat(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "RocketChat",
+                data: data);
+        }
+
         public static string RoundingType(
             Context context,
             params string[] data)
