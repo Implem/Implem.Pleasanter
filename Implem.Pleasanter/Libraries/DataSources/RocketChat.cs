@@ -1,7 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
-using Newtonsoft.Json;
 using System;
 using System.Net;
 using System.Text;
@@ -10,7 +9,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 {
     public class RocketChat
     {
-        [JsonIgnore]
+        [NonSerialized]
         public Context context;
         public string text;
         public string username;
