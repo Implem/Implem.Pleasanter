@@ -88,6 +88,7 @@ namespace Implem.DefinitionAccessor
             Parameters.History = Read<History>();
             Parameters.Version = Read<ParameterAccessor.Parts.Version>();
             Parameters.Mail = Read<Mail>();
+            Parameters.NavigationMenus = NavigationMenus();
             Parameters.Migration = Read<ParameterAccessor.Parts.Migration>();
             Parameters.Notification = Read<Notification>();
             Parameters.Permissions = Read<Permissions>();
@@ -104,7 +105,7 @@ namespace Implem.DefinitionAccessor
             Parameters.SysLog = Read<SysLog>();
             Parameters.User = Read<User>();
             Parameters.Parameter = Read<Parameter>();
-            Parameters.Locations= Read<Locations>();
+            Parameters.Locations = Read<Locations>();
             Parameters.Validation = Read<Validation>();
         }
 
@@ -402,6 +403,17 @@ namespace Implem.DefinitionAccessor
                 }
             }
             return hash;
+        }
+
+        private static List<NavigationMenu> NavigationMenus()
+        {
+            var name = "NavigationMenus";
+            var data = Files.Read(ParametersPath(name)).Deserialize<List<NavigationMenu>>();
+            if (data == null)
+            {
+                Parameters.SyntaxErrors.Add($"{name}.json");
+            }
+            return data;
         }
 
         private static string ParametersPath(string name)
