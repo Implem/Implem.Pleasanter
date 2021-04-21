@@ -108,34 +108,35 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         order: order,
                         siteTitle: packageSiteModel.Title);
                     recordIdList.Clear();
+                    View view = null;
+                    var ss = siteModel.SiteSettings;
+                    ss.SetPermissions(
+                        context: context,
+                        referenceId: ss.SiteId);
+                    var export = new Export(ss.DefaultExportColumns(context: context));
+                    export.Header = true;
+                    export.Type = Export.Types.Json;
+                    export.Columns.ForEach(o => o.SiteId = ss.SiteId);
+                    view = Utilities.GetView(
+                        context: context,
+                        ss: ss,
+                        export: export);
                     if (site.IncludeData == true)
                     {
                         switch (packageSiteModel.ReferenceType)
                         {
                             case "Issues":
                             case "Results":
-                                var ss = siteModel.SiteSettings;
-                                ss.SetPermissions(
-                                    context: context,
-                                    referenceId: ss.SiteId);
-                                var export = new Export(ss.DefaultExportColumns(context: context));
-                                export.Header = true;
-                                export.Type = Export.Types.Json;
-                                export.Columns.ForEach(o => o.SiteId = ss.SiteId);
-                                var gridData = Utilities.GetGridData(
+                                var gridData = new GridData(
                                     context: context,
                                     ss: ss,
-                                    export: export);
+                                    view: view);
                                 if (gridData.TotalCount > 0)
                                 {
                                     Data.Add(gridData.GetJsonExport(
                                         context: context,
                                         ss: ss,
                                         export: export));
-                                    foreach (DataRow dr in gridData.DataRows)
-                                    {
-                                        recordIdList.Add(dr[0].ToLong());
-                                    }
                                 }
                                 break;
                         }
@@ -145,7 +146,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         var packagePermissionModel = new PackagePermissionModel(
                             context: context,
                             siteModel: siteModel,
-                            recordIdList: recordIdList);
+                            view: view);
                         Permissions.Add(packagePermissionModel);
                     }
                 }
