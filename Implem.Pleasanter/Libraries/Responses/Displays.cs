@@ -2139,6 +2139,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string DesktopDisplay(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DesktopDisplay",
+                data: data);
+        }
+
         public static string Destination(
             Context context,
             params string[] data)
@@ -4519,6 +4529,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string MobileDisplay(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "MobileDisplay",
+                data: data);
+        }
+
         public static string Monday(
             Context context,
             params string[] data)
@@ -5779,6 +5799,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ReminderErrorContent(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ReminderErrorContent",
+                data: data);
+        }
+
+        public static string ReminderErrorTitle(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ReminderErrorTitle",
+                data: data);
+        }
+
         public static string Reminders(
             Context context,
             params string[] data)
@@ -5896,6 +5936,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ResetPassword",
+                data: data);
+        }
+
+        public static string Responsive(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Responsive",
                 data: data);
         }
 

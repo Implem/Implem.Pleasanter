@@ -44,6 +44,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string HttpMethod;
         public bool Ajax;
         public bool Mobile;
+        public bool Responsive;
         public Dictionary<string, string> RouteData = new Dictionary<string, string>();
         public string ApplicationPath;
         public string AbsoluteUri;
@@ -355,6 +356,12 @@ namespace Implem.Pleasanter.Libraries.Requests
             SessionData = SessionUtilities.Get(
                 context: this, 
                 includeUserArea: Controller == "sessions");
+            var responsive = SessionData.Get("Responsive");
+            Responsive = Mobile
+                && (responsive.IsNullOrEmpty()
+                    || responsive.ToBool())
+                        ? true
+                        : false;
             SessionUtilities.DeleteOldSessions(context: this);
             var request = HttpContext.Current.Request;
             request.QueryString.AllKeys

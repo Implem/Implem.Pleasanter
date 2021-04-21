@@ -236,6 +236,12 @@
                 "Name": "ApiSettings",
                 "Icon": "ui-icon ui-icon-link",
                 "LinkParams": [ "Users", "EditApi" ]
+            },
+            {
+                "MenuId": "AccountMenu_Responsive",
+                "Name": "{ResponsiveDisplayName}",
+                "Icon": "ui-icon ui-icon-transfer-e-w",
+                "Function": "Responsive"
             }
         ]
     }
