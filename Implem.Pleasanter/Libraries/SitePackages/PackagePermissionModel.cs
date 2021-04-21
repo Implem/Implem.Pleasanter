@@ -35,9 +35,11 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         .ReferenceId_In(sub: Rds.Select(
                             tableName: siteModel.ReferenceType,
                             column: new SqlColumnCollection()
-                            {
-                                Rds.IdColumn(siteModel.ReferenceType)
-                            },
+                                .Add(
+                                    context: context,
+                                    column: siteModel.SiteSettings.GetColumn(
+                                        context: context,
+                                        columnName: Rds.IdColumn(siteModel.ReferenceType))),
                             where: view.Where(
                                 context: context,
                                 ss: siteModel.SiteSettings))))));

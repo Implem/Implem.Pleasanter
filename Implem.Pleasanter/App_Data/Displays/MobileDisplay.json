@@ -1,0 +1,33 @@
+﻿{
+    "Id": "MobileDisplay",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Mobile Display"
+        },
+        {
+            "Language": "zh",
+            "Body": "手机展示架"
+        },
+        {
+            "Language": "ja",
+            "Body": "モバイル表示"
+        },
+        {
+            "Language": "de",
+            "Body": "모바일 표시"
+        },
+        {
+            "Language": "ko",
+            "Body": "바탕 화면 표시"
+        },
+        {
+            "Language": "es",
+            "Body": "Pantalla móvil"
+        },
+        {
+            "Language": "vn",
+            "Body": "Màn hình di động"
+        }
+    ]
+}

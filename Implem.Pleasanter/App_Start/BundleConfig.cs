@@ -116,7 +116,8 @@ namespace Implem.Pleasanter
                 "~/Scripts/FieldSelectable.js",
                 "~/Scripts/Tenants.js",
                 "~/Scripts/SetDateRangeDialog.js",
-                "~/Scripts/setNumericRangeDialog.js"
+                "~/Scripts/setNumericRangeDialog.js",
+                "~/Scripts/Responsive.js"
             };
         }
 
@@ -124,6 +125,8 @@ namespace Implem.Pleasanter
         {
             bundles.Add(new StyleBundle("~/content/styles")
                 .Include("~/Styles/Site.css"));
+            bundles.Add(new StyleBundle("~/content/responsive")
+                .Include("~/Styles/Responsive.css"));
         }
     }
 }

@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Responsive",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Responsive"
+        },
+        {
+            "Language": "zh",
+            "Body": "反应灵敏"
+        },
+        {
+            "Language": "ja",
+            "Body": "レスポンシブ"
+        },
+        {
+            "Language": "de",
+            "Body": "Reaktionsschnell"
+        },
+        {
+            "Language": "ko",
+            "Body": "반응 형"
+        },
+        {
+            "Language": "es",
+            "Body": "Sensible"
+        },
+        {
+            "Language": "vn",
+            "Body": "Phản ứng nhanh nhẹn"
+        }
+    ]
+}

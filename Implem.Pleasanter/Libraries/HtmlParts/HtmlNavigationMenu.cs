@@ -41,6 +41,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Search(
                                 context: context,
                                 _using: useSearch && !Parameters.Search.DisableCrossSearch))
+                        .ResponsiveMenu(
+                            context: context)
                     : hb;
         }
 
@@ -238,6 +240,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             : new HtmlAttributes()
                                 .OnClick("$p.viewMode($(this));")
                                 .DataAction(settingName);
+                case "Responsive":
+                    return new HtmlAttributes()
+                        .OnClick("$p.switchResponsive($(this));")
+                        .DataAction(context.Responsive.ToString())
+                        .DataMethod("post");
                 default:
                     return new HtmlAttributes();
             }
@@ -261,6 +268,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     return SiteSettingsDisplayName(
                         context: context,
                         ss: ss);
+                case "{ResponsiveDisplayName}":
+                    return Parameters.Mobile.Responsive
+                        && context.Mobile
+                        && context.Responsive
+                            ? Displays.DesktopDisplay(
+                                context: context)
+                            : Displays.MobileDisplay(
+                                context: context);
                 default:
                     return Displays.Get(
                         context: context,
@@ -364,6 +379,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         && ss.AllowLockTable == true;
                 case "LockTableMenu_UnlockTable":
                     return ss.AllowLockTable == true;
+                case "AccountMenu_Responsive":
+                    return context.Mobile;
                 default:
                     return true;
             }
@@ -482,10 +499,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static List<string> ConvertLinkParams(
-                    this List<string> linkParams,
-                    Context context,
-                    SiteSettings ss,
-                    long siteId)
+            this List<string> linkParams,
+            Context context,
+            SiteSettings ss,
+            long siteId)
         {
             return linkParams = linkParams?.Select(
                 linkItem => (linkItem == "{UserId}")
@@ -495,7 +512,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         : (linkItem == "{Publish}")
                             ? (context.Publish ? "Publishes" : "Items")
                             : (linkItem == "{New}")
-                                ? NewHref(context: context, ss: ss)
+                                ? NewHref(
+                                    context: context,
+                                    ss: ss)
                                 : linkItem)?.ToList();
         }
 
@@ -524,13 +543,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         context: context,
                         ss: ss)
                             ? null
-                            : Locations.ItemNew(
-                                context: context,
-                                id: ss.SiteId);
+                            : $"Items/{ss.SiteId}/New";
                 default:
-                    return Locations.New(
-                        context: context,
-                        controller: context.Controller);
+                    return $"{context.Controller}/New";
             }
         }
 
@@ -555,6 +570,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 && context.CanManageSite(ss: ss)
                 && !ss.Locked()
                 && (context.Id != 0 || context.HasPrivilege);
+        }
+
+        private static HtmlBuilder ResponsiveMenu(this HtmlBuilder hb, Context context)
+        {
+            return Parameters.Mobile.Responsive
+                && context.Mobile
+                && context.Responsive
+                    ? hb.A(
+                        id: "navtgl",
+                        href: "javascript:void(0);",
+                        attributes: new HtmlAttributes()
+                            .OnClick("$p.openResponsiveMenu();")
+                            .DataAction("OpenResponsiveMenu"))
+                    : hb;
         }
     }
 }

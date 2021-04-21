@@ -8887,7 +8887,14 @@ namespace Implem.Pleasanter.Models
                         confirm: Displays.ConfirmDelete(context: context)))
                 .EditStyle(
                     context: context,
-                    ss: ss));
+                    ss: ss)
+                .FieldCheckBox(
+                    controlId: "Responsive",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.Responsive(context: context),
+                    _checked: ss.Responsive == true,
+                    _using: Parameters.Mobile.Responsive,
+                    labelPositionIsRight: true));
         }
 
         /// <summary>

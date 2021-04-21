@@ -190,7 +190,46 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             catch (Exception e)
             {
-                new SysLogModel(context: context, e: e);
+                new SysLogModel(
+                    context: context,
+                    e: e);
+                var reminder = ss.Reminders.Where(o => o.Id == Id)
+                    .FirstOrDefault();
+                if (reminder != null)
+                {
+                    Repository.ExecuteNonQuery(
+                        context: context,
+                        statements: new[]
+                        {
+                            Rds.PhysicalDeleteReminderSchedules(
+                                where: Rds.ReminderSchedulesWhere()
+                                    .SiteId(ss.SiteId)
+                                    .Id(Id))
+                        });
+                    var title = new Title(value: Displays.ReminderErrorTitle(
+                        context: context,
+                        data: Displays.ProductName(context)));
+                    var body = Displays.ReminderErrorContent(
+                        context: context,
+                        data: new string[]
+                        {
+                            ss.Title,
+                            ss.SiteId.ToString(),
+                            reminder.Subject,
+                            Id.ToString(),
+                            e.Message,
+                            e.StackTrace
+                        });
+                    new OutgoingMailModel()
+                    {
+                        Title = title,
+                        Body = body,
+                        From = new MailAddress(From),
+                        To = reminder.To
+                    }.Send(
+                        context: context,
+                        ss: ss);
+                }
                 if (test)
                 {
                     throw e;

@@ -1111,6 +1111,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message ReminderErrorContent(Context context, params string[] data)
+        {
+            return Get(
+                id: "ReminderErrorContent",
+                text: Displays.ReminderErrorContent(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message ReminderErrorTitle(Context context, params string[] data)
+        {
+            return Get(
+                id: "ReminderErrorTitle",
+                text: Displays.ReminderErrorTitle(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message RequireMailAddresses(Context context, params string[] data)
         {
             return Get(
@@ -2486,6 +2506,26 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return ResponseMessage(
                 message: RebuildingCompleted(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseReminderErrorContent(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: ReminderErrorContent(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseReminderErrorTitle(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: ReminderErrorTitle(
                     context: context,
                     data: data),
                 target: target);
