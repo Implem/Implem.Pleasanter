@@ -762,7 +762,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 : 0;
         }
 
-        public static GridData GetGridData(
+        public static View GetView(
             Context context,
             SiteSettings ss,
             Export export)
@@ -777,11 +777,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     .Select(o => o.ColumnName)
                     .ToList()
             };
-            var gridData = new GridData(
-                context: context,
-                ss: ss,
-                view: view);
-            return gridData;
+            return view;
         }
     }
 }
