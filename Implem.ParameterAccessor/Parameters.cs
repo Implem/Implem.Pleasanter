@@ -25,6 +25,7 @@ namespace Implem.DefinitionAccessor
         public static History History;
         public static ParameterAccessor.Parts.Version Version;
         public static Mail Mail;
+        public static List<NavigationMenu> NavigationMenus;
         public static Migration Migration;
         public static Notification Notification;
         public static Parameter Parameter;
@@ -43,7 +44,6 @@ namespace Implem.DefinitionAccessor
         public static User User;
         public static Locations Locations;
         public static Validation Validation;
-
         public static bool CommercialLicense()
         {
             return License.Check();
