@@ -75,7 +75,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         && !userStyle.IsNullOrEmpty());
         }
 
-        public static HtmlBuilder LinkedStyles(this HtmlBuilder hb, Context context)
+        public static HtmlBuilder LinkedStyles(
+            this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             return hb
                 .Link(
@@ -106,6 +107,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Link(
                     href: context.VirtualPathToAbsolute("~/content/styles.min.css"),
                     rel: "stylesheet")
+                .Link(
+                    href: Responses.Locations.Get(
+                        context: context,
+                        parts: "Styles/responsive.css"),
+                    rel: "stylesheet",
+                    _using: Parameters.Mobile.Responsive
+                        && context.Mobile
+                        && context.Responsive
+                        && (ss == null || ss.Responsive != false))
                 .Link(
                     href: Responses.Locations.Get(
                         context: context,

@@ -162,6 +162,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SettingList<Reminder> Reminders;
         public SettingList<Export> Exports;
         public SettingList<Style> Styles;
+        public bool? Responsive;
         public SettingList<Script> Scripts;
         public SettingList<ServerScript> ServerScripts;
         public SettingList<RelatingColumn> RelatingColumns;
@@ -283,6 +284,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Reminders == null) Reminders = new SettingList<Reminder>();
             if (Exports == null) Exports = new SettingList<Export>();
             if (Styles == null) Styles = new SettingList<Style>();
+            if (Responsive == null) Responsive = Parameters.Mobile.SiteSettingsResponsive;
             if (Scripts == null) Scripts = new SettingList<Script>();
             if (ServerScripts == null) ServerScripts = new SettingList<ServerScript>();
             if (RelatingColumns == null) RelatingColumns = new SettingList<RelatingColumn>();
@@ -821,6 +823,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 }
                 ss.Styles.Add(style.GetRecordingData());
             });
+            if (Responsive != Parameters.Mobile.SiteSettingsResponsive)
+            {
+                ss.Responsive = Responsive;
+            }
             Scripts?.ForEach(script =>
             {
                 if (ss.Scripts == null)
@@ -2891,6 +2897,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "LinkTableView": LinkTableView = value.ToInt(); break;
                 case "FirstDayOfWeek": FirstDayOfWeek = value.ToInt(); break;
                 case "FirstMonth": FirstMonth = value.ToInt(); break;
+                case "Responsive": Responsive = value.ToBool(); break;
                 case "AutoVerUpType": AutoVerUpType = (Versions.AutoVerUpTypes)value.ToInt(); break;
                 case "AllowEditingComments": AllowEditingComments = value.ToBool(); break;
                 case "AllowSeparate": AllowSeparate = value.ToBool(); break;
