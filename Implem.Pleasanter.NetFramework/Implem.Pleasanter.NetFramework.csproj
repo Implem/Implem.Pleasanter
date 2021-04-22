@@ -1646,6 +1646,8 @@
     <Content Include="App_Data\Parameters\NavigationMenu.json" />
     <Content Include="App_Data\Parameters\Script.json" />
     <Content Include="App_Data\Parameters\User.json" />
+    <Content Include="App_Data\Parameters\NavigationMenus.json" />
+    <Content Include="App_Data\Parameters\Mobile.json" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Admins\Index.cshtml" />
