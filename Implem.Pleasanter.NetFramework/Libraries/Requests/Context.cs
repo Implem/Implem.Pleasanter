@@ -51,6 +51,7 @@ namespace Implem.Pleasanter.NetFramework.Libraries.Requests
         public override string HttpMethod { get; set; }
         public override bool Ajax { get; set; }
         public override bool Mobile { get; set; }
+        public override bool Responsive { get; set; }
         public override Dictionary<string, string> RouteData { get; set; } = new Dictionary<string, string>();
         public override string ApplicationPath { get; set; }
         public override string AbsoluteUri { get; set; }
@@ -348,6 +349,12 @@ namespace Implem.Pleasanter.NetFramework.Libraries.Requests
             SessionData = SessionUtilities.Get(
                 context: this,
                 includeUserArea: Controller == "sessions");
+            var responsive = SessionData.Get("Responsive");
+            Responsive = Mobile &&
+                (responsive.IsNullOrEmpty() ||
+                 responsive.ToBool())
+                    ? true
+                    : false;
             SessionUtilities.DeleteOldSessions(context: this);
             var request = HttpContext.Current.Request;
             request.QueryString.AllKeys
