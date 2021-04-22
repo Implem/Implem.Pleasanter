@@ -3016,6 +3016,14 @@ h3.title-header{
     border:solid 1px silver;
 }
 
+.current-time{
+    position:absolute;
+    top:9px;
+    right:7px;
+    cursor:pointer;
+    z-index:10;
+}
+
 input:focus{
     background-color:#ffffcc;
 }
