@@ -1,7 +1,5 @@
-﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Resources;
-using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Models;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Controllers
@@ -26,18 +24,6 @@ namespace Implem.Pleasanter.Controllers
                 context: context,
                 responseSize: result.Content.Length);
             return result;
-        }
-
-        [HttpPost]
-        public string Responsive(Context context, string Responsive)
-        {
-            var responsive = !Responsive.ToBool();
-            SessionUtilities.Set(
-                context: context,
-                key: "Responsive",
-                value: responsive.ToString());
-
-            return new ResponseCollection().ToJson();
         }
     }
 }

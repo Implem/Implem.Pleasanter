@@ -101,8 +101,7 @@ namespace Implem.Pleasanter.App_Start
                 "~/scripts/_show.js",
                 "~/scripts/relatingcolumns.js",
                 "~/scripts/fieldselectable.js",
-                "~/scripts/tenants.js",
-                "~/scripts/responsive.js"
+                "~/scripts/tenants.js"
             };
         }
     }

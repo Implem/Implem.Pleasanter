@@ -37,7 +37,6 @@ namespace Implem.Pleasanter.Libraries.Requests
         public abstract string HttpMethod { get; set; }
         public abstract bool Ajax { get; set; }
         public abstract bool Mobile { get; set; }
-        public abstract bool Responsive { get; set; }
         public abstract Dictionary<string, string> RouteData { get; set; }
         public abstract string ApplicationPath { get; set; }
         public abstract string AbsoluteUri { get; set; }
