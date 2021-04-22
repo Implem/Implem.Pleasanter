@@ -1,0 +1,242 @@
+﻿[
+    {
+        "ContainerId": "NewMenuContainer",
+        "MenuId": "NewMenu",
+        "Name": "New",
+        "Icon": "ui-icon ui-icon-plus",
+        "LinkParams": [ "{New}" ],
+        "Function": "CreateTemplates"
+    },
+    {
+        "ContainerId": "ViewModeMenuContainer",
+        "MenuId": "ViewModeMenu",
+        "Name": "View",
+        "Icon": "ui-icon ui-icon-triangle-1-e",
+        "ChildMenus": [
+            {
+                "MenuId": "ViewModelMenu_Index",
+                "Name": "Index",
+                "Icon": "ui-icon ui-icon-triangle-1-e",
+                "Function": "PostBack"
+            },
+            {
+                "MenuId": "ViewModelMenu_Calendar",
+                "Name": "Calendar",
+                "Icon": "ui-icon ui-icon-triangle-1-e",
+                "Function": "PostBack"
+            },
+            {
+                "MenuId": "ViewModelMenu_Crosstab",
+                "Name": "Crosstab",
+                "Icon": "ui-icon ui-icon-triangle-1-e",
+                "Function": "PostBack"
+            },
+            {
+                "MenuId": "ViewModelMenu_Gantt",
+                "Name": "Gantt",
+                "Icon": "ui-icon ui-icon-triangle-1-e",
+                "Function": "PostBack"
+            },
+            {
+                "MenuId": "ViewModelMenu_BurnDown",
+                "Name": "BurnDown",
+                "Icon": "ui-icon ui-icon-triangle-1-e",
+                "Function": "PostBack"
+            },
+            {
+                "MenuId": "ViewModelMenu_TimeSeries",
+                "Name": "TimeSeries",
+                "Icon": "ui-icon ui-icon-triangle-1-e",
+                "Function": "PostBack"
+            },
+            {
+                "MenuId": "ViewModelMenu_Kamban",
+                "Name": "Kamban",
+                "Icon": "ui-icon ui-icon-triangle-1-e",
+                "Function": "PostBack"
+            },
+            {
+                "MenuId": "ViewModelMenu_ImageLib",
+                "Name": "ImageLib",
+                "Icon": "ui-icon ui-icon-triangle-1-e",
+                "Function": "PostBack"
+            }
+        ]
+    },
+    {
+        "ContainerId": "SettingsMenuContainer",
+        "MenuId": "SettingsMenu",
+        "Name": "Manage",
+        "Icon": "ui-icon ui-icon-gear",
+        "ChildMenus": [
+            {
+                "MenuId": "SettingsMenu_SiteSettings",
+                "Name": "{SiteSettingsDisplayName}",
+                "Icon": "ui-icon ui-icon-gear",
+                "LinkParams": [ "{Publish}", "{SiteId}", "Edit" ]
+            },
+            {
+                "MenuId": "LockTableMenu_LockTable",
+                "Name": "LockTable",
+                "Icon": "ui-icon ui-icon-locked",
+                "Function": "SendMainForm"
+            },
+            {
+                "MenuId": "LockTableMenu_UnlockTable",
+                "Name": "UnlockTable",
+                "Icon": "ui-icon ui-icon-unlocked",
+                "Function": "SendMainForm"
+            },
+            {
+                "MenuId": "LockTableMenu_ForceUnlockTable",
+                "Name": "ForceUnlockTable",
+                "Icon": "ui-icon ui-icon-unlocked",
+                "Function": "SendMainForm"
+            },
+            {
+                "MenuId": "SettingsMenu_TenantAdmin",
+                "Name": "TenantAdmin",
+                "Icon": "ui-icon ui-icon-gear",
+                "LinkParams": [ "Tenants", "Edit" ]
+            },
+            {
+                "MenuId": "SettingsMenu_DeptAdmin",
+                "Name": "DeptAdmin",
+                "Icon": "ui-icon ui-icon-gear",
+                "LinkParams": [ "Depts" ]
+            },
+            {
+                "MenuId": "SettingsMenu_GroupAdmin",
+                "Name": "GroupAdmin",
+                "Icon": "ui-icon ui-icon-gear",
+                "LinkParams": [ "Groups" ]
+            },
+            {
+                "MenuId": "SettingsMenu_UserAdmin",
+                "Name": "UserAdmin",
+                "Icon": "ui-icon ui-icon-gear",
+                "LinkParams": [ "Users" ]
+            },
+            {
+                "MenuId": "SettingsMenu_ImportSitePackage",
+                "Name": "ImportSitePackage",
+                "Icon": "ui-icon ui-icon-arrowreturnthick-1-e",
+                "Function": "OpenImportDialog"
+            },
+            {
+                "MenuId": "SettingsMenu_ExportSitePackage",
+                "Name": "ExportSitePackage",
+                "Icon": "ui-icon ui-icon-arrowreturnthick-1-w",
+                "Function": "OpenExportDialog"
+            },
+            {
+                "MenuId": "SettingsMenu_Registrations",
+                "Name": "Registrations",
+                "Icon": "ui-icon ui-icon-gear",
+                "LinkParams": [ "Registrations" ]
+            },
+            {
+                "MenuId": "SettingsMenu_TrashBox",
+                "Name": "TrashBox",
+                "Icon": "ui-icon ui-icon-trash",
+                "LinkParams": [ "Items", "{SiteId}", "TrashBox" ]
+            }
+        ]
+    },
+    {
+        "ContainerId": "HelpMenuContainer",
+        "MenuId": "HelpMenu",
+        "Name": "HelpMenu",
+        "Icon": "ui-icon ui-icon-help",
+        "ChildMenus": [
+            {
+                "MenuId": "HelpMenu_UserManual",
+                "Name": "UserManual",
+                "Icon": "ui-icon ui-icon-help",
+                "Url": "https://pleasanter.org/manual",
+                "Target": "_blank"
+            },
+            {
+                "MenuId": "HelpMenu_AnnualSupportService",
+                "Name": "AnnualSupportService",
+                "Icon": "ui-icon ui-icon-clipboard",
+                "Url": "https://implem.co.jp/enterprise-edition/",
+                "Target": "_blank"
+            },
+            {
+                "MenuId": "HelpMenu_EnterpriseEdition",
+                "Name": "EnterpriseEdition",
+                "Icon": "ui-icon ui-icon-lightbulb",
+                "Url": "https://pleasanter.org/manual",
+                "Target": "_blank"
+            },
+            {
+                "MenuId": "HelpMenu_Blog",
+                "Name": "Blog",
+                "Icon": "ui-icon ui-icon-info",
+                "Url": "https://pleasanter.org/archives/category/%e3%83%96%e3%83%ad%e3%82%b0",
+                "Target": "_blank"
+            },
+            {
+                "MenuId": "HelpMenu_Contact",
+                "Name": "Contact",
+                "Icon": "ui-icon ui-icon-contact",
+                "Url": "https://implem.co.jp/contact/",
+                "Target": "_blank"
+            },
+            {
+                "MenuId": "HelpMenu_Portal",
+                "Name": "Portal",
+                "Icon": "ui-icon ui-icon-cart",
+                "Url": "https://pleasanter.net",
+                "Target": "_blank"
+            },
+            {
+                "MenuId": "HelpMenu_Version",
+                "Name": "Version",
+                "Icon": "ui-icon ui-icon-info",
+                "LinkParams": [ "versions" ],
+                "Target": "_blank"
+            }
+        ]
+    },
+    {
+        "ContainerId": "AccountMenuContainer",
+        "MenuId": "AccountMenu",
+        "Name": "{UserName}",
+        "Id": "AccountUserName",
+        "Icon": "ui-icon ui-icon-person",
+        "ChildMenus": [
+            {
+                "MenuId": "AccountMenu_Logout",
+                "Name": "Logout",
+                "Icon": "ui-icon ui-icon-locked",
+                "LinkParams": [ "Users", "Logout" ]
+            },
+            {
+                "MenuId": "AccountMenu_ShowStartGuide",
+                "Name": "ShowStartGuide",
+                "Icon": "ui-icon ui-icon-help",
+                "Function": "DisplayStartGuide"
+            },
+            {
+                "MenuId": "AccountMenu_EditProfile",
+                "Name": "EditProfile",
+                "Icon": "ui-icon ui-icon-wrench",
+                "LinkParams": [ "Users", "{UserId}", "Edit" ]
+            },
+            {
+                "MenuId": "AccountMenu_ChangePassword",
+                "Name": "ChangePassword",
+                "Icon": "ui-icon ui-icon-person",
+                "Function": "OpenChangePasswordDialog"
+            },
+            {
+                "MenuId": "AccountMenu_ApiSettings",
+                "Name": "ApiSettings",
+                "Icon": "ui-icon ui-icon-link",
+                "LinkParams": [ "Users", "EditApi" ]
+            }
+        ]
+    }
+]

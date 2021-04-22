@@ -52,6 +52,7 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
         public override string HttpMethod { get; set; }
         public override bool Ajax { get; set; }
         public override bool Mobile { get; set; }
+        public override bool Responsive { get; set; }
         public override Dictionary<string, string> RouteData { get; set; } = new Dictionary<string, string>();
         public override string ApplicationPath { get; set; }
         public override string AbsoluteUri { get; set; }
@@ -192,6 +193,11 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
                 UserHostAddress = CreateUserHostAddress(AspNetCoreHttpContext.Current.Request);
                 UserAgent = CreateUserAgent(AspNetCoreHttpContext.Current.Request);
             }
+        }
+
+        public override string Token()
+        {
+            return AspNetCoreHttpContext.Current?.Request?.Cookies[".AspNetCore.Session"]?.Sha512Cng();
         }
 
         private void SetSessionGuid()
@@ -361,6 +367,12 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
                 context: this,
                 includeUserArea: Controller == "sessions");
             SessionUtilities.DeleteOldSessions(context: this);
+            var responsive = SessionData.Get("Responsive");
+            Responsive = Mobile &&
+                (responsive.IsNullOrEmpty() ||
+                 responsive.ToBool())
+                    ? true
+                    : false;
             var request = AspNetCoreHttpContext.Current.Request;
             foreach (var o in request.QueryString.Value?.PadLeft(1, '?').Substring(1).Split('&'))
             {
@@ -734,5 +746,6 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
         {
             return LogBuilder?.ToString();
         }
+
     }
 }

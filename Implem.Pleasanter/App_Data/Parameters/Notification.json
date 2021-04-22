@@ -4,5 +4,6 @@
     "Slack": true,
     "ChatWork": true,
     "Line": true,
-    "Teams": true
+    "Teams": true,
+    "RocketChat": true
 }

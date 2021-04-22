@@ -2139,6 +2139,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string DesktopDisplay(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DesktopDisplay",
+                data: data);
+        }
+
         public static string Destination(
             Context context,
             params string[] data)
@@ -4519,6 +4529,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string MobileDisplay(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "MobileDisplay",
+                data: data);
+        }
+
         public static string Monday(
             Context context,
             params string[] data)
@@ -5899,6 +5919,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Responsive(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Responsive",
+                data: data);
+        }
+
         public static string Restore(
             Context context,
             params string[] data)
@@ -5936,6 +5966,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "RightAlignment",
+                data: data);
+        }
+
+        public static string RocketChat(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "RocketChat",
                 data: data);
         }
 

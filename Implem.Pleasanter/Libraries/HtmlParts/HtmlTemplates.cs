@@ -113,7 +113,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             body: body))
                         .Meta(name: "author", content: "Implem Inc.")
                         .Meta(name: "viewport", content: Parameters.General.HtmlHeadViewport)
-                        .LinkedStyles(context: context)
+                        .LinkedStyles(
+                            context: context,
+                            ss: ss)
                         .ExtendedStyles(context: context)
                         .Title(action: () => hb
                             .Text(text: HtmlTitle(
@@ -532,6 +534,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return !context.Ajax
                 ? hb
                     .Hidden(controlId: "ApplicationPath", value: Locations.Get(context: context))
+                    .Hidden(controlId: "Token", value: context.Token(), _using: Parameters.Security.TokenCheck)
                     .Hidden(controlId: "Language", value: context.Language)
                     .Hidden(controlId: "DeptId", value: context.DeptId.ToString())
                     .Hidden(controlId: "UserId", value: context.UserId.ToString())

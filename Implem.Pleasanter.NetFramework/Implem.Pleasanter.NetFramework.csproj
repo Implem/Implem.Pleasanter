@@ -548,6 +548,7 @@
     <Compile Include="Controllers\TenantsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\VersionsController.cs" />
+    <Compile Include="Filters\CheckApiContextAttributes.cs" />
     <Compile Include="Filters\PublishesAttributes.cs" />
     <Compile Include="Filters\CheckContextAttributes.cs" />
     <Compile Include="Filters\HandleErrorExAttribute.cs" />
@@ -1642,6 +1643,11 @@
     <Content Include="App_Data\Displays\ViewerSwitchingType.json" />
     <Content Include="App_Data\Displays\WhenloadingSiteSettings.json" />
     <Content Include="App_Data\Displays\WhenViewProcessing.json" />
+    <Content Include="App_Data\Parameters\NavigationMenu.json" />
+    <Content Include="App_Data\Parameters\Script.json" />
+    <Content Include="App_Data\Parameters\User.json" />
+    <Content Include="App_Data\Parameters\NavigationMenus.json" />
+    <Content Include="App_Data\Parameters\Mobile.json" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Admins\Index.cshtml" />

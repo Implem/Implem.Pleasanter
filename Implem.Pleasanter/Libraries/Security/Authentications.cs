@@ -6,6 +6,13 @@ namespace Implem.Pleasanter.Libraries.Security
 {
     public static class Authentications
     {
+        public enum AuthenticationCodeCharacterTypes
+        {
+            Number,
+            Letter,
+            NumberAndLetter
+        }
+
         public static string SignIn(Context context, string returnUrl)
         {
             return new UserModel(
@@ -50,11 +57,5 @@ namespace Implem.Pleasanter.Libraries.Security
                 || Parameters.Authentication.Provider == "SAML-MultiTenant";
         }
 
-        public enum AuthenticationCodeCharacterTypes
-        {
-            Number,
-            Letter,
-            NumberAndLetter
-        }
     }
 }

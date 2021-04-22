@@ -11,6 +11,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public View View { get; set; }
         public int Offset { get; set; }
         public Sqls.TableTypes TableType { get; set; }
+        public string Token { get; set; }
 
         public Api()
         {
