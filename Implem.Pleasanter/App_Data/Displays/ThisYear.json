@@ -1,0 +1,34 @@
+﻿{
+    "Id": "ThisYear",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "This year"
+        },
+        {
+            "Language": "zh",
+            "Body": "今年"
+        },
+        {
+            "Language": "ja",
+            "Body": "今年"
+        },
+        {
+            "Language": "de",
+            "Body": "Dieses Jahr"
+        },
+        {
+            "Language": "ko",
+            "Body": "올해"
+        },
+        {
+            "Language": "es",
+            "Body": "Este año"
+        },
+        {
+            "Language": "vn",
+            "Body": "Năm nay"
+        }
+    ]
+}

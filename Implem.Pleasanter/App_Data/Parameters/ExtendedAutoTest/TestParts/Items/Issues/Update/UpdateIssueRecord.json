@@ -1,0 +1,44 @@
+﻿{
+    "TestParts": [
+        {
+            "TargetTestPartId": "IssueRecord1",
+            "Action": "Click"
+        },
+        {
+            "Action": "Inputs",
+            "Inputs": [
+                {
+                    "InputTarget": "Title",
+                    "InputValue": "タイトル更新"
+                },
+                {
+                    "InputTarget": "Status",
+                    "InputValue": "900"
+                },
+                {
+                    "InputTarget": "Body",
+                    "InputValue": "内容更新"
+                }
+            ]
+        },
+        {
+            "Action": "Update",
+            "Results": [
+                {
+                    "ResultItemId": "Title",
+                    "ResultExpectedValue": "タイトル更新",
+                    "ResultDescription": "更新内容が登録されていること。"
+                },
+                {
+                    "ResultItemId": "Body",
+                    "ResultExpectedValue": "内容更新",
+                    "ResultDescription": "更新内容が登録されていること。"
+                }
+            ]
+        },
+        {
+            "TargetElementId": "GoBack",
+            "Action": "Click"
+        }
+    ]
+}

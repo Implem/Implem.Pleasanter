@@ -26,7 +26,7 @@ $(document).on('click', '.control-attachments-upload', function (e) {
 $(document).on('change', '.control-attachments-upload', function (e) {
     var $control = $(this);
     var input = document.getElementById($control.attr('data-name') + '.input');
-    if (input.files.length == 0) return;
+    if (input.files.length === 0) return;
     $p.uploadAttachments($control, input.files);
 });
 

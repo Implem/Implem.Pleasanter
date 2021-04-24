@@ -1,0 +1,9 @@
+﻿{
+    "Id": "AutoTestCasesList",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "No.{0} TestCases{1}.json {2}"
+        }
+    ]
+}

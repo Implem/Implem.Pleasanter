@@ -1,0 +1,12 @@
+﻿{
+    "TestParts": [
+        {
+            "TargetElementId": "AccountUserName",
+            "Action": "Hover"
+        },
+        {
+            "TargetElementId": "AccountMenu_Logout",
+            "Action": "Click"
+        }
+    ]
+}

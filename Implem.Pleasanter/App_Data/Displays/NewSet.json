@@ -1,0 +1,13 @@
+﻿{
+    "Id": "NewSet",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "NewSet"
+        },
+        {
+            "Language": "ja",
+            "Body": "(新規作成)"
+        }
+    ]
+}

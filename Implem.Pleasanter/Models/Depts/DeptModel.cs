@@ -328,7 +328,6 @@ namespace Implem.Pleasanter.Models
                     tenantId: context.TenantId,
                     type: StatusUtilities.Types.DeptsUpdated),
             });
-            statements.AddRange(UpdateAttachmentsStatements(context: context));
             return statements;
         }
 
@@ -409,7 +408,6 @@ namespace Implem.Pleasanter.Models
                 where: where,
                 param: param,
                 otherInitValue: otherInitValue));
-            statements.AddRange(UpdateAttachmentsStatements(context: context));
             if (additionalStatements?.Any() == true)
             {
                 statements.AddRange(additionalStatements);
@@ -441,20 +439,6 @@ namespace Implem.Pleasanter.Models
                     tenantId: context.TenantId,
                     type: StatusUtilities.Types.DeptsUpdated),
             };
-        }
-
-        private List<SqlStatement> UpdateAttachmentsStatements(Context context)
-        {
-            var statements = new List<SqlStatement>();
-            ColumnNames()
-                .Where(columnName => columnName.StartsWith("Attachments"))
-                .Where(columnName => Attachments_Updated(columnName: columnName))
-                .ForEach(columnName =>
-                    Attachments(columnName: columnName).Write(
-                        context: context,
-                        statements: statements,
-                        referenceId: DeptId));
-            return statements;
         }
 
         public ErrorData UpdateOrCreate(
@@ -686,7 +670,19 @@ namespace Implem.Pleasanter.Models
             {
                 string columnName = o.Key;
                 Attachments newAttachments = o.Value;
-                Attachments oldAttachments = AttachmentsHash.Get(columnName);
+                Attachments oldAttachments;
+                if (columnName == "Attachments#Uploading")
+                {
+                    var kvp = AttachmentsHash
+                        .FirstOrDefault(x => x.Value
+                            .Any(att => att.Guid == newAttachments.FirstOrDefault()?.Guid));
+                    columnName = kvp.Key;
+                    oldAttachments = kvp.Value;
+                }
+                else
+                {
+                    oldAttachments = AttachmentsHash.Get(columnName);
+                }
                 if (oldAttachments != null)
                 {
                     var newGuidSet = new HashSet<string>(newAttachments.Select(x => x.Guid).Distinct());

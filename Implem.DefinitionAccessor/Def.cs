@@ -330,6 +330,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_FullTextColumn": Code.Model_FullTextColumn = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_FullTextColumn, definitionRow, CodeXls); break;
                     case "Model_FullText_Sites_Wikis": Code.Model_FullText_Sites_Wikis = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_FullText_Sites_Wikis, definitionRow, CodeXls); break;
                     case "Model_Create": Code.Model_Create = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Create, definitionRow, CodeXls); break;
+                    case "Model_SetAttachmentsHashCode": Code.Model_SetAttachmentsHashCode = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetAttachmentsHashCode, definitionRow, CodeXls); break;
+                    case "Model_UpdateAttachmentsStatements": Code.Model_UpdateAttachmentsStatements = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateAttachmentsStatements, definitionRow, CodeXls); break;
                     case "Model_CreateParams": Code.Model_CreateParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreateParams, definitionRow, CodeXls); break;
                     case "Model_CreateParams_Wikis": Code.Model_CreateParams_Wikis = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreateParams_Wikis, definitionRow, CodeXls); break;
                     case "Model_SetTenantIdByContext": Code.Model_SetTenantIdByContext = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetTenantIdByContext, definitionRow, CodeXls); break;
@@ -354,6 +356,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_InsertIdentity": Code.Model_InsertIdentity = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertIdentity, definitionRow, CodeXls); break;
                     case "Model_InsertIdentitySet": Code.Model_InsertIdentitySet = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertIdentitySet, definitionRow, CodeXls); break;
                     case "Model_Update": Code.Model_Update = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Update, definitionRow, CodeXls); break;
+                    case "Model_SetAttachmentsHashCodeMethod": Code.Model_SetAttachmentsHashCodeMethod = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetAttachmentsHashCodeMethod, definitionRow, CodeXls); break;
+                    case "Model_UpdateAttachmentsStatementsMethod": Code.Model_UpdateAttachmentsStatementsMethod = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateAttachmentsStatementsMethod, definitionRow, CodeXls); break;
                     case "Model_UpdateParams_Permissions": Code.Model_UpdateParams_Permissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateParams_Permissions, definitionRow, CodeXls); break;
                     case "Model_UpdatePermissionsParams": Code.Model_UpdatePermissionsParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdatePermissionsParams, definitionRow, CodeXls); break;
                     case "Model_UpdateParams_Items": Code.Model_UpdateParams_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateParams_Items, definitionRow, CodeXls); break;
@@ -388,6 +392,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_InsertLinks": Code.Model_InsertLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertLinks, definitionRow, CodeXls); break;
                     case "Model_Move": Code.Model_Move = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Move, definitionRow, CodeXls); break;
                     case "Model_Delete": Code.Model_Delete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete, definitionRow, CodeXls); break;
+                    case "Model_DeleteAttachments": Code.Model_DeleteAttachments = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteAttachments, definitionRow, CodeXls); break;
                     case "Model_DeleteParams": Code.Model_DeleteParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteParams, definitionRow, CodeXls); break;
                     case "Model_Delete_Item": Code.Model_Delete_Item = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete_Item, definitionRow, CodeXls); break;
                     case "Model_Delete_GroupMembers": Code.Model_Delete_GroupMembers = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete_GroupMembers, definitionRow, CodeXls); break;
@@ -3229,6 +3234,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_menu_sort_space___space_li_colon_hover": Css._dot_menu_sort_space___space_li_colon_hover = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_sort_space___space_li_colon_hover, definitionRow, CssXls); break;
                     case "_dot_menu_sort_space___space_li_space___space__asterisk_": Css._dot_menu_sort_space___space_li_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_sort_space___space_li_space___space__asterisk_, definitionRow, CssXls); break;
                     case "_dot_menu_sort_space___space_li_space_div_dot_field_control_space___space__asterisk_": Css._dot_menu_sort_space___space_li_space_div_dot_field_control_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_sort_space___space_li_space_div_dot_field_control_space___space__asterisk_, definitionRow, CssXls); break;
+                    case "_dot_current_time": Css._dot_current_time = definitionRow[1].ToString(); SetCssTable(CssTable._dot_current_time, definitionRow, CssXls); break;
                     case "input_colon_focus": Css.input_colon_focus = definitionRow[1].ToString(); SetCssTable(CssTable.input_colon_focus, definitionRow, CssXls); break;
                     case "select_colon_focus_colon_not__dot_has_css_": Css.select_colon_focus_colon_not__dot_has_css_ = definitionRow[1].ToString(); SetCssTable(CssTable.select_colon_focus_colon_not__dot_has_css_, definitionRow, CssXls); break;
                     case "textarea_colon_focus": Css.textarea_colon_focus = definitionRow[1].ToString(); SetCssTable(CssTable.textarea_colon_focus, definitionRow, CssXls); break;
@@ -7267,6 +7273,8 @@ namespace Implem.DefinitionAccessor
         public string Model_FullTextColumn;
         public string Model_FullText_Sites_Wikis;
         public string Model_Create;
+        public string Model_SetAttachmentsHashCode;
+        public string Model_UpdateAttachmentsStatements;
         public string Model_CreateParams;
         public string Model_CreateParams_Wikis;
         public string Model_SetTenantIdByContext;
@@ -7291,6 +7299,8 @@ namespace Implem.DefinitionAccessor
         public string Model_InsertIdentity;
         public string Model_InsertIdentitySet;
         public string Model_Update;
+        public string Model_SetAttachmentsHashCodeMethod;
+        public string Model_UpdateAttachmentsStatementsMethod;
         public string Model_UpdateParams_Permissions;
         public string Model_UpdatePermissionsParams;
         public string Model_UpdateParams_Items;
@@ -7325,6 +7335,7 @@ namespace Implem.DefinitionAccessor
         public string Model_InsertLinks;
         public string Model_Move;
         public string Model_Delete;
+        public string Model_DeleteAttachments;
         public string Model_DeleteParams;
         public string Model_Delete_Item;
         public string Model_Delete_GroupMembers;
@@ -7929,6 +7940,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_FullTextColumn = new CodeDefinition();
         public CodeDefinition Model_FullText_Sites_Wikis = new CodeDefinition();
         public CodeDefinition Model_Create = new CodeDefinition();
+        public CodeDefinition Model_SetAttachmentsHashCode = new CodeDefinition();
+        public CodeDefinition Model_UpdateAttachmentsStatements = new CodeDefinition();
         public CodeDefinition Model_CreateParams = new CodeDefinition();
         public CodeDefinition Model_CreateParams_Wikis = new CodeDefinition();
         public CodeDefinition Model_SetTenantIdByContext = new CodeDefinition();
@@ -7953,6 +7966,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_InsertIdentity = new CodeDefinition();
         public CodeDefinition Model_InsertIdentitySet = new CodeDefinition();
         public CodeDefinition Model_Update = new CodeDefinition();
+        public CodeDefinition Model_SetAttachmentsHashCodeMethod = new CodeDefinition();
+        public CodeDefinition Model_UpdateAttachmentsStatementsMethod = new CodeDefinition();
         public CodeDefinition Model_UpdateParams_Permissions = new CodeDefinition();
         public CodeDefinition Model_UpdatePermissionsParams = new CodeDefinition();
         public CodeDefinition Model_UpdateParams_Items = new CodeDefinition();
@@ -7987,6 +8002,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_InsertLinks = new CodeDefinition();
         public CodeDefinition Model_Move = new CodeDefinition();
         public CodeDefinition Model_Delete = new CodeDefinition();
+        public CodeDefinition Model_DeleteAttachments = new CodeDefinition();
         public CodeDefinition Model_DeleteParams = new CodeDefinition();
         public CodeDefinition Model_Delete_Item = new CodeDefinition();
         public CodeDefinition Model_Delete_GroupMembers = new CodeDefinition();
@@ -10791,6 +10807,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_menu_sort_space___space_li_colon_hover;
         public string _dot_menu_sort_space___space_li_space___space__asterisk_;
         public string _dot_menu_sort_space___space_li_space_div_dot_field_control_space___space__asterisk_;
+        public string _dot_current_time;
         public string input_colon_focus;
         public string select_colon_focus_colon_not__dot_has_css_;
         public string textarea_colon_focus;
@@ -11308,6 +11325,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_menu_sort_space___space_li_colon_hover = new CssDefinition();
         public CssDefinition _dot_menu_sort_space___space_li_space___space__asterisk_ = new CssDefinition();
         public CssDefinition _dot_menu_sort_space___space_li_space_div_dot_field_control_space___space__asterisk_ = new CssDefinition();
+        public CssDefinition _dot_current_time = new CssDefinition();
         public CssDefinition input_colon_focus = new CssDefinition();
         public CssDefinition select_colon_focus_colon_not__dot_has_css_ = new CssDefinition();
         public CssDefinition textarea_colon_focus = new CssDefinition();

@@ -1,0 +1,45 @@
+﻿{
+    "TestParts": [
+        {
+            "TargetElementId": "NewMenuContainer",
+            "Action": "Click"
+        },
+        {
+            "Action": "Inputs",
+            "Inputs": [
+                {
+                    "InputTarget": "Title",
+                    "InputValue": "タイトル入力"
+                },
+                {
+                    "InputTarget": "Status",
+                    "InputValue": "300"
+                },
+                {
+                    "InputTarget": "Body",
+                    "InputValue": "内容入力"
+                }
+            ]
+        },
+        {
+            "TestPartId": "IssueRecord1",
+            "Action": "Create",
+            "Results": [
+                {
+                    "ResultItemId": "Title",
+                    "ResultExpectedValue": "タイトル入力",
+                    "ResultDescription": "入力内容が登録されていること。"
+                },
+                {
+                    "ResultItemId": "Body",
+                    "ResultExpectedValue": "内容入力",
+                    "ResultDescription": "入力内容が登録されていること。"
+                }
+            ]
+        },
+        {
+            "TargetElementId": "GoBack",
+            "Action": "Click"
+        }
+    ]
+}

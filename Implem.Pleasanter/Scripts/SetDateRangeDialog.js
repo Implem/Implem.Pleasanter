@@ -36,16 +36,24 @@ $p.openSiteSetDateRangeDialog = function ($control, timepicker) {
     $('#dateRangeStart').val(startValue);
     $('#dateRangeEnd').val(endValue);
 }
-$p.openSetDateRangeOK = function ($controlID, timepicker) {
+$p.openSetDateRangeOK = function ($controlID, type) {
     var sdval = $('#dateRangeStart').val();
     var edval = $('#dateRangeEnd').val();
-    var setval = '';
-    var dispval = '';
-    if (sdval || edval) {
-        dispval = sdval + '-' + edval;
-        if (!timepicker && sdval) { sdval += ' 00:00:00.000'; }
-        if (!timepicker && edval) { edval += ' 23:59:59.997'; }
-        setval = '["' + sdval + ',' + edval + '"]';
+    var setval = '["' + type + '"]';
+    var dispval = $p.display(type);
+    switch (type) {
+        case 'Today':
+        case 'ThisMonth':
+        case 'ThisYear':
+            break;
+        default:
+            if (sdval || edval) {
+                dispval = sdval + ' - ' + edval;
+                if (!type == 'DateTimepicker' && sdval) { sdval += ' 00:00:00.000'; }
+                if (!type == 'DateTimepicker' && edval) { edval += ' 23:59:59.997'; }
+                setval = '["' + sdval + ',' + edval + '"]';
+            }
+            break;
     }
     $control = $('[id="' + $controlID + '"]');
     $target = $('[id="' + $controlID.replace('_DateRange', '') + '"]');

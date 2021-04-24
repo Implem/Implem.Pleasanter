@@ -1,0 +1,13 @@
+﻿{
+    "Id": "NotMemoryViewMode",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Not memory view mode"
+        },
+        {
+            "Language": "ja",
+            "Body": "ビューモードを記憶しない"
+        }
+    ]
+}

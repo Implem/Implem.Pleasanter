@@ -1,0 +1,26 @@
+﻿{
+    "TestParts": [
+        {
+            "TargetTestPartId": "ResultRecord1",
+            "Action": "Click"
+        },
+        {
+            "Action": "Delete"
+        },
+        {
+            "Action": "AlertAccept",
+            "Value": null,
+            "Results": [
+                {
+                    "ResultElementId": "Message",
+                    "ResultDescription": "レコードが削除されること。",
+                    "ResultExpectedValue": "\" タイトル更新 \" を削除しました。"
+                }
+            ]
+        },
+        {
+            "TargetElementId": "GoBack",
+            "Action": "Click"
+        }
+    ]
+}

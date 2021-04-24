@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
@@ -714,6 +715,14 @@ namespace Implem.Pleasanter.Models
                             return new ErrorData(
                                 type: Error.Types.OverTotalLimitSize,
                                 data: column.TotalLimitSize.ToInt().ToString());
+                        case Error.Types.OverLocalFolderLimitSize:
+                            return new ErrorData(
+                                type: Error.Types.OverLocalFolderLimitSize,
+                                data: column.LocalFolderLimitSize.ToInt().ToString());
+                        case Error.Types.OverLocalFolderTotalLimitSize:
+                            return new ErrorData(
+                                type: Error.Types.OverLocalFolderTotalLimitSize,
+                                data: column.LocalFolderTotalLimitSize.ToInt().ToString());
                         case Error.Types.OverTenantStorageSize:
                             return new ErrorData(
                                 type: Error.Types.OverTenantStorageSize,

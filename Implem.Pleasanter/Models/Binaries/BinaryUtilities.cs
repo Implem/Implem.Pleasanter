@@ -44,7 +44,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return false;
             }
-            switch (Parameters.BinaryStorage.Provider)
+            switch (Parameters.BinaryStorage.GetSiteImageProvider())
             {
                 case "Local":
                     return new Libraries.Images.ImageData(
@@ -525,6 +525,16 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 columnName: context.Forms.Data("ColumnName"));
             var attachments = context.Forms.Data("AttachmentsData").Deserialize<Attachments>();
+            context.PostedFiles.ForEach(file => attachments.Add(new Attachment()
+            {
+                Guid = file.Guid,
+                Name = file.FileName.Split(System.IO.Path.DirectorySeparatorChar).Last(),
+                Size = file.Size,
+                Extention = file.Extension,
+                ContentType = file.ContentType,
+                Added = true,
+                Deleted = false
+            }));
             var invalid = BinaryValidators.OnUploading(
                 context: context,
                 column: column,
@@ -543,6 +553,14 @@ namespace Implem.Pleasanter.Models
                     return Messages.ResponseOverTotalLimitSize(
                         context: context,
                         data: column.TotalLimitSize.ToString()).ToJson();
+                case Error.Types.OverLocalFolderLimitSize:
+                    return Messages.ResponseOverLocalFolderLimitSize(
+                        context: context,
+                        data: column.LocalFolderLimitSize.ToString()).ToJson();
+                case Error.Types.OverLocalFolderTotalLimitSize:
+                    return Messages.ResponseOverLocalFolderTotalLimitSize(
+                        context: context,
+                        data: column.LocalFolderTotalLimitSize.ToString()).ToJson();
                 case Error.Types.OverTenantStorageSize:
                     return Messages.ResponseOverTenantStorageSize(
                         context: context,
@@ -550,16 +568,6 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            context.PostedFiles.ForEach(file => attachments.Add(new Attachment()
-            {
-                Guid = file.Guid,
-                Name = file.FileName.Split(System.IO.Path.DirectorySeparatorChar).Last(),
-                Size = file.Size,
-                Extention = file.Extension,
-                ContentType = file.ContentType,
-                Added = true,
-                Deleted = false
-            }));
             var hb = new HtmlBuilder();
             var fieldId = controlId + "Field";
             return new ResponseCollection()
@@ -589,7 +597,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static System.Web.Mvc.FileContentResult Donwload(Context context, string guid)
+        public static ResponseFile Donwload(Context context, string guid)
         {
             if (!context.ContractSettings.Attachments())
             {
@@ -617,7 +625,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static System.Web.Mvc.FileContentResult DownloadTemp(Context context, string guid)
+        public static ResponseFile DownloadTemp(Context context, string guid)
         {
             if (!context.ContractSettings.Attachments())
             {
@@ -667,6 +675,325 @@ namespace Implem.Pleasanter.Models
                         .Guid(guids, multiParamOperator: " or ")
                         .Creator(context.UserId))
                 : null;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string BinaryStorageProvider(Column column)
+        {
+            if (!Parameters.BinaryStorage.UseStorageSelect)
+            {
+                return string.IsNullOrEmpty(column?.BinaryStorageProvider)
+                ? Parameters.BinaryStorage.DefaultBinaryStorageProvider
+                : column?.BinaryStorageProvider;
+            }
+            return column?.BinaryStorageProvider;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string BinaryStorageProvider(Column column, long size)
+        {
+            decimal s = size;
+            return BinaryStorageProvider(column, s);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string BinaryStorageProvider(Column column, decimal size)
+        {
+            var binaryStorageProvider = BinaryStorageProvider(column);
+            switch (binaryStorageProvider)
+            {
+                case "AutoDataBaseOrLocalFolder":
+                    return size > column?.LimitSize * 1024M * 1024M
+                        ? "LocalFolder"
+                        : "DataBase";
+                default:
+                    return binaryStorageProvider;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static System.Web.Mvc.ContentResult UploadFile(
+            Context context,
+            long id,
+            System.Web.HttpFileCollectionBase collectionBase)
+        {
+            var itemModel = new ItemModel(context, id);
+            var ss = itemModel.GetSite(context, initSiteSettings: true).SiteSettings;
+            var column = ss.GetColumn(context, TrimIdSuffix(System.Web.HttpContext.Current.Request.Form["ColumnName"]));
+            var attachments = System.Web.HttpContext.Current.Request.Form["AttachmentsData"].Deserialize<Attachments>();
+            var fileHash = System.Web.HttpContext.Current.Request.Form["FileHash"];
+            var files = ToArray(collectionBase);
+            var contentRange = GetContentRange(files);
+            {
+                var invalid = HasPermission(context, ss, itemModel);
+                switch (invalid.Type)
+                {
+                    case Error.Types.None: break;
+                    default: return ApiResults.Get(HtmlTemplates.Error(context, invalid));
+                }
+            }
+            {
+                var invalid = BinaryValidators.OnUploading(context, column, attachments, files, new[] { contentRange });
+                switch (invalid)
+                {
+                    case Error.Types.OverLimitQuantity:
+                        return ApiResults.Get(Messages.ResponseOverLimitQuantity(
+                            context: context,
+                            data: column.LimitQuantity.ToString()).ToJson());
+                    case Error.Types.OverLimitSize:
+                        return ApiResults.Get(Messages.ResponseOverLimitSize(
+                            context: context,
+                            data: column.LimitSize.ToString()).ToJson());
+                    case Error.Types.OverTotalLimitSize:
+                        return ApiResults.Get(Messages.ResponseOverTotalLimitSize(
+                            context: context,
+                            data: column.TotalLimitSize.ToString()).ToJson());
+                    case Error.Types.OverLocalFolderLimitSize:
+                        return ApiResults.Get(Messages.ResponseOverLimitSize(
+                            context: context,
+                            data: column.LocalFolderLimitSize.ToString()).ToJson());
+                    case Error.Types.OverLocalFolderTotalLimitSize:
+                        return ApiResults.Get(Messages.ResponseOverTotalLimitSize(
+                            context: context,
+                            data: column.LocalFolderTotalLimitSize.ToString()).ToJson());
+                    case Error.Types.OverTenantStorageSize:
+                        return ApiResults.Get(Messages.ResponseOverTenantStorageSize(
+                            context: context,
+                            data: context.ContractSettings.StorageSize.ToString()).ToJson());
+                    case Error.Types.None: break;
+                    default: return ApiResults.Get(invalid.MessageJson(context));
+                }
+            }
+            var controlId = System.Web.HttpContext.Current.Request.Form["ControlId"];
+            var fileUuid = System.Web.HttpContext.Current.Request.Form["Uuid"]?.Split(',');
+            var fileUuids = System.Web.HttpContext.Current.Request.Form["Uuids"]?.Split(',');
+            var fileNames = System.Web.HttpContext.Current.Request.Form["fileNames"]?.Deserialize<string[]>();
+            var fileSizes = System.Web.HttpContext.Current.Request.Form["fileSizes"]?.Deserialize<string[]>();
+            var fileTypes = System.Web.HttpContext.Current.Request.Form["fileTypes"]?.Deserialize<string[]>();
+            var resultFileNames = new List<KeyValuePair<System.Web.HttpPostedFileBase, System.IO.FileInfo>>();
+            for (int filesIndex = 0; filesIndex < collectionBase.Count; ++filesIndex)
+            {
+                var file = collectionBase[filesIndex];
+                var saveFile = GetTempFileInfo(fileUuid[filesIndex], file.FileName);
+                Save(file, saveFile);
+                resultFileNames.Add(
+                    new KeyValuePair<System.Web.HttpPostedFileBase, System.IO.FileInfo>(
+                        file,
+                        saveFile));
+            }
+            {
+                var invalid = ValidateFileHash(resultFileNames[0].Value, contentRange, fileHash);
+                if (invalid != Error.Types.None) return ApiResults.Get(invalid.MessageJson(context));
+            }
+            return CreateResult(
+                resultFileNames,
+                CreateResponseJson(
+                    context,
+                    fileUuids,
+                    fileNames,
+                    fileSizes,
+                    fileTypes,
+                    ss,
+                    column,
+                    controlId,
+                    attachments,
+                    contentRange));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static ErrorData HasPermission(Context context, SiteSettings ss, ItemModel itemModel)
+        {
+            if (ss.SiteId == ss.ReferenceId && itemModel.ReferenceType == "Sites")
+                return context.CanCreate(ss)
+                    ? new ErrorData(Error.Types.None)
+                    : new ErrorData(Error.Types.HasNotPermission);
+            switch (ss.ReferenceType)
+            {
+                case "Issues": return IssueValidators.OnUpdating(context, ss, new IssueModel(context, ss));
+                case "Results": return ResultValidators.OnUpdating(context, ss, new ResultModel(context, ss));
+                default: return new ErrorData(Error.Types.HasNotPermission);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static System.Web.HttpPostedFileBase[] ToArray(System.Web.HttpFileCollectionBase collectionBase)
+        {
+            var list = new List<System.Web.HttpPostedFileBase>();
+            for (int filesIndex = 0; filesIndex < System.Web.HttpContext.Current.Request.Files.Count; ++filesIndex)
+                list.Add(collectionBase[filesIndex]);
+            return list.ToArray();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static System.Net.Http.Headers.ContentRangeHeaderValue GetContentRange(
+            System.Web.HttpPostedFileBase[] files)
+        {
+            var contentRange = System.Web.HttpContext.Current.Request.Headers["Content-Range"];
+            var matches = System.Text.RegularExpressions.Regex.Matches(contentRange ?? string.Empty, "\\d+");
+            return matches.Count > 0
+                ? new System.Net.Http.Headers.ContentRangeHeaderValue(
+                long.Parse(matches[0].Value),
+                long.Parse(matches[1].Value),
+                long.Parse(matches[2].Value))
+                : new System.Net.Http.Headers.ContentRangeHeaderValue(
+                    0,
+                    files.Select(f => f.ContentLength - 1).FirstOrDefault(),
+                    files.Select(f => f.ContentLength).FirstOrDefault());
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static System.IO.FileInfo GetTempFileInfo(string fileUuid, string fileName)
+        {
+            var tempDirectoryInfo = new System.IO.DirectoryInfo(DefinitionAccessor.Directories.Temp());
+            if (!tempDirectoryInfo.Exists)
+                tempDirectoryInfo.Create();
+            var saveFileInfo = new System.IO.FileInfo(System.IO.Path.Combine(tempDirectoryInfo.FullName, fileUuid, fileName));
+            var saveDirectoryInfo = saveFileInfo.Directory;
+            if (!saveDirectoryInfo.Exists)
+                saveDirectoryInfo.Create();
+            if (!saveFileInfo.Exists)
+                using (var fileStream = saveFileInfo.Create())
+                    fileStream.Flush();
+            return saveFileInfo;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void Save(System.Web.HttpPostedFileBase file, System.IO.FileInfo saveFile)
+        {
+            System.IO.FileStream saveFileStream = null;
+            var en = Enumerable.Range(0, 100).ToArray();
+            foreach (var index in en)
+            {
+                try
+                {
+                    saveFileStream = saveFile.Open(System.IO.FileMode.Append, System.IO.FileAccess.Write, System.IO.FileShare.Read);
+                    if (saveFileStream != null) break;
+                }
+                catch (System.IO.IOException)
+                {
+                    if (index >= en.Last()) throw;
+                }
+            }
+            using (saveFileStream)
+            {
+                int b = default(int);
+                while ((b = file.InputStream.ReadByte()) != -1)
+                    saveFileStream.WriteByte((byte)b);
+                saveFileStream.Flush();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static System.Web.Mvc.ContentResult CreateResult(
+            List<KeyValuePair<System.Web.HttpPostedFileBase, System.IO.FileInfo>> resultFileNames,
+            string responseJson)
+        {
+            return new System.Web.Mvc.ContentResult
+            {
+                Content = Newtonsoft.Json.JsonConvert.SerializeObject(
+                new
+                {
+                    files = resultFileNames.Select(
+                    file => new { name = file.Value.Name }).ToArray(),
+                    ResponseJson = responseJson
+                })
+            };
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string CreateResponseJson(
+            Context context,
+            IEnumerable<string> guids,
+            IEnumerable<string> names,
+            IEnumerable<string> sizes,
+            IEnumerable<string> types,
+            SiteSettings ss,
+            Column column,
+            string controlId,
+            List<Attachment> attachments,
+            System.Net.Http.Headers.ContentRangeHeaderValue contentRange)
+        {
+            Enumerable.Range(0, new[] { guids.Count(), names.Count(), sizes.Count(), types.Count() }.Min()).ForEach(index => attachments.Add(new Attachment()
+            {
+                Guid = guids.Skip(index).First(),
+                Name = names.Skip(index).First(),
+                Size = sizes.Skip(index).First().ToLong(),
+                Extention = System.IO.Path.GetExtension(names.Skip(index).First()),
+                ContentType = types.Skip(index).First(),
+                Added = true,
+                Deleted = false
+            }));
+            var hb = new HtmlBuilder();
+            return new ResponseCollection()
+                .ReplaceAll($"#{controlId}Field", new HtmlBuilder()
+                    .Field(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        value: attachments.ToJson(),
+                        columnPermissionType: Permissions.ColumnPermissionType(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            null),
+                        idSuffix: System.Text.RegularExpressions.Regex.Match(controlId, "_\\d+_-?\\d+").Value
+                        ))
+                .SetData("#" + controlId)
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static Error.Types ValidateFileHash(
+            System.IO.FileInfo fileInfo,
+            System.Net.Http.Headers.ContentRangeHeaderValue contentRange,
+            string hash)
+        {
+            if (string.IsNullOrEmpty(hash)) return Error.Types.None;
+            if (contentRange.Length > (contentRange.To + 1)) return Error.Types.None;
+            byte[] hashValue;
+            using (var fileStream = fileInfo.Open(System.IO.FileMode.Open))
+            {
+                fileStream.Position = 0;
+                hashValue = new System.Security.Cryptography.MD5Cng().ComputeHash(fileStream);
+                fileStream.Close();
+            }
+            var fileHash = string.Join(string.Empty, hashValue.Select(h => h.ToString("x2")));
+            return hash == fileHash ? Error.Types.None : Error.Types.InvalidRequest;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string TrimIdSuffix(string element)
+        {
+            var regex = new System.Text.RegularExpressions.Regex("_\\d+_-?\\d+$");
+            return regex.Match(element).Value.IsNullOrEmpty()
+                ? element
+                : element.Replace(regex.Match(element).Value, string.Empty);
         }
     }
 }

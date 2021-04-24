@@ -1,0 +1,9 @@
+﻿{
+    "Id": "AutoTestNumberSelect",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Select the number you want to test. When selecting multiple items, separate them with commas."
+        }
+    ]
+}

@@ -1,0 +1,53 @@
+﻿{
+    "CasesDescription": "汎用テストケース　記録テーブルの確認",
+    "ResultFileName": "GeneralCase2.csv",
+    "TestCases": [
+        {
+            "TestPartsPath": "\\Users",
+            "TestPartsName": "LoginLocal.json"
+        },
+        {
+            "TestPartsPath": "\\Items\\Results\\Create",
+            "TestPartsName": "CreateResultsTable.json",
+            "CaseDescription": "Resultsテーブルを作成する。"
+        },
+        {
+            "TestPartsPath": "\\Items\\Results\\Transition",
+            "TestPartsName": "ToResultsTable.json",
+            "CaseDescription": "作成したResultsテーブルへ遷移する。"
+        },
+        {
+            "TestPartsPath": "\\Items\\Results\\Create",
+            "TestPartsName": "CreateResultRecord.json",
+            "CaseDescription": "Resultsテーブルのレコードを作成する。"
+        },
+        {
+            "TestPartsPath": "\\Items\\Results\\Update",
+            "TestPartsName": "UpdateResultRecord.json",
+            "CaseDescription": "Resultsテーブルのレコードを更新する。"
+        },
+        {
+            "TestPartsPath": "\\Items\\Results\\Delete",
+            "TestPartsName": "DeleteResultRecord.json",
+            "CaseDescription": "Resultsテーブルのレコードを削除する。"
+        },
+        {
+            "TestPartsPath": "\\Items\\Results\\Transition",
+            "TestPartsName": "ToResultsTable.json",
+            "CaseDescription": "作成したResultsテーブルへ遷移する。"
+        },
+        {
+            "TestPartsPath": "\\Items\\Results\\Delete",
+            "TestPartsName": "DeleteResultsTable.json",
+            "CaseDescription": "Resultsテーブルを削除する。"
+        },
+        {
+            "TestPartsPath": "\\Other",
+            "TestPartsName": "ToTop.json"
+        },
+        {
+            "TestPartsPath": "\\Users",
+            "TestPartsName": "Logout.json"
+        }
+    ]
+}

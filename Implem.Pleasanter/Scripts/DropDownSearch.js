@@ -15,25 +15,30 @@
 
 $p.openDropDownSearchDialog = function ($control) {
     var id = $control.attr('id');
-    var $text = $('#DropDownSearchText');
     var $target = $('#DropDownSearchTarget');
+    var multiple = $control.attr('multiple') === 'multiple';
+    $('#DropDownSearchSelectedValues').val(JSON.stringify($control.val()));
     $('#DropDownSearchParentClass').val($("#" + id).attr('parent-data-class'));
     $('#DropDownSearchParentDataId').val($("#" + id).attr('parent-data-id'));
-    $('#DropDownSearchResults').empty();
+    $('#DropDownSearchMultiple').val(multiple);
     $target.val(id);
-    $text.val('');
-    $('#DropDownSearchMultiple').val($control.attr('multiple') === 'multiple');
-    $($('#DropDownSearchDialog')).dialog({
-        title: $('.field-label label[for="' + id + '"]').text(),
-        modal: true,
-        width: '630px',
-        resizable: false,
-        close: function () {
-            $('#' + $target.val()).prop("disabled", false);
+    var error = $p.syncSend($target);
+    if (error === 0) {
+        $($('#DropDownSearchDialog')).dialog({
+            title: $('.field-label label[for="' + id + '"]').text(),
+            modal: true,
+            width: '750px',
+            resizable: false,
+            close: function () {
+                $('#' + $target.val()).prop("disabled", false);
+            }
+        });
+        if (multiple) {
+            $p.setPaging('DropDownSearchSourceResults', 'DropDownSearchResultsOffset');
+        } else {
+            $p.setPaging('DropDownSearchResults');
         }
-    });
-    $p.send($text);
-    $p.setPaging('DropDownSearchResults');
-    $control.prop("disabled", true);
-    $text.focus();
+        $control.prop("disabled", true);
+        $('#DropDownSearchText').focus();
+    }
 }

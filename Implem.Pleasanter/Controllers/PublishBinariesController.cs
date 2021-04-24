@@ -69,12 +69,10 @@ namespace Implem.Pleasanter.Controllers
             var context = new Context();
             var log = new SysLogModel(context: context);
             var file = BinaryUtilities.Donwload(context: context, guid: guid);
-            if (file == null)
-            {
-                return RedirectToAction("notfound", "errors");
-            }
-            log.Finish(context: context, responseSize: file?.FileContents.Length ?? 0);
-            return file;
+            log.Finish(context: context, responseSize: file?.FileContents?.Length ?? 0);
+            return file?.IsFileInfo() == true
+                ? (ActionResult)File(file?.FileInfo?.FullName, file?.ContentType, file?.FileDownloadName)
+                : File(file?.FileContentsStream, file?.ContentType, file?.FileDownloadName);
         }
 
         [HttpGet]
@@ -82,12 +80,15 @@ namespace Implem.Pleasanter.Controllers
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
-            var file = BinaryUtilities.Donwload(context: context, guid: guid);
+            var file = BinaryUtilities.Donwload(
+                context: context,
+                guid: guid)
+                    ?.FileStream();
             if (file == null)
             {
                 return RedirectToAction("notfound", "errors");
             }
-            log.Finish(context: context, responseSize: file?.FileContents.Length ?? 0);
+            log.Finish(context: context, responseSize: file?.FileContents?.Length ?? 0);
             return file != null
                 ? File(file.FileContents, file.ContentType)
                 : null;

@@ -332,7 +332,6 @@ namespace Implem.Pleasanter.Models
                         setDefault: true,
                         otherInitValue: otherInitValue))
             });
-            statements.AddRange(UpdateAttachmentsStatements(context: context));
             return statements;
         }
 
@@ -404,7 +403,6 @@ namespace Implem.Pleasanter.Models
                 where: where,
                 param: param,
                 otherInitValue: otherInitValue));
-            statements.AddRange(UpdateAttachmentsStatements(context: context));
             if (additionalStatements?.Any() == true)
             {
                 statements.AddRange(additionalStatements);
@@ -433,20 +431,6 @@ namespace Implem.Pleasanter.Models
                     Id = BinaryId
                 }
             };
-        }
-
-        private List<SqlStatement> UpdateAttachmentsStatements(Context context)
-        {
-            var statements = new List<SqlStatement>();
-            ColumnNames()
-                .Where(columnName => columnName.StartsWith("Attachments"))
-                .Where(columnName => Attachments_Updated(columnName: columnName))
-                .ForEach(columnName =>
-                    Attachments(columnName: columnName).Write(
-                        context: context,
-                        statements: statements,
-                        referenceId: BinaryId));
-            return statements;
         }
 
         public ErrorData UpdateOrCreate(
@@ -754,7 +738,7 @@ namespace Implem.Pleasanter.Models
         public string SiteImagePrefix(
             Context context, Libraries.Images.ImageData.SizeTypes sizeType)
         {
-            switch (Parameters.BinaryStorage.Provider)
+            switch (Parameters.BinaryStorage.GetSiteImageProvider())
             {
                 case "Local":
                     return new Libraries.Images.ImageData(
@@ -779,7 +763,7 @@ namespace Implem.Pleasanter.Models
         public string TenantImagePrefix(
             Context context, Libraries.Images.ImageData.SizeTypes sizeType)
         {
-            switch (Parameters.BinaryStorage.Provider)
+            switch (Parameters.BinaryStorage.GetSiteImageProvider())
             {
                 case "Local":
                     return new Libraries.Images.ImageData(
@@ -806,7 +790,7 @@ namespace Implem.Pleasanter.Models
             Libraries.Images.ImageData.SizeTypes sizeType,
             SqlColumnCollection column)
         {
-            switch (Parameters.BinaryStorage.Provider)
+            switch (Parameters.BinaryStorage.GetSiteImageProvider())
             {
                 case "Local":
                     return new Libraries.Images.ImageData(
@@ -858,7 +842,7 @@ namespace Implem.Pleasanter.Models
                 bin,
                 ReferenceId,
                 Libraries.Images.ImageData.Types.SiteImage);
-            switch (Parameters.BinaryStorage.Provider)
+            switch (Parameters.BinaryStorage.GetSiteImageProvider())
             {
                 case "Local": imageData.WriteToLocal(); break;
                 default:
@@ -921,7 +905,7 @@ namespace Implem.Pleasanter.Models
         public Error.Types DeleteSiteImage(Context context)
         {
             BinaryType = "SiteImage";
-            switch (Parameters.BinaryStorage.Provider)
+            switch (Parameters.BinaryStorage.GetSiteImageProvider())
             {
                 case "Local":
                     new Libraries.Images.ImageData(

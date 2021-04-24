@@ -14,6 +14,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public int Length;
         public long StreamLength;
         public string Encoding;
+        public FileInfo FileInfo;
+        public long FileLength;
 
         public ResponseFile(
             string fileContent,
@@ -34,6 +36,15 @@ namespace Implem.Pleasanter.Libraries.Responses
             FileDownloadName = fileDownloadName;
             ContentType = Strings.CoalesceEmpty(contentType, Mime.Type(FileDownloadName));
             StreamLength = fileContent.Length;
+        }
+
+        public ResponseFile(FileInfo fileContent, string fileDownloadName, string contentType = null)
+        {
+            FileInfo = fileContent;
+            FileDownloadName = fileDownloadName;
+            ContentType = Strings.CoalesceEmpty(contentType, Mime.Type(FileDownloadName));
+            StreamLength = fileContent.Length;
+            FileLength = fileContent.Length;
         }
 
         public FileContentResult ToFile()
@@ -87,6 +98,17 @@ namespace Implem.Pleasanter.Libraries.Responses
 
         public FileContentResult FileStream()
         {
+            if (FileContentsStream == null)
+            {
+                using (var fs = new FileStream(FileInfo.FullName, FileMode.Open))
+                using (var reader = new BinaryReader(fs))
+                {
+                    return new FileContentResult(reader.ReadBytes((int)fs.Length), ContentType)
+                    {
+                        FileDownloadName = FileDownloadName
+                    };
+                }
+            }
             using (MemoryStream ms = new MemoryStream())
             {
                 FileContentsStream.CopyTo(ms);
@@ -97,13 +119,33 @@ namespace Implem.Pleasanter.Libraries.Responses
             }
         }
 
+
         private string GetBase64Content()
         {
-            using (MemoryStream ms = new MemoryStream())
+            if (FileInfo != null)
             {
-                FileContentsStream.CopyTo(ms);
-                return Convert.ToBase64String(ms.ToArray());
+                using (FileContentsStream = new FileStream(FileInfo.FullName, FileMode.Open))
+                {
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        FileContentsStream.CopyTo(ms);
+                        return Convert.ToBase64String(ms.ToArray());
+                    }
+                }
             }
+            else
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    FileContentsStream.CopyTo(ms);
+                    return Convert.ToBase64String(ms.ToArray());
+                }
+            }
+        }
+
+        public bool IsFileInfo()
+        {
+            return FileInfo != null;
         }
     }
 }

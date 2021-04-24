@@ -2,7 +2,7 @@
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
-using System.Linq;
+using System;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlDateRange
@@ -10,16 +10,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder SetDateRangeDialog(
             this HtmlBuilder hb, Context context, SiteSettings ss, Column column, bool itemfilter = false)
         {
-            var satartval = "";
-            var endval = "";
+            var satartval = string.Empty;
+            var endval = string.Empty;
             if (itemfilter)
             {
                 var textval = context.Forms.Data(context.Forms.ControlId())?.Split('-');
-                satartval = textval?[0]?.ToString().Trim();
+                satartval = DateTimeString(textval?[0]);
                 endval = string.Empty;
                 if (textval.Length > 1)
                 {
-                    endval = textval[1].ToString().Trim();
+                    endval = DateTimeString(textval?[1]);
                 }
             }
             return
@@ -74,7 +74,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     text: Displays.OK(context: context),
                                     controlId: "dateRangeOK",
                                     controlCss: "button-icon validate",
-                                    onClick: "$p.openSetDateRangeOK('" + context.Forms.ControlId() + "'," + column.DateTimepicker().ToString().ToLower() + ");",
+                                    onClick: $"$p.openSetDateRangeOK('{context.Forms.ControlId()}','{(column.DateTimepicker() ? "DateTimepicker" : string.Empty)}');",
                                     icon: "ui-icon-arrowreturnthick-1-e",
                                     method: "post")
                                 .Button(
@@ -88,7 +88,32 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     controlId: "dateRangeClear",
                                     controlCss: "button-icon",
                                     onClick: "$p.openSetDateRangeClear($(this));",
-                                    icon: "ui-icon-cancel")));
+                                    icon: "ui-icon-cancel")
+                                .Button(
+                                    text: Displays.Today(context: context),
+                                    controlId: "dateRangeToday",
+                                    controlCss: "button-icon",
+                                    onClick: $"$p.openSetDateRangeOK('{context.Forms.ControlId()}','Today');",
+                                    icon: "ui-icon-clock")
+                                .Button(
+                                    text: Displays.ThisMonth(context: context),
+                                    controlId: "dateRangeThisMonth",
+                                    controlCss: "button-icon",
+                                    onClick: $"$p.openSetDateRangeOK('{context.Forms.ControlId()}','ThisMonth');",
+                                    icon: "ui-icon-clock")
+                                .Button(
+                                    text: Displays.ThisYear(context: context),
+                                    controlId: "dateRangeThisYear",
+                                    controlCss: "button-icon",
+                                    onClick: $"$p.openSetDateRangeOK('{context.Forms.ControlId()}','ThisYear');",
+                                    icon: "ui-icon-clock")));
+        }
+
+        private static string DateTimeString(string value)
+        {
+            return DateTime.TryParse(value, out _)
+                ? value?.Trim() ?? string.Empty
+                : string.Empty;
         }
     }
 }

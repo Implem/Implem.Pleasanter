@@ -1,0 +1,9 @@
+﻿{
+    "Id": "AutoTestResultNg",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "NG"
+        }
+    ]
+}

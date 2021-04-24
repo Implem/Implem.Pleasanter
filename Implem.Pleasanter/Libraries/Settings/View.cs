@@ -1218,7 +1218,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Context context, Column column, string value, SqlWhereCollection where)
         {
             var param = value.Deserialize<List<string>>();
-            if (param.Any())
+            if (param?.Any() == true)
             {
                 where.Add(or: new SqlWhereCollection(
                     CsDateTimeColumnsWhere(
@@ -1235,6 +1235,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         private SqlWhere CsDateTimeColumnsWhere(
             Context context, Column column, List<string> param)
         {
+            var today = DateTime.Today.ToDateTime().ToUniversal(context: context);
+            var addMilliseconds = Parameters.Rds.MinimumTime * -1;
+            var between = "#TableBracket#.\"{0}\" between '{1}' and '{2}'";
+            var ymdhms = "yyyy/M/d H:m:s";
+            var ymdhmsfff = "yyyy/M/d H:m:s.fff";
             return param.Any(o => o != "\t")
                 ? new SqlWhere(
                     tableName: column.TableName(),
@@ -1242,28 +1247,57 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         var from = range.Split_1st();
                         var to = range.Split_2nd();
+                        switch (from)
+                        {
+                            case "Today":
+                                return between.Params(
+                                    column.Name,
+                                    today.ToString(ymdhms),
+                                    today
+                                        .AddDays(1)
+                                        .AddMilliseconds(addMilliseconds)
+                                        .ToString(ymdhmsfff));
+                            case "ThisMonth":
+                                return between.Params(
+                                    column.Name,
+                                    new DateTime(today.Year, today.Month, 1)
+                                        .ToString(ymdhms),
+                                    new DateTime(today.Year, today.Month, 1)
+                                        .AddMonths(1)
+                                        .AddMilliseconds(addMilliseconds)
+                                        .ToString(ymdhmsfff));
+                            case "ThisYear":
+                                return between.Params(
+                                    column.Name,
+                                    new DateTime(today.Year, 1, 1)
+                                        .ToString(ymdhms),
+                                    new DateTime(today.Year, 1, 1)
+                                        .AddYears(1)
+                                        .AddMilliseconds(addMilliseconds)
+                                        .ToString(ymdhmsfff));
+                        }
                         if (!from.IsNullOrEmpty() && !to.IsNullOrEmpty())
                         {
-                            return "#TableBracket#.\"{0}\" between '{1}' and '{2}'".Params(
+                            return between.Params(
                                 column.Name,
                                 ConvertDateTimeParam(from, column).ToUniversal(context: context)
-                                    .ToString("yyyy/M/d H:m:s"),
+                                    .ToString(ymdhms),
                                 ConvertDateTimeParam(to, column).ToDateTime().ToUniversal(context: context)
-                                    .ToString("yyyy/M/d H:m:s.fff"));
+                                    .ToString(ymdhmsfff));
                         }
                         else if (to.IsNullOrEmpty())
                         {
-                            return "#TableBracket#.\"{0}\" >= '{1}'".Params(
+                            return "#TableBracket#.\"{0}\">='{1}'".Params(
                                 column.Name,
                                 ConvertDateTimeParam(from, column).ToDateTime().ToUniversal(context: context)
-                                    .ToString("yyyy/M/d H:m:s"));
+                                    .ToString(ymdhms));
                         }
                         else
                         {
-                            return "#TableBracket#.\"{0}\" <= '{1}'".Params(
+                            return "#TableBracket#.\"{0}\"<='{1}'".Params(
                                 column.Name,
                                 ConvertDateTimeParam(to, column).ToDateTime().ToUniversal(context: context)
-                                    .ToString("yyyy/M/d H:m:s.fff"));
+                                    .ToString(ymdhmsfff));
                         }
                     }).Join(" or "))
                 : null;

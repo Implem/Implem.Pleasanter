@@ -204,13 +204,24 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ss.GetEditorColumnNames().Contains(columnName);
         }
 
-        internal static string GetDisplayDateFilterRange(string value, bool timepicker)
+        internal static string GetDisplayDateFilterRange(
+            Context context, string value, bool timepicker)
         {
             if (value.IsNullOrEmpty()) return value;
-            var dts = value.Trim('[', '"', ']').Split(new[] { ',' });
-            var s = (dts.Length > 0) ? (timepicker ? dts[0] : dts[0].Split(' ').FirstOrDefault()) : "";
-            var e = (dts.Length > 1) ? (timepicker ? dts[1] : dts[1].Split(' ').FirstOrDefault()) : "";
-            return s + " - " + e;
+            switch (value)
+            {
+                case "[\"Today\"]":
+                    return Displays.Today(context: context);
+                case "[\"ThisMonth\"]":
+                    return Displays.ThisMonth(context: context);
+                case "[\"ThisYear\"]":
+                    return Displays.ThisYear(context: context);
+                default:
+                    var dts = value.Trim('[', '"', ']').Split(new[] { ',' });
+                    var s = (dts.Length > 0) ? (timepicker ? dts[0] : dts[0].Split(' ').FirstOrDefault()) : "";
+                    var e = (dts.Length > 1) ? (timepicker ? dts[1] : dts[1].Split(' ').FirstOrDefault()) : "";
+                    return s + " - " + e;
+            }
         }
 
         internal static string GetNumericFilterRange(string value)
@@ -351,7 +362,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             labelTitle: ss.LabelTitle(column),
                             controlOnly: controlOnly,
                             action: "openSetDateRangeDialog",
-                            text: GetDisplayDateFilterRange(view.ColumnFilter(column.ColumnName), column.DateTimepicker()),
+                            text: GetDisplayDateFilterRange(
+                                context: context,
+                                value: view.ColumnFilter(column.ColumnName),
+                                timepicker: column.DateTimepicker()),
                             method: "post",
                             attributes: new Dictionary<string, string>
                             {
