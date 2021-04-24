@@ -1,0 +1,9 @@
+﻿{
+    "Id": "AutoTestSelected",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Selected."
+        }
+    ]
+}

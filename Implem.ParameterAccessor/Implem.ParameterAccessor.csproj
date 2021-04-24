@@ -50,6 +50,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Parameters.cs" />
+    <Compile Include="Parts\AutoTestCase.cs" />
+    <Compile Include="Parts\AutoTestInput.cs" />
+    <Compile Include="Parts\AutoTestOperation.cs" />
+    <Compile Include="Parts\AutoTestPart.cs" />
+    <Compile Include="Parts\AutoTestResultCheck.cs" />
+    <Compile Include="Parts\AutoTestScenario.cs" />
+    <Compile Include="Parts\AutoTestSettings.cs" />
     <Compile Include="Parts\Mobile.cs" />
     <Compile Include="Parts\NavigationMenu.cs" />
     <Compile Include="Parts\User.cs" />

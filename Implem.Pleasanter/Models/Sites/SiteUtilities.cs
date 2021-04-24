@@ -5302,6 +5302,15 @@ namespace Implem.Pleasanter.Models
                                     switch (column.ControlType)
                                     {
                                         case "Attachments":
+                                            var hiddenLocalFolder = column.BinaryStorageProvider == "DataBase"
+                                                ? " hidden"
+                                                : string.Empty;
+                                            var hiddenDataBase = column.BinaryStorageProvider == "LocalFolder"
+                                                ? " hidden"
+                                                : string.Empty;
+                                            var hiddenLocalFolderTotalSize = column.BinaryStorageProvider != "LocalFolder"
+                                                ? " hidden"
+                                                : string.Empty;
                                             hb
                                                 .FieldSpinner(
                                                     controlId: "LimitQuantity",
@@ -5311,7 +5320,21 @@ namespace Implem.Pleasanter.Models
                                                     max: Parameters.BinaryStorage.MaxQuantity,
                                                     step: column.Step.ToInt(),
                                                     width: 50)
+                                                .FieldDropDown(
+                                                    context: context,
+                                                    controlId: "BinaryStorageProvider",
+                                                    labelText: Displays.BinaryStorageProvider(context),
+                                                    optionCollection: new Dictionary<string, string>
+                                                    {
+                                                        { "DataBase", Displays.Database(context) },
+                                                        { "LocalFolder", Displays.LocalFolder(context) },
+                                                        { "AutoDataBaseOrLocalFolder", Displays.AutoDataBaseOrLocalFolder(context) }
+                                                    },
+                                                    selectedValue: column.BinaryStorageProvider,
+                                                    _using: Parameters.BinaryStorage.UseStorageSelect)
                                                 .FieldSpinner(
+                                                    fieldId: "LimitSizeField",
+                                                    fieldCss: hiddenDataBase,
                                                     controlId: "LimitSize",
                                                     labelText: Displays.LimitSize(context: context),
                                                     value: column.LimitSize,
@@ -5320,11 +5343,37 @@ namespace Implem.Pleasanter.Models
                                                     step: column.Step.ToInt(),
                                                     width: 50)
                                                 .FieldSpinner(
+                                                    fieldId: "LimitTotalSizeField",
+                                                    fieldCss: hiddenDataBase,
                                                     controlId: "LimitTotalSize",
                                                     labelText: Displays.LimitTotalSize(context: context),
                                                     value: column.TotalLimitSize,
                                                     min: Parameters.BinaryStorage.TotalMinSize,
                                                     max: Parameters.BinaryStorage.TotalMaxSize,
+                                                    step: column.Step.ToInt(),
+                                                    width: 50)
+                                                .FieldSpinner(
+                                                    fieldId: "LocalFolderLimitSizeField",
+                                                    fieldCss: hiddenLocalFolder,
+                                                    controlId: "LocalFolderLimitSize",
+                                                    labelText: Displays.LocalFolder(context) +
+                                                    Displays.LimitSize(context),
+                                                    labelCss: "field-label-multiline",
+                                                    value: column.LocalFolderLimitSize,
+                                                    min: Parameters.BinaryStorage.LocalFolderMinSize,
+                                                    max: Parameters.BinaryStorage.LocalFolderMaxSize,
+                                                    step: column.Step.ToInt(),
+                                                    width: 50)
+                                                .FieldSpinner(
+                                                    fieldId: "LocalFolderLimitTotalSizeField",
+                                                    fieldCss: hiddenLocalFolderTotalSize,
+                                                    controlId: "LocalFolderLimitTotalSize",
+                                                    labelText: Displays.LocalFolder(context) +
+                                                    Displays.LimitTotalSize(context),
+                                                    labelCss: "field-label-multiline",
+                                                    value: column.LocalFolderTotalLimitSize,
+                                                    min: Parameters.BinaryStorage.LocalFolderTotalMinSize,
+                                                    max: Parameters.BinaryStorage.LocalFolderTotalMaxSize,
                                                     step: column.Step.ToInt(),
                                                     width: 50);
                                             break;
@@ -7145,7 +7194,10 @@ namespace Implem.Pleasanter.Models
                             fieldCss: "field-auto-thin",
                             labelText: column.LabelText,
                             labelTitle: labelTitle,
-                            text: HtmlViewFilters.GetDisplayDateFilterRange(value, column.DateTimepicker()),
+                            text: HtmlViewFilters.GetDisplayDateFilterRange(
+                                context: context,
+                                value: value,
+                                timepicker: column.DateTimepicker()),
                             method: "put",
                             attributes: new Dictionary<string, string>
                             {

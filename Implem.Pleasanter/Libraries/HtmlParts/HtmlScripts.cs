@@ -50,6 +50,30 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Script(src: Responses.Locations.Get(
                         context: context,
                         parts: "scripts/plugins/marked.min.js"))
+                    .Script(src: Responses.Locations.Get(
+                        context: context,
+                        parts: "Scripts/Plugins/jQuery-File-Upload/js/vendor/jquery.ui.widget.js"))
+                    .Script(src: Responses.Locations.Get(
+                        context: context,
+                        parts: "Scripts/Plugins/jQuery-File-Upload/js/jquery.iframe-transport.js"))
+                    .Script(src: Responses.Locations.Get(
+                        context: context,
+                        parts: "Scripts/Plugins/jQuery-File-Upload/js/jquery.fileupload.js"))
+                    .Script(src: Responses.Locations.Get(
+                        context: context,
+                        parts: "Scripts/Plugins/jQuery-File-Upload/js/jquery.fileupload-process.js"))
+                    .Script(src: Responses.Locations.Get(
+                        context: context,
+                        parts: "Scripts/Plugins/jQuery-File-Upload/js/jquery.fileupload-image.js"))
+                    .Script(src: Responses.Locations.Get(
+                        context: context,
+                        parts: "Scripts/Plugins/jQuery-File-Upload/js/jquery.fileupload-video.js"))
+                    .Script(src: Responses.Locations.Get(
+                        context: context,
+                        parts: "Scripts/Plugins/jQuery-File-Upload/js/jquery.fileupload-validate.js"))
+                    .Script(src: Responses.Locations.Get(
+                        context: context,
+                        parts: "Scripts/Plugins/md5.js"))
                     .Generals(context: context)
                     .Script(
                         src: Responses.Locations.Get(

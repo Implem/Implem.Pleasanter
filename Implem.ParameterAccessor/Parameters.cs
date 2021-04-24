@@ -13,6 +13,9 @@ namespace Implem.DefinitionAccessor
         public static BinaryStorage BinaryStorage;
         public static Dictionary<string, Dictionary<string, Dictionary<string, string>>> CustomDefinitions;
         public static Deleted Deleted;
+        public static List<AutoTestOperation> ExtendedAutoTestOperations;
+        public static List<AutoTestScenario> ExtendedAutoTestScenarios;
+        public static AutoTestSettings ExtendedAutoTestSettings;
         public static Dictionary<string, string> ExtendedColumnDefinitions;
         public static List<ExtendedColumns> ExtendedColumnsSet;
         public static List<ExtendedSql> ExtendedSqls;

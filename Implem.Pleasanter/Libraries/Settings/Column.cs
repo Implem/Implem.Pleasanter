@@ -116,6 +116,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public decimal? LimitSize;
         public decimal? TotalLimitSize;
         public decimal? ThumbnailLimitSize;
+        public decimal? LocalFolderLimitSize;
+        public decimal? LocalFolderTotalLimitSize;
+        public int? DateTimeStep;
         [NonSerialized]
         public int? No;
         [NonSerialized]
@@ -214,6 +217,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ControlDateTime;
         // compatibility Version 1.005
         public string ControlFormat;
+        public string BinaryStorageProvider;
+        public bool? AddSource;
 
         public bool HasChoices()
         {
@@ -561,7 +566,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 value,
                                 new Choice(
                                     choice: title ?? "? " + value,
-                                    raw: true));
+                                    raw: true,
+                                    value: value));
                         }
                         break;
                     default:
@@ -599,6 +605,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (insertBlank && CanEmpty())
             {
                 hash.Add(blank, new ControlData(string.Empty));
+            }
+            if (LinkedWithNewSet())
+            {
+                AddSource = true;
             }
             var selected = view?
                 .ColumnFilter(ColumnName)?
@@ -650,7 +660,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         choice: LinkedTitle(
                             context: context,
                             referenceId: referenceId),
-                        raw: true);
+                        raw: true,
+                        value: selectedValue);
                     LinkedTitleHash.AddIfNotConainsKey(selectedValue, choice);
                     return LinkedTitleHash[selectedValue];
                 }
@@ -1024,6 +1035,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Any(o => o.ColumnName == Name
                     && (!withoutWiki
                         || SiteSettings?.JoinedSsHash?.Keys.Contains(o.SiteId) == true)) == true;
+        }
+
+        public bool LinkedWithNewSet()
+        {
+            return SiteSettings?.Links?.Any(o => o.ColumnName == Name && o.AddSource == true) == true;
         }
 
         public string ConvertIfUserColumn(DataRow dataRow)

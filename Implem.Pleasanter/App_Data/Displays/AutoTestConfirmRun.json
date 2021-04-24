@@ -1,0 +1,9 @@
+﻿{
+    "Id": "AutoTestConfirmRun",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Run the selected test case."
+        }
+    ]
+}

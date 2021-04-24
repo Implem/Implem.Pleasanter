@@ -198,7 +198,13 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                             ? column.LinkedTitleChoice(
                                 context: context,
                                 selectedValue: data.Get(column.ColumnName)).Text
-                            : column.Choice(selectedValue: data.Get(column.ColumnName)).Text
+                            : (column.MultipleSelections ?? false)
+                                ? data.Get(column.ColumnName).Deserialize<string[]>()
+                                    ?.Select(col =>
+                                        column.Choice(selectedValue: col)
+                                        .Text)
+                                    .Join()
+                                : column.Choice(selectedValue: data.Get(column.ColumnName)).Text
                         : data.Get(column.ColumnName);
                 default:
                     return data.Get(column.ColumnName);

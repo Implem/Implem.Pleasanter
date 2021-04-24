@@ -47,7 +47,9 @@
                 step: 10,
                 dayOfWeekStart: 1,
                 scrollInput: false
-            }).addClass('applied');
+            })
+                .addClass('applied')
+                .after('<div class="ui-icon ui-icon-clock current-time"></div>');
         });
         switch ($('#Language').val()) {
             case 'ja':

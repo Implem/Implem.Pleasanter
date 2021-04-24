@@ -1,0 +1,8 @@
+﻿{
+    "BrowserType": "Chrome",
+    "Width": 1500,
+    "Height": 1000,
+    "ScreenShot": "False",
+    "ScreenShotPath": "ScreenShot",
+    "ResultsPath": "Results"
+}

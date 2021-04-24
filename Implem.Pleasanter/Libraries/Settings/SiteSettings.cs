@@ -1246,6 +1246,23 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.TotalLimitSize = column.TotalLimitSize;
                     }
+                    if (column.LocalFolderLimitSize != Parameters.BinaryStorage.LocalFolderLimitSize)
+                    {
+                        enabled = true;
+                        newColumn.LocalFolderLimitSize = column.LocalFolderLimitSize;
+                    }
+                    if (column.LocalFolderTotalLimitSize != Parameters.BinaryStorage.LocalFolderLimitTotalSize)
+                    {
+                        enabled = true;
+                        newColumn.LocalFolderTotalLimitSize = column.LocalFolderTotalLimitSize;
+                    }
+                    if (column.ControlType == "Attachments"
+                        && !string.IsNullOrEmpty(column.BinaryStorageProvider)
+                        && column.BinaryStorageProvider != Parameters.BinaryStorage.DefaultBinaryStorageProvider)
+                    {
+                        enabled = true;
+                        newColumn.BinaryStorageProvider = column.BinaryStorageProvider;
+                    }
                     if (column.ThumbnailLimitSize != null
                         && column.ThumbnailLimitSize != Parameters.BinaryStorage.ThumbnailLimitSize
                         && column.ThumbnailLimitSize >= Parameters.BinaryStorage.ThumbnailMinSize
@@ -1519,6 +1536,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.LimitQuantity = column.LimitQuantity ?? Parameters.BinaryStorage.LimitQuantity;
                 column.LimitSize = column.LimitSize ?? Parameters.BinaryStorage.LimitSize;
                 column.TotalLimitSize = column.TotalLimitSize ?? Parameters.BinaryStorage.LimitTotalSize;
+                column.LocalFolderLimitSize = column.LocalFolderLimitSize ?? Parameters.BinaryStorage.LocalFolderLimitSize;
+                column.LocalFolderTotalLimitSize = column.LocalFolderTotalLimitSize ?? Parameters.BinaryStorage.LocalFolderLimitTotalSize;
                 column.Size = columnDefinition.Size;
                 column.Required = columnDefinition.Required;
                 column.RecordedTime = columnDefinition.Default == "now";
@@ -1557,6 +1576,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.SiteId = columnNameInfo.Joined
                     ? columnNameInfo.SiteId
                     : SiteId;
+                column.BinaryStorageProvider = column.BinaryStorageProvider ?? Parameters.BinaryStorage.DefaultBinaryStorageProvider;
                 column.Joined = columnNameInfo.Joined;
             }
         }
@@ -3135,6 +3155,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "LimitSize": column.LimitSize = value.ToDecimal(); break;
                 case "LimitTotalSize": column.TotalLimitSize = value.ToDecimal(); break;
                 case "TitleSeparator": TitleSeparator = value; break;
+                case "BinaryStorageProvider": column.BinaryStorageProvider = value; break;
+                case "LocalFolderLimitSize": column.LocalFolderLimitSize = value.ToDecimal(); break;
+                case "LocalFolderLimitTotalSize": column.LocalFolderTotalLimitSize = value.ToDecimal(); break;
             }
         }
 
@@ -3620,7 +3643,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             var dataSet = Repository.ExecuteDataSet(
                 context: context,
                 statements: statements.ToArray());
-
             var dataRows = dataSet.Tables["Main"].AsEnumerable();
             if (setTotalCount)
             {

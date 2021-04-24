@@ -12,13 +12,18 @@ $p.openResponsiveMenu = function () {
 }
 
 $p.switchResponsive = function ($control) {
+    var redirect = 1;
     var data = {};
     data.Responsive = $control.data("action");
     $p.ajax(
         $('#ApplicationPath').val() + 'Resources/Responsive',
         'POST',
-        data);
-    $p.transition(location.href);
+        data,
+        undefined,
+        redirect !== 1);
+    if (redirect === 1) {
+        $p.transition(location.href);
+    }
 }
 
 var $toggleBtns = $('.sub-menu').children('div');

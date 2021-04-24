@@ -1116,7 +1116,7 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     setIdentity: true),
             });
-            statements.AddRange(UpdateAttachmentsStatements(context: context));
+            statements.AddRange(UpdateAttachmentsStatements(context: context, ss: ss));
             statements.AddRange(PermissionUtilities.InsertStatements(
                 context: context,
                 ss: ss,
@@ -1248,6 +1248,7 @@ namespace Implem.Pleasanter.Models
             bool otherInitValue = false,
             List<SqlStatement> additionalStatements = null)
         {
+            SetAttachmentsHashCode(context: context, ss: ss);
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
             var where = Rds.IssuesWhereDefault(
@@ -1272,7 +1273,7 @@ namespace Implem.Pleasanter.Models
                 where: where,
                 param: param,
                 otherInitValue: otherInitValue));
-            statements.AddRange(UpdateAttachmentsStatements(context: context));
+            statements.AddRange(UpdateAttachmentsStatements(context: context, ss: ss));
             if (permissionChanged)
             {
                 statements.UpdatePermissions(context, ss, IssueId, permissions);
@@ -1307,19 +1308,34 @@ namespace Implem.Pleasanter.Models
             };
         }
 
-        private List<SqlStatement> UpdateAttachmentsStatements(Context context)
-        {
-            var statements = new List<SqlStatement>();
-            ColumnNames()
-                .Where(columnName => columnName.StartsWith("Attachments"))
-                .Where(columnName => Attachments_Updated(columnName: columnName))
-                .ForEach(columnName =>
-                    Attachments(columnName: columnName).Write(
-                        context: context,
-                        statements: statements,
-                        referenceId: IssueId));
-            return statements;
-        }
+    private void SetAttachmentsHashCode(Context context, SiteSettings ss)
+    {
+        ColumnNames()
+            .Where(columnName => columnName.StartsWith("Attachments"))
+            .ForEach(columnName =>
+            {
+                Attachments(columnName)
+                    .Where(attachment => attachment.Added == true)
+                    .ForEach(attachment => attachment.SetHashCode(ss.GetColumn(context: context, columnName: columnName)));
+            });
+    }
+
+    private List<SqlStatement> UpdateAttachmentsStatements(Context context, SiteSettings ss)
+    {
+        var statements = new List<SqlStatement>();
+        ColumnNames()
+            .Where(columnName => columnName.StartsWith("Attachments"))
+            .Where(columnName => Attachments_Updated(columnName: columnName))
+            .ForEach(columnName =>
+                Attachments(columnName: columnName).Write(
+                    context: context,
+                    statements: statements,
+                    referenceId: IssueId,
+                        column: ss.GetColumn(
+                            context: context,
+                            columnName: columnName)));
+        return statements;
+    }
 
         public void UpdateRelatedRecords(
             Context context,
@@ -1363,7 +1379,6 @@ namespace Implem.Pleasanter.Models
                     idList: IssueId.ToSingleList());
             }
         }
-
         public List<SqlStatement> UpdateRelatedRecordsStatements(
             Context context,
             SiteSettings ss,
@@ -1398,7 +1413,6 @@ namespace Implem.Pleasanter.Models
             }
             return statements;
         }
-
         private SqlInsert InsertLinks(Context context, SiteSettings ss, bool setIdentity = false)
         {
             var link = ss.Links
@@ -1417,7 +1431,6 @@ namespace Implem.Pleasanter.Models
                 .ToDictionary(id => id, id => IssueId);
             return LinkUtilities.Insert(link, setIdentity);
         }
-
         public ErrorData UpdateOrCreate(
             Context context,
             SiteSettings ss,
@@ -1449,7 +1462,6 @@ namespace Implem.Pleasanter.Models
             Get(context: context, ss: ss);
             return new ErrorData(type: Error.Types.None);
         }
-
         public ErrorData Move(Context context, SiteSettings ss, SiteSettings targetSs)
         {
             SiteId = targetSs.SiteId;
@@ -1488,7 +1500,6 @@ namespace Implem.Pleasanter.Models
                 ss: targetSs);
             return new ErrorData(type: Error.Types.None);
         }
-
         public ErrorData Delete(Context context, SiteSettings ss, bool notice = false)
         {
             SetByBeforeDeleteServerScript(
@@ -1524,6 +1535,21 @@ namespace Implem.Pleasanter.Models
                     factory: context,
                     where: where)
             });
+                ColumnNames()
+                    .Where(columnName => columnName.StartsWith("Attachments"))
+                    .ForEach(columnName =>
+                    {
+                        var attachments = Attachments(columnName: columnName);
+                        attachments.ForEach(attachment =>
+                            attachment.Deleted = true);
+                        attachments.Write(
+                            context: context,
+                            statements: statements,
+                            referenceId: IssueId,
+                            ss.GetColumn(
+                                context: context,
+                                columnName: columnName));
+                    });
             statements.OnDeletedExtendedSqls(
                 context: context,
                 siteId: SiteId,
@@ -1546,7 +1572,6 @@ namespace Implem.Pleasanter.Models
                 ss: ss);
             return new ErrorData(type: Error.Types.None);
         }
-
         public ErrorData Restore(Context context, SiteSettings ss,long issueId)
         {
             IssueId = issueId;
@@ -1565,7 +1590,6 @@ namespace Implem.Pleasanter.Models
                 });
             return new ErrorData(type: Error.Types.None);
         }
-
         public ErrorData PhysicalDelete(
             Context context, SiteSettings ss,Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
@@ -1577,7 +1601,6 @@ namespace Implem.Pleasanter.Models
                     param: Rds.IssuesParam().SiteId(SiteId).IssueId(IssueId)));
             return new ErrorData(type: Error.Types.None);
         }
-
         private List<SqlStatement> IfDuplicatedStatements(SiteSettings ss)
         {
             var statements = new List<SqlStatement>();
@@ -1697,14 +1720,12 @@ namespace Implem.Pleasanter.Models
                 });
             return statements;
         }
-
         public void SetDefault(Context context, SiteSettings ss)
         {
             ss.Columns
                 .Where(o => !o.DefaultInput.IsNullOrEmpty())
                 .ForEach(column => SetDefault(context: context, ss: ss, column: column));
         }
-
         public void SetCopyDefault(Context context, SiteSettings ss)
         {
             ss.Columns
@@ -1715,7 +1736,6 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     column: column));
         }
-
         public void SetDefault(Context context, SiteSettings ss, Column column)
         {
             var defaultInput = column.GetDefaultInput(context: context);
@@ -1805,7 +1825,6 @@ namespace Implem.Pleasanter.Models
                     break;
             }
         }
-
         public void SetByForm(
             Context context,
             SiteSettings ss,
@@ -1917,7 +1936,6 @@ namespace Implem.Pleasanter.Models
                 Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
             }
         }
-
         public void SetByModel(IssueModel issueModel)
         {
             SiteId = issueModel.SiteId;
@@ -1946,7 +1964,6 @@ namespace Implem.Pleasanter.Models
             CheckHash = issueModel.CheckHash;
             AttachmentsHash = issueModel.AttachmentsHash;
         }
-
         public void SetByApi(Context context, SiteSettings ss)
         {
             var data = context.RequestDataString.Deserialize<IssueApiModel>();
@@ -1986,7 +2003,19 @@ namespace Implem.Pleasanter.Models
             {
                 string columnName = o.Key;
                 Attachments newAttachments = o.Value;
-                Attachments oldAttachments = AttachmentsHash.Get(columnName);
+                Attachments oldAttachments;
+                if (columnName == "Attachments#Uploading")
+                {
+                    var kvp = AttachmentsHash
+                        .FirstOrDefault(x => x.Value
+                            .Any(att => att.Guid == newAttachments.FirstOrDefault()?.Guid));
+                    columnName = kvp.Key;
+                    oldAttachments = kvp.Value;
+                }
+                else
+                {
+                    oldAttachments = AttachmentsHash.Get(columnName);
+                }
                 if (oldAttachments != null)
                 {
                     var newGuidSet = new HashSet<string>(newAttachments.Select(x => x.Guid).Distinct());
@@ -1997,7 +2026,6 @@ namespace Implem.Pleasanter.Models
             SetByFormula(context: context, ss: ss);
             SetChoiceHash(context: context, ss: ss);
         }
-
         public void SynchronizeSummary(Context context, SiteSettings ss, bool force = false)
         {
             ss.Summaries.ForEach(summary =>
@@ -2028,7 +2056,6 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 force: force);
         }
-
         private void SynchronizeSummary(
             Context context, SiteSettings ss, Summary summary, long id)
         {
@@ -2054,7 +2081,6 @@ namespace Implem.Pleasanter.Models
                     id: id);
             }
         }
-
         private void SynchronizeSourceSummary(
             Context context, SiteSettings ss, bool force = false)
         {
@@ -2079,14 +2105,12 @@ namespace Implem.Pleasanter.Models
                             sourceCondition: sourceSs.Views?.Get(summary.SourceCondition),
                             id: IssueId)));
         }
-
         private long SynchronizeSummaryDestinationId(string linkColumn, bool saved = false)
         {
             return saved
                 ? SavedClass(linkColumn).ToLong()
                 : Class(linkColumn).ToLong();
         }
-
         public void UpdateFormulaColumns(
             Context context, SiteSettings ss, IEnumerable<int> selected = null)
         {
@@ -2121,7 +2145,6 @@ namespace Implem.Pleasanter.Models
                     addUpdatedTimeParam: false,
                     addUpdatorParam: false));
         }
-
         public void SetByFormula(Context context, SiteSettings ss)
         {
             SetByBeforeFormulaServerScript(
@@ -2182,7 +2205,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss);
         }
-
         public void SetTitle(Context context, SiteSettings ss)
         {
             if (Title?.ItemTitle != true)
@@ -2198,7 +2220,6 @@ namespace Implem.Pleasanter.Models
                         columns: ss.GetTitleColumns(context: context)));
             }
         }
-
         private bool Matched(Context context, SiteSettings ss, View view)
         {
             if (view.Incomplete == true && !Status.Incomplete())
@@ -2345,7 +2366,6 @@ namespace Implem.Pleasanter.Models
             }
             return true;
         }
-
         public List<Notification> GetNotifications(
             Context context,
             SiteSettings ss,
@@ -2393,7 +2413,6 @@ namespace Implem.Pleasanter.Models
                 return null;
             }
         }
-
         public void Notice(
             Context context,
             SiteSettings ss,
@@ -2485,7 +2504,6 @@ namespace Implem.Pleasanter.Models
                 }
             });
         }
-
         private string NoticeBody(
             Context context, SiteSettings ss, Notification notification, bool update = false)
         {
@@ -2702,11 +2720,9 @@ namespace Implem.Pleasanter.Models
                     });
             return body.ToString();
         }
-
         private void SetBySession(Context context)
         {
         }
-
         private void Set(Context context, SiteSettings ss, DataTable dataTable)
         {
             switch (dataTable.Rows.Count)
@@ -2717,7 +2733,6 @@ namespace Implem.Pleasanter.Models
             }
             SetChoiceHash(context: context, ss: ss);
         }
-
         public void SetChoiceHash(Context context, SiteSettings ss)
         {
             if (!ss.SetAllChoices)
@@ -2742,7 +2757,6 @@ namespace Implem.Pleasanter.Models
             }
             SetTitle(context: context, ss: ss);
         }
-
         private void Set(Context context, SiteSettings ss, DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
@@ -2906,7 +2920,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss);
         }
-
         public bool Updated(Context context)
         {
             return Updated()
@@ -2926,7 +2939,6 @@ namespace Implem.Pleasanter.Models
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);
         }
-
         public override List<string> Mine(Context context)
         {
             if (MineCache == null)
@@ -2941,7 +2953,6 @@ namespace Implem.Pleasanter.Models
             }
             return MineCache;
         }
-
         public string IdSuffix()
         {
             return $"_{SiteId}_{(IssueId == 0 ? -1 : IssueId)}";

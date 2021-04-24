@@ -1,0 +1,34 @@
+﻿{
+    "TestParts": [
+        {
+            "TargetElementId": "NewMenuContainer",
+            "Action": "Click"
+        },
+        {
+            "TargetElementLinkText": "標準",
+            "Action": "Click"
+        },
+        {
+            "TargetElementXpath": "//li[@data-value='Template3']",
+            "Action": "Click",
+            "PartDescription" : "記録テーブルのテンプレートを選択する。"
+        },
+        {
+            "TargetElementId": "OpenSiteTitleDialog",
+            "Action": "Click"
+        },
+        {
+            "TargetElementId": "SiteTitle",
+            "Action": "Clear"
+        },
+        {
+            "TargetElementId": "SiteTitle",
+            "Action": "input",
+            "Value": "テスト用記録テーブル"
+        },
+        {
+            "TargetElementXpath": "//button[@data-action='CreateByTemplate']",
+            "Action": "Click"
+        }
+    ]
+}

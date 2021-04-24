@@ -649,6 +649,256 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AutoTestArrow(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AutoTestArrow",
+                data: data);
+        }
+
+        public static string AutoTestCasesList(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AutoTestCasesList",
+                data: data);
+        }
+
+        public static string AutoTestComparisonResult(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AutoTestComparisonResult",
+                data: data);
+        }
+
+        public static string AutoTestConfirmationTarget(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AutoTestConfirmationTarget",
+                data: data);
+        }
+
+        public static string AutoTestConfirmRun(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AutoTestConfirmRun",
+                data: data);
+        }
+
+        public static string AutoTestEntered(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AutoTestEntered",
+                data: data);
+        }
+
+        public static string AutoTestExecutionTestCase(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AutoTestExecutionTestCase",
+                data: data);
+        }
+
+        public static string AutoTestExecutionValue(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AutoTestExecutionValue",
+                data: data);
+        }
+
+        public static string AutoTestExpectedContent(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AutoTestExpectedContent",
+                data: data);
+        }
+
+        public static string AutoTestExpectedValue(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AutoTestExpectedValue",
+                data: data);
+        }
+
+        public static string AutoTestFileDescribed(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AutoTestFileDescribed",
+                data: data);
+        }
+
+        public static string AutoTestFinished(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AutoTestFinished",
+                data: data);
+        }
+
+        public static string AutoTestHtmlError(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AutoTestHtmlError",
+                data: data);
+        }
+
+        public static string AutoTestInputErrorHalfNumber(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AutoTestInputErrorHalfNumber",
+                data: data);
+        }
+
+        public static string AutoTestNoUrl(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AutoTestNoUrl",
+                data: data);
+        }
+
+        public static string AutoTestNumber(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AutoTestNumber",
+                data: data);
+        }
+
+        public static string AutoTestNumberSelect(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AutoTestNumberSelect",
+                data: data);
+        }
+
+        public static string AutoTestOtherError(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AutoTestOtherError",
+                data: data);
+        }
+
+        public static string AutoTestPartsList(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AutoTestPartsList",
+                data: data);
+        }
+
+        public static string AutoTestResultMessage(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AutoTestResultMessage",
+                data: data);
+        }
+
+        public static string AutoTestResultNg(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AutoTestResultNg",
+                data: data);
+        }
+
+        public static string AutoTestResultOk(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AutoTestResultOk",
+                data: data);
+        }
+
+        public static string AutoTestRunning(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AutoTestRunning",
+                data: data);
+        }
+
+        public static string AutoTestSelected(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AutoTestSelected",
+                data: data);
+        }
+
+        public static string AutoTestTargetPartsMessage(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AutoTestTargetPartsMessage",
+                data: data);
+        }
+
         public static string AutoVerUpType(
             Context context,
             params string[] data)
@@ -4739,6 +4989,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string NewSet(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "NewSet",
+                data: data);
+        }
+
         public static string NewStyle(
             Context context,
             params string[] data)
@@ -4906,6 +5166,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "NotMatchRegex",
+                data: data);
+        }
+
+        public static string NotMemoryViewMode(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "NotMemoryViewMode",
                 data: data);
         }
 
@@ -7006,6 +7276,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ThisMonth",
+                data: data);
+        }
+
+        public static string ThisYear(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ThisYear",
                 data: data);
         }
 

@@ -48,6 +48,7 @@ namespace Implem.Pleasanter
                 "~/Scripts/Confirm.js",
                 "~/Scripts/ConfirmEvents.js",
                 "~/Scripts/Crosstab.js",
+                "~/Scripts/DateTime.js",
                 "~/Scripts/Dialog.js",
                 "~/Scripts/DialogEvents.js",
                 "~/Scripts/Display.js",
