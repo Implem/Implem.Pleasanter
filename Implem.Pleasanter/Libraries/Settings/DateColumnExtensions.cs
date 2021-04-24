@@ -19,6 +19,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 hash.Add("\t", new ControlData(Displays.NotSet(context: context)));
             }
+            hash.Add("Today", new ControlData(Displays.Today(context: context)));
+            hash.Add("ThisMonth", new ControlData(Displays.ThisMonth(context: context)));
+            hash.Add("ThisYear", new ControlData(Displays.ThisYear(context: context)));
             if (column.DateFilterFy == true)
             {
                 for (var m = min; m <= max; m += 12)

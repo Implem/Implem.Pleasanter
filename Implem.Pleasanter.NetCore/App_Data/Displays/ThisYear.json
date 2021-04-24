@@ -1,34 +1,34 @@
 ﻿{
-    "Id": "ThisMonth",
+    "Id": "ThisYear",
     "Type": 110,
     "ClientScript": true,
     "Languages": [
         {
-            "Body": "This month"
+            "Body": "This year"
         },
         {
             "Language": "zh",
-            "Body": "本月"
+            "Body": "今年"
         },
         {
             "Language": "ja",
-            "Body": "今月"
+            "Body": "今年"
         },
         {
             "Language": "de",
-            "Body": "Aktueller Monat"
+            "Body": "Dieses Jahr"
         },
         {
             "Language": "ko",
-            "Body": "이번 달"
+            "Body": "올해"
         },
         {
             "Language": "es",
-            "Body": "Este mes"
+            "Body": "Este año"
         },
         {
             "Language": "vn",
-            "Body": "Tháng này"
+            "Body": "Năm nay"
         }
     ]
 }
