@@ -1,6 +1,7 @@
-{
+﻿{
     "Id": "Today",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Today"
