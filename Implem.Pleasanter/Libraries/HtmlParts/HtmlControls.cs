@@ -679,6 +679,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string css = null,
             string value = null,
             string rawValue = null,
+            string action = null,
+            string method = null,
             bool alwaysSend = false,
             bool _using = true)
         {
@@ -690,6 +692,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Type("hidden")
                     .Value(value)
                     .RawValue(rawValue)
+                    .DataAction(action)
+                    .DataMethod(method)
                     .DataAlwaysSend(alwaysSend))
                 : hb;
         }

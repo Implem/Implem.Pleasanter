@@ -3621,7 +3621,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             var dataSet = Repository.ExecuteDataSet(
                 context: context,
                 statements: statements.ToArray());
-
             var dataRows = dataSet.Tables["Main"].AsEnumerable();
             if (setTotalCount)
             {
