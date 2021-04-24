@@ -1407,7 +1407,7 @@ namespace Implem.Pleasanter.Models
                 filter: filter,
                 searchFormat: false);
             var multiple = context.Forms.Bool("DropDownSearchMultiple");
-            var selected = multiple
+            var selected = column.MultipleSelections == true
                 ? context.Forms.List("DropDownSearchResultsAll")
                 : context.Forms.List("DropDownSearchResults");
             if (multiple)
