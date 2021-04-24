@@ -25,13 +25,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             CssClass = cssClass;
         }
 
-        public Choice(string choice, bool raw = false)
+        public Choice(string choice, bool raw = false, string value = null)
         {
             if (choice != null)
             {
                 if (raw)
                 {
-                    Value = choice;
+                    Value = value ?? choice;
                     Text = choice;
                     TextMini = choice;
                     CssClass = string.Empty;

@@ -1194,27 +1194,101 @@ namespace Implem.Pleasanter.Models
             var parentIds = parentDataId.Deserialize<List<long>>();
             switch (context.Forms.ControlId())
             {
-                case "DropDownSearchResults":
-                    return
-                        AppendSearchDropDown(
-                            context: context,
-                            controlId: controlId,
-                            searchText: searchText,
-                            filter: filter,
-                            parentClass: parentClass,
-                            parentIds: parentIds);
-                default:
-                    return SearchDropDown(
+                case "DropDownSearchText":
+                    return SearchDropDownSelectable(
                         context: context,
                         controlId: controlId,
                         searchText: searchText,
                         filter: filter,
                         parentClass: parentClass,
                         parentIds: parentIds);
+                case "DropDownSearchResults":
+                case "DropDownSearchSourceResults":
+                    return AppendSearchDropDownSelectable(
+                        context: context,
+                        controlId: controlId,
+                        searchText: searchText,
+                        filter: filter,
+                        parentClass: parentClass,
+                        parentIds: parentIds);
+                default:
+                    return SearchDropDown(
+                        context: context,
+                        controlId: controlId,
+                        filter: filter,
+                        parentClass: parentClass,
+                        parentIds: parentIds);
             }
         }
 
-        private string AppendSearchDropDown(
+        private string SearchDropDown(
+            Context context,
+            string controlId,
+            bool filter,
+            string parentClass = "",
+            List<long> parentIds = null)
+        {
+            var column = SearchDropDownColumn(
+                context: context,
+                controlId: controlId,
+                searchText: string.Empty,
+                filter: filter,
+                parentClass: parentClass,
+                parentIds: parentIds);
+            var nextOffset = Paging.NextOffset(
+                offset: 0,
+                totalCount: column.TotalCount,
+                pageSize: Parameters.General.DropDownSearchPageSize);
+            return new ResponseCollection()
+                .Html(
+                    "#DropDownSearchDialogBody",
+                    new HtmlBuilder().DropDownSearchDialogBody(
+                        context: context,
+                        column: column))
+                .Val("#DropDownSearchResultsOffset", nextOffset)
+                .ClearFormData("DropDownSearchResults")
+                .ToJson();
+        }
+
+        private string SearchDropDownSelectable(
+            Context context,
+            string controlId,
+            string searchText,
+            bool filter,
+            string parentClass = "",
+            List<long> parentIds = null)
+        {
+            var column = SearchDropDownColumn(
+                context: context,
+                controlId: controlId,
+                searchText: searchText,
+                filter: filter,
+                parentClass: parentClass,
+                parentIds: parentIds);
+            var nextOffset = Paging.NextOffset(
+                offset: 0,
+                totalCount: column.TotalCount,
+                pageSize: Parameters.General.DropDownSearchPageSize);
+            var selectedValues = column?.MultipleSelections == true
+                ? context.Forms.List("DropDownSearchResultsAll")
+                : new List<string>();
+            return new ResponseCollection()
+                .Html(
+                    column?.MultipleSelections == true
+                        ? "#DropDownSearchSourceResults"
+                        : "#DropDownSearchResults",
+                    new HtmlBuilder().SelectableItems(
+                        listItemCollection: column?.EditChoices(
+                            context: context,
+                            addNotSet: true)
+                                .Where(o => !selectedValues.Contains(o.Key))
+                                .ToDictionary(o => o.Key, o => o.Value)))
+                .Val("#DropDownSearchResultsOffset", nextOffset)
+                .ClearFormData("DropDownSearchResults")
+                .ToJson();
+        }
+
+        private string AppendSearchDropDownSelectable(
             Context context,
             string controlId,
             string searchText,
@@ -1235,47 +1309,19 @@ namespace Implem.Pleasanter.Models
                 offset: offset,
                 totalCount: column.TotalCount,
                 pageSize: Parameters.General.DropDownSearchPageSize);
+            var selectedValues = column?.MultipleSelections == true
+                ? context.Forms.List("DropDownSearchResultsAll")
+                : new List<string>();
             return new ResponseCollection()
-                .Append("#DropDownSearchResults", new HtmlBuilder()
-                    .SelectableItems(
+                .Append(
+                    "#" + context.Forms.ControlId(),
+                    new HtmlBuilder().SelectableItems(
                         listItemCollection: column?.EditChoices(
                             context: context,
-                            addNotSet: offset == 0)))
+                            addNotSet: offset == 0)
+                                .Where(o => !selectedValues.Contains(o.Key))
+                                .ToDictionary(o => o.Key, o => o.Value)))
                 .Val("#DropDownSearchResultsOffset", nextOffset)
-                .ToJson();
-        }
-
-        private string SearchDropDown(
-            Context context,
-            string controlId,
-            string searchText,
-            bool filter,
-            string parentClass = "",
-            List<long> parentIds = null)
-        {
-            var column = SearchDropDownColumn(
-                context: context,
-                controlId: controlId,
-                searchText: searchText,
-                filter: filter,
-                parentClass: parentClass,
-                parentIds: parentIds);
-            var nextOffset = Paging.NextOffset(
-                offset: 0,
-                totalCount: column.TotalCount,
-                pageSize: Parameters.General.DropDownSearchPageSize);
-            return new ResponseCollection()
-                .ReplaceAll(
-                    "#DropDownSearchResults",
-                    new HtmlBuilder().Selectable(
-                        controlId: "DropDownSearchResults",
-                        listItemCollection: column?.EditChoices(
-                            context: context,
-                            addNotSet: true),
-                        action: "SearchDropDown",
-                        method: "post"))
-                .Val("#DropDownSearchResultsOffset", nextOffset)
-                .ClearFormData("DropDownSearchResults")
                 .ToJson();
         }
 
@@ -1360,8 +1406,10 @@ namespace Implem.Pleasanter.Models
                 searchText: searchText,
                 filter: filter,
                 searchFormat: false);
-            var selected = context.Forms.List("DropDownSearchResults");
             var multiple = context.Forms.Bool("DropDownSearchMultiple");
+            var selected = multiple
+                ? context.Forms.List("DropDownSearchResultsAll")
+                : context.Forms.List("DropDownSearchResults");
             if (multiple)
             {
                 return SelectSearchDropDownResponse(

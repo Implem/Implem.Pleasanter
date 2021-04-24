@@ -6,11 +6,12 @@
         $p.moveColumns($control, columnHeader);
     }
 }
-$p.moveColumns = function ($control, columnHeader, isKeepSource, isJoin) {
+$p.moveColumns = function ($control, columnHeader, isKeepSource, isJoin, type) {
     if (formId === undefined) return false;
+    if (type === undefined) type = 'Columns';
     return $p.moveColumnsById($control,
-        columnHeader + 'Columns',
-        columnHeader + 'SourceColumns',
+        columnHeader + type,
+        columnHeader + 'Source' + type,
         isKeepSource,
         isJoin !== undefined && isJoin === true ? columnHeader + 'Join' : undefined);
 };
