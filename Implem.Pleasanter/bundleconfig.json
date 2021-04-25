@@ -6,6 +6,12 @@
         ]
     },
     {
+        "outputFileName": "wwwroot/content/responsive.css",
+        "inputFiles": [
+            "wwwroot/styles/responsive.css"
+        ]
+    },
+    {
         "outputFileName": "wwwroot/bundles/generals.js",
         "inputFiles": [
             "wwwroot/scripts/_init.js",
@@ -35,6 +41,7 @@
             "wwwroot/scripts/confirm.js",
             "wwwroot/scripts/confirmevents.js",
             "wwwroot/scripts/crosstab.js",
+            "wwwroot/scripts/datetime.js",
             "wwwroot/scripts/dialog.js",
             "wwwroot/scripts/dialogevents.js",
             "wwwroot/scripts/display.js",

@@ -561,7 +561,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 value,
                                 new Choice(
                                     choice: title ?? "? " + value,
-                                    raw: true));
+                                    raw: true,
+                                    value: value));
                         }
                         break;
                     default:
@@ -650,7 +651,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         choice: LinkedTitle(
                             context: context,
                             referenceId: referenceId),
-                        raw: true);
+                        raw: true,
+                        value: selectedValue);
                     LinkedTitleHash.AddIfNotConainsKey(selectedValue, choice);
                     return LinkedTitleHash[selectedValue];
                 }

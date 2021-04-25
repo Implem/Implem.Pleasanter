@@ -188,6 +188,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                             context: context,
                                             ss: currentSs,
                                             searchText: searchText,
+                                            column: column,
                                             parentColumn: parentColumn,
                                             parentIds: parentIds,
                                             offset: offset,
@@ -427,6 +428,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Context context,
             SiteSettings ss,
             string searchText,
+            Column column,
             Column parentColumn,
             List<long> parentIds,
             int offset,
@@ -437,7 +439,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 context: context,
                 ss: ss);
             view.Search = searchText;
-            var column = SetSqlColum(
+            var sqlColumn = SetSqlColum(
                 context: context,
                 ss: ss,
                 keyColumnName: Rds.IdColumn(tableName: ss.ReferenceType),
@@ -466,25 +468,32 @@ namespace Implem.Pleasanter.Libraries.Settings
                 context: context,
                 join: new IJoin[]
                 {
-                    column,
+                    sqlColumn,
                     where,
                     orderBy
                 });
-            var dataRows = Rds.ExecuteTable(
+            var dataSet = Rds.ExecuteDataSet(
                 context: context,
-                statements: Rds.Select(
-                    tableName: ss.ReferenceType,
-                    dataTableName: "Main",
-                    column: column,
-                    join: join,
-                    where: where,
-                    orderBy: orderBy,
-                    offset: offset,
-                    pageSize: !setAllChoices
-                        ? Parameters.General.DropDownSearchPageSize
-                        : 0))
-                            .AsEnumerable();
-            return dataRows;
+                statements: new SqlStatement[]
+                {
+                    Rds.Select(
+                        tableName: ss.ReferenceType,
+                        dataTableName: "Main",
+                        column: sqlColumn,
+                        join: join,
+                        where: where,
+                        orderBy: orderBy,
+                        offset: offset,
+                        pageSize: !setAllChoices
+                            ? Parameters.General.DropDownSearchPageSize
+                            : 0),
+                    Rds.SelectCount(
+                        tableName: ss.ReferenceType,
+                        join: join,
+                        where: where)
+                });
+            column.TotalCount = Rds.Count(dataSet);
+            return dataSet.Tables["Main"].AsEnumerable();
         }
 
         private SqlColumnCollection SetSqlColum(

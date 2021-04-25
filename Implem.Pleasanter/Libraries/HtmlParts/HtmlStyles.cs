@@ -108,9 +108,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     href: context.VirtualPathToAbsolute("~/content/styles.min.css"),
                     rel: "stylesheet")
                 .Link(
-                    href: Responses.Locations.Get(
-                        context: context,
-                        parts: "Styles/responsive.css"),
+                    href: context.VirtualPathToAbsolute("~/content/responsive.min.css"),
                     rel: "stylesheet",
                     _using: Parameters.Mobile.Responsive
                         && context.Mobile

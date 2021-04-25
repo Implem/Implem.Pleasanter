@@ -6989,6 +6989,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ThisYear(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ThisYear",
+                data: data);
+        }
+
         public static string ThumbnailLimitSize(
             Context context,
             params string[] data)

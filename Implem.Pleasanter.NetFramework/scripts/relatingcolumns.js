@@ -43,6 +43,7 @@
     }
 
     function applyRelatingColumn(prnt, chld, linkedClass, tablename, $trigger) {
+        if ($p.disableAutPostback) return;
         $(document).ready(function () {
             var debounce = function (fn, interval) {
                 let timer;

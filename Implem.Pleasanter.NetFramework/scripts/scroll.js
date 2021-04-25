@@ -26,14 +26,16 @@ $p.paging = function (selector) {
     }
 }
 
-$p.setPaging = function (controlId) {
+$p.setPaging = function (controlId, offsetId) {
     var wrapper = document.getElementById(controlId + 'Wrapper');
     var height = wrapper.offsetHeight;
     $(wrapper).scroll(function () {
         var scrollHeight = wrapper.scrollHeight;
         var scrollTop = wrapper.scrollTop;
         var scrollPosition = height + scrollTop;
-        var $offset = $('#' + controlId + 'Offset');
+        var $offset = $('#' + (offsetId === undefined
+            ? controlId + 'Offset'
+            : offsetId));
         if ((scrollHeight - scrollPosition) / scrollHeight <= 0 && $offset.val() !== '-1') {
             $p.send($('#' + controlId));
             $offset.val('-1');
