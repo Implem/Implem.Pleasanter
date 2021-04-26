@@ -85,6 +85,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Where(o => selectedValues.Contains(o.Key))
                             .ToDictionary(o => o.Key, o => o.Value),
                         commandOptionPositionIsTop: true,
+                        alwaysDataValue: true,
                         commandOptionAction: () => hb
                             .Div(css: "command-right", action: () => hb
                                 .Button(
@@ -102,6 +103,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Where(o => !selectedValues.Contains(o.Key))
                             .ToDictionary(o => o.Key, o => o.Value),
                         commandOptionPositionIsTop: true,
+                        alwaysDataValue: true,
                         action: "SearchDropDown",
                         method: "post",
                         commandOptionAction: () => hb
