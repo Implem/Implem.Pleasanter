@@ -715,6 +715,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlCss = null,
             Dictionary<string, ControlData> listItemCollection = null,
             IEnumerable<string> selectedValueCollection = null,
+            bool alwaysDataValue = false,
             string action = null,
             string method = null,
             bool _using = true)
@@ -729,6 +730,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             controlCss: Css.Class("control-selectable", controlCss),
                             listItemCollection: listItemCollection,
                             selectedValueCollection: selectedValueCollection,
+                            alwaysDataValue: alwaysDataValue,
                             action: action,
                             method: method))
                 : hb;
@@ -740,6 +742,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlCss = null,
             Dictionary<string, ControlData> listItemCollection = null,
             IEnumerable<string> selectedValueCollection = null,
+            bool alwaysDataValue = false,
             string action = null,
             string method = null,
             bool _using = true)
@@ -754,7 +757,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     action: () => hb
                         .SelectableItems(
                             listItemCollection: listItemCollection,
-                            selectedValueTextCollection: selectedValueCollection))
+                            selectedValueTextCollection: selectedValueCollection,
+                            alwaysDataValue: alwaysDataValue))
                 : hb;
         }
 
@@ -783,6 +787,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Dictionary<string, ControlData> listItemCollection = null,
             IEnumerable<string> selectedValueTextCollection = null,
+            bool alwaysDataValue = false,
             bool basket = false,
             bool _using = true)
         {
@@ -797,7 +802,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     : "ui-widget-content")
                             .Title(listItem.Value?.Title)
                             .DataOrder(listItem.Value?.Order)
-                            .DataValue(listItem.Key, _using: listItem.Value?.Text != listItem.Key),
+                            .DataValue(
+                                listItem.Key,
+                                _using: alwaysDataValue
+                                    || listItem.Value?.Text != listItem.Key),
                         action: () =>
                         {
                             if (basket)

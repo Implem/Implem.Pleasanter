@@ -163,10 +163,18 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             if (column.Type != Column.Types.Normal)
             {
-                return SiteInfo.Name(
-                    context: context,
-                    id: data.Get(column.ColumnName).ToInt(),
-                    type: column.Type);
+                return column.MultipleSelections == true
+                    ? data.Get(column.ColumnName).Deserialize<List<string>>()
+                        ?.Select(col =>
+                            SiteInfo.Name(
+                            context: context,
+                            id: col.ToInt(),
+                            type: column.Type))
+                        .Join()
+                    : SiteInfo.Name(
+                        context: context,
+                        id: data.Get(column.ColumnName).ToInt(),
+                        type: column.Type);
             }
             switch (column.TypeName.CsTypeSummary())
             {
@@ -200,13 +208,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                             ? column.LinkedTitleChoice(
                                 context: context,
                                 selectedValue: data.Get(column.ColumnName)).Text
-                            : (column.MultipleSelections ?? false)
-                                ? data.Get(column.ColumnName).Deserialize<string[]>()
-                                    ?.Select(col =>
-                                        column.Choice(selectedValue: col)
-                                        .Text)
-                                    .Join()
-                                : column.Choice(selectedValue: data.Get(column.ColumnName)).Text
+                            : column.Choice(selectedValue: data.Get(column.ColumnName)).Text
                         : data.Get(column.ColumnName);
                 default:
                     return data.Get(column.ColumnName);
