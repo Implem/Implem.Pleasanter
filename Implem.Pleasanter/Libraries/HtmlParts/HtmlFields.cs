@@ -1391,6 +1391,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Dictionary<string, ControlData> listItemCollection = null,
             IEnumerable<string> selectedValueCollection = null,
             bool commandOptionPositionIsTop = false,
+            bool alwaysDataValue = false,
             string action = null,
             string method = null,
             bool _using = true,
@@ -1416,6 +1417,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             controlCss: controlCss,
                             listItemCollection: listItemCollection,
                             selectedValueCollection: selectedValueCollection,
+                            alwaysDataValue: alwaysDataValue,
                             action: action,
                             method: method),
                     actionOptions: commandOptionAction);
@@ -1440,6 +1442,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             controlCss: controlCss,
                             listItemCollection: listItemCollection,
                             selectedValueCollection: selectedValueCollection,
+                            alwaysDataValue: alwaysDataValue,
                             action: action,
                             method: method);
                     });
