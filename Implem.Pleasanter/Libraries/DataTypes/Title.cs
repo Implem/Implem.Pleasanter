@@ -161,16 +161,26 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Dictionary<string, string> data,
             bool getLinkedTitle = false)
         {
+            if (column.Type != Column.Types.Normal)
+            {
+                return column.MultipleSelections == true
+                    ? data.Get(column.ColumnName).Deserialize<List<string>>()
+                        ?.Select(col =>
+                            SiteInfo.Name(
+                            context: context,
+                            id: col.ToInt(),
+                            type: column.Type))
+                        .Join()
+                    : SiteInfo.Name(
+                        context: context,
+                        id: data.Get(column.ColumnName).ToInt(),
+                        type: column.Type);
+            }
             switch (column.TypeName.CsTypeSummary())
             {
                 case Types.CsNumeric:
                     return column.HasChoices()
-                        ? column.Type != Column.Types.Normal
-                            ? SiteInfo.Name(
-                                context: context,
-                                id: data.Get(column.ColumnName).ToInt(),
-                                type: column.Type)
-                            : column.Choice(data.Get(column.ColumnName)).Text
+                        ? column.Choice(data.Get(column.ColumnName)).Text
                         : column.Display(
                             context: context,
                             value: data.Get(column.ColumnName).ToDecimal(),
@@ -198,13 +208,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                             ? column.LinkedTitleChoice(
                                 context: context,
                                 selectedValue: data.Get(column.ColumnName)).Text
-                            : (column.MultipleSelections ?? false)
-                                ? data.Get(column.ColumnName).Deserialize<string[]>()
-                                    ?.Select(col =>
-                                        column.Choice(selectedValue: col)
-                                        .Text)
-                                    .Join()
-                                : column.Choice(selectedValue: data.Get(column.ColumnName)).Text
+                            : column.Choice(selectedValue: data.Get(column.ColumnName)).Text
                         : data.Get(column.ColumnName);
                 default:
                     return data.Get(column.ColumnName);
