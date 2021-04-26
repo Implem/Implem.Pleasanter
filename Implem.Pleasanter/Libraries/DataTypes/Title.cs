@@ -161,16 +161,18 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Dictionary<string, string> data,
             bool getLinkedTitle = false)
         {
+            if (column.Type != Column.Types.Normal)
+            {
+                return SiteInfo.Name(
+                    context: context,
+                    id: data.Get(column.ColumnName).ToInt(),
+                    type: column.Type);
+            }
             switch (column.TypeName.CsTypeSummary())
             {
                 case Types.CsNumeric:
                     return column.HasChoices()
-                        ? column.Type != Column.Types.Normal
-                            ? SiteInfo.Name(
-                                context: context,
-                                id: data.Get(column.ColumnName).ToInt(),
-                                type: column.Type)
-                            : column.Choice(data.Get(column.ColumnName)).Text
+                        ? column.Choice(data.Get(column.ColumnName)).Text
                         : column.Display(
                             context: context,
                             value: data.Get(column.ColumnName).ToDecimal(),
