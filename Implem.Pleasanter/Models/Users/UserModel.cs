@@ -2630,7 +2630,9 @@ namespace Implem.Pleasanter.Models
                                         .Mail
                                         .SupportFrom),
                                     To = $"\"{Name}\" <{mailAddress}>",
-                                    Bcc = Parameters.Mail.SupportFrom
+                                    Bcc = Parameters.Security.SecondaryAuthentication.NotificationMailBcc
+                                        ? Parameters.Mail.SupportFrom
+                                        : string.Empty
                                 }.Send(
                                     context: context,
                                     ss: new SiteSettings()));
