@@ -39,7 +39,7 @@ $.each($toggleBtns, function (i, el) {
     });
 });
 
-if(screen.width < 981){
+if (screen.width < 981) {
     $p.send($('#ReduceViewFilters'));
     $p.send($('#ReduceAggregations'));
 }

@@ -543,6 +543,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Hidden(controlId: "UserId", value: context.UserId.ToString())
                     .Hidden(controlId: "LoginId", value: context.LoginId)
                     .Hidden(controlId: "Publish", value: "1", _using: context.Publish)
+                    .Hidden(controlId: "Responsive", value: "1", _using: context.Responsive)
                     .Hidden(controlId: "TableName", value: ss?.ReferenceType)
                     .Hidden(controlId: "Controller", value: context.Controller)
                     .Hidden(controlId: "Action", value: context.Action)

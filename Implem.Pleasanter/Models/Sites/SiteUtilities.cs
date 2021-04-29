@@ -5843,8 +5843,7 @@ namespace Implem.Pleasanter.Models
                         .FieldTextBox(
                             controlId: "LabelText",
                             labelText: Displays.DisplayName(context: context),
-                            text: section.LabelText,
-                            validateRequired: true)
+                            text: section.LabelText)
                         .FieldCheckBox(
                             controlId: "AllowExpand",
                             labelText: Displays.AllowExpand(context: context),

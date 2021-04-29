@@ -22,17 +22,17 @@ $p.openDropDownSearchDialog = function ($control) {
     $('#DropDownSearchParentDataId').val($("#" + id).attr('parent-data-id'));
     $('#DropDownSearchMultiple').val(multiple);
     $target.val(id);
+    $($('#DropDownSearchDialog')).dialog({
+        title: $('.field-label label[for="' + id + '"]').text(),
+        modal: true,
+        width: '750px',
+        resizable: false,
+        close: function () {
+            $('#' + $target.val()).prop("disabled", false);
+        }
+    });
     var error = $p.syncSend($target);
     if (error === 0) {
-        $($('#DropDownSearchDialog')).dialog({
-            title: $('.field-label label[for="' + id + '"]').text(),
-            modal: true,
-            width: '750px',
-            resizable: false,
-            close: function () {
-                $('#' + $target.val()).prop("disabled", false);
-            }
-        });
         if (multiple) {
             $p.setPaging('DropDownSearchSourceResults', 'DropDownSearchResultsOffset');
         } else {
@@ -40,5 +40,7 @@ $p.openDropDownSearchDialog = function ($control) {
         }
         $control.prop("disabled", true);
         $('#DropDownSearchText').focus();
+    } else {
+        $($('#DropDownSearchDialog')).dialog('close');
     }
 }

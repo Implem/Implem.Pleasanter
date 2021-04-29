@@ -26,9 +26,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 switch (controlId)
                 {
                     case "LabelText":
-                        LabelText = String(
-                            context: context,
-                            controlId: controlId);
+                        LabelText = context.Forms.Data(controlId);
                         break;
                     case "AllowExpand":
                         AllowExpand = Bool(
@@ -44,12 +42,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                         break;
                 }
             }
-        }
-
-        private string String(Context context, string controlId)
-        {
-            var data = context.Forms.Data(controlId);
-            return data != string.Empty ? data : null;
         }
 
         private bool Bool(Context context, string controlId)

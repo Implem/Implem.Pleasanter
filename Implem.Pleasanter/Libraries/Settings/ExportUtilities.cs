@@ -17,7 +17,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             IEnumerable<ExportColumn> columns)
         {
             return columns
-                .Where(o => o.Column.TypeCs != "Attachments")
+                .Where(o => o.Column?.TypeCs != "Attachments")
                 .ToDictionary(
                     column => column.GetRecordingData().ToJson(),
                     column => new ControlData(column.GetLabelText(withSiteTitle: true)));
