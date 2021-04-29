@@ -2159,6 +2159,7 @@ th.calendar-header{
 
 .control-selectable li{
     width:100%;
+    min-height:24px;
     margin:3px;
     padding:2px 5px;
     border-radius:5px;
