@@ -1,4 +1,8 @@
-﻿$p.id = function () {
+﻿$p.responsive = function () {
+    return $('#Responsive').val() === '1';
+}
+
+$p.id = function () {
     return parseInt($('#Id').val());
 }
 
