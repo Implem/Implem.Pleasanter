@@ -5609,6 +5609,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string OverwriteSameFileName(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "OverwriteSameFileName",
+                data: data);
+        }
+
         public static string Own(
             Context context,
             params string[] data)

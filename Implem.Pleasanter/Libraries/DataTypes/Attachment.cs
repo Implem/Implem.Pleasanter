@@ -23,6 +23,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public string FileName;
         public string Base64Binary;
         public string HashCode;
+        public bool? Overwritten;
 
         public Attachment()
         {
@@ -69,20 +70,22 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public void WriteToLocal(Context context)
         {
-            if (Added == true)
-            {
-                new FileInfo(Path.Combine(Directories.Temp(), Guid, Name ?? FileName))
-                   .CopyTo(Path.Combine(
-                       Directories.BinaryStorage(),
-                       "Attachments",
-                       Guid), overwrite: true);
-            }
-            else if (Deleted == true && !Parameters.BinaryStorage.RestoreLocalFiles)
-            {
-                Files.DeleteFile(Path.Combine(
+            new FileInfo(Path.Combine(Directories.Temp(), Guid, Name ?? FileName))
+                .CopyTo(Path.Combine(
                     Directories.BinaryStorage(),
                     "Attachments",
-                    Guid));
+                    Guid), overwrite: true);
+        }
+
+        public void DeleteFromLocal(Context context)
+        {
+            var path = Path.Combine(
+                Directories.BinaryStorage(),
+                "Attachments",
+                Guid);
+            if (System.IO.File.Exists(path))
+            {
+                Files.DeleteFile(path);
             }
         }
 
@@ -107,7 +110,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     where: Rds.BinariesWhere().Guid(Guid)));
                 DataSources.File.DeleteTemp(Guid);
             }
-            else if (Deleted == true)
+            else if (Deleted == true && !Overwritten.HasValue)
             {
                 statements.Add(Rds.DeleteBinaries(
                     factory: context,

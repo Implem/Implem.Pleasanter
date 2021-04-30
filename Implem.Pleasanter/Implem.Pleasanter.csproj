@@ -1103,6 +1103,7 @@
     <Content Include="App_Data\Displays\OverLimitSize.json" />
     <Content Include="App_Data\Displays\OverTenantStorageSize.json" />
     <Content Include="App_Data\Displays\OverTotalLimitSize.json" />
+    <Content Include="App_Data\Displays\OverwriteSameFileName.json" />
     <Content Include="App_Data\Displays\Own.json" />
     <Content Include="App_Data\Displays\ParameterSyntaxError.json" />
     <Content Include="App_Data\Displays\PartialMatch.json" />

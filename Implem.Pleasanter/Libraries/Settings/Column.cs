@@ -112,6 +112,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? DateFilterHalf;
         public bool? DateFilterQuarter;
         public bool? DateFilterMonth;
+        public bool? OverwriteSameFileName;
         public decimal? LimitQuantity;
         public decimal? LimitSize;
         public decimal? TotalLimitSize;

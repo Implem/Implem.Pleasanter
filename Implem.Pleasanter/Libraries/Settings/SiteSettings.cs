@@ -1231,6 +1231,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.DateFilterMonth = column.DateFilterMonth;
                     }
+                    if (column.OverwriteSameFileName == false)
+                    {
+                        enabled = true;
+                        newColumn.OverwriteSameFileName = column.OverwriteSameFileName;
+                    }
                     if (column.LimitQuantity != Parameters.BinaryStorage.LimitQuantity)
                     {
                         enabled = true;
@@ -1533,6 +1538,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.DateFilterHalf = column.DateFilterHalf ?? true;
                 column.DateFilterQuarter = column.DateFilterQuarter ?? true;
                 column.DateFilterMonth = column.DateFilterMonth ?? true;
+                column.OverwriteSameFileName = column.OverwriteSameFileName ?? false;
                 column.LimitQuantity = column.LimitQuantity ?? Parameters.BinaryStorage.LimitQuantity;
                 column.LimitSize = column.LimitSize ?? Parameters.BinaryStorage.LimitSize;
                 column.TotalLimitSize = column.TotalLimitSize ?? Parameters.BinaryStorage.LimitTotalSize;
@@ -3151,6 +3157,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "DateFilterHalf": column.DateFilterHalf = value.ToBool(); break;
                 case "DateFilterQuarter": column.DateFilterQuarter = value.ToBool(); break;
                 case "DateFilterMonth": column.DateFilterMonth = value.ToBool(); break;
+                case "OverwriteSameFileName": column.OverwriteSameFileName = value.ToBool(); break;
                 case "LimitQuantity": column.LimitQuantity = value.ToDecimal(); break;
                 case "LimitSize": column.LimitSize = value.ToDecimal(); break;
                 case "LimitTotalSize": column.TotalLimitSize = value.ToDecimal(); break;

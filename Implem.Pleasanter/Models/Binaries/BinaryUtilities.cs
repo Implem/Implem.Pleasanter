@@ -525,16 +525,23 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 columnName: context.Forms.Data("ColumnName"));
             var attachments = context.Forms.Data("AttachmentsData").Deserialize<Attachments>();
-            context.PostedFiles.ForEach(file => attachments.Add(new Attachment()
+            context.PostedFiles.ForEach(file =>
             {
-                Guid = file.Guid,
-                Name = file.FileName.Split(System.IO.Path.DirectorySeparatorChar).Last(),
-                Size = file.Size,
-                Extention = file.Extension,
-                ContentType = file.ContentType,
-                Added = true,
-                Deleted = false
-            }));
+                if (column.OverwriteSameFileName == true)
+                {
+                    OverwriteSameFileName(attachments, file.FileName);
+                }
+                attachments.Add(new Attachment()
+                {
+                    Guid = file.Guid,
+                    Name = file.FileName.Split(System.IO.Path.DirectorySeparatorChar).Last(),
+                    Size = file.Size,
+                    Extention = file.Extension,
+                    ContentType = file.ContentType,
+                    Added = true,
+                    Deleted = false
+                });
+            });
             var invalid = BinaryValidators.OnUploading(
                 context: context,
                 column: column,
@@ -935,16 +942,24 @@ namespace Implem.Pleasanter.Models
             List<Attachment> attachments,
             System.Net.Http.Headers.ContentRangeHeaderValue contentRange)
         {
-            Enumerable.Range(0, new[] { guids.Count(), names.Count(), sizes.Count(), types.Count() }.Min()).ForEach(index => attachments.Add(new Attachment()
+            Enumerable.Range(0, new[] { guids.Count(), names.Count(), sizes.Count(), types.Count() }.Min()).ForEach(index =>
             {
-                Guid = guids.Skip(index).First(),
-                Name = names.Skip(index).First(),
-                Size = sizes.Skip(index).First().ToLong(),
-                Extention = System.IO.Path.GetExtension(names.Skip(index).First()),
-                ContentType = types.Skip(index).First(),
-                Added = true,
-                Deleted = false
-            }));
+                var fileName = names.Skip(index).First();
+                if (column.OverwriteSameFileName == true)
+                {
+                    OverwriteSameFileName(attachments, fileName);
+                }
+                attachments.Add(new Attachment()
+                {
+                    Guid = guids.Skip(index).First(),
+                    Name = fileName,
+                    Size = sizes.Skip(index).First().ToLong(),
+                    Extention = System.IO.Path.GetExtension(names.Skip(index).First()),
+                    ContentType = types.Skip(index).First(),
+                    Added = true,
+                    Deleted = false
+                });
+            });
             var hb = new HtmlBuilder();
             return new ResponseCollection()
                 .ReplaceAll($"#{controlId}Field", new HtmlBuilder()
@@ -994,6 +1009,21 @@ namespace Implem.Pleasanter.Models
             return regex.Match(element).Value.IsNullOrEmpty()
                 ? element
                 : element.Replace(regex.Match(element).Value, string.Empty);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static void OverwriteSameFileName(List<Attachment> attachments, String fileName)
+        {
+            attachments.ForEach(savedAttachment =>
+            {
+                if (savedAttachment.Name == fileName)
+                {
+                    savedAttachment.Deleted = true;
+                    savedAttachment.Overwritten = true;
+                }
+            });
         }
     }
 }
