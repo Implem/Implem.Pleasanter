@@ -727,85 +727,92 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static string CreateResponseJson(
+        public static System.Web.Mvc.ContentResult UploadFile(
             Context context,
-            IEnumerable<string> guids,
-            IEnumerable<string> names,
-            IEnumerable<string> sizes,
-            IEnumerable<string> types,
-            SiteSettings ss,
-            Column column,
-            string controlId,
-            List<Attachment> attachments,
-            System.Net.Http.Headers.ContentRangeHeaderValue contentRange)
+            long id,
+            System.Web.HttpFileCollectionBase collectionBase)
         {
-            Enumerable.Range(0, new[] { guids.Count(), names.Count(), sizes.Count(), types.Count() }.Min()).ForEach(index =>
+            var itemModel = new ItemModel(context, id);
+            var ss = itemModel.GetSite(context, initSiteSettings: true).SiteSettings;
+            var column = ss.GetColumn(context, TrimIdSuffix(System.Web.HttpContext.Current.Request.Form["ColumnName"]));
+            var attachments = System.Web.HttpContext.Current.Request.Form["AttachmentsData"].Deserialize<Attachments>();
+            var fileHash = System.Web.HttpContext.Current.Request.Form["FileHash"];
+            var files = ToArray(collectionBase);
+            var contentRange = GetContentRange(files);
             {
-                var fileName = names.Skip(index).First();
-                if (column.OverwriteSameFileName == true)
+                var invalid = HasPermission(context, ss, itemModel);
+                switch (invalid.Type)
                 {
-                    OverwriteSameFileName(attachments, fileName);
+                    case Error.Types.None: break;
+                    default: return ApiResults.Get(HtmlTemplates.Error(context, invalid));
                 }
-                attachments.Add(new Attachment()
-                {
-                    Guid = guids.Skip(index).First(),
-                    Name = fileName,
-                    Size = sizes.Skip(index).First().ToLong(),
-                    Extention = System.IO.Path.GetExtension(names.Skip(index).First()),
-                    ContentType = types.Skip(index).First(),
-                    Added = true,
-                    Deleted = false
-                });
-            });
-            var hb = new HtmlBuilder();
-            return new ResponseCollection()
-                .ReplaceAll($"#{controlId}Field", new HtmlBuilder()
-                    .Field(
-                        context: context,
-                        ss: ss,
-                        column: column,
-                        value: attachments.ToJson(),
-                        columnPermissionType: Permissions.ColumnPermissionType(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            null),
-                        idSuffix: System.Text.RegularExpressions.Regex.Match(controlId, "_\\d+_-?\\d+").Value
-                        ))
-                .SetData("#" + controlId)
-                .ToJson();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static Error.Types ValidateFileHash(
-            System.IO.FileInfo fileInfo,
-            System.Net.Http.Headers.ContentRangeHeaderValue contentRange,
-            string hash)
-        {
-            if (string.IsNullOrEmpty(hash)) return Error.Types.None;
-            if (contentRange.Length > (contentRange.To + 1)) return Error.Types.None;
-            byte[] hashValue;
-            using (var fileStream = fileInfo.Open(System.IO.FileMode.Open))
-            {
-                fileStream.Position = 0;
-                hashValue = new System.Security.Cryptography.HMACMD5().ComputeHash(fileStream);
-                fileStream.Close();
             }
-            var fileHash = string.Join(string.Empty, hashValue.Select(h => h.ToString("x2")));
-            return hash == fileHash ? Error.Types.None : Error.Types.InvalidRequest;
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static string TrimIdSuffix(string element)
-        {
-            var regex = new System.Text.RegularExpressions.Regex("_\\d+_-?\\d+$");
-            return regex.Match(element).Value.IsNullOrEmpty()
-                ? element
-                : element.Replace(regex.Match(element).Value, string.Empty);
+            {
+                var invalid = BinaryValidators.OnUploading(context, column, attachments, files, new[] { contentRange });
+                switch (invalid)
+                {
+                    case Error.Types.OverLimitQuantity:
+                        return ApiResults.Get(Messages.ResponseOverLimitQuantity(
+                            context: context,
+                            data: column.LimitQuantity.ToString()).ToJson());
+                    case Error.Types.OverLimitSize:
+                        return ApiResults.Get(Messages.ResponseOverLimitSize(
+                            context: context,
+                            data: column.LimitSize.ToString()).ToJson());
+                    case Error.Types.OverTotalLimitSize:
+                        return ApiResults.Get(Messages.ResponseOverTotalLimitSize(
+                            context: context,
+                            data: column.TotalLimitSize.ToString()).ToJson());
+                    case Error.Types.OverLocalFolderLimitSize:
+                        return ApiResults.Get(Messages.ResponseOverLimitSize(
+                            context: context,
+                            data: column.LocalFolderLimitSize.ToString()).ToJson());
+                    case Error.Types.OverLocalFolderTotalLimitSize:
+                        return ApiResults.Get(Messages.ResponseOverTotalLimitSize(
+                            context: context,
+                            data: column.LocalFolderTotalLimitSize.ToString()).ToJson());
+                    case Error.Types.OverTenantStorageSize:
+                        return ApiResults.Get(Messages.ResponseOverTenantStorageSize(
+                            context: context,
+                            data: context.ContractSettings.StorageSize.ToString()).ToJson());
+                    case Error.Types.None: break;
+                    default: return ApiResults.Get(invalid.MessageJson(context));
+                }
+            }
+            var controlId = System.Web.HttpContext.Current.Request.Form["ControlId"];
+            var fileUuid = System.Web.HttpContext.Current.Request.Form["Uuid"]?.Split(',');
+            var fileUuids = System.Web.HttpContext.Current.Request.Form["Uuids"]?.Split(',');
+            var fileNames = System.Web.HttpContext.Current.Request.Form["fileNames"]?.Deserialize<string[]>();
+            var fileSizes = System.Web.HttpContext.Current.Request.Form["fileSizes"]?.Deserialize<string[]>();
+            var fileTypes = System.Web.HttpContext.Current.Request.Form["fileTypes"]?.Deserialize<string[]>();
+            var resultFileNames = new List<KeyValuePair<System.Web.HttpPostedFileBase, System.IO.FileInfo>>();
+            for (int filesIndex = 0; filesIndex < collectionBase.Count; ++filesIndex)
+            {
+                var file = collectionBase[filesIndex];
+                var saveFile = GetTempFileInfo(fileUuid[filesIndex], file.FileName);
+                Save(file, saveFile);
+                resultFileNames.Add(
+                    new KeyValuePair<System.Web.HttpPostedFileBase, System.IO.FileInfo>(
+                        file,
+                        saveFile));
+            }
+            {
+                var invalid = ValidateFileHash(resultFileNames[0].Value, contentRange, fileHash);
+                if (invalid != Error.Types.None) return ApiResults.Get(invalid.MessageJson(context));
+            }
+            return CreateResult(
+                resultFileNames,
+                CreateResponseJson(
+                    context,
+                    fileUuids,
+                    fileNames,
+                    fileSizes,
+                    fileTypes,
+                    ss,
+                    column,
+                    controlId,
+                    attachments,
+                    contentRange));
         }
 
         /// <summary>

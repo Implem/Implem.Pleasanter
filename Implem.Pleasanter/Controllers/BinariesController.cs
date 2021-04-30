@@ -179,5 +179,16 @@ namespace Implem.Pleasanter.Controllers
             log.Finish(context: context, responseSize: json.Length);
             return json.ToString();
         }
+
+        public object Upload(Context context, long id)
+        {
+            
+            var log = new SysLogModel(context: context);
+            var result = context.Authenticated
+                ? BinaryUtilities.UploadFile(context, id, HttpContext.Request.Files)
+                : ApiResults.Unauthorized(context);
+            log.Finish(context: context, responseSize: result.Content.Length);
+            return result;
+        }
     }
 }

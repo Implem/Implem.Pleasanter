@@ -159,5 +159,15 @@ namespace Implem.Pleasanter.NetFramework.Controllers
             var json = controller.DeleteTemp(context: context, reference: reference, id: id);
             return json.ToString();
         }
+
+        [HttpPost]
+        [OutputCache(Location = OutputCacheLocation.None, NoStore = true)]
+        public object Upload(long id)
+        {
+            var context = new ContextImplement();
+            var controller = new Pleasanter.Controllers.BinariesController();
+            var json = controller.Upload(context: context, reference: reference, id: id);
+            return json.ToString();
+        }
     }
 }
