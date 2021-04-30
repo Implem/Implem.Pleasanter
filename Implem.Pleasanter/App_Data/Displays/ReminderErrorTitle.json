@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ReminderErrorTitle",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "{0}) Reminder Error"
+        },
+        {
+            "Language": "zh",
+            "Body": "{0}) 提醒错误"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0}) リマインダー エラー"
+        },
+        {
+            "Language": "de",
+            "Body": "{0}) Erinnerungsfehler"
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}) 알림 오류"
+        },
+        {
+            "Language": "es",
+            "Body": "{0}) Error de recordatorio"
+        },
+        {
+            "Language": "vn",
+            "Body": "{0}) Lỗi lời nhắc"
+        }
+    ]
+}

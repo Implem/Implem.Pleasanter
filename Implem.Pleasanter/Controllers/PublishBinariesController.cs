@@ -50,20 +50,27 @@ namespace Implem.Pleasanter.Controllers
             return new FileContentResult(bytes, contentType);
         }
 
-        public FileContentResult Download(Context context, string guid)
+        public FileResult Download(Context context, string guid)
         {
             var log = new SysLogModel(context: context);
             var file = BinaryUtilities.Donwload(context: context, guid: guid);
-            log.Finish(context: context, responseSize: file?.FileContents.Length ?? 0);
-            return file;
+            log.Finish(context: context, responseSize: file?.FileContents?.Length ?? 0);
+            return (file?.IsFileInfo() == true)
+                ? (FileResult)new FilePathResult(file?.FileInfo?.FullName, file?.ContentType) { FileDownloadName = file?.FileDownloadName }
+                : (FileResult)new FileStreamResult(file?.FileContentsStream, file?.ContentType) { FileDownloadName = file?.FileDownloadName };
         }
 
         public FileContentResult Show(Context context, string guid)
         {
             var log = new SysLogModel(context: context);
-            var file = BinaryUtilities.Donwload(context: context, guid: guid);
-            log.Finish(context: context, responseSize: file?.FileContents.Length ?? 0);
-            return file;
+            var file = BinaryUtilities.Donwload(
+                context: context,
+                guid: guid)
+                    ?.FileStream();
+            log.Finish(context: context, responseSize: file?.FileContents?.Length ?? 0);
+            return file != null
+                ? new FileContentResult(file.FileContents, file.ContentType)
+                : null;
         }
     }
 }

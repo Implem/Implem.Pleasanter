@@ -7,6 +7,7 @@ using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.Linq;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
@@ -62,25 +63,34 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 {
                     Guid = item.Guid,
                     Name = item.Name,
-                    Size = item.Size
+                    Size = item.Size,
+                    HashCode = item.HashCode
                 }));
             return attachments.ToJson();
         }
 
-        public void Write(Context context, List<SqlStatement> statements, long referenceId)
+        public void Write(Context context, List<SqlStatement> statements, long referenceId, Column column)
         {
             this
                 .Where(o => !o.Guid.IsNullOrEmpty())
                 .ForEach(attachment =>
                 {
-                    if (Parameters.BinaryStorage.IsLocal())
+                    if (attachment.Added == true)
                     {
-                        attachment.WriteToLocal(context: context);
+                        if (BinaryUtilities.BinaryStorageProvider(column, (decimal)attachment.Size) == "LocalFolder")
+                        {
+                            attachment.WriteToLocal(context: context);
+                        }
+                    }
+                    else if(attachment.Deleted == true && !attachment.Overwritten.HasValue)
+                    {
+                        attachment.DeleteFromLocal(context: context);
                     }
                     attachment.SqlStatement(
                         context: context,
                         statements: statements,
-                        referenceId: referenceId);
+                        referenceId: referenceId,
+                        column: column);
                 });
         }
 

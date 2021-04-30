@@ -71,6 +71,8 @@ namespace Implem.Pleasanter.Libraries.General
             PasswordNotChanged,
             PasswordPolicyViolation,
             PermissionNotSelfChange,
+            ReminderErrorContent,
+            ReminderErrorTitle,
             RequireMailAddresses,
             RequireManagePermission,
             RequireTo,

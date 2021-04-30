@@ -1,6 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
-using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Libraries.Utilities;
 using System.IO;
 using System.Web;
 namespace Implem.Pleasanter.Libraries.DataSources
@@ -14,7 +14,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 Directory.Delete(Path.Combine(Directories.Temp(), guid), true);
             }
         }
-
         public static string Extension(this IHttpPostedFile file)
         {
             return Path.GetExtension(file.FileName);

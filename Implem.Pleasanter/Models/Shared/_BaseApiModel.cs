@@ -777,6 +777,34 @@ namespace Implem.Pleasanter.Models.Shared
         public string Attachments099 { get; set; }
         public string Attachments100 { get; set; }
 
+        public Attachment[] PostedFilesA { get; set; }
+        public Attachment[] PostedFilesB { get; set; }
+        public Attachment[] PostedFilesC { get; set; }
+        public Attachment[] PostedFilesD { get; set; }
+        public Attachment[] PostedFilesE { get; set; }
+        public Attachment[] PostedFilesF { get; set; }
+        public Attachment[] PostedFilesG { get; set; }
+        public Attachment[] PostedFilesH { get; set; }
+        public Attachment[] PostedFilesI { get; set; }
+        public Attachment[] PostedFilesJ { get; set; }
+        public Attachment[] PostedFilesK { get; set; }
+        public Attachment[] PostedFilesL { get; set; }
+        public Attachment[] PostedFilesM { get; set; }
+        public Attachment[] PostedFilesN { get; set; }
+        public Attachment[] PostedFilesO { get; set; }
+        public Attachment[] PostedFilesP { get; set; }
+        public Attachment[] PostedFilesQ { get; set; }
+        public Attachment[] PostedFilesR { get; set; }
+        public Attachment[] PostedFilesS { get; set; }
+        public Attachment[] PostedFilesT { get; set; }
+        public Attachment[] PostedFilesU { get; set; }
+        public Attachment[] PostedFilesV { get; set; }
+        public Attachment[] PostedFilesW { get; set; }
+        public Attachment[] PostedFilesX { get; set; }
+        public Attachment[] PostedFilesY { get; set; }
+        public Attachment[] PostedFilesZ { get; set; }
+
+
         public _BaseApiModel()
         {
         }
@@ -2312,6 +2340,33 @@ namespace Implem.Pleasanter.Models.Shared
                 if (Attachments098 != null) Attachments(columnName: "Attachments098", value: Attachments098.Deserialize<Attachments>()); Attachments098 = null;
                 if (Attachments099 != null) Attachments(columnName: "Attachments099", value: Attachments099.Deserialize<Attachments>()); Attachments099 = null;
                 if (Attachments100 != null) Attachments(columnName: "Attachments100", value: Attachments100.Deserialize<Attachments>()); Attachments100 = null;
+                var attachments = new Attachments();
+                if (PostedFilesA != null) { PostedFilesA.ForEach(x => attachments.Add(x)); Attachments(columnName: "AttachmentsA", value: attachments); attachments = null; }
+                if (PostedFilesB != null) { PostedFilesB.ForEach(x => attachments.Add(x)); Attachments(columnName: "AttachmentsB", value: attachments); attachments = null; }
+                if (PostedFilesC != null) { PostedFilesC.ForEach(x => attachments.Add(x)); Attachments(columnName: "AttachmentsC", value: attachments); attachments = null; }
+                if (PostedFilesD != null) { PostedFilesD.ForEach(x => attachments.Add(x)); Attachments(columnName: "AttachmentsD", value: attachments); attachments = null; }
+                if (PostedFilesE != null) { PostedFilesE.ForEach(x => attachments.Add(x)); Attachments(columnName: "AttachmentsE", value: attachments); attachments = null; }
+                if (PostedFilesF != null) { PostedFilesF.ForEach(x => attachments.Add(x)); Attachments(columnName: "AttachmentsF", value: attachments); attachments = null; }
+                if (PostedFilesG != null) { PostedFilesG.ForEach(x => attachments.Add(x)); Attachments(columnName: "AttachmentsG", value: attachments); attachments = null; }
+                if (PostedFilesH != null) { PostedFilesH.ForEach(x => attachments.Add(x)); Attachments(columnName: "AttachmentsH", value: attachments); attachments = null; }
+                if (PostedFilesI != null) { PostedFilesI.ForEach(x => attachments.Add(x)); Attachments(columnName: "AttachmentsI", value: attachments); attachments = null; }
+                if (PostedFilesJ != null) { PostedFilesJ.ForEach(x => attachments.Add(x)); Attachments(columnName: "AttachmentsJ", value: attachments); attachments = null; }
+                if (PostedFilesK != null) { PostedFilesK.ForEach(x => attachments.Add(x)); Attachments(columnName: "AttachmentsK", value: attachments); attachments = null; }
+                if (PostedFilesL != null) { PostedFilesL.ForEach(x => attachments.Add(x)); Attachments(columnName: "AttachmentsL", value: attachments); attachments = null; }
+                if (PostedFilesM != null) { PostedFilesM.ForEach(x => attachments.Add(x)); Attachments(columnName: "AttachmentsM", value: attachments); attachments = null; }
+                if (PostedFilesN != null) { PostedFilesN.ForEach(x => attachments.Add(x)); Attachments(columnName: "AttachmentsN", value: attachments); attachments = null; }
+                if (PostedFilesO != null) { PostedFilesO.ForEach(x => attachments.Add(x)); Attachments(columnName: "AttachmentsO", value: attachments); attachments = null; }
+                if (PostedFilesP != null) { PostedFilesP.ForEach(x => attachments.Add(x)); Attachments(columnName: "AttachmentsP", value: attachments); attachments = null; }
+                if (PostedFilesQ != null) { PostedFilesQ.ForEach(x => attachments.Add(x)); Attachments(columnName: "AttachmentsQ", value: attachments); attachments = null; }
+                if (PostedFilesR != null) { PostedFilesR.ForEach(x => attachments.Add(x)); Attachments(columnName: "AttachmentsR", value: attachments); attachments = null; }
+                if (PostedFilesS != null) { PostedFilesS.ForEach(x => attachments.Add(x)); Attachments(columnName: "AttachmentsS", value: attachments); attachments = null; }
+                if (PostedFilesT != null) { PostedFilesT.ForEach(x => attachments.Add(x)); Attachments(columnName: "AttachmentsT", value: attachments); attachments = null; }
+                if (PostedFilesU != null) { PostedFilesU.ForEach(x => attachments.Add(x)); Attachments(columnName: "AttachmentsU", value: attachments); attachments = null; }
+                if (PostedFilesV != null) { PostedFilesV.ForEach(x => attachments.Add(x)); Attachments(columnName: "AttachmentsV", value: attachments); attachments = null; }
+                if (PostedFilesW != null) { PostedFilesW.ForEach(x => attachments.Add(x)); Attachments(columnName: "AttachmentsW", value: attachments); attachments = null; }
+                if (PostedFilesX != null) { PostedFilesX.ForEach(x => attachments.Add(x)); Attachments(columnName: "AttachmentsX", value: attachments); attachments = null; }
+                if (PostedFilesY != null) { PostedFilesY.ForEach(x => attachments.Add(x)); Attachments(columnName: "AttachmentsY", value: attachments); attachments = null; }
+                if (PostedFilesZ != null) { PostedFilesZ.ForEach(x => attachments.Add(x)); Attachments(columnName: "AttachmentsZ", value: attachments); attachments = null; }
             }
         }
 

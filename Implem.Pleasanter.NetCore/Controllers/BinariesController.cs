@@ -115,7 +115,7 @@ namespace Implem.Pleasanter.NetCore.Controllers
             {
                 return RedirectToAction("notfound", "errors");
             }
-            return file.ToFileContentResult();
+            return ConvertToFileStreamResult(file);
         }
 
         [HttpGet]
@@ -128,7 +128,7 @@ namespace Implem.Pleasanter.NetCore.Controllers
             {
                 return RedirectToAction("notfound", "errors");
             }
-            return file.ToFileContentResult();
+            return ConvertToFileStreamResult(file);
         }
 
         [HttpGet]
@@ -162,6 +162,23 @@ namespace Implem.Pleasanter.NetCore.Controllers
             var controller = new Pleasanter.Controllers.BinariesController();
             var json = controller.DeleteTemp(context: context, reference: reference, id: id);
             return json.ToString();
+        }
+
+        private static ActionResult ConvertToFileStreamResult(System.Web.Mvc.FileResult file)
+        {
+            var streamResult = file as System.Web.Mvc.FileStreamResult;
+            if (streamResult != null)
+            {
+                return new FileStreamResult(streamResult.FileStream, streamResult.ContentType) { FileDownloadName = streamResult.FileDownloadName };
+            }
+            else
+            {
+                var pathResult = file as System.Web.Mvc.FilePathResult;
+                using (var filestream = new System.IO.FileStream(pathResult.FileName, System.IO.FileMode.Open))
+                {
+                    return new FileStreamResult(filestream, pathResult.ContentType) { FileDownloadName = streamResult.FileDownloadName };
+                }
+            }
         }
     }
 }

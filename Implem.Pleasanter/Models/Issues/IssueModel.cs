@@ -1116,7 +1116,7 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     setIdentity: true),
             });
-            statements.AddRange(UpdateAttachmentsStatements(context: context));
+            statements.AddRange(UpdateAttachmentsStatements(context: context, ss: ss));
             statements.AddRange(PermissionUtilities.InsertStatements(
                 context: context,
                 ss: ss,
@@ -1248,6 +1248,7 @@ namespace Implem.Pleasanter.Models
             bool otherInitValue = false,
             List<SqlStatement> additionalStatements = null)
         {
+            SetAttachmentsHashCode(context: context, ss: ss);
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
             var where = Rds.IssuesWhereDefault(
@@ -1272,7 +1273,7 @@ namespace Implem.Pleasanter.Models
                 where: where,
                 param: param,
                 otherInitValue: otherInitValue));
-            statements.AddRange(UpdateAttachmentsStatements(context: context));
+            statements.AddRange(UpdateAttachmentsStatements(context: context, ss: ss));
             if (permissionChanged)
             {
                 statements.UpdatePermissions(context, ss, IssueId, permissions);
@@ -1307,19 +1308,34 @@ namespace Implem.Pleasanter.Models
             };
         }
 
-        private List<SqlStatement> UpdateAttachmentsStatements(Context context)
-        {
-            var statements = new List<SqlStatement>();
-            ColumnNames()
-                .Where(columnName => columnName.StartsWith("Attachments"))
-                .Where(columnName => Attachments_Updated(columnName: columnName))
-                .ForEach(columnName =>
-                    Attachments(columnName: columnName).Write(
-                        context: context,
-                        statements: statements,
-                        referenceId: IssueId));
-            return statements;
-        }
+    private void SetAttachmentsHashCode(Context context, SiteSettings ss)
+    {
+        ColumnNames()
+            .Where(columnName => columnName.StartsWith("Attachments"))
+            .ForEach(columnName =>
+            {
+                Attachments(columnName)
+                    .Where(attachment => attachment.Added == true)
+                    .ForEach(attachment => attachment.SetHashCode(ss.GetColumn(context: context, columnName: columnName)));
+            });
+    }
+
+    private List<SqlStatement> UpdateAttachmentsStatements(Context context, SiteSettings ss)
+    {
+        var statements = new List<SqlStatement>();
+        ColumnNames()
+            .Where(columnName => columnName.StartsWith("Attachments"))
+            .Where(columnName => Attachments_Updated(columnName: columnName))
+            .ForEach(columnName =>
+                Attachments(columnName: columnName).Write(
+                    context: context,
+                    statements: statements,
+                    referenceId: IssueId,
+                        column: ss.GetColumn(
+                            context: context,
+                            columnName: columnName)));
+        return statements;
+    }
 
         public void UpdateRelatedRecords(
             Context context,
@@ -1524,6 +1540,21 @@ namespace Implem.Pleasanter.Models
                     factory: context,
                     where: where)
             });
+                ColumnNames()
+                    .Where(columnName => columnName.StartsWith("Attachments"))
+                    .ForEach(columnName =>
+                    {
+                        var attachments = Attachments(columnName: columnName);
+                        attachments.ForEach(attachment =>
+                            attachment.Deleted = true);
+                        attachments.Write(
+                            context: context,
+                            statements: statements,
+                            referenceId: IssueId,
+                            ss.GetColumn(
+                                context: context,
+                                columnName: columnName));
+                    });
             statements.OnDeletedExtendedSqls(
                 context: context,
                 siteId: SiteId,
@@ -1986,11 +2017,38 @@ namespace Implem.Pleasanter.Models
             {
                 string columnName = o.Key;
                 Attachments newAttachments = o.Value;
-                Attachments oldAttachments = AttachmentsHash.Get(columnName);
+                Attachments oldAttachments;
+                if (columnName == "Attachments#Uploading")
+                {
+                    var kvp = AttachmentsHash
+                        .FirstOrDefault(x => x.Value
+                            .Any(att => att.Guid == newAttachments.FirstOrDefault()?.Guid));
+                    columnName = kvp.Key;
+                    oldAttachments = kvp.Value;
+                }
+                else
+                {
+                    oldAttachments = AttachmentsHash.Get(columnName);
+                }
                 if (oldAttachments != null)
                 {
+                    var column = ss.GetColumn(
+                        context: context,
+                        columnName: columnName);
                     var newGuidSet = new HashSet<string>(newAttachments.Select(x => x.Guid).Distinct());
-                    newAttachments.AddRange(oldAttachments.Where((oldvalue) => !newGuidSet.Contains(oldvalue.Guid)));
+                    var newNameSet = new HashSet<string>(newAttachments.Select(x => x.Name).Distinct());
+                    if (column.OverwriteSameFileName == true)
+                    {
+                        newAttachments.AddRange(oldAttachments.
+                            Where((oldvalue) =>
+                                !newGuidSet.Contains(oldvalue.Guid) &&
+                                !newNameSet.Contains(oldvalue.Name)));
+                    }
+                    else
+                    {
+                        newAttachments.AddRange(oldAttachments.
+                            Where((oldvalue) => !newGuidSet.Contains(oldvalue.Guid)));
+                    }
                 }
                 Attachments(columnName: columnName, value: newAttachments);
             });

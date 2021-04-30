@@ -21,11 +21,50 @@
         public decimal? ThumbnailLimitSize;
         public decimal ThumbnailMinSize;
         public decimal ThumbnailMaxSize;
+        public decimal LocalFolderLimitSize;
+        public decimal LocalFolderMinSize;
+        public decimal LocalFolderMaxSize;
+        public decimal LocalFolderLimitTotalSize;
+        public decimal LocalFolderTotalMinSize;
+        public decimal LocalFolderTotalMaxSize;
+        public bool UseStorageSelect;
+        public string DefaultBinaryStorageProvider;
+        public string ImagesProvider;
+        public string SiteImageProvider;
 
+        public string GetProvider(string provider)
+        {
+            return !string.IsNullOrEmpty(provider) ? provider : Provider;
+        }
+
+        public string GetImagesProvider()
+        {
+            return GetProvider(ImagesProvider);
+        }
+
+        public string GetSiteImageProvider()
+        {
+            return GetProvider(SiteImageProvider);
+        }
+
+        public bool IsLocal(string provider)
+        {
+            return (!string.IsNullOrEmpty(provider) ? provider : Provider) == "Local";
+        }
 
         public bool IsLocal()
         {
-            return Provider == "Local";
+            return IsLocal(Provider);
+        }
+
+        public bool IsLocalImages()
+        {
+            return IsLocal(ImagesProvider);
+        }
+
+        public bool IsLocalSiteImage()
+        {
+            return IsLocal(SiteImageProvider);
         }
     }
 }

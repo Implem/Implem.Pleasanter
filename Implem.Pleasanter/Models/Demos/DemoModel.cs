@@ -248,7 +248,6 @@ namespace Implem.Pleasanter.Models
                         setDefault: true,
                         otherInitValue: otherInitValue))
             });
-            statements.AddRange(UpdateAttachmentsStatements(context: context));
             return statements;
         }
 
@@ -320,7 +319,6 @@ namespace Implem.Pleasanter.Models
                 where: where,
                 param: param,
                 otherInitValue: otherInitValue));
-            statements.AddRange(UpdateAttachmentsStatements(context: context));
             if (additionalStatements?.Any() == true)
             {
                 statements.AddRange(additionalStatements);
@@ -349,20 +347,6 @@ namespace Implem.Pleasanter.Models
                     Id = DemoId
                 }
             };
-        }
-
-        private List<SqlStatement> UpdateAttachmentsStatements(Context context)
-        {
-            var statements = new List<SqlStatement>();
-            ColumnNames()
-                .Where(columnName => columnName.StartsWith("Attachments"))
-                .Where(columnName => Attachments_Updated(columnName: columnName))
-                .ForEach(columnName =>
-                    Attachments(columnName: columnName).Write(
-                        context: context,
-                        statements: statements,
-                        referenceId: DemoId));
-            return statements;
         }
 
         public ErrorData UpdateOrCreate(

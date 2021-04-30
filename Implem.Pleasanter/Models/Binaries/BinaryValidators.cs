@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
@@ -160,17 +161,39 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.OverLimitQuantity;
             }
-            if (OverLimitSize(
-                attachments: attachments,
-                limitSize: column.LimitSize))
+            var errorType = OverLimitSize(
+                    attachments: attachments,
+                    column: column);
+            if (errorType != Error.Types.None)
             {
-                return Error.Types.OverLimitSize;
+                return errorType;
             }
-            if (OverTotalLimitSize(
-                attachments: attachments,
-                totalLimitSize: column.TotalLimitSize))
+            switch (BinaryUtilities.BinaryStorageProvider(column))
             {
-                return Error.Types.OverTotalLimitSize;
+                case "LocalFolder":
+                    if (OverTotalLimitSize(
+                        attachments: attachments,
+                        totalLimitSize: column.LocalFolderTotalLimitSize))
+                    {
+                        return Error.Types.OverLocalFolderTotalLimitSize;
+                    }
+                    break;
+                case "AutoDataBaseOrLocalFolder":
+                    if (OverTotalLimitSize(
+                        attachments: attachments,
+                        totalLimitSize: column.TotalLimitSize))
+                    {
+                        return Error.Types.OverTotalLimitSize;
+                    }
+                    break;
+                default:
+                    if (OverTotalLimitSize(
+                        attachments: attachments,
+                        totalLimitSize: column.TotalLimitSize))
+                    {
+                        return Error.Types.OverTotalLimitSize;
+                    }
+                    break;
             }
             if (OverTenantStorageSize(
                 totalFileSize: BinaryUtilities.UsedTenantStorageSize(context: context),
@@ -213,17 +236,32 @@ namespace Implem.Pleasanter.Models
                 {
                     return Error.Types.OverLimitQuantity;
                 }
-                if (OverLimitSize(
-                    attachments: attachments,
-                    limitSize: column.LimitSize))
+                switch (BinaryUtilities.BinaryStorageProvider(column))
                 {
-                    return Error.Types.OverLimitSize;
-                }
-                if (OverTotalLimitSize(
-                    attachments: attachments,
-                    totalLimitSize: column.TotalLimitSize))
-                {
-                    return Error.Types.OverTotalLimitSize;
+                    case "LocalFolder":
+                        if (OverTotalLimitSize(
+                            attachments: attachments,
+                            totalLimitSize: column.LocalFolderTotalLimitSize))
+                        {
+                            return Error.Types.OverLocalFolderTotalLimitSize;
+                        }
+                        break;
+                    case "AutoDataBaseOrLocalFolder":
+                        if(OverTotalLimitSize(
+                            attachments: attachments,
+                            totalLimitSize: column.TotalLimitSize))
+                        {
+                            return Error.Types.OverTotalLimitSize;
+                        }
+                        break;
+                    default:
+                        if (OverTotalLimitSize(
+                            attachments: attachments,
+                            totalLimitSize: column.TotalLimitSize))
+                        {
+                            return Error.Types.OverTotalLimitSize;
+                        }
+                        break;
                 }
                 if (OverTenantStorageSize(
                     totalFileSize: BinaryUtilities.UsedTenantStorageSize(context: context),
@@ -256,27 +294,126 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static bool OverLimitSize(
-            Libraries.DataTypes.Attachments attachments, decimal? limitSize)
+        private static bool OverLimitQuantity(
+            Libraries.DataTypes.Attachments attachments, decimal? limitQuantity, decimal newFileCount = 0)
         {
-            return attachments.Any(o =>
-                o.Added == true
-                && o.Deleted != true
-                && o.Size
-                    > limitSize * 1024 * 1024);
+            return attachments
+                .Where(o => o.Deleted != true)
+                .Count() + newFileCount
+                    > limitQuantity;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static Error.Types OverLimitSize(
+            Libraries.DataTypes.Attachments attachments, Column column)
+        {
+            foreach (var attachment in attachments
+                .Where(o => o.Added == true && o.Deleted != true))
+            {
+                if (BinaryUtilities.BinaryStorageProvider(column, attachment.Size ?? 0) == "LocalFolder")
+                {
+                    if (attachment.Size > column.LocalFolderLimitSize * 1024 * 1024)
+                    {
+                        return Error.Types.OverLocalFolderLimitSize;
+                    }
+                }
+                else
+                {
+                    if (attachment.Size > column.LimitSize * 1024 * 1024)
+                    {
+                        return Error.Types.OverLimitSize;
+                    }
+                }
+            }
+            return Error.Types.None;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static bool OverLimitSize(
+            long length, decimal? limitSize)
+        {
+            return length > limitSize * 1024 * 1024;
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
         private static bool OverTotalLimitSize(
-            Libraries.DataTypes.Attachments attachments, decimal? totalLimitSize)
+            Libraries.DataTypes.Attachments attachments,
+            decimal? totalLimitSize)
         {
             return attachments
                 .Where(o => o.Deleted != true)
                 .Select(o => o.Size)
                 .Sum()
                     > totalLimitSize * 1024 * 1024;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static bool OverTotalLimitSize(
+            Libraries.DataTypes.Attachments attachments,
+            System.Func<Attachment,bool> storageSelector,
+            decimal? totalLimitSize)
+        {
+            return attachments
+                .Where(o => o.Deleted != true)
+                .Where(storageSelector)
+                .Select(o => o.Size)
+                .Sum()
+                    > totalLimitSize * 1024 * 1024;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static bool OverTotalLimitSize(
+            Libraries.DataTypes.Attachments attachments,
+            decimal? totalLimitSize,
+            decimal newFileTotalSize = 0)
+        {
+            return attachments
+                .Where(o => o.Deleted != true)
+                .Select(o => o.Size)
+                .Sum() + newFileTotalSize
+                    > totalLimitSize * 1024 * 1024;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static Error.Types OverTotalLimitSize(
+            Libraries.DataTypes.Attachments attachments, Column column, long rdsLength, long localLength)
+        {
+            long limitSize = (long)(column.LimitSize ?? 0);
+            if (attachments.Where(o => o.Deleted != true)
+                .Select(o => o.Size)
+                .Sum(i => i <= (limitSize * 1024 * 1024) ? i : 0) + rdsLength > column.LimitSize * 1024 * 1024)
+            {
+                return Error.Types.OverTotalLimitSize;
+            }
+            return Error.Types.None;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static Error.Types OverTotalLimitSize(
+            Libraries.DataTypes.Attachments attachments, Column column)
+        {
+            long limitSize = (long)(column.LimitSize ?? 0);
+            if (attachments.Where(o => o.Deleted != true)
+                .Select(o => o.Size)
+                .Sum(i => i <= (limitSize * 1024 * 1024) ? i : 0) > column.TotalLimitSize * 1024 * 1024)
+            {
+                return Error.Types.OverTotalLimitSize;
+            }
+            return Error.Types.None;
         }
 
         /// <summary>

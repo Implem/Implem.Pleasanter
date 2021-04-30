@@ -129,36 +129,47 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        public FileContentResult Download(Context context, string reference, string guid)
+        public FileResult Download(Context context, string reference, string guid)
         {
             var log = new SysLogModel(context: context);
             var file = BinaryUtilities.Donwload(context: context, guid: guid);
-            log.Finish(context: context, responseSize: file?.FileContents.Length ?? 0);
-            return file;
+            log.Finish(context: context, responseSize: file?.FileContents?.Length ?? 0);
+            return file?.IsFileInfo() == true
+                ? (FileResult)new FilePathResult(file?.FileInfo.FullName, file?.ContentType) { FileDownloadName = file?.FileDownloadName }
+                : (FileResult)new FileStreamResult(file?.FileContentsStream, file?.ContentType) { FileDownloadName = file?.FileDownloadName };
         }
 
-        public FileContentResult DownloadTemp(Context context, string reference, string guid)
+        public FileResult DownloadTemp(Context context, string reference, string guid)
         {
             var log = new SysLogModel(context: context);
             var file = BinaryUtilities.DownloadTemp(context: context, guid: guid);
-            log.Finish(context: context, responseSize: file?.FileContents.Length ?? 0);
-            return file;
+            log.Finish(context: context, responseSize: file?.FileContents?.Length ?? 0);
+            return file?.IsFileInfo() == true
+                ? (FileResult)new FilePathResult(file?.FileInfo.FullName, file?.ContentType) { FileDownloadName = file?.FileDownloadName }
+                : (FileResult)new FileStreamResult(file?.FileContentsStream, file?.ContentType) { FileDownloadName = file?.FileDownloadName };
         }
 
         public FileContentResult Show(Context context, string reference, string guid)
         {
             var log = new SysLogModel(context: context);
-            var file = BinaryUtilities.Donwload(context: context, guid: guid);
-            log.Finish(context: context, responseSize: file?.FileContents.Length ?? 0);
-            return file;
+            var file = BinaryUtilities.Donwload(
+                context: context,
+                guid: guid)
+                    ?.FileStream();
+            log.Finish(context: context, responseSize: file?.FileContents?.Length ?? 0);
+            return file != null
+                ? new FileContentResult(file.FileContents, file.ContentType)
+                : null;
         }
 
         public FileContentResult ShowTemp(Context context, string reference, string guid)
         {
             var log = new SysLogModel(context: context);
             var file = BinaryUtilities.DownloadTemp(context: context, guid: guid);
-            log.Finish(context: context, responseSize: file?.FileContents.Length ?? 0);
-            return file;
+            log.Finish(context: context, responseSize: file?.FileContents?.Length ?? 0);
+            return file != null
+                ? new FileContentResult(System.Text.Encoding.UTF8.GetBytes(file.FileContents), file.ContentType)
+                : null;
         }
 
         public string DeleteTemp(Context context, string reference, long id)
