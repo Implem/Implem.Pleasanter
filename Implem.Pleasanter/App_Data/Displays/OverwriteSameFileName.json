@@ -1,0 +1,29 @@
+﻿{
+    "Id": "OverwriteSameFileName",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Overwrite the file with the same name"
+        },
+        {
+            "Language": "zh",
+            "Body": "用相同的名称覆盖文件"
+        },
+        {
+            "Language": "ja",
+            "Body": "同名ファイルを上書きする"
+        },
+        {
+            "Language": "de",
+            "Body": "Überschreiben Sie die gleichnamige Datei"
+        },
+        {
+            "Language": "ko",
+            "Body": "같은 이름으로 파일 덮어 쓰기"
+        },
+        {
+            "Language": "es",
+            "Body": "Sobrescribir el archivo con el mismo nombre"
+        }
+    ]
+}

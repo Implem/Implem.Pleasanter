@@ -685,8 +685,23 @@ namespace Implem.Pleasanter.Models
                 }
                 if (oldAttachments != null)
                 {
+                    var column = ss.GetColumn(
+                        context: context,
+                        columnName: columnName);
                     var newGuidSet = new HashSet<string>(newAttachments.Select(x => x.Guid).Distinct());
-                    newAttachments.AddRange(oldAttachments.Where((oldvalue) => !newGuidSet.Contains(oldvalue.Guid)));
+                    var newNameSet = new HashSet<string>(newAttachments.Select(x => x.Name).Distinct());
+                    if (column.OverwriteSameFileName == true)
+                    {
+                        newAttachments.AddRange(oldAttachments.
+                            Where((oldvalue) =>
+                                !newGuidSet.Contains(oldvalue.Guid) &&
+                                !newNameSet.Contains(oldvalue.Name)));
+                    }
+                    else
+                    {
+                        newAttachments.AddRange(oldAttachments.
+                            Where((oldvalue) => !newGuidSet.Contains(oldvalue.Guid)));
+                    }
                 }
                 Attachments(columnName: columnName, value: newAttachments);
             });

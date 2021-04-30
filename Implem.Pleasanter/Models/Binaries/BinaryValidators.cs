@@ -247,12 +247,11 @@ namespace Implem.Pleasanter.Models
                         }
                         break;
                     case "AutoDataBaseOrLocalFolder":
-                        Error.Types errorTypes = OverTotalLimitSize(
+                        if(OverTotalLimitSize(
                             attachments: attachments,
-                            column: column);
-                        if (errorTypes != Error.Types.None)
+                            totalLimitSize: column.TotalLimitSize))
                         {
-                            return errorTypes;
+                            return Error.Types.OverTotalLimitSize;
                         }
                         break;
                     default:
@@ -305,8 +304,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.OverLimitQuantity;
             }
-            var rdsLength = default(long);
-            var localLength = default(long);
+            var totalLength = default(long);
             foreach (var length in contentRanges.Select(r => r.Length ?? default(long)))
             {
                 if (BinaryUtilities.BinaryStorageProvider(column, length) == "LocalFolder")
@@ -317,7 +315,6 @@ namespace Implem.Pleasanter.Models
                     {
                         return Error.Types.OverLocalFolderLimitSize;
                     }
-                    localLength += length;
                 }
                 else
                 {
@@ -327,8 +324,8 @@ namespace Implem.Pleasanter.Models
                     {
                         return Error.Types.OverLimitSize;
                     }
-                    rdsLength += length;
                 }
+                totalLength += length;
             }
             switch (BinaryUtilities.BinaryStorageProvider(column))
             {
@@ -336,27 +333,25 @@ namespace Implem.Pleasanter.Models
                     if (OverTotalLimitSize(
                         attachments: attachments,
                         totalLimitSize: column.LocalFolderTotalLimitSize,
-                        newFileTotalSize: localLength))
+                        newFileTotalSize: totalLength))
                     {
                         return Error.Types.OverLocalFolderTotalLimitSize;
                     }
                     break;
                 case "AutoDataBaseOrLocalFolder":
-                    Error.Types errorTypes = OverTotalLimitSize(
+                    if(OverTotalLimitSize(
                         attachments: attachments,
-                        column: column,
-                        rdsLength: rdsLength,
-                        localLength: localLength);
-                    if (errorTypes != Error.Types.None)
+                        totalLimitSize: column.TotalLimitSize,
+                        newFileTotalSize: totalLength))
                     {
-                        return errorTypes;
+                        return Error.Types.OverTotalLimitSize;
                     }
                     break;
                 default:
                     if (OverTotalLimitSize(
                         attachments: attachments,
                         totalLimitSize: column.TotalLimitSize,
-                        newFileTotalSize: rdsLength))
+                        newFileTotalSize: totalLength))
                     {
                         return Error.Types.OverTotalLimitSize;
                     }
@@ -364,7 +359,7 @@ namespace Implem.Pleasanter.Models
             }
             if (OverTenantStorageSize(
                 BinaryUtilities.UsedTenantStorageSize(context),
-                rdsLength + localLength,
+                totalLength,
                 context.ContractSettings.StorageSize))
             {
                 return Error.Types.OverTenantStorageSize;

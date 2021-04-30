@@ -75,9 +75,16 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 .Where(o => !o.Guid.IsNullOrEmpty())
                 .ForEach(attachment =>
                 {
-                    if(BinaryUtilities.BinaryStorageProvider(column, (decimal)attachment.Size) == "LocalFolder")
+                    if (attachment.Added == true)
                     {
-                        attachment.WriteToLocal(context: context);
+                        if (BinaryUtilities.BinaryStorageProvider(column, (decimal)attachment.Size) == "LocalFolder")
+                        {
+                            attachment.WriteToLocal(context: context);
+                        }
+                    }
+                    else if(attachment.Deleted == true && !attachment.Overwritten.HasValue)
+                    {
+                        attachment.DeleteFromLocal(context: context);
                     }
                     attachment.SqlStatement(
                         context: context,
