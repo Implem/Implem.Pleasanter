@@ -1643,7 +1643,6 @@
     <Content Include="App_Data\Displays\ViewerSwitchingType.json" />
     <Content Include="App_Data\Displays\WhenloadingSiteSettings.json" />
     <Content Include="App_Data\Displays\WhenViewProcessing.json" />
-    <Content Include="App_Data\Parameters\NavigationMenu.json" />
     <Content Include="App_Data\Parameters\Script.json" />
     <Content Include="App_Data\Parameters\User.json" />
     <Content Include="App_Data\Parameters\NavigationMenus.json" />
