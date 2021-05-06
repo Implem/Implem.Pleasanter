@@ -3,6 +3,7 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Controllers
@@ -180,14 +181,13 @@ namespace Implem.Pleasanter.Controllers
             return json.ToString();
         }
 
-        public object Upload(Context context, long id)
+        public string Upload(Context context, long id, ContentRangeHeaderValue contentRange)
         {
-            
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
-                ? BinaryUtilities.UploadFile(context, id, HttpContext.Request.Files)
-                : ApiResults.Unauthorized(context);
-            log.Finish(context: context, responseSize: result.Content.Length);
+                ? BinaryUtilities.UploadFile(context, id, contentRange)
+                : Messages.ResponseAuthentication(context: context).ToJson();
+            log.Finish(context: context, responseSize: result.Length);
             return result;
         }
     }

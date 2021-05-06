@@ -282,6 +282,94 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static Error.Types OnUploading(
+            Context context,
+            Column column,
+            Libraries.DataTypes.Attachments attachments,
+            IList<PostedFile> files,
+            System.Collections.Generic.IEnumerable<System.Net.Http.Headers.ContentRangeHeaderValue> contentRanges)
+        {
+            if (!context.ContractSettings.Attachments())
+            {
+                return Error.Types.BadRequest;
+            }
+            if (files.Count != contentRanges.Count())
+            {
+                return Error.Types.BadRequest;
+            }
+            if (OverLimitQuantity(
+                attachments: attachments,
+                limitQuantity: column.LimitQuantity,
+                newFileCount: files.Count()))
+            {
+                return Error.Types.OverLimitQuantity;
+            }
+            var totalLength = default(long);
+            foreach (var length in contentRanges.Select(r => r.Length ?? default(long)))
+            {
+                if (BinaryUtilities.BinaryStorageProvider(column, length) == "LocalFolder")
+                {
+                    if (OverLimitSize(
+                        length: length,
+                        limitSize: column.LocalFolderLimitSize))
+                    {
+                        return Error.Types.OverLocalFolderLimitSize;
+                    }
+                }
+                else
+                {
+                    if (OverLimitSize(
+                        length: length,
+                        limitSize: column.LimitSize))
+                    {
+                        return Error.Types.OverLimitSize;
+                    }
+                }
+                totalLength += length;
+            }
+            switch (BinaryUtilities.BinaryStorageProvider(column))
+            {
+                case "LocalFolder":
+                    if (OverTotalLimitSize(
+                        attachments: attachments,
+                        totalLimitSize: column.LocalFolderTotalLimitSize,
+                        newFileTotalSize: totalLength))
+                    {
+                        return Error.Types.OverLocalFolderTotalLimitSize;
+                    }
+                    break;
+                case "AutoDataBaseOrLocalFolder":
+                    if (OverTotalLimitSize(
+                        attachments: attachments,
+                        totalLimitSize: column.TotalLimitSize,
+                        newFileTotalSize: totalLength))
+                    {
+                        return Error.Types.OverTotalLimitSize;
+                    }
+                    break;
+                default:
+                    if (OverTotalLimitSize(
+                        attachments: attachments,
+                        totalLimitSize: column.TotalLimitSize,
+                        newFileTotalSize: totalLength))
+                    {
+                        return Error.Types.OverTotalLimitSize;
+                    }
+                    break;
+            }
+            if (OverTenantStorageSize(
+                BinaryUtilities.UsedTenantStorageSize(context),
+                totalLength,
+                context.ContractSettings.StorageSize))
+            {
+                return Error.Types.OverTenantStorageSize;
+            }
+            return Error.Types.None;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static bool OverLimitQuantity(
             Libraries.DataTypes.Attachments attachments, decimal? limitQuantity)
         {
