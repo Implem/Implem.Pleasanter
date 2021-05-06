@@ -1232,7 +1232,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.DateFilterMonth = column.DateFilterMonth;
                     }
-                    if (column.OverwriteSameFileName == false)
+                    if (column.OverwriteSameFileName == true)
                     {
                         enabled = true;
                         newColumn.OverwriteSameFileName = column.OverwriteSameFileName;

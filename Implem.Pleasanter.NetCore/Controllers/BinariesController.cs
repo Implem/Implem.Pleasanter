@@ -168,7 +168,7 @@ namespace Implem.Pleasanter.NetCore.Controllers
 
         [HttpPost]
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
-        public ContentResult Upload(long id)
+        public ActionResult Upload(long id)
         {
             var files = Request.Form.Files;
             var context = new ContextImplement(files: files.ToList());
@@ -200,10 +200,8 @@ namespace Implem.Pleasanter.NetCore.Controllers
             else
             {
                 var pathResult = file as System.Web.Mvc.FilePathResult;
-                using (var filestream = new System.IO.FileStream(pathResult.FileName, System.IO.FileMode.Open))
-                {
-                    return new FileStreamResult(filestream, pathResult.ContentType) { FileDownloadName = streamResult.FileDownloadName };
-                }
+                var filestream = new System.IO.FileStream(pathResult.FileName, System.IO.FileMode.Open);
+                return new FileStreamResult(filestream, pathResult.ContentType) { FileDownloadName = pathResult.FileDownloadName };
             }
         }
     }

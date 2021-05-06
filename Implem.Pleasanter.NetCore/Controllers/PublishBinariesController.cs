@@ -62,7 +62,7 @@ namespace Implem.Pleasanter.NetCore.Controllers
             {
                 return RedirectToAction("notfound", "errors");
             }
-            return File(file.FileContents, file.ContentType);
+            return File(file.FileContents, file.ContentType, file.FileDownloadName);
         }
 
         private static ActionResult ConvertToFileStreamResult(System.Web.Mvc.FileResult file)

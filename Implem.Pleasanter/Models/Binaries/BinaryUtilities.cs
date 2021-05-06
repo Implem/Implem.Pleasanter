@@ -786,7 +786,6 @@ namespace Implem.Pleasanter.Models
             var fileSizes = context.Forms.Get("fileSizes")?.Deserialize<string[]>();
             var fileTypes = context.Forms.Get("fileTypes")?.Deserialize<string[]>();
             var resultFileNames = new List<KeyValuePair<PostedFile, System.IO.FileInfo>>();
-
             for (int filesIndex = 0; filesIndex < context.PostedFiles.Count; ++filesIndex)
             {
                 var file = context.PostedFiles[filesIndex];
@@ -854,9 +853,7 @@ namespace Implem.Pleasanter.Models
             }
             using (saveFileStream)
             {
-                int b = default(int);
-                while ((b = file.InputStream.ReadByte()) != -1)
-                    saveFileStream.WriteByte((byte)b);
+                file.InputStream.CopyTo(saveFileStream);
                 saveFileStream.Flush();
             }
         }

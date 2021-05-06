@@ -162,7 +162,7 @@ namespace Implem.Pleasanter.NetFramework.Controllers
 
         [HttpPost]
         [OutputCache(Location = OutputCacheLocation.None, NoStore = true)]
-        public object Upload(long id, HttpPostedFileBase[] file)
+        public ActionResult Upload(long id, HttpPostedFileBase[] file)
         {
             var context = new ContextImplement(files: file);
             var controller = new Pleasanter.Controllers.BinariesController();
@@ -174,9 +174,12 @@ namespace Implem.Pleasanter.NetFramework.Controllers
                     long.Parse(matches[1].Value),
                     long.Parse(matches[2].Value))
                 : null;
-
-            var json = controller.Upload(context: context, id: id, contentRange: contentRange);
-            return json.ToString();
+            var content = controller.Upload(context: context, id: id, contentRange: contentRange);
+            return new ContentResult()
+            {
+                Content = content,
+                ContentType = "applicaion/json",
+            };
         }
     }
 }
