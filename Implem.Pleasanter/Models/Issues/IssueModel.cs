@@ -1308,34 +1308,34 @@ namespace Implem.Pleasanter.Models
             };
         }
 
-    private void SetAttachmentsHashCode(Context context, SiteSettings ss)
-    {
-        ColumnNames()
-            .Where(columnName => columnName.StartsWith("Attachments"))
-            .ForEach(columnName =>
-            {
-                Attachments(columnName)
-                    .Where(attachment => attachment.Added == true)
-                    .ForEach(attachment => attachment.SetHashCode(ss.GetColumn(context: context, columnName: columnName)));
-            });
-    }
+        private void SetAttachmentsHashCode(Context context, SiteSettings ss)
+        {
+            ColumnNames()
+                .Where(columnName => columnName.StartsWith("Attachments"))
+                .ForEach(columnName =>
+                {
+                    Attachments(columnName)
+                        .Where(attachment => attachment.Added == true)
+                        .ForEach(attachment => attachment.SetHashCode(ss.GetColumn(context: context, columnName: columnName)));
+                });
+        }
 
-    private List<SqlStatement> UpdateAttachmentsStatements(Context context, SiteSettings ss)
-    {
-        var statements = new List<SqlStatement>();
-        ColumnNames()
-            .Where(columnName => columnName.StartsWith("Attachments"))
-            .Where(columnName => Attachments_Updated(columnName: columnName))
-            .ForEach(columnName =>
-                Attachments(columnName: columnName).Write(
-                    context: context,
-                    statements: statements,
-                    referenceId: IssueId,
-                        column: ss.GetColumn(
-                            context: context,
-                            columnName: columnName)));
-        return statements;
-    }
+        private List<SqlStatement> UpdateAttachmentsStatements(Context context, SiteSettings ss)
+        {
+            var statements = new List<SqlStatement>();
+            ColumnNames()
+                .Where(columnName => columnName.StartsWith("Attachments"))
+                .Where(columnName => Attachments_Updated(columnName: columnName))
+                .ForEach(columnName =>
+                    Attachments(columnName: columnName).Write(
+                        context: context,
+                        statements: statements,
+                        referenceId: IssueId,
+                            column: ss.GetColumn(
+                                context: context,
+                                columnName: columnName)));
+            return statements;
+        }
 
         public void UpdateRelatedRecords(
             Context context,
@@ -1540,21 +1540,21 @@ namespace Implem.Pleasanter.Models
                     factory: context,
                     where: where)
             });
-                ColumnNames()
-                    .Where(columnName => columnName.StartsWith("Attachments"))
-                    .ForEach(columnName =>
-                    {
-                        var attachments = Attachments(columnName: columnName);
-                        attachments.ForEach(attachment =>
-                            attachment.Deleted = true);
-                        attachments.Write(
+            ColumnNames()
+                .Where(columnName => columnName.StartsWith("Attachments"))
+                .ForEach(columnName =>
+                {
+                    var attachments = Attachments(columnName: columnName);
+                    attachments.ForEach(attachment =>
+                        attachment.Deleted = true);
+                    attachments.Write(
+                        context: context,
+                        statements: statements,
+                        referenceId: IssueId,
+                        ss.GetColumn(
                             context: context,
-                            statements: statements,
-                            referenceId: IssueId,
-                            ss.GetColumn(
-                                context: context,
-                                columnName: columnName));
-                    });
+                            columnName: columnName));
+                });
             statements.OnDeletedExtendedSqls(
                 context: context,
                 siteId: SiteId,

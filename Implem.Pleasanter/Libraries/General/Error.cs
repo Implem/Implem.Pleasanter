@@ -356,6 +356,14 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.PermissionNotSelfChange(
                         context: context,
                         data: data);
+                case Types.ReminderErrorContent:
+                    return Messages.ReminderErrorContent(
+                        context: context,
+                        data: data);
+                case Types.ReminderErrorTitle:
+                    return Messages.ReminderErrorTitle(
+                        context: context,
+                        data: data);
                 case Types.RequireMailAddresses:
                     return Messages.RequireMailAddresses(
                         context: context,
