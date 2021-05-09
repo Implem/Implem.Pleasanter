@@ -377,7 +377,9 @@ namespace Implem.Pleasanter.NetFramework.Libraries.Requests
                     FileName = file.FileName.Split(System.IO.Path.DirectorySeparatorChar).Last(),
                     Extension = new HttpPostedFile(file).Extension(),
                     Size = file.ContentLength,
-                    ContentType = file.ContentType
+                    ContentType = file.ContentType,
+                    ContentRange = new System.Net.Http.Headers.ContentRangeHeaderValue(0, file.ContentLength - 1, file.ContentLength),
+                    InputStream = file.InputStream
                 });
             });
         }

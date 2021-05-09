@@ -51,7 +51,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                     Notification.Types.RocketChat.ToInt().ToString(),
                     Displays.RocketChat(context: context));
             }
-
             return notificationType;
         }
 

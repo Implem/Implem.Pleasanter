@@ -961,7 +961,7 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     setIdentity: true),
             });
-            statements.AddRange(UpdateAttachmentsStatements(context: context));
+            statements.AddRange(UpdateAttachmentsStatements(context: context, ss: ss));
             statements.AddRange(PermissionUtilities.InsertStatements(
                 context: context,
                 ss: ss,
@@ -1093,6 +1093,7 @@ namespace Implem.Pleasanter.Models
             bool otherInitValue = false,
             List<SqlStatement> additionalStatements = null)
         {
+            SetAttachmentsHashCode(context: context, ss: ss);
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
             var where = Rds.ResultsWhereDefault(
@@ -1117,7 +1118,7 @@ namespace Implem.Pleasanter.Models
                 where: where,
                 param: param,
                 otherInitValue: otherInitValue));
-            statements.AddRange(UpdateAttachmentsStatements(context: context));
+            statements.AddRange(UpdateAttachmentsStatements(context: context, ss: ss));
             if (permissionChanged)
             {
                 statements.UpdatePermissions(context, ss, ResultId, permissions);
@@ -1152,7 +1153,19 @@ namespace Implem.Pleasanter.Models
             };
         }
 
-        private List<SqlStatement> UpdateAttachmentsStatements(Context context)
+        private void SetAttachmentsHashCode(Context context, SiteSettings ss)
+        {
+            ColumnNames()
+                .Where(columnName => columnName.StartsWith("Attachments"))
+                .ForEach(columnName =>
+                {
+                    Attachments(columnName)
+                        .Where(attachment => attachment.Added == true)
+                        .ForEach(attachment => attachment.SetHashCode(ss.GetColumn(context: context, columnName: columnName)));
+                });
+        }
+
+        private List<SqlStatement> UpdateAttachmentsStatements(Context context, SiteSettings ss)
         {
             var statements = new List<SqlStatement>();
             ColumnNames()
@@ -1162,7 +1175,10 @@ namespace Implem.Pleasanter.Models
                     Attachments(columnName: columnName).Write(
                         context: context,
                         statements: statements,
-                        referenceId: ResultId));
+                        referenceId: ResultId,
+                            column: ss.GetColumn(
+                                context: context,
+                                columnName: columnName)));
             return statements;
         }
 
@@ -1369,6 +1385,21 @@ namespace Implem.Pleasanter.Models
                     factory: context,
                     where: where)
             });
+            ColumnNames()
+                .Where(columnName => columnName.StartsWith("Attachments"))
+                .ForEach(columnName =>
+                {
+                    var attachments = Attachments(columnName: columnName);
+                    attachments.ForEach(attachment =>
+                        attachment.Deleted = true);
+                    attachments.Write(
+                        context: context,
+                        statements: statements,
+                        referenceId: ResultId,
+                        ss.GetColumn(
+                            context: context,
+                            columnName: columnName));
+                });
             statements.OnDeletedExtendedSqls(
                 context: context,
                 siteId: SiteId,
@@ -1782,11 +1813,38 @@ namespace Implem.Pleasanter.Models
             {
                 string columnName = o.Key;
                 Attachments newAttachments = o.Value;
-                Attachments oldAttachments = AttachmentsHash.Get(columnName);
+                Attachments oldAttachments;
+                if (columnName == "Attachments#Uploading")
+                {
+                    var kvp = AttachmentsHash
+                        .FirstOrDefault(x => x.Value
+                            .Any(att => att.Guid == newAttachments.FirstOrDefault()?.Guid));
+                    columnName = kvp.Key;
+                    oldAttachments = kvp.Value;
+                }
+                else
+                {
+                    oldAttachments = AttachmentsHash.Get(columnName);
+                }
                 if (oldAttachments != null)
                 {
+                    var column = ss.GetColumn(
+                        context: context,
+                        columnName: columnName);
                     var newGuidSet = new HashSet<string>(newAttachments.Select(x => x.Guid).Distinct());
-                    newAttachments.AddRange(oldAttachments.Where((oldvalue) => !newGuidSet.Contains(oldvalue.Guid)));
+                    var newNameSet = new HashSet<string>(newAttachments.Select(x => x.Name).Distinct());
+                    if (column.OverwriteSameFileName == true)
+                    {
+                        newAttachments.AddRange(oldAttachments.
+                            Where((oldvalue) =>
+                                !newGuidSet.Contains(oldvalue.Guid) &&
+                                !newNameSet.Contains(oldvalue.Name)));
+                    }
+                    else
+                    {
+                        newAttachments.AddRange(oldAttachments.
+                            Where((oldvalue) => !newGuidSet.Contains(oldvalue.Guid)));
+                    }
                 }
                 Attachments(columnName: columnName, value: newAttachments);
             });

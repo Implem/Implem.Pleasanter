@@ -71,6 +71,8 @@ namespace Implem.Pleasanter.Libraries.General
             PasswordNotChanged,
             PasswordPolicyViolation,
             PermissionNotSelfChange,
+            ReminderErrorContent,
+            ReminderErrorTitle,
             RequireMailAddresses,
             RequireManagePermission,
             RequireTo,
@@ -352,6 +354,14 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.PermissionNotSelfChange:
                     return Messages.PermissionNotSelfChange(
+                        context: context,
+                        data: data);
+                case Types.ReminderErrorContent:
+                    return Messages.ReminderErrorContent(
+                        context: context,
+                        data: data);
+                case Types.ReminderErrorTitle:
+                    return Messages.ReminderErrorTitle(
                         context: context,
                         data: data);
                 case Types.RequireMailAddresses:

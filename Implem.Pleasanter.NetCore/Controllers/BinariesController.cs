@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
+
 namespace Implem.Pleasanter.NetCore.Controllers
 {
     [Authorize]
@@ -115,7 +117,7 @@ namespace Implem.Pleasanter.NetCore.Controllers
             {
                 return RedirectToAction("notfound", "errors");
             }
-            return file.ToFileContentResult();
+            return ConvertToFileStreamResult(file);
         }
 
         [HttpGet]
@@ -128,7 +130,7 @@ namespace Implem.Pleasanter.NetCore.Controllers
             {
                 return RedirectToAction("notfound", "errors");
             }
-            return file.ToFileContentResult();
+            return ConvertToFileStreamResult(file);
         }
 
         [HttpGet]
@@ -162,6 +164,45 @@ namespace Implem.Pleasanter.NetCore.Controllers
             var controller = new Pleasanter.Controllers.BinariesController();
             var json = controller.DeleteTemp(context: context, reference: reference, id: id);
             return json.ToString();
+        }
+
+        [HttpPost]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
+        public ActionResult Upload(long id)
+        {
+            var files = Request.Form.Files;
+            var context = new ContextImplement(files: files.ToList());
+            var controller = new Pleasanter.Controllers.BinariesController();
+            var contentRangeHeader = Request.Headers["Content-Range"];
+            var matches = System.Text.RegularExpressions.Regex.Matches(contentRangeHeader.FirstOrDefault() ?? string.Empty, "\\d+");
+            var contentRange = matches.Count > 0
+                ? new System.Net.Http.Headers.ContentRangeHeaderValue(
+                    long.Parse(matches[0].Value),
+                    long.Parse(matches[1].Value),
+                    long.Parse(matches[2].Value))
+                : null;
+            var content= controller.Upload(context: context, id: id, contentRange: contentRange);
+            return new ContentResult()
+            {
+                Content = content,
+                ContentType = "applicaion/json",
+            };
+            
+        }
+
+        private static ActionResult ConvertToFileStreamResult(System.Web.Mvc.FileResult file)
+        {
+            var streamResult = file as System.Web.Mvc.FileStreamResult;
+            if (streamResult != null)
+            {
+                return new FileStreamResult(streamResult.FileStream, streamResult.ContentType) { FileDownloadName = streamResult.FileDownloadName };
+            }
+            else
+            {
+                var pathResult = file as System.Web.Mvc.FilePathResult;
+                var filestream = new System.IO.FileStream(pathResult.FileName, System.IO.FileMode.Open);
+                return new FileStreamResult(filestream, pathResult.ContentType) { FileDownloadName = pathResult.FileDownloadName };
+            }
         }
     }
 }

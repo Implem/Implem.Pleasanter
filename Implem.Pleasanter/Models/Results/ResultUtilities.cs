@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Web;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Models
@@ -3938,6 +3939,14 @@ namespace Implem.Pleasanter.Models
                         factory: context,
                         where: where),
                     Rds.RowCount(),
+                    Rds.RestoreBinaries(
+                        factory: context,
+                        where: Rds.BinariesWhere()
+                            .ReferenceId(sub: Rds.SelectItems(
+                                tableType: Sqls.TableTypes.Deleted,
+                                column: Rds.ItemsColumn().ReferenceId(),
+                                where: Rds.ItemsWhere().ReferenceType(guid)))
+                            .BinaryType("Images")),
                     Rds.RestoreItems(
                         factory: context,
                         where: Rds.ItemsWhere()

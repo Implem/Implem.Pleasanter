@@ -327,7 +327,7 @@
     </None>
   </ItemGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties bundleconfig_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" bundleconfig_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec IgnoreExitCode="true" Command="xcopy /S /Y ..\Implem.Pleasanter\Views Views&#xD;&#xA;xcopy /S /Y ..\Implem.Pleasanter\wwwroot wwwroot&#xD;&#xA;xcopy /S /Y ..\Implem.Pleasanter\App_Data App_Data" />

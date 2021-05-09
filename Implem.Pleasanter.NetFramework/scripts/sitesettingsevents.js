@@ -6,6 +6,15 @@
         var visibility = $(this).val() === 'Spinner';
         $('#StepField').toggle(visibility);
     });
+    $(document).on('change', '#BinaryStorageProvider', function () {
+        var visibilityL = $(this).val() !== 'LocalFolder';
+        $('#LimitSizeField').toggle(visibilityL);
+        $('#LimitTotalSizeField').toggle(visibilityL);
+        var visibilityD = $(this).val() !== 'DataBase';
+        $('#LocalFolderLimitSizeField').toggle(visibilityD);
+        var visibilityA = $(this).val() === 'LocalFolder';
+        $('#LocalFolderLimitTotalSizeField').toggle(visibilityA);
+    });
     $(document).on('change', '#FormatSelector', function () {
         var $control = $(this);
         switch ($control.val()) {

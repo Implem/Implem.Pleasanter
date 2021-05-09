@@ -1,7 +1,8 @@
 {
   "profiles": {
     "Implem.CodeDefiner": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": "_rds"
     }
   }
 }

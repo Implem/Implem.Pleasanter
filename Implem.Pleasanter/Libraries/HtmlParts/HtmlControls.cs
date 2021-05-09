@@ -867,7 +867,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     context: context,
                                     controlId: controlId,
                                     guid: item.Guid,
-                                    css: item.Added == true
+                                    css: (item.Added == true && item.Deleted == false)
                                         ? string.Empty
                                         : item.Deleted == true
                                             ? "already-attachments preparation-delete "
