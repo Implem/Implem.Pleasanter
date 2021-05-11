@@ -21,7 +21,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Net.Http.Headers;
 using System.Web;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Models
@@ -731,7 +730,7 @@ namespace Implem.Pleasanter.Models
         public static string UploadFile(
             Context context,
             long id,
-            ContentRangeHeaderValue contentRange )
+            System.Net.Http.Headers.ContentRangeHeaderValue contentRange )
         {
             var itemModel = new ItemModel(context, id);
             var ss = itemModel.GetSite(context, initSiteSettings: true).SiteSettings;
