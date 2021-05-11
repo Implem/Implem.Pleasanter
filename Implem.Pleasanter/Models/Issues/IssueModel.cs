@@ -1540,21 +1540,24 @@ namespace Implem.Pleasanter.Models
                     factory: context,
                     where: where)
             });
-            ColumnNames()
-                .Where(columnName => columnName.StartsWith("Attachments"))
-                .ForEach(columnName =>
-                {
-                    var attachments = Attachments(columnName: columnName);
-                    attachments.ForEach(attachment =>
-                        attachment.Deleted = true);
-                    attachments.Write(
-                        context: context,
-                        statements: statements,
-                        referenceId: IssueId,
-                        ss.GetColumn(
+            if (Parameters.BinaryStorage.RestoreLocalFiles == false)
+            {
+                ColumnNames()
+                    .Where(columnName => columnName.StartsWith("Attachments"))
+                    .ForEach(columnName =>
+                    {
+                        var attachments = Attachments(columnName: columnName);
+                        attachments.ForEach(attachment =>
+                            attachment.Deleted = true);
+                        attachments.Write(
                             context: context,
-                            columnName: columnName));
-                });
+                            statements: statements,
+                            referenceId: IssueId,
+                            ss.GetColumn(
+                                context: context,
+                                columnName: columnName));
+                    });
+            }
             statements.OnDeletedExtendedSqls(
                 context: context,
                 siteId: SiteId,
