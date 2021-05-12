@@ -5315,8 +5315,7 @@ namespace Implem.Pleasanter.Models
                                                 .FieldCheckBox(
                                                     controlId: "OverwriteSameFileName",
                                                     labelText: Displays.OverwriteSameFileName(context: context),
-                                                    _checked: column.OverwriteSameFileName == true,
-                                                    _using: false)
+                                                    _checked: column.OverwriteSameFileName == true)
                                                 .FieldSpinner(
                                                     controlId: "LimitQuantity",
                                                     labelText: Displays.LimitQuantity(context: context),
