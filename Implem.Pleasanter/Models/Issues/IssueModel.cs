@@ -2025,9 +2025,23 @@ namespace Implem.Pleasanter.Models
                 {
                     var kvp = AttachmentsHash
                         .FirstOrDefault(x => x.Value
-                            .Any(att => att.Guid == newAttachments.FirstOrDefault()?.Guid));
+                            .Any(att => att.Guid == newAttachments.FirstOrDefault()?.Guid?.Split_1st()));
                     columnName = kvp.Key;
                     oldAttachments = kvp.Value;
+                    var column = ss.GetColumn(
+                        context: context,
+                        columnName: columnName);
+                    if (column.OverwriteSameFileName == true)
+                    {
+                        var oldAtt = oldAttachments
+                            .FirstOrDefault(att => att.Guid == newAttachments.FirstOrDefault()?.Guid?.Split_1st());
+                        if(oldAtt != null)
+                        {
+                            oldAtt.Deleted = true;
+                            oldAtt.Overwritten = true;
+                        }
+                    }
+                    newAttachments.ForEach(att => att.Guid = att.Guid.Split_2nd());
                 }
                 else
                 {
