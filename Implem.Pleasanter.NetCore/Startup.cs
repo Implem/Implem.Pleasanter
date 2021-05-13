@@ -87,6 +87,13 @@ namespace Implem.Pleasanter.NetCore
                     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie(o => o.LoginPath = new PathString("/users/login"));
             }
+            if (Parameters.Security.SecureCookies)
+            {
+                services.Configure<CookiePolicyOptions>(options =>
+                {
+                    options.Secure = CookieSecurePolicy.Always;
+                });
+            }
             var extensionDirectory = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "ExtendedLibraries");
             if (Directory.Exists(extensionDirectory))
             {
@@ -148,6 +155,7 @@ namespace Implem.Pleasanter.NetCore
             });
             app.UsePathBase(configuration["pathBase"]);
             app.UseStaticFiles();
+            app.UseCookiePolicy();
             app.UseRouting();
             app.UseCors();
             app.UseSession();
