@@ -1,0 +1,55 @@
+﻿{
+    "TestParts": [
+        {
+            "ElementId": "SettingsMenuContainer",
+            "Action": "Hover"
+        },
+        {
+            "ElementId": "SettingsMenu_SiteSettings",
+            "Action": "Click"
+        },
+        {
+            "ElementLinkText": "エディタ",
+            "Action": "Click"
+        },
+        {
+            "ElementCss": "#EditorColumns li[data-value=\"Title\"]",
+            "Action": "Click"
+        },
+        {
+            "ElementId": "OpenEditorColumnDialog",
+            "Action": "Click"
+        },
+        {
+            "ElementId": "LabelText",
+            "Value": "件名"
+        },
+        {
+            "ElementId": "SetEditorColumn",
+            "Action": "Click"
+        },
+        {
+            "ElementId": "UpdateCommand",
+            "Action": "Click"
+        },
+        {
+            "ElementId": "GoBack",
+            "Action": "Click"
+        },
+        {
+            "TestPartId": "IssueRecord1",
+            "Action": "Click",
+            "Results": [
+                {
+                    "ElementCss": "#Issues_TitleField label",
+                    "ExpectedValue": "件名",
+                    "Description": "表示名が変更されていること。"
+                }
+            ]
+        },
+        {
+            "ElementId": "GoBack",
+            "Action": "Click"
+        }
+    ]
+}

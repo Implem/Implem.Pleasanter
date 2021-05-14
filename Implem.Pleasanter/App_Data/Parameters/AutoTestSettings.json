@@ -1,8 +1,9 @@
 ﻿{
+    "Url": "http://localhost:1759/",
     "BrowserType": "Chrome",
     "Width": 1500,
     "Height": 1000,
-    "ScreenShot": "False",
+    "ScreenShot": false,
     "ScreenShotPath": "ScreenShot",
     "ResultsPath": "Results"
 }

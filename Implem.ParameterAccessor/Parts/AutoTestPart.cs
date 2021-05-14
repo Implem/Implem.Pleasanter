@@ -4,20 +4,22 @@ namespace Implem.ParameterAccessor.Parts
     public class TestPart
     {
         public string TestPartId;
-        public string TargetElementId;
-        public string TargetElementXpath;
-        public string TargetElementLinkText;
-        public string TargetUrl;
-        public ActionType Action;
+        public string ElementId;
+        public string ElementXpath;
+        public string ElementCss;
+        public string ElementLinkText;
+        public string Url;
+        public ActionTypes Action;
         public string Value;
         public List<ResultCheck> Results;
         public List<TestInput> Inputs;
         public string CreatedTabeId;
         public string TargetTestPartId;
         public string PartDescription;
+        public int? WaitTime;
     }
 
-    public enum ActionType
+    public enum ActionTypes
     {
         Input,
         Inputs,
@@ -33,6 +35,7 @@ namespace Implem.ParameterAccessor.Parts
         AlertAccept,
         AlertDismiss,
         ResultCheck,
-        GoToUrl
+        GoToUrl,
+        UploadFile
     }
 }

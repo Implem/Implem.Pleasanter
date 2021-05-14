@@ -2,17 +2,17 @@
     "TestParts":
     [
         {
-            "TargetElementId": "Users_LoginId",
+            "ElementId": "Users_LoginId",
             "Action": "Input",
             "Value": "Administrator"
         },
         {
-            "TargetElementId": "Users_Password",
+            "ElementId": "Users_Password",
             "Action": "Input",
             "Value": "password"
         },
         {
-            "TargetElementId": "Login",
+            "ElementId": "Login",
             "Action": "Click"
         }
     ]

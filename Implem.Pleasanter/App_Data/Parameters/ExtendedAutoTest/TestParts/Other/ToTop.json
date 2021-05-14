@@ -2,7 +2,7 @@
     "TestParts":
     [
         {
-            "TargetElementId": "CorpLogo",
+            "ElementId": "CorpLogo",
             "Action": "Click"
         }
     ]

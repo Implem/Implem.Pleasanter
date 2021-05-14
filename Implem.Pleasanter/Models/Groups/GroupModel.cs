@@ -666,7 +666,12 @@ namespace Implem.Pleasanter.Models
                 value: o.Value));
             data.NumHash?.ForEach(o => Num(
                 columnName: o.Key,
-                value: new Num(o.Value)));
+                value: new Num(
+                    context: context,
+                    column: ss.GetColumn(
+                        context: context,
+                        columnName: o.Key),
+                    value: o.Value.ToString())));
             data.DateHash?.ForEach(o => Date(
                 columnName: o.Key,
                 value: o.Value.ToDateTime().ToUniversal(context: context)));
@@ -685,9 +690,23 @@ namespace Implem.Pleasanter.Models
                 {
                     var kvp = AttachmentsHash
                         .FirstOrDefault(x => x.Value
-                            .Any(att => att.Guid == newAttachments.FirstOrDefault()?.Guid));
+                            .Any(att => att.Guid == newAttachments.FirstOrDefault()?.Guid?.Split_1st()));
                     columnName = kvp.Key;
                     oldAttachments = kvp.Value;
+                    var column = ss.GetColumn(
+                        context: context,
+                        columnName: columnName);
+                    if (column.OverwriteSameFileName == true)
+                    {
+                        var oldAtt = oldAttachments
+                            .FirstOrDefault(att => att.Guid == newAttachments.FirstOrDefault()?.Guid?.Split_1st());
+                        if(oldAtt != null)
+                        {
+                            oldAtt.Deleted = true;
+                            oldAtt.Overwritten = true;
+                        }
+                    }
+                    newAttachments.ForEach(att => att.Guid = att.Guid.Split_2nd());
                 }
                 else
                 {

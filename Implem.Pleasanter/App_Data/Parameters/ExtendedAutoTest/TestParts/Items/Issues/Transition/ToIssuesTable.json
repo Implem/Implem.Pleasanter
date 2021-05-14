@@ -2,7 +2,7 @@
     "TestParts":
     [
         {
-            "TargetElementLinkText": "テスト用期限付きテーブル",
+            "ElementLinkText": "テスト用期限付きテーブル",
             "Action": "Click",
             "PartDescription": "作成したテーブルへ遷移する"
         }

@@ -2,18 +2,23 @@
 {
     public class ResultCheck
     {
-        public string ResultElementId;
-        public string ResultElementXpath;
-        public string ResultElementLinkText;
-        public string ResultItemId;       
-        public string ResultExpectedValue;
-        public string ResultDescription;
-        public CheckType ResultCheckType;
+        public string ElementId;
+        public string ElementXpath;
+        public string ElementCss;
+        public string ElementLinkText;
+        public string ItemId;       
+        public string ExpectedValue;
+        public string Description;
+        public CheckTypes CheckType;
     }
 
-    public enum CheckType
+    public enum CheckTypes
     {
         Default,
-        Regex
+        Regex,
+        ExistanceTrue,
+        ExistanceFalse,
+        HasClass,
+        SelectOptions
     }
 }

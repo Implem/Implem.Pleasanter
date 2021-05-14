@@ -160,14 +160,14 @@
                 "MenuId": "HelpMenu_AnnualSupportService",
                 "Name": "AnnualSupportService",
                 "Icon": "ui-icon ui-icon-clipboard",
-                "Url": "https://implem.co.jp/enterprise-edition/",
+                "Url": "https://pleasanter.org/support#plan",
                 "Target": "_blank"
             },
             {
                 "MenuId": "HelpMenu_EnterpriseEdition",
                 "Name": "EnterpriseEdition",
                 "Icon": "ui-icon ui-icon-lightbulb",
-                "Url": "https://pleasanter.org/manual",
+                "Url": "https://pleasanter.org/support",
                 "Target": "_blank"
             },
             {
