@@ -31,6 +31,9 @@ $p.clear = function ($control) {
 }
 
 $p.outsideDialog = function ($control) {
+    if (!$control.attr('accesskey')) {
+        return false;
+    }
     var dialogs = $('.ui-dialog:visible').map(function (i, e) {
         return $('#' + e.getAttribute('aria-describedby'));
     });
