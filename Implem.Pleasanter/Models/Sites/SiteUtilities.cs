@@ -2788,7 +2788,7 @@ namespace Implem.Pleasanter.Models
                                             href: "#ServerScriptsSettingsEditor",
                                             text: Displays.ServerScript(context: context)),
                                     _using: context.ContractSettings.NewFeatures()
-                                        && context.ContractSettings.Script != false
+                                        && context.ContractSettings.ServerScript != false
                                         && Parameters.Script.ServerScript != false)
                                 .Li(
                                     action: () => hb
@@ -3730,7 +3730,7 @@ namespace Implem.Pleasanter.Models
                         .Class("dialog")
                         .Title(Displays.ServerScript(context: context)),
                     _using: context.ContractSettings.NewFeatures()
-                        && context.ContractSettings.Script != false
+                        && context.ContractSettings.ServerScript != false
                         && Parameters.Script.ServerScript != false)
                 .Div(
                     attributes: new HtmlAttributes()
@@ -9551,7 +9551,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             if (!context.ContractSettings.NewFeatures()
-                || context.ContractSettings.Script == false
+                || context.ContractSettings.ServerScript == false
                 || Parameters.Script.ServerScript == false) return hb;
             return hb.FieldSet(id: "ServerScriptsSettingsEditor", action: () => hb
                 .Div(css: "command-left", action: () => hb
