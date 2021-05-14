@@ -49,7 +49,7 @@ namespace Implem.Pleasanter.NetCore.Controllers
             {
                 return RedirectToAction("notfound", "errors");
             }
-            return file.ToFileContentResult();
+            return ConvertToFileStreamResult(file);
         }
 
         [HttpGet]
@@ -62,7 +62,24 @@ namespace Implem.Pleasanter.NetCore.Controllers
             {
                 return RedirectToAction("notfound", "errors");
             }
-            return File(file.FileContents, file.ContentType);
+            return File(file.FileContents, file.ContentType, file.FileDownloadName);
+        }
+
+        private static ActionResult ConvertToFileStreamResult(System.Web.Mvc.FileResult file)
+        {
+            var streamResult = file as System.Web.Mvc.FileStreamResult;
+            if (streamResult != null)
+            {
+                return new FileStreamResult(streamResult.FileStream, streamResult.ContentType) { FileDownloadName = streamResult.FileDownloadName };
+            }
+            else
+            {
+                var pathResult = file as System.Web.Mvc.FilePathResult;
+                using (var filestream = new System.IO.FileStream(pathResult.FileName, System.IO.FileMode.Open))
+                {
+                    return new FileStreamResult(filestream, pathResult.ContentType) { FileDownloadName = streamResult.FileDownloadName };
+                }
+            }
         }
     }
 }

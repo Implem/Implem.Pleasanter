@@ -4739,6 +4739,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string NewSet(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "NewSet",
+                data: data);
+        }
+
         public static string NewStyle(
             Context context,
             params string[] data)
@@ -4906,6 +4916,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "NotMatchRegex",
+                data: data);
+        }
+
+        public static string NotMemoryViewMode(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "NotMemoryViewMode",
                 data: data);
         }
 
@@ -5336,6 +5356,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "OverTotalLimitSize",
+                data: data);
+        }
+
+        public static string OverwriteSameFileName(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "OverwriteSameFileName",
                 data: data);
         }
 
@@ -5796,6 +5826,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Reload",
+                data: data);
+        }
+
+        public static string ReminderErrorContent(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ReminderErrorContent",
+                data: data);
+        }
+
+        public static string ReminderErrorTitle(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ReminderErrorTitle",
                 data: data);
         }
 

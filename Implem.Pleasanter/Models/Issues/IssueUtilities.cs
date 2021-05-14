@@ -4138,6 +4138,14 @@ namespace Implem.Pleasanter.Models
                         factory: context,
                         where: where),
                     Rds.RowCount(),
+                    Rds.RestoreBinaries(
+                        factory: context,
+                        where: Rds.BinariesWhere()
+                            .ReferenceId(sub: Rds.SelectItems(
+                                tableType: Sqls.TableTypes.Deleted,
+                                column: Rds.ItemsColumn().ReferenceId(),
+                                where: Rds.ItemsWhere().ReferenceType(guid)))
+                            .BinaryType("Images")),
                     Rds.RestoreItems(
                         factory: context,
                         where: Rds.ItemsWhere()

@@ -159,5 +159,27 @@ namespace Implem.Pleasanter.NetFramework.Controllers
             var json = controller.DeleteTemp(context: context, reference: reference, id: id);
             return json.ToString();
         }
+
+        [HttpPost]
+        [OutputCache(Location = OutputCacheLocation.None, NoStore = true)]
+        public ActionResult Upload(long id, HttpPostedFileBase[] file)
+        {
+            var context = new ContextImplement(files: file);
+            var controller = new Pleasanter.Controllers.BinariesController();
+            var contentRangeHeader = Request.Headers["Content-Range"];
+            var matches = System.Text.RegularExpressions.Regex.Matches(contentRangeHeader ?? string.Empty, "\\d+");
+            var contentRange = matches.Count > 0
+                ? new System.Net.Http.Headers.ContentRangeHeaderValue(
+                    long.Parse(matches[0].Value),
+                    long.Parse(matches[1].Value),
+                    long.Parse(matches[2].Value))
+                : null;
+            var content = controller.Upload(context: context, id: id, contentRange: contentRange);
+            return new ContentResult()
+            {
+                Content = content,
+                ContentType = "applicaion/json",
+            };
+        }
     }
 }

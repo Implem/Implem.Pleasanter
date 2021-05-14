@@ -112,10 +112,14 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? DateFilterHalf;
         public bool? DateFilterQuarter;
         public bool? DateFilterMonth;
+        public bool? OverwriteSameFileName;
         public decimal? LimitQuantity;
         public decimal? LimitSize;
         public decimal? TotalLimitSize;
         public decimal? ThumbnailLimitSize;
+        public decimal? LocalFolderLimitSize;
+        public decimal? LocalFolderTotalLimitSize;
+        public int? DateTimeStep;
         [NonSerialized]
         public int? No;
         [NonSerialized]
@@ -214,6 +218,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ControlDateTime;
         // compatibility Version 1.005
         public string ControlFormat;
+        public string BinaryStorageProvider;
+        public bool? AddSource;
 
         public bool HasChoices()
         {
@@ -601,6 +607,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 hash.Add(blank, new ControlData(string.Empty));
             }
+            if (LinkedWithNewSet())
+            {
+                AddSource = true;
+            }
             var selected = view?
                 .ColumnFilter(ColumnName)?
                 .Deserialize<List<string>>()?
@@ -766,22 +776,16 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             try
             {
-                var ret = (!Format.IsNullOrEmpty() && format
+                return (!Format.IsNullOrEmpty() && format
                     ? value.ToDecimal().ToString(
                         Format + (Format == "C" || Format == "N"
                             ? DecimalPlaces.ToString()
-                            : string.Empty))
+                            : string.Empty),
+                        context.CultureInfo())
                     : DecimalPlaces.ToInt() == 0
                         ? value.ToDecimal().ToString("0", "0")
                         : DisplayValue(value.ToDecimal()))
                             + (unit ? Unit : string.Empty);
-                switch (context.Language)
-                {
-                    case "ja":
-                        return ret.Replace("￥", "¥");
-                    default:
-                        return ret;
-                }
             }
             catch (FormatException)
             {
@@ -1032,6 +1036,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Any(o => o.ColumnName == Name
                     && (!withoutWiki
                         || SiteSettings?.JoinedSsHash?.Keys.Contains(o.SiteId) == true)) == true;
+        }
+
+        public bool LinkedWithNewSet()
+        {
+            return SiteSettings?.Links?.Any(o => o.ColumnName == Name && o.AddSource == true) == true;
         }
 
         public string ConvertIfUserColumn(DataRow dataRow)

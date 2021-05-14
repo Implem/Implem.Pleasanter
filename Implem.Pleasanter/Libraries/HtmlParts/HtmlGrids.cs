@@ -75,9 +75,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             .DataMethod("post"),
                                         action: () => hb
                                             .Span(action: () => hb
-                                                .Text(text: Displays.Get(
-                                                    context: context,
-                                                    id: column.GridLabelText)))
+                                                .Text(text: column.GridLabelText))
                                             .SortIcon(
                                                 view: view,
                                                 key: column.ColumnName)));
@@ -87,9 +85,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             hb.Th(
                                 css: column.CellCss(),
                                 action: () => hb
-                                    .Text(text: Displays.Get(
-                                        context: context,
-                                        id: column.GridLabelText)));
+                                    .Text(text: column.GridLabelText));
                         }
                     });
                 });

@@ -7,6 +7,7 @@
     "PasswordExpirationPeriod": 0,
     "JoeAccountCheck": true,
     "TokenCheck": false,
+    "SecureCookies": false,
     "PasswordPolicies": [
         {
             "Enabled": true,

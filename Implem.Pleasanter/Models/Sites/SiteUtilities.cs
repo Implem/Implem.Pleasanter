@@ -2788,7 +2788,7 @@ namespace Implem.Pleasanter.Models
                                             href: "#ServerScriptsSettingsEditor",
                                             text: Displays.ServerScript(context: context)),
                                     _using: context.ContractSettings.NewFeatures()
-                                        && context.ContractSettings.Script != false
+                                        && context.ContractSettings.ServerScript != false
                                         && Parameters.Script.ServerScript != false)
                                 .Li(
                                     action: () => hb
@@ -3730,7 +3730,7 @@ namespace Implem.Pleasanter.Models
                         .Class("dialog")
                         .Title(Displays.ServerScript(context: context)),
                     _using: context.ContractSettings.NewFeatures()
-                        && context.ContractSettings.Script != false
+                        && context.ContractSettings.ServerScript != false
                         && Parameters.Script.ServerScript != false)
                 .Div(
                     attributes: new HtmlAttributes()
@@ -5302,7 +5302,20 @@ namespace Implem.Pleasanter.Models
                                     switch (column.ControlType)
                                     {
                                         case "Attachments":
+                                            var hiddenLocalFolder = column.BinaryStorageProvider == "DataBase"
+                                                ? " hidden"
+                                                : string.Empty;
+                                            var hiddenDataBase = column.BinaryStorageProvider == "LocalFolder"
+                                                ? " hidden"
+                                                : string.Empty;
+                                            var hiddenLocalFolderTotalSize = column.BinaryStorageProvider != "LocalFolder"
+                                                ? " hidden"
+                                                : string.Empty;
                                             hb
+                                                .FieldCheckBox(
+                                                    controlId: "OverwriteSameFileName",
+                                                    labelText: Displays.OverwriteSameFileName(context: context),
+                                                    _checked: column.OverwriteSameFileName == true)
                                                 .FieldSpinner(
                                                     controlId: "LimitQuantity",
                                                     labelText: Displays.LimitQuantity(context: context),
@@ -5311,7 +5324,21 @@ namespace Implem.Pleasanter.Models
                                                     max: Parameters.BinaryStorage.MaxQuantity,
                                                     step: column.Step.ToInt(),
                                                     width: 50)
+                                                .FieldDropDown(
+                                                    context: context,
+                                                    controlId: "BinaryStorageProvider",
+                                                    labelText: Displays.BinaryStorageProvider(context),
+                                                    optionCollection: new Dictionary<string, string>
+                                                    {
+                                                        { "DataBase", Displays.Database(context) },
+                                                        { "LocalFolder", Displays.LocalFolder(context) },
+                                                        { "AutoDataBaseOrLocalFolder", Displays.AutoDataBaseOrLocalFolder(context) }
+                                                    },
+                                                    selectedValue: column.BinaryStorageProvider,
+                                                    _using: Parameters.BinaryStorage.UseStorageSelect)
                                                 .FieldSpinner(
+                                                    fieldId: "LimitSizeField",
+                                                    fieldCss: hiddenDataBase,
                                                     controlId: "LimitSize",
                                                     labelText: Displays.LimitSize(context: context),
                                                     value: column.LimitSize,
@@ -5320,11 +5347,37 @@ namespace Implem.Pleasanter.Models
                                                     step: column.Step.ToInt(),
                                                     width: 50)
                                                 .FieldSpinner(
+                                                    fieldId: "LimitTotalSizeField",
+                                                    fieldCss: hiddenDataBase,
                                                     controlId: "LimitTotalSize",
                                                     labelText: Displays.LimitTotalSize(context: context),
                                                     value: column.TotalLimitSize,
                                                     min: Parameters.BinaryStorage.TotalMinSize,
                                                     max: Parameters.BinaryStorage.TotalMaxSize,
+                                                    step: column.Step.ToInt(),
+                                                    width: 50)
+                                                .FieldSpinner(
+                                                    fieldId: "LocalFolderLimitSizeField",
+                                                    fieldCss: hiddenLocalFolder,
+                                                    controlId: "LocalFolderLimitSize",
+                                                    labelText: Displays.LocalFolder(context) +
+                                                    Displays.LimitSize(context),
+                                                    labelCss: "field-label-multiline",
+                                                    value: column.LocalFolderLimitSize,
+                                                    min: Parameters.BinaryStorage.LocalFolderMinSize,
+                                                    max: Parameters.BinaryStorage.LocalFolderMaxSize,
+                                                    step: column.Step.ToInt(),
+                                                    width: 50)
+                                                .FieldSpinner(
+                                                    fieldId: "LocalFolderLimitTotalSizeField",
+                                                    fieldCss: hiddenLocalFolderTotalSize,
+                                                    controlId: "LocalFolderLimitTotalSize",
+                                                    labelText: Displays.LocalFolder(context) +
+                                                    Displays.LimitTotalSize(context),
+                                                    labelCss: "field-label-multiline",
+                                                    value: column.LocalFolderTotalLimitSize,
+                                                    min: Parameters.BinaryStorage.LocalFolderTotalMinSize,
+                                                    max: Parameters.BinaryStorage.LocalFolderTotalMaxSize,
                                                     step: column.Step.ToInt(),
                                                     width: 50);
                                             break;
@@ -9498,7 +9551,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             if (!context.ContractSettings.NewFeatures()
-                || context.ContractSettings.Script == false
+                || context.ContractSettings.ServerScript == false
                 || Parameters.Script.ServerScript == false) return hb;
             return hb.FieldSet(id: "ServerScriptsSettingsEditor", action: () => hb
                 .Div(css: "command-left", action: () => hb

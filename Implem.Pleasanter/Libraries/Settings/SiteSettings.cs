@@ -1232,6 +1232,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.DateFilterMonth = column.DateFilterMonth;
                     }
+                    if (column.OverwriteSameFileName == true)
+                    {
+                        enabled = true;
+                        newColumn.OverwriteSameFileName = column.OverwriteSameFileName;
+                    }
                     if (column.LimitQuantity != Parameters.BinaryStorage.LimitQuantity)
                     {
                         enabled = true;
@@ -1246,6 +1251,23 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         enabled = true;
                         newColumn.TotalLimitSize = column.TotalLimitSize;
+                    }
+                    if (column.LocalFolderLimitSize != Parameters.BinaryStorage.LocalFolderLimitSize)
+                    {
+                        enabled = true;
+                        newColumn.LocalFolderLimitSize = column.LocalFolderLimitSize;
+                    }
+                    if (column.LocalFolderTotalLimitSize != Parameters.BinaryStorage.LocalFolderLimitTotalSize)
+                    {
+                        enabled = true;
+                        newColumn.LocalFolderTotalLimitSize = column.LocalFolderTotalLimitSize;
+                    }
+                    if (column.ControlType == "Attachments"
+                        && !string.IsNullOrEmpty(column.BinaryStorageProvider)
+                        && column.BinaryStorageProvider != Parameters.BinaryStorage.DefaultBinaryStorageProvider)
+                    {
+                        enabled = true;
+                        newColumn.BinaryStorageProvider = column.BinaryStorageProvider;
                     }
                     if (column.ThumbnailLimitSize != null
                         && column.ThumbnailLimitSize != Parameters.BinaryStorage.ThumbnailLimitSize
@@ -1456,16 +1478,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.ColumnName = column.ColumnName ?? columnDefinition.ColumnName;
                 column.LabelText = ModifiedLabelText(
                     context: context,
-                    column: column,
-                    columnDefinition: columnDefinition)
+                    column: column)
                         ?? column.LabelText
                         ?? Displays.Get(
                             context: context,
                             id: columnDefinition.Id);
                 column.GridLabelText = ModifiedLabelText(
                     context: context,
-                    column: column,
-                    columnDefinition: columnDefinition)
+                    column: column)
                         ?? column.GridLabelText
                         ?? column.LabelText;
                 column.ChoicesText = column.ChoicesText ?? columnDefinition.ChoicesText;
@@ -1517,9 +1537,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.DateFilterHalf = column.DateFilterHalf ?? true;
                 column.DateFilterQuarter = column.DateFilterQuarter ?? true;
                 column.DateFilterMonth = column.DateFilterMonth ?? true;
+                column.OverwriteSameFileName = column.OverwriteSameFileName ?? false;
                 column.LimitQuantity = column.LimitQuantity ?? Parameters.BinaryStorage.LimitQuantity;
                 column.LimitSize = column.LimitSize ?? Parameters.BinaryStorage.LimitSize;
                 column.TotalLimitSize = column.TotalLimitSize ?? Parameters.BinaryStorage.LimitTotalSize;
+                column.LocalFolderLimitSize = column.LocalFolderLimitSize ?? Parameters.BinaryStorage.LocalFolderLimitSize;
+                column.LocalFolderTotalLimitSize = column.LocalFolderTotalLimitSize ?? Parameters.BinaryStorage.LocalFolderLimitTotalSize;
                 column.Size = columnDefinition.Size;
                 column.Required = columnDefinition.Required;
                 column.RecordedTime = columnDefinition.Default == "now";
@@ -1558,12 +1581,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.SiteId = columnNameInfo.Joined
                     ? columnNameInfo.SiteId
                     : SiteId;
+                column.BinaryStorageProvider = column.BinaryStorageProvider ?? Parameters.BinaryStorage.DefaultBinaryStorageProvider;
                 column.Joined = columnNameInfo.Joined;
             }
         }
 
-        private string ModifiedLabelText(
-            Context context, Column column, ColumnDefinition columnDefinition)
+        private string ModifiedLabelText(Context context, Column column)
         {
             switch (TableType)
             {
@@ -3132,10 +3155,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "DateFilterHalf": column.DateFilterHalf = value.ToBool(); break;
                 case "DateFilterQuarter": column.DateFilterQuarter = value.ToBool(); break;
                 case "DateFilterMonth": column.DateFilterMonth = value.ToBool(); break;
+                case "OverwriteSameFileName": column.OverwriteSameFileName = value.ToBool(); break;
                 case "LimitQuantity": column.LimitQuantity = value.ToDecimal(); break;
                 case "LimitSize": column.LimitSize = value.ToDecimal(); break;
                 case "LimitTotalSize": column.TotalLimitSize = value.ToDecimal(); break;
                 case "TitleSeparator": TitleSeparator = value; break;
+                case "BinaryStorageProvider": column.BinaryStorageProvider = value; break;
+                case "LocalFolderLimitSize": column.LocalFolderLimitSize = value.ToDecimal(); break;
+                case "LocalFolderLimitTotalSize": column.LocalFolderTotalLimitSize = value.ToDecimal(); break;
             }
         }
 

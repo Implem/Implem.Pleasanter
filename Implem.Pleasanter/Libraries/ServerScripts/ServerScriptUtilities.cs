@@ -649,7 +649,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             if (!(Parameters.Script.ServerScript != false
                 && context.ContractSettings.NewFeatures()
-                && context.ContractSettings.Script != false))
+                && context.ContractSettings.ServerScript != false))
             {
                 return null;
             }
@@ -719,7 +719,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             if (!(Parameters.Script.ServerScript != false
                 && context.ContractSettings.NewFeatures()
-                && context.ContractSettings.Script != false))
+                && context.ContractSettings.ServerScript != false))
             {
                 return null;
             }

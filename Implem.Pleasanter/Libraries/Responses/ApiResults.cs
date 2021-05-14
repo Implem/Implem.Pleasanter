@@ -82,6 +82,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(ApiResponses.Forbidden(context: context));
         }
 
+        public static ContentResult NotFound(Context context)
+        {
+            return Get(ApiResponses.NotFound(context: context));
+        }
+
         public static ContentResult OverTenantStorageSize(Context context, decimal? maxSize)
         {
             var result = Get(ApiResponses.OverTenantStorageSize(
