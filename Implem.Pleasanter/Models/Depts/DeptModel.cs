@@ -656,7 +656,12 @@ namespace Implem.Pleasanter.Models
                 value: o.Value));
             data.NumHash?.ForEach(o => Num(
                 columnName: o.Key,
-                value: new Num(o.Value)));
+                value: new Num(
+                    context: context,
+                    column: ss.GetColumn(
+                        context: context,
+                        columnName: o.Key),
+                    value: o.Value.ToString())));
             data.DateHash?.ForEach(o => Date(
                 columnName: o.Key,
                 value: o.Value.ToDateTime().ToUniversal(context: context)));
