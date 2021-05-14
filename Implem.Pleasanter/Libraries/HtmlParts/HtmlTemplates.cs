@@ -534,12 +534,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return !context.Ajax
                 ? hb
                     .Hidden(controlId: "ApplicationPath", value: Locations.Get(context: context))
-                    .Hidden(controlId: "Token", value: context.Token(), _using: Parameters.Security.TokenCheck)
+                    .Hidden(
+                        controlId: "Token",
+                        value: context.Token(),
+                        _using: Parameters.Security.TokenCheck)
                     .Hidden(controlId: "Language", value: context.Language)
                     .Hidden(controlId: "DeptId", value: context.DeptId.ToString())
                     .Hidden(controlId: "UserId", value: context.UserId.ToString())
                     .Hidden(controlId: "LoginId", value: context.LoginId)
                     .Hidden(controlId: "Publish", value: "1", _using: context.Publish)
+                    .Hidden(controlId: "Responsive", value: "1", _using: context.Responsive)
                     .Hidden(controlId: "TableName", value: ss?.ReferenceType)
                     .Hidden(controlId: "Controller", value: context.Controller)
                     .Hidden(controlId: "Action", value: context.Action)
