@@ -1,4 +1,4 @@
 ﻿{
     "ServerScript": true,
-    "ServerScriptTimeOut": 0
+    "ServerScriptTimeOut": 10000
 }
