@@ -11,6 +11,7 @@ namespace Implem.ParameterAccessor.Parts
         public int PasswordExpirationPeriod;
         public bool JoeAccountCheck;
         public bool TokenCheck;
+        public bool SecureCookies;
         public List<PasswordPolicy> PasswordPolicies;
         public SecondaryAuthentication SecondaryAuthentication;
     }
