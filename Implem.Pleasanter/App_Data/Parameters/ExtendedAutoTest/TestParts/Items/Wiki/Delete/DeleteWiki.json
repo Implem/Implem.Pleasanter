@@ -7,9 +7,9 @@
             "Action": "AlertAccept",
             "Results": [
                 {
-                    "ResultElementId": "Message",
-                    "ResultDescription": "レコードが削除されること。",
-                    "ResultExpectedValue": "\" テスト用Wiki \" を削除しました。"
+                    "ElementId": "Message",
+                    "Description": "レコードが削除されること。",
+                    "ExpectedValue": "\" テスト用Wiki \" を削除しました。"
                 }
             ]
         }

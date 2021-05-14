@@ -1779,6 +1779,13 @@
     <Content Include="App_Data\Parameters\Mobile.json" />
     <Content Include="App_Data\Displays\Responsive.json" />
     <Content Include="App_Data\Displays\ThisYear.json" />
+    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase0_FileUpload.json" />
+    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestParts\Items\Issues\Attachments\UploadAttachment.json" />
+    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestParts\Items\Issues\Attachments\AddAttachmentsA.json" />
+    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestFiles\TestFile01.zip" />
+    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestParts\Items\Issues\Settings\LabelText.json" />
+    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestParts\Items\Issues\Settings\MaxLength.json" />
+    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestParts\Items\Issues\Settings\TextAlign.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

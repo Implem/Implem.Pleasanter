@@ -1,43 +1,43 @@
 ﻿{
     "TestParts": [
         {
-            "TargetElementId": "SettingsMenuContainer",
+            "ElementId": "SettingsMenuContainer",
             "Action": "Hover"
         },
         {
-            "TargetElementId": "SettingsMenu_SiteSettings",
+            "ElementId": "SettingsMenu_SiteSettings",
             "Action": "Click"
         },
         {
-            "TargetElementXpath": "//button[@accesskey='r']",
+            "ElementXpath": "//button[@accesskey='r']",
             "Action": "Click"
         },
         {
-            "TargetElementId": "DeleteSiteTitle",
+            "ElementId": "DeleteSiteTitle",
             "Action": "Input",
             "Value": "テスト用期限付きテーブル"
         },
         {
-            "TargetElementId": "Users_LoginId",
+            "ElementId": "Users_LoginId",
             "Action": "Input",
-            "Value": "TestUser01"
+            "Value": "Administrator"
         },
         {
-            "TargetElementId": "Users_Password",
+            "ElementId": "Users_Password",
             "Action": "Input",
-            "Value": "test1234"
+            "Value": "password"
         },
         {
-            "TargetElementXpath": "//button[@data-action='Delete']",
+            "ElementXpath": "//button[@data-action='Delete']",
             "Action": "Click"
         },
         {
             "Action": "AlertAccept",
             "Results": [
                 {
-                    "ResultElementId": "Message",
-                    "ResultDescription": "テーブルが削除されること。",
-                    "ResultExpectedValue": "\" テスト用期限付きテーブル \" を削除しました。"
+                    "ElementId": "Message",
+                    "Description": "テーブルが削除されること。",
+                    "ExpectedValue": "\" テスト用期限付きテーブル \" を削除しました。"
                 }
             ]
         }

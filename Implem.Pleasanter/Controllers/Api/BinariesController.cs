@@ -10,6 +10,7 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataTypes;
 using System.Collections.Generic;
 using System.Web;
+using System.Linq;
 
 namespace Implem.Pleasanter.Controllers.Api
 {
@@ -60,7 +61,10 @@ namespace Implem.Pleasanter.Controllers.Api
             string filePath = string.Empty;
             try
             {
-                var fileData = await SaveFileToTemp(guid);
+                var newGuid = context.QueryStrings.Bool("overwrite")
+                    ? guid
+                    : Strings.NewGuid();
+                var fileData = await SaveFileToTemp(newGuid);
                 var fileName = fileData.Headers.ContentDisposition.FileName.Replace("\"", "");
                 filePath = Path.Combine(Path.GetDirectoryName(fileData.LocalFileName), fileName);
                 var size = new FileInfo(fileData.LocalFileName).Length;
@@ -69,7 +73,10 @@ namespace Implem.Pleasanter.Controllers.Api
                     File.Delete(filePath);
                 }
                 File.Move(fileData.LocalFileName, filePath);
-                context.ApiRequestBody = CreateAttachmentsHashJson(guid, context, fileName, size);
+                var verup = context.QueryStrings.ContainsKey("verup")
+                    ? context.QueryStrings.Bool("verup")
+                    : (bool?)null;
+                context.ApiRequestBody = CreateAttachmentsHashJson($"{guid},{newGuid}", context, fileName, size, verup);
                 var response = new ItemModel(context: context, referenceId: referenceId)
                     .UpdateByApi(context: context);
                 return ToHttpResponseMessage(context, log, response);
@@ -126,10 +133,11 @@ namespace Implem.Pleasanter.Controllers.Api
             return response;
         }
 
-        private string CreateAttachmentsHashJson(string guid, Context context, string fileName, long size)
+        private string CreateAttachmentsHashJson(string guid, Context context, string fileName, long size, bool? verup)
         {
             return new
             {
+                VerUp = verup,
                 AttachmentsHash = new Dictionary<string, Attachment[]>
                 {
                     ["Attachments#Uploading"] = new Attachment[]

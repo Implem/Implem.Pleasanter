@@ -1,8 +1,7 @@
 ﻿{
     "CasesDescription": "汎用テストケース　期限付きテーブルの確認",
     "ResultFileName": "GeneralCase1.csv",
-    "TestCases":
-    [
+    "TestCases": [
         {
             "TestPartsPath": "\\Users",
             "TestPartsName": "LoginLocal.json"
@@ -21,6 +20,10 @@
             "TestPartsPath": "\\Items\\Issues\\Create",
             "TestPartsName": "CreateIssueRecord.json",
             "CaseDescription": "Issuesテーブルのレコードを作成する。"
+        },
+        {
+            "TestPartsPath": "\\Items\\Issues\\Settings",
+            "CaseDescription": "設定を行う。"
         },
         {
             "TestPartsPath": "\\Items\\Issues\\Update",

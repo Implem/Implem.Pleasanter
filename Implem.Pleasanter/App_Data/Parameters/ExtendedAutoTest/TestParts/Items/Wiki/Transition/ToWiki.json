@@ -2,7 +2,7 @@
     "TestParts":
     [
         {
-            "TargetElementLinkText": "テスト用Wiki",
+            "ElementLinkText": "テスト用Wiki",
             "Action": "Click",
             "PartDescription": "作成したWikiへ遷移する"
         }

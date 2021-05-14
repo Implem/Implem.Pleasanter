@@ -1,7 +1,7 @@
 ﻿{
     "TestParts": [
         {
-            "TargetTestPartId": "ResultRecord1",
+            "TestPartId": "ResultRecord1",
             "Action": "Click"
         },
         {
@@ -25,19 +25,19 @@
             "Action": "Update",
             "Results": [
                 {
-                    "ResultItemId": "Title",
-                    "ResultExpectedValue": "タイトル更新",
-                    "ResultDescription": "更新内容が登録されていること。"
+                    "ItemId": "Title",
+                    "ExpectedValue": "タイトル更新",
+                    "Description": "更新内容が登録されていること。"
                 },
                 {
-                    "ResultItemId": "Body",
-                    "ResultExpectedValue": "内容更新",
-                    "ResultDescription": "更新内容が登録されていること。"
+                    "ItemId": "Body",
+                    "ExpectedValue": "内容更新",
+                    "Description": "更新内容が登録されていること。"
                 }
             ]
         },
         {
-            "TargetElementId": "GoBack",
+            "ElementId": "GoBack",
             "Action": "Click"
         }
     ]

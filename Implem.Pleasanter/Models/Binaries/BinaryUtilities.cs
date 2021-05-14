@@ -901,9 +901,7 @@ namespace Implem.Pleasanter.Models
             }
             using (saveFileStream)
             {
-                int b = default(int);
-                while ((b = file.InputStream.ReadByte()) != -1)
-                    saveFileStream.WriteByte((byte)b);
+                file.InputStream.CopyTo(saveFileStream);
                 saveFileStream.Flush();
             }
         }

@@ -1,0 +1,13 @@
+﻿{
+    "TestParts":
+    [
+        {
+            "ElementId": "SettingsMenuContainer",
+            "Action": "Hover"
+        },
+        {
+            "ElementId": "SettingsMenu_UserAdmin",
+            "Action": "Click"
+        }
+    ]
+}

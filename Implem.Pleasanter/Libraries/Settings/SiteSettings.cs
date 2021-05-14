@@ -1231,7 +1231,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.DateFilterMonth = column.DateFilterMonth;
                     }
-                    if (column.OverwriteSameFileName == false)
+                    if (column.OverwriteSameFileName == true)
                     {
                         enabled = true;
                         newColumn.OverwriteSameFileName = column.OverwriteSameFileName;
@@ -1477,16 +1477,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.ColumnName = column.ColumnName ?? columnDefinition.ColumnName;
                 column.LabelText = ModifiedLabelText(
                     context: context,
-                    column: column,
-                    columnDefinition: columnDefinition)
+                    column: column)
                         ?? column.LabelText
                         ?? Displays.Get(
                             context: context,
                             id: columnDefinition.Id);
                 column.GridLabelText = ModifiedLabelText(
                     context: context,
-                    column: column,
-                    columnDefinition: columnDefinition)
+                    column: column)
                         ?? column.GridLabelText
                         ?? column.LabelText;
                 column.ChoicesText = column.ChoicesText ?? columnDefinition.ChoicesText;
@@ -1587,8 +1585,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        private string ModifiedLabelText(
-            Context context, Column column, ColumnDefinition columnDefinition)
+        private string ModifiedLabelText(Context context, Column column)
         {
             switch (TableType)
             {

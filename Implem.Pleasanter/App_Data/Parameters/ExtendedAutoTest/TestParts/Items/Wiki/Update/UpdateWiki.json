@@ -13,14 +13,14 @@
             "Action": "Update",
             "Results": [
                 {
-                    "ResultItemId": "Body",
-                    "ResultExpectedValue": "内容更新",
-                    "ResultDescription": "更新内容が登録されていること。"
+                    "ItemId": "Body",
+                    "ExpectedValue": "内容更新",
+                    "Description": "更新内容が登録されていること。"
                 }
             ]
         },
         {
-            "TargetElementId": "GoBack",
+            "ElementId": "GoBack",
             "Action": "Click"
         }
     ]

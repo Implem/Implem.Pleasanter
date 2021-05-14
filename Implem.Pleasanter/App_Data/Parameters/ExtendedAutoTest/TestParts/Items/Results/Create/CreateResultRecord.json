@@ -1,7 +1,7 @@
 ﻿{
     "TestParts": [
         {
-            "TargetElementId": "NewMenuContainer",
+            "ElementId": "NewMenuContainer",
             "Action": "Click"
         },
         {
@@ -22,23 +22,23 @@
             ]
         },
         {
-            "TestPartId": "ResultRecord1",
+            "TargetTestPartId": "ResultRecord1",
             "Action": "Create",
             "Results": [
                 {
-                    "ResultItemId": "Title",
-                    "ResultExpectedValue": "タイトル入力",
-                    "ResultDescription": "入力内容が登録されていること。"
+                    "ItemId": "Title",
+                    "ExpectedValue": "タイトル入力",
+                    "Description": "入力内容が登録されていること。"
                 },
                 {
-                    "ResultItemId": "Body",
-                    "ResultExpectedValue": "内容入力",
-                    "ResultDescription": "入力内容が登録されていること。"
+                    "ItemId": "Body",
+                    "ExpectedValue": "内容入力",
+                    "Description": "入力内容が登録されていること。"
                 }
             ]
         },
         {
-            "TargetElementId": "GoBack",
+            "ElementId": "GoBack",
             "Action": "Click"
         }
     ]

@@ -1,7 +1,7 @@
 ﻿{
     "TestParts": [
         {
-            "TargetTestPartId": "IssueRecord1",
+            "TestPartId": "IssueRecord1",
             "Action": "Click"
         },
         {
@@ -11,14 +11,14 @@
             "Action": "AlertAccept",
             "Results": [
                 {
-                    "ResultElementId": "Message",
-                    "ResultDescription": "レコードが削除されること。",
-                    "ResultExpectedValue": "\" タイトル更新 \" を削除しました。"
+                    "ElementId": "Message",
+                    "Description": "レコードが削除されること。",
+                    "ExpectedValue": "\" タイトル更新 \" を削除しました。"
                 }
             ]
         },
         {
-            "TargetElementId": "GoBack",
+            "ElementId": "GoBack",
             "Action": "Click"
         }
     ]

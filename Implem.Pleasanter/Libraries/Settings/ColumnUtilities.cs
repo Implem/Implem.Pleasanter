@@ -242,9 +242,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         break;
                 }
                 return new ControlData(
-                    text: $"[{ss.Title}] " + Displays.Get(
-                        context: context,
-                        id: labelText),
+                    text: $"[{ss.Title}] {labelText}",
                     title: labelTextDefault,
                     order: order);
             }

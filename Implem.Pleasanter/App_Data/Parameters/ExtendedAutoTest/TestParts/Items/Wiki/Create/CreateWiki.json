@@ -1,33 +1,33 @@
 ﻿{
     "TestParts": [
         {
-            "TargetElementId": "NewMenuContainer",
+            "ElementId": "NewMenuContainer",
             "Action": "Click"
         },
         {
-            "TargetElementLinkText": "標準",
+            "ElementLinkText": "標準",
             "Action": "Click"
         },
         {
-            "TargetElementXpath": "//li[@data-value='Template4']",
+            "ElementXpath": "//li[@data-value='Template4']",
             "Action": "Click",
             "PartDescription" : "Wikiのテンプレートを選択する。"
         },
         {
-            "TargetElementId": "OpenSiteTitleDialog",
+            "ElementId": "OpenSiteTitleDialog",
             "Action": "Click"
         },
         {
-            "TargetElementId": "SiteTitle",
+            "ElementId": "SiteTitle",
             "Action": "Clear"
         },
         {
-            "TargetElementId": "SiteTitle",
+            "ElementId": "SiteTitle",
             "Action": "input",
             "Value": "テスト用Wiki"
         },
         {
-            "TargetElementXpath": "//button[@data-action='CreateByTemplate']",
+            "ElementXpath": "//button[@data-action='CreateByTemplate']",
             "Action": "Click"
         }
     ]
