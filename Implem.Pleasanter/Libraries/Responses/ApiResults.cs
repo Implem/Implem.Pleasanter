@@ -102,5 +102,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             response.Content = new StringContent(self.Content, self.ContentEncoding, self.ContentType);
             return response;
         }
+
     }
 }
