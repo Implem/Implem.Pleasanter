@@ -15,6 +15,10 @@
         var visibilityA = $(this).val() === 'LocalFolder';
         $('#LocalFolderLimitTotalSizeField').toggle(visibilityA);
     });
+    $(document).on('change', '#EditorFormat', function () {
+        var visibility = $(this).val() === 'Ymdhm';
+        $('#DateTimeStepField').toggle(visibility);
+    });
     $(document).on('change', '#FormatSelector', function () {
         var $control = $(this);
         switch ($control.val()) {

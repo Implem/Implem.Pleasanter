@@ -41,10 +41,11 @@
         $('.field-auto-thin .ui-widget.ui-state-default.ui-multiselect').css('width', '140px');
         $('.datepicker:not(.applied)').each(function () {
             var $control = $(this);
+            var $step = parseInt($control.attr('data-step'), 10); 
             $control.datetimepicker({
                 format: $control.attr('data-format'),
                 timepicker: $control.attr('data-timepicker') === '1',
-                step: 10,
+                step: isNaN($step) ? 10 : $step,
                 dayOfWeekStart: 1,
                 scrollInput: false
             })
