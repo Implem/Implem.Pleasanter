@@ -84,5 +84,6 @@ namespace Implem.ParameterAccessor.Parts
         public int DateFilterMaxSpan;
         public DateTime MinTime;
         public DateTime MaxTime;
+        public int DateTimeStep;
     }
 }

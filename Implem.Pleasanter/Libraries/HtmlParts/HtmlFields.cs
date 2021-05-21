@@ -506,7 +506,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ? column.MaxLength.ToInt()
                                     : column.ValidateMaxLength ?? 0,
                                 validateRegex: column.ClientRegexValidation,
-                                validateRegexErrorMessage: column.RegexValidationMessage);
+                                validateRegexErrorMessage: column.RegexValidationMessage,
+                                attributes: column.DateTimeStep == null
+                                    ? null
+                                    : new Dictionary<string, string>() {
+                                        { "data-step", column.DateTimeStep?.ToString() }
+                                    });
                         case ControlTypes.CheckBox:
                             return hb.FieldCheckBox(
                                 fieldId: controlId + "Field",

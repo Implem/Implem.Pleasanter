@@ -3,6 +3,7 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
+using System.Collections.Generic;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlDateRange
@@ -47,7 +48,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             validateDate: column.ValidateDate ?? false,
                             validateEmail: column.ValidateEmail ?? false,
                             validateEqualTo: column.ValidateEqualTo,
-                            validateMaxLength: column.ValidateMaxLength ?? 0)
+                            validateMaxLength: column.ValidateMaxLength ?? 0,
+                            attributes: column.DateTimeStep == null
+                                ? null
+                                : new Dictionary<string, string>() {
+                                    { "data-step", column.DateTimeStep?.ToString() }
+                                })
                         .FieldTextBox(
                             textType: HtmlTypes.TextTypes.DateTime,
                             fieldId: "dateRangeEndField",
@@ -65,7 +71,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             validateDate: column.ValidateDate ?? false,
                             validateEmail: column.ValidateEmail ?? false,
                             validateEqualTo: column.ValidateEqualTo,
-                            validateMaxLength: column.ValidateMaxLength ?? 0)
+                            validateMaxLength: column.ValidateMaxLength ?? 0,
+                            attributes: column.DateTimeStep == null
+                                ? null
+                                : new Dictionary<string, string>() {
+                                    { "data-step", column.DateTimeStep?.ToString() }
+                                })
                         .P(css: "message-dialog")
                         .Div(
                             css: "command-center",

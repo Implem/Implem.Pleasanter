@@ -1269,6 +1269,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.BinaryStorageProvider = column.BinaryStorageProvider;
                     }
+                    if (column.DateTimeStep != Parameters.General.DateTimeStep)
+                    {
+                        enabled = true;
+                        newColumn.DateTimeStep = column.DateTimeStep;
+                    }
                     if (column.ThumbnailLimitSize != null
                         && column.ThumbnailLimitSize != Parameters.BinaryStorage.ThumbnailLimitSize
                         && column.ThumbnailLimitSize >= Parameters.BinaryStorage.ThumbnailMinSize
@@ -1582,6 +1587,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ? columnNameInfo.SiteId
                     : SiteId;
                 column.BinaryStorageProvider = column.BinaryStorageProvider ?? Parameters.BinaryStorage.DefaultBinaryStorageProvider;
+                column.DateTimeStep = DefaultDateTimeStep(column.DateTimeStep ?? Parameters.General.DateTimeStep);
                 column.Joined = columnNameInfo.Joined;
             }
         }
@@ -1692,6 +1698,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             return (columnDefinition.Step > 0
                 ? columnDefinition.Step
                 : 1);
+        }
+
+        private int DefaultDateTimeStep(int datetimeStep)
+        {
+            return datetimeStep > 0
+                ? datetimeStep
+                : 10;
         }
 
         public Column GetColumn(
@@ -3163,6 +3176,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "BinaryStorageProvider": column.BinaryStorageProvider = value; break;
                 case "LocalFolderLimitSize": column.LocalFolderLimitSize = value.ToDecimal(); break;
                 case "LocalFolderLimitTotalSize": column.LocalFolderTotalLimitSize = value.ToDecimal(); break;
+                case "DateTimeStep": column.DateTimeStep = value.ToInt(); break;
             }
         }
 
