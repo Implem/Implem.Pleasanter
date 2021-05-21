@@ -1,6 +1,6 @@
 ﻿{
     "Provider": "Rds",
-    "Path": "C:\\temp\\upload",
+    "Path": null,
     "Attachments": true,
     "Images": true,
     "RestoreLocalFiles": true,
