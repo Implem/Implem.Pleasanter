@@ -776,20 +776,35 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             try
             {
-                return (!Format.IsNullOrEmpty() && format
+                var ret = (!Format.IsNullOrEmpty() && format
                     ? value.ToDecimal().ToString(
                         Format + (Format == "C" || Format == "N"
                             ? DecimalPlaces.ToString()
-                            : string.Empty),
-                        context.CultureInfo())
+                            : string.Empty))
                     : DecimalPlaces.ToInt() == 0
                         ? value.ToDecimal().ToString("0", "0")
                         : DisplayValue(value.ToDecimal()))
                             + (unit ? Unit : string.Empty);
+                switch (context.Language)
+                {
+                    case "ja":
+                        return ret.Replace("￥", "¥");
+                    default:
+                        return ret;
+                }
             }
             catch (FormatException)
             {
-                return ((int)value).ToString(Format);
+                try
+                {
+                    return value.ToLong().ToString(Format);
+                }
+                catch (FormatException)
+                {
+                    return Nullable == true
+                        ? string.Empty
+                        : "0";
+                }
             }
         }
 
