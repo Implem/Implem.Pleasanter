@@ -140,9 +140,9 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
             SetTenantCaches();
         }
 
-        public ContextImplement(ICollection<IFormFile> files)
+        public ContextImplement(ICollection<IFormFile> files, string apiRequestBody = null)
         {
-            Set();
+            Set(apiRequestBody: apiRequestBody);
             SetPostedFiles(files: files);
         }
 
