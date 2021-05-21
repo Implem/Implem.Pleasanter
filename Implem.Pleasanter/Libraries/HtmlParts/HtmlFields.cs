@@ -845,6 +845,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Id(controlId)
                                 .Class(Css.Class("control-text", controlCss))
                                 .DataValue(dataValue)
+                                .DataReadOnly(true)
                                 .DataAlwaysSend(alwaysSend),
                             action: () => hb
                                 .Text(text: text)),
