@@ -5286,26 +5286,27 @@ namespace Implem.Pleasanter.Models
                                     }
                                     break;
                                 case Types.CsDateTime:
-                                    hb.FieldSpinner(
-                                        controlId: "DefaultInput",
-                                        controlCss: " allow-blank",
-                                        labelText: Displays.DefaultInput(context: context),
-                                        value: column.DefaultInput != string.Empty
-                                            ? column.DefaultInput.ToDecimal()
-                                            : (decimal?)null,
-                                        min: column.Min.ToInt(),
-                                        max: column.Max.ToInt(),
-                                        step: column.Step.ToInt(),
-                                        width: column.Width)
-                                     .FieldDropDown(
-                                        context: context,
-                                        fieldId: "DateTimeStepField",
-                                        fieldCss: column.EditorFormat == "Ymdhm" ? null : " hidden",
-                                        controlId: "DateTimeStep",
-                                        labelText: Displays.MinutesStep(context),
-                                        optionCollection: new[] { 1, 2, 3, 5, 6, 10, 15, 20, 30, 60 }
-                                            .Select(v => v.ToString()).ToDictionary(v => v),
-                                        selectedValue: column.DateTimeStep?.ToString());
+                                    hb
+                                        .FieldSpinner(
+                                            controlId: "DefaultInput",
+                                            controlCss: " allow-blank",
+                                            labelText: Displays.DefaultInput(context: context),
+                                            value: column.DefaultInput != string.Empty
+                                                ? column.DefaultInput.ToDecimal()
+                                                : (decimal?)null,
+                                            min: column.Min.ToInt(),
+                                            max: column.Max.ToInt(),
+                                            step: column.Step.ToInt(),
+                                            width: column.Width)
+                                        .FieldDropDown(
+                                            context: context,
+                                            fieldId: "DateTimeStepField",
+                                            fieldCss: column.EditorFormat == "Ymdhm" ? null : " hidden",
+                                            controlId: "DateTimeStep",
+                                            labelText: Displays.MinutesStep(context),
+                                            optionCollection: new[] { 1, 2, 3, 5, 6, 10, 15, 20, 30, 60 }
+                                                .Select(v => v.ToString()).ToDictionary(v => v),
+                                            selectedValue: column.DateTimeStep?.ToString());
                                     break;
                                 case Types.CsString:
                                     switch (column.ControlType)
