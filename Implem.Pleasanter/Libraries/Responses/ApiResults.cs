@@ -1,4 +1,4 @@
-﻿using Implem.Libraries.Utilities;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using System.Net.Http;
@@ -102,6 +102,5 @@ namespace Implem.Pleasanter.Libraries.Responses
             response.Content = new StringContent(self.Content, self.ContentEncoding, self.ContentType);
             return response;
         }
-
     }
 }
