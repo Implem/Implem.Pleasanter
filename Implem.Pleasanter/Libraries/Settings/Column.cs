@@ -915,11 +915,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : 0;
         }
 
-        public DateTime DefaultTime()
+        public DateTime DefaultTime(Context context)
         {
             return DefaultInput.IsNullOrEmpty()
                 ? 0.ToDateTime()
-                : DateTime.Now.AddDays(DefaultInput.ToInt());
+                : EditorFormat == "Ymd"
+                    ? DateTime.Now.ToLocal(context: context).Date.AddDays(DefaultInput.ToInt()).ToUniversal(context: context)
+                    : DateTime.Now.AddDays(DefaultInput.ToInt());
         }
 
         public string GetDefaultInput(Context context)
