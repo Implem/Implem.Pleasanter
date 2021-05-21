@@ -341,6 +341,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_FullTextColumn": Code.Model_FullTextColumn = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_FullTextColumn, definitionRow, CodeXls); break;
                     case "Model_FullText_Sites_Wikis": Code.Model_FullText_Sites_Wikis = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_FullText_Sites_Wikis, definitionRow, CodeXls); break;
                     case "Model_Create": Code.Model_Create = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Create, definitionRow, CodeXls); break;
+                    case "Model_AddRange_UpdateAttachmentStatements": Code.Model_AddRange_UpdateAttachmentStatements = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_AddRange_UpdateAttachmentStatements, definitionRow, CodeXls); break;
                     case "Model_CreateParams": Code.Model_CreateParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreateParams, definitionRow, CodeXls); break;
                     case "Model_CreateParams_Wikis": Code.Model_CreateParams_Wikis = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreateParams_Wikis, definitionRow, CodeXls); break;
                     case "Model_SetTenantIdByContext": Code.Model_SetTenantIdByContext = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetTenantIdByContext, definitionRow, CodeXls); break;
@@ -365,6 +366,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_InsertIdentity": Code.Model_InsertIdentity = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertIdentity, definitionRow, CodeXls); break;
                     case "Model_InsertIdentitySet": Code.Model_InsertIdentitySet = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertIdentitySet, definitionRow, CodeXls); break;
                     case "Model_Update": Code.Model_Update = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Update, definitionRow, CodeXls); break;
+                    case "Model_SetAttachmentsHashCode": Code.Model_SetAttachmentsHashCode = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetAttachmentsHashCode, definitionRow, CodeXls); break;
+                    case "Model_UpdateAttachmentStatements": Code.Model_UpdateAttachmentStatements = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateAttachmentStatements, definitionRow, CodeXls); break;
                     case "Model_UpdateParams_Permissions": Code.Model_UpdateParams_Permissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateParams_Permissions, definitionRow, CodeXls); break;
                     case "Model_UpdatePermissionsParams": Code.Model_UpdatePermissionsParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdatePermissionsParams, definitionRow, CodeXls); break;
                     case "Model_UpdateParams_Items": Code.Model_UpdateParams_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateParams_Items, definitionRow, CodeXls); break;
@@ -399,6 +402,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_InsertLinks": Code.Model_InsertLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertLinks, definitionRow, CodeXls); break;
                     case "Model_Move": Code.Model_Move = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Move, definitionRow, CodeXls); break;
                     case "Model_Delete": Code.Model_Delete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete, definitionRow, CodeXls); break;
+                    case "Model_DeleteAttachments": Code.Model_DeleteAttachments = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteAttachments, definitionRow, CodeXls); break;
                     case "Model_DeleteParams": Code.Model_DeleteParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteParams, definitionRow, CodeXls); break;
                     case "Model_Delete_Item": Code.Model_Delete_Item = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete_Item, definitionRow, CodeXls); break;
                     case "Model_Delete_GroupMembers": Code.Model_Delete_GroupMembers = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete_GroupMembers, definitionRow, CodeXls); break;
@@ -3242,6 +3246,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_menu_sort_space___space_li_colon_hover": Css._dot_menu_sort_space___space_li_colon_hover = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_sort_space___space_li_colon_hover, definitionRow, CssXls); break;
                     case "_dot_menu_sort_space___space_li_space___space__asterisk_": Css._dot_menu_sort_space___space_li_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_sort_space___space_li_space___space__asterisk_, definitionRow, CssXls); break;
                     case "_dot_menu_sort_space___space_li_space_div_dot_field_control_space___space__asterisk_": Css._dot_menu_sort_space___space_li_space_div_dot_field_control_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_sort_space___space_li_space_div_dot_field_control_space___space__asterisk_, definitionRow, CssXls); break;
+                    case "_dot_current_time": Css._dot_current_time = definitionRow[1].ToString(); SetCssTable(CssTable._dot_current_time, definitionRow, CssXls); break;
                     case "input_colon_focus": Css.input_colon_focus = definitionRow[1].ToString(); SetCssTable(CssTable.input_colon_focus, definitionRow, CssXls); break;
                     case "select_colon_focus_colon_not__dot_has_css_": Css.select_colon_focus_colon_not__dot_has_css_ = definitionRow[1].ToString(); SetCssTable(CssTable.select_colon_focus_colon_not__dot_has_css_, definitionRow, CssXls); break;
                     case "textarea_colon_focus": Css.textarea_colon_focus = definitionRow[1].ToString(); SetCssTable(CssTable.textarea_colon_focus, definitionRow, CssXls); break;
@@ -3327,6 +3332,16 @@ namespace Implem.DefinitionAccessor
                             newCssDefinition.margin_right = customDefinitionRow.Get("margin-right")?.ToString() ??
                                 data.ToString();
                             newCssDefinition.Savedmargin_right = newCssDefinition.margin_right;
+                            break;
+                        case "margin-top":
+                            newCssDefinition.margin_top = customDefinitionRow.Get("margin-top")?.ToString() ??
+                                data.ToString();
+                            newCssDefinition.Savedmargin_top = newCssDefinition.margin_top;
+                            break;
+                        case "margin-bottom":
+                            newCssDefinition.margin_bottom = customDefinitionRow.Get("margin-bottom")?.ToString() ??
+                                data.ToString();
+                            newCssDefinition.Savedmargin_bottom = newCssDefinition.margin_bottom;
                             break;
                         case "padding":
                             newCssDefinition.padding = customDefinitionRow.Get("padding")?.ToString() ??
@@ -3570,6 +3585,8 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("margin")) { definition.margin = definitionRow["margin"].ToString(); definition.Savedmargin = definition.margin; }
             if (definitionRow.ContainsKey("margin-left")) { definition.margin_left = definitionRow["margin-left"].ToString(); definition.Savedmargin_left = definition.margin_left; }
             if (definitionRow.ContainsKey("margin-right")) { definition.margin_right = definitionRow["margin-right"].ToString(); definition.Savedmargin_right = definition.margin_right; }
+            if (definitionRow.ContainsKey("margin-top")) { definition.margin_top = definitionRow["margin-top"].ToString(); definition.Savedmargin_top = definition.margin_top; }
+            if (definitionRow.ContainsKey("margin-bottom")) { definition.margin_bottom = definitionRow["margin-bottom"].ToString(); definition.Savedmargin_bottom = definition.margin_bottom; }
             if (definitionRow.ContainsKey("padding")) { definition.padding = definitionRow["padding"].ToString(); definition.Savedpadding = definition.padding; }
             if (definitionRow.ContainsKey("padding-bottom")) { definition.padding_bottom = definitionRow["padding-bottom"].ToString(); definition.Savedpadding_bottom = definition.padding_bottom; }
             if (definitionRow.ContainsKey("text-align")) { definition.text_align = definitionRow["text-align"].ToString(); definition.Savedtext_align = definition.text_align; }
@@ -6375,6 +6392,8 @@ namespace Implem.DefinitionAccessor
                         case "margin": cssDefinition.margin = optionValue.ToString(); break;
                         case "margin-left": cssDefinition.margin_left = optionValue.ToString(); break;
                         case "margin-right": cssDefinition.margin_right = optionValue.ToString(); break;
+                        case "margin-top": cssDefinition.margin_top = optionValue.ToString(); break;
+                        case "margin-bottom": cssDefinition.margin_bottom = optionValue.ToString(); break;
                         case "padding": cssDefinition.padding = optionValue.ToString(); break;
                         case "padding-bottom": cssDefinition.padding_bottom = optionValue.ToString(); break;
                         case "text-align": cssDefinition.text_align = optionValue.ToString(); break;
@@ -7340,6 +7359,7 @@ namespace Implem.DefinitionAccessor
         public string Model_FullTextColumn;
         public string Model_FullText_Sites_Wikis;
         public string Model_Create;
+        public string Model_AddRange_UpdateAttachmentStatements;
         public string Model_CreateParams;
         public string Model_CreateParams_Wikis;
         public string Model_SetTenantIdByContext;
@@ -7364,6 +7384,8 @@ namespace Implem.DefinitionAccessor
         public string Model_InsertIdentity;
         public string Model_InsertIdentitySet;
         public string Model_Update;
+        public string Model_SetAttachmentsHashCode;
+        public string Model_UpdateAttachmentStatements;
         public string Model_UpdateParams_Permissions;
         public string Model_UpdatePermissionsParams;
         public string Model_UpdateParams_Items;
@@ -7398,6 +7420,7 @@ namespace Implem.DefinitionAccessor
         public string Model_InsertLinks;
         public string Model_Move;
         public string Model_Delete;
+        public string Model_DeleteAttachments;
         public string Model_DeleteParams;
         public string Model_Delete_Item;
         public string Model_Delete_GroupMembers;
@@ -8003,6 +8026,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_FullTextColumn = new CodeDefinition();
         public CodeDefinition Model_FullText_Sites_Wikis = new CodeDefinition();
         public CodeDefinition Model_Create = new CodeDefinition();
+        public CodeDefinition Model_AddRange_UpdateAttachmentStatements = new CodeDefinition();
         public CodeDefinition Model_CreateParams = new CodeDefinition();
         public CodeDefinition Model_CreateParams_Wikis = new CodeDefinition();
         public CodeDefinition Model_SetTenantIdByContext = new CodeDefinition();
@@ -8027,6 +8051,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_InsertIdentity = new CodeDefinition();
         public CodeDefinition Model_InsertIdentitySet = new CodeDefinition();
         public CodeDefinition Model_Update = new CodeDefinition();
+        public CodeDefinition Model_SetAttachmentsHashCode = new CodeDefinition();
+        public CodeDefinition Model_UpdateAttachmentStatements = new CodeDefinition();
         public CodeDefinition Model_UpdateParams_Permissions = new CodeDefinition();
         public CodeDefinition Model_UpdatePermissionsParams = new CodeDefinition();
         public CodeDefinition Model_UpdateParams_Items = new CodeDefinition();
@@ -8061,6 +8087,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_InsertLinks = new CodeDefinition();
         public CodeDefinition Model_Move = new CodeDefinition();
         public CodeDefinition Model_Delete = new CodeDefinition();
+        public CodeDefinition Model_DeleteAttachments = new CodeDefinition();
         public CodeDefinition Model_DeleteParams = new CodeDefinition();
         public CodeDefinition Model_Delete_Item = new CodeDefinition();
         public CodeDefinition Model_Delete_GroupMembers = new CodeDefinition();
@@ -10119,6 +10146,8 @@ namespace Implem.DefinitionAccessor
         public string margin; public string Savedmargin;
         public string margin_left; public string Savedmargin_left;
         public string margin_right; public string Savedmargin_right;
+        public string margin_top; public string Savedmargin_top;
+        public string margin_bottom; public string Savedmargin_bottom;
         public string padding; public string Savedpadding;
         public string padding_bottom; public string Savedpadding_bottom;
         public string text_align; public string Savedtext_align;
@@ -10183,6 +10212,8 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("margin")) margin = propertyCollection["margin"].ToString(); else margin = string.Empty;
             if (propertyCollection.ContainsKey("margin_left")) margin_left = propertyCollection["margin_left"].ToString(); else margin_left = string.Empty;
             if (propertyCollection.ContainsKey("margin_right")) margin_right = propertyCollection["margin_right"].ToString(); else margin_right = string.Empty;
+            if (propertyCollection.ContainsKey("margin_top")) margin_top = propertyCollection["margin_top"].ToString(); else margin_top = string.Empty;
+            if (propertyCollection.ContainsKey("margin_bottom")) margin_bottom = propertyCollection["margin_bottom"].ToString(); else margin_bottom = string.Empty;
             if (propertyCollection.ContainsKey("padding")) padding = propertyCollection["padding"].ToString(); else padding = string.Empty;
             if (propertyCollection.ContainsKey("padding_bottom")) padding_bottom = propertyCollection["padding_bottom"].ToString(); else padding_bottom = string.Empty;
             if (propertyCollection.ContainsKey("text_align")) text_align = propertyCollection["text_align"].ToString(); else text_align = string.Empty;
@@ -10247,6 +10278,8 @@ namespace Implem.DefinitionAccessor
                     case "margin": return margin;
                     case "margin_left": return margin_left;
                     case "margin_right": return margin_right;
+                    case "margin_top": return margin_top;
+                    case "margin_bottom": return margin_bottom;
                     case "padding": return padding;
                     case "padding_bottom": return padding_bottom;
                     case "text_align": return text_align;
@@ -10311,6 +10344,8 @@ namespace Implem.DefinitionAccessor
             margin = Savedmargin;
             margin_left = Savedmargin_left;
             margin_right = Savedmargin_right;
+            margin_top = Savedmargin_top;
+            margin_bottom = Savedmargin_bottom;
             padding = Savedpadding;
             padding_bottom = Savedpadding_bottom;
             text_align = Savedtext_align;
@@ -10867,6 +10902,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_menu_sort_space___space_li_colon_hover;
         public string _dot_menu_sort_space___space_li_space___space__asterisk_;
         public string _dot_menu_sort_space___space_li_space_div_dot_field_control_space___space__asterisk_;
+        public string _dot_current_time;
         public string input_colon_focus;
         public string select_colon_focus_colon_not__dot_has_css_;
         public string textarea_colon_focus;
@@ -11384,6 +11420,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_menu_sort_space___space_li_colon_hover = new CssDefinition();
         public CssDefinition _dot_menu_sort_space___space_li_space___space__asterisk_ = new CssDefinition();
         public CssDefinition _dot_menu_sort_space___space_li_space_div_dot_field_control_space___space__asterisk_ = new CssDefinition();
+        public CssDefinition _dot_current_time = new CssDefinition();
         public CssDefinition input_colon_focus = new CssDefinition();
         public CssDefinition select_colon_focus_colon_not__dot_has_css_ = new CssDefinition();
         public CssDefinition textarea_colon_focus = new CssDefinition();
