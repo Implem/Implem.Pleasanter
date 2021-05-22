@@ -2,6 +2,10 @@
     $(document).on('change', '#UseGridDesign', function () {
         $('#GridDesignField').toggle($(this).prop('checked'));
     });
+    $(document).on('change', '#AutoPostBack', function () {
+        var visibility = $(this).prop('checked');
+        $('#ColumnsReturnedWhenAutomaticPostbackField').toggle(visibility);
+    });
     $(document).on('change', '#ControlType', function () {
         var visibility = $(this).val() === 'Spinner';
         $('#StepField').toggle(visibility);
@@ -14,6 +18,10 @@
         $('#LocalFolderLimitSizeField').toggle(visibilityD);
         var visibilityA = $(this).val() === 'LocalFolder';
         $('#LocalFolderLimitTotalSizeField').toggle(visibilityA);
+    });
+    $(document).on('change', '#EditorFormat', function () {
+        var visibility = $(this).val() === 'Ymdhm';
+        $('#DateTimeStepField').toggle(visibility);
     });
     $(document).on('change', '#FormatSelector', function () {
         var $control = $(this);

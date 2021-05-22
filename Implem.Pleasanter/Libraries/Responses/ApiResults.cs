@@ -1,4 +1,4 @@
-﻿using Implem.Libraries.Utilities;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using System.Net.Http;

@@ -1137,6 +1137,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.AutoPostBack = column.AutoPostBack;
                     }
+                    if (!column.ColumnsReturnedWhenAutomaticPostback.IsNullOrEmpty())
+                    {
+                        enabled = true;
+                        newColumn.ColumnsReturnedWhenAutomaticPostback = column.ColumnsReturnedWhenAutomaticPostback;
+                    }
                     if (column.AllowImage != true)
                     {
                         enabled = true;
@@ -1268,6 +1273,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         enabled = true;
                         newColumn.BinaryStorageProvider = column.BinaryStorageProvider;
+                    }
+                    if (column.DateTimeStep != Parameters.General.DateTimeStep)
+                    {
+                        enabled = true;
+                        newColumn.DateTimeStep = column.DateTimeStep;
                     }
                     if (column.ThumbnailLimitSize != null
                         && column.ThumbnailLimitSize != Parameters.BinaryStorage.ThumbnailLimitSize
@@ -1582,6 +1592,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ? columnNameInfo.SiteId
                     : SiteId;
                 column.BinaryStorageProvider = column.BinaryStorageProvider ?? Parameters.BinaryStorage.DefaultBinaryStorageProvider;
+                column.DateTimeStep = DefaultDateTimeStep(column.DateTimeStep ?? Parameters.General.DateTimeStep);
                 column.Joined = columnNameInfo.Joined;
             }
         }
@@ -1692,6 +1703,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             return (columnDefinition.Step > 0
                 ? columnDefinition.Step
                 : 1);
+        }
+
+        private int DefaultDateTimeStep(int datetimeStep)
+        {
+            return datetimeStep > 0
+                ? datetimeStep
+                : 10;
         }
 
         public Column GetColumn(
@@ -1896,9 +1914,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     .ToList();
         }
 
-        public List<string> GetEditorColumnNames()
+        public List<string> GetEditorColumnNames(Column postbackColumn = null)
         {
-            return (EditorColumnHash.Get(TabName(0))
+            var columnNames = (EditorColumnHash.Get(TabName(0))
                 ?? Enumerable.Empty<string>())
                     .Union(EditorColumnHash
                         ?.Where(hash => TabId(hash.Key) > 0)
@@ -1911,6 +1929,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .SelectMany(hash => hash.Hash.Value)
                             ?? Enumerable.Empty<string>())
                     .ToList();
+            var postbackTargets = postbackColumn?.ColumnsReturnedWhenAutomaticPostback?.Split(',');
+            if (postbackTargets?.Any() == true)
+            {
+                columnNames = postbackTargets
+                    .Where(columnName => columnNames.Contains(columnName))
+                    .ToList();
+            }
+            return columnNames;
         }
 
         public List<string> GetEditorColumnNames(
@@ -3123,6 +3149,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "CopyByDefault": column.CopyByDefault = value.ToBool(); break;
                 case "EditorReadOnly": column.EditorReadOnly = value.ToBool(); break;
                 case "AutoPostBack": column.AutoPostBack = value.ToBool(); break;
+                case "ColumnsReturnedWhenAutomaticPostback": column.ColumnsReturnedWhenAutomaticPostback = value; break;
                 case "AllowBulkUpdate": column.AllowBulkUpdate = value.ToBool(); break;
                 case "AllowImage": column.AllowImage = value.ToBool(); break;
                 case "ThumbnailLimitSize": column.ThumbnailLimitSize = value.ToDecimal(); break;
@@ -3163,6 +3190,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "BinaryStorageProvider": column.BinaryStorageProvider = value; break;
                 case "LocalFolderLimitSize": column.LocalFolderLimitSize = value.ToDecimal(); break;
                 case "LocalFolderLimitTotalSize": column.LocalFolderTotalLimitSize = value.ToDecimal(); break;
+                case "DateTimeStep": column.DateTimeStep = value.ToInt(); break;
             }
         }
 

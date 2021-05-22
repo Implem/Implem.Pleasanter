@@ -224,6 +224,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     .DataValidateRequired(validateRequired, _using: !readOnly)
                                     .DataValidateRegex(validateRegex)
                                     .DataValidateRegexErrorMessage(validateRegexErrorMessage)
+                                    .DataReadOnly(readOnly)
                                     .Add(attributes),
                     text: text)
                 .MarkDownCommands(
@@ -547,6 +548,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .OnChange(onChange)
                     .DataAction(action)
                     .DataMethod(method)
+                    .DataReadOnly(disabled)
                     .Checked(_checked));
                 if (labelText != string.Empty)
                 {
