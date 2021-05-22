@@ -93,6 +93,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? CopyByDefault;
         public bool? EditorReadOnly;
         public bool? AutoPostBack;
+        public string ColumnsReturnedWhenAutomaticPostback;
         public bool? AllowImage;
         public bool? AllowBulkUpdate;
         public string FieldCss;

@@ -1137,6 +1137,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.AutoPostBack = column.AutoPostBack;
                     }
+                    if (!column.ColumnsReturnedWhenAutomaticPostback.IsNullOrEmpty())
+                    {
+                        enabled = true;
+                        newColumn.ColumnsReturnedWhenAutomaticPostback = column.ColumnsReturnedWhenAutomaticPostback;
+                    }
                     if (column.AllowImage != true)
                     {
                         enabled = true;
@@ -1909,9 +1914,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     .ToList();
         }
 
-        public List<string> GetEditorColumnNames()
+        public List<string> GetEditorColumnNames(Column postbackColumn = null)
         {
-            return (EditorColumnHash.Get(TabName(0))
+            var columnNames = (EditorColumnHash.Get(TabName(0))
                 ?? Enumerable.Empty<string>())
                     .Union(EditorColumnHash
                         ?.Where(hash => TabId(hash.Key) > 0)
@@ -1924,6 +1929,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .SelectMany(hash => hash.Hash.Value)
                             ?? Enumerable.Empty<string>())
                     .ToList();
+            var postbackTargets = postbackColumn?.ColumnsReturnedWhenAutomaticPostback?.Split(',');
+            if (postbackTargets?.Any() == true)
+            {
+                columnNames = postbackTargets
+                    .Where(columnName => columnNames.Contains(columnName))
+                    .ToList();
+            }
+            return columnNames;
         }
 
         public List<string> GetEditorColumnNames(
@@ -3136,6 +3149,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "CopyByDefault": column.CopyByDefault = value.ToBool(); break;
                 case "EditorReadOnly": column.EditorReadOnly = value.ToBool(); break;
                 case "AutoPostBack": column.AutoPostBack = value.ToBool(); break;
+                case "ColumnsReturnedWhenAutomaticPostback": column.ColumnsReturnedWhenAutomaticPostback = value; break;
                 case "AllowBulkUpdate": column.AllowBulkUpdate = value.ToBool(); break;
                 case "AllowImage": column.AllowImage = value.ToBool(); break;
                 case "ThumbnailLimitSize": column.ThumbnailLimitSize = value.ToDecimal(); break;

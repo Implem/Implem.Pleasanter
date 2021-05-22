@@ -2,6 +2,10 @@
     $(document).on('change', '#UseGridDesign', function () {
         $('#GridDesignField').toggle($(this).prop('checked'));
     });
+    $(document).on('change', '#AutoPostBack', function () {
+        var visibility = $(this).prop('checked');
+        $('#ColumnsReturnedWhenAutomaticPostbackField').toggle(visibility);
+    });
     $(document).on('change', '#ControlType', function () {
         var visibility = $(this).val() === 'Spinner';
         $('#StepField').toggle(visibility);
