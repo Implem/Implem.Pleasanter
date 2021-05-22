@@ -383,7 +383,7 @@ namespace Implem.Pleasanter.Models
             return Birthday.Value != SavedBirthday &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultTime().Date != Birthday.Value.Date);
+                column.DefaultTime(context: context).Date != Birthday.Value.Date);
         }
 
         public bool LastLoginTime_Updated(Context context, Column column = null)
@@ -391,7 +391,7 @@ namespace Implem.Pleasanter.Models
             return LastLoginTime.Value != SavedLastLoginTime &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultTime().Date != LastLoginTime.Value.Date);
+                column.DefaultTime(context: context).Date != LastLoginTime.Value.Date);
         }
 
         public bool PasswordExpirationTime_Updated(Context context, Column column = null)
@@ -399,7 +399,7 @@ namespace Implem.Pleasanter.Models
             return PasswordExpirationTime.Value != SavedPasswordExpirationTime &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultTime().Date != PasswordExpirationTime.Value.Date);
+                column.DefaultTime(context: context).Date != PasswordExpirationTime.Value.Date);
         }
 
         public bool PasswordChangeTime_Updated(Context context, Column column = null)
@@ -407,7 +407,7 @@ namespace Implem.Pleasanter.Models
             return PasswordChangeTime.Value != SavedPasswordChangeTime &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultTime().Date != PasswordChangeTime.Value.Date);
+                column.DefaultTime(context: context).Date != PasswordChangeTime.Value.Date);
         }
 
         public bool SecondaryAuthenticationCodeExpirationTime_Updated(Context context, Column column = null)
@@ -415,7 +415,7 @@ namespace Implem.Pleasanter.Models
             return SecondaryAuthenticationCodeExpirationTime.Value != SavedSecondaryAuthenticationCodeExpirationTime &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultTime().Date != SecondaryAuthenticationCodeExpirationTime.Value.Date);
+                column.DefaultTime(context: context).Date != SecondaryAuthenticationCodeExpirationTime.Value.Date);
         }
 
         public bool SynchronizedTime_Updated(Context context, Column column = null)
@@ -423,7 +423,7 @@ namespace Implem.Pleasanter.Models
             return SynchronizedTime != SavedSynchronizedTime &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultTime().Date != SynchronizedTime.Date);
+                column.DefaultTime(context: context).Date != SynchronizedTime.Date);
         }
 
         public UserSettings Session_UserSettings(Context context)

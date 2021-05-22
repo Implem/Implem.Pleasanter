@@ -158,7 +158,7 @@ namespace Implem.Pleasanter.Models
             return SentTime.Value != SavedSentTime &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultTime().Date != SentTime.Value.Date);
+                column.DefaultTime(context: context).Date != SentTime.Value.Date);
         }
 
         public OutgoingMailModel()

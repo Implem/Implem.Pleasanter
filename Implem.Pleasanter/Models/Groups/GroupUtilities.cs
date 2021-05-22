@@ -1327,7 +1327,12 @@ namespace Implem.Pleasanter.Models
             res.Val(
                 target: "#NeedReplaceHtml",
                 value: needReplaceHtml?.ToJson());
-            ss.GetEditorColumnNames()
+            var columnNames = ss.GetEditorColumnNames(context.QueryStrings.Bool("control-auto-postback")
+                ? ss.GetColumn(
+                    context: context,
+                    columnName: context.Forms.ControlId().Split_2nd('_'))
+                : null);
+            columnNames
                 .Select(columnName => ss.GetColumn(
                     context: context,
                     columnName: columnName))

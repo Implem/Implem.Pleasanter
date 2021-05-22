@@ -49,4 +49,8 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+obj
+packages
 debug.log
+ServiceDependencies
+.vs

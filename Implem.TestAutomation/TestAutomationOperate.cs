@@ -233,20 +233,10 @@ namespace Implem.TestAutomation
                     return Displays.AutoTestResultNg(context: context);
                 }
             }
-            else if (resultCheck.CheckType.Equals(CheckTypes.ExistanceTrue))
+            else if (resultCheck.CheckType.Equals(CheckTypes.Existance))
             {
-                if (executionValue != null)
-                {
-                    return Displays.AutoTestResultOk(context: context);
-                }
-                else
-                {
-                    return Displays.AutoTestResultNg(context: context);
-                }
-            }
-            else if (resultCheck.CheckType.Equals(CheckTypes.ExistanceFalse))
-            {
-                if (executionValue == null)
+                executionValue = executionValue == null ? "ExistanceFalse" : "ExistanceTrue";
+                if (executionValue.Equals(resultCheck.ExpectedValue))
                 {
                     return Displays.AutoTestResultOk(context: context);
                 }
@@ -258,6 +248,18 @@ namespace Implem.TestAutomation
             else if (resultCheck.CheckType.Equals(CheckTypes.HasClass))
             {
                 if (HasClass(driver, resultCheck))
+                {
+                    return Displays.AutoTestResultOk(context: context);
+                }
+                else
+                {
+                    return Displays.AutoTestResultNg(context: context);
+                }
+            }
+            else if (resultCheck.CheckType.Equals(CheckTypes.ReadOnly))
+            {
+                executionValue = ReadOnly(driver, resultCheck);
+                if (executionValue.Equals(resultCheck.ExpectedValue))
                 {
                     return Displays.AutoTestResultOk(context: context);
                 }
@@ -359,6 +361,17 @@ namespace Implem.TestAutomation
                 }}").ToBool();
         }
 
+        private static string ReadOnly(IWebDriver driver, ResultCheck resultCheck)
+        {
+            IJavaScriptExecutor jsDriver = driver as IJavaScriptExecutor;
+            return jsDriver.ExecuteScript($@"
+                if ($p.getControl('{resultCheck.ItemId}').attr('data-readonly')) {{
+                    return 'ReadOnlyTrue';
+                }} else {{
+                    return 'ReadOnlyFalse';
+                }}").ToString();
+        }
+
         private static bool HasClass(IWebDriver driver, ResultCheck resultCheck)
         {
             IJavaScriptExecutor jsDriver = driver as IJavaScriptExecutor;
@@ -401,6 +414,13 @@ namespace Implem.TestAutomation
             resultStr.ExecutionValue = executionValue;
             resultStr.ComparisonResult = comparisonResult;
             WriteResult(resultString: resultStr, ResultFileName: resultFileName);
+            if (resultStr.ComparisonResult.Equals("OK")){
+                Console.ForegroundColor = ConsoleColor.Cyan;
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+            }
             Console.WriteLine(Displays.AutoTestResultMessage(
                 context: context,
                 data: new string[]
@@ -411,6 +431,7 @@ namespace Implem.TestAutomation
                     resultStr.ExpectedValue,
                     resultStr.ExecutionValue
                 }));
+            Console.ResetColor();
         }
 
         private static string SetConfirmationTaget(ResultCheck resultCheck)

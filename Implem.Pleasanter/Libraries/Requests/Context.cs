@@ -31,6 +31,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public bool InvalidJsonData;
         public bool Authenticated;
         public bool SwitchUser;
+        public bool SwitchTenant;
         public string SessionGuid = Strings.NewGuid();
         public Dictionary<string, string> SessionData = new Dictionary<string, string>();
         public Dictionary<string, string> UserSessionData = new Dictionary<string, string>();
@@ -57,6 +58,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string Page;
         public string Server;
         public int TenantId;
+        public int TargetTenantId;
         public long SiteId;
         public long Id;
         public Dictionary<long, Permissions.Types> PermissionHash;
@@ -161,6 +163,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             if (sessionStatus) SetSessionGuid();
             if (item) SetItemProperties();
             if (user) SetUserProperties(sessionStatus, setData);
+            if (item) SetSwitchTenant(sessionStatus, setData);
             SetTenantProperties();
             if (request) SetPublish();
             if (request) SetPermissions();
@@ -237,6 +240,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                                         {
                                             RecordTitle = dataRow.String("Title");
                                         }
+                                        TargetTenantId = dataRow.Int("TenantId");
                                     });
                         Page = Controller + "/"
                             + SiteId
@@ -249,6 +253,12 @@ namespace Implem.Pleasanter.Libraries.Requests
                         break;
                 }
             }
+        }
+
+        private void SetSwitchTenant(bool sessionStatus, bool setData)
+        {
+            Extension.SwichTenant(context: this);
+            if (this.SwitchTenant) SetUserProperties(sessionStatus: false, setData: false);
         }
 
         private void SetUserProperties(bool sessionStatus, bool setData)
@@ -272,6 +282,9 @@ namespace Implem.Pleasanter.Libraries.Requests
                                 loginId: HttpContext.Current?.User?.Identity.Name)
                                     ? SessionData.Get("SwitchLoginId")
                                     : null,
+                            SessionData.Get("SwitchTenantId") != null
+                                ? SessionData.Get("SwitchLoginId")
+                                : null,
                             LoginId))));
                 }
                 else

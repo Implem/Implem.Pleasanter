@@ -649,6 +649,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ColumnsReturnedWhenAutomaticPostback(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ColumnsReturnedWhenAutomaticPostback",
+                data: data);
+        }
+
         public static string AutoTestArrow(
             Context context,
             params string[] data)
@@ -946,6 +956,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "BadMailAddress",
+                data: data);
+        }
+
+        public static string BadPasswordWhenImporting(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BadPasswordWhenImporting",
                 data: data);
         }
 

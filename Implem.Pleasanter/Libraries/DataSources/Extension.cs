@@ -13,5 +13,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             throw new NotImplementedException();
         }
+
+        public static void SwichTenant(Context context)
+        {
+        }
+
+        public static void SetSwichTenant(Context context, int targetTenantId)
+        {
+        }
+
+        public static void UnsetSwichTenant(Context context)
+        {
+        }
     }
 }

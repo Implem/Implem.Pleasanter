@@ -1786,6 +1786,15 @@
     <Content Include="App_Data\Parameters\ExtendedAutoTest\TestParts\Items\Issues\Settings\LabelText.json" />
     <Content Include="App_Data\Parameters\ExtendedAutoTest\TestParts\Items\Issues\Settings\MaxLength.json" />
     <Content Include="App_Data\Parameters\ExtendedAutoTest\TestParts\Items\Issues\Settings\TextAlign.json" />
+    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase4_User.json" />
+    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestParts\Users\Create\CreateUser.json" />
+    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestParts\Users\Delete\DeleteUser.json" />
+    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestParts\Users\Transition\ToUsersTable.json" />
+    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestParts\Users\Update\ResetPassword.json" />
+    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestParts\Users\Update\UpdateMailAddress.json" />
+    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestParts\Users\Update\UpdateTenantUser.json" />
+    <Content Include="App_Data\Displays\BadPasswordWhenImporting.json" />
+    <Content Include="App_Data\Displays\ColumnsReturnedWhenAutomaticPostback.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

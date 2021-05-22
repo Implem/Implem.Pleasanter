@@ -93,6 +93,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? CopyByDefault;
         public bool? EditorReadOnly;
         public bool? AutoPostBack;
+        public string ColumnsReturnedWhenAutomaticPostback;
         public bool? AllowImage;
         public bool? AllowBulkUpdate;
         public string FieldCss;
@@ -789,7 +790,16 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             catch (FormatException)
             {
-                return ((int)value).ToString(Format);
+                try
+                {
+                    return value.ToLong().ToString(Format);
+                }
+                catch (FormatException)
+                {
+                    return Nullable == true
+                        ? string.Empty
+                        : "0";
+                }
             }
         }
 
@@ -900,11 +910,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : 0;
         }
 
-        public DateTime DefaultTime()
+        public DateTime DefaultTime(Context context)
         {
             return DefaultInput.IsNullOrEmpty()
                 ? 0.ToDateTime()
-                : DateTime.Now.AddDays(DefaultInput.ToInt());
+                : EditorFormat == "Ymd"
+                    ? DateTime.Now.ToLocal(context: context).Date.AddDays(DefaultInput.ToInt()).ToUniversal(context: context)
+                    : DateTime.Now.AddDays(DefaultInput.ToInt());
         }
 
         public string GetDefaultInput(Context context)
