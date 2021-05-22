@@ -155,7 +155,7 @@ namespace Implem.Pleasanter.Models
             return LockedTime.Value != SavedLockedTime &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultTime().Date != LockedTime.Value.Date);
+                column.DefaultTime(context: context).Date != LockedTime.Value.Date);
         }
 
         public bool ApiCountDate_Updated(Context context, Column column = null)
@@ -163,7 +163,7 @@ namespace Implem.Pleasanter.Models
             return ApiCountDate != SavedApiCountDate &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultTime().Date != ApiCountDate.Date);
+                column.DefaultTime(context: context).Date != ApiCountDate.Date);
         }
 
         public SiteSettings Session_SiteSettings(Context context)

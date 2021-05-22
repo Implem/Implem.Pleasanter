@@ -16,6 +16,7 @@ namespace Implem.Pleasanter.Libraries.General
             Authentication,
             BadFormat,
             BadMailAddress,
+            BadPasswordWhenImporting,
             BadRequest,
             CanNotChangeInheritance,
             CanNotDelete,
@@ -134,6 +135,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.BadMailAddress:
                     return Messages.BadMailAddress(
+                        context: context,
+                        data: data);
+                case Types.BadPasswordWhenImporting:
+                    return Messages.BadPasswordWhenImporting(
                         context: context,
                         data: data);
                 case Types.BadRequest:

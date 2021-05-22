@@ -7,8 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 namespace Implem.Pleasanter.Libraries.DataSources
 {
+    [Serializable]
     public class Slack
     {
+        [NonSerialized]
         public Context context;
         public string text;
         public string username;

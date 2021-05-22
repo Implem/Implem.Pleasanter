@@ -86,7 +86,7 @@ namespace Implem.Pleasanter.Models
             return SearchIndexCreatedTime != SavedSearchIndexCreatedTime &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultTime().Date != SearchIndexCreatedTime.Date);
+                column.DefaultTime(context: context).Date != SearchIndexCreatedTime.Date);
         }
 
         public ItemModel(

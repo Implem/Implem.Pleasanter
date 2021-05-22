@@ -15,10 +15,10 @@
     public enum CheckTypes
     {
         Default,
-        Regex,
-        ExistanceTrue,
-        ExistanceFalse,
+        Existance,
         HasClass,
+        ReadOnly,
+        Regex,
         SelectOptions
     }
 }

@@ -117,7 +117,7 @@ namespace Implem.Pleasanter.Models
             return StartTime != SavedStartTime &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultTime().Date != StartTime.Date);
+                column.DefaultTime(context: context).Date != StartTime.Date);
         }
 
         public bool CompletionTime_Updated(Context context, Column column = null)
@@ -125,7 +125,7 @@ namespace Implem.Pleasanter.Models
             return CompletionTime.Value != SavedCompletionTime &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultTime().Date != CompletionTime.Value.Date);
+                column.DefaultTime(context: context).Date != CompletionTime.Value.Date);
         }
 
         public string PropertyValue(Context context, Column column)
@@ -1790,13 +1790,13 @@ namespace Implem.Pleasanter.Models
                         userId: column.GetDefaultInput(context: context).ToInt());
                     break;
                 case "StartTime":
-                    StartTime = column.DefaultTime();
+                    StartTime = column.DefaultTime(context: context);
                     break;
                 case "CompletionTime":
                     CompletionTime = new CompletionTime(
                         context: context,
                         ss: ss,
-                        value: column.DefaultTime(),
+                        value: column.DefaultTime(context: context),
                         status: Status);
                     break;
                 default:
@@ -1818,7 +1818,7 @@ namespace Implem.Pleasanter.Models
                         case "Date":
                             Date(
                                 column: column,
-                                value: column.DefaultTime());
+                                value: column.DefaultTime(context: context));
                             break;
                         case "Description":
                             Description(

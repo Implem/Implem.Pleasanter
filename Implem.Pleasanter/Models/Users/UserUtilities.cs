@@ -1929,7 +1929,12 @@ namespace Implem.Pleasanter.Models
             res.Val(
                 target: "#NeedReplaceHtml",
                 value: needReplaceHtml?.ToJson());
-            ss.GetEditorColumnNames()
+            var columnNames = ss.GetEditorColumnNames(context.QueryStrings.Bool("control-auto-postback")
+                ? ss.GetColumn(
+                    context: context,
+                    columnName: context.Forms.ControlId().Split_2nd('_'))
+                : null);
+            columnNames
                 .Select(columnName => ss.GetColumn(
                     context: context,
                     columnName: columnName))
@@ -2828,6 +2833,7 @@ namespace Implem.Pleasanter.Models
                     });
                     userHash.Add(data.Index, userModel);
                 });
+                var errorRowNo = 1;
                 foreach (var userModel in userHash.Values)
                 {
                     var badMailAddress = Libraries.Mails.Addresses.BadAddress(
@@ -2838,6 +2844,26 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             data: badMailAddress).ToJson();
                     }
+                    foreach (var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
+                    {
+                        if (!userModel.PasswordValidate.RegexExists(policy.Regex))
+                        {
+                            var badPassword = policy.Languages?.Any() == true
+                                ? policy.Display(context: context)
+                                : Displays.PasswordPolicyViolation(
+                                    context: context,
+                                    data: null);
+                            var badPasswordParam = new string[]
+                            {
+                                errorRowNo.ToString(),
+                                badPassword
+                            };
+                            return Messages.ResponseBadPasswordWhenImporting(
+                                context: context,
+                                data: badPasswordParam).ToJson();
+                        }
+                    }
+                    errorRowNo++;
                 }
                 var insertCount = 0;
                 var updateCount = 0;

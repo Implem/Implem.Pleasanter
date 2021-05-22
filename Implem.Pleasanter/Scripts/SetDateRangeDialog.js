@@ -49,8 +49,8 @@ $p.openSetDateRangeOK = function ($controlID, type) {
         default:
             if (sdval || edval) {
                 dispval = sdval + ' - ' + edval;
-                if (!type == 'DateTimepicker' && sdval) { sdval += ' 00:00:00.000'; }
-                if (!type == 'DateTimepicker' && edval) { edval += ' 23:59:59.997'; }
+                if (type !== 'DateTimepicker' && sdval) { sdval += ' 00:00:00.000'; }
+                if (type !== 'DateTimepicker' && edval) { edval += ' 23:59:59.997'; }
                 setval = '["' + sdval + ',' + edval + '"]';
             }
             break;

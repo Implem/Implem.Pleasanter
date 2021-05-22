@@ -103,6 +103,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                         .Title(Name ?? FileName)
                         .BinaryType("Attachments")
                         .Bin(bin, _using: !IsStoreLocalFolder(column))
+                        .Bin(raw: "NULL", _using: IsStoreLocalFolder(column))
                         .FileName(Name ?? FileName)
                         .Extension(Extention)
                         .Size(Size)

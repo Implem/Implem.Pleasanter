@@ -144,7 +144,7 @@ namespace Implem.Pleasanter.Models
             return ContractDeadline != SavedContractDeadline &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultTime().Date != ContractDeadline.Date);
+                column.DefaultTime(context: context).Date != ContractDeadline.Date);
         }
 
         public List<int> SwitchTargets;

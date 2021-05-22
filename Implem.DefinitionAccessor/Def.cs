@@ -3321,6 +3321,16 @@ namespace Implem.DefinitionAccessor
                                 data.ToString();
                             newCssDefinition.Savedmargin_right = newCssDefinition.margin_right;
                             break;
+                        case "margin-top":
+                            newCssDefinition.margin_top = customDefinitionRow.Get("margin-top")?.ToString() ??
+                                data.ToString();
+                            newCssDefinition.Savedmargin_top = newCssDefinition.margin_top;
+                            break;
+                        case "margin-bottom":
+                            newCssDefinition.margin_bottom = customDefinitionRow.Get("margin-bottom")?.ToString() ??
+                                data.ToString();
+                            newCssDefinition.Savedmargin_bottom = newCssDefinition.margin_bottom;
+                            break;
                         case "padding":
                             newCssDefinition.padding = customDefinitionRow.Get("padding")?.ToString() ??
                                 data.ToString();
@@ -3563,6 +3573,8 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("margin")) { definition.margin = definitionRow["margin"].ToString(); definition.Savedmargin = definition.margin; }
             if (definitionRow.ContainsKey("margin-left")) { definition.margin_left = definitionRow["margin-left"].ToString(); definition.Savedmargin_left = definition.margin_left; }
             if (definitionRow.ContainsKey("margin-right")) { definition.margin_right = definitionRow["margin-right"].ToString(); definition.Savedmargin_right = definition.margin_right; }
+            if (definitionRow.ContainsKey("margin-top")) { definition.margin_top = definitionRow["margin-top"].ToString(); definition.Savedmargin_top = definition.margin_top; }
+            if (definitionRow.ContainsKey("margin-bottom")) { definition.margin_bottom = definitionRow["margin-bottom"].ToString(); definition.Savedmargin_bottom = definition.margin_bottom; }
             if (definitionRow.ContainsKey("padding")) { definition.padding = definitionRow["padding"].ToString(); definition.Savedpadding = definition.padding; }
             if (definitionRow.ContainsKey("padding-bottom")) { definition.padding_bottom = definitionRow["padding-bottom"].ToString(); definition.Savedpadding_bottom = definition.padding_bottom; }
             if (definitionRow.ContainsKey("text-align")) { definition.text_align = definitionRow["text-align"].ToString(); definition.Savedtext_align = definition.text_align; }
@@ -6400,6 +6412,8 @@ namespace Implem.DefinitionAccessor
                         case "margin": cssDefinition.margin = optionValue.ToString(); break;
                         case "margin-left": cssDefinition.margin_left = optionValue.ToString(); break;
                         case "margin-right": cssDefinition.margin_right = optionValue.ToString(); break;
+                        case "margin-top": cssDefinition.margin_top = optionValue.ToString(); break;
+                        case "margin-bottom": cssDefinition.margin_bottom = optionValue.ToString(); break;
                         case "padding": cssDefinition.padding = optionValue.ToString(); break;
                         case "padding-bottom": cssDefinition.padding_bottom = optionValue.ToString(); break;
                         case "text-align": cssDefinition.text_align = optionValue.ToString(); break;
@@ -10059,6 +10073,8 @@ namespace Implem.DefinitionAccessor
         public string margin; public string Savedmargin;
         public string margin_left; public string Savedmargin_left;
         public string margin_right; public string Savedmargin_right;
+        public string margin_top; public string Savedmargin_top;
+        public string margin_bottom; public string Savedmargin_bottom;
         public string padding; public string Savedpadding;
         public string padding_bottom; public string Savedpadding_bottom;
         public string text_align; public string Savedtext_align;
@@ -10123,6 +10139,8 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("margin")) margin = propertyCollection["margin"].ToString(); else margin = string.Empty;
             if (propertyCollection.ContainsKey("margin_left")) margin_left = propertyCollection["margin_left"].ToString(); else margin_left = string.Empty;
             if (propertyCollection.ContainsKey("margin_right")) margin_right = propertyCollection["margin_right"].ToString(); else margin_right = string.Empty;
+            if (propertyCollection.ContainsKey("margin_top")) margin_top = propertyCollection["margin_top"].ToString(); else margin_top = string.Empty;
+            if (propertyCollection.ContainsKey("margin_bottom")) margin_bottom = propertyCollection["margin_bottom"].ToString(); else margin_bottom = string.Empty;
             if (propertyCollection.ContainsKey("padding")) padding = propertyCollection["padding"].ToString(); else padding = string.Empty;
             if (propertyCollection.ContainsKey("padding_bottom")) padding_bottom = propertyCollection["padding_bottom"].ToString(); else padding_bottom = string.Empty;
             if (propertyCollection.ContainsKey("text_align")) text_align = propertyCollection["text_align"].ToString(); else text_align = string.Empty;
@@ -10187,6 +10205,8 @@ namespace Implem.DefinitionAccessor
                     case "margin": return margin;
                     case "margin_left": return margin_left;
                     case "margin_right": return margin_right;
+                    case "margin_top": return margin_top;
+                    case "margin_bottom": return margin_bottom;
                     case "padding": return padding;
                     case "padding_bottom": return padding_bottom;
                     case "text_align": return text_align;
@@ -10251,6 +10271,8 @@ namespace Implem.DefinitionAccessor
             margin = Savedmargin;
             margin_left = Savedmargin_left;
             margin_right = Savedmargin_right;
+            margin_top = Savedmargin_top;
+            margin_bottom = Savedmargin_bottom;
             padding = Savedpadding;
             padding_bottom = Savedpadding_bottom;
             text_align = Savedtext_align;

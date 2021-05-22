@@ -346,7 +346,24 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder SwitchUserInfo(
             this HtmlBuilder hb, Context context)
         {
-            return context.SwitchUser
+            if (context.SwitchTenant)
+            {
+                return hb.Div(id: "SwitchUserInfo", action: () => hb
+                        .A(
+                            href: "#",
+                            attributes: new HtmlAttributes()
+                                .OnClick("location.href='{0}'; ".Params(
+                                    Locations.Get(
+                                        context,
+                                        "Users",
+                                        "ReturnOriginalTenant")))
+                                .DataConfirm("ConfirmSwitchTenant"),
+                            action: () => hb
+                                .Text(text: Displays.SwitchTenantInfo(context: context))));
+            }
+            else
+            {
+                return context.SwitchUser
                 ? hb.Div(id: "SwitchUserInfo", action: () => hb
                     .A(
                         href: "javascript:void(0);",
@@ -360,6 +377,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         action: () => hb
                             .Text(text: Displays.SwitchUserInfo(context: context))))
                 : hb;
+            }
         }
 
         private static HtmlBuilder ExcessLicenseWarning(this HtmlBuilder hb, Context context)

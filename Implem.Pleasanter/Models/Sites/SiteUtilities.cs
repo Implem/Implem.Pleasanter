@@ -5286,17 +5286,27 @@ namespace Implem.Pleasanter.Models
                                     }
                                     break;
                                 case Types.CsDateTime:
-                                    hb.FieldSpinner(
-                                        controlId: "DefaultInput",
-                                        controlCss: " allow-blank",
-                                        labelText: Displays.DefaultInput(context: context),
-                                        value: column.DefaultInput != string.Empty
-                                            ? column.DefaultInput.ToDecimal()
-                                            : (decimal?)null,
-                                        min: column.Min.ToInt(),
-                                        max: column.Max.ToInt(),
-                                        step: column.Step.ToInt(),
-                                        width: column.Width);
+                                    hb
+                                        .FieldSpinner(
+                                            controlId: "DefaultInput",
+                                            controlCss: " allow-blank",
+                                            labelText: Displays.DefaultInput(context: context),
+                                            value: column.DefaultInput != string.Empty
+                                                ? column.DefaultInput.ToDecimal()
+                                                : (decimal?)null,
+                                            min: column.Min.ToInt(),
+                                            max: column.Max.ToInt(),
+                                            step: column.Step.ToInt(),
+                                            width: column.Width)
+                                        .FieldDropDown(
+                                            context: context,
+                                            fieldId: "DateTimeStepField",
+                                            fieldCss: column.EditorFormat == "Ymdhm" ? null : " hidden",
+                                            controlId: "DateTimeStep",
+                                            labelText: Displays.MinutesStep(context),
+                                            optionCollection: new[] { 1, 2, 3, 5, 6, 10, 15, 20, 30, 60 }
+                                                .Select(v => v.ToString()).ToDictionary(v => v),
+                                            selectedValue: column.DateTimeStep?.ToString());
                                     break;
                                 case Types.CsString:
                                     switch (column.ControlType)
@@ -5456,8 +5466,16 @@ namespace Implem.Pleasanter.Models
                                     .FieldCheckBox(
                                         controlId: "AutoPostBack",
                                         labelText: Displays.AutoPostBack(context: context),
-                                        _checked: column.AutoPostBack == true,
-                                        _using: context.ContractSettings.NewFeatures())
+                                        _checked: column.AutoPostBack == true)
+                                    .FieldTextBox(
+                                        fieldId: "ColumnsReturnedWhenAutomaticPostbackField",
+                                        controlId: "ColumnsReturnedWhenAutomaticPostback",
+                                        fieldCss: "field-wide"
+                                            + (column.AutoPostBack != true
+                                                ? " hidden"
+                                                : string.Empty),
+                                        labelText: Displays.ColumnsReturnedWhenAutomaticPostback(context: context),
+                                        text: column.ColumnsReturnedWhenAutomaticPostback)
                                     .FieldCheckBox(
                                         controlId: "NoWrap",
                                         labelText: Displays.NoWrap(context: context),

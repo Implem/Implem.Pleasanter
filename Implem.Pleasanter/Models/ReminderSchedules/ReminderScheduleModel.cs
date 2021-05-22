@@ -54,7 +54,7 @@ namespace Implem.Pleasanter.Models
             return ScheduledTime != SavedScheduledTime &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultTime().Date != ScheduledTime.Date);
+                column.DefaultTime(context: context).Date != ScheduledTime.Date);
         }
 
         public ReminderScheduleModel(

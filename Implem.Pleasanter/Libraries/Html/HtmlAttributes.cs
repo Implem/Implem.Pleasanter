@@ -680,5 +680,15 @@ namespace Implem.Pleasanter.Libraries.Html
             }
             return this;
         }
+
+        public HtmlAttributes DataReadOnly(bool value, bool _using = true)
+        {
+            if (_using && value)
+            {
+                Add("data-readonly");
+                Add("1");
+            }
+            return this;
+        }
     }
 }
