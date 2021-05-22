@@ -5466,8 +5466,16 @@ namespace Implem.Pleasanter.Models
                                     .FieldCheckBox(
                                         controlId: "AutoPostBack",
                                         labelText: Displays.AutoPostBack(context: context),
-                                        _checked: column.AutoPostBack == true,
-                                        _using: context.ContractSettings.NewFeatures())
+                                        _checked: column.AutoPostBack == true)
+                                    .FieldTextBox(
+                                        fieldId: "ColumnsReturnedWhenAutomaticPostbackField",
+                                        controlId: "ColumnsReturnedWhenAutomaticPostback",
+                                        fieldCss: "field-wide"
+                                            + (column.AutoPostBack != true
+                                                ? " hidden"
+                                                : string.Empty),
+                                        labelText: Displays.ColumnsReturnedWhenAutomaticPostback(context: context),
+                                        text: column.ColumnsReturnedWhenAutomaticPostback)
                                     .FieldCheckBox(
                                         controlId: "NoWrap",
                                         labelText: Displays.NoWrap(context: context),
