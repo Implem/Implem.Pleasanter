@@ -5322,18 +5322,6 @@ namespace Implem.Pleasanter.Models
                                                 ? " hidden"
                                                 : string.Empty;
                                             hb
-                                                .FieldCheckBox(
-                                                    controlId: "OverwriteSameFileName",
-                                                    labelText: Displays.OverwriteSameFileName(context: context),
-                                                    _checked: column.OverwriteSameFileName == true)
-                                                .FieldSpinner(
-                                                    controlId: "LimitQuantity",
-                                                    labelText: Displays.LimitQuantity(context: context),
-                                                    value: column.LimitQuantity,
-                                                    min: Parameters.BinaryStorage.MinQuantity,
-                                                    max: Parameters.BinaryStorage.MaxQuantity,
-                                                    step: column.Step.ToInt(),
-                                                    width: 50)
                                                 .FieldDropDown(
                                                     context: context,
                                                     controlId: "BinaryStorageProvider",
@@ -5346,6 +5334,18 @@ namespace Implem.Pleasanter.Models
                                                     },
                                                     selectedValue: column.BinaryStorageProvider,
                                                     _using: Parameters.BinaryStorage.UseStorageSelect)
+                                                .FieldCheckBox(
+                                                    controlId: "OverwriteSameFileName",
+                                                    labelText: Displays.OverwriteSameFileName(context: context),
+                                                    _checked: column.OverwriteSameFileName == true)
+                                                .FieldSpinner(
+                                                    controlId: "LimitQuantity",
+                                                    labelText: Displays.LimitQuantity(context: context),
+                                                    value: column.LimitQuantity,
+                                                    min: Parameters.BinaryStorage.MinQuantity,
+                                                    max: Parameters.BinaryStorage.MaxQuantity,
+                                                    step: column.Step.ToInt(),
+                                                    width: 50)
                                                 .FieldSpinner(
                                                     fieldId: "LimitSizeField",
                                                     fieldCss: hiddenDataBase,
