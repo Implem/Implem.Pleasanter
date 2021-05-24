@@ -160,7 +160,7 @@
                 "MenuId": "HelpMenu_AnnualSupportService",
                 "Name": "AnnualSupportService",
                 "Icon": "ui-icon ui-icon-clipboard",
-                "Url": "https://pleasanter.org/support#plan",
+                "Url": "https://pleasanter.org/service",
                 "Target": "_blank"
             },
             {
