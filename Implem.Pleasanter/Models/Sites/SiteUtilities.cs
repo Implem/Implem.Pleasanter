@@ -8822,8 +8822,7 @@ namespace Implem.Pleasanter.Models
                     id: "SearchSettingsEditorGeneral",
                     css: " enclosed",
                     legendText: Displays.SearchSettings(context: context),
-                    action: () => hb
-                    .FieldDropDown(
+                    action: () => hb.FieldDropDown(
                         context: context,
                         controlId: "SearchType",
                         controlCss: " always-send",
@@ -8848,6 +8847,35 @@ namespace Implem.Pleasanter.Models
                             }
                         },
                         selectedValue: ss.SearchType.ToInt().ToString()))
+                .FieldSet(
+                    id: "SearchSettingsEditorFulltext",
+                    css: " enclosed",
+                    legendText: Displays.FullTextSettings(context: context),
+                    action: () => hb
+                        .FieldCheckBox(
+                            controlId: "FullTextIncludeBreadcrumb",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.FullTextIncludeBreadcrumb(context: context),
+                            _checked: ss.FullTextIncludeBreadcrumb == true)
+                        .FieldCheckBox(
+                            controlId: "FullTextIncludeSiteId",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.FullTextIncludeSiteId(context: context),
+                            _checked: ss.FullTextIncludeSiteId == true)
+                        .FieldCheckBox(
+                            controlId: "FullTextIncludeSiteTitle",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.FullTextIncludeSiteTitle(context: context),
+                            _checked: ss.FullTextIncludeSiteTitle == true)
+                        .FieldSpinner(
+                            controlId: "FullTextNumberOfMails",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.FullTextNumberOfMails(context: context),
+                            value: ss.FullTextNumberOfMails.ToDecimal(),
+                            min: 0,
+                            max: Parameters.Search.FullTextMaxNumberOfMails,
+                            step: 1,
+                            width: 25))
                 .FieldSet(
                     id: "SearchSettingsEditorOperations",
                     css: " enclosed",

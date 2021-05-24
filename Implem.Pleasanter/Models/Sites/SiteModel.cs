@@ -553,20 +553,25 @@ namespace Implem.Pleasanter.Models
             if (AccessStatus == Databases.AccessStatuses.NotFound) return null;
             if (ReferenceType == "Wikis") return null;
             var fullText = new System.Text.StringBuilder();
-            SiteInfo.TenantCaches
-                .Get(context.TenantId)?
-                .SiteMenu.Breadcrumb(
-                    context: context,
-                    siteId: SiteId)
-                .FullText(
-                    context: context,
-                    fullText: fullText);
-            SiteId.FullText(
-                context: context,
-                column: ss.GetColumn(
-                    context: context,
-                    columnName: "SiteId"),
-                fullText: fullText);
+            if (ss.FullTextIncludeBreadcrumb == true)
+            {
+                SiteInfo.TenantCaches
+                    .Get(context.TenantId)?
+                    .SiteMenu.Breadcrumb(
+                        context: context,
+                        siteId: SiteId)
+                    .FullText(
+                        context: context,
+                        fullText: fullText);
+            }
+            if (ss.FullTextIncludeSiteId == true)
+            {
+                fullText.Append($" {ss.SiteId}");
+            }
+            if (ss.FullTextIncludeSiteTitle == true)
+            {
+                fullText.Append($" {ss.Title}");
+            }
             ss.GetEditorColumnNames(
                 context: context,
                 columnOnly: true)
@@ -631,6 +636,7 @@ namespace Implem.Pleasanter.Models
             {
                 FullTextExtensions.OutgoingMailsFullText(
                     context: context,
+                    ss: ss,
                     fullText: fullText,
                     referenceType: "Sites",
                     referenceId: SiteId);

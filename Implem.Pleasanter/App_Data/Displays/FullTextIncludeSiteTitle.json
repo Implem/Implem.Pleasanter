@@ -1,0 +1,33 @@
+﻿{
+    "Id": "FullTextIncludeSiteTitle",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Include site title"
+        },
+        {
+            "Language": "zh",
+            "Body": "包括网站标题"
+        },
+        {
+            "Language": "ja",
+            "Body": "サイトのタイトルを含める"
+        },
+        {
+            "Language": "de",
+            "Body": "Site-Titel einschließen"
+        },
+        {
+            "Language": "ko",
+            "Body": "사이트 제목 포함"
+        },
+        {
+            "Language": "es",
+            "Body": "Incluir el título del sitio"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bao gồm tiêu đề trang web"
+        }
+    ]
+}
