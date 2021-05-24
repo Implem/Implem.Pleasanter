@@ -2919,6 +2919,56 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string FullTextIncludeBreadcrumb(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "FullTextIncludeBreadcrumb",
+                data: data);
+        }
+
+        public static string FullTextIncludeSiteId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "FullTextIncludeSiteId",
+                data: data);
+        }
+
+        public static string FullTextIncludeSiteTitle(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "FullTextIncludeSiteTitle",
+                data: data);
+        }
+
+        public static string FullTextNumberOfMails(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "FullTextNumberOfMails",
+                data: data);
+        }
+
+        public static string FullTextSettings(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "FullTextSettings",
+                data: data);
+        }
+
         public static string FullTextTypes(
             Context context,
             params string[] data)

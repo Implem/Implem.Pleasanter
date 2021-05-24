@@ -187,6 +187,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? OutputFormulaLogs;
         public string TitleSeparator;
         public SearchTypes? SearchType;
+        public bool? FullTextIncludeBreadcrumb;
+        public bool? FullTextIncludeSiteId;
+        public bool? FullTextIncludeSiteTitle;
+        public int? FullTextNumberOfMails;
         public SaveViewTypes? SaveViewType;
         public string AddressBook;
         public string MailToDefault;
@@ -308,6 +312,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             UseRelatingColumnsOnFilter = UseRelatingColumnsOnFilter ?? false;
             OutputFormulaLogs = OutputFormulaLogs ?? false;
             SearchType = SearchType ?? SearchTypes.PartialMatch;
+            FullTextIncludeBreadcrumb = FullTextIncludeBreadcrumb ?? Parameters.Search.FullTextIncludeBreadcrumb;
+            FullTextIncludeSiteId = FullTextIncludeSiteId ?? Parameters.Search.FullTextIncludeSiteId;
+            FullTextIncludeSiteTitle = FullTextIncludeSiteTitle ?? Parameters.Search.FullTextIncludeSiteTitle;
+            FullTextNumberOfMails = FullTextNumberOfMails ?? Parameters.Search.FullTextNumberOfMails;
             SaveViewType = SaveViewType ?? SaveViewTypes.Session;
         }
 
@@ -724,6 +732,22 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (SearchType != SearchTypes.PartialMatch)
             {
                 ss.SearchType = SearchType;
+            }
+            if (FullTextIncludeBreadcrumb != Parameters.Search.FullTextIncludeBreadcrumb)
+            {
+                ss.FullTextIncludeBreadcrumb = FullTextIncludeBreadcrumb;
+            }
+            if (FullTextIncludeSiteId != Parameters.Search.FullTextIncludeSiteId)
+            {
+                ss.FullTextIncludeSiteId = FullTextIncludeSiteId;
+            }
+            if (FullTextIncludeSiteTitle != Parameters.Search.FullTextIncludeSiteTitle)
+            {
+                ss.FullTextIncludeSiteTitle = FullTextIncludeSiteTitle;
+            }
+            if (FullTextNumberOfMails != Parameters.Search.FullTextNumberOfMails)
+            {
+                ss.FullTextNumberOfMails = FullTextNumberOfMails;
             }
             if (SaveViewType != SaveViewTypes.Session)
             {
@@ -2966,6 +2990,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "OutputFormulaLogs": OutputFormulaLogs = value.ToBool(); break;
                 case "ImageLibPageSize": ImageLibPageSize = value.ToInt(); break;
                 case "SearchType": SearchType = (SearchTypes)value.ToInt(); break;
+                case "FullTextIncludeBreadcrumb": FullTextIncludeBreadcrumb = value.ToBool(); break;
+                case "FullTextIncludeSiteId": FullTextIncludeSiteId = value.ToBool(); break;
+                case "FullTextIncludeSiteTitle": FullTextIncludeSiteTitle = value.ToBool(); break;
+                case "FullTextNumberOfMails": FullTextNumberOfMails = value.ToInt(); break;
                 case "SaveViewType": SaveViewType = (SaveViewTypes)value.ToInt(); break;
                 case "AddressBook": AddressBook = value; break;
                 case "MailToDefault": MailToDefault = value; break;
