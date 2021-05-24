@@ -4146,7 +4146,7 @@ namespace Implem.Pleasanter.Models
                     Rds.RestoreBinaries(
                         factory: context,
                         where: Rds.BinariesWhere()
-                            .ReferenceId(sub: Rds.SelectItems(
+                            .ReferenceId_In(sub: Rds.SelectItems(
                                 tableType: Sqls.TableTypes.Deleted,
                                 column: Rds.ItemsColumn().ReferenceId(),
                                 where: Rds.ItemsWhere().ReferenceType(guid)))
