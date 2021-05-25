@@ -167,6 +167,18 @@ namespace Implem.Pleasanter.Models
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
+                    case "TopStyle":
+                        if (tenantModel.TopStyle_Updated(context: context, column: column))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "TopScript":
+                        if (tenantModel.TopScript_Updated(context: context, column: column))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
                     case "ContractDeadline":
                         if (tenantModel.ContractDeadline_Updated(context: context, column: column))
                         {
@@ -328,6 +340,18 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "HtmlTitleRecord":
                         if (tenantModel.HtmlTitleRecord_Updated(context: context))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "TopStyle":
+                        if (tenantModel.TopStyle_Updated(context: context))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "TopScript":
+                        if (tenantModel.TopScript_Updated(context: context))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }

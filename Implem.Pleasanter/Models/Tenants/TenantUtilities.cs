@@ -562,24 +562,26 @@ namespace Implem.Pleasanter.Models
             TenantModel tenantModel,
             bool preview = false)
         {
-            var title = ss.GetColumn(context, "Title");
-            var logoType = ss.GetColumn(context, "LogoType");
-            var htmlTitleTop = ss.GetColumn(context, "HtmlTitleTop");
-            var htmlTitleSite = ss.GetColumn(context, "HtmlTitleSite");
-            var htmlTitleRecord = ss.GetColumn(context, "HtmlTitleRecord");
+            var titleColumn = ss.GetColumn(context, "Title");
+            var logoTypeColumn = ss.GetColumn(context, "LogoType");
+            var htmlTitleTopColumn = ss.GetColumn(context, "HtmlTitleTop");
+            var htmlTitleSiteColumn = ss.GetColumn(context, "HtmlTitleSite");
+            var htmlTitleRecordColumn = ss.GetColumn(context, "HtmlTitleRecord");
+            var topStyleColumn = ss.GetColumn(context, "TopStyle");
+            var topScriptColumn = ss.GetColumn(context, "TopScript");
             var UsedStorageCapacity = ((BinaryUtilities.UsedTenantStorageSize(context: context) / 1024) / 1024) / 1024;
-            return hb.FieldSet(id: "FieldSetGeneral", action: () => hb
+            return hb.FieldSet(id: "FieldSetGeneralColumns", action: () => hb
                 .Field(
                     context: context,
                     ss: ss,
-                    column: title,
+                    column: titleColumn,
                     methodType: tenantModel.MethodType,
                     value: tenantModel.Title
-                        .ToControl(context: context, ss: ss, column: title),
+                        .ToControl(context: context, ss: ss, column: titleColumn),
                     columnPermissionType: Permissions.ColumnPermissionType(
                         context: context,
                         ss: ss,
-                        column: title,
+                        column: titleColumn,
                         baseModel: tenantModel))
                 .FieldDropDown(
                     context: context,
@@ -617,35 +619,44 @@ namespace Implem.Pleasanter.Models
                         .Field(
                             context: context,
                             ss: ss,
-                            column: htmlTitleTop,
+                            column: htmlTitleTopColumn,
                             methodType: tenantModel.MethodType,
-                            value: tenantModel.HtmlTitleTop.ToControl(context: context, ss: ss, column: title),
+                            value: tenantModel.HtmlTitleTop.ToControl(
+                                context: context,
+                                ss: ss,
+                                column: titleColumn),
                             columnPermissionType: Permissions.ColumnPermissionType(
                                 context: context,
                                 ss: ss,
-                                column: htmlTitleTop,
+                                column: htmlTitleTopColumn,
                                 baseModel: tenantModel))
                         .Field(
                             context: context,
                             ss: ss,
-                            column: htmlTitleSite,
+                            column: htmlTitleSiteColumn,
                             methodType: tenantModel.MethodType,
-                            value: tenantModel.HtmlTitleSite.ToControl(context: context, ss: ss, column: title),
+                            value: tenantModel.HtmlTitleSite.ToControl(
+                                context: context,
+                                ss: ss,
+                                column: titleColumn),
                             columnPermissionType: Permissions.ColumnPermissionType(
                                 context: context,
                                 ss: ss,
-                                column: htmlTitleSite,
+                                column: htmlTitleSiteColumn,
                                 baseModel: tenantModel))
                         .Field(
                             context: context,
                             ss: ss,
-                            column: htmlTitleRecord,
+                            column: htmlTitleRecordColumn,
                             methodType: tenantModel.MethodType,
-                            value: tenantModel.HtmlTitleRecord.ToControl(context: context, ss: ss, column: title),
+                            value: tenantModel.HtmlTitleRecord.ToControl(
+                                context: context,
+                                ss: ss,
+                                column: titleColumn),
                             columnPermissionType: Permissions.ColumnPermissionType(
                                 context: context,
                                 ss: ss,
-                                column: htmlTitleRecord,
+                                column: htmlTitleRecordColumn,
                                 baseModel: tenantModel)))
                 .FieldSet(
                     id: "StorageCheckField",
@@ -665,7 +676,45 @@ namespace Implem.Pleasanter.Models
                             labelText: Displays.UsedRateStorageCapacity(context: context),
                             text: ((UsedStorageCapacity.ToDecimal()
                                 / context.ContractSettings.StorageSize.ToDecimal()) * 100).ToString("F4") + "%"),
-                    _using: context.ContractSettings.StorageSize.ToDecimal() > 0));
+                    _using: context.ContractSettings.StorageSize.ToDecimal() > 0)
+                .FieldSet(
+                    id: "StyleField",
+                    css: " enclosed",
+                    legendText: Displays.Style(context),
+                    action: () => hb
+                        .Field(
+                            context: context,
+                            ss: ss,
+                            column: topStyleColumn,
+                            methodType: tenantModel.MethodType,
+                            value: tenantModel.TopStyle.ToControl(
+                                context: context,
+                                ss: ss,
+                                column: topStyleColumn),
+                            columnPermissionType: Permissions.ColumnPermissionType(
+                                context: context,
+                                ss: ss,
+                                column: topStyleColumn,
+                                baseModel: tenantModel)))
+                .FieldSet(
+                    id: "ScriptField",
+                    css: " enclosed",
+                    legendText: Displays.Script(context),
+                    action: () => hb
+                        .Field(
+                            context: context,
+                            ss: ss,
+                            column: topScriptColumn,
+                            methodType: tenantModel.MethodType,
+                            value: tenantModel.TopScript.ToControl(
+                                context: context,
+                                ss: ss,
+                                column: topScriptColumn),
+                            columnPermissionType: Permissions.ColumnPermissionType(
+                                context: context,
+                                ss: ss,
+                                column: topScriptColumn,
+                                baseModel: tenantModel))));
         }
 
         public static HtmlBuilder Field(
@@ -960,6 +1009,18 @@ namespace Implem.Pleasanter.Models
                                 res.Val(
                                     target: "#Tenants_HtmlTitleRecord" + idSuffix,
                                     value: tenantModel.HtmlTitleRecord.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "TopStyle":
+                                res.Val(
+                                    target: "#Tenants_TopStyle" + idSuffix,
+                                    value: tenantModel.TopStyle.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "TopScript":
+                                res.Val(
+                                    target: "#Tenants_TopScript" + idSuffix,
+                                    value: tenantModel.TopScript.ToResponse(context: context, ss: ss, column: column),
                                     options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                 break;
                             default:

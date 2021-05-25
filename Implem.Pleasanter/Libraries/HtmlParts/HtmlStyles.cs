@@ -26,12 +26,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     _using: !extendedStyles.IsNullOrEmpty());
         }
 
-        public static string ExtendedStyles(
-            Context context)
+        private static string ExtendedStyles(Context context)
         {
             return ExtendedStyles(
+                context: context,
                 deptId: context.DeptId,
                 userId: context.UserId,
+                siteTop: context.SiteTop(),
                 siteId: context.SiteId,
                 id: context.Id,
                 controller: context.Controller,
@@ -39,23 +40,29 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         public static string ExtendedStyles(
+            Context context,
             int deptId,
             int userId,
+            bool siteTop,
             long siteId,
             long id,
             string controller,
             string action)
         {
-            return ExtensionUtilities.ExtensionWhere<ExtendedStyle>(
-                extensions: Parameters.ExtendedStyles,
-                deptId: deptId,
-                userId: userId,
-                siteId: siteId,
-                id: id,
-                controller: controller,
-                action: action)
-                    .Select(o => o.Style)
-                    .Join("\n");
+            var styles = (siteTop && !context.TopStyle.IsNullOrEmpty()
+                ? context.TopStyle + '\n'
+                : string.Empty)
+                    + ExtensionUtilities.ExtensionWhere<ExtendedStyle>(
+                        extensions: Parameters.ExtendedStyles,
+                        deptId: deptId,
+                        userId: userId,
+                        siteId: siteId,
+                        id: id,
+                        controller: controller,
+                        action: action)
+                            .Select(o => o.Style)
+                            .Join("\n");
+            return styles;
         }
 
         public static HtmlBuilder Styles(

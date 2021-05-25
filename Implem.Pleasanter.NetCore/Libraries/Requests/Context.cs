@@ -77,6 +77,8 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
         public override string HtmlTitleTop { get; set; }
         public override string HtmlTitleSite { get; set; }
         public override string HtmlTitleRecord { get; set; }
+        public override string TopStyle { get; set; }
+        public override string TopScript { get; set; }
         public override int DeptId { get; set; }
         public override int UserId { get; set; }
         public override string LoginId { get; set; } = AspNetCoreHttpContext.Current?.User?.Identity?.Name;
@@ -341,9 +343,12 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
                             .ContractDeadline()
                             .LogoType()
                             .DisableAllUsersPermission()
+                            .DisableStartGuide()
                             .HtmlTitleTop()
                             .HtmlTitleSite()
-                            .HtmlTitleRecord(),
+                            .HtmlTitleRecord()
+                            .TopStyle()
+                            .TopScript(),
                         where: Rds.TenantsWhere().TenantId(TenantId)))
                             .AsEnumerable()
                             .FirstOrDefault();
@@ -354,9 +359,13 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
                         .Deserialize<ContractSettings>() ?? ContractSettings;
                     ContractSettings.Deadline = dataRow?.DateTime("ContractDeadline");
                     LogoType = (TenantModel.LogoTypes)dataRow.Int("LogoType");
+                    DisableAllUsersPermission = dataRow.Bool("DisableAllUsersPermission");
+                    DisableStartGuide = dataRow.Bool("DisableStartGuide");
                     HtmlTitleTop = dataRow.String("HtmlTitleTop");
                     HtmlTitleSite = dataRow.String("HtmlTitleSite");
                     HtmlTitleRecord = dataRow.String("HtmlTitleRecord");
+                    TopStyle = dataRow.String("TopStyle");
+                    TopScript = dataRow.String("TopScript");
                 }
             }
         }
@@ -747,10 +756,14 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
             return new ScriptEngine();
         }
 
+        public override bool SiteTop()
+        {
+            return SiteId == 0 && Id == 0 && Controller == "items" && Action == "index";
+        }
+
         public override string GetLog()
         {
             return LogBuilder?.ToString();
         }
-
     }
 }
