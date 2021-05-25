@@ -419,7 +419,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         {
                             "\"" + orderByColumn.ColumnName + "\""
                         },
-                        _operator: ">getdate()",
+                        _operator: "<'{0}'".Params(
+                            DateTime.Now.ToLocal(context: context).Date),
                         _using: ExcludeOverdue == true)
                     .Add(or: new SqlWhereCollection()
                         .Add(
