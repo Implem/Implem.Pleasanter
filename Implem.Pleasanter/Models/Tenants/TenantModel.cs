@@ -38,6 +38,8 @@ namespace Implem.Pleasanter.Models
         public string HtmlTitleTop = "[ProductName]";
         public string HtmlTitleSite = "[ProductName]";
         public string HtmlTitleRecord = "[ProductName]";
+        public string TopStyle = string.Empty;
+        public string TopScript = string.Empty;
         public int SavedTenantId = 0;
         public string SavedTenantName = string.Empty;
         public string SavedTitle = string.Empty;
@@ -50,6 +52,8 @@ namespace Implem.Pleasanter.Models
         public string SavedHtmlTitleTop = "[ProductName]";
         public string SavedHtmlTitleSite = "[ProductName]";
         public string SavedHtmlTitleRecord = "[ProductName]";
+        public string SavedTopStyle = string.Empty;
+        public string SavedTopScript = string.Empty;
 
         public bool TenantId_Updated(Context context, Column column = null)
         {
@@ -137,6 +141,22 @@ namespace Implem.Pleasanter.Models
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.GetDefaultInput(context: context).ToString() != HtmlTitleRecord);
+        }
+
+        public bool TopStyle_Updated(Context context, Column column = null)
+        {
+            return TopStyle != SavedTopStyle && TopStyle != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToString() != TopStyle);
+        }
+
+        public bool TopScript_Updated(Context context, Column column = null)
+        {
+            return TopScript != SavedTopScript && TopScript != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToString() != TopScript);
         }
 
         public bool ContractDeadline_Updated(Context context, Column column = null)
@@ -307,6 +327,8 @@ namespace Implem.Pleasanter.Models
                     case "HtmlTitleTop": data.HtmlTitleTop = HtmlTitleTop; break;
                     case "HtmlTitleSite": data.HtmlTitleSite = HtmlTitleSite; break;
                     case "HtmlTitleRecord": data.HtmlTitleRecord = HtmlTitleRecord; break;
+                    case "TopStyle": data.TopStyle = TopStyle; break;
+                    case "TopScript": data.TopScript = TopScript; break;
                     case "Creator": data.Creator = Creator.Id; break;
                     case "Updator": data.Updator = Updator.Id; break;
                     case "CreatedTime": data.CreatedTime = CreatedTime.Value.ToLocal(context: context); break;
@@ -577,6 +599,8 @@ namespace Implem.Pleasanter.Models
                     case "Tenants_HtmlTitleTop": HtmlTitleTop = value.ToString(); break;
                     case "Tenants_HtmlTitleSite": HtmlTitleSite = value.ToString(); break;
                     case "Tenants_HtmlTitleRecord": HtmlTitleRecord = value.ToString(); break;
+                    case "Tenants_TopStyle": TopStyle = value.ToString(); break;
+                    case "Tenants_TopScript": TopScript = value.ToString(); break;
                     case "Tenants_Timestamp": Timestamp = value.ToString(); break;
                     case "Comments": Comments.Prepend(
                         context: context,
@@ -664,6 +688,8 @@ namespace Implem.Pleasanter.Models
             HtmlTitleTop = tenantModel.HtmlTitleTop;
             HtmlTitleSite = tenantModel.HtmlTitleSite;
             HtmlTitleRecord = tenantModel.HtmlTitleRecord;
+            TopStyle = tenantModel.TopStyle;
+            TopScript = tenantModel.TopScript;
             Comments = tenantModel.Comments;
             Creator = tenantModel.Creator;
             Updator = tenantModel.Updator;
@@ -697,6 +723,8 @@ namespace Implem.Pleasanter.Models
             if (data.HtmlTitleTop != null) HtmlTitleTop = data.HtmlTitleTop.ToString().ToString();
             if (data.HtmlTitleSite != null) HtmlTitleSite = data.HtmlTitleSite.ToString().ToString();
             if (data.HtmlTitleRecord != null) HtmlTitleRecord = data.HtmlTitleRecord.ToString().ToString();
+            if (data.TopStyle != null) TopStyle = data.TopStyle.ToString().ToString();
+            if (data.TopScript != null) TopScript = data.TopScript.ToString().ToString();
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             data.ClassHash?.ForEach(o => Class(
@@ -853,6 +881,14 @@ namespace Implem.Pleasanter.Models
                             HtmlTitleRecord = dataRow[column.ColumnName].ToString();
                             SavedHtmlTitleRecord = HtmlTitleRecord;
                             break;
+                        case "TopStyle":
+                            TopStyle = dataRow[column.ColumnName].ToString();
+                            SavedTopStyle = TopStyle;
+                            break;
+                        case "TopScript":
+                            TopScript = dataRow[column.ColumnName].ToString();
+                            SavedTopScript = TopScript;
+                            break;
                         case "Comments":
                             Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
                             SavedComments = Comments.ToJson();
@@ -954,6 +990,8 @@ namespace Implem.Pleasanter.Models
                 || HtmlTitleTop_Updated(context: context)
                 || HtmlTitleSite_Updated(context: context)
                 || HtmlTitleRecord_Updated(context: context)
+                || TopStyle_Updated(context: context)
+                || TopScript_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);

@@ -1722,6 +1722,31 @@ th.calendar-header{
     margin-left:120px;
 }
 
+.field-textarea{
+    width:100%;
+    min-height:45px;
+    float:left;
+    padding:0px 10px 10px 0px;
+    clear:both;
+}
+
+.field-textarea > .field-label{
+    width:120px;
+    float:left;
+    margin-right:-120px;
+    padding:7px 7px 7px 0px;
+    text-align:right;
+}
+
+.field-textarea > .field-control{
+    width:100%;
+    float:right;
+}
+
+:not(td) > div.field-textarea .container-normal{
+    margin-left:120px;
+}
+
 .field-auto{
     width:auto;
     height:45px;

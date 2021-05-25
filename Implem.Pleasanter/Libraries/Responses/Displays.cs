@@ -8239,6 +8239,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Tenants_TopStyle(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Tenants_TopStyle",
+                data: data);
+        }
+
+        public static string Tenants_TopScript(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Tenants_TopScript",
+                data: data);
+        }
+
         public static string Demos_DemoId(
             Context context,
             params string[] data)

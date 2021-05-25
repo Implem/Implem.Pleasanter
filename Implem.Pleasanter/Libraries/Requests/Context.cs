@@ -64,6 +64,8 @@ namespace Implem.Pleasanter.Libraries.Requests
         public abstract string HtmlTitleTop { get; set; }
         public abstract string HtmlTitleSite { get; set; }
         public abstract string HtmlTitleRecord { get; set; }
+        public abstract string TopStyle { get; set; }
+        public abstract string TopScript { get; set; }
         public abstract int DeptId { get; set; }
         public abstract int UserId { get; set; }
         public abstract string LoginId { get; set; }
@@ -228,6 +230,8 @@ namespace Implem.Pleasanter.Libraries.Requests
         }
 
         public abstract IScriptEngine CreateScriptEngin();
+
+        public abstract bool SiteTop();
 
         public abstract string GetLog();
 

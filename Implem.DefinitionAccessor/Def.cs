@@ -1478,6 +1478,8 @@ namespace Implem.DefinitionAccessor
                     case "Tenants_HtmlTitleTop": Column.Tenants_HtmlTitleTop = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_HtmlTitleTop, definitionRow, ColumnXls); break;
                     case "Tenants_HtmlTitleSite": Column.Tenants_HtmlTitleSite = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_HtmlTitleSite, definitionRow, ColumnXls); break;
                     case "Tenants_HtmlTitleRecord": Column.Tenants_HtmlTitleRecord = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_HtmlTitleRecord, definitionRow, ColumnXls); break;
+                    case "Tenants_TopStyle": Column.Tenants_TopStyle = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TopStyle, definitionRow, ColumnXls); break;
+                    case "Tenants_TopScript": Column.Tenants_TopScript = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TopScript, definitionRow, ColumnXls); break;
                     case "Demos_DemoId": Column.Demos_DemoId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_DemoId, definitionRow, ColumnXls); break;
                     case "Demos_TenantId": Column.Demos_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_TenantId, definitionRow, ColumnXls); break;
                     case "Demos_Title": Column.Demos_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_Title, definitionRow, ColumnXls); break;
@@ -9158,6 +9160,8 @@ namespace Implem.DefinitionAccessor
         public string Tenants_HtmlTitleTop;
         public string Tenants_HtmlTitleSite;
         public string Tenants_HtmlTitleRecord;
+        public string Tenants_TopStyle;
+        public string Tenants_TopScript;
         public string Demos_DemoId;
         public string Demos_TenantId;
         public string Demos_Title;
@@ -9658,6 +9662,8 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Tenants_HtmlTitleTop = new ColumnDefinition();
         public ColumnDefinition Tenants_HtmlTitleSite = new ColumnDefinition();
         public ColumnDefinition Tenants_HtmlTitleRecord = new ColumnDefinition();
+        public ColumnDefinition Tenants_TopStyle = new ColumnDefinition();
+        public ColumnDefinition Tenants_TopScript = new ColumnDefinition();
         public ColumnDefinition Demos_DemoId = new ColumnDefinition();
         public ColumnDefinition Demos_TenantId = new ColumnDefinition();
         public ColumnDefinition Demos_Title = new ColumnDefinition();
