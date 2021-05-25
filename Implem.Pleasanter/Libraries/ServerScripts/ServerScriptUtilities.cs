@@ -70,14 +70,14 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         }
 
         private static (string, object) ReadNameValue(
-            Context context, SiteSettings ss, string columnName, object value)
+            Context context, SiteSettings ss, string columnName, object value, List<string> mine)
         {
             return (
                 columnName,
                 ss?.ColumnHash.Get(columnName)?.CanRead(
                     context: context,
                     ss: ss,
-                    mine: null) == true
+                    mine: mine) == true
                         ? value
                         : null);
         }
@@ -85,109 +85,128 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public static IEnumerable<(string Name, object Value)> Values(
             Context context, SiteSettings ss, BaseItemModel model)
         {
+            var mine = model?.Mine(context: context);
             var values = new List<(string, object)>();
             values.Add(ReadNameValue(
                 context: context,
                 ss: ss,
                 columnName: nameof(model.SiteId),
-                value: model.SiteId));
+                value: model.SiteId,
+                mine: mine));
             values.Add(ReadNameValue(
                 context: context,
                 ss: ss,
                 columnName: nameof(model.Title),
-                value: model.Title?.Value));
+                value: model.Title?.Value,
+                mine: mine));
             values.Add(ReadNameValue(
                 context: context,
                 ss: ss,
                 columnName: nameof(model.Body),
-                value: model.Body));
+                value: model.Body,
+                mine: mine));
             values.Add(ReadNameValue(
                 context: context,
                 ss: ss,
                 columnName: nameof(model.Ver),
-                value: model.Ver));
+                value: model.Ver,
+                mine: mine));
             values.Add(ReadNameValue(
                 context: context,
                 ss: ss,
                 columnName: nameof(model.Creator),
-                value: model.Creator.Id));
+                value: model.Creator.Id,
+                mine: mine));
             values.Add(ReadNameValue(
                 context: context,
                 ss: ss,
                 columnName: nameof(model.Updator),
-                value: model.Updator.Id));
+                value: model.Updator.Id,
+                mine: mine));
             values.Add(ReadNameValue(
                 context: context,
                 ss: ss,
                 columnName: nameof(model.CreatedTime),
-                value: model.CreatedTime?.Value));
+                value: model.CreatedTime?.Value,
+                mine: mine));
             values.Add(ReadNameValue(
                 context: context,
                 ss: ss,
                 columnName: nameof(model.UpdatedTime),
-                value: model.UpdatedTime?.Value));
+                value: model.UpdatedTime?.Value,
+                mine: mine));
             values.AddRange(model
                 .ClassHash
                 .Select(element => ReadNameValue(
                     context: context,
                     ss: ss,
                     columnName: element.Key,
-                    value: element.Value)));
+                    value: element.Value,
+                    mine: mine)));
             values.AddRange(model
                 .NumHash
                 .Select(element => ReadNameValue(
                     context: context,
                     ss: ss,
                     columnName: element.Key,
-                    value: element.Value.Value)));
+                    value: element.Value.Value,
+                    mine: mine)));
             values.AddRange(model
                 .DateHash
                 .Select(element => ReadNameValue(
                     context: context,
                     ss: ss,
                     columnName: element.Key,
-                    value: element.Value)));
+                    value: element.Value,
+                    mine: mine)));
             values.AddRange(model
                 .DescriptionHash
                 .Select(element => ReadNameValue(
                     context: context,
                     ss: ss,
                     columnName: element.Key,
-                    value: element.Value)));
+                    value: element.Value,
+                    mine: mine)));
             values.AddRange(model
                 .CheckHash
                 .Select(element => ReadNameValue(
                     context: context,
                     ss: ss,
                     columnName: element.Key,
-                    value: element.Value)));
+                    value: element.Value,
+                    mine: mine)));
             if (model is ResultModel resultModel)
             {
                 values.Add(ReadNameValue(
                     context: context,
                     ss: ss,
                     columnName: nameof(ResultModel.ResultId),
-                    value: resultModel.ResultId));
+                    value: resultModel.ResultId,
+                    mine: mine));
                 values.Add(ReadNameValue(
                     context: context,
                     ss: ss,
                     columnName: nameof(ResultModel.Status),
-                    value: resultModel.Status?.Value));
+                    value: resultModel.Status?.Value,
+                    mine: mine));
                 values.Add(ReadNameValue(
                     context: context,
                     ss: ss,
                     columnName: nameof(ResultModel.Manager),
-                    value: resultModel.Manager.Id));
+                    value: resultModel.Manager.Id,
+                    mine: mine));
                 values.Add(ReadNameValue(
                     context: context,
                     ss: ss,
                     columnName: nameof(ResultModel.Owner),
-                    value: resultModel.Owner.Id));
+                    value: resultModel.Owner.Id,
+                    mine: mine));
                 values.Add(ReadNameValue(
                     context: context,
                     ss: ss,
                     columnName: nameof(ResultModel.Locked),
-                    value: resultModel.Locked));
+                    value: resultModel.Locked,
+                    mine: mine));
             }
             if (model is IssueModel issueModel)
             {
@@ -195,52 +214,62 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     context: context,
                     ss: ss,
                     columnName: nameof(IssueModel.IssueId),
-                    value: issueModel.IssueId));
+                    value: issueModel.IssueId,
+                    mine: mine));
                 values.Add(ReadNameValue(
                     context: context,
                     ss: ss,
                     columnName: nameof(IssueModel.StartTime),
-                    value: issueModel.StartTime));
+                    value: issueModel.StartTime,
+                    mine: mine));
                 values.Add(ReadNameValue(
                     context: context,
                     ss: ss,
                     columnName: nameof(IssueModel.CompletionTime),
-                    value: issueModel.CompletionTime.Value));
+                    value: issueModel.CompletionTime.Value,
+                    mine: mine));
                 values.Add(ReadNameValue(
                     context: context,
                     ss: ss,
                     columnName: nameof(IssueModel.WorkValue),
-                    value: issueModel.WorkValue.Value));
+                    value: issueModel.WorkValue.Value,
+                    mine: mine));
                 values.Add(ReadNameValue(
                     context: context,
                     ss: ss,
                     columnName: nameof(IssueModel.ProgressRate),
-                    value: issueModel.ProgressRate.Value));
+                    value: issueModel.ProgressRate.Value,
+                    mine: mine));
                 values.Add(ReadNameValue(
                     context: context,
                     ss: ss,
                     columnName: nameof(IssueModel.RemainingWorkValue),
-                    value: issueModel.RemainingWorkValue.Value));
+                    value: issueModel.RemainingWorkValue.Value,
+                    mine: mine));
                 values.Add(ReadNameValue(
                     context: context,
                     ss: ss,
                     columnName: nameof(IssueModel.Status),
-                    value: issueModel.Status?.Value));
+                    value: issueModel.Status?.Value,
+                    mine: mine));
                 values.Add(ReadNameValue(
                     context: context,
                     ss: ss,
                     columnName: nameof(IssueModel.Manager),
-                    value: issueModel.Manager.Id));
+                    value: issueModel.Manager.Id,
+                    mine: mine));
                 values.Add(ReadNameValue(
                     context: context,
                     ss: ss,
                     columnName: nameof(IssueModel.Owner),
-                    value: issueModel.Owner.Id));
+                    value: issueModel.Owner.Id,
+                    mine: mine));
                 values.Add(ReadNameValue(
                     context: context,
                     ss: ss,
                     columnName: nameof(IssueModel.Locked),
-                    value: issueModel.Locked));
+                    value: issueModel.Locked,
+                    mine: mine));
             }
             return values.ToArray();
         }
