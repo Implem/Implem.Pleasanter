@@ -1,1 +1,0 @@
-﻿drop index dbo."#SourceTableName#"."#IndexName#";
