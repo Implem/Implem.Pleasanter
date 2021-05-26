@@ -2135,6 +2135,10 @@ th.calendar-header{
     margin:7px 5px 0px 7px;
 }
 
+.field-normal .control-checkbox + label{
+    width:180px;
+}
+
 .control-radio{
     display:block;
     float:left;

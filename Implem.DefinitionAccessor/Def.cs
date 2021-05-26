@@ -3013,6 +3013,10 @@ namespace Implem.DefinitionAccessor
                     case "_dot_field_markdown_space___space__dot_field_label": Css._dot_field_markdown_space___space__dot_field_label = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_markdown_space___space__dot_field_label, definitionRow, CssXls); break;
                     case "_dot_field_markdown_space___space__dot_field_control": Css._dot_field_markdown_space___space__dot_field_control = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_markdown_space___space__dot_field_control, definitionRow, CssXls); break;
                     case "_colon_not_td__space___space_div_dot_field_markdown_space__dot_container_normal": Css._colon_not_td__space___space_div_dot_field_markdown_space__dot_container_normal = definitionRow[1].ToString(); SetCssTable(CssTable._colon_not_td__space___space_div_dot_field_markdown_space__dot_container_normal, definitionRow, CssXls); break;
+                    case "_dot_field_textarea": Css._dot_field_textarea = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_textarea, definitionRow, CssXls); break;
+                    case "_dot_field_textarea_space___space__dot_field_label": Css._dot_field_textarea_space___space__dot_field_label = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_textarea_space___space__dot_field_label, definitionRow, CssXls); break;
+                    case "_dot_field_textarea_space___space__dot_field_control": Css._dot_field_textarea_space___space__dot_field_control = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_textarea_space___space__dot_field_control, definitionRow, CssXls); break;
+                    case "_colon_not_td__space___space_div_dot_field_textarea_space__dot_container_normal": Css._colon_not_td__space___space_div_dot_field_textarea_space__dot_container_normal = definitionRow[1].ToString(); SetCssTable(CssTable._colon_not_td__space___space_div_dot_field_textarea_space__dot_container_normal, definitionRow, CssXls); break;
                     case "_dot_field_auto": Css._dot_field_auto = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_auto, definitionRow, CssXls); break;
                     case "_dot_field_auto_space___space__dot_field_label": Css._dot_field_auto_space___space__dot_field_label = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_auto_space___space__dot_field_label, definitionRow, CssXls); break;
                     case "_dot_field_auto_space___space__dot_field_label_space___space_label": Css._dot_field_auto_space___space__dot_field_label_space___space_label = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_auto_space___space__dot_field_label_space___space_label, definitionRow, CssXls); break;
@@ -3076,6 +3080,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_control_spinner": Css._dot_control_spinner = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_spinner, definitionRow, CssXls); break;
                     case "_dot_control_checkbox": Css._dot_control_checkbox = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_checkbox, definitionRow, CssXls); break;
                     case "_dot_control_checkbox_space__plus__space_label": Css._dot_control_checkbox_space__plus__space_label = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_checkbox_space__plus__space_label, definitionRow, CssXls); break;
+                    case "_dot_field_normal_space__dot_control_checkbox_space__plus__space_label": Css._dot_field_normal_space__dot_control_checkbox_space__plus__space_label = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_normal_space__dot_control_checkbox_space__plus__space_label, definitionRow, CssXls); break;
                     case "_dot_control_radio": Css._dot_control_radio = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_radio, definitionRow, CssXls); break;
                     case "_dot_control_radio_space__plus__space_label": Css._dot_control_radio_space__plus__space_label = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_radio_space__plus__space_label, definitionRow, CssXls); break;
                     case "_dot_control_slider": Css._dot_control_slider = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_slider, definitionRow, CssXls); break;
@@ -10673,6 +10678,10 @@ namespace Implem.DefinitionAccessor
         public string _dot_field_markdown_space___space__dot_field_label;
         public string _dot_field_markdown_space___space__dot_field_control;
         public string _colon_not_td__space___space_div_dot_field_markdown_space__dot_container_normal;
+        public string _dot_field_textarea;
+        public string _dot_field_textarea_space___space__dot_field_label;
+        public string _dot_field_textarea_space___space__dot_field_control;
+        public string _colon_not_td__space___space_div_dot_field_textarea_space__dot_container_normal;
         public string _dot_field_auto;
         public string _dot_field_auto_space___space__dot_field_label;
         public string _dot_field_auto_space___space__dot_field_label_space___space_label;
@@ -10736,6 +10745,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_control_spinner;
         public string _dot_control_checkbox;
         public string _dot_control_checkbox_space__plus__space_label;
+        public string _dot_field_normal_space__dot_control_checkbox_space__plus__space_label;
         public string _dot_control_radio;
         public string _dot_control_radio_space__plus__space_label;
         public string _dot_control_slider;
@@ -11191,6 +11201,10 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_field_markdown_space___space__dot_field_label = new CssDefinition();
         public CssDefinition _dot_field_markdown_space___space__dot_field_control = new CssDefinition();
         public CssDefinition _colon_not_td__space___space_div_dot_field_markdown_space__dot_container_normal = new CssDefinition();
+        public CssDefinition _dot_field_textarea = new CssDefinition();
+        public CssDefinition _dot_field_textarea_space___space__dot_field_label = new CssDefinition();
+        public CssDefinition _dot_field_textarea_space___space__dot_field_control = new CssDefinition();
+        public CssDefinition _colon_not_td__space___space_div_dot_field_textarea_space__dot_container_normal = new CssDefinition();
         public CssDefinition _dot_field_auto = new CssDefinition();
         public CssDefinition _dot_field_auto_space___space__dot_field_label = new CssDefinition();
         public CssDefinition _dot_field_auto_space___space__dot_field_label_space___space_label = new CssDefinition();
@@ -11254,6 +11268,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_control_spinner = new CssDefinition();
         public CssDefinition _dot_control_checkbox = new CssDefinition();
         public CssDefinition _dot_control_checkbox_space__plus__space_label = new CssDefinition();
+        public CssDefinition _dot_field_normal_space__dot_control_checkbox_space__plus__space_label = new CssDefinition();
         public CssDefinition _dot_control_radio = new CssDefinition();
         public CssDefinition _dot_control_radio_space__plus__space_label = new CssDefinition();
         public CssDefinition _dot_control_slider = new CssDefinition();

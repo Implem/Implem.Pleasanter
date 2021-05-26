@@ -250,8 +250,12 @@ namespace Implem.Pleasanter.Models
                 : new ErrorData(type: Error.Types.HasNotPermission);
         }
 
-        public static ErrorData OnShowingMenu(Context context, SiteModel siteModel)
+        public static ErrorData OnShowingMenu(Context context, SiteSettings ss, SiteModel siteModel)
         {
+            if (ss.GetNoDisplayIfReadOnly())
+            {
+                return new ErrorData(type: Error.Types.NotFound);
+            }
             return context.HasPermission(ss: siteModel.SiteSettings)
                 && siteModel.AccessStatus != Databases.AccessStatuses.NotFound
                     ? new ErrorData(type: Error.Types.None)
