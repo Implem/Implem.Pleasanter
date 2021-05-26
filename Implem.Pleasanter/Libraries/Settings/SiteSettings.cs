@@ -197,6 +197,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string MailCcDefault;
         public string MailBccDefault;
         public List<long> IntegratedSites;
+        public bool NoDisplayIfReadOnly;
         public Dictionary<string, Permissions.Types> PermissionForCreating;
         public List<ColumnAccessControl> CreateColumnAccessControls;
         public List<ColumnAccessControl> ReadColumnAccessControls;
@@ -898,6 +899,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (IntegratedSites?.Any() == true)
             {
                 ss.IntegratedSites = IntegratedSites;
+            }
+            if (NoDisplayIfReadOnly == true)
+            {
+                ss.NoDisplayIfReadOnly = NoDisplayIfReadOnly;
             }
             PermissionForCreating?.Where(o => o.Value > 0).ForEach(data =>
             {
@@ -3000,6 +3005,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "MailCcDefault": MailCcDefault = value; break;
                 case "MailBccDefault": MailBccDefault = value; break;
                 case "IntegratedSites": SetIntegratedSites(value); break;
+                case "NoDisplayIfReadOnly": NoDisplayIfReadOnly = value.ToBool(); break;
                 case "CurrentPermissionForCreatingAll": SetPermissionForCreating(value); break;
                 case "CreateColumnAccessControlAll": SetCreateColumnAccessControl(value); break;
                 case "ReadColumnAccessControlAll": SetReadColumnAccessControl(value); break;
@@ -4444,6 +4450,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                     .Concat(ServerScripts)
                     .ToList();
             return ServerScriptsAndExtended;
+        }
+
+        public bool GetNoDisplayIfReadOnly()
+        {
+            return PermissionType == Permissions.Types.Read && NoDisplayIfReadOnly;
         }
     }
 }

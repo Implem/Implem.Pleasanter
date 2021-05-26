@@ -292,8 +292,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             }
                 .Where(s => s != string.Empty)
                 .Join("&");
-            if (column.SiteSettings.TableType == Sqls.TableTypes.Normal
-                && Id > 0)
+            if (Id > 0
+                && column.SiteSettings?.TableType == Sqls.TableTypes.Normal
+                && column.SiteSettings?.GetNoDisplayIfReadOnly() != true)
             {
                 hb.A(
                     href: Locations.ItemEdit(

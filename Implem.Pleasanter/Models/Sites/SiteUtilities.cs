@@ -2894,8 +2894,11 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string SiteMenu(Context context, SiteModel siteModel)
         {
+            var ss = siteModel.SiteSettings;
+            ss.PermissionType = context.PermissionHash.Get(siteModel.SiteId);
             var invalid = SiteValidators.OnShowingMenu(
                 context: context,
+                ss: ss,
                 siteModel: siteModel);
             switch (invalid.Type)
             {
@@ -2903,7 +2906,6 @@ namespace Implem.Pleasanter.Models
                 default: return HtmlTemplates.Error(context, invalid);
             }
             var hb = new HtmlBuilder();
-            var ss = siteModel.SiteSettings;
             var siteConditions = SiteInfo.TenantCaches
                 .Get(context.TenantId)?
                 .SiteMenu
@@ -3269,12 +3271,13 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static IEnumerable<SiteModel> Menu(Context context, SiteSettings ss)
         {
-            var siteDataRows = new SiteCollection(
+            var siteCollection = new SiteCollection(
                 context: context,
                 column: Rds.SitesColumn()
                     .SiteId()
                     .Title()
-                    .ReferenceType(),
+                    .ReferenceType()
+                    .SiteSettings(),
                 where: Rds.SitesWhere()
                     .TenantId(context.TenantId)
                     .ParentId(ss.SiteId)
@@ -3286,12 +3289,15 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 referenceId: ss.SiteId,
                 referenceType: "Sites");
-            siteDataRows.ForEach(siteModel =>
+            siteCollection.ForEach(siteModel =>
             {
                 var index = orderModel.Data.IndexOf(siteModel.SiteId);
                 siteModel.SiteMenu = (index != -1 ? index : int.MaxValue);
             });
-            return siteDataRows.OrderBy(o => o.SiteMenu);
+            return siteCollection
+                .Where(o => !(context.PermissionHash.Get(o.SiteId) == Permissions.Types.Read
+                    && o.SiteSettings?.NoDisplayIfReadOnly == true))
+                .OrderBy(o => o.SiteMenu);
         }
 
         /// <summary>
@@ -3839,6 +3845,7 @@ namespace Implem.Pleasanter.Models
                         mobile: context.Mobile,
                         _using: ss.ReferenceType != "Sites")
                     .Field(
+                        fieldCss: "field-normal",
                         labelText: Displays.Sites_ReferenceType(context: context),
                         controlAction: () => hb
                             .ReferenceType(

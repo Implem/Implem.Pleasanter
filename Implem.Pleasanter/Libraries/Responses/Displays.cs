@@ -4869,6 +4869,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string NoDisplayIfReadOnly(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "NoDisplayIfReadOnly",
+                data: data);
+        }
+
         public static string NoDuplication(
             Context context,
             params string[] data)
