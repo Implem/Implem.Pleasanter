@@ -1598,6 +1598,7 @@ namespace Implem.DefinitionAccessor
                     case "Users_DeptCode": Column.Users_DeptCode = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_DeptCode, definitionRow, ColumnXls); break;
                     case "Users_DeptId": Column.Users_DeptId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_DeptId, definitionRow, ColumnXls); break;
                     case "Users_Dept": Column.Users_Dept = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Dept, definitionRow, ColumnXls); break;
+                    case "Users_Theme": Column.Users_Theme = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Theme, definitionRow, ColumnXls); break;
                     case "Users_FirstAndLastNameOrder": Column.Users_FirstAndLastNameOrder = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_FirstAndLastNameOrder, definitionRow, ColumnXls); break;
                     case "Users_Title": Column.Users_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Title, definitionRow, ColumnXls); break;
                     case "Users_Body": Column.Users_Body = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Body, definitionRow, ColumnXls); break;
@@ -9285,6 +9286,7 @@ namespace Implem.DefinitionAccessor
         public string Users_DeptCode;
         public string Users_DeptId;
         public string Users_Dept;
+        public string Users_Theme;
         public string Users_FirstAndLastNameOrder;
         public string Users_Title;
         public string Users_Body;
@@ -9787,6 +9789,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Users_DeptCode = new ColumnDefinition();
         public ColumnDefinition Users_DeptId = new ColumnDefinition();
         public ColumnDefinition Users_Dept = new ColumnDefinition();
+        public ColumnDefinition Users_Theme = new ColumnDefinition();
         public ColumnDefinition Users_FirstAndLastNameOrder = new ColumnDefinition();
         public ColumnDefinition Users_Title = new ColumnDefinition();
         public ColumnDefinition Users_Body = new ColumnDefinition();

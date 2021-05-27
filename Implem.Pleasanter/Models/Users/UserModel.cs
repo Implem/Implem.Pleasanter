@@ -44,6 +44,7 @@ namespace Implem.Pleasanter.Models
         public string TimeZone = "Asia/Tokyo";
         public string DeptCode = string.Empty;
         public int DeptId = 0;
+        public string Theme = string.Empty;
         public Names.FirstAndLastNameOrders FirstAndLastNameOrder = (Names.FirstAndLastNameOrders)2;
         public string Body = string.Empty;
         public Time LastLoginTime = new Time();
@@ -116,6 +117,7 @@ namespace Implem.Pleasanter.Models
         public string SavedTimeZone = "Asia/Tokyo";
         public string SavedDeptCode = string.Empty;
         public int SavedDeptId = 0;
+        public string SavedTheme = string.Empty;
         public int SavedFirstAndLastNameOrder = 2;
         public string SavedBody = string.Empty;
         public DateTime SavedLastLoginTime = 0.ToDateTime();
@@ -248,6 +250,14 @@ namespace Implem.Pleasanter.Models
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.GetDefaultInput(context: context).ToInt() != DeptId);
+        }
+
+        public bool Theme_Updated(Context context, Column column = null)
+        {
+            return Theme != SavedTheme && Theme != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToString() != Theme);
         }
 
         public bool FirstAndLastNameOrder_Updated(Context context, Column column = null)
@@ -679,6 +689,18 @@ namespace Implem.Pleasanter.Models
                         column: column,
                         mine: mine)
                             ? Dept.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "Theme":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? Theme.ToExport(
                                 context: context,
                                 column: column,
                                 exportColumn: exportColumn)
@@ -1253,6 +1275,7 @@ namespace Implem.Pleasanter.Models
                     case "TimeZone": data.TimeZone = TimeZone; break;
                     case "DeptCode": data.DeptCode = DeptCode; break;
                     case "DeptId": data.DeptId = DeptId; break;
+                    case "Theme": data.Theme = Theme; break;
                     case "FirstAndLastNameOrder": data.FirstAndLastNameOrder = FirstAndLastNameOrder.ToInt(); break;
                     case "Body": data.Body = Body; break;
                     case "LastLoginTime": data.LastLoginTime = LastLoginTime.Value.ToLocal(context: context); break;
@@ -1574,6 +1597,7 @@ namespace Implem.Pleasanter.Models
                     case "Users_TimeZone": TimeZone = value.ToString(); break;
                     case "Users_DeptCode": DeptCode = value.ToString(); break;
                     case "Users_DeptId": DeptId = value.ToInt(); break;
+                    case "Users_Theme": Theme = value.ToString(); break;
                     case "Users_FirstAndLastNameOrder": FirstAndLastNameOrder = (Names.FirstAndLastNameOrders)value.ToInt(); break;
                     case "Users_Body": Body = value.ToString(); break;
                     case "Users_LastLoginTime": LastLoginTime = new Time(context, value.ToDateTime(), byForm: true); break;
@@ -1692,6 +1716,7 @@ namespace Implem.Pleasanter.Models
             TimeZone = userModel.TimeZone;
             DeptCode = userModel.DeptCode;
             DeptId = userModel.DeptId;
+            Theme = userModel.Theme;
             FirstAndLastNameOrder = userModel.FirstAndLastNameOrder;
             Body = userModel.Body;
             LastLoginTime = userModel.LastLoginTime;
@@ -1757,6 +1782,7 @@ namespace Implem.Pleasanter.Models
             if (data.TimeZone != null) TimeZone = data.TimeZone.ToString().ToString();
             if (data.DeptCode != null) DeptCode = data.DeptCode.ToString().ToString();
             if (data.DeptId != null) DeptId = data.DeptId.ToInt().ToInt();
+            if (data.Theme != null) Theme = data.Theme.ToString().ToString();
             if (data.FirstAndLastNameOrder != null) FirstAndLastNameOrder = (Names.FirstAndLastNameOrders)data.FirstAndLastNameOrder.ToInt().ToInt();
             if (data.Body != null) Body = data.Body.ToString().ToString();
             if (data.LastLoginTime != null) LastLoginTime = new Time(context, data.LastLoginTime.ToDateTime(), byForm: true);
@@ -1947,6 +1973,10 @@ namespace Implem.Pleasanter.Models
                             DeptId = dataRow[column.ColumnName].ToInt();
                             SavedDeptId = DeptId;
                             break;
+                        case "Theme":
+                            Theme = dataRow[column.ColumnName].ToString();
+                            SavedTheme = Theme;
+                            break;
                         case "FirstAndLastNameOrder":
                             FirstAndLastNameOrder = (Names.FirstAndLastNameOrders)dataRow[column.ColumnName].ToInt();
                             SavedFirstAndLastNameOrder = FirstAndLastNameOrder.ToInt();
@@ -2134,6 +2164,7 @@ namespace Implem.Pleasanter.Models
                 || Language_Updated(context: context)
                 || TimeZone_Updated(context: context)
                 || DeptId_Updated(context: context)
+                || Theme_Updated(context: context)
                 || FirstAndLastNameOrder_Updated(context: context)
                 || Body_Updated(context: context)
                 || LastLoginTime_Updated(context: context)

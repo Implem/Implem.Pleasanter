@@ -181,6 +181,12 @@ namespace Implem.Pleasanter.Models
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
+                    case "Theme":
+                        if (userModel.Theme_Updated(context: context, column: column))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
                     case "FirstAndLastNameOrder":
                         if (userModel.FirstAndLastNameOrder_Updated(context: context, column: column))
                         {
@@ -471,6 +477,12 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "DeptId":
                         if (userModel.DeptId_Updated(context: context))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "Theme":
+                        if (userModel.Theme_Updated(context: context))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }

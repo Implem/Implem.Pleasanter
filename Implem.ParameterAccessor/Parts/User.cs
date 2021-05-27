@@ -5,6 +5,7 @@
         public bool DisableTopSiteCreation;
         public bool DisableGroupAdmin;
         public SelectorToolTipKind? SelectorToolTip;
+        public string Theme;
 
         public enum SelectorToolTipKind
         {
