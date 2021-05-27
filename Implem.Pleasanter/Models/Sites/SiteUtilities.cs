@@ -5216,7 +5216,8 @@ namespace Implem.Pleasanter.Models
                                             .FieldCheckBox(
                                                 controlId: "Nullable",
                                                 labelText: Displays.Nullable(context: context),
-                                                _checked: column.Nullable.ToBool())
+                                                _checked: column.Nullable.ToBool(),
+                                                _using: !column.Id_Ver)
                                             .FieldTextBox(
                                                 controlId: "Unit",
                                                 controlCss: " w50",
@@ -5230,7 +5231,8 @@ namespace Implem.Pleasanter.Models
                                                 min: 0,
                                                 max: maxDecimalPlaces,
                                                 step: 1,
-                                                _using: maxDecimalPlaces > 0)
+                                                _using: maxDecimalPlaces > 0
+                                                    && !column.Id_Ver)
                                             .FieldDropDown(
                                                 context: context,
                                                 controlId: "RoundingType",
@@ -5258,7 +5260,8 @@ namespace Implem.Pleasanter.Models
                                                         Displays.ToEven(context:context)
                                                     }
                                                 },
-                                                selectedValue: column.RoundingType.ToInt().ToString());
+                                                selectedValue: column.RoundingType.ToInt().ToString(),
+                                                _using: !column.Id_Ver);
                                         if (!column.NotUpdate && !column.Id_Ver)
                                         {
                                             var hidden = column.ControlType != "Spinner"
@@ -5477,7 +5480,8 @@ namespace Implem.Pleasanter.Models
                                     .FieldCheckBox(
                                         controlId: "AutoPostBack",
                                         labelText: Displays.AutoPostBack(context: context),
-                                        _checked: column.AutoPostBack == true)
+                                        _checked: column.AutoPostBack == true,
+                                        _using: !column.Id_Ver)
                                     .FieldTextBox(
                                         fieldId: "ColumnsReturnedWhenAutomaticPostbackField",
                                         controlId: "ColumnsReturnedWhenAutomaticPostback",
