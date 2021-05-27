@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implem.ParameterAccessor", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implem.DisplayAccessor", "Implem.DisplayAccessor\Implem.DisplayAccessor.csproj", "{68A8C5C4-DB19-4EDD-B1C2-7722E19E5D7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Implem.CodeDefiner.NetFramework", "Implem.CodeDefiner.NetFramework\Implem.CodeDefiner.NetFramework.csproj", "{3AB3A137-F448-42C5-B382-2C92A0235765}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implem.CodeDefiner.NetCore", "Implem.CodeDefiner.NetCore\Implem.CodeDefiner.NetCore.csproj", "{7534BA22-B60A-4567-B685-F03A676C8991}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implem.Pleasanter", "Implem.Pleasanter\Implem.Pleasanter.csproj", "{87025B44-C7C0-402D-BCB4-5797BDA54DDE}"
@@ -110,16 +108,6 @@ Global
 		{68A8C5C4-DB19-4EDD-B1C2-7722E19E5D7A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{68A8C5C4-DB19-4EDD-B1C2-7722E19E5D7A}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
 		{68A8C5C4-DB19-4EDD-B1C2-7722E19E5D7A}.SingleImage|Any CPU.Build.0 = Release|Any CPU
-		{3AB3A137-F448-42C5-B382-2C92A0235765}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
-		{3AB3A137-F448-42C5-B382-2C92A0235765}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
-		{3AB3A137-F448-42C5-B382-2C92A0235765}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3AB3A137-F448-42C5-B382-2C92A0235765}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3AB3A137-F448-42C5-B382-2C92A0235765}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
-		{3AB3A137-F448-42C5-B382-2C92A0235765}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
-		{3AB3A137-F448-42C5-B382-2C92A0235765}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3AB3A137-F448-42C5-B382-2C92A0235765}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3AB3A137-F448-42C5-B382-2C92A0235765}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
-		{3AB3A137-F448-42C5-B382-2C92A0235765}.SingleImage|Any CPU.Build.0 = Release|Any CPU
 		{7534BA22-B60A-4567-B685-F03A676C8991}.CD_ROM|Any CPU.ActiveCfg = Debug|Any CPU
 		{7534BA22-B60A-4567-B685-F03A676C8991}.CD_ROM|Any CPU.Build.0 = Debug|Any CPU
 		{7534BA22-B60A-4567-B685-F03A676C8991}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
