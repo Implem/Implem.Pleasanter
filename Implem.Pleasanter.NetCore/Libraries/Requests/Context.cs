@@ -88,6 +88,7 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
         public override string UserHostAddress { get; set; }
         public override string UserAgent { get; set; }
         public override string Language { get; set; } = Parameters.Service.DefaultLanguage;
+        public override string Theme { get; set; } = Parameters.User.Theme;
         public override bool Developer { get; set; }
         public override TimeZoneInfo TimeZoneInfo { get; set; } = Environments.TimeZoneInfoDefault;
         public override UserSettings UserSettings { get; set; }
@@ -322,6 +323,7 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
                 Dept = SiteInfo.Dept(tenantId: TenantId, deptId: DeptId);
                 User = SiteInfo.User(context: this, userId: UserId);
                 Language = userModel.Language;
+                Theme = Strings.CoalesceEmpty(userModel.Theme, Parameters.User.Theme, "sunny");
                 UserHostAddress = GetUserHostAddress(AspNetCoreHttpContext.Current?.Connection);
                 Developer = userModel.Developer;
                 TimeZoneInfo = userModel.TimeZoneInfo;

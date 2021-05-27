@@ -75,6 +75,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public abstract string UserHostAddress { get; set; }
         public abstract string UserAgent { get; set; }
         public abstract string Language { get; set; }
+        public abstract string Theme { get; set; }
         public abstract bool Developer { get; set; }
         public abstract TimeZoneInfo TimeZoneInfo { get; set; }
         public abstract UserSettings UserSettings { get; set; }

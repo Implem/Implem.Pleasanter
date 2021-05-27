@@ -1185,6 +1185,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "DeptCode": return "\"DeptCode\"";
                         case "DeptId": return "\"DeptId\"";
                         case "Dept": return "\"DeptId\"";
+                        case "Theme": return "\"Theme\"";
                         case "FirstAndLastNameOrder": return "\"FirstAndLastNameOrder\"";
                         case "Title": return "\"Title\"";
                         case "Body": return "\"Body\"";
@@ -2645,6 +2646,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 function: function);
                         case "Dept":
                             return self.Users_Dept(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "Theme":
+                            return self.Users_Theme(
                                 tableName: column.TableName(),
                                 orderType: orderType,
                                 function: function);
@@ -10531,6 +10537,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             column.Language(function: Sqls.Functions.SingleColumn); param.Language();
             column.TimeZone(function: Sqls.Functions.SingleColumn); param.TimeZone();
             column.DeptId(function: Sqls.Functions.SingleColumn); param.DeptId();
+            column.Theme(function: Sqls.Functions.SingleColumn); param.Theme();
             column.FirstAndLastNameOrder(function: Sqls.Functions.SingleColumn); param.FirstAndLastNameOrder();
             column.Body(function: Sqls.Functions.SingleColumn); param.Body();
             column.LastLoginTime(function: Sqls.Functions.SingleColumn); param.LastLoginTime();
@@ -13352,6 +13359,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Language"",
                     ""TimeZone"",
                     ""DeptId"",
+                    ""Theme"",
                     ""FirstAndLastNameOrder"",
                     ""Body"",
                     ""LastLoginTime"",
@@ -13397,6 +13405,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Users"".""Language"",
                     ""Users"".""TimeZone"",
                     ""Users"".""DeptId"",
+                    ""Users"".""Theme"",
                     ""Users"".""FirstAndLastNameOrder"",
                     ""Users"".""Body"",
                     ""Users"".""LastLoginTime"",
@@ -14627,6 +14636,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Language"",
                     ""TimeZone"",
                     ""DeptId"",
+                    ""Theme"",
                     ""FirstAndLastNameOrder"",
                     ""Body"",
                     ""LastLoginTime"",
@@ -14672,6 +14682,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Users_deleted"".""Language"",
                     ""Users_deleted"".""TimeZone"",
                     ""Users_deleted"".""DeptId"",
+                    ""Users_deleted"".""Theme"",
                     ""Users_deleted"".""FirstAndLastNameOrder"",
                     ""Users_deleted"".""Body"",
                     ""Users_deleted"".""LastLoginTime"",
@@ -53347,6 +53358,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     return self.DeptId(_as: _as, function: function);
                 case "Dept":
                     return self.Dept(_as: _as, function: function);
+                case "Theme":
+                    return self.Theme(_as: _as, function: function);
                 case "FirstAndLastNameOrder":
                     return self.FirstAndLastNameOrder(_as: _as, function: function);
                 case "Body":
@@ -53947,6 +53960,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return self.Add(
                 columnBracket: "\"DeptId\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static UsersColumnCollection Theme(
+            this UsersColumnCollection self,
+            string tableName = "Users",
+            string columnName = "Theme",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"Theme\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Users_Theme(
+            this SqlColumnCollection self,
+            string tableName = "Users",
+            string columnName = "Theme",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"Theme\"",
                 tableName: tableName,
                 columnName: columnName,
                 _as: _as,
@@ -55834,6 +55881,64 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBrackets: new string[] { "\"DeptId\"" },
                     tableName: tableName,
                     name: "DeptId",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static UsersWhereCollection Theme(
+            this UsersWhereCollection self,
+            object value = null,
+            string tableName = "Users",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Theme\"" },
+                    tableName: tableName,
+                    name: "Theme",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Users_Theme(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Users",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Theme\"" },
+                    tableName: tableName,
+                    name: "Theme",
                     value: value,
                     _operator: _operator,
                     multiColumnOperator: multiColumnOperator,
@@ -58491,6 +58596,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     case "DeptCode": return self.DeptCode();
                     case "DeptId": return self.DeptId();
                     case "Dept": return self.Dept();
+                    case "Theme": return self.Theme();
                     case "FirstAndLastNameOrder": return self.FirstAndLastNameOrder();
                     case "Body": return self.Body();
                     case "LastLoginTime": return self.LastLoginTime();
@@ -58743,6 +58849,18 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlGroupByCollection self, string tableName = "Users")
         {
             return self.Add(columnBracket: "\"DeptId\"", tableName: tableName);
+        }
+
+        public static UsersGroupByCollection Theme(
+            this UsersGroupByCollection self, string tableName = "Users")
+        {
+            return self.Add(columnBracket: "\"Theme\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Users_Theme(
+            this SqlGroupByCollection self, string tableName = "Users")
+        {
+            return self.Add(columnBracket: "\"Theme\"", tableName: tableName);
         }
 
         public static UsersGroupByCollection FirstAndLastNameOrder(
@@ -59363,6 +59481,21 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DeptId\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static UsersOrderByCollection Theme(
+            this UsersOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Users",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"Theme\"" }.ForEach(columnBracket =>
                 self.Add(
                     columnBracket: columnBracket,
                     orderType: orderType,
@@ -60023,6 +60156,21 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DeptId\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Users_Theme(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Users",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"Theme\"" }.ForEach(columnBracket =>
                 self.Add(
                     columnBracket: columnBracket,
                     orderType: orderType,
@@ -60935,6 +61083,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 ? self.Add(
                     columnBracket: "\"DeptId\"",
                     name: "DeptId",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static UsersParamCollection Theme(
+            this UsersParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"Theme\"",
+                    name: "Theme",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Users_Theme(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"Theme\"",
+                    name: "Theme",
                     value: value,
                     sub: sub,
                     raw: raw)
@@ -107102,6 +107284,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .DeptCode()
                 .DeptId()
                 .Dept()
+                .Theme()
                 .FirstAndLastNameOrder()
                 .Body()
                 .LastLoginTime()
@@ -107175,6 +107358,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Language(userModel.Language.MaxLength(32), _using: userModel.Language_Updated(context) || setDefault || (otherInitValue && !userModel.Language.InitialValue(context)))
                 .TimeZone(userModel.TimeZone.MaxLength(32), _using: userModel.TimeZone_Updated(context) || (otherInitValue && !userModel.TimeZone.InitialValue(context)))
                 .DeptId(userModel.DeptId, _using: userModel.DeptId_Updated(context) || setDefault || (otherInitValue && !userModel.DeptId.InitialValue(context)))
+                .Theme(userModel.Theme.MaxLength(32), _using: userModel.Theme_Updated(context) || (otherInitValue && !userModel.Theme.InitialValue(context)))
                 .FirstAndLastNameOrder(userModel.FirstAndLastNameOrder.ToInt(), _using: userModel.FirstAndLastNameOrder_Updated(context) || setDefault || (otherInitValue && !userModel.FirstAndLastNameOrder.InitialValue(context)))
                 .Body(userModel.Body, _using: userModel.Body_Updated(context) || (otherInitValue && !userModel.Body.InitialValue(context)))
                 .LastLoginTime(userModel.LastLoginTime.Value, _using: userModel.LastLoginTime_Updated(context) || (otherInitValue && !userModel.LastLoginTime.InitialValue(context)))

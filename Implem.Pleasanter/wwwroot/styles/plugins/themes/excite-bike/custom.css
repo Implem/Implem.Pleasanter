@@ -1,0 +1,27 @@
+﻿.nav-site {
+    background-color: white;
+    border: solid 2px silver;
+}
+
+    .nav-site.sites {
+        background-color: white;
+        border: solid 2px silver;
+    }
+
+    .nav-site .heading {
+        background-color: silver;
+        border: solid 1px silver;
+    }
+
+#NavigationMenu .menu > li > a {
+    color: black;
+}
+
+.control-selectable .ui-selecting {
+    background: #FECA40;
+}
+
+.control-selectable .ui-selected {
+    color: white;
+    background: #F39814;
+}
