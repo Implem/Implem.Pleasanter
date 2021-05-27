@@ -105931,8 +105931,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .HtmlTitleTop(tenantModel.HtmlTitleTop.MaxLength(1024), _using: tenantModel.HtmlTitleTop_Updated(context) || setDefault || (otherInitValue && !tenantModel.HtmlTitleTop.InitialValue(context)))
                 .HtmlTitleSite(tenantModel.HtmlTitleSite.MaxLength(1024), _using: tenantModel.HtmlTitleSite_Updated(context) || setDefault || (otherInitValue && !tenantModel.HtmlTitleSite.InitialValue(context)))
                 .HtmlTitleRecord(tenantModel.HtmlTitleRecord.MaxLength(1024), _using: tenantModel.HtmlTitleRecord_Updated(context) || setDefault || (otherInitValue && !tenantModel.HtmlTitleRecord.InitialValue(context)))
-                .TopStyle(tenantModel.TopStyle, _using: tenantModel.TopStyle_Updated(context) || setDefault || (otherInitValue && !tenantModel.TopStyle.InitialValue(context)))
-                .TopScript(tenantModel.TopScript, _using: tenantModel.TopScript_Updated(context) || setDefault || (otherInitValue && !tenantModel.TopScript.InitialValue(context)))
+                .TopStyle(tenantModel.TopStyle, _using: tenantModel.TopStyle_Updated(context) || (otherInitValue && !tenantModel.TopStyle.InitialValue(context)))
+                .TopScript(tenantModel.TopScript, _using: tenantModel.TopScript_Updated(context) || (otherInitValue && !tenantModel.TopScript.InitialValue(context)))
                 .Comments(tenantModel.Comments.ToJson(), _using: tenantModel.Comments_Updated(context) || (otherInitValue && !tenantModel.Comments.InitialValue(context)));
             tenantModel.ClassHash
                 .Where(o => tenantModel.Class_Updated(columnName: o.Key)
