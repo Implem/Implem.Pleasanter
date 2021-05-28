@@ -8,6 +8,7 @@ namespace Implem.Pleasanter.Interfaces
     {
         string ToControl(Context context, SiteSettings ss, Column column);
         string ToResponse(Context context, SiteSettings ss, Column column);
+        string ToDisplay(Context context, SiteSettings ss, Column column);
         HtmlBuilder Td(
             HtmlBuilder hb,
             Context context,

@@ -78,6 +78,14 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 value: Value);
         }
 
+        public string ToDisplay(Context context, SiteSettings ss, Column column)
+        {
+            return column.Display(
+                context: context,
+                ss: ss,
+                value: Value);
+        }
+
         public HtmlBuilder Td(
             HtmlBuilder hb,
             Context context,
@@ -88,6 +96,46 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return hb.Td(
                 css: column.CellCss(serverScriptValues?.ExtendedCellCss),
                 action: () => Svg(hb, context, column));
+        }
+
+        public string GridText(Context context, Column column)
+        {
+            return column.Display(
+                context: context,
+                value: Value,
+                unit: true);
+        }
+
+        public string ToExport(Context context, Column column, ExportColumn exportColumn = null)
+        {
+            return Value.ToString();
+        }
+
+        public string ToNotice(
+            Context context,
+            decimal? saved,
+            Column column,
+            NotificationColumnFormat notificationColumnFormat,
+            bool updated,
+            bool update)
+        {
+            return notificationColumnFormat.DisplayText(
+                self: column.Display(
+                    context: context,
+                    value: Value,
+                    unit: true),
+                saved: column.Display(
+                    context: context,
+                    value: saved.ToDecimal(),
+                    unit: true),
+                column: column,
+                updated: updated,
+                update: update);
+        }
+
+        public bool InitialValue(Context context)
+        {
+            return Value == 0;
         }
 
         public bool Delay(Context context, Status status)
@@ -169,46 +217,6 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return Value != 0
                 ? (float)(Value / 100)
                 : 0;
-        }
-
-        public string GridText(Context context, Column column)
-        {
-            return column.Display(
-                context: context,
-                value: Value,
-                unit: true);
-        }
-
-        public string ToExport(Context context, Column column, ExportColumn exportColumn = null)
-        {
-            return Value.ToString();
-        }
-
-        public string ToNotice(
-            Context context,
-            decimal? saved,
-            Column column,
-            NotificationColumnFormat notificationColumnFormat,
-            bool updated,
-            bool update)
-        {
-            return notificationColumnFormat.DisplayText(
-                self: column.Display(
-                    context: context,
-                    value: Value,
-                    unit: true),
-                saved: column.Display(
-                    context: context,
-                    value: saved.ToDecimal(),
-                    unit: true),
-                column: column,
-                updated: updated,
-                update: update);
-        }
-
-        public bool InitialValue(Context context)
-        {
-            return Value == 0;
         }
     }
 }

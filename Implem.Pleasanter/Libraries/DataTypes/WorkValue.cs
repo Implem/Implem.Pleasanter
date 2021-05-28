@@ -50,6 +50,14 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 value: Value);
         }
 
+        public string ToDisplay(Context context, SiteSettings ss, Column column)
+        {
+            return column.Display(
+                context: context,
+                ss: ss,
+                value: Value);
+        }
+
         public HtmlBuilder Td(
             HtmlBuilder hb,
             Context context,
@@ -63,33 +71,6 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     hb: hb,
                     context: context,
                     column: column));
-        }
-
-        private HtmlBuilder Svg(HtmlBuilder hb, Context context, Column column)
-        {
-            var width = column.Max != null && column.Max != 0
-                ? Convert.ToInt32(Value / column.Max.ToInt() * 100)
-                : 0;
-            return hb.Svg(css: "svg-work-value", action: () => hb
-                .SvgText(
-                    text: column.Display(
-                        context: context,
-                        value: Value,
-                        unit: true),
-                    x: 0,
-                    y: Parameters.General.WorkValueTextTop)
-                .Rect(
-                    x: 0,
-                    y: Parameters.General.WorkValueHeight / 2,
-                    width: width.ToString(),
-                    height: (Parameters.General.WorkValueHeight / 2).ToString())
-                .Rect(
-                    x: 0,
-                    y: Parameters.General.WorkValueHeight / 2,
-                    width: ProgressRate != 0
-                        ? (width * (ProgressRate / 100)).ToString()
-                        : "0",
-                    height: (Parameters.General.WorkValueHeight / 2).ToString()));
         }
 
         public string GridText(Context context, Column column)
@@ -130,6 +111,33 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public bool InitialValue(Context context)
         {
             return Value == 0;
+        }
+
+        private HtmlBuilder Svg(HtmlBuilder hb, Context context, Column column)
+        {
+            var width = column.Max != null && column.Max != 0
+                ? Convert.ToInt32(Value / column.Max.ToInt() * 100)
+                : 0;
+            return hb.Svg(css: "svg-work-value", action: () => hb
+                .SvgText(
+                    text: column.Display(
+                        context: context,
+                        value: Value,
+                        unit: true),
+                    x: 0,
+                    y: Parameters.General.WorkValueTextTop)
+                .Rect(
+                    x: 0,
+                    y: Parameters.General.WorkValueHeight / 2,
+                    width: width.ToString(),
+                    height: (Parameters.General.WorkValueHeight / 2).ToString())
+                .Rect(
+                    x: 0,
+                    y: Parameters.General.WorkValueHeight / 2,
+                    width: ProgressRate != 0
+                        ? (width * (ProgressRate / 100)).ToString()
+                        : "0",
+                    height: (Parameters.General.WorkValueHeight / 2).ToString()));
         }
     }
 }

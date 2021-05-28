@@ -336,6 +336,9 @@ namespace Implem.DefinitionAccessor
                     case "Model_GetByApi_CompletionTimeColumnCases": Code.Model_GetByApi_CompletionTimeColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetByApi_CompletionTimeColumnCases, definitionRow, CodeXls); break;
                     case "Model_GetByApi_ItemTitle": Code.Model_GetByApi_ItemTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetByApi_ItemTitle, definitionRow, CodeXls); break;
                     case "Model_SetSiteSettingsProperties": Code.Model_SetSiteSettingsProperties = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetSiteSettingsProperties, definitionRow, CodeXls); break;
+                    case "Model_ToDisplay": Code.Model_ToDisplay = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToDisplay, definitionRow, CodeXls); break;
+                    case "Model_ToDisplayColumnCases": Code.Model_ToDisplayColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToDisplayColumnCases, definitionRow, CodeXls); break;
+                    case "Model_ToDisplayColumnCases_Dept": Code.Model_ToDisplayColumnCases_Dept = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToDisplayColumnCases_Dept, definitionRow, CodeXls); break;
                     case "Model_FullText": Code.Model_FullText = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_FullText, definitionRow, CodeXls); break;
                     case "Model_FullTextColumnCases": Code.Model_FullTextColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_FullTextColumnCases, definitionRow, CodeXls); break;
                     case "Model_FullTextColumn": Code.Model_FullTextColumn = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_FullTextColumn, definitionRow, CodeXls); break;
@@ -7362,6 +7365,9 @@ namespace Implem.DefinitionAccessor
         public string Model_GetByApi_CompletionTimeColumnCases;
         public string Model_GetByApi_ItemTitle;
         public string Model_SetSiteSettingsProperties;
+        public string Model_ToDisplay;
+        public string Model_ToDisplayColumnCases;
+        public string Model_ToDisplayColumnCases_Dept;
         public string Model_FullText;
         public string Model_FullTextColumnCases;
         public string Model_FullTextColumn;
@@ -8029,6 +8035,9 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_GetByApi_CompletionTimeColumnCases = new CodeDefinition();
         public CodeDefinition Model_GetByApi_ItemTitle = new CodeDefinition();
         public CodeDefinition Model_SetSiteSettingsProperties = new CodeDefinition();
+        public CodeDefinition Model_ToDisplay = new CodeDefinition();
+        public CodeDefinition Model_ToDisplayColumnCases = new CodeDefinition();
+        public CodeDefinition Model_ToDisplayColumnCases_Dept = new CodeDefinition();
         public CodeDefinition Model_FullText = new CodeDefinition();
         public CodeDefinition Model_FullTextColumnCases = new CodeDefinition();
         public CodeDefinition Model_FullTextColumn = new CodeDefinition();
