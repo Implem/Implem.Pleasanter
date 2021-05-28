@@ -1315,6 +1315,277 @@ namespace Implem.Pleasanter.Models
             return data;
         }
 
+        public string ToDisplay(Context context, SiteSettings ss, Column column, List<string> mine)
+        {
+            if (!ss.ReadColumnAccessControls.Allowed(
+                context: context,
+                ss: ss,
+                column: column,
+                mine: mine))
+            {
+                return string.Empty;
+            }
+            switch (column.ColumnName)
+            {
+                case "UserId":
+                    return UserId.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "LoginId":
+                    return LoginId.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "GlobalId":
+                    return GlobalId.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Name":
+                    return Name.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UserCode":
+                    return UserCode.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Password":
+                    return Password.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "PasswordValidate":
+                    return PasswordValidate.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "PasswordDummy":
+                    return PasswordDummy.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "RememberMe":
+                    return RememberMe.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "LastName":
+                    return LastName.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "FirstName":
+                    return FirstName.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Birthday":
+                    return Birthday.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Gender":
+                    return Gender.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Language":
+                    return Language.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "TimeZone":
+                    return TimeZone.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "DeptCode":
+                    return DeptCode.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "DeptId":
+                    return DeptId.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Theme":
+                    return Theme.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Body":
+                    return Body.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "LastLoginTime":
+                    return LastLoginTime.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "PasswordExpirationTime":
+                    return PasswordExpirationTime.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "PasswordChangeTime":
+                    return PasswordChangeTime.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "NumberOfLogins":
+                    return NumberOfLogins.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "NumberOfDenial":
+                    return NumberOfDenial.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "TenantManager":
+                    return TenantManager.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "AllowCreationAtTopSite":
+                    return AllowCreationAtTopSite.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "AllowGroupAdministration":
+                    return AllowGroupAdministration.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Disabled":
+                    return Disabled.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Lockout":
+                    return Lockout.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "LockoutCounter":
+                    return LockoutCounter.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ApiKey":
+                    return ApiKey.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "OldPassword":
+                    return OldPassword.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ChangedPassword":
+                    return ChangedPassword.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ChangedPasswordValidator":
+                    return ChangedPasswordValidator.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "AfterResetPassword":
+                    return AfterResetPassword.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "AfterResetPasswordValidator":
+                    return AfterResetPasswordValidator.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "DemoMailAddress":
+                    return DemoMailAddress.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SessionGuid":
+                    return SessionGuid.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SecondaryAuthenticationCode":
+                    return SecondaryAuthenticationCode.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SecondaryAuthenticationCodeExpirationTime":
+                    return SecondaryAuthenticationCodeExpirationTime.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "LdapSearchRoot":
+                    return LdapSearchRoot.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SynchronizedTime":
+                    return SynchronizedTime.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Timestamp":
+                    return Timestamp.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Dept":
+                    return Dept.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(column.Name))
+                    {
+                        case "Class":
+                            return Class(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Num":
+                            return Num(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Date":
+                            return Date(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Description":
+                            return Description(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Check":
+                            return Check(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Attachments":
+                            return Attachments(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        default:
+                            return string.Empty;
+                    }
+            }
+        }
+
         public ErrorData Create(
             Context context,
             SiteSettings ss,
@@ -3058,6 +3329,14 @@ namespace Implem.Pleasanter.Models
         public string ToResponse(Context context, SiteSettings ss, Column column)
         {
             return string.Empty;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string ToDisplay(Context context, SiteSettings ss, Column column)
+        {
+            return Name;
         }
 
         /// <summary>

@@ -821,6 +821,117 @@ namespace Implem.Pleasanter.Models
             return data;
         }
 
+        public string ToDisplay(Context context, SiteSettings ss, Column column, List<string> mine)
+        {
+            if (!ss.ReadColumnAccessControls.Allowed(
+                context: context,
+                ss: ss,
+                column: column,
+                mine: mine))
+            {
+                return string.Empty;
+            }
+            switch (column.ColumnName)
+            {
+                case "IssueId":
+                    return IssueId.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Title":
+                    return Title.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Body":
+                    return Body.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "StartTime":
+                    return StartTime.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "CompletionTime":
+                    return CompletionTime.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "WorkValue":
+                    return WorkValue.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ProgressRate":
+                    return ProgressRate.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Status":
+                    return Status.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Manager":
+                    return Manager.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Owner":
+                    return Owner.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Locked":
+                    return Locked.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Timestamp":
+                    return Timestamp.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(column.Name))
+                    {
+                        case "Class":
+                            return Class(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Num":
+                            return Num(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Date":
+                            return Date(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Description":
+                            return Description(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Check":
+                            return Check(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Attachments":
+                            return Attachments(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        default:
+                            return string.Empty;
+                    }
+            }
+        }
+
         public string FullText(
             Context context,
             SiteSettings ss,

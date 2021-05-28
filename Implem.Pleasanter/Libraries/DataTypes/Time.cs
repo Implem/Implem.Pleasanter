@@ -54,16 +54,13 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 : string.Empty;
         }
 
-        public override string ToString()
+        public virtual string ToDisplay(Context context, SiteSettings ss, Column column)
         {
             return Value.InRange()
-                ? Value.ToString()
+                ? column.DisplayControl(
+                    context: context,
+                    value: DisplayValue)
                 : string.Empty;
-        }
-
-        public bool DifferentDate(Context context)
-        {
-            return DisplayValue.Date != DateTime.Now.ToLocal(context: context).Date;
         }
 
         public virtual HtmlBuilder Td(
@@ -121,6 +118,18 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public bool InitialValue(Context context)
         {
             return Value == 0.ToDateTime();
+        }
+
+        public override string ToString()
+        {
+            return Value.InRange()
+                ? Value.ToString()
+                : string.Empty;
+        }
+
+        public bool DifferentDate(Context context)
+        {
+            return DisplayValue.Date != DateTime.Now.ToLocal(context: context).Date;
         }
     }
 }
