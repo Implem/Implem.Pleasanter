@@ -127,6 +127,20 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 userId: Id);
         }
 
+        public string ToLookup(Context context, SiteSettings ss, Column column, Lookup.Types? type)
+        {
+            switch (type)
+            {
+                case Lookup.Types.DisplayName:
+                    return ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                default:
+                    return Id.ToString();
+            }
+        }
+
         public HtmlBuilder Td(
             HtmlBuilder hb,
             Context context,

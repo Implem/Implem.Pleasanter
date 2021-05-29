@@ -988,7 +988,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public string ToControl(Context context, SiteSettings ss, Column column)
         {
-            return string.Empty;
+            return DeptId.ToString();
         }
 
         /// <summary>
@@ -996,7 +996,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public string ToResponse(Context context, SiteSettings ss, Column column)
         {
-            return string.Empty;
+            return DeptId.ToString();
         }
 
         /// <summary>
@@ -1005,6 +1005,23 @@ namespace Implem.Pleasanter.Models
         public string ToDisplay(Context context, SiteSettings ss, Column column)
         {
             return DeptName;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string ToLookup(Context context, SiteSettings ss, Column column, Lookup.Types? type)
+        {
+            switch (type)
+            {
+                case Lookup.Types.DisplayName:
+                    return ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                default:
+                    return DeptId.ToString();
+            }
         }
 
         /// <summary>

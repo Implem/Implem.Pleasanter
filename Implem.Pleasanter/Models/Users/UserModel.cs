@@ -3328,7 +3328,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public string ToResponse(Context context, SiteSettings ss, Column column)
         {
-            return string.Empty;
+            return UserId.ToString();
         }
 
         /// <summary>
@@ -3337,6 +3337,23 @@ namespace Implem.Pleasanter.Models
         public string ToDisplay(Context context, SiteSettings ss, Column column)
         {
             return Name;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string ToLookup(Context context, SiteSettings ss, Column column, Lookup.Types? type)
+        {
+            switch (type)
+            {
+                case Lookup.Types.DisplayName:
+                    return ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                default:
+                    return UserId.ToString();
+            }
         }
 
         /// <summary>
