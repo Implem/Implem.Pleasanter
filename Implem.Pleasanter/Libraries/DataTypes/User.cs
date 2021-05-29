@@ -120,6 +120,27 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     userId: Id);
         }
 
+        public string ToDisplay(Context context, SiteSettings ss, Column column)
+        {
+            return SiteInfo.UserName(
+                context: context,
+                userId: Id);
+        }
+
+        public string ToLookup(Context context, SiteSettings ss, Column column, Lookup.Types? type)
+        {
+            switch (type)
+            {
+                case Lookup.Types.DisplayName:
+                    return ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                default:
+                    return Id.ToString();
+            }
+        }
+
         public HtmlBuilder Td(
             HtmlBuilder hb,
             Context context,
@@ -178,15 +199,15 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 update: update);
         }
 
+        public bool InitialValue(Context context)
+        {
+            return Id == 0;
+        }
+
         public bool Anonymous()
         {
             return Id == 0
                 || Id == SiteInfo.AnonymousId;
-        }
-
-        public bool InitialValue(Context context)
-        {
-            return Id == 0;
         }
     }
 }

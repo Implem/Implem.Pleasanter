@@ -1,0 +1,33 @@
+﻿{
+    "Id": "FullTextSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Fulltext settings"
+        },
+        {
+            "Language": "zh",
+            "Body": "全文设置"
+        },
+        {
+            "Language": "ja",
+            "Body": "フルテキストの設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Volltexteinstellungen"
+        },
+        {
+            "Language": "ko",
+            "Body": "전체 텍스트 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Configuración de texto completo"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cài đặt toàn văn bản"
+        }
+    ]
+}

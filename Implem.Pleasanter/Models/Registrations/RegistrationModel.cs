@@ -351,6 +351,132 @@ namespace Implem.Pleasanter.Models
             return data;
         }
 
+        public string ToDisplay(Context context, SiteSettings ss, Column column, List<string> mine)
+        {
+            if (!ss.ReadColumnAccessControls.Allowed(
+                context: context,
+                ss: ss,
+                column: column,
+                mine: mine))
+            {
+                return string.Empty;
+            }
+            switch (column.ColumnName)
+            {
+                case "RegistrationId":
+                    return RegistrationId.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "MailAddress":
+                    return MailAddress.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Invitee":
+                    return Invitee.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "InviteeName":
+                    return InviteeName.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "LoginId":
+                    return LoginId.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Name":
+                    return Name.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Password":
+                    return Password.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "PasswordValidate":
+                    return PasswordValidate.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Language":
+                    return Language.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Passphrase":
+                    return Passphrase.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Invitingflg":
+                    return Invitingflg.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UserId":
+                    return UserId.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "DeptId":
+                    return DeptId.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "GroupId":
+                    return GroupId.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Timestamp":
+                    return Timestamp.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(column.Name))
+                    {
+                        case "Class":
+                            return Class(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Num":
+                            return Num(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Date":
+                            return Date(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Description":
+                            return Description(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Check":
+                            return Check(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Attachments":
+                            return Attachments(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        default:
+                            return string.Empty;
+                    }
+            }
+        }
+
         public ErrorData Create(
             Context context,
             SiteSettings ss,

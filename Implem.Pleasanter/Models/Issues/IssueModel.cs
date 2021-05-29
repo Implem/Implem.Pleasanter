@@ -652,6 +652,12 @@ namespace Implem.Pleasanter.Models
                     formData: formData);
             }
             if (setByApi) SetByApi(context: context, ss: ss);
+            if (formData != null || setByApi)
+            {
+                SetByLookups(
+                    context: context,
+                    ss: ss);
+            }
             MethodType = methodType;
             OnConstructed(context: context);
         }
@@ -693,6 +699,12 @@ namespace Implem.Pleasanter.Models
                     formData: formData);
             }
             if (setByApi) SetByApi(context: context, ss: ss);
+            if (formData != null || setByApi)
+            {
+                SetByLookups(
+                    context: context,
+                    ss: ss);
+            }
             if (SavedLocked)
             {
                 ss.SetLockedRecord(
@@ -728,6 +740,12 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     formData: formData);
+            }
+            if (formData != null)
+            {
+                SetByLookups(
+                    context: context,
+                    ss: ss);
             }
             OnConstructed(context: context);
         }
@@ -821,6 +839,117 @@ namespace Implem.Pleasanter.Models
             return data;
         }
 
+        public string ToDisplay(Context context, SiteSettings ss, Column column, List<string> mine)
+        {
+            if (!ss.ReadColumnAccessControls.Allowed(
+                context: context,
+                ss: ss,
+                column: column,
+                mine: mine))
+            {
+                return string.Empty;
+            }
+            switch (column.ColumnName)
+            {
+                case "IssueId":
+                    return IssueId.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Title":
+                    return Title.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Body":
+                    return Body.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "StartTime":
+                    return StartTime.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "CompletionTime":
+                    return CompletionTime.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "WorkValue":
+                    return WorkValue.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ProgressRate":
+                    return ProgressRate.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Status":
+                    return Status.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Manager":
+                    return Manager.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Owner":
+                    return Owner.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Locked":
+                    return Locked.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Timestamp":
+                    return Timestamp.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(column.Name))
+                    {
+                        case "Class":
+                            return Class(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Num":
+                            return Num(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Date":
+                            return Date(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Description":
+                            return Description(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Check":
+                            return Check(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Attachments":
+                            return Attachments(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        default:
+                            return string.Empty;
+                    }
+            }
+        }
+
         public string FullText(
             Context context,
             SiteSettings ss,
@@ -830,20 +959,25 @@ namespace Implem.Pleasanter.Models
             if (!Parameters.Search.CreateIndexes && !backgroundTask) return null;
             if (AccessStatus == Databases.AccessStatuses.NotFound) return null;
             var fullText = new System.Text.StringBuilder();
-            SiteInfo.TenantCaches
-                .Get(context.TenantId)?
-                .SiteMenu.Breadcrumb(
-                    context: context,
-                    siteId: SiteId)
-                .FullText(
-                    context: context,
-                    fullText: fullText);
-            SiteId.FullText(
-                context: context,
-                column: ss.GetColumn(
-                    context: context,
-                    columnName: "SiteId"),
-                fullText: fullText);
+            if (ss.FullTextIncludeBreadcrumb == true)
+            {
+                SiteInfo.TenantCaches
+                    .Get(context.TenantId)?
+                    .SiteMenu.Breadcrumb(
+                        context: context,
+                        siteId: SiteId)
+                    .FullText(
+                        context: context,
+                        fullText: fullText);
+            }
+            if (ss.FullTextIncludeSiteId == true)
+            {
+                fullText.Append($" {ss.SiteId}");
+            }
+            if (ss.FullTextIncludeSiteTitle == true)
+            {
+                fullText.Append($" {ss.Title}");
+            }
             ss.GetEditorColumnNames(
                 context: context,
                 columnOnly: true)
@@ -956,6 +1090,7 @@ namespace Implem.Pleasanter.Models
             {
                 FullTextExtensions.OutgoingMailsFullText(
                     context: context,
+                    ss: ss,
                     fullText: fullText,
                     referenceType: "Issues",
                     referenceId: IssueId);
@@ -2076,6 +2211,30 @@ namespace Implem.Pleasanter.Models
             });
             SetByFormula(context: context, ss: ss);
             SetChoiceHash(context: context, ss: ss);
+        }
+
+        public void SetByLookups(Context context, SiteSettings ss)
+        {
+            var formData = new Dictionary<string, string>();
+            ss.Links
+                .Where(link => link.Lookups?.Any() == true)
+                .Where(link => PropertyUpdated(
+                    context: context,
+                    name: link.ColumnName))
+                .ForEach(link => link.Lookups.LookupData(
+                    context: context,
+                    ss: ss,
+                    link: link,
+                    id: Class(link.ColumnName).ToLong())
+                        .ForEach(data =>
+                            formData.AddOrUpdate(data.Key, data.Value)));
+            if (formData.Any())
+            {
+                SetByForm(
+                    context: context,
+                    ss: ss,
+                    formData: formData);
+            }
         }
 
         public void SynchronizeSummary(Context context, SiteSettings ss, bool force = false)

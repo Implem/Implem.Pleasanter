@@ -5,7 +5,7 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
-using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -23,6 +23,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? MembersOnly;
         public string SearchFormat;
         public View View;
+        public Lookups Lookups;
         public bool? JsonFormat;
         [NonSerialized]
         public string SiteTitle;
@@ -85,6 +86,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             link.View = View?.GetRecordingData(
                 context: context,
                 ss: ss);
+            link.Lookups = Lookups?.GetRecordingData();
             if (JsonFormat == true) link.JsonFormat = true;
             return link;
         }
@@ -225,35 +227,110 @@ namespace Implem.Pleasanter.Libraries.Settings
         private string SearchFormatText(Context context, SiteSettings ss, DataRow dataRow)
         {
             var text = SearchFormat;
-            ss.IncludedColumns(SearchFormat)
-                .Where(column => column.CanRead(
-                    context: context,
-                    ss: ss,
-                    mine: null))
-                .ForEach(column =>
-                    text = text.Replace(
-                        $"[{column.ColumnName}]",
-                        Text(
-                            context: context,
-                            column: column,
-                            dataRow: dataRow)));
-            return text;
-        }
-
-        private string Text(Context context, Column column, DataRow dataRow)
-        {
-            switch (column.ColumnName)
+            switch (ss.ReferenceType)
             {
-                case "Dept":
-                    return SiteInfo.Dept(
-                        tenantId: context.TenantId,
-                        deptId: dataRow.Int("DeptId"))
-                            ?.Name ?? "? " + dataRow.String(column.ColumnName);
-                case "Title":
-                    return dataRow.String("ItemTitle");
-                default:
-                    return dataRow.String(column.ColumnName);
+                case "Depts":
+                    var deptModel = new DeptModel(
+                        context: context,
+                        ss: ss,
+                        dataRow: dataRow);
+                    var deptMine = deptModel.Mine(context: context);
+                    ss.IncludedColumns(SearchFormat)
+                        .Where(column => column.CanRead(
+                            context: context,
+                            ss: ss,
+                            mine: null))
+                        .ForEach(column =>
+                            text = text.Replace(
+                                $@"[{column.ColumnName}]",
+                                $@"{deptModel.ToDisplay(
+                                    context: context,
+                                    ss: ss,
+                                    column: column,
+                                    mine: deptMine)}"));
+                    break;
+                case "Groups":
+                    var groupModel = new GroupModel(
+                        context: context,
+                        ss: ss,
+                        dataRow: dataRow);
+                    var groupMine = groupModel.Mine(context: context);
+                    ss.IncludedColumns(SearchFormat)
+                        .Where(column => column.CanRead(
+                            context: context,
+                            ss: ss,
+                            mine: null))
+                        .ForEach(column =>
+                            text = text.Replace(
+                                $@"[{column.ColumnName}]",
+                                $@"{groupModel.ToDisplay(
+                                    context: context,
+                                    ss: ss,
+                                    column: column,
+                                    mine: groupMine)}"));
+                    break;
+                case "Users":
+                    var userModel = new UserModel(
+                        context: context,
+                        ss: ss,
+                        dataRow: dataRow);
+                    var userMine = userModel.Mine(context: context);
+                    ss.IncludedColumns(SearchFormat)
+                        .Where(column => column.CanRead(
+                            context: context,
+                            ss: ss,
+                            mine: null))
+                        .ForEach(column =>
+                            text = text.Replace(
+                                $@"[{column.ColumnName}]",
+                                $@"{userModel.ToDisplay(
+                                    context: context,
+                                    ss: ss,
+                                    column: column,
+                                    mine: userMine)}"));
+                    break;
+                case "Issues":
+                    var issueModel = new IssueModel(
+                        context: context,
+                        ss: ss,
+                        dataRow: dataRow);
+                    var issueMine = issueModel.Mine(context: context);
+                    ss.IncludedColumns(SearchFormat)
+                        .Where(column => column.CanRead(
+                            context: context,
+                            ss: ss,
+                            mine: null))
+                        .ForEach(column =>
+                            text = text.Replace(
+                                $@"[{column.ColumnName}]",
+                                $@"{issueModel.ToDisplay(
+                                    context: context,
+                                    ss: ss,
+                                    column: column,
+                                    mine: issueMine)}"));
+                    break;
+                case "Results":
+                    var resultModel = new ResultModel(
+                        context: context,
+                        ss: ss,
+                        dataRow: dataRow);
+                    var resultMine = resultModel.Mine(context: context);
+                    ss.IncludedColumns(SearchFormat)
+                        .Where(column => column.CanRead(
+                            context: context,
+                            ss: ss,
+                            mine: null))
+                        .ForEach(column =>
+                            text = text.Replace(
+                                $@"[{column.ColumnName}]",
+                                $@"{resultModel.ToDisplay(
+                                    context: context,
+                                    ss: ss,
+                                    column: column,
+                                    mine: resultMine)}"));
+                    break;
             }
+            return text;
         }
 
         private EnumerableRowCollection<DataRow> Depts(

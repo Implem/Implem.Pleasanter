@@ -461,6 +461,10 @@ namespace Implem.Pleasanter.Models
             int? tabIndex = null,
             ServerScriptModelColumn serverScriptValues = null)
         {
+            if (serverScriptValues?.Hide == true)
+            {
+                return hb.Td();
+            }
             if (serverScriptValues?.RawText.IsNullOrEmpty() == false)
             {
                 return hb.Td(
@@ -2890,8 +2894,14 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string SiteMenu(Context context, SiteModel siteModel)
         {
+            var ss = siteModel.SiteSettings;
+            if (context.PermissionHash.ContainsKey(siteModel.SiteId))
+            {
+                ss.PermissionType = context.PermissionHash.Get(siteModel.SiteId);
+            }
             var invalid = SiteValidators.OnShowingMenu(
                 context: context,
+                ss: ss,
                 siteModel: siteModel);
             switch (invalid.Type)
             {
@@ -2899,7 +2909,6 @@ namespace Implem.Pleasanter.Models
                 default: return HtmlTemplates.Error(context, invalid);
             }
             var hb = new HtmlBuilder();
-            var ss = siteModel.SiteSettings;
             var siteConditions = SiteInfo.TenantCaches
                 .Get(context.TenantId)?
                 .SiteMenu
@@ -3265,12 +3274,13 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static IEnumerable<SiteModel> Menu(Context context, SiteSettings ss)
         {
-            var siteDataRows = new SiteCollection(
+            var siteCollection = new SiteCollection(
                 context: context,
                 column: Rds.SitesColumn()
                     .SiteId()
                     .Title()
-                    .ReferenceType(),
+                    .ReferenceType()
+                    .SiteSettings(),
                 where: Rds.SitesWhere()
                     .TenantId(context.TenantId)
                     .ParentId(ss.SiteId)
@@ -3282,12 +3292,15 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 referenceId: ss.SiteId,
                 referenceType: "Sites");
-            siteDataRows.ForEach(siteModel =>
+            siteCollection.ForEach(siteModel =>
             {
                 var index = orderModel.Data.IndexOf(siteModel.SiteId);
                 siteModel.SiteMenu = (index != -1 ? index : int.MaxValue);
             });
-            return siteDataRows.OrderBy(o => o.SiteMenu);
+            return siteCollection
+                .Where(o => !(context.PermissionHash.Get(o.SiteId) == Permissions.Types.Read
+                    && o.SiteSettings?.NoDisplayIfReadOnly == true))
+                .OrderBy(o => o.SiteMenu);
         }
 
         /// <summary>
@@ -3835,6 +3848,7 @@ namespace Implem.Pleasanter.Models
                         mobile: context.Mobile,
                         _using: ss.ReferenceType != "Sites")
                     .Field(
+                        fieldCss: "field-normal",
                         labelText: Displays.Sites_ReferenceType(context: context),
                         controlAction: () => hb
                             .ReferenceType(
@@ -5205,7 +5219,8 @@ namespace Implem.Pleasanter.Models
                                             .FieldCheckBox(
                                                 controlId: "Nullable",
                                                 labelText: Displays.Nullable(context: context),
-                                                _checked: column.Nullable.ToBool())
+                                                _checked: column.Nullable.ToBool(),
+                                                _using: !column.Id_Ver)
                                             .FieldTextBox(
                                                 controlId: "Unit",
                                                 controlCss: " w50",
@@ -5219,7 +5234,8 @@ namespace Implem.Pleasanter.Models
                                                 min: 0,
                                                 max: maxDecimalPlaces,
                                                 step: 1,
-                                                _using: maxDecimalPlaces > 0)
+                                                _using: maxDecimalPlaces > 0
+                                                    && !column.Id_Ver)
                                             .FieldDropDown(
                                                 context: context,
                                                 controlId: "RoundingType",
@@ -5247,7 +5263,8 @@ namespace Implem.Pleasanter.Models
                                                         Displays.ToEven(context:context)
                                                     }
                                                 },
-                                                selectedValue: column.RoundingType.ToInt().ToString());
+                                                selectedValue: column.RoundingType.ToInt().ToString(),
+                                                _using: !column.Id_Ver);
                                         if (!column.NotUpdate && !column.Id_Ver)
                                         {
                                             var hidden = column.ControlType != "Spinner"
@@ -5322,18 +5339,6 @@ namespace Implem.Pleasanter.Models
                                                 ? " hidden"
                                                 : string.Empty;
                                             hb
-                                                .FieldCheckBox(
-                                                    controlId: "OverwriteSameFileName",
-                                                    labelText: Displays.OverwriteSameFileName(context: context),
-                                                    _checked: column.OverwriteSameFileName == true)
-                                                .FieldSpinner(
-                                                    controlId: "LimitQuantity",
-                                                    labelText: Displays.LimitQuantity(context: context),
-                                                    value: column.LimitQuantity,
-                                                    min: Parameters.BinaryStorage.MinQuantity,
-                                                    max: Parameters.BinaryStorage.MaxQuantity,
-                                                    step: column.Step.ToInt(),
-                                                    width: 50)
                                                 .FieldDropDown(
                                                     context: context,
                                                     controlId: "BinaryStorageProvider",
@@ -5346,6 +5351,18 @@ namespace Implem.Pleasanter.Models
                                                     },
                                                     selectedValue: column.BinaryStorageProvider,
                                                     _using: Parameters.BinaryStorage.UseStorageSelect)
+                                                .FieldCheckBox(
+                                                    controlId: "OverwriteSameFileName",
+                                                    labelText: Displays.OverwriteSameFileName(context: context),
+                                                    _checked: column.OverwriteSameFileName == true)
+                                                .FieldSpinner(
+                                                    controlId: "LimitQuantity",
+                                                    labelText: Displays.LimitQuantity(context: context),
+                                                    value: column.LimitQuantity,
+                                                    min: Parameters.BinaryStorage.MinQuantity,
+                                                    max: Parameters.BinaryStorage.MaxQuantity,
+                                                    step: column.Step.ToInt(),
+                                                    width: 50)
                                                 .FieldSpinner(
                                                     fieldId: "LimitSizeField",
                                                     fieldCss: hiddenDataBase,
@@ -5466,7 +5483,8 @@ namespace Implem.Pleasanter.Models
                                     .FieldCheckBox(
                                         controlId: "AutoPostBack",
                                         labelText: Displays.AutoPostBack(context: context),
-                                        _checked: column.AutoPostBack == true)
+                                        _checked: column.AutoPostBack == true,
+                                        _using: !column.Id_Ver)
                                     .FieldTextBox(
                                         fieldId: "ColumnsReturnedWhenAutomaticPostbackField",
                                         controlId: "ColumnsReturnedWhenAutomaticPostback",
@@ -8822,8 +8840,7 @@ namespace Implem.Pleasanter.Models
                     id: "SearchSettingsEditorGeneral",
                     css: " enclosed",
                     legendText: Displays.SearchSettings(context: context),
-                    action: () => hb
-                    .FieldDropDown(
+                    action: () => hb.FieldDropDown(
                         context: context,
                         controlId: "SearchType",
                         controlCss: " always-send",
@@ -8848,6 +8865,35 @@ namespace Implem.Pleasanter.Models
                             }
                         },
                         selectedValue: ss.SearchType.ToInt().ToString()))
+                .FieldSet(
+                    id: "SearchSettingsEditorFulltext",
+                    css: " enclosed",
+                    legendText: Displays.FullTextSettings(context: context),
+                    action: () => hb
+                        .FieldCheckBox(
+                            controlId: "FullTextIncludeBreadcrumb",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.FullTextIncludeBreadcrumb(context: context),
+                            _checked: ss.FullTextIncludeBreadcrumb == true)
+                        .FieldCheckBox(
+                            controlId: "FullTextIncludeSiteId",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.FullTextIncludeSiteId(context: context),
+                            _checked: ss.FullTextIncludeSiteId == true)
+                        .FieldCheckBox(
+                            controlId: "FullTextIncludeSiteTitle",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.FullTextIncludeSiteTitle(context: context),
+                            _checked: ss.FullTextIncludeSiteTitle == true)
+                        .FieldSpinner(
+                            controlId: "FullTextNumberOfMails",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.FullTextNumberOfMails(context: context),
+                            value: ss.FullTextNumberOfMails.ToDecimal(),
+                            min: 0,
+                            max: Parameters.Search.FullTextMaxNumberOfMails,
+                            step: 1,
+                            width: 25))
                 .FieldSet(
                     id: "SearchSettingsEditorOperations",
                     css: " enclosed",

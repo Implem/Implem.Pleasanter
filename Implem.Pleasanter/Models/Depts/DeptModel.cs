@@ -278,6 +278,92 @@ namespace Implem.Pleasanter.Models
             return data;
         }
 
+        public string ToDisplay(Context context, SiteSettings ss, Column column, List<string> mine)
+        {
+            if (!ss.ReadColumnAccessControls.Allowed(
+                context: context,
+                ss: ss,
+                column: column,
+                mine: mine))
+            {
+                return string.Empty;
+            }
+            switch (column.ColumnName)
+            {
+                case "DeptId":
+                    return DeptId.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "DeptCode":
+                    return DeptCode.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "DeptName":
+                    return DeptName.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Body":
+                    return Body.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Disabled":
+                    return Disabled.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Timestamp":
+                    return Timestamp.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Dept":
+                    return Dept.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(column.Name))
+                    {
+                        case "Class":
+                            return Class(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Num":
+                            return Num(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Date":
+                            return Date(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Description":
+                            return Description(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Check":
+                            return Check(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Attachments":
+                            return Attachments(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        default:
+                            return string.Empty;
+                    }
+            }
+        }
+
         public ErrorData Create(
             Context context,
             SiteSettings ss,
@@ -902,7 +988,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public string ToControl(Context context, SiteSettings ss, Column column)
         {
-            return string.Empty;
+            return DeptId.ToString();
         }
 
         /// <summary>
@@ -910,7 +996,32 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public string ToResponse(Context context, SiteSettings ss, Column column)
         {
-            return string.Empty;
+            return DeptId.ToString();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string ToDisplay(Context context, SiteSettings ss, Column column)
+        {
+            return DeptName;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string ToLookup(Context context, SiteSettings ss, Column column, Lookup.Types? type)
+        {
+            switch (type)
+            {
+                case Lookup.Types.DisplayName:
+                    return ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                default:
+                    return DeptId.ToString();
+            }
         }
 
         /// <summary>

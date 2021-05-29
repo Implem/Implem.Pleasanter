@@ -54,6 +54,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     columnSorter.Value));
             ((INotifyPropertyChanged)Model).PropertyChanged += DataPropertyChanged;
             Context = new ServerScriptModelContext(
+                context: context,
                 logBuilder: context.LogBuilder,
                 userData: context.UserData,
                 errorData: context.ErrorData,
@@ -213,6 +214,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public class ServerScriptModelContext
         {
+            private readonly Context Context;
             public StringBuilder LogBuilder;
             public ExpandoObject UserData;
             public ErrorData ErrorData;
@@ -249,6 +251,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             public readonly string ControlId;
 
             public ServerScriptModelContext(
+                Context context,
                 StringBuilder logBuilder,
                 ExpandoObject userData,
                 ErrorData errorData,
@@ -285,6 +288,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 long scriptDepth,
                 string controlId)
             {
+                Context = context;
                 LogBuilder = logBuilder;
                 UserData = userData;
                 ErrorData = errorData;
@@ -332,6 +336,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             {
                 ErrorData.Type = General.Error.Types.CustomError;
                 ErrorData.Data = message.ToSingleArray();
+            }
+
+            public string FormsData(string name)
+            {
+                return Context.Forms.Data(name);
             }
         }
 

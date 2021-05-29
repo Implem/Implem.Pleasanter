@@ -471,6 +471,10 @@ namespace Implem.Pleasanter.Models
             int? tabIndex = null,
             ServerScriptModelColumn serverScriptValues = null)
         {
+            if (serverScriptValues?.Hide == true)
+            {
+                return hb.Td();
+            }
             if (serverScriptValues?.RawText.IsNullOrEmpty() == false)
             {
                 return hb.Td(

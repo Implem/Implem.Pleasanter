@@ -249,6 +249,25 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return Value;
         }
 
+        public string ToDisplay(Context context, SiteSettings ss, Column column)
+        {
+            return DisplayValue;
+        }
+
+        public string ToLookup(Context context, SiteSettings ss, Column column, Lookup.Types? type)
+        {
+            switch (type)
+            {
+                case Lookup.Types.DisplayName:
+                    return ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                default:
+                    return Value;
+            }
+        }
+
         public override string ToString()
         {
             return Value;
@@ -292,8 +311,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             }
                 .Where(s => s != string.Empty)
                 .Join("&");
-            if (column.SiteSettings.TableType == Sqls.TableTypes.Normal
-                && Id > 0)
+            if (Id > 0
+                && column.SiteSettings?.TableType == Sqls.TableTypes.Normal
+                && column.SiteSettings?.GetNoDisplayIfReadOnly() != true)
             {
                 hb.A(
                     href: Locations.ItemEdit(

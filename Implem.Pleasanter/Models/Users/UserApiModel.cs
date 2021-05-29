@@ -21,6 +21,7 @@ namespace Implem.Pleasanter.Models
         public string TimeZone { get; set; }
         public string DeptCode { get; set; }
         public int? DeptId { get; set; }
+        public string Theme { get; set; }
         public int? FirstAndLastNameOrder { get; set; }
         public string Body { get; set; }
         public DateTime? LastLoginTime { get; set; }

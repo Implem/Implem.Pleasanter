@@ -29,33 +29,15 @@ namespace Implem.Pleasanter.Models
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
+            if (ss.GetNoDisplayIfReadOnly())
+            {
+                return new ErrorData(type: Error.Types.NotFound);
+            }
             return context.HasPermission(ss: ss)
                 ? new ErrorData(type: Error.Types.None)
                 : !context.CanRead(ss: ss)
                     ? new ErrorData(type: Error.Types.NotFound)
                     : new ErrorData(type: Error.Types.HasNotPermission);
-        }
-
-        public static ErrorData OnReading(Context context, SiteSettings ss, bool api = false)
-        {
-            if (api)
-            {
-                if ((context.ContractSettings.Api == false || !Parameters.Api.Enabled))
-                {
-                    return new ErrorData(type: Error.Types.InvalidRequest);
-                }
-                if (context.InvalidJsonData)
-                {
-                    return new ErrorData(type: Error.Types.InvalidJsonData);
-                }
-            }
-            if (!Parameters.Service.ShowProfiles)
-            {
-                return new ErrorData(type: Error.Types.InvalidRequest);
-            }
-            return context.CanRead(ss: ss)
-                ? new ErrorData(type: Error.Types.None)
-                : new ErrorData(type: Error.Types.HasNotPermission);
         }
 
         public static ErrorData OnEditing(
@@ -75,6 +57,10 @@ namespace Implem.Pleasanter.Models
             if (!Parameters.Service.ShowProfiles && !context.HasPrivilege)
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
+            }
+            if (ss.GetNoDisplayIfReadOnly())
+            {
+                return new ErrorData(type: Error.Types.NotFound);
             }
             switch (userModel.MethodType)
             {
@@ -191,6 +177,12 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "DeptId":
                         if (userModel.DeptId_Updated(context: context, column: column))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "Theme":
+                        if (userModel.Theme_Updated(context: context, column: column))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
@@ -485,6 +477,12 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "DeptId":
                         if (userModel.DeptId_Updated(context: context))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "Theme":
+                        if (userModel.Theme_Updated(context: context))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }

@@ -39,6 +39,25 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return Title(context: context);
         }
 
+        public string ToDisplay(Context context, SiteSettings ss, Column column)
+        {
+            return Title(context: context);
+        }
+
+        public string ToLookup(Context context, SiteSettings ss, Column column, Lookup.Types? type)
+        {
+            switch (type)
+            {
+                case Lookup.Types.DisplayName:
+                    return ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                default:
+                    return SiteId.ToString();
+            }
+        }
+
         public virtual HtmlBuilder Td(
             HtmlBuilder hb,
             Context context,

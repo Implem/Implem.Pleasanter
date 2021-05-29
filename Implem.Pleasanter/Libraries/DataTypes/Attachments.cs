@@ -1,5 +1,4 @@
-﻿using Implem.DefinitionAccessor;
-using Implem.Libraries.DataSources.SqlServer;
+﻿using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.Html;
@@ -17,6 +16,35 @@ namespace Implem.Pleasanter.Libraries.DataTypes
     {
         public Attachments()
         {
+        }
+
+        public string ToControl(Context context, SiteSettings ss, Column column)
+        {
+            return this.ToJson();
+        }
+
+        public string ToResponse(Context context, SiteSettings ss, Column column)
+        {
+            return string.Empty;
+        }
+
+        public string ToDisplay(Context context, SiteSettings ss, Column column)
+        {
+            return string.Empty;
+        }
+
+        public string ToLookup(Context context, SiteSettings ss, Column column, Lookup.Types? type)
+        {
+            switch (type)
+            {
+                case Lookup.Types.DisplayName:
+                    return ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                default:
+                    return string.Empty;
+            }
         }
 
         public HtmlBuilder Td(
@@ -39,19 +67,14 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                                     .Text(text: item.Name))))));
         }
 
-        public string ToControl(Context context, SiteSettings ss, Column column)
-        {
-            return this.ToJson();
-        }
-
         public string ToExport(Context context, Column column, ExportColumn exportColumn)
         {
             return string.Empty;
         }
 
-        public string ToResponse(Context context, SiteSettings ss, Column column)
+        public bool InitialValue(Context context)
         {
-            return string.Empty;
+            return this?.Any() != true;
         }
 
         public string RecordingJson()
@@ -92,11 +115,6 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                         referenceId: referenceId,
                         column: column);
                 });
-        }
-
-        public bool InitialValue(Context context)
-        {
-            return this?.Any() != true;
         }
     }
 }

@@ -125,6 +125,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder Permission(
             this HtmlBuilder hb, Context context, SiteModel siteModel, long referenceId, bool site)
         {
+            var ss = siteModel.SiteSettings;
             return hb.FieldSet(
                 id: "FieldSetPermissionEditor",
                 css: " enclosed",
@@ -137,9 +138,14 @@ namespace Implem.Pleasanter.Models
                     .Div(id: "PermissionEditor", action: () => hb
                         .PermissionEditor(
                             context: context,
-                            ss: siteModel.SiteSettings,
+                            ss: ss,
                             referenceId: referenceId,
-                            _using: !site || siteModel.SiteId == siteModel.InheritPermission)));
+                            _using: !site || siteModel.SiteId == siteModel.InheritPermission))
+                    .FieldCheckBox(
+                        controlId: "NoDisplayIfReadOnly",
+                        fieldCss: "field-auto-thin both",
+                        labelText: Displays.NoDisplayIfReadOnly(context: context),
+                        _checked: ss.NoDisplayIfReadOnly));
         }
 
         /// <summary>
@@ -710,7 +716,6 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             if (siteModel.SiteId == inheritPermission)
             {
-                var inheritSite = siteModel.InheritSite(context: context);
                 hb.PermissionEditor(
                     context: context,
                     ss: siteModel.SiteSettings,

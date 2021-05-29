@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.Libraries.DataSources.SqlServer;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Requests;
@@ -433,36 +434,43 @@ namespace Implem.Pleasanter.Libraries.Extensions
 
         public static void OutgoingMailsFullText(
             Context context,
+            SiteSettings ss,
             StringBuilder fullText,
             string referenceType,
             long referenceId)
         {
-            new OutgoingMailCollection(
-                context: context,
-                where: Rds.OutgoingMailsWhere()
-                    .ReferenceType(referenceType)
-                    .ReferenceId(referenceId))
-                        .ForEach(o =>
-                        {
-                            fullText
-                                .Append(" ")
-                                .Append(o.From.ToString());
-                            fullText
-                                .Append(" ")
-                                .Append(o.To);
-                            fullText
-                                .Append(" ")
-                                .Append(o.Cc);
-                            fullText
-                                .Append(" ")
-                                .Append(o.Bcc);
-                            fullText
-                                .Append(" ")
-                                .Append(o.Title.Value);
-                            fullText
-                                .Append(" ")
-                                .Append(o.Body);
-                        });
+            if (ss.FullTextNumberOfMails > 0)
+            {
+                new OutgoingMailCollection(
+                    context: context,
+                    where: Rds.OutgoingMailsWhere()
+                        .ReferenceType(referenceType)
+                        .ReferenceId(referenceId),
+                    orderBy: Rds.OutgoingMailsOrderBy()
+                        .OutgoingMailId(orderType: SqlOrderBy.Types.desc),
+                    top: ss.FullTextNumberOfMails.ToInt())
+                            .ForEach(o =>
+                            {
+                                fullText
+                                    .Append(" ")
+                                    .Append(o.From.ToString());
+                                fullText
+                                    .Append(" ")
+                                    .Append(o.To);
+                                fullText
+                                    .Append(" ")
+                                    .Append(o.Cc);
+                                fullText
+                                    .Append(" ")
+                                    .Append(o.Bcc);
+                                fullText
+                                    .Append(" ")
+                                    .Append(o.Title.Value);
+                                fullText
+                                    .Append(" ")
+                                    .Append(o.Body);
+                            });
+            }
         }
     }
 }

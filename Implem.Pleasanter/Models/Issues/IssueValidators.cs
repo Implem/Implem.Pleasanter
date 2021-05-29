@@ -25,29 +25,15 @@ namespace Implem.Pleasanter.Models
                     return new ErrorData(type: Error.Types.InvalidJsonData);
                 }
             }
+            if (ss.GetNoDisplayIfReadOnly())
+            {
+                return new ErrorData(type: Error.Types.NotFound);
+            }
             return context.HasPermission(ss: ss)
                 ? new ErrorData(type: Error.Types.None)
                 : !context.CanRead(ss: ss)
                     ? new ErrorData(type: Error.Types.NotFound)
                     : new ErrorData(type: Error.Types.HasNotPermission);
-        }
-
-        public static ErrorData OnReading(Context context, SiteSettings ss, bool api = false)
-        {
-            if (api)
-            {
-                if ((context.ContractSettings.Api == false || !Parameters.Api.Enabled))
-                {
-                    return new ErrorData(type: Error.Types.InvalidRequest);
-                }
-                if (context.InvalidJsonData)
-                {
-                    return new ErrorData(type: Error.Types.InvalidJsonData);
-                }
-            }
-            return context.CanRead(ss: ss)
-                ? new ErrorData(type: Error.Types.None)
-                : new ErrorData(type: Error.Types.HasNotPermission);
         }
 
         public static ErrorData OnEditing(
@@ -63,6 +49,10 @@ namespace Implem.Pleasanter.Models
                 {
                     return new ErrorData(type: Error.Types.InvalidJsonData);
                 }
+            }
+            if (ss.GetNoDisplayIfReadOnly())
+            {
+                return new ErrorData(type: Error.Types.NotFound);
             }
             switch (issueModel.MethodType)
             {

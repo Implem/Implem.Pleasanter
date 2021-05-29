@@ -1,0 +1,33 @@
+﻿{
+    "Id": "FullTextIncludeBreadcrumb",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Include breadcrumb list"
+        },
+        {
+            "Language": "zh",
+            "Body": "包括面包屑列表"
+        },
+        {
+            "Language": "ja",
+            "Body": "パンくずリストを含める"
+        },
+        {
+            "Language": "de",
+            "Body": "Breadcrumb-Liste einschließen"
+        },
+        {
+            "Language": "ko",
+            "Body": "탐색 경로 목록 포함"
+        },
+        {
+            "Language": "es",
+            "Body": "Incluir lista de migas de pan"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bao gồm danh sách breadcrumb"
+        }
+    ]
+}

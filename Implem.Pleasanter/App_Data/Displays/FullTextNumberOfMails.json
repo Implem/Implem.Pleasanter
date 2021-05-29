@@ -1,0 +1,33 @@
+﻿{
+    "Id": "FullTextNumberOfMails",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "number of mails"
+        },
+        {
+            "Language": "zh",
+            "Body": "邮件数"
+        },
+        {
+            "Language": "ja",
+            "Body": "メールの件数"
+        },
+        {
+            "Language": "de",
+            "Body": "Anzahl der Mails"
+        },
+        {
+            "Language": "ko",
+            "Body": "메일 수"
+        },
+        {
+            "Language": "es",
+            "Body": "número de correos"
+        },
+        {
+            "Language": "vn",
+            "Body": "số lượng thư"
+        }
+    ]
+}

@@ -145,6 +145,7 @@ table{
 td{
     padding:3px;
     vertical-align:top;
+    color:black;
 }
 
 pre{
@@ -286,22 +287,20 @@ pre{
     height:30px;
     text-align:center;
     line-height:30px;
-    color:white;
     cursor:pointer;
 }
 
 #NavigationMenu > li > div:hover{
-    background-color:#817865;
+
 }
 
 #NavigationMenu > li.sub-menu > div.hover{
-    background-color:#817865;
+
 }
 
 #NavigationMenu > li > div > a{
     height:30px;
     display:block;
-    color:white;
     text-decoration:none;
 }
 
@@ -322,14 +321,12 @@ pre{
 
 #NavigationMenu .menu > li > a{
     display:block;
-    color:black;
     text-decoration:none;
 }
 
 #NavigationMenu .menu > li > a.ui-state-active{
     font-weight:normal;
-    border:solid 1px #d19405;
-    text-decoration:underline;
+    text-decoration:none;
 }
 
 #TemplateDialog > div{
@@ -1372,8 +1369,6 @@ th.calendar-header{
     height:70px;
     float:left;
     margin:10px;
-    background-color:white;
-    border:solid 2px silver;
     position:relative;
     top:0px;
     left:0px;
@@ -1381,15 +1376,12 @@ th.calendar-header{
 }
 
 .nav-site.sites{
-    background-color:white;
-    border:solid 2px orange;
+
 }
 
 .nav-site .heading{
     width:50px;
     height:9px;
-    background-color:gold;
-    border:solid 1px orange;
     position:absolute;
     top:-10px;
     left:5px;
@@ -1722,6 +1714,31 @@ th.calendar-header{
     margin-left:120px;
 }
 
+.field-textarea{
+    width:100%;
+    min-height:45px;
+    float:left;
+    padding:0px 10px 10px 0px;
+    clear:both;
+}
+
+.field-textarea > .field-label{
+    width:120px;
+    float:left;
+    margin-right:-120px;
+    padding:7px 7px 7px 0px;
+    text-align:right;
+}
+
+.field-textarea > .field-control{
+    width:100%;
+    float:right;
+}
+
+:not(td) > div.field-textarea .container-normal{
+    margin-left:120px;
+}
+
 .field-auto{
     width:auto;
     height:45px;
@@ -1849,6 +1866,7 @@ th.calendar-header{
     min-height:30px;
     display:block;
     padding:6px 4px 2px 4px;
+    color:black;
     background:whitesmoke;
     border:solid 1px silver;
     overflow:hidden;
@@ -1960,6 +1978,7 @@ th.calendar-header{
     min-height:100px;
     float:left;
     padding:4px 25px 4px 6px;
+    color:black;
     background:whitesmoke;
     border:solid 1px silver;
     border-radius:5px;
@@ -2096,6 +2115,7 @@ th.calendar-header{
     display:block;
     float:left;
     padding:1px;
+    color:black;
 }
 
 .control-checkbox{
@@ -2108,6 +2128,10 @@ th.calendar-header{
     display:block;
     float:left;
     margin:7px 5px 0px 7px;
+}
+
+.field-normal .control-checkbox + label{
+    width:180px;
 }
 
 .control-radio{
@@ -2168,12 +2192,11 @@ th.calendar-header{
 }
 
 .control-selectable .ui-selecting{
-    background:#FECA40;
+
 }
 
 .control-selectable .ui-selected{
-    color:white;
-    background:#F39814;
+
 }
 
 .control-basket{
@@ -2339,7 +2362,6 @@ th.calendar-header{
 }
 
 .grid > thead > tr > th.sortable:hover{
-    background-color:dimgray;
     cursor:pointer;
 }
 
@@ -2946,6 +2968,7 @@ h3.title-header{
 .ui-spinner{
     display:block;
     float:left;
+    background:white;
 }
 
 .ui-widget.ui-state-default.ui-multiselect{
@@ -2982,8 +3005,6 @@ h3.title-header{
 }
 
 .menu-sort{
-    padding:0px 0px 15px 0px;
-    background-color:dimgray;
     border-left:solid 1px white;
     border-right:solid 1px white;
     position:absolute;
@@ -2995,27 +3016,20 @@ h3.title-header{
     width:100%;
     display:block;
     float:left;
-    padding:5px 2px;
-    text-align:left;
-    color:white;
-    background-color:dimgray;
     border-top:dotted 1px white;
+    cursor:pointer;
     clear:both;
 }
 
 .menu-sort > li:hover{
-    background-color:#817865;
+
 }
 
 .menu-sort > li > *{
-    display:block;
-    float:left;
-    margin:0px 5px 0px 0px;
+
 }
 
 .menu-sort > li div.field-control > *{
-    color:black;
-    background-color:white;
     border:solid 1px silver;
 }
 

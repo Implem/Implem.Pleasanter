@@ -73,6 +73,8 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string HtmlTitleTop;
         public string HtmlTitleSite;
         public string HtmlTitleRecord;
+        public string TopStyle;
+        public string TopScript;
         public int DeptId;
         public int UserId;
         public string LoginId = HttpContext.Current?.User?.Identity.Name;
@@ -82,6 +84,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string UserHostAddress;
         public string UserAgent;
         public string Language = Parameters.Service.DefaultLanguage;
+        public string Theme = Parameters.User.Theme;
         public bool Developer;
         public TimeZoneInfo TimeZoneInfo = Environments.TimeZoneInfoDefault;
         public UserSettings UserSettings;
@@ -320,6 +323,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 Dept = SiteInfo.Dept(tenantId: TenantId, deptId: DeptId);
                 User = SiteInfo.User(context: this, userId: UserId);
                 Language = userModel.Language;
+                Theme = Strings.CoalesceEmpty(userModel.Theme, Parameters.User.Theme, "sunny");
                 UserHostAddress = GetUserHostAddress(HttpContext.Current.Request);
                 Developer = userModel.Developer;
                 TimeZoneInfo = userModel.TimeZoneInfo;
@@ -344,7 +348,9 @@ namespace Implem.Pleasanter.Libraries.Requests
                             .DisableStartGuide()
                             .HtmlTitleTop()
                             .HtmlTitleSite()
-                            .HtmlTitleRecord(),
+                            .HtmlTitleRecord()
+                            .TopStyle()
+                            .TopScript(),
                         where: Rds.TenantsWhere().TenantId(TenantId)))
                             .AsEnumerable()
                             .FirstOrDefault();
@@ -360,6 +366,8 @@ namespace Implem.Pleasanter.Libraries.Requests
                     HtmlTitleTop = dataRow.String("HtmlTitleTop");
                     HtmlTitleSite = dataRow.String("HtmlTitleSite");
                     HtmlTitleRecord = dataRow.String("HtmlTitleRecord");
+                    TopStyle = dataRow.String("TopStyle");
+                    TopScript = dataRow.String("TopScript");
                 }
             }
         }
@@ -599,6 +607,11 @@ namespace Implem.Pleasanter.Libraries.Requests
                 default:
                     return false;
             }
+        }
+
+        public bool SiteTop()
+        {
+            return SiteId == 0 && Id == 0 && Controller == "items" && Action == "index";
         }
 
         public string GetLog()
