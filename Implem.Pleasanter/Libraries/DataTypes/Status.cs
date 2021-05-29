@@ -44,9 +44,23 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 : column.Choice(ToString()).Text;
         }
 
-        public override string ToString()
+        public string ToDisplay(Context context, SiteSettings ss, Column column)
         {
-            return Value.ToString();
+            return column.Choice(ToString()).Text;
+        }
+
+        public string ToLookup(Context context, SiteSettings ss, Column column, Lookup.Types? type)
+        {
+            switch (type)
+            {
+                case Lookup.Types.DisplayName:
+                    return ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                default:
+                    return Value.ToString();
+            }
         }
 
         public HtmlBuilder Td(
@@ -72,16 +86,6 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                                 : choice.TextMini)));
         }
 
-        public bool Incomplete()
-        {
-            return Value < Parameters.General.CompletionCode;
-        }
-
-        public string GridText(Context context, Column column)
-        {
-            return column.Choice(ToString()).TextMini;
-        }
-
         public string ToExport(Context context, Column column, ExportColumn exportColumn = null)
         {
             return Value == 0 && !column.ChoiceHash.ContainsKey(ToString())
@@ -91,6 +95,16 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     selectedValues: ToString(),
                     type: exportColumn?.Type ?? ExportColumn.Types.Text)
                         .FirstOrDefault();
+        }
+
+        public bool InitialValue(Context context)
+        {
+            return Value == 0;
+        }
+
+        public string GridText(Context context, Column column)
+        {
+            return column.Choice(ToString()).TextMini;
         }
 
         public string ToNotice(
@@ -109,9 +123,14 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 update: update);
         }
 
-        public bool InitialValue(Context context)
+        public override string ToString()
         {
-            return Value == 0;
+            return Value.ToString();
+        }
+
+        public bool Incomplete()
+        {
+            return Value < Parameters.General.CompletionCode;
         }
     }
 }

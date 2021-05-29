@@ -809,7 +809,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        private string DisplayValue(decimal value)
+        public string DisplayValue(decimal value)
         {
             return value.ToString("0", "0." + new string('0', DecimalPlaces.ToInt()))
                 .ToDecimal()
@@ -1431,6 +1431,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                             break;
                         case "Dept":
                             sql.Users_Dept(tableName: path, _as: _as);
+                            break;
+                        case "Theme":
+                            sql.Users_Theme(tableName: path, _as: _as);
                             break;
                         case "FirstAndLastNameOrder":
                             sql.Users_FirstAndLastNameOrder(tableName: path, _as: _as);

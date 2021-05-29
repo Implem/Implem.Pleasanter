@@ -553,20 +553,25 @@ namespace Implem.Pleasanter.Models
             if (AccessStatus == Databases.AccessStatuses.NotFound) return null;
             if (ReferenceType == "Wikis") return null;
             var fullText = new System.Text.StringBuilder();
-            SiteInfo.TenantCaches
-                .Get(context.TenantId)?
-                .SiteMenu.Breadcrumb(
-                    context: context,
-                    siteId: SiteId)
-                .FullText(
-                    context: context,
-                    fullText: fullText);
-            SiteId.FullText(
-                context: context,
-                column: ss.GetColumn(
-                    context: context,
-                    columnName: "SiteId"),
-                fullText: fullText);
+            if (ss.FullTextIncludeBreadcrumb == true)
+            {
+                SiteInfo.TenantCaches
+                    .Get(context.TenantId)?
+                    .SiteMenu.Breadcrumb(
+                        context: context,
+                        siteId: SiteId)
+                    .FullText(
+                        context: context,
+                        fullText: fullText);
+            }
+            if (ss.FullTextIncludeSiteId == true)
+            {
+                fullText.Append($" {ss.SiteId}");
+            }
+            if (ss.FullTextIncludeSiteTitle == true)
+            {
+                fullText.Append($" {ss.Title}");
+            }
             ss.GetEditorColumnNames(
                 context: context,
                 columnOnly: true)
@@ -631,6 +636,7 @@ namespace Implem.Pleasanter.Models
             {
                 FullTextExtensions.OutgoingMailsFullText(
                     context: context,
+                    ss: ss,
                     fullText: fullText,
                     referenceType: "Sites",
                     referenceId: SiteId);
@@ -969,8 +975,6 @@ namespace Implem.Pleasanter.Models
                     case "Sites_ReferenceType": ReferenceType = value.ToString(); break;
                     case "Sites_InheritPermission": InheritPermission = value.ToLong(); break;
                     case "Sites_Publish": Publish = value.ToBool(); break;
-                    case "Sites_ApiCountDate": ApiCountDate = value.ToDateTime().ToUniversal(context: context); break;
-                    case "Sites_ApiCount": ApiCount = value.ToInt(); break;
                     case "Sites_Timestamp": Timestamp = value.ToString(); break;
                     case "Comments": Comments.Prepend(
                         context: context,
@@ -1097,8 +1101,6 @@ namespace Implem.Pleasanter.Models
             if (data.ReferenceType != null) ReferenceType = data.ReferenceType.ToString().ToString();
             if (data.InheritPermission != null) InheritPermission = data.InheritPermission.ToLong().ToLong();
             if (data.Publish != null) Publish = data.Publish.ToBool().ToBool();
-            if (data.ApiCountDate != null) ApiCountDate = data.ApiCountDate.ToDateTime().ToDateTime().ToUniversal(context: context);
-            if (data.ApiCount != null) ApiCount = data.ApiCount.ToInt().ToInt();
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             data.ClassHash?.ForEach(o => Class(

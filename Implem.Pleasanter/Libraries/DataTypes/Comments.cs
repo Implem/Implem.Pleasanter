@@ -25,57 +25,6 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             AddRange(new List<Comment>(source));
         }
 
-        public Comments Prepend(Context context, SiteSettings ss, string body)
-        {
-            if (body.Trim() != string.Empty)
-            {
-                Insert(0, new Comment
-                {
-                    CommentId = CommentId(),
-                    CreatedTime = DateTime.Now,
-                    Creator = context.UserId,
-                    Body = body,
-                    Created = true
-                });
-            }
-            return this;
-        }
-
-        public void Update(Context context, SiteSettings ss, int commentId, string body)
-        {
-            this.FirstOrDefault(o => o.CommentId == commentId)?
-                .Update(context: context, ss: ss, body: body);
-        }
-
-        public new string ToString()
-        {
-            return string.Empty;
-        }
-
-        public string ToJson()
-        {
-            return Jsons.ToJson(new Comments(this));
-        }
-
-        private int CommentId()
-        {
-            if (Count == 0)
-            {
-                return 1;
-            }
-            else
-            {
-                return this.Select(o => o.CommentId).Max() + 1;
-            }
-        }
-
-        public Comments ToLocal(Context context)
-        {
-            var comments = new Comments();
-            ForEach(o => comments.Add(o.ToLocal(context: context)));
-            return comments;
-        }
-
         public string ToControl(Context context, SiteSettings ss, Column column)
         {
             return string.Empty;
@@ -84,6 +33,25 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public string ToResponse(Context context, SiteSettings ss, Column column)
         {
             return string.Empty;
+        }
+
+        public string ToDisplay(Context context, SiteSettings ss, Column column)
+        {
+            return string.Empty;
+        }
+
+        public string ToLookup(Context context, SiteSettings ss, Column column, Lookup.Types? type)
+        {
+            switch (type)
+            {
+                case Lookup.Types.DisplayName:
+                    return ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                default:
+                    return string.Empty;
+            }
         }
 
         public HtmlBuilder Td(
@@ -120,29 +88,6 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                         userId: comment.Creator),
                     comment.Body))
                         .Join("\n\n");
-        }
-
-        private int DisplayCount(Context context)
-        {
-            switch (context.Action)
-            {
-                case "histories": return Parameters.General.CommentDisplayLimitHistories;
-                case "deletehistory": return Parameters.General.CommentDisplayLimitHistories;
-                default: return Parameters.General.CommentDisplayLimit;
-            }
-        }
-
-        private string GridCss(Context context)
-        {
-            if (DisplayCount(context: context) == 3)
-            {
-                switch (this.Count())
-                {
-                    case 1: return " one-third";
-                    case 2: return " half";
-                }
-            }
-            return null;
         }
 
         public string ToExport(Context context, Column column, ExportColumn exportColumn = null)
@@ -198,6 +143,80 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public bool InitialValue(Context context)
         {
             return this?.Any() != true;
+        }
+
+        public Comments Prepend(Context context, SiteSettings ss, string body)
+        {
+            if (body.Trim() != string.Empty)
+            {
+                Insert(0, new Comment
+                {
+                    CommentId = CommentId(),
+                    CreatedTime = DateTime.Now,
+                    Creator = context.UserId,
+                    Body = body,
+                    Created = true
+                });
+            }
+            return this;
+        }
+
+        public void Update(Context context, SiteSettings ss, int commentId, string body)
+        {
+            this.FirstOrDefault(o => o.CommentId == commentId)?
+                .Update(context: context, ss: ss, body: body);
+        }
+
+        public new string ToString()
+        {
+            return string.Empty;
+        }
+
+        public string ToJson()
+        {
+            return Jsons.ToJson(new Comments(this));
+        }
+
+        private int CommentId()
+        {
+            if (Count == 0)
+            {
+                return 1;
+            }
+            else
+            {
+                return this.Select(o => o.CommentId).Max() + 1;
+            }
+        }
+
+        public Comments ToLocal(Context context)
+        {
+            var comments = new Comments();
+            ForEach(o => comments.Add(o.ToLocal(context: context)));
+            return comments;
+        }
+
+        private int DisplayCount(Context context)
+        {
+            switch (context.Action)
+            {
+                case "histories": return Parameters.General.CommentDisplayLimitHistories;
+                case "deletehistory": return Parameters.General.CommentDisplayLimitHistories;
+                default: return Parameters.General.CommentDisplayLimit;
+            }
+        }
+
+        private string GridCss(Context context)
+        {
+            if (DisplayCount(context: context) == 3)
+            {
+                switch (this.Count())
+                {
+                    case 1: return " one-third";
+                    case 2: return " half";
+                }
+            }
+            return null;
         }
     }
 }

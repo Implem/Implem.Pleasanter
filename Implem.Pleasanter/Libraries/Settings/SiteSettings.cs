@@ -187,12 +187,17 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? OutputFormulaLogs;
         public string TitleSeparator;
         public SearchTypes? SearchType;
+        public bool? FullTextIncludeBreadcrumb;
+        public bool? FullTextIncludeSiteId;
+        public bool? FullTextIncludeSiteTitle;
+        public int? FullTextNumberOfMails;
         public SaveViewTypes? SaveViewType;
         public string AddressBook;
         public string MailToDefault;
         public string MailCcDefault;
         public string MailBccDefault;
         public List<long> IntegratedSites;
+        public bool NoDisplayIfReadOnly;
         public Dictionary<string, Permissions.Types> PermissionForCreating;
         public List<ColumnAccessControl> CreateColumnAccessControls;
         public List<ColumnAccessControl> ReadColumnAccessControls;
@@ -308,6 +313,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             UseRelatingColumnsOnFilter = UseRelatingColumnsOnFilter ?? false;
             OutputFormulaLogs = OutputFormulaLogs ?? false;
             SearchType = SearchType ?? SearchTypes.PartialMatch;
+            FullTextIncludeBreadcrumb = FullTextIncludeBreadcrumb ?? Parameters.Search.FullTextIncludeBreadcrumb;
+            FullTextIncludeSiteId = FullTextIncludeSiteId ?? Parameters.Search.FullTextIncludeSiteId;
+            FullTextIncludeSiteTitle = FullTextIncludeSiteTitle ?? Parameters.Search.FullTextIncludeSiteTitle;
+            FullTextNumberOfMails = FullTextNumberOfMails ?? Parameters.Search.FullTextNumberOfMails;
             SaveViewType = SaveViewType ?? SaveViewTypes.Session;
         }
 
@@ -448,13 +457,6 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public void SetPermissions(Context context, long referenceId)
         {
-            var targets = new List<long> { InheritPermission, referenceId };
-            targets.AddRange(Destinations
-                ?.Values
-                .Select(o => o.InheritPermission) ?? new List<long>());
-            targets.AddRange(Sources
-                ?.Values
-                .Select(o => o.InheritPermission) ?? new List<long>());
             SetPermissions(
                 context: context,
                 ss: this,
@@ -463,9 +465,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 SetPermissions(
                     context: context,
                     ss: ss));
-            Sources?.Values.ForEach(ss => SetPermissions(
-                context: context,
-                ss: ss));
+            Sources?.Values.ForEach(ss =>
+                SetPermissions(
+                    context: context,
+                    ss: ss));
         }
 
         private void SetPermissions(
@@ -725,6 +728,22 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.SearchType = SearchType;
             }
+            if (FullTextIncludeBreadcrumb != Parameters.Search.FullTextIncludeBreadcrumb)
+            {
+                ss.FullTextIncludeBreadcrumb = FullTextIncludeBreadcrumb;
+            }
+            if (FullTextIncludeSiteId != Parameters.Search.FullTextIncludeSiteId)
+            {
+                ss.FullTextIncludeSiteId = FullTextIncludeSiteId;
+            }
+            if (FullTextIncludeSiteTitle != Parameters.Search.FullTextIncludeSiteTitle)
+            {
+                ss.FullTextIncludeSiteTitle = FullTextIncludeSiteTitle;
+            }
+            if (FullTextNumberOfMails != Parameters.Search.FullTextNumberOfMails)
+            {
+                ss.FullTextNumberOfMails = FullTextNumberOfMails;
+            }
             if (SaveViewType != SaveViewTypes.Session)
             {
                 ss.SaveViewType = SaveViewType;
@@ -874,6 +893,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (IntegratedSites?.Any() == true)
             {
                 ss.IntegratedSites = IntegratedSites;
+            }
+            if (NoDisplayIfReadOnly == true)
+            {
+                ss.NoDisplayIfReadOnly = NoDisplayIfReadOnly;
             }
             PermissionForCreating?.Where(o => o.Value > 0).ForEach(data =>
             {
@@ -2966,12 +2989,17 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "OutputFormulaLogs": OutputFormulaLogs = value.ToBool(); break;
                 case "ImageLibPageSize": ImageLibPageSize = value.ToInt(); break;
                 case "SearchType": SearchType = (SearchTypes)value.ToInt(); break;
+                case "FullTextIncludeBreadcrumb": FullTextIncludeBreadcrumb = value.ToBool(); break;
+                case "FullTextIncludeSiteId": FullTextIncludeSiteId = value.ToBool(); break;
+                case "FullTextIncludeSiteTitle": FullTextIncludeSiteTitle = value.ToBool(); break;
+                case "FullTextNumberOfMails": FullTextNumberOfMails = value.ToInt(); break;
                 case "SaveViewType": SaveViewType = (SaveViewTypes)value.ToInt(); break;
                 case "AddressBook": AddressBook = value; break;
                 case "MailToDefault": MailToDefault = value; break;
                 case "MailCcDefault": MailCcDefault = value; break;
                 case "MailBccDefault": MailBccDefault = value; break;
                 case "IntegratedSites": SetIntegratedSites(value); break;
+                case "NoDisplayIfReadOnly": NoDisplayIfReadOnly = value.ToBool(); break;
                 case "CurrentPermissionForCreatingAll": SetPermissionForCreating(value); break;
                 case "CreateColumnAccessControlAll": SetCreateColumnAccessControl(value); break;
                 case "ReadColumnAccessControlAll": SetReadColumnAccessControl(value); break;
@@ -3881,9 +3909,16 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public Permissions.Types GetPermissionType(bool site = false)
+        public Permissions.Types GetPermissionType(Context context, bool site = false, long id = 0)
         {
             var permission = Permissions.Types.NotSet;
+            if (PermissionType == null)
+            {
+                SetPermissions(
+                    context: context,
+                    ss: this,
+                    referenceId: id);
+            }
             if (PermissionType != null)
             {
                 permission |= (Permissions.Types)PermissionType;
@@ -3891,6 +3926,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (ItemPermissionType != null && !site)
             {
                 permission |= (Permissions.Types)ItemPermissionType;
+            }
+            if (id > 0 && context.Id != id)
+            {
+                permission |= Permissions.GetById(
+                    context: context,
+                    id: id);
             }
             return permission;
         }
@@ -4416,6 +4457,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                     .Concat(ServerScripts)
                     .ToList();
             return ServerScriptsAndExtended;
+        }
+
+        public bool GetNoDisplayIfReadOnly()
+        {
+            return PermissionType == Permissions.Types.Read && NoDisplayIfReadOnly;
         }
     }
 }

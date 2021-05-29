@@ -51,9 +51,53 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     ?? 0;
         }
 
-        public bool InitialValue(Context context)
+        public string ToControl(
+            Context context,
+            SiteSettings ss,
+            Column column)
         {
-            return Value == null;
+            return ControlValue(
+                context: context,
+                ss: ss,
+                column: column);
+        }
+
+        public string ToResponse(
+            Context context,
+            SiteSettings ss,
+            Column column)
+        {
+            return ControlValue(
+                context: context,
+                ss: ss,
+                column: column);
+        }
+
+        public string ToDisplay(
+            Context context,
+            SiteSettings ss,
+            Column column)
+        {
+            return column.Display(
+                context: context,
+                value: Value,
+                unit: true);
+        }
+
+        public string ToLookup(Context context, SiteSettings ss, Column column, Lookup.Types? type)
+        {
+            switch (type)
+            {
+                case Lookup.Types.DisplayName:
+                    return ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                default:
+                    return column.DecimalPlaces.ToInt() == 0
+                        ? Value.ToDecimal().ToString("0", "0")
+                        : column.DisplayValue(Value.ToDecimal());
+            }
         }
 
         public HtmlBuilder Td(
@@ -72,17 +116,6 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                         unit: true)));
         }
 
-        public string ToControl(
-            Context context,
-            SiteSettings ss,
-            Column column)
-        {
-            return ControlValue(
-                context: context,
-                ss: ss,
-                column: column);
-        }
-
         public string ToExport(
             Context context,
             Column column,
@@ -94,15 +127,31 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 format: false);
         }
 
-        public string ToResponse(
+        public string ToNotice(
             Context context,
-            SiteSettings ss,
-            Column column)
+            decimal? saved,
+            Column column,
+            NotificationColumnFormat notificationColumnFormat,
+            bool updated,
+            bool update)
         {
-            return ControlValue(
-                context: context,
-                ss: ss,
-                column: column);
+            return notificationColumnFormat.DisplayText(
+                self: column.Display(
+                    context: context,
+                    value: Value,
+                    unit: true),
+                saved: column.Display(
+                    context: context,
+                    value: saved,
+                    unit: true),
+                column: column,
+                updated: updated,
+                update: update);
+        }
+
+        public bool InitialValue(Context context)
+        {
+            return Value == null;
         }
 
         private string ControlValue(
@@ -144,28 +193,6 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                         .Append(Value?.ToString());
                     break;
             }
-        }
-
-        public string ToNotice(
-            Context context,
-            decimal? saved,
-            Column column,
-            NotificationColumnFormat notificationColumnFormat,
-            bool updated,
-            bool update)
-        {
-            return notificationColumnFormat.DisplayText(
-                self: column.Display(
-                    context: context,
-                    value: Value,
-                    unit: true),
-                saved: column.Display(
-                    context: context,
-                    value: saved,
-                    unit: true),
-                column: column,
-                updated: updated,
-                update: update);
         }
     }
 }

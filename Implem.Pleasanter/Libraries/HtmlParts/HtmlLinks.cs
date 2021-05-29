@@ -665,7 +665,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             if (dataRows != null) ss.SetChoiceHash(dataRows: dataRows);
             return hb.Table(
                 id: dataTableName,
-                css: "grid",
+                css: "grid" + (ss.GetNoDisplayIfReadOnly()
+                    ? " not-link"
+                    : string.Empty),
                 attributes: new HtmlAttributes()
                     .DataId(ss.SiteId.ToString())
                     .DataName(direction)

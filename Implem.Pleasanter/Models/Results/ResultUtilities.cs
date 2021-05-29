@@ -618,6 +618,10 @@ namespace Implem.Pleasanter.Models
             int? tabIndex = null,
             ServerScriptModelColumn serverScriptValues = null)
         {
+            if (serverScriptValues?.Hide == true)
+            {
+                return hb.Td();
+            }
             if (serverScriptValues?.RawText.IsNullOrEmpty() == false)
             {
                 return hb.Td(
@@ -3946,7 +3950,7 @@ namespace Implem.Pleasanter.Models
                     Rds.RestoreBinaries(
                         factory: context,
                         where: Rds.BinariesWhere()
-                            .ReferenceId(sub: Rds.SelectItems(
+                            .ReferenceId_In(sub: Rds.SelectItems(
                                 tableType: Sqls.TableTypes.Deleted,
                                 column: Rds.ItemsColumn().ReferenceId(),
                                 where: Rds.ItemsWhere().ReferenceType(guid)))
@@ -5042,8 +5046,15 @@ namespace Implem.Pleasanter.Models
                 var updateCount = 0;
                 foreach (var resultModel in resultHash.Values)
                 {
-                    resultModel.SetByFormula(context: context, ss: ss);
-                    resultModel.SetTitle(context: context, ss: ss);
+                    resultModel.SetByLookups(
+                        context: context,
+                        ss: ss);
+                    resultModel.SetByFormula(
+                        context: context,
+                        ss: ss);
+                    resultModel.SetTitle(
+                        context: context,
+                        ss: ss);
                     if (resultModel.AccessStatus == Databases.AccessStatuses.Selected)
                     {
                         if (resultModel.Updated(context: context))

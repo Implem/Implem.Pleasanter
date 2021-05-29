@@ -28,7 +28,12 @@ $p.set = function ($control, val) {
                             if (arr.length === 1) {
                                 var data = {};
                                 data.DropDownSearchTarget = $control.attr('id');
-                                data.DropDownSearchResults = JSON.stringify(arr);
+                                if ($control.attr('multiple')) {
+                                    data.DropDownSearchMultiple = true;
+                                    data.DropDownSearchResultsAll = JSON.stringify(arr);
+                                } else {
+                                    data.DropDownSearchResults = JSON.stringify(arr);
+                                }
                                 $p.ajax(
                                     url,
                                     'post',

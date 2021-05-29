@@ -54,6 +54,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string referenceType,
             string muenuId,
             string css = null,
+            string cssUiWidget = null,
             List<NavigationMenu> menus = null,
             bool childMenu = false)
         {
@@ -63,7 +64,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
             return hb.Ul(
                 id: muenuId,
-                css: css,
+                css: $"{css} {cssUiWidget}".Trim(),
                 action: () => menus
                     .Where(menu => !menu.Disabled)
                     .ForEach(menu =>
@@ -98,6 +99,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         referenceType: referenceType,
                                         muenuId: menu.MenuId,
                                         css: "menu",
+                                        cssUiWidget: "ui-widget-content",
                                         childMenu: true,
                                         menus: menu.ChildMenus));
                         }

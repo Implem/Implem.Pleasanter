@@ -23,16 +23,23 @@ namespace Implem.Pleasanter.Libraries.Resources
 
         public static ContentResult Get(Context context)
         {
+            var siteId = context.QueryStrings.Long("site-id");
+            var id = context.QueryStrings.Long("id");
+            var controller = context.QueryStrings.Data("controller");
+            var action = context.QueryStrings.Data("action");
+            var siteTop = siteId == 0 && id == 0 && controller == "items" && action == "index";
             return new ContentResult
             {
                 ContentType = "text/javascript",
                 Content = HtmlScripts.ExtendedScripts(
+                    context: context,
                     deptId: context.DeptId,
                     userId: context.UserId,
-                    siteId: context.QueryStrings.Long("site-id"),
-                    id: context.QueryStrings.Long("id"),
-                    controller: context.QueryStrings.Data("controller"),
-                    action: context.QueryStrings.Data("action"))
+                    siteTop: siteTop,
+                    siteId: siteId,
+                    id: id,
+                    controller: controller,
+                    action: action)
             };
         }
     }

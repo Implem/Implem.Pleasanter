@@ -18,6 +18,8 @@ namespace Implem.Pleasanter.Models
         public string HtmlTitleTop { get; set; }
         public string HtmlTitleSite { get; set; }
         public string HtmlTitleRecord { get; set; }
+        public string TopStyle { get; set; }
+        public string TopScript { get; set; }
         public string Comments { get; set; }
         public int? Creator { get; set; }
         public int? Updator { get; set; }
