@@ -2895,7 +2895,10 @@ namespace Implem.Pleasanter.Models
         public static string SiteMenu(Context context, SiteModel siteModel)
         {
             var ss = siteModel.SiteSettings;
-            ss.PermissionType = context.PermissionHash.Get(siteModel.SiteId);
+            if (context.PermissionHash.ContainsKey(siteModel.SiteId))
+            {
+                ss.PermissionType = context.PermissionHash.Get(siteModel.SiteId);
+            }
             var invalid = SiteValidators.OnShowingMenu(
                 context: context,
                 ss: ss,
