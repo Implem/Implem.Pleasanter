@@ -23,6 +23,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? MembersOnly;
         public string SearchFormat;
         public View View;
+        public Lookups Lookups;
         public bool? JsonFormat;
         [NonSerialized]
         public string SiteTitle;
@@ -85,6 +86,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             link.View = View?.GetRecordingData(
                 context: context,
                 ss: ss);
+            link.Lookups = Lookups?.GetRecordingData();
             if (JsonFormat == true) link.JsonFormat = true;
             return link;
         }

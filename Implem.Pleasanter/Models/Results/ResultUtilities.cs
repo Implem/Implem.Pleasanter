@@ -5046,8 +5046,15 @@ namespace Implem.Pleasanter.Models
                 var updateCount = 0;
                 foreach (var resultModel in resultHash.Values)
                 {
-                    resultModel.SetByFormula(context: context, ss: ss);
-                    resultModel.SetTitle(context: context, ss: ss);
+                    resultModel.SetByLookups(
+                        context: context,
+                        ss: ss);
+                    resultModel.SetByFormula(
+                        context: context,
+                        ss: ss);
+                    resultModel.SetTitle(
+                        context: context,
+                        ss: ss);
                     if (resultModel.AccessStatus == Databases.AccessStatuses.Selected)
                     {
                         if (resultModel.Updated(context: context))

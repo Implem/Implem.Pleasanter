@@ -317,6 +317,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetParentId": Code.Model_SetParentId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetParentId, definitionRow, CodeXls); break;
                     case "Model_SetInheritPermission": Code.Model_SetInheritPermission = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetInheritPermission, definitionRow, CodeXls); break;
                     case "Model_SetByApiExec": Code.Model_SetByApiExec = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApiExec, definitionRow, CodeXls); break;
+                    case "Model_SetByLookupsExec": Code.Model_SetByLookupsExec = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByLookupsExec, definitionRow, CodeXls); break;
+                    case "Model_SetByLookupsExecFormDataOnly": Code.Model_SetByLookupsExecFormDataOnly = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByLookupsExecFormDataOnly, definitionRow, CodeXls); break;
                     case "Model_SetLockedRecord": Code.Model_SetLockedRecord = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetLockedRecord, definitionRow, CodeXls); break;
                     case "Model_SetSwitchTargets": Code.Model_SetSwitchTargets = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetSwitchTargets, definitionRow, CodeXls); break;
                     case "Model_SwitchTargetsParameter": Code.Model_SwitchTargetsParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchTargetsParameter, definitionRow, CodeXls); break;
@@ -442,6 +444,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetLinking": Code.Model_SetLinking = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetLinking, definitionRow, CodeXls); break;
                     case "Model_SetByApi": Code.Model_SetByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi, definitionRow, CodeXls); break;
                     case "Model_SetByApi_ColumnCases": Code.Model_SetByApi_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_ColumnCases, definitionRow, CodeXls); break;
+                    case "Model_SetByLookups": Code.Model_SetByLookups = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByLookups, definitionRow, CodeXls); break;
                     case "Model_AddSqlParamIdentity": Code.Model_AddSqlParamIdentity = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_AddSqlParamIdentity, definitionRow, CodeXls); break;
                     case "Model_AddSqlParamPk": Code.Model_AddSqlParamPk = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_AddSqlParamPk, definitionRow, CodeXls); break;
                     case "Model_AddSqlParam": Code.Model_AddSqlParam = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_AddSqlParam, definitionRow, CodeXls); break;
@@ -857,6 +860,9 @@ namespace Implem.DefinitionAccessor
                     case "Column_TableCases": Code.Column_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Column_TableCases, definitionRow, CodeXls); break;
                     case "Column_ColumnCases": Code.Column_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Column_ColumnCases, definitionRow, CodeXls); break;
                     case "Column_ItemTitleColumn": Code.Column_ItemTitleColumn = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Column_ItemTitleColumn, definitionRow, CodeXls); break;
+                    case "Lookup": Code.Lookup = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Lookup, definitionRow, CodeXls); break;
+                    case "Lookup_Data": Code.Lookup_Data = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Lookup_Data, definitionRow, CodeXls); break;
+                    case "Lookup_DataColumnCases": Code.Lookup_DataColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Lookup_DataColumnCases, definitionRow, CodeXls); break;
                     case "Reminder": Code.Reminder = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Reminder, definitionRow, CodeXls); break;
                     case "Reminder_TableCases": Code.Reminder_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Reminder_TableCases, definitionRow, CodeXls); break;
                     case "Reminder_ColumnCases": Code.Reminder_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Reminder_ColumnCases, definitionRow, CodeXls); break;
@@ -7346,6 +7352,8 @@ namespace Implem.DefinitionAccessor
         public string Model_SetParentId;
         public string Model_SetInheritPermission;
         public string Model_SetByApiExec;
+        public string Model_SetByLookupsExec;
+        public string Model_SetByLookupsExecFormDataOnly;
         public string Model_SetLockedRecord;
         public string Model_SetSwitchTargets;
         public string Model_SwitchTargetsParameter;
@@ -7471,6 +7479,7 @@ namespace Implem.DefinitionAccessor
         public string Model_SetLinking;
         public string Model_SetByApi;
         public string Model_SetByApi_ColumnCases;
+        public string Model_SetByLookups;
         public string Model_AddSqlParamIdentity;
         public string Model_AddSqlParamPk;
         public string Model_AddSqlParam;
@@ -7886,6 +7895,9 @@ namespace Implem.DefinitionAccessor
         public string Column_TableCases;
         public string Column_ColumnCases;
         public string Column_ItemTitleColumn;
+        public string Lookup;
+        public string Lookup_Data;
+        public string Lookup_DataColumnCases;
         public string Reminder;
         public string Reminder_TableCases;
         public string Reminder_ColumnCases;
@@ -8016,6 +8028,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetParentId = new CodeDefinition();
         public CodeDefinition Model_SetInheritPermission = new CodeDefinition();
         public CodeDefinition Model_SetByApiExec = new CodeDefinition();
+        public CodeDefinition Model_SetByLookupsExec = new CodeDefinition();
+        public CodeDefinition Model_SetByLookupsExecFormDataOnly = new CodeDefinition();
         public CodeDefinition Model_SetLockedRecord = new CodeDefinition();
         public CodeDefinition Model_SetSwitchTargets = new CodeDefinition();
         public CodeDefinition Model_SwitchTargetsParameter = new CodeDefinition();
@@ -8141,6 +8155,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetLinking = new CodeDefinition();
         public CodeDefinition Model_SetByApi = new CodeDefinition();
         public CodeDefinition Model_SetByApi_ColumnCases = new CodeDefinition();
+        public CodeDefinition Model_SetByLookups = new CodeDefinition();
         public CodeDefinition Model_AddSqlParamIdentity = new CodeDefinition();
         public CodeDefinition Model_AddSqlParamPk = new CodeDefinition();
         public CodeDefinition Model_AddSqlParam = new CodeDefinition();
@@ -8556,6 +8571,9 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Column_TableCases = new CodeDefinition();
         public CodeDefinition Column_ColumnCases = new CodeDefinition();
         public CodeDefinition Column_ItemTitleColumn = new CodeDefinition();
+        public CodeDefinition Lookup = new CodeDefinition();
+        public CodeDefinition Lookup_Data = new CodeDefinition();
+        public CodeDefinition Lookup_DataColumnCases = new CodeDefinition();
         public CodeDefinition Reminder = new CodeDefinition();
         public CodeDefinition Reminder_TableCases = new CodeDefinition();
         public CodeDefinition Reminder_ColumnCases = new CodeDefinition();

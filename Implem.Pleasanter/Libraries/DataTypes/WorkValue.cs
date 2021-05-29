@@ -54,8 +54,24 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             return column.Display(
                 context: context,
-                ss: ss,
-                value: Value);
+                value: Value,
+                unit: true);
+        }
+
+        public string ToLookup(Context context, SiteSettings ss, Column column, Lookup.Types? type)
+        {
+            switch (type)
+            {
+                case Lookup.Types.DisplayName:
+                    return ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                default:
+                    return column.DecimalPlaces.ToInt() == 0
+                        ? Value.ToDecimal().ToString("0", "0")
+                        : column.DisplayValue(Value.ToDecimal());
+            }
         }
 
         public HtmlBuilder Td(

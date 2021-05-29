@@ -809,7 +809,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        private string DisplayValue(decimal value)
+        public string DisplayValue(decimal value)
         {
             return value.ToString("0", "0." + new string('0', DecimalPlaces.ToInt()))
                 .ToDecimal()

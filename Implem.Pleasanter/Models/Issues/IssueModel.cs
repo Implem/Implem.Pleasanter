@@ -652,6 +652,12 @@ namespace Implem.Pleasanter.Models
                     formData: formData);
             }
             if (setByApi) SetByApi(context: context, ss: ss);
+            if (formData != null || setByApi)
+            {
+                SetByLookups(
+                    context: context,
+                    ss: ss);
+            }
             MethodType = methodType;
             OnConstructed(context: context);
         }
@@ -693,6 +699,12 @@ namespace Implem.Pleasanter.Models
                     formData: formData);
             }
             if (setByApi) SetByApi(context: context, ss: ss);
+            if (formData != null || setByApi)
+            {
+                SetByLookups(
+                    context: context,
+                    ss: ss);
+            }
             if (SavedLocked)
             {
                 ss.SetLockedRecord(
@@ -728,6 +740,12 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     formData: formData);
+            }
+            if (formData != null)
+            {
+                SetByLookups(
+                    context: context,
+                    ss: ss);
             }
             OnConstructed(context: context);
         }
@@ -2193,6 +2211,30 @@ namespace Implem.Pleasanter.Models
             });
             SetByFormula(context: context, ss: ss);
             SetChoiceHash(context: context, ss: ss);
+        }
+
+        public void SetByLookups(Context context, SiteSettings ss)
+        {
+            var formData = new Dictionary<string, string>();
+            ss.Links
+                .Where(link => link.Lookups?.Any() == true)
+                .Where(link => PropertyUpdated(
+                    context: context,
+                    name: link.ColumnName))
+                .ForEach(link => link.Lookups.LookupData(
+                    context: context,
+                    ss: ss,
+                    link: link,
+                    id: Class(link.ColumnName).ToLong())
+                        .ForEach(data =>
+                            formData.AddOrUpdate(data.Key, data.Value)));
+            if (formData.Any())
+            {
+                SetByForm(
+                    context: context,
+                    ss: ss,
+                    formData: formData);
+            }
         }
 
         public void SynchronizeSummary(Context context, SiteSettings ss, bool force = false)
