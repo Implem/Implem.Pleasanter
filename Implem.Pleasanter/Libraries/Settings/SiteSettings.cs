@@ -457,13 +457,6 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public void SetPermissions(Context context, long referenceId)
         {
-            var targets = new List<long> { InheritPermission, referenceId };
-            targets.AddRange(Destinations
-                ?.Values
-                .Select(o => o.InheritPermission) ?? new List<long>());
-            targets.AddRange(Sources
-                ?.Values
-                .Select(o => o.InheritPermission) ?? new List<long>());
             SetPermissions(
                 context: context,
                 ss: this,
@@ -472,9 +465,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 SetPermissions(
                     context: context,
                     ss: ss));
-            Sources?.Values.ForEach(ss => SetPermissions(
-                context: context,
-                ss: ss));
+            Sources?.Values.ForEach(ss =>
+                SetPermissions(
+                    context: context,
+                    ss: ss));
         }
 
         private void SetPermissions(
