@@ -649,16 +649,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string ColumnsReturnedWhenAutomaticPostback(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "ColumnsReturnedWhenAutomaticPostback",
-                data: data);
-        }
-
         public static string AutoTestArrow(
             Context context,
             params string[] data)
@@ -1576,6 +1566,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ColumnList",
+                data: data);
+        }
+
+        public static string ColumnsReturnedWhenAutomaticPostback(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ColumnsReturnedWhenAutomaticPostback",
                 data: data);
         }
 
@@ -3166,6 +3166,56 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "FullText",
+                data: data);
+        }
+
+        public static string FullTextIncludeBreadcrumb(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "FullTextIncludeBreadcrumb",
+                data: data);
+        }
+
+        public static string FullTextIncludeSiteId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "FullTextIncludeSiteId",
+                data: data);
+        }
+
+        public static string FullTextIncludeSiteTitle(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "FullTextIncludeSiteTitle",
+                data: data);
+        }
+
+        public static string FullTextNumberOfMails(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "FullTextNumberOfMails",
+                data: data);
+        }
+
+        public static string FullTextSettings(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "FullTextSettings",
                 data: data);
         }
 
@@ -5066,6 +5116,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "NoDataSearchCondition",
+                data: data);
+        }
+
+        public static string NoDisplayIfReadOnly(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "NoDisplayIfReadOnly",
                 data: data);
         }
 
@@ -8439,6 +8499,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Tenants_TopStyle(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Tenants_TopStyle",
+                data: data);
+        }
+
+        public static string Tenants_TopScript(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Tenants_TopScript",
+                data: data);
+        }
+
         public static string Demos_DemoId(
             Context context,
             params string[] data)
@@ -9616,6 +9696,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Users_Dept",
+                data: data);
+        }
+
+        public static string Users_Theme(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_Theme",
                 data: data);
         }
 

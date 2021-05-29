@@ -118,6 +118,22 @@ namespace Implem.Pleasanter.Libraries.Security
                     .AsEnumerable());
         }
 
+        public static Types GetById(Context context, long id)
+        {
+            return (Types)Repository.ExecuteScalar_int(
+                context: context,
+                statements: new SqlStatement[]
+                {
+                    Rds.SelectPermissions(
+                        column: Rds.PermissionsColumn()
+                            .ReferenceId()
+                            .PermissionType(),
+                        where: Rds.PermissionsWhere()
+                            .ReferenceId(id)
+                            .PermissionsWhere(context: context)),
+                });
+        }
+
         public static SqlWhereCollection SetCanReadWhere(
             Context context,
             SiteSettings ss,
@@ -408,7 +424,11 @@ namespace Implem.Pleasanter.Libraries.Security
                 : (Types)Parameters.Permissions.Manager;
         }
 
-        public static bool CanRead(this Context context, SiteSettings ss, bool site = false)
+        public static bool CanRead(
+            this Context context,
+            SiteSettings ss,
+            bool site = false,
+            long id = 0)
         {
             switch (context.Controller)
             {
@@ -430,7 +450,11 @@ namespace Implem.Pleasanter.Libraries.Security
                     }
                     else
                     {
-                        return context.Can(ss: ss, type: Types.Read, site: site);
+                        return context.Can(
+                            ss: ss,
+                            type: Types.Read,
+                            site: site,
+                            id: id);
                     }
             }
         }
@@ -659,7 +683,11 @@ namespace Implem.Pleasanter.Libraries.Security
                     || context.HasPrivilege);
         }
 
-        private static bool Can(this Context context, SiteSettings ss, Types type, bool site)
+        private static bool Can(
+            this Context context,
+            SiteSettings ss,
+            Types type, bool site,
+            long id = 0)
         {
             if (ss.Locked())
             {
@@ -671,8 +699,11 @@ namespace Implem.Pleasanter.Libraries.Security
                 if ((type & Types.Create) == Types.Create) return false;
                 if ((type & Types.Import) == Types.Import) return false;
             }
-            return (ss.GetPermissionType(site) & type) == type
-                || context.HasPrivilege;
+            return (ss.GetPermissionType(
+                context: context,
+                site: site,
+                id: id) & type) == type
+                    || context.HasPrivilege;
         }
 
         private static EnumerableRowCollection<DataRow> Groups(Context context)

@@ -417,6 +417,10 @@ namespace Implem.Pleasanter.Models
             int? tabIndex = null,
             ServerScriptModelColumn serverScriptValues = null)
         {
+            if (serverScriptValues?.Hide == true)
+            {
+                return hb.Td();
+            }
             if (serverScriptValues?.RawText.IsNullOrEmpty() == false)
             {
                 return hb.Td(
@@ -629,6 +633,24 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column,
                                     value: userModel.Dept,
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptValues: serverScriptValues);
+                    case "Theme":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: userModel.Theme,
                                     tabIndex: tabIndex,
                                     serverScriptValues: serverScriptValues)
                                 : hb.Td(
@@ -1142,6 +1164,9 @@ namespace Implem.Pleasanter.Models
                     case "Dept": value = userModel.Dept.GridText(
                         context: context,
                         column: column); break;
+                    case "Theme": value = userModel.Theme.GridText(
+                        context: context,
+                        column: column); break;
                     case "Body": value = userModel.Body.GridText(
                         context: context,
                         column: column); break;
@@ -1600,6 +1625,12 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column);
+                case "Theme":
+                    return userModel.Theme
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
                 case "Body":
                     return userModel.Body
                         .ToControl(
@@ -2034,6 +2065,12 @@ namespace Implem.Pleasanter.Models
                                 res.Val(
                                     target: "#Users_DeptId" + idSuffix,
                                     value: userModel.DeptId.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Theme":
+                                res.Val(
+                                    target: "#Users_Theme" + idSuffix,
+                                    value: userModel.Theme.ToResponse(context: context, ss: ss, column: column),
                                     options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                 break;
                             case "FirstAndLastNameOrder":

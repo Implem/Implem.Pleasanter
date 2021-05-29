@@ -101,12 +101,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
         }
 
-        public static string ExtendedScripts(
-            Context context)
+        private static string ExtendedScripts(Context context)
         {
             return ExtendedScripts(
+                context: context,
                 deptId: context.DeptId,
                 userId: context.UserId,
+                siteTop: context.SiteTop(),
                 siteId: context.SiteId,
                 id: context.Id,
                 controller: context.Controller,
@@ -114,23 +115,29 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         public static string ExtendedScripts(
+            Context context,
             int deptId,
             int userId,
+            bool siteTop,
             long siteId,
             long id,
             string controller,
             string action)
         {
-            return ExtensionUtilities.ExtensionWhere<ExtendedScript>(
-                extensions: Parameters.ExtendedScripts,
-                deptId: deptId,
-                userId: userId,
-                siteId: siteId,
-                id: id,
-                controller: controller,
-                action: action)
-                    .Select(o => o.Script)
-                    .Join("\n");
+            var scripts = (siteTop && !context.TopScript.IsNullOrEmpty()
+                ? context.TopScript + '\n'
+                : string.Empty)
+                    + ExtensionUtilities.ExtensionWhere<ExtendedScript>(
+                        extensions: Parameters.ExtendedScripts,
+                        deptId: deptId,
+                        userId: userId,
+                        siteId: siteId,
+                        id: id,
+                        controller: controller,
+                        action: action)
+                            .Select(o => o.Script)
+                            .Join("\n");
+            return scripts;
         }
 
         private static HtmlBuilder Generals(this HtmlBuilder hb, Context context)

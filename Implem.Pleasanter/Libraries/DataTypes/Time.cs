@@ -54,16 +54,30 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 : string.Empty;
         }
 
-        public override string ToString()
+        public virtual string ToDisplay(Context context, SiteSettings ss, Column column)
         {
             return Value.InRange()
-                ? Value.ToString()
+                ? column.DisplayControl(
+                    context: context,
+                    value: DisplayValue)
                 : string.Empty;
         }
 
-        public bool DifferentDate(Context context)
+        public string ToLookup(Context context, SiteSettings ss, Column column, Lookup.Types? type)
         {
-            return DisplayValue.Date != DateTime.Now.ToLocal(context: context).Date;
+            switch (type)
+            {
+                case Lookup.Types.DisplayName:
+                    return ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                default:
+                    return ToControl(
+                        context: context,
+                        ss: ss,
+                        column: column);
+            }
         }
 
         public virtual HtmlBuilder Td(
@@ -121,6 +135,18 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public bool InitialValue(Context context)
         {
             return Value == 0.ToDateTime();
+        }
+
+        public override string ToString()
+        {
+            return Value.InRange()
+                ? Value.ToString()
+                : string.Empty;
+        }
+
+        public bool DifferentDate(Context context)
+        {
+            return DisplayValue.Date != DateTime.Now.ToLocal(context: context).Date;
         }
     }
 }
