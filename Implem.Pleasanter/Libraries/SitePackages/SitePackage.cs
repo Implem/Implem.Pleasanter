@@ -249,13 +249,23 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             foreach (var conv in HeaderInfo.Convertors)
             {
                 var savedSiteId = conv.SavedSiteId.ToLong();
-                var ss = new SiteModel(context: context, savedSiteId).SiteSettings;
-                ss.Links
-                    ?.Where(o => o.SiteId > 0)
+                var ss = Rds.ExecuteScalar_string(
+                    context: context,
+                    statements: Rds.SelectSites(
+                        column: Rds.SitesColumn().SiteSettings(),
+                        where: Rds.SitesWhere()
+                            .TenantId(context.TenantId)
+                            .SiteId(savedSiteId)))
+                                .Deserialize<SiteSettings>();
+                ss?.Links
+                    ?.Where(link => link.SiteId > 0)
                     .ForEach(link =>
                     {
-                        var destinationType = ss.Destinations?.Get(link.SiteId)?.ReferenceType
-                            ?? string.Empty;
+                        var destinationType = Rds.ExecuteScalar_string(
+                            context: context,
+                            statements: Rds.SelectItems(
+                                column: Rds.ItemsColumn().ReferenceType(),
+                                where: Rds.ItemsWhere().SiteId(link.SiteId)));
                         switch (destinationType)
                         {
                             case "Issues":
@@ -280,6 +290,5 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 idHash.AddOrUpdate(e.SiteId, e.SavedSiteId ?? 0));
             return idHash;
         }
-
     }
 }
