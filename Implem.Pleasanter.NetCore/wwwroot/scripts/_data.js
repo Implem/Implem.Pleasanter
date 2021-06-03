@@ -25,7 +25,7 @@ $p.set = function ($control, val) {
                             var arr = $control.attr('multiple')
                                 ? JSON.parse(val)
                                 : new Array(val.toString());
-                            if (arr.length === 1) {
+                            if (arr.length > 0) {
                                 var data = {};
                                 data.DropDownSearchTarget = $control.attr('id');
                                 if ($control.attr('multiple')) {
