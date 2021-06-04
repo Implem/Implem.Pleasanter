@@ -328,7 +328,13 @@ namespace Implem.Pleasanter.Models
             Column column = null)
         {
             var value = Num(columnName: columnName)?.Value;
-            return value != SavedNum(columnName: columnName)
+            var savedValue = SavedNum(columnName: columnName);
+            if (column?.Nullable !=  true)
+            {
+                value = value ?? 0;
+                savedValue = savedValue ?? 0;
+            }
+            return value != savedValue
                 && (column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.GetDefaultInput(context: context).ToDecimal() != value);
