@@ -1034,9 +1034,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                         columnName: data.Key),
                     ColumnName = data.Key,
                     data.Value,
-                    Or = data.Key.StartsWith("or_")
+                    Or = data.Key.StartsWith("or_"),
+                    And = data.Key.StartsWith("and_")
                 })
-                .Where(o => o.Column != null || o.Or)
+                .Where(o => o.Column != null || o.Or || o.And)
                 .ForEach(data =>
                 {
                     if (data.Or)
@@ -1051,6 +1052,20 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 where: or,
                                 columnFilterHash: orColumnFilterHash);
                             if (or.Any()) where.Or(or: or);
+                        }
+                    }
+                    else if (data.And)
+                    {
+                        var andColumnFilterHash = data.Value.Deserialize<Dictionary<string, string>>();
+                        if (andColumnFilterHash?.Any() == true)
+                        {
+                            var and = new SqlWhereCollection();
+                            SetColumnsWhere(
+                                context: context,
+                                ss: ss,
+                                where: and,
+                                columnFilterHash: andColumnFilterHash);
+                            if (and.Any()) where.Add(and: and);
                         }
                     }
                     else if (data.ColumnName == "SiteTitle")
@@ -1435,7 +1450,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ? new SqlWhere(
                     tableName: column.TableName(),
                     columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                    name: column.ParamName(),
+                    name: Strings.NewGuid(),
                     value: param
                         .Where(value => value != "\t")
                         .Select(value => column.MultipleSelections == true
