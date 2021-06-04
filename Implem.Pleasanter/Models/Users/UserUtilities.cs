@@ -2801,6 +2801,7 @@ namespace Implem.Pleasanter.Models
                                 userModel.Password = recordingData.IsNullOrEmpty()
                                     ? userModel.Password
                                     : recordingData.Sha512Cng();
+                                userModel.PasswordValidate = recordingData.ToString();
                                 break;
                             case "LastName":
                                 userModel.LastName = recordingData.ToString();
@@ -2881,23 +2882,26 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             data: badMailAddress).ToJson();
                     }
-                    foreach (var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
+                    if (!userModel.PasswordValidate.IsNullOrEmpty())
                     {
-                        if (!userModel.PasswordValidate.RegexExists(policy.Regex))
+                        foreach (var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
                         {
-                            var badPassword = policy.Languages?.Any() == true
-                                ? policy.Display(context: context)
-                                : Displays.PasswordPolicyViolation(
-                                    context: context,
-                                    data: null);
-                            var badPasswordParam = new string[]
+                            if (!userModel.PasswordValidate.RegexExists(policy.Regex))
                             {
+                                var badPassword = policy.Languages?.Any() == true
+                                    ? policy.Display(context: context)
+                                    : Displays.PasswordPolicyViolation(
+                                        context: context,
+                                        data: null);
+                                var badPasswordParam = new string[]
+                                {
                                 errorRowNo.ToString(),
                                 badPassword
-                            };
-                            return Messages.ResponseBadPasswordWhenImporting(
-                                context: context,
-                                data: badPasswordParam).ToJson();
+                                };
+                                return Messages.ResponseBadPasswordWhenImporting(
+                                    context: context,
+                                    data: badPasswordParam).ToJson();
+                            }
                         }
                     }
                     errorRowNo++;
