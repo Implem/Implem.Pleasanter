@@ -142,7 +142,7 @@ $p.setMustData = function ($form, action) {
             $p.setData($(this));
         });
     } else {
-        $form.find('.always-send,[data-always-send="1"]').each(function () {
+        $form.find('.always-send:not(span),[data-always-send="1"]:not(span)').each(function () {
             $p.setData($(this));
         });
     }
