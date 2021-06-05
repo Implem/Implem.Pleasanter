@@ -142,8 +142,12 @@ $p.setMustData = function ($form, action) {
             $p.setData($(this));
         });
     } else {
-        $form.find('.always-send:not(span),[data-always-send="1"]:not(span)').each(function () {
-            $p.setData($(this));
+        $form.find('.always-send,[data-always-send="1"]').each(function () {
+            var $control = $(this);
+            if (!($control.attr('data-readonly') === '1'
+                && $control.attr('id').indexOf($p.tableName() + '_') === 0)) {
+                $p.setData($(this));
+            }
         });
     }
 }
