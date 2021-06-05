@@ -11,7 +11,9 @@ using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using static Implem.Pleasanter.Libraries.Security.Permissions;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
+using Types = Implem.Libraries.Utilities.Types;
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public static class ServerScriptUtilities
