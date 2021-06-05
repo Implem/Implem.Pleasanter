@@ -3911,13 +3911,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Permissions.Types GetPermissionType(Context context, bool site = false, long id = 0)
         {
             var permission = Permissions.Types.NotSet;
-            if (PermissionType == null)
-            {
-                SetPermissions(
-                    context: context,
-                    ss: this,
-                    referenceId: id);
-            }
             if (PermissionType != null)
             {
                 permission |= (Permissions.Types)PermissionType;

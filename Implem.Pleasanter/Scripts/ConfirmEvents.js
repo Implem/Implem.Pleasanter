@@ -6,6 +6,12 @@
             $p.setFormChanged($(this));
         });
     $(document).on(
+        'click',
+        '.confirm-unload .current-time',
+        function () {
+            $p.setFormChanged($(this));
+        });
+    $(document).on(
         'spin',
         '.confirm-unload .control-spinner',
         function () {

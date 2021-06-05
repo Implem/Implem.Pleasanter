@@ -214,11 +214,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public class ServerScriptModelContext
         {
-            private readonly Context Context;
             public StringBuilder LogBuilder;
             public ExpandoObject UserData;
             public ErrorData ErrorData;
             public readonly ServerScriptModelContextServerScript ServerScript;
+            public readonly Forms Forms;
             public readonly string FormStringRaw;
             public readonly string FormString;
             public readonly bool Ajax;
@@ -288,13 +288,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 long scriptDepth,
                 string controlId)
             {
-                Context = context;
                 LogBuilder = logBuilder;
                 UserData = userData;
                 ErrorData = errorData;
                 ServerScript = new ServerScriptModelContextServerScript(
                     onTesting: onTesting,
                     scriptDepth: scriptDepth);
+                Forms = context.Forms;
                 FormStringRaw = formStringRaw;
                 FormString = formString;
                 Ajax = ajax;
@@ -336,11 +336,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             {
                 ErrorData.Type = General.Error.Types.CustomError;
                 ErrorData.Data = message.ToSingleArray();
-            }
-
-            public string FormsData(string name)
-            {
-                return Context.Forms.Data(name);
             }
         }
 

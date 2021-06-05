@@ -179,7 +179,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         {
                             if (column.UseSearch != true || search || setAllChoices)
                             {
-                                var currentSs = ss.JoinedSsHash.Get(SiteId);
+                                var currentSs = ss.Destinations?.Get(SiteId);
                                 if (currentSs != null)
                                 {
                                     Set(

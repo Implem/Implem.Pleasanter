@@ -4,6 +4,7 @@ using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -112,6 +113,8 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 .ForEach(column =>
                     column.ChoicesText = ReplaceChoicesText(
                         header: header,
+                        ss: ss,
+                        columnName: column.ColumnName,
                         source: column.ChoicesText));
             if (ss.GridColumns != null)
             {
@@ -225,8 +228,27 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             return ss;
         }
 
-        internal static string ReplaceChoicesText(SitePackage.Header header, string source = "")
+        internal static string ReplaceChoicesText(
+            SitePackage.Header header,
+            SiteSettings ss,
+            string columnName,
+            string source = "")
         {
+            var links = ss?.Links?
+                .Where(o => o.ColumnName == columnName)
+                .Where(o => o.JsonFormat == true)
+                .ToJson()
+                .Deserialize<List<Link>>();
+            if (links?.Any() == true)
+            {
+                links.ForEach(link =>
+                {
+                    link.SiteId = header.GetConvertedId(link.SiteId);
+                    link.ColumnName = null;
+                    link.JsonFormat = null;
+                });
+                return links.ToJson(Formatting.Indented);
+            }
             var srcId = string.Empty;
             switch (source)
             {
