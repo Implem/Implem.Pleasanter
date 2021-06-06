@@ -269,11 +269,8 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         }
                     }
                     var response = Repository.ExecuteScalar_response(
-                    context: context,
-                    transactional: true,
-                    statements: StatusUtilities.UpdateStatus(
-                        tenantId: context.TenantId,
-                        type: StatusUtilities.Types.SitesUpdated));
+                        context: context,
+                        transactional: true);
                 }
                 if (sitePackage.Permissions.Any())
                 {

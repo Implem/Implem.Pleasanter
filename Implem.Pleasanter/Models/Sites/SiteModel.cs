@@ -778,10 +778,7 @@ namespace Implem.Pleasanter.Models
                 new SqlStatement(Def.Sql.IfConflicted.Params(SiteId)) {
                     IfConflicted = true,
                     Id = SiteId
-                },
-                StatusUtilities.UpdateStatus(
-                    tenantId: TenantId,
-                    type: StatusUtilities.Types.SitesUpdated),
+                }
             };
         }
 
@@ -851,10 +848,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         siteModel: this),
                     param: param ?? Rds.SitesParamDefault(
-                        context: context, siteModel: this, setDefault: true)),
-                StatusUtilities.UpdateStatus(
-                    tenantId: TenantId,
-                    type: StatusUtilities.Types.SitesUpdated),
+                        context: context, siteModel: this, setDefault: true))
             };
             var response = Repository.ExecuteScalar_response(
                 context: context,
@@ -937,10 +931,7 @@ namespace Implem.Pleasanter.Models
                         where: Rds.ItemsWhere().ReferenceId(SiteId)),
                     Rds.RestoreSites(
                         factory: context,
-                        where: Rds.SitesWhere().SiteId(SiteId)),
-                    StatusUtilities.UpdateStatus(
-                        tenantId: TenantId,
-                        type: StatusUtilities.Types.SitesUpdated),
+                        where: Rds.SitesWhere().SiteId(SiteId))
                 });
             return new ErrorData(type: Error.Types.None);
         }
@@ -1511,10 +1502,7 @@ namespace Implem.Pleasanter.Models
                             .DeptId(0)
                             .UserId(context.UserId)
                             .PermissionType(Permissions.Manager()),
-                        _using: InheritPermission == 0),
-                    StatusUtilities.UpdateStatus(
-                        tenantId: TenantId,
-                        type: StatusUtilities.Types.SitesUpdated),
+                        _using: InheritPermission == 0)
                 });
             SiteId = response.Id ?? SiteId;
             Get(context: context);

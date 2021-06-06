@@ -2370,10 +2370,7 @@ namespace Implem.Pleasanter.Models
                         where: Rds.SitesWhere()
                             .TenantId(context.TenantId)
                             .SiteId(sourceId),
-                        param: Rds.SitesParam().ParentId(destinationId)),
-                    StatusUtilities.UpdateStatus(
-                        tenantId: context.TenantId,
-                        type: StatusUtilities.Types.SitesUpdated)
+                        param: Rds.SitesParam().ParentId(destinationId))
                 });
             SiteInfo.Reflesh(context: context);
         }
@@ -2478,9 +2475,6 @@ namespace Implem.Pleasanter.Models
                         where: Rds.SitesWhere()
                             .TenantId(context.TenantId)
                             .SiteId(sourceSiteModel.SiteId)),
-                    StatusUtilities.UpdateStatus(
-                        tenantId: context.TenantId,
-                        type: StatusUtilities.Types.SitesUpdated),
                     Rds.PhysicalDeleteLinks(
                         where: Rds.LinksWhere().SourceId(sourceSiteModel.SiteId)),
                     LinkUtilities.Insert(sourceSiteModel.SiteSettings.Links

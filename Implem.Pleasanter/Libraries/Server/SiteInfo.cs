@@ -103,12 +103,9 @@ namespace Implem.Pleasanter.Libraries.Server
                 tenantCache.SiteGroupHash = new Dictionary<long, List<int>>();
                 tenantCache.SiteUserHash = new Dictionary<long, List<int>>();
             }
-            if (monitor.SitesUpdated || force)
-            {
-                tenantCache.Sites = GetSites(context: context);
-                tenantCache.Links = GetLinks(context: context);
-                tenantCache.SiteMenu = new SiteMenu(context: context);
-            }
+            SetSites(
+                context: context,
+                tenantCache: tenantCache);
             if (monitor.Updated || force)
             {
                 monitor.Update();
@@ -426,18 +423,19 @@ namespace Implem.Pleasanter.Libraries.Server
                     : string.Empty;
         }
 
-        public static DataRow Site(Context context, long siteId)
-        {
-            return TenantCaches.Get(context.TenantId).Sites.Get(siteId);
-        }
-
         public static Dictionary<long, DataRow> Sites(Context context)
         {
             return TenantCaches.Get(context.TenantId).Sites;
         }
 
-        private static Dictionary<long, DataRow> GetSites(Context context)
+        public static LinkKeyValues Links(Context context)
         {
+            return TenantCaches.Get(context.TenantId).Links;
+        }
+
+        private static void SetSites(Context context, TenantCache tenantCache)
+        {
+            var sitesUpdatedTime = tenantCache.SitesUpdatedTime.ToDateTime();
             var dataRows = Rds.ExecuteTable(
                 context: context,
                 statements: Rds.SelectSites(
@@ -450,21 +448,66 @@ namespace Implem.Pleasanter.Libraries.Server
                         .ReferenceType()
                         .ParentId()
                         .InheritPermission()
-                        .SiteSettings(),
-                    where: Rds.SitesWhere().TenantId(context.TenantId)))
-                        .AsEnumerable()
-                        .ToDictionary(
-                            dataRow => dataRow.Long("SiteId"),
-                            dataRow => dataRow);
-            return dataRows;
+                        .SiteSettings()
+                        .UpdatedTime(),
+                    where: Rds.SitesWhere()
+                        .TenantId(context.TenantId)
+                        .UpdatedTime(sitesUpdatedTime, _operator: ">")))
+                            .AsEnumerable();
+            if (dataRows.Any())
+            {
+                SetSites(
+                    tenantCache: tenantCache,
+                    dataRows: dataRows);
+                SetSiteMenu(
+                    context: context,
+                    tenantCache: tenantCache,
+                    dataRows: dataRows);
+                SetLinks(
+                    context: context,
+                    tenantCache: tenantCache,
+                    sitesUpdatedTime: sitesUpdatedTime);
+                tenantCache.SitesUpdatedTime = dataRows
+                    .Max(o => o.Field<DateTime>("UpdatedTime"))
+                    .ToString("yyyy/M/d H:m:s.fff");
+            }
         }
 
-        public static LinkKeyValues Links(Context context)
+        private static void SetSites(TenantCache tenantCache, EnumerableRowCollection<DataRow> dataRows)
         {
-            return TenantCaches.Get(context.TenantId).Links;
+            var sites = new Dictionary<long, DataRow>();
+            tenantCache.Sites?.ForEach(data =>
+                sites.Add(data.Key, data.Value));
+            foreach (var dataRow in dataRows)
+            {
+                sites.AddOrUpdate(dataRow.Long("SiteId"), dataRow);
+            }
+            tenantCache.Sites = sites;
         }
 
-        private static LinkKeyValues GetLinks(Context context)
+        private static void SetSiteMenu(Context context, TenantCache tenantCache, EnumerableRowCollection<DataRow> dataRows)
+        {
+            var siteMenu = new SiteMenu();
+            tenantCache.SiteMenu?.ForEach(data =>
+                siteMenu.Add(data.Key, data.Value));
+            foreach (var dataRow in dataRows)
+            {
+                siteMenu.AddOrUpdate(
+                    dataRow.Long("SiteId"),
+                    new SiteMenuElement(
+                        context: context,
+                        siteId: dataRow.Long("SiteId"),
+                        referenceType: dataRow.String("ReferenceType"),
+                        parentId: dataRow.Long("ParentId"),
+                        title: dataRow.String("Title")));
+            }
+            tenantCache.SiteMenu = siteMenu;
+        }
+
+        private static void SetLinks(
+            Context context,
+            TenantCache tenantCache,
+            DateTime sitesUpdatedTime)
         {
             var dataRows = Rds.ExecuteTable(
                 context: context,
@@ -487,22 +530,84 @@ namespace Implem.Pleasanter.Libraries.Server
                         .TenantId(context.TenantId, tableName: "DestinationSites")
                         .TenantId(context.TenantId, tableName: "SourceSites")
                         .ReferenceType("Wikis", tableName: "DestinationSites", _operator: "<>")
-                        .ReferenceType("Wikis", tableName: "SourceSites", _operator: "<>")))
-                            .AsEnumerable();
-            var linkKeyValues = new LinkKeyValues()
+                        .ReferenceType("Wikis", tableName: "SourceSites", _operator: "<>")
+                        .Or(or: Rds.SitesWhere()
+                            .UpdatedTime(sitesUpdatedTime, tableName: "DestinationSites", _operator: ">")
+                            .UpdatedTime(sitesUpdatedTime, tableName: "SourceSites", _operator: ">"))))
+                                .AsEnumerable();
+            if (dataRows.Any())
             {
-                DestinationKeyValues = dataRows
-                    .GroupBy(dataRow => dataRow.Long("DestinationId"))
-                    .ToDictionary(
-                        data => data.Key, data =>
-                        data.Select(dataRow => dataRow.Long("SourceId")).ToList()),
-                SourceKeyValues = dataRows
-                    .GroupBy(dataRow => dataRow.Long("SourceId"))
-                    .ToDictionary(
-                        data => data.Key,
-                        data => data.Select(dataRow => dataRow.Long("DestinationId")).ToList())
-            };
-            return linkKeyValues;
+                var destinationKeyValues = new Dictionary<long, List<long>>();
+                var sourceKeyValues = new Dictionary<long, List<long>>();
+                tenantCache.Links?.DestinationKeyValues.ForEach(data =>
+                    destinationKeyValues.Add(data.Key, data.Value));
+                tenantCache.Links?.SourceKeyValues.ForEach(data =>
+                    sourceKeyValues.Add(data.Key, data.Value));
+                foreach (var data in dataRows.GroupBy(dataRow => dataRow.Long("DestinationId")))
+                {
+                    destinationKeyValues.AddOrUpdate(
+                        data.Key,
+                        data.Select(dataRow => dataRow.Long("SourceId")).ToList());
+                }
+                foreach (var data in dataRows.GroupBy(dataRow => dataRow.Long("SourceId")))
+                {
+                    sourceKeyValues.AddOrUpdate(
+                        data.Key,
+                        data.Select(dataRow => dataRow.Long("DestinationId")).ToList());
+                }
+                if (tenantCache.Links == null)
+                {
+                    tenantCache.Links = new LinkKeyValues();
+                }
+                tenantCache.Links.DestinationKeyValues = destinationKeyValues;
+                tenantCache.Links.SourceKeyValues = sourceKeyValues;
+            }
+        }
+
+        public static void DeleteSiteCaches(Context context, List<long> siteIds)
+        {
+            var tenantCache = TenantCaches.Get(context.TenantId);
+            DeleteSites(
+                siteIds: siteIds,
+                tenantCache: tenantCache);
+            DeleteSiteMenu(
+                siteIds: siteIds,
+                tenantCache: tenantCache);
+            DeleteLinks(
+                siteIds: siteIds,
+                tenantCache: tenantCache);
+        }
+
+        private static void DeleteSites(TenantCache tenantCache, List<long> siteIds)
+        {
+            var sites = new Dictionary<long, DataRow>();
+            tenantCache.Sites?.ForEach(data =>
+                sites.Add(data.Key, data.Value));
+            sites.RemoveAll((key, value) => siteIds.Contains(key));
+            tenantCache.Sites = sites;
+        }
+
+        private static void DeleteSiteMenu(TenantCache tenantCache, List<long> siteIds)
+        {
+            var siteMenu = new SiteMenu();
+            tenantCache.SiteMenu?.ForEach(data =>
+                siteMenu.Add(data.Key, data.Value));
+            siteMenu.RemoveAll((key, value) => siteIds.Contains(key));
+            tenantCache.SiteMenu = siteMenu;
+        }
+
+        private static void DeleteLinks(TenantCache tenantCache, List<long> siteIds)
+        {
+            var destinationKeyValues = new Dictionary<long, List<long>>();
+            var sourceKeyValues = new Dictionary<long, List<long>>();
+            tenantCache.Links?.DestinationKeyValues.ForEach(data =>
+                destinationKeyValues.Add(data.Key, data.Value));
+            tenantCache.Links?.SourceKeyValues.ForEach(data =>
+                sourceKeyValues.Add(data.Key, data.Value));
+            destinationKeyValues.RemoveAll((key, value) => siteIds.Contains(key));
+            sourceKeyValues.RemoveAll((key, value) => siteIds.Contains(key));
+            tenantCache.Links.DestinationKeyValues = destinationKeyValues;
+            tenantCache.Links.SourceKeyValues = sourceKeyValues;
         }
 
         public static void SetAnonymousId(Context context)
