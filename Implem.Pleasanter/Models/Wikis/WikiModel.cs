@@ -625,10 +625,7 @@ namespace Implem.Pleasanter.Models
                                 .SiteId(SiteId),
                             param: Rds.SitesParam().Title(Title.Value),
                             addUpdatedTimeParam: false,
-                            addUpdatorParam: false),
-                        StatusUtilities.UpdateStatus(
-                            tenantId: context.TenantId,
-                            type: StatusUtilities.Types.SitesUpdated)
+                            addUpdatorParam: false)
                     });
             }
             if (context.ContractSettings.Notice != false && notice)

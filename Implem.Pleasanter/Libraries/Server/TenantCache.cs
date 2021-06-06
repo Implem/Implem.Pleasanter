@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.DataTypes;
+﻿using Implem.DefinitionAccessor;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Requests;
 using System.Collections.Generic;
 using System.Data;
@@ -7,6 +8,7 @@ namespace Implem.Pleasanter.Libraries.Server
     public class TenantCache
     {
         public int TenantId;
+        public string SitesUpdatedTime = Parameters.General.MinTime.ToString("yyyy/M/d H:m:s.fff");
         public Dictionary<long, DataRow> Sites;
         public LinkKeyValues Links;
         public SiteMenu SiteMenu;
