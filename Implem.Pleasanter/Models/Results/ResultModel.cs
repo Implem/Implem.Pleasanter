@@ -2659,7 +2659,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         column: column);
                     if (!value.IsNullOrEmpty() 
-                        && column?.ChoiceHash.Any(o => o.Value.Value == value) != true)
+                        && column?.ChoiceHash?.Any(o => o.Value.Value == value) != true)
                     {
                         ss.SetChoiceHash(
                             context: context,
