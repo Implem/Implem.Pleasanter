@@ -647,37 +647,41 @@ namespace Implem.Pleasanter.Libraries.Settings
                     : new Choice(nullCase, raw: true);
         }
 
-        public Choice LinkedTitleChoice(Context context, string selectedValue, string nullCase = null)
+        public Choice LinkedTitleChoice(Context context, string selectedValues, string nullCase = null)
         {
-            var referenceId = selectedValue.ToLong();
-            if (referenceId > 0)
+            var ids = (MultipleSelections == true
+                ? selectedValues?.Deserialize<List<long>>()
+                : selectedValues?.ToLong().ToSingleList())
+                    ?.Where(o => o > 0)
+                    .ToList();
+            if (ids?.Any() == true)
             {
                 if (Linked())
                 {
-                    if (LinkedTitleHash.ContainsKey(selectedValue))
+                    if (LinkedTitleHash.ContainsKey(selectedValues))
                     {
-                        return LinkedTitleHash[selectedValue];
+                        return LinkedTitleHash[selectedValues];
                     }
                     var choice = new Choice(
                         choice: LinkedTitle(
                             context: context,
-                            referenceId: referenceId),
+                            ids: ids),
                         raw: true,
-                        value: selectedValue);
-                    LinkedTitleHash.AddIfNotConainsKey(selectedValue, choice);
-                    return LinkedTitleHash[selectedValue];
+                        value: selectedValues);
+                    LinkedTitleHash.AddIfNotConainsKey(selectedValues, choice);
+                    return LinkedTitleHash[selectedValues];
                 }
-                else if (ChoiceHash?.ContainsKey(selectedValue) == true)
+                else if (ChoiceHash?.ContainsKey(selectedValues) == true)
                 {
-                    return ChoiceHash[selectedValue];
+                    return ChoiceHash[selectedValues];
                 }
             }
             return new Choice(nullCase, raw: true);
         }
 
-        private string LinkedTitle(Context context, long referenceId)
+        private string LinkedTitle(Context context, List<long> ids)
         {
-            return Repository.ExecuteScalar_string(
+            return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectItems(
                     column: Rds.ItemsColumn().Title(),
@@ -692,10 +696,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                             .Where(o => o.ColumnName == ColumnName)
                             .Select(o => o.SiteId)
                             .ToList())
-                        .ReferenceId(referenceId)
+                        .ReferenceId_In(ids)
                         .CanRead(
                             context: context,
-                            idColumnBracket: "\"Items\".\"ReferenceId\"")));
+                            idColumnBracket: "\"Items\".\"ReferenceId\"")))
+                                .AsEnumerable()
+                                .Select(dataRow => dataRow.String("Title"))
+                                .Join(", ");
         }
 
         public List<string> ChoiceParts(
