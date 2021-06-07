@@ -868,6 +868,9 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     siteId: ss.SiteId,
                     withParent: true);
+            var siteIds = siteMenu
+                .Select(o => o.SiteId)
+                .ToList();
             var outside = Rds.ExecuteTable(
                 context: context,
                 statements: Rds.SelectSites(
@@ -876,7 +879,7 @@ namespace Implem.Pleasanter.Models
                         .Title(),
                     where: Rds.SitesWhere()
                         .TenantId(context.TenantId)
-                        .InheritPermission_In(siteMenu.Select(o => o.SiteId))))
+                        .InheritPermission_In(siteIds)))
                             .AsEnumerable()
                             .FirstOrDefault(o => !siteMenu.Any(p => p.SiteId == o.Long("SiteId")));
             if (outside != null)
@@ -892,7 +895,7 @@ namespace Implem.Pleasanter.Models
                 {
                     Rds.DeleteItems(
                         factory: context,
-                        where: Rds.ItemsWhere().SiteId_In(siteMenu.Select(o => o.SiteId))),
+                        where: Rds.ItemsWhere().SiteId_In(siteIds)),
                     Rds.DeleteIssues(
                         factory: context,
                         where: Rds.IssuesWhere().SiteId_In(siteMenu
@@ -912,8 +915,11 @@ namespace Implem.Pleasanter.Models
                         factory: context,
                         where: Rds.SitesWhere()
                             .TenantId(TenantId)
-                            .SiteId_In(siteMenu.Select(o => o.SiteId)))
+                            .SiteId_In(siteIds))
                 });
+            SiteInfo.DeleteSiteCaches(
+                context: context,
+                siteIds: siteIds);
             return new ErrorData(type: Error.Types.None);
         }
 
