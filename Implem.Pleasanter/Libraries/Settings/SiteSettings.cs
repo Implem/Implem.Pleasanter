@@ -380,8 +380,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var hash = new Dictionary<long, SiteSettings>();
             var linkIds = direction == "Destinations"
-                ? SiteInfo.Links(context: context).SourceKeyValues.Get(SiteId)
-                : SiteInfo.Links(context: context).DestinationKeyValues.Get(SiteId);
+                ? SiteInfo.Links(context: context)?.SourceKeyValues.Get(SiteId)
+                : SiteInfo.Links(context: context)?.DestinationKeyValues.Get(SiteId);
+            if (linkIds == null) return hash;
             SiteInfo.Sites(context: context)
                 .Where(o => linkIds?.Any(siteId => siteId == o.Key) == true)
                 .Select(o => o.Value)

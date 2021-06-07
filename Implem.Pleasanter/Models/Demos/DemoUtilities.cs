@@ -176,7 +176,10 @@ namespace Implem.Pleasanter.Models
             SiteInfo.Reflesh(
                 context: context,
                 force: true);
-            InitializeSites(context: context, demoModel: demoModel, idHash: idHash);
+            var ssHash = InitializeSites(
+                context: context,
+                demoModel: demoModel,
+                idHash: idHash);
             Def.DemoDefinitionCollection
                 .Where(o => o.Language == context.Language)
                 .Where(o => o.Type == "Sites")
@@ -184,9 +187,17 @@ namespace Implem.Pleasanter.Models
                 .ForEach(o =>
                 {
                     InitializeIssues(
-                        context: context, demoModel: demoModel, parentId: o.Id, idHash: idHash);
+                        context: context,
+                        demoModel: demoModel,
+                        parentId: o.Id,
+                        idHash: idHash,
+                        ssHash: ssHash);
                     InitializeResults(
-                        context: context, demoModel: demoModel, parentId: o.Id, idHash: idHash);
+                        context: context,
+                        demoModel: demoModel,
+                        parentId: o.Id,
+                        idHash: idHash,
+                        ssHash: ssHash);
                 });
             InitializeLinks(
                 context: context,
@@ -292,9 +303,12 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static void InitializeSites(
-            Context context, DemoModel demoModel, Dictionary<string, long> idHash)
+        private static Dictionary<long, SiteSettings> InitializeSites(
+            Context context,
+            DemoModel demoModel,
+            Dictionary<string, long> idHash)
         {
+            var ssHash = new Dictionary<long, SiteSettings>();
             Def.DemoDefinitionCollection
                 .Where(o => o.Language == context.Language)
                 .Where(o => o.Type == "Sites" && o.ParentId == string.Empty)
@@ -302,6 +316,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     demoModel: demoModel,
                     idHash: idHash,
+                    ssHash: ssHash,
                     topId: o.Id));
             new SiteCollection(
                 context: context,
@@ -321,13 +336,18 @@ namespace Implem.Pleasanter.Models
                                 addUpdatorParam: false,
                                 addUpdatedTimeParam: false));
                     });
+            return ssHash;
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
         private static void InitializeSites(
-            Context context, DemoModel demoModel, Dictionary<string, long> idHash, string topId)
+            Context context,
+            DemoModel demoModel,
+            Dictionary<string, long> idHash,
+            Dictionary<long, SiteSettings> ssHash,
+            string topId)
         {
             Def.DemoDefinitionCollection
                 .Where(o => o.Language == context.Language)
@@ -402,7 +422,8 @@ namespace Implem.Pleasanter.Models
             Context context,
             DemoModel demoModel,
             string parentId,
-            Dictionary<string, long> idHash)
+            Dictionary<string, long> idHash,
+            Dictionary<long, SiteSettings> ssHash)
         {
             Def.DemoDefinitionCollection
                 .Where(o => o.Language == context.Language)
@@ -596,10 +617,7 @@ namespace Implem.Pleasanter.Models
                                 addUpdatorParam: false)
                         }).Id.ToLong();
                     idHash.Add(demoDefinition.Id, issueId);
-                    var siteModel = new SiteModel().Get(
-                        context: context,
-                        where: Rds.SitesWhere().SiteId(idHash.Get(demoDefinition.ParentId)));
-                    var ss = siteModel.IssuesSiteSettings(context: context, referenceId: issueId);
+                    var ss = ssHash.Get(idHash.Get(demoDefinition.ParentId));
                     var issueModel = new IssueModel(
                         context: context,
                         ss: ss,
@@ -694,7 +712,8 @@ namespace Implem.Pleasanter.Models
             Context context,
             DemoModel demoModel,
             string parentId,
-            Dictionary<string, long> idHash)
+            Dictionary<string, long> idHash,
+            Dictionary<long, SiteSettings> ssHash)
         {
             Def.DemoDefinitionCollection
                 .Where(o => o.Language == context.Language)
@@ -878,11 +897,7 @@ namespace Implem.Pleasanter.Models
                                 addUpdatorParam: false)
                         }).Id.ToLong();
                     idHash.Add(demoDefinition.Id, resultId);
-                    var siteModel = new SiteModel().Get(
-                        context: context,
-                        where: Rds.SitesWhere().SiteId(idHash.Get(demoDefinition.ParentId)));
-                    var ss = siteModel.ResultsSiteSettings(
-                        context: context, referenceId: resultId);
+                    var ss = ssHash.Get(idHash.Get(demoDefinition.ParentId));
                     var resultModel = new ResultModel(
                         context: context,
                         ss: ss,
