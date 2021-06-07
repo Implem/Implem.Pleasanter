@@ -5232,6 +5232,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
+            var idInTitle = ss.TitleColumns?.Contains("IssueId") == true;
             var res = new ResponseCollection();
             Csv csv;
             try
@@ -5448,10 +5449,19 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             extendedSqls: false,
-                            get: false);
+                            get: idInTitle);
                         switch (errorData.Type)
                         {
                             case Error.Types.None:
+                                if (idInTitle)
+                                {
+                                    issueModel.Update(
+                                        context: context,
+                                        ss: ss,
+                                        extendedSqls: false,
+                                        previousTitle: previousTitle,
+                                        get: false);
+                                }
                                 break;
                             case Error.Types.Duplicated:
                                 return Messages.ResponseDuplicated(
