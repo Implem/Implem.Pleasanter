@@ -679,7 +679,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             bool onTesting = false)
         {
             if (!(Parameters.Script.ServerScript != false
-                && context.ContractSettings.NewFeatures()
                 && context.ContractSettings.ServerScript != false))
             {
                 return null;
@@ -749,7 +748,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             Func<ServerScript, bool> where)
         {
             if (!(Parameters.Script.ServerScript != false
-                && context.ContractSettings.NewFeatures()
                 && context.ContractSettings.ServerScript != false))
             {
                 return null;
