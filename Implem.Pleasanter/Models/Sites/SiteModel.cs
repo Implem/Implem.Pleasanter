@@ -497,12 +497,8 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         private void OnConstructed(Context context)
         {
-            SiteInfo.SetSiteUserHash(context: context, siteId: SiteId);
         }
 
         public void ClearSessions(Context context)

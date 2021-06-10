@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.DataSources.SqlServer;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
@@ -331,7 +332,8 @@ namespace Implem.Pleasanter.Libraries.Server
                         .TenantId(context.TenantId)
                         .SiteUserWhere(
                             context: context,
-                            siteId: siteId)));
+                            siteId: siteId),
+                    top: Parameters.General.DropDownSearchPageSize));
         }
 
         public static string Name(Context context, int id, Settings.Column.Types type)
