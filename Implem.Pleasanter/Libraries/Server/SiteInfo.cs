@@ -600,14 +600,17 @@ namespace Implem.Pleasanter.Libraries.Server
         {
             var destinationKeyValues = new Dictionary<long, List<long>>();
             var sourceKeyValues = new Dictionary<long, List<long>>();
-            tenantCache.Links?.DestinationKeyValues.ForEach(data =>
-                destinationKeyValues.Add(data.Key, data.Value));
-            tenantCache.Links?.SourceKeyValues.ForEach(data =>
-                sourceKeyValues.Add(data.Key, data.Value));
-            destinationKeyValues.RemoveAll((key, value) => siteIds.Contains(key));
-            sourceKeyValues.RemoveAll((key, value) => siteIds.Contains(key));
-            tenantCache.Links.DestinationKeyValues = destinationKeyValues;
-            tenantCache.Links.SourceKeyValues = sourceKeyValues;
+            if (tenantCache.Links != null)
+            {
+                tenantCache.Links?.DestinationKeyValues.ForEach(data =>
+                    destinationKeyValues.Add(data.Key, data.Value));
+                tenantCache.Links?.SourceKeyValues.ForEach(data =>
+                    sourceKeyValues.Add(data.Key, data.Value));
+                destinationKeyValues.RemoveAll((key, value) => siteIds.Contains(key));
+                sourceKeyValues.RemoveAll((key, value) => siteIds.Contains(key));
+                tenantCache.Links.DestinationKeyValues = destinationKeyValues;
+                tenantCache.Links.SourceKeyValues = sourceKeyValues;
+            }
         }
 
         public static void SetAnonymousId(Context context)
