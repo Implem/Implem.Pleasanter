@@ -4810,15 +4810,44 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public bool WithinApiLimits()
+        public bool WithinApiLimits(Context context)
         {
-            if (ApiCountDate.Date < DateTime.Now.Date)
+            var limit = context.ContractSettings.ApiLimit();
+            if (limit > 0)
             {
-                ApiCountDate = DateTime.Now;
-                ApiCount = 0;
+                var today = DateTime.Now.ToDateTime().ToLocal(context: context).Date;
+                if (ApiCountDate.Date < today)
+                {
+                    ApiCountDate = today;
+                    ApiCount = 0;
+                }
+                ApiCount++;
+                if (ApiCount > limit)
+                {
+                    return false;
+                }
+                UpdateApiCount(context: context);
+                return true;
             }
-            return !(Parameters.Api.LimitPerSite != 0
-                && ApiCount >= Parameters.Api.LimitPerSite);
+            return true;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public void UpdateApiCount(Context context)
+        {
+            Repository.ExecuteNonQuery(
+                context: context,
+                statements: Rds.UpdateSites(
+                    where: Rds.SitesWhere()
+                        .TenantId(context.TenantId)
+                        .SiteId(SiteId),
+                    param: Rds.SitesParam()
+                        .ApiCountDate(ApiCountDate)
+                        .ApiCount(ApiCount),
+                    addUpdatorParam: false,
+                    addUpdatedTimeParam: false));
         }
     }
 }
