@@ -7244,7 +7244,9 @@ namespace Implem.Pleasanter.Models
                             labelText: column.LabelText,
                             labelTitle: labelTitle,
                             optionCollection: column.HasChoices()
-                                ? column.EditChoices(context: context)
+                                ? column.EditChoices(
+                                    context: context,
+                                    addNotSet: true)
                                 : column.NumFilterOptions(context: context),
                             selectedValue: value,
                             multiple: true,
@@ -7275,7 +7277,9 @@ namespace Implem.Pleasanter.Models
                                 : string.Empty),
                             labelText: column.LabelText,
                             labelTitle: labelTitle,
-                            optionCollection: column.EditChoices(context: context),
+                            optionCollection: column.EditChoices(
+                                context: context,
+                                addNotSet: true),
                             selectedValue: value,
                             multiple: true,
                             addSelectedValue: false)
