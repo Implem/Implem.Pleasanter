@@ -30,8 +30,8 @@ $p.openSiteSetNumericRangeDialog = function ($control) {
             }
         }
         $('#numericRangeStart').val(startValue);
-            $('#numericRangeEnd').val(endValue);
-        }
+        $('#numericRangeEnd').val(endValue);
+    }
     else {
         $('#SetNumericRangeDialog').removeClass('loop');
     }
