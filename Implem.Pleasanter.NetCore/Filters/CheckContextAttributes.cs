@@ -4,14 +4,9 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.NetCore.Libraries.Requests;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-
 namespace Implem.Pleasanter.NetCore.Filters
 {
     public class CheckContextAttributes : ActionFilterAttribute, IAuthorizationFilter
@@ -21,7 +16,8 @@ namespace Implem.Pleasanter.NetCore.Filters
             var context = new ContextImplement(
                 sessionStatus: false,
                 sessionData: false,
-                item: false);
+                item: false,
+                setPermissions: false);
             if (context.Controller != "errors" && Parameters.SyntaxErrors?.Any() == true)
             {
                 filterContext.Result = new RedirectResult(
