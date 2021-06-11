@@ -14,22 +14,27 @@
 }
 $p.openSiteSetNumericRangeDialog = function ($control) {
     $control.blur();
-    $p.openSiteSettingsDialog($control, '#SetNumericRangeDialog', 'auto');
-    $target = $('[id="' + $control.attr('id').replace('_NumericRange', '') + '"]');
-    var initValue = JSON.parse($target.val() || 'null');
-    var startValue = '';
-    var endValue = '';
-    if (Array.isArray(initValue) && initValue.length > 0) {
-        var values = initValue[0].split(',');
-        if (values.length > 0) {
-            startValue = values[0];
+    if (!$('#SetNumericRangeDialog').hasClass('loop')) {
+        $p.openSiteSettingsDialog($control, '#SetNumericRangeDialog', 'auto');
+        $target = $('[id="' + $control.attr('id').replace('_NumericRange', '') + '"]');
+        var initValue = JSON.parse($target.val() || 'null');
+        var startValue = '';
+        var endValue = '';
+        if (Array.isArray(initValue) && initValue.length > 0) {
+            var values = initValue[0].split(',');
+            if (values.length > 0) {
+                startValue = values[0];
+            }
+            if (values.length > 1) {
+                endValue = values[1];
+            }
         }
-        if (values.length > 1) {
-            endValue = values[1];
+        $('#numericRangeStart').val(startValue);
+            $('#numericRangeEnd').val(endValue);
         }
+    else {
+        $('#SetNumericRangeDialog').removeClass('loop');
     }
-    $('#numericRangeStart').val(startValue);
-    $('#numericRangeEnd').val(endValue);
 }
 $p.openSetNumericRangeOK = function ($controlID) {
     $start = $('#numericRangeStart');
@@ -42,7 +47,6 @@ $p.openSetNumericRangeOK = function ($controlID) {
     }
     $control = $('[id="' + $controlID + '"]');
     $target = $('[id="' + $controlID.replace('_NumericRange', '') + '"]');
-    console.log($control.length + ' ' + $target.length);
     var sdval = $('#numericRangeStart').val();
     var edval = $('#numericRangeEnd').val();
     var setval = '';
@@ -53,8 +57,16 @@ $p.openSetNumericRangeOK = function ($controlID) {
     }
     $control.val(dispval);
     $p.set($target, setval);
-    $('#SetNumericRangeDialog').dialog('close');
+    $p.closeSiteSetNumericRangeDialog($controlID);
     $p.send($target);
+}
+$p.closeSiteSetNumericRangeDialog = function ($controlID) {
+    $p.clearMessage();
+    $('#SetNumericRangeDialog').addClass('loop');
+    $('#SetNumericRangeDialog').dialog('close');
+    if ($(document.activeElement).attr('id') != $controlID) {
+        $('#SetNumericRangeDialog').removeClass('loop');
+    }
 }
 $p.openSetNumericRangeClear = function ($control) {
     $('#numericRangeStart').val('');
