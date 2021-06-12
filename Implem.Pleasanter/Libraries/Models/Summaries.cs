@@ -38,7 +38,6 @@ namespace Implem.Pleasanter.Libraries.Models
                     ss: ss,
                     destinationSs: destinationSs,
                     destinationSiteId: summary.SiteId,
-                    destinationReferenceType: summary.DestinationReferenceType,
                     destinationColumn: summary.DestinationColumn,
                     destinationCondition: destinationSs.Views?.Get(summary.DestinationCondition),
                     setZeroWhenOutOfCondition: summary.SetZeroWhenOutOfCondition == true,
@@ -56,7 +55,6 @@ namespace Implem.Pleasanter.Libraries.Models
             SiteSettings ss,
             SiteSettings destinationSs,
             long destinationSiteId,
-            string destinationReferenceType,
             string destinationColumn,
             View destinationCondition,
             bool setZeroWhenOutOfCondition,
@@ -68,7 +66,7 @@ namespace Implem.Pleasanter.Libraries.Models
             View sourceCondition,
             long id = 0)
         {
-            switch (destinationReferenceType)
+            switch (destinationSs.ReferenceType)
             {
                 case "Issues":
                     SynchronizeIssues(
@@ -133,7 +131,10 @@ namespace Implem.Pleasanter.Libraries.Models
                     context: context,
                     ss: destinationSs,
                     where: Where(
-                        context: context, ss: destinationSs, view: null, where: where));
+                        context: context,
+                        ss: destinationSs,
+                        view: null,
+                        where: where));
                 var matchingConditions = destinationCondition != null
                     ? Repository.ExecuteTable(
                         context: context,
@@ -283,7 +284,10 @@ namespace Implem.Pleasanter.Libraries.Models
                     context: context,
                     ss: destinationSs,
                     where: Where(
-                        context: context, ss: destinationSs, view: null, where: where));
+                        context: context,
+                        ss: destinationSs,
+                        view: null,
+                        where: where));
                 var matchingConditions = destinationCondition != null
                     ? Repository.ExecuteTable(
                         context: context,
