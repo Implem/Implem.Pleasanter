@@ -313,7 +313,10 @@ namespace Implem.TestAutomation
                 {
                     executionValue = jsDriver.ExecuteScript($"return $p.getControl('{resultCheck.ItemId}').val();")
                         .ToString();
-                    if (executionValue.IsNullOrEmpty())
+                    if (executionValue.IsNullOrEmpty() &&
+                        !jsDriver.ExecuteScript($"return $p.getControl('{resultCheck.ItemId}').prop('tagName');")
+                            .ToString()
+                            .Equals("SELECT"))
                     {
                         executionValue = jsDriver.ExecuteScript($"return $p.getControl('{resultCheck.ItemId}').text();")
                             .ToString();

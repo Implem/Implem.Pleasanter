@@ -3021,6 +3021,11 @@ h3.title-header{
     clear:both;
 }
 
+.menu-sort > li.ui-menu-divider{
+    height:initial;
+    font-size:initial;
+}
+
 .menu-sort > li:hover{
 
 }
@@ -3029,7 +3034,11 @@ h3.title-header{
 
 }
 
-.menu-sort > li div.field-control > *{
+.menu-sort > li.grid-header-filter .ui-icon{
+    position:initial;
+}
+
+.menu-sort > li:not(.grid-header-filter) div.field-control > *{
     border:solid 1px silver;
 }
 

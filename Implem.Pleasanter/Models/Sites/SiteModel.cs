@@ -497,12 +497,8 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         private void OnConstructed(Context context)
         {
-            SiteInfo.SetSiteUserHash(context: context, siteId: SiteId);
         }
 
         public void ClearSessions(Context context)
@@ -778,10 +774,7 @@ namespace Implem.Pleasanter.Models
                 new SqlStatement(Def.Sql.IfConflicted.Params(SiteId)) {
                     IfConflicted = true,
                     Id = SiteId
-                },
-                StatusUtilities.UpdateStatus(
-                    tenantId: TenantId,
-                    type: StatusUtilities.Types.SitesUpdated),
+                }
             };
         }
 
@@ -851,10 +844,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         siteModel: this),
                     param: param ?? Rds.SitesParamDefault(
-                        context: context, siteModel: this, setDefault: true)),
-                StatusUtilities.UpdateStatus(
-                    tenantId: TenantId,
-                    type: StatusUtilities.Types.SitesUpdated),
+                        context: context, siteModel: this, setDefault: true))
             };
             var response = Repository.ExecuteScalar_response(
                 context: context,
@@ -874,6 +864,9 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     siteId: ss.SiteId,
                     withParent: true);
+            var siteIds = siteMenu
+                .Select(o => o.SiteId)
+                .ToList();
             var outside = Rds.ExecuteTable(
                 context: context,
                 statements: Rds.SelectSites(
@@ -882,7 +875,7 @@ namespace Implem.Pleasanter.Models
                         .Title(),
                     where: Rds.SitesWhere()
                         .TenantId(context.TenantId)
-                        .InheritPermission_In(siteMenu.Select(o => o.SiteId))))
+                        .InheritPermission_In(siteIds)))
                             .AsEnumerable()
                             .FirstOrDefault(o => !siteMenu.Any(p => p.SiteId == o.Long("SiteId")));
             if (outside != null)
@@ -898,7 +891,7 @@ namespace Implem.Pleasanter.Models
                 {
                     Rds.DeleteItems(
                         factory: context,
-                        where: Rds.ItemsWhere().SiteId_In(siteMenu.Select(o => o.SiteId))),
+                        where: Rds.ItemsWhere().SiteId_In(siteIds)),
                     Rds.DeleteIssues(
                         factory: context,
                         where: Rds.IssuesWhere().SiteId_In(siteMenu
@@ -918,8 +911,11 @@ namespace Implem.Pleasanter.Models
                         factory: context,
                         where: Rds.SitesWhere()
                             .TenantId(TenantId)
-                            .SiteId_In(siteMenu.Select(o => o.SiteId)))
+                            .SiteId_In(siteIds))
                 });
+            SiteInfo.DeleteSiteCaches(
+                context: context,
+                siteIds: siteIds);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -937,10 +933,7 @@ namespace Implem.Pleasanter.Models
                         where: Rds.ItemsWhere().ReferenceId(SiteId)),
                     Rds.RestoreSites(
                         factory: context,
-                        where: Rds.SitesWhere().SiteId(SiteId)),
-                    StatusUtilities.UpdateStatus(
-                        tenantId: TenantId,
-                        type: StatusUtilities.Types.SitesUpdated),
+                        where: Rds.SitesWhere().SiteId(SiteId))
                 });
             return new ErrorData(type: Error.Types.None);
         }
@@ -1511,10 +1504,7 @@ namespace Implem.Pleasanter.Models
                             .DeptId(0)
                             .UserId(context.UserId)
                             .PermissionType(Permissions.Manager()),
-                        _using: InheritPermission == 0),
-                    StatusUtilities.UpdateStatus(
-                        tenantId: TenantId,
-                        type: StatusUtilities.Types.SitesUpdated),
+                        _using: InheritPermission == 0)
                 });
             SiteId = response.Id ?? SiteId;
             Get(context: context);
@@ -4820,15 +4810,44 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public bool WithinApiLimits()
+        public bool WithinApiLimits(Context context)
         {
-            if (ApiCountDate.Date < DateTime.Now.Date)
+            var limit = context.ContractSettings.ApiLimit();
+            if (limit > 0)
             {
-                ApiCountDate = DateTime.Now;
-                ApiCount = 0;
+                var today = DateTime.Now.ToDateTime().ToLocal(context: context).Date;
+                if (ApiCountDate.Date < today)
+                {
+                    ApiCountDate = today;
+                    ApiCount = 0;
+                }
+                ApiCount++;
+                if (ApiCount > limit)
+                {
+                    return false;
+                }
+                UpdateApiCount(context: context);
+                return true;
             }
-            return !(Parameters.Api.LimitPerSite != 0
-                && ApiCount >= Parameters.Api.LimitPerSite);
+            return true;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public void UpdateApiCount(Context context)
+        {
+            Repository.ExecuteNonQuery(
+                context: context,
+                statements: Rds.UpdateSites(
+                    where: Rds.SitesWhere()
+                        .TenantId(context.TenantId)
+                        .SiteId(SiteId),
+                    param: Rds.SitesParam()
+                        .ApiCountDate(ApiCountDate)
+                        .ApiCount(ApiCount),
+                    addUpdatorParam: false,
+                    addUpdatedTimeParam: false));
         }
     }
 }

@@ -1,0 +1,41 @@
+﻿{
+    "CasesDescription": "期限付きテーブルのレコード復元確認",
+    "ResultFileName": "RestoreIssuesRecord.csv",
+    "TestCases": [
+        {
+            "TestPartsPath": "\\Users",
+            "TestPartsName": "LoginLocal.json"
+        },
+        {
+            "TestPartsPath": "\\Items\\Issues\\Create",
+            "TestPartsName": "CreateIssuesTable.json",
+            "CaseDescription": "Issuesテーブルを作成する。"
+        },
+        {
+            "TestPartsPath": "\\Items\\Issues\\Transition",
+            "TestPartsName": "ToIssuesTable.json",
+            "CaseDescription": "作成したIssuesテーブルへ遷移する。"
+        },
+        {
+            "TestPartsPath": "\\Items\\Issues\\Create",
+            "TestPartsName": "CreateIssueRecord.json",
+            "CaseDescription": "Issuesテーブルのレコードを作成する。"
+        },
+        {
+            "TestPartsPath": "\\Items\\Issues\\Delete",
+            "TestPartsName": "DeleteIssueRecord.json",
+            "CaseDescription": "Issuesテーブルのレコードを削除する。"
+        },
+        {
+            "TestPartsPath": "\\Items\\Issues\\Transition",
+            "TestPartsName": "ToIssuesTable.json",
+            "CaseDescription": "作成したIssuesテーブルへ遷移する。"
+        },
+        {
+            "TestPartsPath": "\\Items\\Issues\\Restore",
+            "TestPartsName": "RestoreIssueRecord.json",
+            "CaseDescription": "削除したIssuesテーブルのレコードを復元する。"
+        }
+    ]
+
+}
