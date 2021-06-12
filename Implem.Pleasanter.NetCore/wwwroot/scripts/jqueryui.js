@@ -1,6 +1,10 @@
 ﻿$(function () {
     $p.apply = function () {
         $('.menu').menu();
+        $('.grid-header-filter').each(function (index, element) {
+            $(element).removeClass('ui-menu-item');
+            $($(element).children()[0]).removeClass('ui-menu-item-wrapper');
+        });
         $('#EditorTabsContainer:not(.applied),#MailEditorTabsContainer:not(.applied),#ViewTabsContainer:not(.applied),#ColumnAccessControlTabsContainer:not(.applied),#EditorDetailTabsContainer:not(.applied)').tabs({
             beforeActivate: function (event, ui) {
                 if (ui.newPanel.attr('data-action')) {

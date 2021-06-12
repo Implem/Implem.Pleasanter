@@ -2370,10 +2370,7 @@ namespace Implem.Pleasanter.Models
                         where: Rds.SitesWhere()
                             .TenantId(context.TenantId)
                             .SiteId(sourceId),
-                        param: Rds.SitesParam().ParentId(destinationId)),
-                    StatusUtilities.UpdateStatus(
-                        tenantId: context.TenantId,
-                        type: StatusUtilities.Types.SitesUpdated)
+                        param: Rds.SitesParam().ParentId(destinationId))
                 });
             SiteInfo.Reflesh(context: context);
         }
@@ -2478,9 +2475,6 @@ namespace Implem.Pleasanter.Models
                         where: Rds.SitesWhere()
                             .TenantId(context.TenantId)
                             .SiteId(sourceSiteModel.SiteId)),
-                    StatusUtilities.UpdateStatus(
-                        tenantId: context.TenantId,
-                        type: StatusUtilities.Types.SitesUpdated),
                     Rds.PhysicalDeleteLinks(
                         where: Rds.LinksWhere().SourceId(sourceSiteModel.SiteId)),
                     LinkUtilities.Insert(sourceSiteModel.SiteSettings.Links
@@ -2791,8 +2785,7 @@ namespace Implem.Pleasanter.Models
                                         .A(
                                             href: "#ServerScriptsSettingsEditor",
                                             text: Displays.ServerScript(context: context)),
-                                    _using: context.ContractSettings.NewFeatures()
-                                        && context.ContractSettings.ServerScript != false
+                                    _using: context.ContractSettings.ServerScript != false
                                         && Parameters.Script.ServerScript != false)
                                 .Li(
                                     action: () => hb
@@ -3742,8 +3735,7 @@ namespace Implem.Pleasanter.Models
                         .Id("ServerScriptDialog")
                         .Class("dialog")
                         .Title(Displays.ServerScript(context: context)),
-                    _using: context.ContractSettings.NewFeatures()
-                        && context.ContractSettings.ServerScript != false
+                    _using: context.ContractSettings.ServerScript != false
                         && Parameters.Script.ServerScript != false)
                 .Div(
                     attributes: new HtmlAttributes()
@@ -5125,8 +5117,7 @@ namespace Implem.Pleasanter.Models
                                             }
                                         },
                                         selectedValue: column.ViewerSwitchingType.ToInt().ToString(),
-                                        _using: context.ContractSettings.NewFeatures()
-                                            && column.ControlType == "MarkDown")
+                                        _using: column.ControlType == "MarkDown")
                                     .FieldCheckBox(
                                         controlId: "ValidateRequired",
                                         labelText: Displays.Required(context: context),
@@ -5464,8 +5455,7 @@ namespace Implem.Pleasanter.Models
                                             controlId: "MultipleSelections",
                                             labelText: Displays.MultipleSelections(context: context),
                                             _checked: column.MultipleSelections == true,
-                                            _using: context.ContractSettings.NewFeatures()
-                                                && column.TypeName == "nvarchar");
+                                            _using: column.TypeName == "nvarchar");
                                     break;
                                 default:
                                     break;
@@ -5512,8 +5502,7 @@ namespace Implem.Pleasanter.Models
                                         controlId: "ExtendedControlCss",
                                         fieldCss: "field-normal",
                                         labelText: Displays.ExtendedControlCss(context: context),
-                                        text: column.ExtendedControlCss,
-                                        _using: context.ContractSettings.NewFeatures());
+                                        text: column.ExtendedControlCss);
                             }
                             hb.FieldDropDown(
                                 context: context,
@@ -6643,7 +6632,6 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-auto-thin",
                         labelText: Displays.OutputLog(context: context),
                         _checked: ss.OutputFormulaLogs == true,
-                        _using: context.ContractSettings.NewFeatures(),
                         labelPositionIsRight: true));
         }
 
@@ -7256,7 +7244,9 @@ namespace Implem.Pleasanter.Models
                             labelText: column.LabelText,
                             labelTitle: labelTitle,
                             optionCollection: column.HasChoices()
-                                ? column.EditChoices(context: context)
+                                ? column.EditChoices(
+                                    context: context,
+                                    addNotSet: true)
                                 : column.NumFilterOptions(context: context),
                             selectedValue: value,
                             multiple: true,
@@ -7287,7 +7277,9 @@ namespace Implem.Pleasanter.Models
                                 : string.Empty),
                             labelText: column.LabelText,
                             labelTitle: labelTitle,
-                            optionCollection: column.EditChoices(context: context),
+                            optionCollection: column.EditChoices(
+                                context: context,
+                                addNotSet: true),
                             selectedValue: value,
                             multiple: true,
                             addSelectedValue: false)
@@ -9614,8 +9606,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder ServerScriptsSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            if (!context.ContractSettings.NewFeatures()
-                || context.ContractSettings.ServerScript == false
+            if (context.ContractSettings.ServerScript == false
                 || Parameters.Script.ServerScript == false) return hb;
             return hb.FieldSet(id: "ServerScriptsSettingsEditor", action: () => hb
                 .Div(css: "command-left", action: () => hb
@@ -10363,27 +10354,6 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     id: ss.SiteId))
                 .ToJson();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static void UpdateApiCount(Context context, SiteSettings ss)
-        {
-            if (Parameters.Api.LimitPerSite > 0)
-            {
-                Repository.ExecuteNonQuery(
-                    context: context,
-                    statements: Rds.UpdateSites(
-                        where: Rds.SitesWhere()
-                            .TenantId(context.TenantId)
-                            .SiteId(ss.SiteId),
-                        param: Rds.SitesParam()
-                            .ApiCountDate(ss.ApiCountDate)
-                            .ApiCount(++ss.ApiCount),
-                        addUpdatorParam: false,
-                        addUpdatedTimeParam: false));
-            }
         }
     }
 }

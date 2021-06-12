@@ -110,6 +110,7 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
             bool sessionData = true,
             bool user = true,
             bool item = true,
+            bool setPermissions = true,
             string apiRequestBody = null,
             string contentType = null)
         {
@@ -119,6 +120,7 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
                 setData: sessionData,
                 user: user,
                 item: item,
+                setPermissions: setPermissions,
                 apiRequestBody: apiRequestBody,
                 contentType: contentType);
             if (ApiRequestBody != null)
@@ -155,6 +157,7 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
             bool setData = true,
             bool user = true,
             bool item = true,
+            bool setPermissions = true,
             string apiRequestBody = null,
             string contentType = null)
         {
@@ -166,7 +169,7 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
             if (user) SetUserProperties(sessionStatus, setData);
             SetTenantProperties();
             if (request) SetPublish();
-            if (request) SetPermissions();
+            if (request && setPermissions) SetPermissions();
             SetTenantCaches();
         }
 

@@ -19,22 +19,28 @@
 }
 $p.openSiteSetDateRangeDialog = function ($control, timepicker) {
     $control.blur();
-    $p.openSiteSettingsDialog($control, '#SetDateRangeDialog', 'auto');
-    $target = $('[id="' + $control.attr('id').replace('_DateRange', '') + '"]');
-    var initValue = JSON.parse($target.val() || 'null');
-    var startValue = '';
-    var endValue = '';
-    if (Array.isArray(initValue) && initValue.length > 0) {
-        var values = initValue[0].split(',');
-        if (values.length > 0) {
-            startValue = timepicker ? values[0] : values[0].split(' ')[0];
+    if (!$('#SetDateRangeDialog').hasClass('loop')) {
+        $p.openSiteSettingsDialog($control, '#SetDateRangeDialog', 'auto');
+        $target = $('[id="' + $control.attr('id').replace('_DateRange', '') + '"]');
+        var initValue = JSON.parse($target.val() || 'null');
+        var startValue = '';
+        var endValue = '';
+        if (Array.isArray(initValue) && initValue.length > 0) {
+            var values = initValue[0].split(',');
+            if (values.length > 0) {
+                startValue = timepicker ? values[0] : values[0].split(' ')[0];
+            }
+            if (values.length > 1) {
+                endValue = timepicker ? values[1] : values[1].split(' ')[0];
+            }
         }
-        if (values.length > 1) {
-            endValue = timepicker ? values[1] : values[1].split(' ')[0];
-        }
+        $('#dateRangeStart').val(startValue);
+        $('#dateRangeEnd').val(endValue);
     }
-    $('#dateRangeStart').val(startValue);
-    $('#dateRangeEnd').val(endValue);
+    else
+    {
+        $('#SetDateRangeDialog').removeClass('loop');
+    }
 }
 $p.openSetDateRangeOK = function ($controlID, type) {
     var sdval = $('#dateRangeStart').val();
@@ -59,8 +65,16 @@ $p.openSetDateRangeOK = function ($controlID, type) {
     $target = $('[id="' + $controlID.replace('_DateRange', '') + '"]');
     $control.val(dispval);
     $p.set($target, setval);
-    $('#SetDateRangeDialog').dialog('close');
+    $p.closeSiteSetDateRangeDialog($controlID);
     $p.send($target);
+}
+$p.closeSiteSetDateRangeDialog = function ($controlID) {
+    $p.clearMessage();
+    $('#SetDateRangeDialog').addClass('loop');
+    $('#SetDateRangeDialog').dialog('close');
+    if ($(document.activeElement).attr('id') != $controlID) {
+        $('#SetDateRangeDialog').removeClass('loop');
+    }
 }
 $p.openSetDateRangeClear = function () {
     $('#dateRangeStart').val('');

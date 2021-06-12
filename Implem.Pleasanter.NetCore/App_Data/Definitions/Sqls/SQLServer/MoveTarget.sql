@@ -32,11 +32,11 @@
                             exists
                             (
                                 select * from "Depts"
-                                where "Depts"."TenantId"=@ipT
-                                    and "Depts"."DeptId"=@ipD
+                                where "Depts"."TenantId"=@_T
+                                    and "Depts"."DeptId"=@_D
                                     and "Depts"."Disabled"='false'
                                     and "Permissions"."DeptId"="Depts"."DeptId"
-                                    and @ipD<>0
+                                    and @_D<>0
                             )
                             or
                             (
@@ -44,7 +44,7 @@
                                 (
                                     select *
                                     from "GroupMembers" inner join "Groups" on "GroupMembers"."GroupId"="Groups"."GroupId"
-                                    where "Groups"."TenantId"=@ipT
+                                    where "Groups"."TenantId"=@_T
                                         and "Groups"."Disabled"='false'
                                         and "Permissions"."GroupId"="GroupMembers"."GroupId"
                                         and
@@ -52,16 +52,16 @@
                                             exists
                                             (
                                                 select * from "Depts"
-                                                where "Depts"."TenantId"=@ipT
-                                                    and "Depts"."DeptId"=@ipD
+                                                where "Depts"."TenantId"=@_T
+                                                    and "Depts"."DeptId"=@_D
                                                     and "Depts"."Disabled"='false'
                                                     and "GroupMembers"."DeptId"="Depts"."DeptId"
-                                                    and @ipD<>0
+                                                    and @_D<>0
                                             )
                                             or
                                             (
-                                                "GroupMembers"."UserId"=@ipU
-                                                and @ipU<>0
+                                                "GroupMembers"."UserId"=@_U
+                                                and @_U<>0
                                             )
                                         )
                                        
@@ -70,10 +70,10 @@
                             or
                             (
                                 (
-                                    "Permissions"."UserId"=@ipU
+                                    "Permissions"."UserId"=@_U
                                     or "Permissions"."UserId"=-1
                                 )
-                                and @ipU<>0
+                                and @_U<>0
                             )
                         )
                 )
