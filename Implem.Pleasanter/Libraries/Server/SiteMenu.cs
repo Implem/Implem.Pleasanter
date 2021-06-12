@@ -13,31 +13,8 @@ namespace Implem.Pleasanter.Libraries.Server
 {
     public class SiteMenu : Dictionary<long, SiteMenuElement>
     {
-        public SiteMenu(Context context)
+        public SiteMenu()
         {
-            Get(context: context);
-        }
-
-        private void Get(Context context)
-        {
-            Repository.ExecuteTable(
-                context: context,
-                statements: Rds.SelectSites(
-                    column: Rds.SitesColumn()
-                        .TenantId()
-                        .SiteId()
-                        .ReferenceType()
-                        .ParentId()
-                        .Title(),
-                    where: Rds.SitesWhere().TenantId(context.TenantId)))
-                            .AsEnumerable()
-                            .ForEach(dataRow =>
-                                Add(dataRow.Long("SiteId"), new SiteMenuElement(
-                                    context: context,
-                                    siteId: dataRow.Long("SiteId"),
-                                    referenceType: dataRow.String("ReferenceType"),
-                                    parentId: dataRow.Long("ParentId"),
-                                    title: dataRow.String("Title"))));
         }
 
         public SiteMenuElement Get(Context context, long siteId)

@@ -1,0 +1,11 @@
+﻿{
+    "TestParts": [
+        {
+            "TestPartId": "IssueRecord1",
+            "Action": "Click"
+        },
+        {
+            "Action": "Copy"
+        }
+    ]
+}

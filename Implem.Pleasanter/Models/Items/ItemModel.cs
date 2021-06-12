@@ -316,12 +316,12 @@ namespace Implem.Pleasanter.Models
             SetSite(
                 context: context,
                 initSiteSettings: true);
-            if (!Site.WithinApiLimits())
+            if (!Site.WithinApiLimits(context: context))
             {
                 return ApiResults.Get(ApiResponses.OverLimitApi(
                     context: context,
                     siteId: Site.SiteId,
-                    limitPerSite: Parameters.Api.LimitPerSite));
+                    limitPerSite: context.ContractSettings.ApiLimit()));
             }
             switch (Site.ReferenceType)
             {
@@ -1735,12 +1735,12 @@ namespace Implem.Pleasanter.Models
             SetSite(
                 context: context,
                 initSiteSettings: true);
-            if (!Site.WithinApiLimits())
+            if (!Site.WithinApiLimits(context: context))
             {
                 return ApiResults.Get(ApiResponses.OverLimitApi(
                     context: context,
                     siteId: Site.SiteId,
-                    limitPerSite: Parameters.Api.LimitPerSite));
+                    limitPerSite: context.ContractSettings.ApiLimit()));
             }
             switch (Site.ReferenceType)
             {
@@ -1786,7 +1786,7 @@ namespace Implem.Pleasanter.Models
             Context apiContext)
         {
             SetSite(context: context);
-            if (!Site.WithinApiLimits())
+            if (!Site.WithinApiLimits(context: context))
             {
                 return null;
             }
@@ -1873,12 +1873,12 @@ namespace Implem.Pleasanter.Models
             SetSite(
                 context: context,
                 initSiteSettings: true);
-            if (!Site.WithinApiLimits())
+            if (!Site.WithinApiLimits(context: context))
             {
                 return ApiResults.Get(ApiResponses.OverLimitApi(
                     context: context,
                     siteId: Site.SiteId,
-                    limitPerSite: Parameters.Api.LimitPerSite));
+                    limitPerSite: context.ContractSettings.ApiLimit()));
             }
             switch (Site.ReferenceType)
             {
@@ -1898,7 +1898,7 @@ namespace Implem.Pleasanter.Models
         public bool CreateByServerScript(Context context, Context apiContext, object model)
         {
             SetSite(context: context);
-            if (!Site.WithinApiLimits())
+            if (!Site.WithinApiLimits(context: context))
             {
                 return false;
             }
@@ -2118,12 +2118,12 @@ namespace Implem.Pleasanter.Models
             SetSite(
                 context: context,
                 initSiteSettings: true);
-            if (!Site.WithinApiLimits())
+            if (!Site.WithinApiLimits(context: context))
             {
                 return ApiResults.Get(ApiResponses.OverLimitApi(
                     context: context,
                     siteId: Site.SiteId,
-                    limitPerSite: Parameters.Api.LimitPerSite));
+                    limitPerSite: context.ContractSettings.ApiLimit()));
             }
             switch (Site.ReferenceType)
             {
@@ -2147,7 +2147,7 @@ namespace Implem.Pleasanter.Models
         public bool UpdateByServerScript(Context context, Context apiContext, object model)
         {
             SetSite(context: context);
-            if (!Site.WithinApiLimits())
+            if (!Site.WithinApiLimits(context: context))
             {
                 return false;
             }
@@ -2357,12 +2357,12 @@ namespace Implem.Pleasanter.Models
             SetSite(
                 context: context,
                 initSiteSettings: true);
-            if (!Site.WithinApiLimits())
+            if (!Site.WithinApiLimits(context: context))
             {
                 return ApiResults.Get(ApiResponses.OverLimitApi(
                     context: context,
                     siteId: Site.SiteId,
-                    limitPerSite: Parameters.Api.LimitPerSite));
+                    limitPerSite: context.ContractSettings.ApiLimit()));
             }
             switch (Site.ReferenceType)
             {
@@ -2384,7 +2384,7 @@ namespace Implem.Pleasanter.Models
         public bool DeleteByServerScript(Context context, Context apiContext)
         {
             SetSite(context: context);
-            if (!Site.WithinApiLimits())
+            if (!Site.WithinApiLimits(context: context))
             {
                 return false;
             }
@@ -2436,12 +2436,12 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 initSiteSettings: true,
                 setSiteIntegration: true);
-            if (!Site.WithinApiLimits())
+            if (!Site.WithinApiLimits(context: context))
             {
                 return ApiResults.Get(ApiResponses.OverLimitApi(
                     context: context,
                     siteId: Site.SiteId,
-                    limitPerSite: Parameters.Api.LimitPerSite));
+                    limitPerSite: context.ContractSettings.ApiLimit()));
             }
             if (context.RequestDataString.Deserialize<ApiDeleteOption>()?.PhysicalDelete == true)
             {
@@ -2480,7 +2480,7 @@ namespace Implem.Pleasanter.Models
         public long BulkDeleteByServerScript(Context context, Context apiContext)
         {
             SetSite(context: context);
-            if (!Site.WithinApiLimits())
+            if (!Site.WithinApiLimits(context: context))
             {
                 return 0;
             }

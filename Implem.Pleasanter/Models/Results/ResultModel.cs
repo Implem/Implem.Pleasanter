@@ -2056,7 +2056,6 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     destinationSs: destinationSs,
                     destinationSiteId: summary.SiteId,
-                    destinationReferenceType: summary.DestinationReferenceType,
                     destinationColumn: summary.DestinationColumn,
                     destinationCondition: destinationSs.Views?.Get(summary.DestinationCondition),
                     setZeroWhenOutOfCondition: summary.SetZeroWhenOutOfCondition == true,
@@ -2082,7 +2081,6 @@ namespace Implem.Pleasanter.Models
                             ss: sourceSs,
                             destinationSs: ss,
                             destinationSiteId: summary.SiteId,
-                            destinationReferenceType: summary.DestinationReferenceType,
                             destinationColumn: summary.DestinationColumn,
                             destinationCondition: ss.Views?.Get(summary.DestinationCondition),
                             setZeroWhenOutOfCondition: summary.SetZeroWhenOutOfCondition == true,
@@ -2659,7 +2657,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         column: column);
                     if (!value.IsNullOrEmpty() 
-                        && column?.ChoiceHash.Any(o => o.Value.Value == value) != true)
+                        && column?.ChoiceHash?.Any(o => o.Value.Value == value) != true)
                     {
                         ss.SetChoiceHash(
                             context: context,

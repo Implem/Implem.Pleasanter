@@ -35,6 +35,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string SamlLoginUrl;
         public int? AllowOriginalLogin;
         public bool? AllowNewFeatures;
+        public int? ApiLimitPerSite;
 
         public ContractSettings()
         {
@@ -128,6 +129,13 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool NewFeatures()
         {
             return AllowNewFeatures == true || !Parameters.Service.RestrictNewFeatures;
+        }
+
+        public int ApiLimit()
+        {
+            return (ApiLimitPerSite != null)
+                ? (int)ApiLimitPerSite
+                : Parameters.Api.LimitPerSite;
         }
     }
 }

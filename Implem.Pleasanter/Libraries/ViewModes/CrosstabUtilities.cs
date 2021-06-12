@@ -335,6 +335,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 : groupByX?.EditChoices(
                     context: context,
                     insertBlank: true,
+                    checkBlankInSelection: true,
                     view: view);
         }
 
@@ -407,6 +408,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             return groupByY?.EditChoices(
                 context: context,
                 insertBlank: true,
+                checkBlankInSelection: true,
                 view: view);
         }
 

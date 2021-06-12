@@ -108,6 +108,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Add("style", "display: none; position: absolute;"),
                         action: () => hb
                             .Li(
+                                attributes: new HtmlAttributes()
+                                    .Class("grid-header-filter"),
                                 action: () => hb.ViewFiltersColumnOnGrid(
                                     context: context,
                                     ss: ss,

@@ -92,7 +92,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     text: Displays.Cancel(context: context),
                                     controlId: "dateRangeCancel",
                                     controlCss: "button-icon",
-                                    onClick: "$p.closeDialog($(this));",
+                                    onClick: $"$p.closeSiteSetDateRangeDialog('{context.Forms.ControlId()}')",
                                     icon: "ui-icon-cancel")
                                 .Button(
                                     text: Displays.Clear(context: context),

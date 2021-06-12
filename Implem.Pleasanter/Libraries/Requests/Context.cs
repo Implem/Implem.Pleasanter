@@ -104,6 +104,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             bool sessionData = true,
             bool user = true,
             bool item = true,
+            bool setPermissions = true,
             string apiRequestBody = null,
             string contentType = null)
         {
@@ -113,6 +114,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 setData: sessionData,
                 user: user,
                 item: item,
+                setPermissions: setPermissions,
                 apiRequestBody: apiRequestBody,
                 contentType: contentType);
             if (ApiRequestBody != null)
@@ -157,6 +159,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             bool setData = true,
             bool user = true,
             bool item = true,
+            bool setPermissions = true,
             string apiRequestBody = null,
             string contentType = null)
         {
@@ -169,7 +172,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             if (item) SetSwitchTenant(sessionStatus, setData);
             SetTenantProperties();
             if (request) SetPublish();
-            if (request) SetPermissions();
+            if (request && setPermissions) SetPermissions();
             SetTenantCaches();
         }
 

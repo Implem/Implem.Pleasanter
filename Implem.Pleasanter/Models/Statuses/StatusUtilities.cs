@@ -36,8 +36,7 @@ namespace Implem.Pleasanter.Models
             DeptsUpdated = 210,
             GroupsUpdated = 220,
             UsersUpdated = 230,
-            PermissionsUpdated = 240,
-            SitesUpdated = 250
+            PermissionsUpdated = 240
         }
 
         /// <summary>
@@ -164,8 +163,7 @@ namespace Implem.Pleasanter.Models
                 { Types.DeptsUpdated, now },
                 { Types.GroupsUpdated, now },
                 { Types.UsersUpdated, now },
-                { Types.PermissionsUpdated, now },
-                { Types.SitesUpdated, now }
+                { Types.PermissionsUpdated, now }
             };
         }
 

@@ -204,15 +204,13 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     }
                 case Types.CsString:
                     return column.HasChoices()
-                        ? getLinkedTitle
+                        ? getLinkedTitle || column.Linked(withoutWiki: true)
                             ? column.LinkedTitleChoice(
                                 context: context,
-                                selectedValue: data.Get(column.ColumnName)).Text
+                                selectedValues: data.Get(column.ColumnName)).Text
                             : column.MultipleSelections == true
                                 ? data.Get(column.ColumnName).Deserialize<List<string>>()
-                                    ?.Select(col =>
-                                        column.Choice(selectedValue: col)
-                                        .Text)
+                                    ?.Select(col => column.Choice(selectedValue: col).Text)
                                     .Join()
                                 : column.Choice(selectedValue: data.Get(column.ColumnName)).Text
                         : data.Get(column.ColumnName);

@@ -1250,7 +1250,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         private SqlWhere CsDateTimeColumnsWhere(
             Context context, Column column, List<string> param)
         {
-            var today = DateTime.Today.ToDateTime().ToUniversal(context: context);
+            var today = DateTime.Now.ToDateTime().ToLocal(context: context).Date;
             var addMilliseconds = Parameters.Rds.MinimumTime * -1;
             var between = "#TableBracket#.\"{0}\" between '{1}' and '{2}'";
             var ymdhms = "yyyy/M/d H:m:s";
@@ -1267,67 +1267,119 @@ namespace Implem.Pleasanter.Libraries.Settings
                             case "Today":
                                 return between.Params(
                                     column.Name,
-                                    today.ToString(ymdhms),
-                                    today
-                                        .AddDays(1)
-                                        .AddMilliseconds(addMilliseconds)
-                                        .ToString(ymdhmsfff));
+                                    ConvertDateTimeParam(
+                                        context: context,
+                                        column: column,
+                                        dt: today,
+                                        format: ymdhms),
+                                    ConvertDateTimeParam(
+                                        context: context,
+                                        column: column,
+                                        dt: today
+                                            .AddDays(1)
+                                            .AddMilliseconds(addMilliseconds),
+                                        format: ymdhmsfff));
                             case "ThisMonth":
                                 return between.Params(
                                     column.Name,
-                                    new DateTime(today.Year, today.Month, 1)
-                                        .ToString(ymdhms),
-                                    new DateTime(today.Year, today.Month, 1)
-                                        .AddMonths(1)
-                                        .AddMilliseconds(addMilliseconds)
-                                        .ToString(ymdhmsfff));
+                                    ConvertDateTimeParam(
+                                        context: context,
+                                        column: column,
+                                        dt: new DateTime(today.Year, today.Month, 1),
+                                        format: ymdhms),
+                                    ConvertDateTimeParam(
+                                        context: context,
+                                        column: column,
+                                        dt: new DateTime(today.Year, today.Month, 1)
+                                            .AddMonths(1)
+                                            .AddMilliseconds(addMilliseconds),
+                                        format: ymdhmsfff));
                             case "ThisYear":
                                 return between.Params(
                                     column.Name,
-                                    new DateTime(today.Year, 1, 1)
-                                        .ToString(ymdhms),
-                                    new DateTime(today.Year, 1, 1)
-                                        .AddYears(1)
-                                        .AddMilliseconds(addMilliseconds)
-                                        .ToString(ymdhmsfff));
+                                    ConvertDateTimeParam(
+                                        context: context,
+                                        column: column,
+                                        dt: new DateTime(today.Year, 1, 1),
+                                        format: ymdhms),
+                                    ConvertDateTimeParam(
+                                        context: context,
+                                        column: column,
+                                        dt: new DateTime(today.Year, 1, 1)
+                                            .AddYears(1)
+                                            .AddMilliseconds(addMilliseconds),
+                                        format: ymdhmsfff));
                         }
                         if (!from.IsNullOrEmpty() && !to.IsNullOrEmpty())
                         {
                             return between.Params(
                                 column.Name,
-                                ConvertDateTimeParam(from, column).ToUniversal(context: context)
-                                    .ToString(ymdhms),
-                                ConvertDateTimeParam(to, column).ToDateTime().ToUniversal(context: context)
-                                    .ToString(ymdhmsfff));
+                                ConvertDateTimeParam(
+                                    context: context,
+                                    column: column,
+                                    dateTimeString: from,
+                                    format: ymdhms),
+                                ConvertDateTimeParam(
+                                    context: context,
+                                    column: column,
+                                    dateTimeString: to,
+                                    format: ymdhmsfff));
                         }
                         else if (to.IsNullOrEmpty())
                         {
                             return "#TableBracket#.\"{0}\">='{1}'".Params(
                                 column.Name,
-                                ConvertDateTimeParam(from, column).ToDateTime().ToUniversal(context: context)
-                                    .ToString(ymdhms));
+                                ConvertDateTimeParam(
+                                    context: context,
+                                    column: column,
+                                    dateTimeString: from,
+                                    format: ymdhms));
                         }
                         else
                         {
                             return "#TableBracket#.\"{0}\"<='{1}'".Params(
                                 column.Name,
-                                ConvertDateTimeParam(to, column).ToDateTime().ToUniversal(context: context)
-                                    .ToString(ymdhmsfff));
+                                ConvertDateTimeParam(
+                                    context: context,
+                                    column: column,
+                                    dateTimeString: to,
+                                    format: ymdhmsfff));
                         }
                     }).Join(" or "))
                 : null;
         }
 
-        private DateTime ConvertDateTimeParam(string dateTimeString, Column column)
+        private string ConvertDateTimeParam(
+            Context context,
+            Column column,
+            string dateTimeString,
+            string format)
         {
-            var dt = dateTimeString.ToDateTime();
+            return ConvertDateTimeParam(
+                context: context,
+                dt: dateTimeString.ToDateTime(),
+                column: column,
+                format: format);
+        }
+
+        private static string ConvertDateTimeParam(
+            Context context,
+            Column column,
+            DateTime dt,
+            string format)
+        {
             switch (column.Name)
             {
                 case "CompletionTime":
-                    return column.DateTimepicker() ? dt : dt.AddDays(1);
-                default:
-                    return dt;
+                    dt = column.DateTimepicker()
+                        ? dt
+                        : dt.AddDays(1);
+                    break;
             }
+            return dt
+                .ToDateTime()
+                .ToUniversal(context: context)
+                .ToString(format);
         }
 
         private SqlWhere CsDateTimeColumnsWhereNull(

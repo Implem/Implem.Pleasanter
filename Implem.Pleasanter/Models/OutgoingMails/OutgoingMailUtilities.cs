@@ -726,12 +726,12 @@ namespace Implem.Pleasanter.Models
             {
                 return ApiResults.Get(ApiResponses.BadRequest(context: context));
             }
-            if (!siteModel.WithinApiLimits())
+            if (!siteModel.WithinApiLimits(context: context))
             {
                 return ApiResults.Get(ApiResponses.OverLimitApi(
                     context: context,
                     siteId: itemModel.SiteId,
-                    limitPerSite: Parameters.Api.LimitPerSite));
+                    limitPerSite: context.ContractSettings.ApiLimit()));
             }
             if (data.From != null) outgoingMailModel.From = new System.Net.Mail.MailAddress(data.From);
             if (data.To != null) outgoingMailModel.To = data.To;
@@ -757,11 +757,10 @@ namespace Implem.Pleasanter.Models
             switch (errorData.Type)
             {
                 case Error.Types.None:
-                    SiteUtilities.UpdateApiCount(context: context, ss: ss);
                     return ApiResults.Success(
                         id: id,
-                        limitPerDate: Parameters.Api.LimitPerSite,
-                        limitRemaining: Parameters.Api.LimitPerSite - ss.ApiCount,
+                        limitPerDate: context.ContractSettings.ApiLimit(),
+                        limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
                         message: Displays.MailTransmissionCompletion(
                             context: context,
                             data: outgoingMailModel.Title.DisplayValue));

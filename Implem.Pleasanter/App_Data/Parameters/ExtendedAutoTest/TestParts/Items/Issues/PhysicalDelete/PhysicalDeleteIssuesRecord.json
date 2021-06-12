@@ -1,0 +1,23 @@
+﻿{
+    "TestParts": [
+        {
+            "ElementId": "SettingsMenuContainer",
+            "Action": "Hover"
+        },
+        {
+            "ElementId": "SettingsMenu_TrashBox",
+            "Action": "Click"
+        },
+        {
+            "ElementId": "GridCheckAll",
+            "Action": "Click"
+        },
+        {
+            "ElementCss": "button[data-action=\"PhysicalDelete\"]",
+            "Action": "Click"
+        },
+        {
+            "Action": "AlertAccept"
+        }
+    ]
+}
