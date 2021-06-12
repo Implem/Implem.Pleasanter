@@ -589,6 +589,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, ControlData> EditChoices(
             Context context,
             bool insertBlank = false,
+            bool checkBlankInSelection = false,
             bool addNotSet = false,
             View view = null,
             int limit = 0)
@@ -600,21 +601,27 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ? "0"
                     : string.Empty;
             if (!HasChoices()) return hash;
+            var selected = view?
+                .ColumnFilter(ColumnName)?
+                .Deserialize<List<string>>();
             if (addNotSet && !Required)
             {
                 hash.Add("\t", new ControlData(Displays.NotSet(context: context)));
             }
             if (insertBlank && CanEmpty())
             {
-                hash.Add(blank, new ControlData(string.Empty));
+                if (checkBlankInSelection == false
+                    || selected?.Any() != true
+                    || selected.Contains("\t"))
+                {
+                    hash.Add(blank, new ControlData(string.Empty));
+                }
             }
             if (LinkedWithNewSet())
             {
                 AddSource = true;
             }
-            var selected = view?
-                .ColumnFilter(ColumnName)?
-                .Deserialize<List<string>>()?
+            selected = selected?
                 .Select(o => o == "\t" ? blank : o)
                 .ToList();
             ChoiceHash?.Values
