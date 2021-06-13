@@ -46,6 +46,7 @@ namespace Implem.Pleasanter.NetCore.Filters
                 sessionStatus: false,
                 sessionData: false,
                 item: false,
+                setPermissions: false,
                 apiRequestBody: requestData);
             if (!context.ContractSettings.AllowedIpAddress(context.UserHostAddress))
             {
