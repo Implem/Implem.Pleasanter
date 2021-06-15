@@ -35,6 +35,10 @@ namespace Implem.Pleasanter
             SetConfigrations();
             SiteInfo.Reflesh(context: context);
             MvcHandler.DisableMvcResponseHeader = Parameters.Security.DisableMvcResponseHeader;
+            if (Parameters.Authentication.SamlParameters.IgnoreMissingInResponseTo == true)
+            {
+                Sustainsys.Saml2.Configuration.Options.FromConfiguration.SPOptions.Compatibility.IgnoreMissingInResponseTo = true;
+            }
             log.Finish(context: context);
         }
 

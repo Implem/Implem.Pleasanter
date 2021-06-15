@@ -49,6 +49,8 @@
             "Body": "Body",
             "MailAddress": "{NameId}"
         },
-        "SamlTenantId": 1
+        "SamlTenantId": 1,
+        "DisableOverwriteName": false,
+        "IgnoreMissingInResponseTo": false
     }
 }
