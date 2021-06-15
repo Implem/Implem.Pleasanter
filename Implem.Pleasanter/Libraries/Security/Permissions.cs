@@ -87,35 +87,30 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static Dictionary<long, Types> Get(Context context)
         {
-            return Hash(
-                dataRows: Repository.ExecuteTable(
-                context: context,
-                statements: new SqlStatement[]
+            if (context.Authenticated)
+            {
+                var statements = new List<SqlStatement>()
                 {
-                    Rds.SelectSites(
-                        distinct: true,
-                        column: Rds.SitesColumn()
-                            .SiteId(_as: "ReferenceId")
-                            .Permissions_PermissionType(),
-                        join: Rds.SitesJoinDefault()
-                            .Add(new SqlJoin(
-                                tableBracket: "\"Permissions\"",
-                                joinType: SqlJoin.JoinTypes.Inner,
-                                joinExpression: "\"Permissions\".\"ReferenceId\"=\"Sites\".\"InheritPermission\"")),
-                        where: Rds.SitesWhere()
-                            .TenantId(context.TenantId)
-                            .PermissionsWhere(context: context)),
-                    Rds.SelectPermissions(
-                        column: Rds.PermissionsColumn()
-                            .ReferenceId()
-                            .PermissionType(),
-                        where: Rds.PermissionsWhere()
-                            .ReferenceId(context.Id)
-                            .PermissionsWhere(context: context),
-                        unionType: Sqls.UnionTypes.UnionAll,
-                        _using: context.Id > 0 && context.Id != context.SiteId),
-                })
-                    .AsEnumerable());
+                    new SqlStatement(
+                        context.Sqls.GetPermissions,
+                        new SqlParamCollection())
+                };
+                if (context.Id > 0 && context.Id != context.SiteId)
+                {
+                    statements.Add(new SqlStatement(
+                        context.Sqls.GetPermissionsById.Replace("@ReferenceId", context.Id.ToStr()),
+                        new SqlParamCollection()));
+                }
+                return Hash(
+                    dataRows: Repository.ExecuteTable(
+                    context: context,
+                    statements: statements.ToArray())
+                        .AsEnumerable());
+            }
+            else
+            {
+                return new Dictionary<long, Types>();
+            }
         }
 
         public static Types GetById(Context context, long id)
@@ -340,18 +335,6 @@ namespace Implem.Pleasanter.Libraries.Security
         {
             return (Get(context: context, siteId: siteId) & Types.Read) == Types.Read
                 || context.HasPrivilege;
-        }
-
-        public static long InheritPermission(Context context, long id)
-        {
-            return Repository.ExecuteScalar_long(
-                context: context,
-                statements: Rds.SelectSites(
-                    column: Rds.SitesColumn().InheritPermission(),
-                    where: Rds.SitesWhere()
-                        .SiteId(sub: Rds.SelectItems(
-                            column: Rds.ItemsColumn().SiteId(),
-                            where: Rds.ItemsWhere().ReferenceId(id)))));
         }
 
         public static IEnumerable<long> AllowSites(

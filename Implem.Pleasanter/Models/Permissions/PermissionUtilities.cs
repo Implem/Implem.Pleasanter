@@ -554,20 +554,19 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static List<int> Groups(Context context)
         {
-            return Repository.ExecuteTable(
-                context: context,
-                statements: Rds.SelectGroups(
-                    column: Rds.GroupsColumn().GroupId(),
-                    where: Rds.GroupsWhere()
-                        .TenantId(context.TenantId)
-                        .Disabled(false)
-                        .GroupId_In(sub: Rds.SelectGroupMembers(
-                            column: Rds.GroupMembersColumn().GroupId(),
-                            where: Rds.GroupMembersWhere()
-                                .Add(raw: Permissions.DeptOrUser("GroupMembers"))))))
-                                    .AsEnumerable()
-                                    .Select(o => o.Int("GroupId"))
-                                    .ToList();
+            if (context.Authenticated)
+            {
+                return Repository.ExecuteTable(
+                    context: context,
+                    statements: new SqlStatement(context.Sqls.GetGroup))
+                        .AsEnumerable()
+                        .Select(o => o.Int("GroupId"))
+                        .ToList();
+            }
+            else
+            {
+                return new List<int>();
+            }
         }
 
         /// <summary>

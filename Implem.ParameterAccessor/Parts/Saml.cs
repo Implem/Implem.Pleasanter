@@ -3,7 +3,9 @@ namespace Implem.ParameterAccessor.Parts
 {
     public class Saml
     {
-        public Dictionary<string,string> Attributes;
+        public Dictionary<string, string> Attributes;
         public int SamlTenantId;
+        public bool? DisableOverwriteName;
+        public bool? IgnoreMissingInResponseTo;
     }
 }
