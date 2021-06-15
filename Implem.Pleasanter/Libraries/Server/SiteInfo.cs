@@ -332,8 +332,7 @@ namespace Implem.Pleasanter.Libraries.Server
                         .TenantId(context.TenantId)
                         .SiteUserWhere(
                             context: context,
-                            siteId: siteId),
-                    top: Parameters.General.DropDownSearchPageSize));
+                            siteId: siteId)));
         }
 
         public static string Name(Context context, int id, Settings.Column.Types type)
