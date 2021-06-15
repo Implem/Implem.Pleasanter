@@ -10,6 +10,8 @@ namespace Implem.ParameterAccessor.Parts
         public string AuthenticateRequestSigningBehavior;
         public string OutboundSigningAlgorithm;
         public string MinIncomingSigningAlgorithm;
+        public string PublicOrigin;
+        public bool? IgnoreMissingInResponseTo;
         public List<ServiceCertificate> ServiceCertificates;
     }
 
