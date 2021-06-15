@@ -19,6 +19,9 @@
         string DateGroupWeeklyPart { get; }
         string DateGroupWeekly { get; }
         string DateGroupDaily { get; }
+        string GetPermissions { get; }
+        string GetPermissionsById { get; }
+        string GetGroup { get; }
         string PermissionsWhere { get; }
         string SiteDeptWhere { get; }
         string SiteGroupWhere { get; }

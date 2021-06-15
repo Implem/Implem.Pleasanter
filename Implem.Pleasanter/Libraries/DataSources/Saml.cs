@@ -233,6 +233,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             options.SPOptions.OutboundSigningAlgorithm
                 = paramSPOptions.OutboundSigningAlgorithm
                 ?? options.SPOptions.OutboundSigningAlgorithm;
+            options.SPOptions.PublicOrigin
+                = paramSPOptions.PublicOrigin.IsNullOrEmpty()? null: new Uri(paramSPOptions.PublicOrigin);
+            if(paramSPOptions.IgnoreMissingInResponseTo == true)
+            {
+                options.SPOptions.Compatibility.IgnoreMissingInResponseTo = true;
+            }
             if (paramSPOptions.ServiceCertificates != null)
             {
                 foreach (var cert in paramSPOptions.ServiceCertificates)

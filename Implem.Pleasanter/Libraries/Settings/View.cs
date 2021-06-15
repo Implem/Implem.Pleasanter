@@ -1169,7 +1169,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 tableName: column.TableName(),
                 columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                 name: column.Name,
-                value: param);
+                _operator: $"={param}");
         }
 
         private SqlWhere CsNumericColumnsWhere(Column column, IEnumerable<string> param)

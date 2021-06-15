@@ -332,8 +332,7 @@ namespace Implem.Pleasanter.Libraries.Server
                         .TenantId(context.TenantId)
                         .SiteUserWhere(
                             context: context,
-                            siteId: siteId),
-                    top: Parameters.General.DropDownSearchPageSize));
+                            siteId: siteId)));
         }
 
         public static string Name(Context context, int id, Settings.Column.Types type)
@@ -456,19 +455,19 @@ namespace Implem.Pleasanter.Libraries.Server
                         .TenantId(context.TenantId)
                         .UpdatedTime(sitesUpdatedTime, _operator: ">")))
                             .AsEnumerable();
+            SetSites(
+                tenantCache: tenantCache,
+                dataRows: dataRows);
+            SetSiteMenu(
+                context: context,
+                tenantCache: tenantCache,
+                dataRows: dataRows);
+            SetLinks(
+                context: context,
+                tenantCache: tenantCache,
+                sitesUpdatedTime: sitesUpdatedTime);
             if (dataRows.Any())
             {
-                SetSites(
-                    tenantCache: tenantCache,
-                    dataRows: dataRows);
-                SetSiteMenu(
-                    context: context,
-                    tenantCache: tenantCache,
-                    dataRows: dataRows);
-                SetLinks(
-                    context: context,
-                    tenantCache: tenantCache,
-                    sitesUpdatedTime: sitesUpdatedTime);
                 tenantCache.SitesUpdatedTime = dataRows
                     .Max(o => o.Field<DateTime>("UpdatedTime"))
                     .ToString("yyyy/M/d H:m:s.fff");
