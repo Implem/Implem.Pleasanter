@@ -548,13 +548,19 @@ namespace Implem.Pleasanter.Libraries.Server
                 {
                     destinationKeyValues.AddOrUpdate(
                         data.Key,
-                        data.Select(dataRow => dataRow.Long("SourceId")).ToList());
+                        (destinationKeyValues.Get(data.Key) ?? new List<long>())
+                            .Concat(data.Select(dataRow => dataRow.Long("SourceId")))
+                            .Distinct()
+                            .ToList());
                 }
                 foreach (var data in dataRows.GroupBy(dataRow => dataRow.Long("SourceId")))
                 {
                     sourceKeyValues.AddOrUpdate(
                         data.Key,
-                        data.Select(dataRow => dataRow.Long("DestinationId")).ToList());
+                        (sourceKeyValues.Get(data.Key) ?? new List<long>())
+                            .Concat(data.Select(dataRow => dataRow.Long("DestinationId")))
+                            .Distinct()
+                            .ToList());
                 }
                 if (tenantCache.Links == null)
                 {

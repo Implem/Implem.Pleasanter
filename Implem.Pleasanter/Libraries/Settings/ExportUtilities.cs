@@ -146,10 +146,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             this List<ExportColumn> columns, Context context, SiteSettings ss)
         {
             return columns
-                .Where(o => o.Column.CanRead(
+                .Where(o => o?.Column?.CanRead(
                     context: context,
                     ss: ss,
-                    mine: null))
+                    mine: null) == true)
                 .Where(o => o.Column.TypeCs != "Attachments")
                 .SelectMany(o => o.NormalOrOutputClassColumns());
         }
@@ -184,10 +184,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 context: context,
                 ss: ss);
             view.GridColumns = export.Columns
-                .Where(o => o.Column.CanRead(
+                .Where(o => o?.Column?.CanRead(
                     context: context,
                     ss: ss,
-                    mine: null))
+                    mine: null) == true)
                 .Where(o => o.Column.TypeCs != "Attachments")
                 .Select(o => o.ColumnName)
                 .ToList();
