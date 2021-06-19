@@ -1,5 +1,4 @@
-﻿using Implem.DefinitionAccessor;
-using Implem.Libraries.DataSources.SqlServer;
+﻿using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
@@ -455,22 +454,30 @@ namespace Implem.Pleasanter.Libraries.Server
                         .TenantId(context.TenantId)
                         .UpdatedTime(sitesUpdatedTime, _operator: ">")))
                             .AsEnumerable();
-            SetSites(
-                tenantCache: tenantCache,
-                dataRows: dataRows);
-            SetSiteMenu(
-                context: context,
-                tenantCache: tenantCache,
-                dataRows: dataRows);
-            SetLinks(
-                context: context,
-                tenantCache: tenantCache,
-                sitesUpdatedTime: sitesUpdatedTime);
             if (dataRows.Any())
             {
+                SetSites(
+                    tenantCache: tenantCache,
+                    dataRows: dataRows);
+                SetSiteMenu(
+                    context: context,
+                    tenantCache: tenantCache,
+                    dataRows: dataRows);
+                SetLinks(
+                    context: context,
+                    tenantCache: tenantCache,
+                    sitesUpdatedTime: sitesUpdatedTime);
                 tenantCache.SitesUpdatedTime = dataRows
                     .Max(o => o.Field<DateTime>("UpdatedTime"))
                     .ToString("yyyy/M/d H:m:s.fff");
+            }
+            else
+            {
+                tenantCache.Sites = tenantCache.Sites ?? new Dictionary<long, DataRow>();
+                tenantCache.SiteMenu = tenantCache.SiteMenu ?? new SiteMenu();
+                tenantCache.Links = tenantCache.Links ?? new LinkKeyValues();
+                tenantCache.Links.DestinationKeyValues = tenantCache.Links.DestinationKeyValues ?? new Dictionary<long, List<long>>();
+                tenantCache.Links.SourceKeyValues = tenantCache.Links.SourceKeyValues ?? new Dictionary<long, List<long>>();
             }
         }
 
@@ -510,59 +517,83 @@ namespace Implem.Pleasanter.Libraries.Server
             TenantCache tenantCache,
             DateTime sitesUpdatedTime)
         {
+            var dataRows = UpdatedLinks(context, sitesUpdatedTime);
+            var destinationKeyValues = new Dictionary<long, List<long>>();
+            var sourceKeyValues = new Dictionary<long, List<long>>();
+            tenantCache.Links?.DestinationKeyValues.ForEach(data =>
+                destinationKeyValues.Add(data.Key, data.Value));
+            tenantCache.Links?.SourceKeyValues.ForEach(data =>
+                sourceKeyValues.Add(data.Key, data.Value));
+            foreach (var data in dataRows.GroupBy(dataRow => dataRow.Long("DestinationId")))
+            {
+                destinationKeyValues.AddOrUpdate(
+                    data.Key,
+                    data.Select(dataRow => dataRow.Long("SourceId")).ToList());
+            }
+            foreach (var data in dataRows.GroupBy(dataRow => dataRow.Long("SourceId")))
+            {
+                sourceKeyValues.AddOrUpdate(
+                    data.Key,
+                    data.Select(dataRow => dataRow.Long("DestinationId")).ToList());
+            }
+            if (tenantCache.Links == null)
+            {
+                tenantCache.Links = new LinkKeyValues();
+            }
+            tenantCache.Links.DestinationKeyValues = destinationKeyValues;
+            tenantCache.Links.SourceKeyValues = sourceKeyValues;
+        }
+
+        private static EnumerableRowCollection<DataRow> UpdatedLinks(Context context, DateTime sitesUpdatedTime)
+        {
+            var subSites = Rds.SelectSites(
+                column: Rds.SitesColumn().SiteId(),
+                where: Rds.SitesWhere()
+                    .TenantId(context.TenantId)
+                    .UpdatedTime(sitesUpdatedTime, _operator: ">"));
+            var column = Rds.LinksColumn()
+                .DestinationId()
+                .SourceId();
+            var joinDestination = new SqlJoinCollection(new SqlJoin(
+                    tableBracket: "\"Sites\"",
+                    joinType: SqlJoin.JoinTypes.Inner,
+                    joinExpression: "\"Sites\".\"SiteId\"=\"Links\".\"DestinationId\""));
+            var joinSource = new SqlJoinCollection(new SqlJoin(
+                    tableBracket: "\"Sites\"",
+                    joinType: SqlJoin.JoinTypes.Inner,
+                    joinExpression: "\"Sites\".\"SiteId\"=\"Links\".\"SourceId\""));
             var dataRows = Rds.ExecuteTable(
                 context: context,
-                statements: Rds.SelectLinks(
-                    column: Rds.LinksColumn()
-                        .DestinationId()
-                        .SourceId(),
-                    join: new SqlJoinCollection(
-                        new SqlJoin(
-                            tableBracket: "\"Sites\"",
-                            joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "\"DestinationSites\".\"SiteId\"=\"Links\".\"DestinationId\"",
-                            _as: "DestinationSites"),
-                        new SqlJoin(
-                            tableBracket: "\"Sites\"",
-                            joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "\"SourceSites\".\"SiteId\"=\"Links\".\"SourceId\"",
-                            _as: "SourceSites")),
-                    where: Rds.SitesWhere()
-                        .TenantId(context.TenantId, tableName: "DestinationSites")
-                        .TenantId(context.TenantId, tableName: "SourceSites")
-                        .ReferenceType("Wikis", tableName: "DestinationSites", _operator: "<>")
-                        .ReferenceType("Wikis", tableName: "SourceSites", _operator: "<>")
-                        .Or(or: Rds.SitesWhere()
-                            .UpdatedTime(sitesUpdatedTime, tableName: "DestinationSites", _operator: ">")
-                            .UpdatedTime(sitesUpdatedTime, tableName: "SourceSites", _operator: ">"))))
-                                .AsEnumerable();
-            if (dataRows.Any())
-            {
-                var destinationKeyValues = new Dictionary<long, List<long>>();
-                var sourceKeyValues = new Dictionary<long, List<long>>();
-                tenantCache.Links?.DestinationKeyValues.ForEach(data =>
-                    destinationKeyValues.Add(data.Key, data.Value));
-                tenantCache.Links?.SourceKeyValues.ForEach(data =>
-                    sourceKeyValues.Add(data.Key, data.Value));
-                foreach (var data in dataRows.GroupBy(dataRow => dataRow.Long("DestinationId")))
+                statements: new SqlStatement[]
                 {
-                    destinationKeyValues.AddOrUpdate(
-                        data.Key,
-                        data.Select(dataRow => dataRow.Long("SourceId")).ToList());
-                }
-                foreach (var data in dataRows.GroupBy(dataRow => dataRow.Long("SourceId")))
-                {
-                    sourceKeyValues.AddOrUpdate(
-                        data.Key,
-                        data.Select(dataRow => dataRow.Long("DestinationId")).ToList());
-                }
-                if (tenantCache.Links == null)
-                {
-                    tenantCache.Links = new LinkKeyValues();
-                }
-                tenantCache.Links.DestinationKeyValues = destinationKeyValues;
-                tenantCache.Links.SourceKeyValues = sourceKeyValues;
-            }
+                    Rds.SelectLinks(
+                        column: column,
+                        join: joinSource,
+                        where: Rds.LinksWhere().DestinationId_In(sub: Rds.SelectLinks(
+                            column: Rds.LinksColumn().DestinationId(),
+                            join: joinDestination,
+                            where: Rds.LinksWhere().SourceId_In(sub: subSites)))),
+                    Rds.SelectLinks(
+                        column: column,
+                        join: joinDestination,
+                        where: Rds.LinksWhere().SourceId_In(sub: Rds.SelectLinks(
+                            column: Rds.LinksColumn().SourceId(),
+                            join: joinSource,
+                            where: Rds.LinksWhere().DestinationId_In(sub: subSites))),
+                        unionType: Sqls.UnionTypes.Union),
+                    Rds.SelectLinks(
+                        column: column,
+                        join: joinSource,
+                        where: Rds.LinksWhere().DestinationId_In(sub: subSites),
+                        unionType: Sqls.UnionTypes.Union),
+                    Rds.SelectLinks(
+                        column: column,
+                        join: joinDestination,
+                        where: Rds.LinksWhere().SourceId_In(sub: subSites),
+                        unionType: Sqls.UnionTypes.Union)
+                })
+                    .AsEnumerable();
+            return dataRows;
         }
 
         public static void DeleteSiteCaches(Context context, List<long> siteIds)
