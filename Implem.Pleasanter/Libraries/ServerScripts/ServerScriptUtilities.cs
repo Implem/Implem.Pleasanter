@@ -2,6 +2,7 @@
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
@@ -512,6 +513,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         private static void SetIssueModelValues(
             Context context,
+            SiteSettings ss,
             IssueModel issueModel,
             ExpandoObject data,
             Dictionary<string, Column> columns)
@@ -540,7 +542,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             SetValue(
                 columnName: nameof(IssueModel.CompletionTime),
                 columns: columns,
-                setter: value => issueModel.CompletionTime.Value = value,
+                setter: value => new CompletionTime(
+                    context: context,
+                    ss: ss,
+                    value: value),
                 getter: column => Date(
                     data: data,
                     name: column.Name));
@@ -648,6 +653,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         SetIssueModelValues(
                             context: context,
+                            ss: ss,
                             issueModel: issueModel,
                             data: data.Model,
                             columns: valueColumnDictionary);
