@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Resources;
@@ -352,14 +353,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlCss: controlCss,
                                 labelText: column.LabelText,
                                 controlOnly: controlOnly,
-                                text: column.HasChoices() && !value.IsNullOrEmpty()
-                                    ? column.Type != Column.Types.Normal
-                                        ? SiteInfo.Name(
-                                            context: context,
-                                            id: value.ToInt(),
-                                            type: column.Type)
-                                        : optionCollection.Get(value)?.Text ?? "? " + value
-                                    : value,
+                                text: value.ToDisplay(
+                                    context: context,
+                                    ss: ss,
+                                    column: column),
                                 dataValue: column.HasChoices()
                                     ? value
                                     : null);
