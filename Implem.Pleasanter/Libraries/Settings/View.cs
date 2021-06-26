@@ -723,12 +723,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                         var column = ss.GetColumn(
                             context: context,
                             columnName: o.Key);
-                        if (column?.TypeName.CsTypeSummary() == Types.CsString
-                            && column?.HasChoices() != true)
+                        if (column?.TypeName == null)
+                        {
+                            return false;
+                        }
+                        else if (column.TypeName.CsTypeSummary() == Types.CsString
+                            && column.HasChoices() != true)
                         {
                             return o.Value?.IsNullOrEmpty() != true;
                         }
-                        else if (column?.TypeName.CsTypeSummary() == Types.CsBool)
+                        else if (column.TypeName.CsTypeSummary() == Types.CsBool)
                         {
                             switch (column.CheckFilterControlType)
                             {
