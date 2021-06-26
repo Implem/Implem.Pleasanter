@@ -286,44 +286,54 @@
             (
                 exists
                 (
-                    select *
+                    select ""Permissions"".""ReferenceId""
                     from ""Permissions""
-                        left outer join ""Depts"" on ""Permissions"".""DeptId""=""Depts"".""DeptId""
-                        left outer join ""Groups"" on ""Permissions"".""GroupId""=""Groups"".""GroupId""
-                        left outer join ""GroupMembers"" on ""Groups"".""GroupId""=""GroupMembers"".""GroupId""
-                        left outer join ""Depts"" as ""GroupMemberDepts"" on ""GroupMembers"".""DeptId""=""GroupMemberDepts"".""DeptId""
+                        inner join ""Depts"" as ""PermissionDepts"" on ""Permissions"".""DeptId""=""PermissionDepts"".""DeptId""
+                        inner join ""Users"" as ""PermissionUsers"" on ""PermissionDepts"".""DeptId""=""PermissionUsers"".""DeptId""
                     where
                         ""Permissions"".""ReferenceId""={0}
-                        and
-                        (
-                            (
-                                ""Depts"".""Disabled""='false'
-                                and ""Depts"".""DeptId""=""Users"".""DeptId""
-                            )
-                            or 
-                            (
-                                ""Groups"".""Disabled""='false' and 
-                                (
-                                    (
-                                        ""GroupMemberDepts"".""Disabled""='false'
-                                        and ""GroupMemberDepts"".""DeptId""=""Users"".""DeptId""
-                                    )
-                                    or
-                                    (
-                                        ""GroupMembers"".""UserId""=""Users"".""UserId""
-                                    )
-                                )
-                            )
-                            or
-                            (
-                                ""Permissions"".""UserId""=""Users"".""UserId""
-                                and ""Permissions"".""UserId"">0
-                            )
-                            or
-                            (
-                                ""Permissions"".""UserId""=-1
-                            )
-                        )
+                        and ""PermissionUsers"".""UserId""=""Users"".""UserId""
+                        and ""PermissionDepts"".""Disabled""='false'
+                        and ""PermissionUsers"".""Disabled""='false'
+                    union all
+                    select ""Permissions"".""ReferenceId""
+                    from ""Permissions""
+                        inner join ""Groups"" on ""Permissions"".""GroupId""=""Groups"".""GroupId""
+                        inner join ""GroupMembers"" on ""Groups"".""GroupId""=""GroupMembers"".""GroupId""
+                        inner join ""Depts"" as ""GroupMemberDepts"" on ""GroupMembers"".""DeptId""=""GroupMemberDepts"".""DeptId""
+                        inner join ""Users"" as ""GroupMemberUsers"" on ""GroupMemberDepts"".""DeptId""=""GroupMemberUsers"".""DeptId""
+                    where
+                        ""Permissions"".""ReferenceId""={0}
+                        and ""GroupMemberUsers"".""UserId""=""Users"".""UserId""
+                        and ""Groups"".""Disabled""='false'
+                        and ""GroupMemberDepts"".""Disabled""='false'
+                        and ""GroupMemberUsers"".""Disabled""='false'
+                    union all
+                    select ""Permissions"".""ReferenceId""
+                    from ""Permissions""
+                        inner join ""Groups"" on ""Permissions"".""GroupId""=""Groups"".""GroupId""
+                        inner join ""GroupMembers"" on ""Groups"".""GroupId""=""GroupMembers"".""GroupId""
+                        inner join ""Users"" as ""GroupMemberUsers"" on ""GroupMembers"".""UserId""=""GroupMemberUsers"".""UserId""
+                    where
+                        ""Permissions"".""ReferenceId""={0}
+                        and ""GroupMemberUsers"".""UserId""=""Users"".""UserId""
+                        and ""Groups"".""Disabled""='false'
+                        and ""GroupMemberUsers"".""Disabled""='false'
+                    union all
+                    select ""Permissions"".""ReferenceId""
+                    from ""Permissions""
+                        inner join ""Users"" as ""PermissionUsers"" on ""Permissions"".""UserId""=""PermissionUsers"".""UserId""
+                    where
+                        ""Permissions"".""ReferenceId""={0}
+                        and ""PermissionUsers"".""UserId""=""Users"".""UserId""
+                        and ""Users"".""Disabled""='false'
+                        and ""PermissionUsers"".""Disabled""='false'
+                    union all
+                    select ""Permissions"".""ReferenceId""
+                    from ""Permissions""
+                    where
+                        ""Permissions"".""ReferenceId""={0}
+                        and ""Permissions"".""UserId""=-1
                 )
             )";
     }
