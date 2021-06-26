@@ -6705,6 +6705,7 @@ namespace Implem.DefinitionAccessor
             var tableNames = new List<string>()
             {
                 "Depts",
+                "Groups",
                 "Users",
                 "Issues",
                 "Results"
