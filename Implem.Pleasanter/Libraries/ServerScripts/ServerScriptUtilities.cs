@@ -2,6 +2,7 @@
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
@@ -87,7 +88,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public static IEnumerable<(string Name, object Value)> Values(
             Context context, SiteSettings ss, BaseItemModel model)
         {
-            var mine = model?.Mine(context: context);
+            if (model == null)
+            {
+                return null;
+            }
+            var mine = model.Mine(context: context);
             var values = new List<(string, object)>();
             values.Add(ReadNameValue(
                 context: context,
@@ -277,8 +282,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         }
 
         public static IEnumerable<(string Name, ServerScriptModelColumn Value)> Columns(
-            Context context, SiteSettings ss)
+            Context context, SiteSettings ss, BaseItemModel model)
         {
+            if (model == null)
+            {
+                return null;
+            }
+            var mine = model.Mine(context: context);
             var columns = Def
                 .ColumnDefinitionCollection
                 .Select(definition =>
@@ -292,10 +302,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             ReadOnly = !(column?.CanRead(
                                 context: context,
                                 ss: ss,
-                                mine: null) == true && column?.CanUpdate(
+                                mine: mine) == true && column?.CanUpdate(
                                     context: context,
                                     ss: ss,
-                                    mine: null) == true),
+                                    mine: context.Action == "new"
+                                        ? null
+                                        : mine) == true),
                             ExtendedFieldCss = string.Empty,
                             ExtendedCellCss = string.Empty,
                             ExtendedHtmlBeforeField = string.Empty,
@@ -311,8 +323,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static Column[] FilterCanUpdateColumns(
             Context context,
             SiteSettings ss,
+            BaseItemModel model,
             IEnumerable<string> columnNames)
         {
+            var mine = model?.Mine(context: context);
             var columns = columnNames
                 .Distinct()
                 .Select(columnName => ss.ColumnHash.TryGetValue(columnName, out var column)
@@ -322,11 +336,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     && column.CanRead(
                         context: context,
                         ss: ss,
-                        mine: null)
+                        mine: mine)
                     && column.CanUpdate(
                         context: context,
                         ss: ss,
-                        mine: null))
+                        mine: mine))
                 .ToArray();
             return columns;
         }
@@ -334,8 +348,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static Dictionary<string, ServerScriptModelColumn> SetColumns(
             Context context,
             SiteSettings ss,
-            ExpandoObject columns)
+            ExpandoObject columns,
+            BaseItemModel model)
         {
+            var mine = model?.Mine(context: context);
             var scriptValues = new Dictionary<string, ServerScriptModelColumn>();
             columns?.ForEach(datam =>
             {
@@ -368,7 +384,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             SiteSettings ss,
             ExpandoObject model,
             ExpandoObject columns,
-            ServerScriptModelHidden hidden)
+            ServerScriptModelHidden hidden,
+            BaseItemModel itemModel)
         {
             var row = new ServerScriptModelRow
             {
@@ -376,7 +393,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 Columns = SetColumns(
                     context: context,
                     ss: ss,
-                    columns: columns),
+                    columns: columns,
+                    model: itemModel),
                 Hidden = hidden.GetAll()
             };
             return row;
@@ -388,7 +406,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             ExpandoObject data,
             Column[] columns)
         {
-            columns?.ForEach(column => model.Value(
+            columns?.ForEach(column => model?.Value(
                 context: context,
                 column: column,
                 value: String(
@@ -512,6 +530,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         private static void SetIssueModelValues(
             Context context,
+            SiteSettings ss,
             IssueModel issueModel,
             ExpandoObject data,
             Dictionary<string, Column> columns)
@@ -540,7 +559,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             SetValue(
                 columnName: nameof(IssueModel.CompletionTime),
                 columns: columns,
-                setter: value => issueModel.CompletionTime.Value = value,
+                setter: value => new CompletionTime(
+                    context: context,
+                    ss: ss,
+                    value: value),
                 getter: column => Date(
                     data: data,
                     name: column.Name));
@@ -614,6 +636,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             var valueColumns = FilterCanUpdateColumns(
                 context: context,
                 ss: ss,
+                model: model,
                 columnNames: data.GetChangeItemNames());
             var valueColumnDictionary = valueColumns
                 .ToDictionary(
@@ -624,7 +647,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 ss: ss,
                 model: data.Model,
                 columns: data.Columns,
-                hidden: data.Hidden);
+                hidden: data.Hidden,
+                itemModel: model);
             SetExtendedColumnValues(
                 context: context,
                 model: model,
@@ -638,9 +662,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 context: context,
                 view: view,
                 columnSorterHash: data.View.Sorters);
-            model.ReadOnly = Bool(
-                data: data.Model,
-                name: "ReadOnly");
+            if (model != null)
+            {
+                model.ReadOnly = Bool(
+                    data: data.Model,
+                    name: "ReadOnly");
+            }
             switch (ss?.ReferenceType)
             {
                 case "Issues":
@@ -648,6 +675,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         SetIssueModelValues(
                             context: context,
+                            ss: ss,
                             issueModel: issueModel,
                             data: data.Model,
                             columns: valueColumnDictionary);
@@ -687,7 +715,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             {
                 return null;
             }
-            itemModel = itemModel ?? new BaseItemModel();
             ServerScriptModelRow scriptValues = null;
             using (var model = new ServerScriptModel(
                 context: context,
@@ -698,7 +725,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     model: itemModel),
                 columns: Columns(
                     context: context,
-                    ss: ss),
+                    ss: ss,
+                    model: itemModel),
                 columnFilterHash: view?.ColumnFilterHash,
                 columnSorterHash: view?.ColumnSorterHash,
                 onTesting: onTesting))

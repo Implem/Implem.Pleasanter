@@ -595,7 +595,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             var column = ss.GetColumn(context: context, columnName: columnName);
             if (column != null)
             {
-                if (value != string.Empty)
+                if (value == "false"
+                    && column.TypeName?.CsTypeSummary() == "bool"
+                    && column.CheckFilterControlType == ColumnUtilities.CheckFilterControlTypes.OnOnly
+                    && ColumnFilterHash.ContainsKey(columnName))
+                {
+                    ColumnFilterHash.Remove(columnName);
+                }
+                else if (value != string.Empty)
                 {
                     if (ColumnFilterHash.ContainsKey(columnName))
                     {
@@ -716,12 +723,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                         var column = ss.GetColumn(
                             context: context,
                             columnName: o.Key);
-                        if (column?.TypeName.CsTypeSummary() == Types.CsString
-                            && column?.HasChoices() != true)
+                        if (column?.TypeName == null)
+                        {
+                            return false;
+                        }
+                        else if (column.TypeName.CsTypeSummary() == Types.CsString
+                            && column.HasChoices() != true)
                         {
                             return o.Value?.IsNullOrEmpty() != true;
                         }
-                        else if (column?.TypeName.CsTypeSummary() == Types.CsBool)
+                        else if (column.TypeName.CsTypeSummary() == Types.CsBool)
                         {
                             switch (column.CheckFilterControlType)
                             {
