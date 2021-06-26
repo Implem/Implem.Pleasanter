@@ -3260,9 +3260,11 @@ namespace Implem.DefinitionAccessor
                     case "_dot_sortable": Css._dot_sortable = definitionRow[1].ToString(); SetCssTable(CssTable._dot_sortable, definitionRow, CssXls); break;
                     case "_dot_menu_sort": Css._dot_menu_sort = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_sort, definitionRow, CssXls); break;
                     case "_dot_menu_sort_space___space_li": Css._dot_menu_sort_space___space_li = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_sort_space___space_li, definitionRow, CssXls); break;
+                    case "_dot_menu_sort_space___space_li_dot_ui_menu_divider": Css._dot_menu_sort_space___space_li_dot_ui_menu_divider = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_sort_space___space_li_dot_ui_menu_divider, definitionRow, CssXls); break;
                     case "_dot_menu_sort_space___space_li_colon_hover": Css._dot_menu_sort_space___space_li_colon_hover = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_sort_space___space_li_colon_hover, definitionRow, CssXls); break;
                     case "_dot_menu_sort_space___space_li_space___space__asterisk_": Css._dot_menu_sort_space___space_li_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_sort_space___space_li_space___space__asterisk_, definitionRow, CssXls); break;
-                    case "_dot_menu_sort_space___space_li_space_div_dot_field_control_space___space__asterisk_": Css._dot_menu_sort_space___space_li_space_div_dot_field_control_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_sort_space___space_li_space_div_dot_field_control_space___space__asterisk_, definitionRow, CssXls); break;
+                    case "_dot_menu_sort_space___space_li_dot_grid_header_filter_space__dot_ui_icon": Css._dot_menu_sort_space___space_li_dot_grid_header_filter_space__dot_ui_icon = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_sort_space___space_li_dot_grid_header_filter_space__dot_ui_icon, definitionRow, CssXls); break;
+                    case "_dot_menu_sort_space___space_li_colon_not__dot_grid_header_filter__space_div_dot_field_control_space___space__asterisk_": Css._dot_menu_sort_space___space_li_colon_not__dot_grid_header_filter__space_div_dot_field_control_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_sort_space___space_li_colon_not__dot_grid_header_filter__space_div_dot_field_control_space___space__asterisk_, definitionRow, CssXls); break;
                     case "_dot_current_time": Css._dot_current_time = definitionRow[1].ToString(); SetCssTable(CssTable._dot_current_time, definitionRow, CssXls); break;
                     case "input_colon_focus": Css.input_colon_focus = definitionRow[1].ToString(); SetCssTable(CssTable.input_colon_focus, definitionRow, CssXls); break;
                     case "select_colon_focus_colon_not__dot_has_css_": Css.select_colon_focus_colon_not__dot_has_css_ = definitionRow[1].ToString(); SetCssTable(CssTable.select_colon_focus_colon_not__dot_has_css_, definitionRow, CssXls); break;
@@ -6703,6 +6705,7 @@ namespace Implem.DefinitionAccessor
             var tableNames = new List<string>()
             {
                 "Depts",
+                "Groups",
                 "Users",
                 "Issues",
                 "Results"
@@ -10945,9 +10948,11 @@ namespace Implem.DefinitionAccessor
         public string _dot_sortable;
         public string _dot_menu_sort;
         public string _dot_menu_sort_space___space_li;
+        public string _dot_menu_sort_space___space_li_dot_ui_menu_divider;
         public string _dot_menu_sort_space___space_li_colon_hover;
         public string _dot_menu_sort_space___space_li_space___space__asterisk_;
-        public string _dot_menu_sort_space___space_li_space_div_dot_field_control_space___space__asterisk_;
+        public string _dot_menu_sort_space___space_li_dot_grid_header_filter_space__dot_ui_icon;
+        public string _dot_menu_sort_space___space_li_colon_not__dot_grid_header_filter__space_div_dot_field_control_space___space__asterisk_;
         public string _dot_current_time;
         public string input_colon_focus;
         public string select_colon_focus_colon_not__dot_has_css_;
@@ -11468,9 +11473,11 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_sortable = new CssDefinition();
         public CssDefinition _dot_menu_sort = new CssDefinition();
         public CssDefinition _dot_menu_sort_space___space_li = new CssDefinition();
+        public CssDefinition _dot_menu_sort_space___space_li_dot_ui_menu_divider = new CssDefinition();
         public CssDefinition _dot_menu_sort_space___space_li_colon_hover = new CssDefinition();
         public CssDefinition _dot_menu_sort_space___space_li_space___space__asterisk_ = new CssDefinition();
-        public CssDefinition _dot_menu_sort_space___space_li_space_div_dot_field_control_space___space__asterisk_ = new CssDefinition();
+        public CssDefinition _dot_menu_sort_space___space_li_dot_grid_header_filter_space__dot_ui_icon = new CssDefinition();
+        public CssDefinition _dot_menu_sort_space___space_li_colon_not__dot_grid_header_filter__space_div_dot_field_control_space___space__asterisk_ = new CssDefinition();
         public CssDefinition _dot_current_time = new CssDefinition();
         public CssDefinition input_colon_focus = new CssDefinition();
         public CssDefinition select_colon_focus_colon_not__dot_has_css_ = new CssDefinition();
