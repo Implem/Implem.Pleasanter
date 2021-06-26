@@ -193,20 +193,53 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             }
                         });
             }
-            if (column.Type == Column.Types.User && column.UseSearch == true)
+            if (column.UseSearch == true)
             {
-                (column.MultipleSelections == true
-                    ? value.Deserialize<List<int>>()
-                        ?? new List<int>()
-                    : value.ToInt().ToSingleList())
-                        .Select(userId => SiteInfo.User(
-                            context: context,
-                            userId: userId))
-                        .Where(user => !user.Anonymous())
-                        .ForEach(user =>
-                            editChoices.AddIfNotConainsKey(
-                                user.Id.ToString(),
-                                new ControlData(user.Name)));
+                switch (column.Type)
+                {
+                    case Column.Types.Dept:
+                        (column.MultipleSelections == true
+                            ? value.Deserialize<List<int>>()
+                                ?? new List<int>()
+                            : value.ToInt().ToSingleList())
+                                .Select(deptId => SiteInfo.Dept(
+                                    tenantId: context.TenantId,
+                                    deptId: deptId))
+                                .ForEach(dept =>
+                                    editChoices.AddIfNotConainsKey(
+                                        dept.Id.ToString(),
+                                        new ControlData(dept.Name)));
+                        break;
+                    case Column.Types.Group:
+                        (column.MultipleSelections == true
+                            ? value.Deserialize<List<int>>()
+                                ?? new List<int>()
+                            : value.ToInt().ToSingleList())
+                                .Select(groupId => SiteInfo.Group(
+                                    tenantId: context.TenantId,
+                                    groupId: groupId))
+                                .ForEach(group =>
+                                    editChoices.AddIfNotConainsKey(
+                                        group.Id.ToString(),
+                                        new ControlData(group.Name)));
+                        break;
+                    case Column.Types.User:
+                        (column.MultipleSelections == true
+                            ? value.Deserialize<List<int>>()
+                                ?? new List<int>()
+                            : value.ToInt().ToSingleList())
+                                .Select(userId => SiteInfo.User(
+                                    context: context,
+                                    userId: userId))
+                                .Where(user => !user.Anonymous())
+                                .ForEach(user =>
+                                    editChoices.AddIfNotConainsKey(
+                                        user.Id.ToString(),
+                                        new ControlData(user.Name)));
+                        break;
+                    default:
+                        break;
+                }
             }
             return editChoices;
         }
