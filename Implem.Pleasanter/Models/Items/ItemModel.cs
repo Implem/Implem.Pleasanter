@@ -3021,7 +3021,7 @@ namespace Implem.Pleasanter.Models
                 siteModel: Site);
         }
 
-        private void SetSite(
+        public void SetSite(
             Context context,
             bool siteOnly = false,
             bool initSiteSettings = false,
