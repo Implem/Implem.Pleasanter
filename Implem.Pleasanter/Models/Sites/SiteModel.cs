@@ -1197,6 +1197,16 @@ namespace Implem.Pleasanter.Models
                                 column: column,
                                 condition: filter.Value);
                             break;
+                        case "Creator":
+                            match = Creator.Id.Matched(
+                                column: column,
+                                condition: filter.Value);
+                            break;
+                        case "Updator":
+                            match = Updator.Id.Matched(
+                                column: column,
+                                condition: filter.Value);
+                            break;
                         case "CreatedTime":
                             match = CreatedTime.Value.Matched(
                                 column: column,
