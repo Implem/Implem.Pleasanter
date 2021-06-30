@@ -293,12 +293,14 @@ namespace Implem.Pleasanter.Models
             where = where ?? Rds.RegistrationsWhereDefault(
                 context: context,
                 registrationModel: this);
+            column = (column ?? Rds.RegistrationsDefaultColumns());
+            join = join ??  Rds.RegistrationsJoinDefault();
             Set(context, ss, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectRegistrations(
                     tableType: tableType,
-                    column: (column ?? Rds.RegistrationsDefaultColumns()),
-                    join: join ??  Rds.RegistrationsJoinDefault(),
+                    column: column,
+                    join: join,
                     where: where,
                     orderBy: orderBy,
                     param: param,

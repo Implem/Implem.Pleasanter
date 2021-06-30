@@ -524,12 +524,14 @@ namespace Implem.Pleasanter.Models
             where = where ?? Rds.SitesWhereDefault(
                 context: context,
                 siteModel: this);
+            column = (column ?? Rds.SitesDefaultColumns());
+            join = join ??  Rds.SitesJoinDefault();
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectSites(
                     tableType: tableType,
-                    column: (column ?? Rds.SitesDefaultColumns()),
-                    join: join ??  Rds.SitesJoinDefault(),
+                    column: column,
+                    join: join,
                     where: where,
                     orderBy: orderBy,
                     param: param,

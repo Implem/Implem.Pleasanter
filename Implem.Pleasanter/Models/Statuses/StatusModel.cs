@@ -101,12 +101,14 @@ namespace Implem.Pleasanter.Models
             where = where ?? Rds.StatusesWhereDefault(
                 context: context,
                 statusModel: this);
+            column = (column ?? Rds.StatusesDefaultColumns());
+            join = join ??  Rds.StatusesJoinDefault();
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectStatuses(
                     tableType: tableType,
-                    column: (column ?? Rds.StatusesDefaultColumns()),
-                    join: join ??  Rds.StatusesJoinDefault(),
+                    column: column,
+                    join: join,
                     where: where,
                     orderBy: orderBy,
                     param: param,

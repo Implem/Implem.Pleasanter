@@ -181,12 +181,14 @@ namespace Implem.Pleasanter.Models
             where = where ?? Rds.ExtensionsWhereDefault(
                 context: context,
                 extensionModel: this);
+            column = (column ?? Rds.ExtensionsDefaultColumns());
+            join = join ??  Rds.ExtensionsJoinDefault();
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectExtensions(
                     tableType: tableType,
-                    column: (column ?? Rds.ExtensionsDefaultColumns()),
-                    join: join ??  Rds.ExtensionsJoinDefault(),
+                    column: column,
+                    join: join,
                     where: where,
                     orderBy: orderBy,
                     param: param,

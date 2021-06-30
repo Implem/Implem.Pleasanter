@@ -781,12 +781,22 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 where: where);
+            column = (column ?? Rds.IssuesEditorColumns(ss))?.SetExtendedSqlSelectingColumn(context: context, ss: ss);
+            join = join ??  Rds.IssuesJoinDefault();
+            join = ss.Join(
+                context: context,
+                join: new Implem.Libraries.DataSources.Interfaces.IJoin[]
+                {
+                    column,
+                    where,
+                    orderBy
+                });
             Set(context, ss, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectIssues(
                     tableType: tableType,
-                    column: (column ?? Rds.IssuesEditorColumns(ss))?.SetExtendedSqlSelectingColumn(context: context, ss: ss),
-                    join: join ??  Rds.IssuesJoinDefault(),
+                    column: column,
+                    join: join,
                     where: where,
                     orderBy: orderBy,
                     param: param,

@@ -100,12 +100,14 @@ namespace Implem.Pleasanter.Models
             where = where ?? Rds.LinksWhereDefault(
                 context: context,
                 linkModel: this);
+            column = (column ?? Rds.LinksDefaultColumns());
+            join = join ??  Rds.LinksJoinDefault();
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectLinks(
                     tableType: tableType,
-                    column: (column ?? Rds.LinksDefaultColumns()),
-                    join: join ??  Rds.LinksJoinDefault(),
+                    column: column,
+                    join: join,
                     where: where,
                     orderBy: orderBy,
                     param: param,

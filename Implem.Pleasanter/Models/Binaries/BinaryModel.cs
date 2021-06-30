@@ -272,12 +272,14 @@ namespace Implem.Pleasanter.Models
             where = where ?? Rds.BinariesWhereDefault(
                 context: context,
                 binaryModel: this);
+            column = (column ?? Rds.BinariesDefaultColumns());
+            join = join ??  Rds.BinariesJoinDefault();
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectBinaries(
                     tableType: tableType,
-                    column: (column ?? Rds.BinariesDefaultColumns()),
-                    join: join ??  Rds.BinariesJoinDefault(),
+                    column: column,
+                    join: join,
                     where: where,
                     orderBy: orderBy,
                     param: param,
