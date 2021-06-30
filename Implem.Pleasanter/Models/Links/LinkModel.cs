@@ -104,7 +104,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.SelectLinks(
                     tableType: tableType,
-                    column: column ?? Rds.LinksDefaultColumns(),
+                    column: (column ?? Rds.LinksDefaultColumns()),
                     join: join ??  Rds.LinksJoinDefault(),
                     where: where,
                     orderBy: orderBy,

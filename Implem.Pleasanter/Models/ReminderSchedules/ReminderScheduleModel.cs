@@ -104,7 +104,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.SelectReminderSchedules(
                     tableType: tableType,
-                    column: column ?? Rds.ReminderSchedulesDefaultColumns(),
+                    column: (column ?? Rds.ReminderSchedulesDefaultColumns()),
                     join: join ??  Rds.ReminderSchedulesJoinDefault(),
                     where: where,
                     orderBy: orderBy,

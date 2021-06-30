@@ -185,7 +185,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.SelectExtensions(
                     tableType: tableType,
-                    column: column ?? Rds.ExtensionsDefaultColumns(),
+                    column: (column ?? Rds.ExtensionsDefaultColumns()),
                     join: join ??  Rds.ExtensionsJoinDefault(),
                     where: where,
                     orderBy: orderBy,

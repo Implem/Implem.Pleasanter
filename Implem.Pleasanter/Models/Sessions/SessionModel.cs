@@ -134,7 +134,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.SelectSessions(
                     tableType: tableType,
-                    column: column ?? Rds.SessionsDefaultColumns(),
+                    column: (column ?? Rds.SessionsDefaultColumns()),
                     join: join ??  Rds.SessionsJoinDefault(),
                     where: where,
                     orderBy: orderBy,

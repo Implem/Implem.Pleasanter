@@ -193,7 +193,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.SelectDemos(
                     tableType: tableType,
-                    column: column ?? Rds.DemosDefaultColumns(),
+                    column: (column ?? Rds.DemosDefaultColumns()),
                     join: join ??  Rds.DemosJoinDefault(),
                     where: where,
                     orderBy: orderBy,

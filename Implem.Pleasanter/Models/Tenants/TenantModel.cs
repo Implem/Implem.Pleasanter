@@ -294,7 +294,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.SelectTenants(
                     tableType: tableType,
-                    column: column ?? Rds.TenantsDefaultColumns(),
+                    column: (column ?? Rds.TenantsDefaultColumns()),
                     join: join ??  Rds.TenantsJoinDefault(),
                     where: where,
                     orderBy: orderBy,

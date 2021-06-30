@@ -226,7 +226,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.SelectExportSettings(
                     tableType: tableType,
-                    column: column ?? Rds.ExportSettingsDefaultColumns(),
+                    column: (column ?? Rds.ExportSettingsDefaultColumns()),
                     join: join ??  Rds.ExportSettingsJoinDefault(),
                     where: where,
                     orderBy: orderBy,

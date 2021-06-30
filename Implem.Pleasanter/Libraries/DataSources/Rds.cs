@@ -75003,6 +75003,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         self.Add(
                             columnBracket: "\"" + data.ColumnName + "\"",
                             tableName: tableName,
+                            columnName: data.ColumnName,
                             _as: _as?.Contains(",") == true
                                 ? _as.Split_1st() + "," + data.ColumnName
                                 : _as,
@@ -75024,6 +75025,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         self.Add(
                             columnBracket: "\"" + data.ColumnName + "\"",
                             tableName: tableName,
+                            columnName: data.ColumnName,
                             _as: _as?.Contains(",") == true
                                 ? _as.Split_1st() + "," + data.ColumnName
                                 : _as,
@@ -95355,6 +95357,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         self.Add(
                             columnBracket: "\"" + data.ColumnName + "\"",
                             tableName: tableName,
+                            columnName: data.ColumnName,
                             _as: _as?.Contains(",") == true
                                 ? _as.Split_1st() + "," + data.ColumnName
                                 : _as,
@@ -95376,6 +95379,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         self.Add(
                             columnBracket: "\"" + data.ColumnName + "\"",
                             tableName: tableName,
+                            columnName: data.ColumnName,
                             _as: _as?.Contains(",") == true
                                 ? _as.Split_1st() + "," + data.ColumnName
                                 : _as,
@@ -95397,6 +95401,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         self.Add(
                             columnBracket: "\"" + data.ColumnName + "\"",
                             tableName: tableName,
+                            columnName: data.ColumnName,
                             _as: _as?.Contains(",") == true
                                 ? _as.Split_1st() + "," + data.ColumnName
                                 : _as,
@@ -95418,6 +95423,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         self.Add(
                             columnBracket: "\"" + data.ColumnName + "\"",
                             tableName: tableName,
+                            columnName: data.ColumnName,
                             _as: _as?.Contains(",") == true
                                 ? _as.Split_1st() + "," + data.ColumnName
                                 : _as,
@@ -95439,6 +95445,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         self.Add(
                             columnBracket: "\"" + data.ColumnName + "\"",
                             tableName: tableName,
+                            columnName: data.ColumnName,
                             _as: _as?.Contains(",") == true
                                 ? _as.Split_1st() + "," + data.ColumnName
                                 : _as,
@@ -95460,6 +95467,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         self.Add(
                             columnBracket: "\"" + data.ColumnName + "\"",
                             tableName: tableName,
+                            columnName: data.ColumnName,
                             _as: _as?.Contains(",") == true
                                 ? _as.Split_1st() + "," + data.ColumnName
                                 : _as,
@@ -95481,6 +95489,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         self.Add(
                             columnBracket: "\"" + data.ColumnName + "\"",
                             tableName: tableName,
+                            columnName: data.ColumnName,
                             _as: _as?.Contains(",") == true
                                 ? _as.Split_1st() + "," + data.ColumnName
                                 : _as,
@@ -95502,6 +95511,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         self.Add(
                             columnBracket: "\"" + data.ColumnName + "\"",
                             tableName: tableName,
+                            columnName: data.ColumnName,
                             _as: _as?.Contains(",") == true
                                 ? _as.Split_1st() + "," + data.ColumnName
                                 : _as,
@@ -100150,6 +100160,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         self.Add(
                             columnBracket: "\"" + data.ColumnName + "\"",
                             tableName: tableName,
+                            columnName: data.ColumnName,
                             _as: _as?.Contains(",") == true
                                 ? _as.Split_1st() + "," + data.ColumnName
                                 : _as,
@@ -100171,6 +100182,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         self.Add(
                             columnBracket: "\"" + data.ColumnName + "\"",
                             tableName: tableName,
+                            columnName: data.ColumnName,
                             _as: _as?.Contains(",") == true
                                 ? _as.Split_1st() + "," + data.ColumnName
                                 : _as,
@@ -103736,6 +103748,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         self.Add(
                             columnBracket: "\"" + data.ColumnName + "\"",
                             tableName: tableName,
+                            columnName: data.ColumnName,
                             _as: _as?.Contains(",") == true
                                 ? _as.Split_1st() + "," + data.ColumnName
                                 : _as,
@@ -103757,6 +103770,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         self.Add(
                             columnBracket: "\"" + data.ColumnName + "\"",
                             tableName: tableName,
+                            columnName: data.ColumnName,
                             _as: _as?.Contains(",") == true
                                 ? _as.Split_1st() + "," + data.ColumnName
                                 : _as,

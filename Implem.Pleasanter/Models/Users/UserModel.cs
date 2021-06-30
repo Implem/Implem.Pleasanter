@@ -1239,7 +1239,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.SelectUsers(
                     tableType: tableType,
-                    column: column ?? Rds.UsersDefaultColumns(),
+                    column: (column ?? Rds.UsersDefaultColumns()),
                     join: join ??  Rds.UsersJoinDefault(),
                     where: where,
                     orderBy: orderBy,

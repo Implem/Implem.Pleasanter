@@ -232,7 +232,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.SelectDepts(
                     tableType: tableType,
-                    column: column ?? Rds.DeptsDefaultColumns(),
+                    column: (column ?? Rds.DeptsDefaultColumns()),
                     join: join ??  Rds.DeptsJoinDefault(),
                     where: where,
                     orderBy: orderBy,

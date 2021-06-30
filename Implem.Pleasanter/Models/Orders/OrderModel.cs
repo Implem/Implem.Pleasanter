@@ -114,7 +114,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.SelectOrders(
                     tableType: tableType,
-                    column: column ?? Rds.OrdersDefaultColumns(),
+                    column: (column ?? Rds.OrdersDefaultColumns()),
                     join: join ??  Rds.OrdersJoinDefault(),
                     where: where,
                     orderBy: orderBy,

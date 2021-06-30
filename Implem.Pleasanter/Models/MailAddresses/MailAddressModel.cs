@@ -164,7 +164,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.SelectMailAddresses(
                     tableType: tableType,
-                    column: column ?? Rds.MailAddressesDefaultColumns(),
+                    column: (column ?? Rds.MailAddressesDefaultColumns()),
                     join: join ??  Rds.MailAddressesJoinDefault(),
                     where: where,
                     orderBy: orderBy,
