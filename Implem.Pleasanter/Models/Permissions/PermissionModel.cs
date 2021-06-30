@@ -130,7 +130,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.SelectPermissions(
                     tableType: tableType,
-                    column: column ?? Rds.PermissionsDefaultColumns(),
+                    column: (column ?? Rds.PermissionsDefaultColumns()),
                     join: join ??  Rds.PermissionsJoinDefault(),
                     where: where,
                     orderBy: orderBy,

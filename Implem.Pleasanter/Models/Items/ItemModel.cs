@@ -136,7 +136,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.SelectItems(
                     tableType: tableType,
-                    column: column ?? Rds.ItemsDefaultColumns(),
+                    column: (column ?? Rds.ItemsDefaultColumns()),
                     join: join ??  Rds.ItemsJoinDefault(),
                     where: where,
                     orderBy: orderBy,

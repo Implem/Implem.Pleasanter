@@ -659,7 +659,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.SelectResults(
                     tableType: tableType,
-                    column: column ?? Rds.ResultsEditorColumns(ss),
+                    column: (column ?? Rds.ResultsEditorColumns(ss))?.SetExtendedSqlSelectingColumn(context: context, ss: ss),
                     join: join ??  Rds.ResultsJoinDefault(),
                     where: where,
                     orderBy: orderBy,

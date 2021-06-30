@@ -297,7 +297,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.SelectRegistrations(
                     tableType: tableType,
-                    column: column ?? Rds.RegistrationsDefaultColumns(),
+                    column: (column ?? Rds.RegistrationsDefaultColumns()),
                     join: join ??  Rds.RegistrationsJoinDefault(),
                     where: where,
                     orderBy: orderBy,

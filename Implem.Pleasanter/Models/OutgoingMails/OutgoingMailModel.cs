@@ -249,7 +249,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.SelectOutgoingMails(
                     tableType: tableType,
-                    column: column ?? Rds.OutgoingMailsDefaultColumns(),
+                    column: (column ?? Rds.OutgoingMailsDefaultColumns()),
                     join: join ??  Rds.OutgoingMailsJoinDefault(),
                     where: where,
                     orderBy: orderBy,

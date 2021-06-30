@@ -528,7 +528,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.SelectSites(
                     tableType: tableType,
-                    column: column ?? Rds.SitesDefaultColumns(),
+                    column: (column ?? Rds.SitesDefaultColumns()),
                     join: join ??  Rds.SitesJoinDefault(),
                     where: where,
                     orderBy: orderBy,

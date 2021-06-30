@@ -290,7 +290,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.SelectWikis(
                     tableType: tableType,
-                    column: column ?? Rds.WikisEditorColumns(ss),
+                    column: (column ?? Rds.WikisEditorColumns(ss)),
                     join: join ??  Rds.WikisJoinDefault(),
                     where: where,
                     orderBy: orderBy,

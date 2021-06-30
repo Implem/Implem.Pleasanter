@@ -105,7 +105,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.SelectStatuses(
                     tableType: tableType,
-                    column: column ?? Rds.StatusesDefaultColumns(),
+                    column: (column ?? Rds.StatusesDefaultColumns()),
                     join: join ??  Rds.StatusesJoinDefault(),
                     where: where,
                     orderBy: orderBy,

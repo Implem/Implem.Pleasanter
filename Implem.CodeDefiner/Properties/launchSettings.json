@@ -2,7 +2,7 @@
   "profiles": {
     "Implem.CodeDefiner": {
       "commandName": "Project",
-      "commandLineArgs": "_rds"
+      "commandLineArgs": "mvc"
     }
   }
 }

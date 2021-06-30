@@ -1,9 +1,10 @@
 ﻿{
-    "Name": null,
+    "Name": "test",
     "Description": "Sample",
     "DeptIdList": null,
     "UserIdList": null,
-    "SiteIdList": null,
+    "SiteIdList": [ 10000003 ],
+    "ColumnList": [ "ClassX" ],
     "IdList": null,
     "Controllers": null,
     "Actions": null,
@@ -24,6 +25,7 @@
     "OnImporting": false,
     "OnImported": false,
     "OnSelectingWhere": false,
+    "OnSelectingColumn": true,
     "OnUseSecondaryAuthentication": false,
-    "CommandText": "-- Write an arbitrary SQL statement."
+    "CommandText": "select count(*) from Issues"
 }

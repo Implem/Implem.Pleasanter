@@ -427,7 +427,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.SelectSysLogs(
                     tableType: tableType,
-                    column: column ?? Rds.SysLogsDefaultColumns(),
+                    column: (column ?? Rds.SysLogsDefaultColumns()),
                     join: join ??  Rds.SysLogsJoinDefault(),
                     where: where,
                     orderBy: orderBy,

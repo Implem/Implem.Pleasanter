@@ -114,7 +114,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.SelectGroupMembers(
                     tableType: tableType,
-                    column: column ?? Rds.GroupMembersDefaultColumns(),
+                    column: (column ?? Rds.GroupMembersDefaultColumns()),
                     join: join ??  Rds.GroupMembersJoinDefault(),
                     where: where,
                     orderBy: orderBy,

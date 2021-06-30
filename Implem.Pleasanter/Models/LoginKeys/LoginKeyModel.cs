@@ -125,7 +125,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.SelectLoginKeys(
                     tableType: tableType,
-                    column: column ?? Rds.LoginKeysDefaultColumns(),
+                    column: (column ?? Rds.LoginKeysDefaultColumns()),
                     join: join ??  Rds.LoginKeysJoinDefault(),
                     where: where,
                     orderBy: orderBy,

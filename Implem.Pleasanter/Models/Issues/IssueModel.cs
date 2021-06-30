@@ -785,7 +785,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.SelectIssues(
                     tableType: tableType,
-                    column: column ?? Rds.IssuesEditorColumns(ss),
+                    column: (column ?? Rds.IssuesEditorColumns(ss))?.SetExtendedSqlSelectingColumn(context: context, ss: ss),
                     join: join ??  Rds.IssuesJoinDefault(),
                     where: where,
                     orderBy: orderBy,
