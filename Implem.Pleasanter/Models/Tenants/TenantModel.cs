@@ -290,12 +290,14 @@ namespace Implem.Pleasanter.Models
             where = where ?? Rds.TenantsWhereDefault(
                 context: context,
                 tenantModel: this);
+            column = (column ?? Rds.TenantsDefaultColumns());
+            join = join ??  Rds.TenantsJoinDefault();
             Set(context, ss, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectTenants(
                     tableType: tableType,
-                    column: (column ?? Rds.TenantsDefaultColumns()),
-                    join: join ??  Rds.TenantsJoinDefault(),
+                    column: column,
+                    join: join,
                     where: where,
                     orderBy: orderBy,
                     param: param,

@@ -132,12 +132,14 @@ namespace Implem.Pleasanter.Models
             where = where ?? Rds.ItemsWhereDefault(
                 context: context,
                 itemModel: this);
+            column = (column ?? Rds.ItemsDefaultColumns());
+            join = join ??  Rds.ItemsJoinDefault();
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectItems(
                     tableType: tableType,
-                    column: (column ?? Rds.ItemsDefaultColumns()),
-                    join: join ??  Rds.ItemsJoinDefault(),
+                    column: column,
+                    join: join,
                     where: where,
                     orderBy: orderBy,
                     param: param,

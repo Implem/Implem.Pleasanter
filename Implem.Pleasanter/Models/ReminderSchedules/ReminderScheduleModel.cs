@@ -100,12 +100,14 @@ namespace Implem.Pleasanter.Models
             where = where ?? Rds.ReminderSchedulesWhereDefault(
                 context: context,
                 reminderScheduleModel: this);
+            column = (column ?? Rds.ReminderSchedulesDefaultColumns());
+            join = join ??  Rds.ReminderSchedulesJoinDefault();
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectReminderSchedules(
                     tableType: tableType,
-                    column: (column ?? Rds.ReminderSchedulesDefaultColumns()),
-                    join: join ??  Rds.ReminderSchedulesJoinDefault(),
+                    column: column,
+                    join: join,
                     where: where,
                     orderBy: orderBy,
                     param: param,

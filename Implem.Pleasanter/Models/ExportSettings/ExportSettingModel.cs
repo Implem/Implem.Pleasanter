@@ -222,12 +222,14 @@ namespace Implem.Pleasanter.Models
             where = where ?? Rds.ExportSettingsWhereDefault(
                 context: context,
                 exportSettingModel: this);
+            column = (column ?? Rds.ExportSettingsDefaultColumns());
+            join = join ??  Rds.ExportSettingsJoinDefault();
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectExportSettings(
                     tableType: tableType,
-                    column: (column ?? Rds.ExportSettingsDefaultColumns()),
-                    join: join ??  Rds.ExportSettingsJoinDefault(),
+                    column: column,
+                    join: join,
                     where: where,
                     orderBy: orderBy,
                     param: param,
