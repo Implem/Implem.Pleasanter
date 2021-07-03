@@ -7010,8 +7010,18 @@ namespace Implem.Pleasanter.Models
                                     column,
                                     where
                                 }),
-                        where: where))
-                            .AsEnumerable();
+                        where: Rds.IssuesWhere()
+                            .IssueId_In(sub: Rds.SelectIssues(
+                                column: Rds.IssuesColumn().IssueId(),
+                                join: ss.Join(
+                                    context: context,
+                                    join: new IJoin[]
+                                        {
+                                            column,
+                                            where
+                                        }),
+                                where: where))))
+                                    .AsEnumerable();
                 ss.SetChoiceHash(dataRows: dataRows);
                 return dataRows;
             }
