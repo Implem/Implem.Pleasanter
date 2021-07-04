@@ -3623,7 +3623,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Where(d => d.SiteId == link.SiteId)
                         .Select(d => d.ReferenceType)
                         .FirstOrDefault(),
-                    parentColumn: GetColumn(context: context, columnName: parentClass),
+                    columnName: columnName,
+                    parentColumn: GetColumn(
+                        context: context,columnName: parentClass),
                     parentIds: parentIds,
                     setTotalCount: setTotalCount));
             return hash;
@@ -3637,6 +3639,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Dictionary<string, List<string>> hash,
             int offset,
             string referenceType,
+            string columnName,
             Column parentColumn,
             IEnumerable<long> parentIds,
             bool setTotalCount = false)
@@ -3669,6 +3672,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     sub: new SqlStatement(LinkHashRelatingColumnsSubQuery(
                         context: context,
                         referenceType: referenceType,
+                        columnName: columnName,
                         parentColumn: parentColumn,
                         parentIds: parentIds)),
                     _using: (referenceType == "Results"
@@ -4310,6 +4314,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string LinkHashRelatingColumnsSubQuery(
             Context context,
             string referenceType,
+            string columnName,
             Column parentColumn,
             IEnumerable<long> parentIds)
         {
@@ -4320,13 +4325,34 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 return null;
             }
+            var siteId = Links.FirstOrDefault(o => o.ColumnName == columnName)?.SiteId ?? 0;
+            var multipleSelections = RelatingColumnMultipleSelections(
+                context: context,
+                parentColumn: parentColumn,
+                siteId: siteId);
             var whereNullorEmpty = parentIds?.Contains(-1) == true
-                ? $"\"{parentColumn.ColumnName}\" is null or \"{parentColumn.ColumnName}\" = '' " : string.Empty;
-            var whereIn = parentIds.Where(n => n >= 0).Any()
-                ? $"{context.SqlCommandText.CreateTryCast(referenceType, parentColumn.ColumnName, parentColumn.TypeName, "bigint")} in ({parentIds.Where(n => n >= 0).Join()})"
+                ? $"\"{parentColumn.ColumnName}\" is null or \"{parentColumn.ColumnName}\" = '' "
                 : string.Empty;
-            var Or = (whereNullorEmpty == string.Empty || whereIn == string.Empty) ? string.Empty : " or ";
-            return $"select \"{Rds.IdColumn(referenceType)}\" from \"{referenceType}\" where " + whereNullorEmpty + Or + whereIn;
+            var whereIn = parentIds.Where(n => n >= 0).Any()
+                ? multipleSelections
+                    ? "(" + parentIds
+                        .Select(id => $"\"{parentColumn.ColumnName}\" like '%\"{id}\"%'")
+                        .Join(" or ") + ")"
+                    : $"{context.SqlCommandText.CreateTryCast(referenceType, parentColumn.ColumnName, parentColumn.TypeName, "bigint")} in ({parentIds.Where(n => n >= 0).Join()})"
+                : string.Empty;
+            var Or = (whereNullorEmpty == string.Empty || whereIn == string.Empty)
+                ? string.Empty
+                : " or ";
+            return $"select \"{Rds.IdColumn(referenceType)}\" from \"{referenceType}\" where \"SiteId\"={siteId} and ({whereNullorEmpty}{Or}{whereIn})";
+        }
+
+        private bool RelatingColumnMultipleSelections(Context context, Column parentColumn, long siteId)
+        {
+            var ss = Destinations.Get(siteId);
+            var column = ss?.GetColumn(
+                context: context,
+                columnName: parentColumn.ColumnName);
+            return column?.MultipleSelections ?? false;
         }
 
         public void SetRelatingColumnsLinkedClass()

@@ -160,12 +160,14 @@ namespace Implem.Pleasanter.Models
             where = where ?? Rds.MailAddressesWhereDefault(
                 context: context,
                 mailAddressModel: this);
+            column = (column ?? Rds.MailAddressesDefaultColumns());
+            join = join ??  Rds.MailAddressesJoinDefault();
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectMailAddresses(
                     tableType: tableType,
-                    column: column ?? Rds.MailAddressesDefaultColumns(),
-                    join: join ??  Rds.MailAddressesJoinDefault(),
+                    column: column,
+                    join: join,
                     where: where,
                     orderBy: orderBy,
                     param: param,

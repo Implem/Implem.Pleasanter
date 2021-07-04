@@ -55,8 +55,11 @@ namespace Implem.Pleasanter.Libraries.Extensions
                     ss: ss,
                     mine: mine)
                         && column.EditorReadOnly != true)
-                            ? self.ToString()
-                            : column.Choice(self).Text;
+                            ? self
+                            : self?.ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
         }
     }
 }

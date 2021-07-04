@@ -245,12 +245,14 @@ namespace Implem.Pleasanter.Models
             where = where ?? Rds.OutgoingMailsWhereDefault(
                 context: context,
                 outgoingMailModel: this);
+            column = (column ?? Rds.OutgoingMailsDefaultColumns());
+            join = join ??  Rds.OutgoingMailsJoinDefault();
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectOutgoingMails(
                     tableType: tableType,
-                    column: column ?? Rds.OutgoingMailsDefaultColumns(),
-                    join: join ??  Rds.OutgoingMailsJoinDefault(),
+                    column: column,
+                    join: join,
                     where: where,
                     orderBy: orderBy,
                     param: param,

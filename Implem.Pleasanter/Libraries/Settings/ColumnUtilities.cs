@@ -5,6 +5,7 @@ using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -322,14 +323,49 @@ namespace Implem.Pleasanter.Libraries.Settings
         public static SqlColumnCollection SqlColumnCollection(
             Context context, SiteSettings ss, List<Column> columns)
         {
-            return new SqlColumnCollection(Columns(
+            var sqlColumnCollection = new SqlColumnCollection();
+            var sqlColumns = Columns(
                 context: context,
                 ss: ss,
                 columns: columns)
-                    .SelectMany(column => column.SqlColumnWithUpdatedTimeCollection())
-                    .GroupBy(o => o.ColumnBracket + o.As)
-                    .Select(o => o.First())
-                    .ToArray());
+                .SelectMany(column => column.SqlColumnWithUpdatedTimeCollection())
+                .GroupBy(o => o.ColumnBracket + o.As)
+                .Select(o => o.First());
+
+            return sqlColumns.SetExtendedSqlSelectingColumn(
+                context: context,
+                ss: ss);
+        }
+
+        public static SqlColumnCollection SetExtendedSqlSelectingColumn(this IEnumerable<SqlColumn> source, Context context, SiteSettings ss)
+        {
+            var sqlColumns = source.Select(column =>
+            {
+                if (column.ColumnName == null)
+                {
+                    return column;
+                }
+                var extendedSql = Parameters.ExtendedSqls
+                    ?.Where(o => o.OnSelectingColumn)
+                    .ExtensionWhere<ParameterAccessor.Parts.ExtendedSql>(
+                        context: context,
+                        siteId: ss.SiteId,
+                        columnName: column.ColumnName)
+                    .FirstOrDefault();
+                if (extendedSql?.CommandText.IsNullOrEmpty() == false)
+                {
+                    return new SqlColumn()
+                    {
+                        Sub = new SqlStatement(extendedSql.CommandText),
+                        As = column.ColumnName
+                    };
+                }
+                else
+                {
+                    return column;
+                }
+            });
+            return new SqlColumnCollection(sqlColumns.ToArray());
         }
 
         private static List<Column> Columns(

@@ -372,7 +372,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ReadOnly = !(column.CanUpdate(
                         context: context,
                         ss: ss,
-                        mine: null)
+                        mine: mine)
                             && serverScriptColumn?.ReadOnly != true)
                 };
             });

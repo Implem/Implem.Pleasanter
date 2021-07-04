@@ -210,12 +210,14 @@ namespace Implem.Pleasanter.Models
             where = where ?? Rds.GroupsWhereDefault(
                 context: context,
                 groupModel: this);
+            column = (column ?? Rds.GroupsDefaultColumns());
+            join = join ??  Rds.GroupsJoinDefault();
             Set(context, ss, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectGroups(
                     tableType: tableType,
-                    column: column ?? Rds.GroupsDefaultColumns(),
-                    join: join ??  Rds.GroupsJoinDefault(),
+                    column: column,
+                    join: join,
                     where: where,
                     orderBy: orderBy,
                     param: param,

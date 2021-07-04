@@ -130,12 +130,14 @@ namespace Implem.Pleasanter.Models
             where = where ?? Rds.SessionsWhereDefault(
                 context: context,
                 sessionModel: this);
+            column = (column ?? Rds.SessionsDefaultColumns());
+            join = join ??  Rds.SessionsJoinDefault();
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectSessions(
                     tableType: tableType,
-                    column: column ?? Rds.SessionsDefaultColumns(),
-                    join: join ??  Rds.SessionsJoinDefault(),
+                    column: column,
+                    join: join,
                     where: where,
                     orderBy: orderBy,
                     param: param,

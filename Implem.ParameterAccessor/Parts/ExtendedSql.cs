@@ -19,6 +19,7 @@
         public bool OnImporting;
         public bool OnImported;
         public bool OnSelectingWhere;
+        public bool OnSelectingColumn;
         public bool OnUseSecondaryAuthentication;
         public string CommandText;
     }
