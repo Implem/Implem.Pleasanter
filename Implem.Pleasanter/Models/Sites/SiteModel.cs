@@ -764,6 +764,10 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null,
             bool otherInitValue = false)
         {
+            SiteSettings = SiteSettingsUtilities.Get(
+                context: context,
+                siteModel: this,
+                referenceId: SiteId);
             return new List<SqlStatement>
             {
                 Rds.UpdateSites(
