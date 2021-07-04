@@ -1235,12 +1235,14 @@ namespace Implem.Pleasanter.Models
             where = where ?? Rds.UsersWhereDefault(
                 context: context,
                 userModel: this);
+            column = (column ?? Rds.UsersDefaultColumns());
+            join = join ??  Rds.UsersJoinDefault();
             Set(context, ss, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectUsers(
                     tableType: tableType,
-                    column: column ?? Rds.UsersDefaultColumns(),
-                    join: join ??  Rds.UsersJoinDefault(),
+                    column: column,
+                    join: join,
                     where: where,
                     orderBy: orderBy,
                     param: param,

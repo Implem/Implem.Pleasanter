@@ -126,12 +126,14 @@ namespace Implem.Pleasanter.Models
             where = where ?? Rds.PermissionsWhereDefault(
                 context: context,
                 permissionModel: this);
+            column = (column ?? Rds.PermissionsDefaultColumns());
+            join = join ??  Rds.PermissionsJoinDefault();
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectPermissions(
                     tableType: tableType,
-                    column: column ?? Rds.PermissionsDefaultColumns(),
-                    join: join ??  Rds.PermissionsJoinDefault(),
+                    column: column,
+                    join: join,
                     where: where,
                     orderBy: orderBy,
                     param: param,

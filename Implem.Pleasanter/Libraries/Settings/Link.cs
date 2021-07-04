@@ -529,6 +529,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     sub: new SqlStatement(ss.LinkHashRelatingColumnsSubQuery(
                         context: context,
                         referenceType: ss.ReferenceType,
+                        columnName: column.ColumnName,
                         parentColumn: parentColumn,
                         parentIds: parentIds)),
                     _using: (ss.ReferenceType == "Results"

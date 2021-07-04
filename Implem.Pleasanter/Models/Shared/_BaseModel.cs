@@ -734,7 +734,7 @@ namespace Implem.Pleasanter.Models
             var scriptValues = ServerScriptUtilities.Execute(
                 context: context,
                 ss: ss,
-                itemModel: null,
+                itemModel: new BaseItemModel(),
                 view: null,
                 where: script => script.BeforeOpeningPage == true);
             if (scriptValues != null)

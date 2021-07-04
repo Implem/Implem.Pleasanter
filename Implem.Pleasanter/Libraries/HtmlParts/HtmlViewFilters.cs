@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
@@ -399,16 +400,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         if (Visible(column))
                         {
                             hb.DropDown(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            view: view,
-                            optionCollection: column.EditChoices(
                                 context: context,
-                                addNotSet: true),
-                            idPrefix: idPrefix,
-                            controlOnly: controlOnly,
-                            action: action);
+                                ss: ss,
+                                column: column,
+                                view: view,
+                                optionCollection: column.EditChoices(
+                                    context: context,
+                                    addNotSet: true),
+                                idPrefix: idPrefix,
+                                controlOnly: controlOnly,
+                                action: action);
                         }
                     }
                     else if (Visible(column))
@@ -491,7 +492,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool controlOnly = false)
         {
             var selectedValue = view.ColumnFilter(column.ColumnName);
-            if (column.UseSearch == true)
+            if (column.UseSearch == true
+                 || column.ChoiceHash?.Count == Parameters.General.DropDownSearchPageSize)
             {
                 selectedValue?.Deserialize<List<string>>()?.ForEach(value =>
                 {
