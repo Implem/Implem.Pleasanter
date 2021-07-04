@@ -121,12 +121,14 @@ namespace Implem.Pleasanter.Models
             where = where ?? Rds.LoginKeysWhereDefault(
                 context: context,
                 loginKeyModel: this);
+            column = (column ?? Rds.LoginKeysDefaultColumns());
+            join = join ??  Rds.LoginKeysJoinDefault();
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectLoginKeys(
                     tableType: tableType,
-                    column: column ?? Rds.LoginKeysDefaultColumns(),
-                    join: join ??  Rds.LoginKeysJoinDefault(),
+                    column: column,
+                    join: join,
                     where: where,
                     orderBy: orderBy,
                     param: param,

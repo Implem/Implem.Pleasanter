@@ -286,12 +286,14 @@ namespace Implem.Pleasanter.Models
             where = where ?? Rds.WikisWhereDefault(
                 context: context,
                 wikiModel: this);
+            column = (column ?? Rds.WikisEditorColumns(ss));
+            join = join ??  Rds.WikisJoinDefault();
             Set(context, ss, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectWikis(
                     tableType: tableType,
-                    column: column ?? Rds.WikisEditorColumns(ss),
-                    join: join ??  Rds.WikisJoinDefault(),
+                    column: column,
+                    join: join,
                     where: where,
                     orderBy: orderBy,
                     param: param,
@@ -1246,6 +1248,16 @@ namespace Implem.Pleasanter.Models
                             break;
                         case "Locked":
                             match = Locked.Matched(
+                                column: column,
+                                condition: filter.Value);
+                            break;
+                        case "Creator":
+                            match = Creator.Id.Matched(
+                                column: column,
+                                condition: filter.Value);
+                            break;
+                        case "Updator":
+                            match = Updator.Id.Matched(
                                 column: column,
                                 condition: filter.Value);
                             break;
