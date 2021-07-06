@@ -77,7 +77,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 userId: context.UserId,
                 loginId: context.LoginId,
                 language: context.Language,
-                timeZoneInfo: context.TimeZoneInfo.ToString(),
+                timeZoneInfo: context.TimeZoneInfo?.ToString(),
                 hasPrivilege: context.HasPrivilege,
                 apiVersion: context.ApiVersion,
                 apiRequestBody: context.ApiRequestBody,
