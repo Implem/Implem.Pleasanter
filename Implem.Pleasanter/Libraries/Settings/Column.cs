@@ -1131,9 +1131,19 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool CanRead(
             Context context,
             SiteSettings ss,
-            List<string> mine)
+            List<string> mine,
+            bool noCache = false)
         {
-            if (CanReadCache == null)
+            if (noCache)
+            {
+                var columnAccessControl = ss.ReadColumnAccessControls?.FirstOrDefault(o => o.ColumnName == ColumnName)
+                    ?? new ColumnAccessControl(ss, this, "Read");
+                return columnAccessControl.Allowed(
+                    context: context,
+                    ss: ss,
+                    mine: mine);
+            }
+            else if (CanReadCache == null)
             {
                 var columnAccessControl = ss.ReadColumnAccessControls?.FirstOrDefault(o => o.ColumnName == ColumnName)
                     ?? new ColumnAccessControl(ss, this, "Read");
@@ -1149,9 +1159,19 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool CanUpdate(
             Context context,
             SiteSettings ss,
-            List<string> mine)
+            List<string> mine,
+            bool noCache = false)
         {
-            if (CanUpdateCache == null)
+            if (noCache)
+            {
+                var columnAccessControl = ss.UpdateColumnAccessControls?.FirstOrDefault(o => o.ColumnName == ColumnName)
+                    ?? new ColumnAccessControl(ss, this, "Update");
+                return columnAccessControl.Allowed(
+                    context: context,
+                    ss: ss,
+                    mine: mine);
+            }
+            else if (CanUpdateCache == null)
             {
                 var columnAccessControl = ss.UpdateColumnAccessControls?.FirstOrDefault(o => o.ColumnName == ColumnName)
                     ?? new ColumnAccessControl(ss, this, "Update");
