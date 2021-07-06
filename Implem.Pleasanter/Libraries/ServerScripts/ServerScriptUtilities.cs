@@ -80,7 +80,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 ss?.ColumnHash.Get(columnName)?.CanRead(
                     context: context,
                     ss: ss,
-                    mine: mine) == true
+                    mine: mine,
+                    noCache: true) == true
                         ? value
                         : null);
         }
@@ -88,11 +89,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public static IEnumerable<(string Name, object Value)> Values(
             Context context, SiteSettings ss, BaseItemModel model)
         {
-            if (model == null)
-            {
-                return null;
-            }
-            var mine = model.Mine(context: context);
+            var mine = model?.Mine(context: context);
             var values = new List<(string, object)>();
             values.Add(ReadNameValue(
                 context: context,
@@ -284,10 +281,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public static IEnumerable<(string Name, ServerScriptModelColumn Value)> Columns(
             Context context, SiteSettings ss, BaseItemModel model)
         {
-            if (model == null)
-            {
-                return null;
-            }
             var mine = model.Mine(context: context);
             var columns = Def
                 .ColumnDefinitionCollection
@@ -307,7 +300,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                                     ss: ss,
                                     mine: context.Action == "new"
                                         ? null
-                                        : mine) == true),
+                                        : mine,
+                                    noCache: true) == true),
                             ExtendedFieldCss = string.Empty,
                             ExtendedCellCss = string.Empty,
                             ExtendedHtmlBeforeField = string.Empty,
@@ -336,11 +330,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     && column.CanRead(
                         context: context,
                         ss: ss,
-                        mine: mine)
+                        mine: mine,
+                        noCache: true)
                     && column.CanUpdate(
                         context: context,
                         ss: ss,
-                        mine: mine))
+                        mine: mine,
+                        noCache: true))
                 .ToArray();
             return columns;
         }
@@ -372,7 +368,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ReadOnly = !(column.CanUpdate(
                         context: context,
                         ss: ss,
-                        mine: mine)
+                        mine: mine,
+                        noCache: true)
                             && serverScriptColumn?.ReadOnly != true)
                 };
             });
@@ -662,12 +659,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 context: context,
                 view: view,
                 columnSorterHash: data.View.Sorters);
-            if (model != null)
-            {
-                model.ReadOnly = Bool(
-                    data: data.Model,
-                    name: "ReadOnly");
-            }
+            model.ReadOnly = Bool(
+                data: data.Model,
+                name: "ReadOnly");
             switch (ss?.ReferenceType)
             {
                 case "Issues":
@@ -715,6 +709,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             {
                 return null;
             }
+            itemModel = itemModel ?? new BaseItemModel();
             ServerScriptModelRow scriptValues = null;
             using (var model = new ServerScriptModel(
                 context: context,
@@ -939,13 +934,14 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             var column = ss.GetColumn(
                 context: apiContext,
                 columnName: columnName);
-            if(where != null
+            if (where != null
                 && column?.TypeName == "decimal"
                 && apiContext.CanRead(ss: ss)
                 && column.CanRead(
                     context: context,
                     ss: ss,
-                    mine: null))
+                    mine: null,
+                    noCache: true))
             {
                 switch (ss.ReferenceType)
                 {

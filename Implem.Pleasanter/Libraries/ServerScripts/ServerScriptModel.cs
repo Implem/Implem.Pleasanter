@@ -158,10 +158,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     || ReadOnly != !(column?.CanRead(
                         context: context,
                         ss: ss,
-                        mine: null) == true && column?.CanUpdate(
+                        mine: null,
+                        noCache: true) == true && column?.CanUpdate(
                             context: context,
                             ss: ss,
-                            mine: null) == true)
+                            mine: null,
+                            noCache: true) == true)
                     || !ExtendedFieldCss.IsNullOrEmpty()
                     || !ExtendedCellCss.IsNullOrEmpty()
                     || !ExtendedHtmlBeforeField.IsNullOrEmpty()
