@@ -295,7 +295,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             ReadOnly = !(column?.CanRead(
                                 context: context,
                                 ss: ss,
-                                mine: mine) == true && column?.CanUpdate(
+                                mine: mine,
+                                noCache: true) == true && column?.CanUpdate(
                                     context: context,
                                     ss: ss,
                                     mine: context.Action == "new"
@@ -368,7 +369,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ReadOnly = !(column.CanUpdate(
                         context: context,
                         ss: ss,
-                        mine: mine,
+                        mine: context.Action == "new"
+                            ? null
+                            : mine,
                         noCache: true)
                             && serverScriptColumn?.ReadOnly != true)
                 };
