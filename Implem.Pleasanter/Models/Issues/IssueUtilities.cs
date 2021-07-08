@@ -3410,6 +3410,10 @@ namespace Implem.Pleasanter.Models
                     issueModel.SetByBeforeUpdateServerScript(
                         context: context,
                         ss: ss);
+                    if (context.ErrorData.Type != Error.Types.None)
+                    {
+                        return (context.ErrorData).MessageJson(context: context);
+                    }                
                     var invalid = IssueValidators.OnUpdating(
                         context: context,
                         ss: ss,
