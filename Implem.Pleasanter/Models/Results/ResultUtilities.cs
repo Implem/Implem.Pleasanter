@@ -3263,6 +3263,9 @@ namespace Implem.Pleasanter.Models
                             .Message(Messages.NotFound(context: context))
                             .ToJson();
                 }
+                resultModel?.SetByBeforeOpeningRowServerScript(
+                    context: context,
+                    ss: ss);
             }
             statements.OnUpdatedByGridExtendedSqls(
                 context: context,
