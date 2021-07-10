@@ -561,10 +561,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             SetValue(
                 columnName: nameof(IssueModel.CompletionTime),
                 columns: columns,
-                setter: value => new CompletionTime(
+                setter: value => issueModel.CompletionTime = new CompletionTime(
                     context: context,
                     ss: ss,
-                    value: value),
+                    value: value,
+                    status: issueModel.Status,
+                    byForm: true),
                 getter: column => Date(
                     data: data,
                     name: column.Name));
