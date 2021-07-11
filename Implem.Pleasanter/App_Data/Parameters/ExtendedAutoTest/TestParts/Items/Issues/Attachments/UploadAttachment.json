@@ -26,7 +26,7 @@
             "Action": "UploadFile",
             "Value": "TestFile01.zip",
             "WaitTime": 5000,
-            "PartDescription": "添付ファイルを選択する"
+            "Description": "添付ファイルを選択する"
         },
         {
             "Action": "Create",
@@ -43,11 +43,11 @@
                 },
                 {
                     "ElementCss": ".control-attachments-item a:nth-child(2)",
-                    "ExpectedValue": "Implem.Pleasanter.zip　(25.70 MB)",
+                    "ExpectedValue": "TestFile01.zip　(136 B)",
                     "Description": "添付ファイル名が表示されること"
                 }
             ],
-            "PartDescription": "添付ファイルが登録されていることを確認する"
+            "Description": "添付ファイルが登録されていることを確認する"
         }
     ]
 }

@@ -11,7 +11,7 @@
         {
             "ElementXpath": "//li[@data-value='Template4']",
             "Action": "Click",
-            "PartDescription" : "Wikiのテンプレートを選択する。"
+            "Description" : "Wikiのテンプレートを選択する。"
         },
         {
             "ElementId": "OpenSiteTitleDialog",

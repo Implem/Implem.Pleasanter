@@ -13,7 +13,7 @@
                 {
                     "ElementId": "Message",
                     "Description": "レコードが削除されること。",
-                    "ExpectedValue": "\" タイトル更新 \" を削除しました。"
+                    "ExpectedValue": "\" タイトル入力 \" を削除しました。"
                 }
             ]
         },

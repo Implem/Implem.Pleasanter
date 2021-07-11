@@ -566,8 +566,6 @@ namespace Implem.Pleasanter.Models
         public ErrorData Update(
             Context context,
             SiteSettings ss,
-            IEnumerable<string> permissions = null,
-            bool permissionChanged = false,
             bool extendedSqls = true,
             bool synchronizeSummary = true,
             bool forceSynchronizeSourceSummary = false,
@@ -600,8 +598,6 @@ namespace Implem.Pleasanter.Models
             statements.AddRange(UpdateStatements(
                 context: context,
                 ss: ss,
-                permissions: permissions,
-                permissionChanged: permissionChanged,
                 param: param,
                 otherInitValue: otherInitValue,
                 additionalStatements: additionalStatements));
@@ -665,8 +661,6 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             string dataTableName = null,
-            IEnumerable<string> permissions = null,
-            bool permissionChanged = false,
             SqlParamCollection param = null,
             bool otherInitValue = false,
             List<SqlStatement> additionalStatements = null)
@@ -694,9 +688,9 @@ namespace Implem.Pleasanter.Models
                 where: where,
                 param: param,
                 otherInitValue: otherInitValue));
-            if (permissionChanged)
+            if (RecordPermissions != null)
             {
-                statements.UpdatePermissions(context, ss, WikiId, permissions);
+                statements.UpdatePermissions(context, ss, WikiId, RecordPermissions);
             }
             if (additionalStatements?.Any() == true)
             {

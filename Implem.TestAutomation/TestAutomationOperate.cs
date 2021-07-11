@@ -66,7 +66,25 @@ namespace Implem.TestAutomation
                 }
                 else
                 {
-                    jsDriver.ExecuteScript($"$p.set($p.getControl('{testInput.InputTarget}'), '{testInput.InputValue}');");
+                    var script = $@"
+                        var $element;
+                        var target = '{testInput.InputTarget}';
+                        if (target.indexOf('#') === -1) {{
+                            $element = $p.getControl('{testInput.InputTarget}');
+                        }}
+                        if ($element === undefined) {{
+                            $element = $(target);
+                        }}
+                        var value = '{testInput.InputValue}';
+                        if ($element.prop('tagName') === 'SELECT') {{
+                            $element.find('option').each(function(index) {{
+	                            if ($(this).text() === value) {{
+                                    value = $(this).val();
+                                }}
+                            }});
+                        }}
+                        $p.set($element, value);";
+                    jsDriver.ExecuteScript(script);
                 }
                 Console.WriteLine(Displays.AutoTestEntered(
                     context: context,
@@ -101,7 +119,19 @@ namespace Implem.TestAutomation
         public static void GoToUrl(IWebDriver driver,
             TestPart testPart)
         {
-            driver.Navigate().GoToUrl(testPart.Url);
+            var url = string.Empty;
+            if (!testPart.Url.IsNullOrEmpty())
+            {
+                url = testPart.Url.StartsWith("http")
+                    ? testPart.Url
+                    : $"{Parameters.ExtendedAutoTestSettings.Url}{testPart.Url}";
+            }
+            else if (!testPart.TestPartId.IsNullOrEmpty())
+            {
+                var recordId = testPart.RecordId();
+                url = $"{Parameters.ExtendedAutoTestSettings.Url}items/{recordId}";
+            }
+            driver.Navigate().GoToUrl(url);
             Thread.Sleep(500);
         }
 
@@ -162,14 +192,10 @@ namespace Implem.TestAutomation
             {
                 return By.CssSelector(testPart.ElementCss);
             }
-            else if (!testPart.TargetTestPartId.IsNullOrEmpty())
+            else if (!testPart.TestPartId.IsNullOrEmpty())
             {
-                var tableId = Parameters.ExtendedAutoTestOperations
-                    .SelectMany(autoTestOperation => autoTestOperation.TestParts
-                        .Where(autoTestPart => autoTestPart.TestPartId == testPart.TargetTestPartId)
-                        .Select(autoTestPart => autoTestPart.CreatedTabeId)).ToList()
-                            .Where(p => p != null).ToArray();
-                return By.XPath($"//tr[@data-id='{tableId[0]}']");
+                var recordId = testPart.RecordId();
+                return By.XPath($"//tr[@data-id='{recordId}']");
             }
             else
             {
@@ -248,6 +274,17 @@ namespace Implem.TestAutomation
             else if (resultCheck.CheckType.Equals(CheckTypes.HasClass))
             {
                 if (HasClass(driver, resultCheck))
+                {
+                    return Displays.AutoTestResultOk(context: context);
+                }
+                else
+                {
+                    return Displays.AutoTestResultNg(context: context);
+                }
+            }
+            else if (resultCheck.CheckType.Equals(CheckTypes.HasNotClass))
+            {
+                if (!HasClass(driver, resultCheck))
                 {
                     return Displays.AutoTestResultOk(context: context);
                 }
@@ -378,12 +415,24 @@ namespace Implem.TestAutomation
         private static bool HasClass(IWebDriver driver, ResultCheck resultCheck)
         {
             IJavaScriptExecutor jsDriver = driver as IJavaScriptExecutor;
-            return jsDriver.ExecuteScript($@"
+            if (!resultCheck.ItemId.IsNullOrEmpty())
+            {
+                return jsDriver.ExecuteScript($@"
                 if ($p.getControl('{resultCheck.ItemId}')) {{
                     return $p.getControl('{resultCheck.ItemId}').hasClass('{resultCheck.ExpectedValue}');
                 }} else {{
                     return false;
                 }}").ToBool();
+            }
+            else
+            {
+                return jsDriver.ExecuteScript($@"
+                if ($('{resultCheck.ElementCss}')) {{
+                    return $('{resultCheck.ElementCss}').hasClass('{resultCheck.ExpectedValue}');
+                }} else {{
+                    return false;
+                }}").ToBool();
+            }
         }
 
         private static bool SelectOptions(IWebDriver driver, ResultCheck resultCheck, string executionValue)
@@ -542,7 +591,7 @@ namespace Implem.TestAutomation
                 {
                     action = "hidden";
                 }
-                jsDriver.ExecuteScript($"document.getElementById(\"{itemID}\").style.visibility  =\"{action}\";");
+                jsDriver.ExecuteScript($"document.getElementById(\"{itemID}\").style.visibility=\"{action}\";");
             }
             catch { }
         }
@@ -581,6 +630,12 @@ namespace Implem.TestAutomation
                 driver.FindElement(SelectItem(testPart)).SendKeys(filePath);
             }
             Thread.Sleep(testPart.WaitTime ?? 1000);
+        }
+
+        public static void Execute(IWebDriver driver, TestPart testPart)
+        {
+            IJavaScriptExecutor jsDriver = driver as IJavaScriptExecutor;
+            jsDriver.ExecuteScript(testPart.Value);
         }
     }
 }

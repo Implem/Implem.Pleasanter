@@ -689,24 +689,9 @@ namespace Implem.Pleasanter.Models
                 itemModel: null,
                 view: null,
                 where: script => script.WhenloadingSiteSettings == true);
-            scriptValues?.Columns
-                .Where(column => column.Value?.ChoiceHash != null)
-                .ForEach(column =>
-                {
-                    var ssColumn = ss.GetColumn(
-                        context: context,
-                        columnName: column.Key);
-                    if (ssColumn != null)
-                    {
-                        ssColumn.ChoiceHash = column.Value
-                            ?.ChoiceHash
-                            ?.ToDictionary(
-                                o => o.Key.ToString(),
-                                o => new Choice(
-                                    o.Key.ToString(),
-                                    o.Value?.ToString()));
-                    }
-                });
+            SetAddChoiceHashByServerScript(context: context,
+                ss: ss,
+                scriptValues: scriptValues);
         }
 
         public virtual void SetByAfterFormulaServerScript(Context context, SiteSettings ss)
@@ -739,6 +724,9 @@ namespace Implem.Pleasanter.Models
                 where: script => script.BeforeOpeningPage == true);
             if (scriptValues != null)
             {
+                SetAddChoiceHashByServerScript(context: context,
+                    ss: ss,
+                    scriptValues: scriptValues);
                 ServerScriptModelRows.Add(scriptValues);
             }
             return scriptValues;
@@ -747,6 +735,28 @@ namespace Implem.Pleasanter.Models
         public virtual List<string> Mine(Context context)
         {
             return null;
+        }
+
+        public static void SetAddChoiceHashByServerScript(Context context, SiteSettings ss, ServerScriptModelRow scriptValues)
+        {
+            scriptValues?.Columns
+                .Where(scriptColumn => scriptColumn.Value?.ChoiceHash != null)
+                .ForEach(scriptColumn =>
+                {
+                    var columns = ss.GetColumn(
+                        context: context,
+                        columnName: scriptColumn.Key);
+                    if (columns != null)
+                    {
+                        columns.ChoiceHash = scriptColumn.Value
+                            ?.ChoiceHash
+                            ?.ToDictionary(
+                                o => o.Key.ToString(),
+                                o => new Choice(
+                                    o.Key.ToString(),
+                                    o.Value?.ToString()));
+                    }
+                });
         }
     }
 
@@ -758,6 +768,7 @@ namespace Implem.Pleasanter.Models
         public long SavedSiteId = 0;
         public string SavedTitle = string.Empty;
         public string SavedBody = string.Empty;
+        public List<string> RecordPermissions;
 
         public bool SiteId_Updated(Context context, Column column = null)
         {
@@ -904,6 +915,9 @@ namespace Implem.Pleasanter.Models
                 where: script => script.BeforeOpeningRow == true);
             if (scriptValues != null)
             {
+                SetAddChoiceHashByServerScript(context: context,
+                    ss: ss,
+                    scriptValues: scriptValues);
                 ServerScriptModelRows.Add(scriptValues);
             }
             return scriptValues;
@@ -921,6 +935,9 @@ namespace Implem.Pleasanter.Models
                 where: script => script.BeforeOpeningPage == true);
             if (scriptValues != null)
             {
+                SetAddChoiceHashByServerScript(context: context,
+                    ss: ss,
+                    scriptValues: scriptValues);
                 ServerScriptModelRows.Add(scriptValues);
             }
             return scriptValues;

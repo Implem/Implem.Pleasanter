@@ -4,7 +4,7 @@
         {
             "ElementLinkText": "テスト用Wiki",
             "Action": "Click",
-            "PartDescription": "作成したWikiへ遷移する"
+            "Description": "作成したWikiへ遷移する"
         }
     ]
 }

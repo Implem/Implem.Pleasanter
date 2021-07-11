@@ -50,7 +50,7 @@
             "Value": "東京 (標準時)"
         },
         {
-            "TestPartId": "UserRecord1",
+            "TargetTestPartId": "UserRecord1",
             "Action": "Create",
             "Results": [
                 {
