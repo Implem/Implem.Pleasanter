@@ -98,13 +98,11 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
         public override string ApiRequestBody { get; set; }
         public override string RequestDataString { get => !string.IsNullOrEmpty(ApiRequestBody) ? ApiRequestBody : FormString; }
         public override string ContentType { get; set; }
-
         public override string AuthenticationType { get => AspNetCoreHttpContext.Current?.User?.Identity?.AuthenticationType; }
         public override bool? IsAuthenticated { get => AspNetCoreHttpContext.Current?.User?.Identity?.IsAuthenticated; }
-
         public override IEnumerable<Claim> UserClaims { get => AspNetCoreHttpContext.Current?.User?.Claims; }
 
-        public ContextImplement(
+         public ContextImplement(
             bool request = true,
             bool sessionStatus = true,
             bool sessionData = true,
@@ -698,20 +696,63 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
             return JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(bytes));
         }
 
-        public override Context CreateContext() { return new ContextImplement(); }
-        public override Context CreateContext(int tenantId) { return new ContextImplement(tenantId: tenantId); }
-        public override Context CreateContext(int tenantId, int userId, int deptId) { return new ContextImplement(tenantId: tenantId, userId: userId, deptId: deptId); }
-        public override Context CreateContext(int tenantId, string language) { return new ContextImplement(tenantId: tenantId, language: language); }
-        public override Context CreateContext(int tenantId, int userId, string language) { return new ContextImplement(tenantId: tenantId, userId: userId, language: language); }
-        public override Context CreateContext(bool request, bool sessionStatus, bool sessionData, bool user) { return new ContextImplement(request: request, sessionStatus: sessionStatus, sessionData: sessionData, user: user); }
+        public override Context CreateContext()
+        {
+            return new ContextImplement();
+        }
 
-        public static void Init() { Context.SetFactory(item => new ContextImplement(item: item)); }
+        public override Context CreateContext(string apiRequestBody)
+        {
+            return new ContextImplement(apiRequestBody: apiRequestBody);
+        }
+
+        public override Context CreateContext(int tenantId)
+        {
+            return new ContextImplement(tenantId: tenantId);
+        }
+
+        public override Context CreateContext(int tenantId, int userId, int deptId)
+        {
+            return new ContextImplement(
+                tenantId: tenantId,
+                userId: userId,
+                deptId: deptId);
+        }
+
+        public override Context CreateContext(int tenantId, string language)
+        {
+            return new ContextImplement(
+                tenantId: tenantId,
+                language: language);
+        }
+
+        public override Context CreateContext(int tenantId, int userId, string language)
+        {
+            return new ContextImplement(
+                tenantId: tenantId,
+                userId: userId,
+                language: language);
+        }
+
+        public override Context CreateContext(bool request, bool sessionStatus, bool sessionData, bool user)
+        {
+            return new ContextImplement(
+                request: request,
+                sessionStatus: sessionStatus,
+                sessionData: sessionData,
+                user: user);
+        }
+
+        public static void Init()
+        {
+            SetFactory(item => new ContextImplement(item: item));
+        }
 
         public override string VirtualPathToAbsolute(string virtualPath)
         {
             if (string.IsNullOrEmpty(virtualPath)) return virtualPath;
             if (!virtualPath.StartsWith('~')) return virtualPath;
-            return virtualPath.Replace("~", AspNetCoreCurrentRequestContext.AspNetCoreHttpContext.Current.Request.PathBase);
+            return virtualPath.Replace("~", AspNetCoreHttpContext.Current.Request.PathBase);
         }
 
         public override void FormsAuthenticationSignIn(string userName, bool createPersistentCookie)

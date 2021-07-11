@@ -375,8 +375,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_Update": Code.Model_Update = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Update, definitionRow, CodeXls); break;
                     case "Model_SetAttachmentsHashCode": Code.Model_SetAttachmentsHashCode = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetAttachmentsHashCode, definitionRow, CodeXls); break;
                     case "Model_UpdateAttachmentStatements": Code.Model_UpdateAttachmentStatements = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateAttachmentStatements, definitionRow, CodeXls); break;
-                    case "Model_UpdateParams_Permissions": Code.Model_UpdateParams_Permissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateParams_Permissions, definitionRow, CodeXls); break;
-                    case "Model_UpdatePermissionsParams": Code.Model_UpdatePermissionsParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdatePermissionsParams, definitionRow, CodeXls); break;
                     case "Model_UpdateParams_Items": Code.Model_UpdateParams_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateParams_Items, definitionRow, CodeXls); break;
                     case "Model_UpdateParams_Users": Code.Model_UpdateParams_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateParams_Users, definitionRow, CodeXls); break;
                     case "Model_UpdatePermissions": Code.Model_UpdatePermissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdatePermissions, definitionRow, CodeXls); break;
@@ -7416,8 +7414,6 @@ namespace Implem.DefinitionAccessor
         public string Model_Update;
         public string Model_SetAttachmentsHashCode;
         public string Model_UpdateAttachmentStatements;
-        public string Model_UpdateParams_Permissions;
-        public string Model_UpdatePermissionsParams;
         public string Model_UpdateParams_Items;
         public string Model_UpdateParams_Users;
         public string Model_UpdatePermissions;
@@ -8095,8 +8091,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Update = new CodeDefinition();
         public CodeDefinition Model_SetAttachmentsHashCode = new CodeDefinition();
         public CodeDefinition Model_UpdateAttachmentStatements = new CodeDefinition();
-        public CodeDefinition Model_UpdateParams_Permissions = new CodeDefinition();
-        public CodeDefinition Model_UpdatePermissionsParams = new CodeDefinition();
         public CodeDefinition Model_UpdateParams_Items = new CodeDefinition();
         public CodeDefinition Model_UpdateParams_Users = new CodeDefinition();
         public CodeDefinition Model_UpdatePermissions = new CodeDefinition();

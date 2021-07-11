@@ -1058,10 +1058,7 @@ namespace Implem.Pleasanter.Models
             }
             var errorData = siteModel.Update(
                 context: context,
-                ss: ss,
-                permissions: context.Forms.List("CurrentPermissionsAll"),
-                permissionChanged: context.Forms.Exists("InheritPermission")
-                    || context.Forms.Exists("CurrentPermissionsAll"));
+                ss: ss);
             switch (errorData.Type)
             {
                 case Error.Types.None:

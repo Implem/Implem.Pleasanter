@@ -768,6 +768,7 @@ namespace Implem.Pleasanter.Models
         public long SavedSiteId = 0;
         public string SavedTitle = string.Empty;
         public string SavedBody = string.Empty;
+        public List<string> RecordPermissions;
 
         public bool SiteId_Updated(Context context, Column column = null)
         {
@@ -914,6 +915,9 @@ namespace Implem.Pleasanter.Models
                 where: script => script.BeforeOpeningRow == true);
             if (scriptValues != null)
             {
+                SetAddChoiceHashByServerScript(context: context,
+                    ss: ss,
+                    scriptValues: scriptValues);
                 ServerScriptModelRows.Add(scriptValues);
             }
             return scriptValues;

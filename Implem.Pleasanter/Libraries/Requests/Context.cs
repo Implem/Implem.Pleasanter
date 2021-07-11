@@ -119,6 +119,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         }
 
         public abstract Context CreateContext();
+        public abstract Context CreateContext(string apiRequestBody);
         public abstract Context CreateContext(int tenantId);
         public abstract Context CreateContext(int tenantId, int userId, int deptId);
         public abstract Context CreateContext(int tenantId, string language);

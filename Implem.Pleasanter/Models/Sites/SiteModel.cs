@@ -654,8 +654,6 @@ namespace Implem.Pleasanter.Models
         public ErrorData Update(
             Context context,
             SiteSettings ss,
-            IEnumerable<string> permissions = null,
-            bool permissionChanged = false,
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
@@ -670,8 +668,6 @@ namespace Implem.Pleasanter.Models
             statements.AddRange(UpdateStatements(
                 context: context,
                 ss: ss,
-                permissions: permissions,
-                permissionChanged: permissionChanged,
                 param: param,
                 otherInitValue: otherInitValue,
                 additionalStatements: additionalStatements));
@@ -717,8 +713,6 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             string dataTableName = null,
-            IEnumerable<string> permissions = null,
-            bool permissionChanged = false,
             SqlParamCollection param = null,
             bool otherInitValue = false,
             List<SqlStatement> additionalStatements = null)
@@ -746,9 +740,9 @@ namespace Implem.Pleasanter.Models
                 where: where,
                 param: param,
                 otherInitValue: otherInitValue));
-            if (permissionChanged)
+            if (RecordPermissions != null)
             {
-                statements.UpdatePermissions(context, ss, SiteId, permissions, site: true);
+                statements.UpdatePermissions(context, ss, SiteId, RecordPermissions, site: true);
             }
             if (additionalStatements?.Any() == true)
             {
@@ -980,6 +974,12 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         body: value); break;
                     case "VerUp": VerUp = value.ToBool(); break;
+                    case "CurrentPermissionsAll":
+                        RecordPermissions = context.Forms.List("CurrentPermissionsAll");
+                        break;
+                    case "InheritPermission":
+                        RecordPermissions = new List<string>();
+                        break;
                     default:
                         if (key.RegexExists("Comment[0-9]+"))
                         {
