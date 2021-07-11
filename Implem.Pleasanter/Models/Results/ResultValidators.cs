@@ -238,6 +238,10 @@ namespace Implem.Pleasanter.Models
         public static ErrorData OnUpdating(
             Context context, SiteSettings ss, ResultModel resultModel, bool api = false)
         {
+            if (resultModel.RecordPermissions != null && !context.CanManagePermission(ss: ss))
+            {
+                return new ErrorData(type: Error.Types.HasNotPermission);
+            }
             if (api)
             {
                 if ((context.ContractSettings.Api == false || !Parameters.Api.Enabled))
