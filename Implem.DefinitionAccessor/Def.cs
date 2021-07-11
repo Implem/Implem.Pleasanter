@@ -329,7 +329,9 @@ namespace Implem.DefinitionAccessor
                     case "Model_GetNormal": Code.Model_GetNormal = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetNormal, definitionRow, CodeXls); break;
                     case "Model_ClearSessions": Code.Model_ClearSessions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ClearSessions, definitionRow, CodeXls); break;
                     case "Model_Get": Code.Model_Get = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Get, definitionRow, CodeXls); break;
+                    case "Model_SetExtendedSqlSelectingColumn": Code.Model_SetExtendedSqlSelectingColumn = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetExtendedSqlSelectingColumn, definitionRow, CodeXls); break;
                     case "Model_SetColumnsWhere": Code.Model_SetColumnsWhere = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetColumnsWhere, definitionRow, CodeXls); break;
+                    case "Model_GetSqlJoin": Code.Model_GetSqlJoin = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetSqlJoin, definitionRow, CodeXls); break;
                     case "Model_GetDefaultColumns": Code.Model_GetDefaultColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetDefaultColumns, definitionRow, CodeXls); break;
                     case "Model_GetSitesDefaultColumns": Code.Model_GetSitesDefaultColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetSitesDefaultColumns, definitionRow, CodeXls); break;
                     case "Model_GetItemsDefaultColumns": Code.Model_GetItemsDefaultColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetItemsDefaultColumns, definitionRow, CodeXls); break;
@@ -373,11 +375,10 @@ namespace Implem.DefinitionAccessor
                     case "Model_Update": Code.Model_Update = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Update, definitionRow, CodeXls); break;
                     case "Model_SetAttachmentsHashCode": Code.Model_SetAttachmentsHashCode = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetAttachmentsHashCode, definitionRow, CodeXls); break;
                     case "Model_UpdateAttachmentStatements": Code.Model_UpdateAttachmentStatements = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateAttachmentStatements, definitionRow, CodeXls); break;
-                    case "Model_UpdateParams_Permissions": Code.Model_UpdateParams_Permissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateParams_Permissions, definitionRow, CodeXls); break;
-                    case "Model_UpdatePermissionsParams": Code.Model_UpdatePermissionsParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdatePermissionsParams, definitionRow, CodeXls); break;
                     case "Model_UpdateParams_Items": Code.Model_UpdateParams_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateParams_Items, definitionRow, CodeXls); break;
                     case "Model_UpdateParams_Users": Code.Model_UpdateParams_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateParams_Users, definitionRow, CodeXls); break;
                     case "Model_UpdatePermissions": Code.Model_UpdatePermissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdatePermissions, definitionRow, CodeXls); break;
+                    case "Model_UpdateInitSiteSettings": Code.Model_UpdateInitSiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateInitSiteSettings, definitionRow, CodeXls); break;
                     case "Model_OnUpdatingExtendedSqls": Code.Model_OnUpdatingExtendedSqls = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdatingExtendedSqls, definitionRow, CodeXls); break;
                     case "Model_OnUpdatedExtendedSqls": Code.Model_OnUpdatedExtendedSqls = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdatedExtendedSqls, definitionRow, CodeXls); break;
                     case "Model_UpdateExecute": Code.Model_UpdateExecute = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateExecute, definitionRow, CodeXls); break;
@@ -7367,7 +7368,9 @@ namespace Implem.DefinitionAccessor
         public string Model_GetNormal;
         public string Model_ClearSessions;
         public string Model_Get;
+        public string Model_SetExtendedSqlSelectingColumn;
         public string Model_SetColumnsWhere;
+        public string Model_GetSqlJoin;
         public string Model_GetDefaultColumns;
         public string Model_GetSitesDefaultColumns;
         public string Model_GetItemsDefaultColumns;
@@ -7411,11 +7414,10 @@ namespace Implem.DefinitionAccessor
         public string Model_Update;
         public string Model_SetAttachmentsHashCode;
         public string Model_UpdateAttachmentStatements;
-        public string Model_UpdateParams_Permissions;
-        public string Model_UpdatePermissionsParams;
         public string Model_UpdateParams_Items;
         public string Model_UpdateParams_Users;
         public string Model_UpdatePermissions;
+        public string Model_UpdateInitSiteSettings;
         public string Model_OnUpdatingExtendedSqls;
         public string Model_OnUpdatedExtendedSqls;
         public string Model_UpdateExecute;
@@ -8043,7 +8045,9 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_GetNormal = new CodeDefinition();
         public CodeDefinition Model_ClearSessions = new CodeDefinition();
         public CodeDefinition Model_Get = new CodeDefinition();
+        public CodeDefinition Model_SetExtendedSqlSelectingColumn = new CodeDefinition();
         public CodeDefinition Model_SetColumnsWhere = new CodeDefinition();
+        public CodeDefinition Model_GetSqlJoin = new CodeDefinition();
         public CodeDefinition Model_GetDefaultColumns = new CodeDefinition();
         public CodeDefinition Model_GetSitesDefaultColumns = new CodeDefinition();
         public CodeDefinition Model_GetItemsDefaultColumns = new CodeDefinition();
@@ -8087,11 +8091,10 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Update = new CodeDefinition();
         public CodeDefinition Model_SetAttachmentsHashCode = new CodeDefinition();
         public CodeDefinition Model_UpdateAttachmentStatements = new CodeDefinition();
-        public CodeDefinition Model_UpdateParams_Permissions = new CodeDefinition();
-        public CodeDefinition Model_UpdatePermissionsParams = new CodeDefinition();
         public CodeDefinition Model_UpdateParams_Items = new CodeDefinition();
         public CodeDefinition Model_UpdateParams_Users = new CodeDefinition();
         public CodeDefinition Model_UpdatePermissions = new CodeDefinition();
+        public CodeDefinition Model_UpdateInitSiteSettings = new CodeDefinition();
         public CodeDefinition Model_OnUpdatingExtendedSqls = new CodeDefinition();
         public CodeDefinition Model_OnUpdatedExtendedSqls = new CodeDefinition();
         public CodeDefinition Model_UpdateExecute = new CodeDefinition();
