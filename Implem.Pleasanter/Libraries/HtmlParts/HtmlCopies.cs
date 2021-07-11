@@ -33,6 +33,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .P(css: "message-dialog")
                             .Div(css: "command-center", action: () => hb
                                 .Button(
+                                    controlId: "CopyCommand",
                                     text: Displays.Copy(context: context),
                                     controlCss: "button-icon",
                                     onClick: "$p.copy($(this));",

@@ -60,8 +60,11 @@ namespace Implem.TestAutomation
                         case ActionTypes.UploadFile:
                             TestAutomationOperate.UploadFileOpe(driver, testPart);
                             break;
+                        case ActionTypes.Execute:
+                            TestAutomationOperate.Execute(driver, testPart);
+                            break;
                     }
-                    Thread.Sleep(500);
+                    Thread.Sleep(testPart.WaitTime ?? 500);
                     if (testSettings.ScreenShot)
                     {
                         TestAutomationOperate.GetScreenShot(

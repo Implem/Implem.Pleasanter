@@ -1414,9 +1414,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 notice: true,
-                previousTitle: previousTitle,
-                permissions: context.Forms.List("CurrentPermissionsAll"),
-                permissionChanged: context.Forms.Exists("CurrentPermissionsAll"));
+                previousTitle: previousTitle);
             switch (errorData.Type)
             {
                 case Error.Types.None:

@@ -2915,9 +2915,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 notice: true,
-                previousTitle: previousTitle,
-                permissions: context.Forms.List("CurrentPermissionsAll"),
-                permissionChanged: context.Forms.Exists("CurrentPermissionsAll"));
+                previousTitle: previousTitle);
             switch (errorData.Type)
             {
                 case Error.Types.None:
@@ -3410,6 +3408,10 @@ namespace Implem.Pleasanter.Models
                     issueModel.SetByBeforeUpdateServerScript(
                         context: context,
                         ss: ss);
+                    if (context.ErrorData.Type != Error.Types.None)
+                    {
+                        return (context.ErrorData).MessageJson(context: context);
+                    }
                     var invalid = IssueValidators.OnUpdating(
                         context: context,
                         ss: ss,
@@ -3459,6 +3461,9 @@ namespace Implem.Pleasanter.Models
                             .Message(Messages.NotFound(context: context))
                             .ToJson();
                 }
+                issueModel?.SetByBeforeOpeningRowServerScript(
+                    context: context,
+                    ss: ss);
             }
             statements.OnUpdatedByGridExtendedSqls(
                 context: context,

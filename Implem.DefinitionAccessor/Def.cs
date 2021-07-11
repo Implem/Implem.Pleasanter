@@ -317,8 +317,10 @@ namespace Implem.DefinitionAccessor
                     case "Model_GetNormal": Code.Model_GetNormal = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetNormal, definitionRow, CodeXls); break;
                     case "Model_ClearSessions": Code.Model_ClearSessions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ClearSessions, definitionRow, CodeXls); break;
                     case "Model_Get": Code.Model_Get = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Get, definitionRow, CodeXls); break;
+                    case "Model_SetExtendedSqlSelectingColumn": Code.Model_SetExtendedSqlSelectingColumn = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetExtendedSqlSelectingColumn, definitionRow, CodeXls); break;
                     case "Model_LinkedSsDataSetHash": Code.Model_LinkedSsDataSetHash = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_LinkedSsDataSetHash, definitionRow, CodeXls); break;
                     case "Model_SetColumnsWhere": Code.Model_SetColumnsWhere = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetColumnsWhere, definitionRow, CodeXls); break;
+                    case "Model_GetSqlJoin": Code.Model_GetSqlJoin = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetSqlJoin, definitionRow, CodeXls); break;
                     case "Model_GetDefaultColumns": Code.Model_GetDefaultColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetDefaultColumns, definitionRow, CodeXls); break;
                     case "Model_GetSitesDefaultColumns": Code.Model_GetSitesDefaultColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetSitesDefaultColumns, definitionRow, CodeXls); break;
                     case "Model_GetItemsDefaultColumns": Code.Model_GetItemsDefaultColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetItemsDefaultColumns, definitionRow, CodeXls); break;
@@ -363,11 +365,10 @@ namespace Implem.DefinitionAccessor
                     case "Model_Update": Code.Model_Update = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Update, definitionRow, CodeXls); break;
                     case "Model_SetAttachmentsHashCodeMethod": Code.Model_SetAttachmentsHashCodeMethod = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetAttachmentsHashCodeMethod, definitionRow, CodeXls); break;
                     case "Model_UpdateAttachmentsStatementsMethod": Code.Model_UpdateAttachmentsStatementsMethod = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateAttachmentsStatementsMethod, definitionRow, CodeXls); break;
-                    case "Model_UpdateParams_Permissions": Code.Model_UpdateParams_Permissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateParams_Permissions, definitionRow, CodeXls); break;
-                    case "Model_UpdatePermissionsParams": Code.Model_UpdatePermissionsParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdatePermissionsParams, definitionRow, CodeXls); break;
                     case "Model_UpdateParams_Items": Code.Model_UpdateParams_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateParams_Items, definitionRow, CodeXls); break;
                     case "Model_UpdateParams_Users": Code.Model_UpdateParams_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateParams_Users, definitionRow, CodeXls); break;
                     case "Model_UpdatePermissions": Code.Model_UpdatePermissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdatePermissions, definitionRow, CodeXls); break;
+                    case "Model_UpdateInitSiteSettings": Code.Model_UpdateInitSiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateInitSiteSettings, definitionRow, CodeXls); break;
                     case "Model_OnUpdatingExtendedSqls": Code.Model_OnUpdatingExtendedSqls = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdatingExtendedSqls, definitionRow, CodeXls); break;
                     case "Model_OnUpdatedExtendedSqls": Code.Model_OnUpdatedExtendedSqls = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdatedExtendedSqls, definitionRow, CodeXls); break;
                     case "Model_UpdateExecute": Code.Model_UpdateExecute = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateExecute, definitionRow, CodeXls); break;
@@ -426,6 +427,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetByForm": Code.Model_SetByForm = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm, definitionRow, CodeXls); break;
                     case "Model_SetByForm_Sites": Code.Model_SetByForm_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm_Sites, definitionRow, CodeXls); break;
                     case "Model_SetByForm_ColumnCases": Code.Model_SetByForm_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm_ColumnCases, definitionRow, CodeXls); break;
+                    case "Model_SetByForm_RecordPermissions": Code.Model_SetByForm_RecordPermissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm_RecordPermissions, definitionRow, CodeXls); break;
+                    case "Model_SetByForm_RecordPermissions_Sites": Code.Model_SetByForm_RecordPermissions_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm_RecordPermissions_Sites, definitionRow, CodeXls); break;
                     case "Model_SetByForm_SetByFormula": Code.Model_SetByForm_SetByFormula = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm_SetByFormula, definitionRow, CodeXls); break;
                     case "Model_SetByModel": Code.Model_SetByModel = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByModel, definitionRow, CodeXls); break;
                     case "Model_SetByModel_ColumnCases": Code.Model_SetByModel_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByModel_ColumnCases, definitionRow, CodeXls); break;
@@ -434,6 +437,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetLinking": Code.Model_SetLinking = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetLinking, definitionRow, CodeXls); break;
                     case "Model_SetByApi": Code.Model_SetByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi, definitionRow, CodeXls); break;
                     case "Model_SetByApi_ColumnCases": Code.Model_SetByApi_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_ColumnCases, definitionRow, CodeXls); break;
+                    case "Model_SetByApi_RecordPermissions": Code.Model_SetByApi_RecordPermissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_RecordPermissions, definitionRow, CodeXls); break;
                     case "Model_SetByLookups": Code.Model_SetByLookups = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByLookups, definitionRow, CodeXls); break;
                     case "Model_AddSqlParamIdentity": Code.Model_AddSqlParamIdentity = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_AddSqlParamIdentity, definitionRow, CodeXls); break;
                     case "Model_AddSqlParamPk": Code.Model_AddSqlParamPk = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_AddSqlParamPk, definitionRow, CodeXls); break;
@@ -7293,8 +7297,10 @@ namespace Implem.DefinitionAccessor
         public string Model_GetNormal;
         public string Model_ClearSessions;
         public string Model_Get;
+        public string Model_SetExtendedSqlSelectingColumn;
         public string Model_LinkedSsDataSetHash;
         public string Model_SetColumnsWhere;
+        public string Model_GetSqlJoin;
         public string Model_GetDefaultColumns;
         public string Model_GetSitesDefaultColumns;
         public string Model_GetItemsDefaultColumns;
@@ -7339,11 +7345,10 @@ namespace Implem.DefinitionAccessor
         public string Model_Update;
         public string Model_SetAttachmentsHashCodeMethod;
         public string Model_UpdateAttachmentsStatementsMethod;
-        public string Model_UpdateParams_Permissions;
-        public string Model_UpdatePermissionsParams;
         public string Model_UpdateParams_Items;
         public string Model_UpdateParams_Users;
         public string Model_UpdatePermissions;
+        public string Model_UpdateInitSiteSettings;
         public string Model_OnUpdatingExtendedSqls;
         public string Model_OnUpdatedExtendedSqls;
         public string Model_UpdateExecute;
@@ -7402,6 +7407,8 @@ namespace Implem.DefinitionAccessor
         public string Model_SetByForm;
         public string Model_SetByForm_Sites;
         public string Model_SetByForm_ColumnCases;
+        public string Model_SetByForm_RecordPermissions;
+        public string Model_SetByForm_RecordPermissions_Sites;
         public string Model_SetByForm_SetByFormula;
         public string Model_SetByModel;
         public string Model_SetByModel_ColumnCases;
@@ -7410,6 +7417,7 @@ namespace Implem.DefinitionAccessor
         public string Model_SetLinking;
         public string Model_SetByApi;
         public string Model_SetByApi_ColumnCases;
+        public string Model_SetByApi_RecordPermissions;
         public string Model_SetByLookups;
         public string Model_AddSqlParamIdentity;
         public string Model_AddSqlParamPk;
@@ -7969,8 +7977,10 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_GetNormal = new CodeDefinition();
         public CodeDefinition Model_ClearSessions = new CodeDefinition();
         public CodeDefinition Model_Get = new CodeDefinition();
+        public CodeDefinition Model_SetExtendedSqlSelectingColumn = new CodeDefinition();
         public CodeDefinition Model_LinkedSsDataSetHash = new CodeDefinition();
         public CodeDefinition Model_SetColumnsWhere = new CodeDefinition();
+        public CodeDefinition Model_GetSqlJoin = new CodeDefinition();
         public CodeDefinition Model_GetDefaultColumns = new CodeDefinition();
         public CodeDefinition Model_GetSitesDefaultColumns = new CodeDefinition();
         public CodeDefinition Model_GetItemsDefaultColumns = new CodeDefinition();
@@ -8015,11 +8025,10 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Update = new CodeDefinition();
         public CodeDefinition Model_SetAttachmentsHashCodeMethod = new CodeDefinition();
         public CodeDefinition Model_UpdateAttachmentsStatementsMethod = new CodeDefinition();
-        public CodeDefinition Model_UpdateParams_Permissions = new CodeDefinition();
-        public CodeDefinition Model_UpdatePermissionsParams = new CodeDefinition();
         public CodeDefinition Model_UpdateParams_Items = new CodeDefinition();
         public CodeDefinition Model_UpdateParams_Users = new CodeDefinition();
         public CodeDefinition Model_UpdatePermissions = new CodeDefinition();
+        public CodeDefinition Model_UpdateInitSiteSettings = new CodeDefinition();
         public CodeDefinition Model_OnUpdatingExtendedSqls = new CodeDefinition();
         public CodeDefinition Model_OnUpdatedExtendedSqls = new CodeDefinition();
         public CodeDefinition Model_UpdateExecute = new CodeDefinition();
@@ -8078,6 +8087,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetByForm = new CodeDefinition();
         public CodeDefinition Model_SetByForm_Sites = new CodeDefinition();
         public CodeDefinition Model_SetByForm_ColumnCases = new CodeDefinition();
+        public CodeDefinition Model_SetByForm_RecordPermissions = new CodeDefinition();
+        public CodeDefinition Model_SetByForm_RecordPermissions_Sites = new CodeDefinition();
         public CodeDefinition Model_SetByForm_SetByFormula = new CodeDefinition();
         public CodeDefinition Model_SetByModel = new CodeDefinition();
         public CodeDefinition Model_SetByModel_ColumnCases = new CodeDefinition();
@@ -8086,6 +8097,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetLinking = new CodeDefinition();
         public CodeDefinition Model_SetByApi = new CodeDefinition();
         public CodeDefinition Model_SetByApi_ColumnCases = new CodeDefinition();
+        public CodeDefinition Model_SetByApi_RecordPermissions = new CodeDefinition();
         public CodeDefinition Model_SetByLookups = new CodeDefinition();
         public CodeDefinition Model_AddSqlParamIdentity = new CodeDefinition();
         public CodeDefinition Model_AddSqlParamPk = new CodeDefinition();

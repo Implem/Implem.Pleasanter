@@ -19,7 +19,8 @@ namespace Implem.Pleasanter.Models.Shared
         public Dictionary<string, string> DescriptionHash { get; set; } = new Dictionary<string, string>();
         public Dictionary<string, bool> CheckHash { get; set; } = new Dictionary<string, bool>();
         public Dictionary<string, Attachments> AttachmentsHash { get; set; } = new Dictionary<string, Attachments>();
-        public bool? VerUp;
+        public bool? VerUp { get; set; }
+        public List<string> RecordPermissions { get; set; }
         public string ClassA { get; set; }
         public string ClassB { get; set; }
         public string ClassC { get; set; }

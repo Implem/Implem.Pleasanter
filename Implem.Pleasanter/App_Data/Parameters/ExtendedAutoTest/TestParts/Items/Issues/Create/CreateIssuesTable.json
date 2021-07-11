@@ -11,7 +11,7 @@
         {
             "ElementXpath": "//li[@data-value='Template2']",
             "Action": "Click",
-            "PartDescription" : "期限付きテーブルのテンプレートを選択する。"
+            "Description" : "期限付きテーブルのテンプレートを選択する。"
         },
         {
             "ElementId": "OpenSiteTitleDialog",

@@ -52,7 +52,7 @@
             "Results": [
                 {
                     "ElementId": "Issues_Title-error",
-                    "ExpectedValue": "10 文字以内で入力してください。",
+                    "ExpectedValue": "9 文字以内で入力してください。",
                     "Description": "入力文字数のエラーが表示されていること。"
                 }
             ]

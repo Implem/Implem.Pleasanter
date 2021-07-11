@@ -1,0 +1,18 @@
+﻿{
+    "CasesDescription": "汎用テストケース　ログインの確認",
+    "ResultFileName": "GeneralCase99.csv",
+    "TestCases": [
+        {
+            "TestPartsPath": "\\Users",
+            "TestPartsName": "LoginLocal.json"
+        },
+        {
+            "TestPartsPath": "\\Other",
+            "TestPartsName": "ToTop.json"
+        },
+        {
+            "TestPartsPath": "\\Users",
+            "TestPartsName": "Logout.json"
+        }
+    ]
+}

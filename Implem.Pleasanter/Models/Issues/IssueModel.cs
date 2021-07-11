@@ -1283,8 +1283,6 @@ namespace Implem.Pleasanter.Models
         public ErrorData Update(
             Context context,
             SiteSettings ss,
-            IEnumerable<string> permissions = null,
-            bool permissionChanged = false,
             bool extendedSqls = true,
             bool synchronizeSummary = true,
             bool forceSynchronizeSourceSummary = false,
@@ -1324,8 +1322,6 @@ namespace Implem.Pleasanter.Models
             statements.AddRange(UpdateStatements(
                 context: context,
                 ss: ss,
-                permissions: permissions,
-                permissionChanged: permissionChanged,
                 param: param,
                 otherInitValue: otherInitValue,
                 additionalStatements: additionalStatements));
@@ -1390,8 +1386,6 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             string dataTableName = null,
-            IEnumerable<string> permissions = null,
-            bool permissionChanged = false,
             SqlParamCollection param = null,
             bool otherInitValue = false,
             List<SqlStatement> additionalStatements = null)
@@ -1422,9 +1416,9 @@ namespace Implem.Pleasanter.Models
                 param: param,
                 otherInitValue: otherInitValue));
             statements.AddRange(UpdateAttachmentsStatements(context: context, ss: ss));
-            if (permissionChanged)
+            if (RecordPermissions != null)
             {
-                statements.UpdatePermissions(context, ss, IssueId, permissions);
+                statements.UpdatePermissions(context, ss, IssueId, RecordPermissions);
             }
             if (additionalStatements?.Any() == true)
             {
@@ -2015,6 +2009,9 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         body: value); break;
                     case "VerUp": VerUp = value.ToBool(); break;
+                    case "CurrentPermissionsAll":
+                        RecordPermissions = context.Forms.List("CurrentPermissionsAll");
+                        break;
                     default:
                         if (key.RegexExists("Comment[0-9]+"))
                         {
@@ -2222,6 +2219,7 @@ namespace Implem.Pleasanter.Models
                 }
                 Attachments(columnName: columnName, value: newAttachments);
             });
+            RecordPermissions = data.RecordPermissions;
             SetByFormula(context: context, ss: ss);
             SetChoiceHash(context: context, ss: ss);
         }

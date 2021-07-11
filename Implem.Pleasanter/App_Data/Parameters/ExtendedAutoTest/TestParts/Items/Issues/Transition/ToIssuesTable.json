@@ -4,7 +4,7 @@
         {
             "ElementLinkText": "テスト用期限付きテーブル",
             "Action": "Click",
-            "PartDescription": "作成したテーブルへ遷移する"
+            "Description": "作成したテーブルへ遷移する"
         }
     ]
 }

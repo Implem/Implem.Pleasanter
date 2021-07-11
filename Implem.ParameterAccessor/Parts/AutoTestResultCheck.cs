@@ -17,6 +17,7 @@
         Default,
         Existance,
         HasClass,
+        HasNotClass,
         ReadOnly,
         Regex,
         SelectOptions

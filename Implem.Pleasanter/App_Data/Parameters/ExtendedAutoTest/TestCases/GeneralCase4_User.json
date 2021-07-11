@@ -35,6 +35,14 @@
             "TestPartsPath": "\\Users\\Delete",
             "TestPartsName": "DeleteUser.json",
             "CaseDescription": "ユーザを削除する。"
+        },
+        {
+            "TestPartsPath": "\\Other",
+            "TestPartsName": "ToTop.json"
+        },
+        {
+            "TestPartsPath": "\\Users",
+            "TestPartsName": "Logout.json"
         }
     ]
 }

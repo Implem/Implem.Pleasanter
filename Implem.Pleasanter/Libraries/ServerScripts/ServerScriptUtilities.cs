@@ -292,16 +292,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         definition.ColumnName,
                         new ServerScriptModelColumn
                         {
-                            ReadOnly = !(column?.CanRead(
+                            ReadOnly = !(column?.CanEdit(
                                 context: context,
                                 ss: ss,
-                                mine: mine) == true && column?.CanUpdate(
-                                    context: context,
-                                    ss: ss,
-                                    mine: context.Action == "new"
-                                        ? null
-                                        : mine,
-                                    noCache: true) == true),
+                                mine: mine) == true),
                             ExtendedFieldCss = string.Empty,
                             ExtendedCellCss = string.Empty,
                             ExtendedHtmlBeforeField = string.Empty,
@@ -326,17 +320,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 .Select(columnName => ss.ColumnHash.TryGetValue(columnName, out var column)
                     ? column
                     : null)
-                .Where(column => column != null
-                    && column.CanRead(
-                        context: context,
-                        ss: ss,
-                        mine: mine,
-                        noCache: true)
-                    && column.CanUpdate(
-                        context: context,
-                        ss: ss,
-                        mine: mine,
-                        noCache: true))
+                .Where(column => column?.CanEdit(
+                    context: context,
+                    ss: ss,
+                    mine: mine) == true)
                 .ToArray();
             return columns;
         }
@@ -365,11 +352,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ExtendedHtmlAfterField = serverScriptColumn?.ExtendedHtmlAfterField,
                     Hide = serverScriptColumn?.Hide == true,
                     RawText = serverScriptColumn?.RawText,
-                    ReadOnly = !(column.CanUpdate(
+                    ReadOnly = !(column?.CanEdit(
                         context: context,
                         ss: ss,
-                        mine: mine,
-                        noCache: true)
+                        mine: mine) == true
                             && serverScriptColumn?.ReadOnly != true)
                 };
             });
@@ -556,10 +542,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             SetValue(
                 columnName: nameof(IssueModel.CompletionTime),
                 columns: columns,
-                setter: value => new CompletionTime(
+                setter: value => issueModel.CompletionTime = new CompletionTime(
                     context: context,
                     ss: ss,
-                    value: value),
+                    value: value,
+                    status: issueModel.Status,
+                    byForm: true),
                 getter: column => Date(
                     data: data,
                     name: column.Name));
@@ -840,7 +828,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public static Context CreateContext(Context context, long id, string apiRequestBody)
         {
-            var createdContext = new Context();
+            var createdContext = new Context(apiRequestBody: apiRequestBody);
             createdContext.LogBuilder = context.LogBuilder;
             createdContext.Id = id;
             createdContext.ApiRequestBody = apiRequestBody;
@@ -886,7 +874,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 apiContext: CreateContext(
                     context: context,
                     id: id,
-                    apiRequestBody: string.Empty),
+                    apiRequestBody: GetApiRequestBody(model: model)),
                 model: model);
         }
 
@@ -1005,6 +993,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }
             }
             return 0;
+        }
+
+        private static string GetApiRequestBody(object model)
+        {
+            return model is string issueRequestString
+                ? issueRequestString
+                : string.Empty;
         }
     }
 }

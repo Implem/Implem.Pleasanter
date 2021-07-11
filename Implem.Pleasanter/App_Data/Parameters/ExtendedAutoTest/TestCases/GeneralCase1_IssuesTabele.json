@@ -26,6 +26,15 @@
             "CaseDescription": "設定を行う。"
         },
         {
+            "TestPartsPath": "\\Other",
+            "TestPartsName": "ToTop.json"
+        },
+        {
+            "TestPartsPath": "\\Items\\Issues\\Transition",
+            "TestPartsName": "ToIssuesTable.json",
+            "CaseDescription": "作成したIssuesテーブルへ遷移する。"
+        },
+        {
             "TestPartsPath": "\\Items\\Issues\\Update",
             "TestPartsName": "UpdateIssueRecord.json",
             "CaseDescription": "Issuesテーブルのレコードを更新する。"

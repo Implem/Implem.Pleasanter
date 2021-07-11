@@ -1107,9 +1107,19 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool CanCreate(
             Context context,
             SiteSettings ss,
-            List<string> mine)
+            List<string> mine,
+            bool noCache = false)
         {
-            if (CanCreateCache == null)
+            if (noCache)
+            {
+                var columnAccessControl = ss.CreateColumnAccessControls?.FirstOrDefault(o => o.ColumnName == ColumnName)
+                    ?? new ColumnAccessControl(ss, this, "Create");
+                return columnAccessControl.Allowed(
+                    context: context,
+                    ss: ss,
+                    mine: mine);
+            }
+            else if (CanCreateCache == null)
             {
                 var columnAccessControl = ss.CreateColumnAccessControls?.FirstOrDefault(o => o.ColumnName == ColumnName)
                     ?? new ColumnAccessControl(ss, this, "Create");
@@ -1181,18 +1191,30 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool CanEdit(
             Context context,
             SiteSettings ss,
-            List<string> mine)
+            List<string> mine,
+            bool noCache = false)
         {
+            var canRead = CanRead(
+                context: context,
+                ss: ss,
+                mine: mine,
+                noCache: noCache);
             switch (context.Action)
             {
-                case "new": return CanCreate(
-                    context: context,
-                    ss: ss,
-                    mine: mine);
-                default: return CanUpdate(
-                    context: context,
-                    ss: ss,
-                    mine: mine);
+                case "new":
+                    return canRead
+                        && CanCreate(
+                            context: context,
+                            ss: ss,
+                            mine: mine,
+                            noCache: noCache);
+                default:
+                    return canRead
+                        && CanUpdate(
+                            context: context,
+                            ss: ss,
+                            mine: mine,
+                            noCache: noCache);
             }
         }
 
