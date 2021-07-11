@@ -292,19 +292,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         definition.ColumnName,
                         new ServerScriptModelColumn
                         {
-                            ReadOnly = !(column?.CanRead(
+                            ReadOnly = !(column?.CanEdit(
                                 context: context,
                                 ss: ss,
-                                mine: context.Action == "new"
-                                    ? null
-                                    : mine,
-                                noCache: true) == true && column?.CanUpdate(
-                                    context: context,
-                                    ss: ss,
-                                    mine: context.Action == "new"
-                                        ? null
-                                        : mine,
-                                    noCache: true) == true),
+                                mine: mine) == true),
                             ExtendedFieldCss = string.Empty,
                             ExtendedCellCss = string.Empty,
                             ExtendedHtmlBeforeField = string.Empty,
@@ -329,17 +320,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 .Select(columnName => ss.ColumnHash.TryGetValue(columnName, out var column)
                     ? column
                     : null)
-                .Where(column => column != null
-                    && column.CanRead(
-                        context: context,
-                        ss: ss,
-                        mine: mine,
-                        noCache: true)
-                    && column.CanUpdate(
-                        context: context,
-                        ss: ss,
-                        mine: mine,
-                        noCache: true))
+                .Where(column => column?.CanEdit(
+                    context: context,
+                    ss: ss,
+                    mine: mine) == true)
                 .ToArray();
             return columns;
         }
@@ -368,13 +352,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ExtendedHtmlAfterField = serverScriptColumn?.ExtendedHtmlAfterField,
                     Hide = serverScriptColumn?.Hide == true,
                     RawText = serverScriptColumn?.RawText,
-                    ReadOnly = !(column.CanUpdate(
+                    ReadOnly = !(column?.CanEdit(
                         context: context,
                         ss: ss,
-                        mine: context.Action == "new"
-                            ? null
-                            : mine,
-                        noCache: true)
+                        mine: mine) == true
                             && serverScriptColumn?.ReadOnly != true)
                 };
             });
