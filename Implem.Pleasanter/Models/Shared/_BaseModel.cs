@@ -736,6 +736,7 @@ namespace Implem.Pleasanter.Models
         {
             return null;
         }
+
         public static void SetAddChoiceHashByServerScript(Context context, SiteSettings ss, ServerScriptModelRow scriptValues)
         {
             scriptValues?.Columns

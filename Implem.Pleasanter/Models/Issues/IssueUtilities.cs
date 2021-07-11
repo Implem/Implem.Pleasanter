@@ -3413,7 +3413,7 @@ namespace Implem.Pleasanter.Models
                     if (context.ErrorData.Type != Error.Types.None)
                     {
                         return (context.ErrorData).MessageJson(context: context);
-                    }                
+                    }
                     var invalid = IssueValidators.OnUpdating(
                         context: context,
                         ss: ss,
