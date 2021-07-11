@@ -846,7 +846,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public static Context CreateContext(Context context, long id, string apiRequestBody)
         {
-            var createdContext = context.CreateContext();
+            var createdContext = context.CreateContext(apiRequestBody: apiRequestBody);
             createdContext.LogBuilder = context.LogBuilder;
             createdContext.Id = id;
             createdContext.ApiRequestBody = apiRequestBody;
@@ -892,7 +892,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 apiContext: CreateContext(
                     context: context,
                     id: id,
-                    apiRequestBody: string.Empty),
+                    apiRequestBody: GetApiRequestBody(model: model)),
                 model: model);
         }
 
@@ -1011,6 +1011,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }
             }
             return 0;
+        }
+
+        private static string GetApiRequestBody(object model)
+        {
+            return model is string issueRequestString
+                ? issueRequestString
+                : string.Empty;
         }
     }
 }
