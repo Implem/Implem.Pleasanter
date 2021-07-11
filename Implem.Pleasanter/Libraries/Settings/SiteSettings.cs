@@ -3670,12 +3670,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 column: Rds.SitesColumn().ReferenceType(),
                                 where: Rds.SitesWhere().SiteId(link.SiteId))) != "Wikis")
                 .ReferenceId_In(
-                    sub: new SqlStatement(LinkHashRelatingColumnsSubQuery(
+                    sub: LinkHashRelatingColumnsSubQueryStatement(
                         context: context,
                         referenceType: referenceType,
                         columnName: columnName,
                         parentColumn: parentColumn,
-                        parentIds: parentIds)),
+                        parentIds: parentIds),
                     _using: (referenceType == "Results"
                         || referenceType == "Issues")
                         && (parentIds?.Any() ?? false)
@@ -4312,10 +4312,25 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Where(o => o.StartsWith("Class")).ToList<string>());
         }
 
-        public string LinkHashRelatingColumnsSubQuery(
+        private SqlStatement LinkHashRelatingColumnsSubQueryStatement(
             Context context,
             string referenceType,
             string columnName,
+            Column parentColumn,
+            IEnumerable<long> parentIds)
+        {
+            var siteId = Links?.FirstOrDefault(o => o.ColumnName == columnName)?.SiteId ?? 0;
+            var ss = Destinations?.Get(siteId);
+            return new SqlStatement(ss?.LinkHashRelatingColumnsSubQuery(
+                context: context,
+                referenceType: referenceType,
+                parentColumn: parentColumn,
+                parentIds: parentIds));
+        }
+
+        public string LinkHashRelatingColumnsSubQuery(
+            Context context,
+            string referenceType,
             Column parentColumn,
             IEnumerable<long> parentIds)
         {
@@ -4326,11 +4341,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 return null;
             }
-            var siteId = Links.FirstOrDefault(o => o.ColumnName == columnName)?.SiteId ?? 0;
             var multipleSelections = RelatingColumnMultipleSelections(
                 context: context,
-                parentColumn: parentColumn,
-                siteId: siteId);
+                parentColumn: parentColumn);
             var whereNullorEmpty = parentIds?.Contains(-1) == true
                 ? $"\"{parentColumn.ColumnName}\" is null or \"{parentColumn.ColumnName}\" = '' "
                 : string.Empty;
@@ -4344,13 +4357,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             var Or = (whereNullorEmpty == string.Empty || whereIn == string.Empty)
                 ? string.Empty
                 : " or ";
-            return $"select \"{Rds.IdColumn(referenceType)}\" from \"{referenceType}\" where \"SiteId\"={siteId} and ({whereNullorEmpty}{Or}{whereIn})";
+            return $"select \"{Rds.IdColumn(referenceType)}\" from \"{referenceType}\" where \"SiteId\"={SiteId} and ({whereNullorEmpty}{Or}{whereIn})";
         }
 
-        private bool RelatingColumnMultipleSelections(Context context, Column parentColumn, long siteId)
+        private bool RelatingColumnMultipleSelections(Context context, Column parentColumn)
         {
-            var ss = Destinations.Get(siteId);
-            var column = ss?.GetColumn(
+            var column = GetColumn(
                 context: context,
                 columnName: parentColumn.ColumnName);
             return column?.MultipleSelections ?? false;
