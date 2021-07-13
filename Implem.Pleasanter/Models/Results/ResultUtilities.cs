@@ -3241,6 +3241,10 @@ namespace Implem.Pleasanter.Models
                     resultModel.SetByBeforeCreateServerScript(
                         context: context,
                         ss: ss);
+                    if (context.ErrorData.Type != Error.Types.None)
+                    {
+                        return (context.ErrorData).MessageJson(context: context);
+                    }
                     var invalid = ResultValidators.OnCreating(
                         context: context,
                         ss: ss,
@@ -3436,6 +3440,7 @@ namespace Implem.Pleasanter.Models
                 .Message(Messages.UpdatedByGrid(
                     context: context,
                     data: responses.Count().ToString()))
+                .Log(context.GetLog())
                 .ToJson();
         }
 
