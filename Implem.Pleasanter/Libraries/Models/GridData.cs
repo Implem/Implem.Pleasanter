@@ -61,6 +61,7 @@ namespace Implem.Pleasanter.Libraries.Models
             column = column ?? ColumnUtilities.SqlColumnCollection(
                 context: context,
                 ss: ss,
+                view: view,
                 columns: ss.GetGridColumns(
                     context: context,
                     view: view,
