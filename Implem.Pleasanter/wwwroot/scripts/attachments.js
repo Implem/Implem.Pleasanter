@@ -181,7 +181,6 @@
     var progresses = new Array();
     var controls = new Object();
     var columnName = control.attr('data-name');
-    //var dataName = control.attr('column-name');
     var dataName = control.attr('data-name');
     var uuids = new Array();
     for (fileIndex = 0; fileIndex < filesList.length; fileIndex++) {
@@ -189,7 +188,6 @@
     }
     var fieldControl = control.closest('.field-control');
     var input = fieldControl.find("#" + columnName + "\\.input");
-
     var siteId = fieldControl.closest("#EditorTabsContainer").attr("site-id");
     var url = $('.main-form').attr('action').replace('_action_', 'upload').replace('items', 'binaries');
     var deleteUrl = $('.main-form').attr('action').replace('_action_', 'binaries/deletetemp');
@@ -259,7 +257,6 @@
     };
     $(window).on('unload.' + columnName, unload);
     buttons.on('click.' + columnName, updateClick);
-
     var deleteAllAddedTemp = function () {
         var attachments = $('.control-attachments');
         for (var index = 0; index < attachments.length; ++index) {
@@ -271,7 +268,6 @@
             });
         }
     };
-
     $(window).off('unload.deleteAllAddedTemp');
     $(window).on('unload.deleteAllAddedTemp', deleteAllAddedTemp);
 };
@@ -310,4 +306,5 @@ $p.deleteAttachment = function ($control, $data) {
     json = JSON.stringify(json);
     $control.val(json);
     $p.setData($control);
+    $p.setFormChanged($(this));
 };
