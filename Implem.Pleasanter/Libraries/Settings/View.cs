@@ -52,6 +52,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string KambanValue;
         public int? KambanColumns;
         public bool? KambanAggregationView;
+        [NonSerialized]
+        public bool WhenViewProcessingServerScriptExecuted;
+        [NonSerialized]
+        public List<string> AlwaysGetColumns;
         // compatibility Version 1.008
         public string KambanGroupBy;
         // compatibility Version 1.012
@@ -1016,6 +1020,27 @@ namespace Implem.Pleasanter.Libraries.Settings
                 });
         }
 
+        public void SetAlwaysGetColumns(
+            Context context,
+            SiteSettings ss,
+            List<Column> columns)
+        {
+            if (columns == null) return;
+            SetByWhenViewProcessingServerScript(
+                context: context,
+                ss: ss);
+            AlwaysGetColumns?.ForEach(columnName =>
+            {
+                var column = ss?.GetColumn(
+                    context: context,
+                    columnName: columnName);
+                if (column != null)
+                {
+                    columns.Add(column);
+                }
+            });
+        }
+
         public void SetColumnsWhere(
             Context context,
             SiteSettings ss,
@@ -1555,12 +1580,16 @@ namespace Implem.Pleasanter.Libraries.Settings
             Context context,
             SiteSettings ss)
         {
-            ServerScriptUtilities.Execute(
-                context: context,
-                ss: ss,
-                itemModel: null,
-                view: this,
-                where: script => script.WhenViewProcessing == true);
+            if (!WhenViewProcessingServerScriptExecuted)
+            {
+                ServerScriptUtilities.Execute(
+                    context: context,
+                    ss: ss,
+                    itemModel: null,
+                    view: this,
+                    where: script => script.WhenViewProcessing == true);
+                WhenViewProcessingServerScriptExecuted = true;
+            }
         }
 
         public SqlOrderByCollection OrderBy(
