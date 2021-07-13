@@ -4472,6 +4472,7 @@ namespace Implem.Pleasanter.Models
             var script = new ServerScript(
                 id: context.Forms.Int("ServerScriptId"),
                 title: context.Forms.Data("ServerScriptTitle"),
+                name: context.Forms.Data("ServerScriptName"),
                 whenloadingSiteSettings: context.Forms.Bool("ServerScriptWhenloadingSiteSettings"),
                 whenViewProcessing: context.Forms.Bool("ServerScriptWhenViewProcessing"),
                 whenloadingRecord: context.Forms.Bool("ServerScriptWhenloadingRecord"),
@@ -4483,8 +4484,9 @@ namespace Implem.Pleasanter.Models
                 afterUpdate: context.Forms.Bool("ServerScriptAfterUpdate"),
                 beforeDelete: context.Forms.Bool("ServerScriptBeforeDelete"),
                 afterDelete: context.Forms.Bool("ServerScriptAfterDelete"),
-                beforeOpeningRow: context.Forms.Bool("ServerScriptBeforeOpeningRow"),
                 beforeOpeningPage: context.Forms.Bool("ServerScriptBeforeOpeningPage"),
+                beforeOpeningRow: context.Forms.Bool("ServerScriptBeforeOpeningRow"),
+                shared: context.Forms.Bool("ServerScriptShared"),
                 body: context.Forms.Data("ServerScriptBody"));
             var invalid = ServerScriptValidators.OnCreating(
                 context: context,
@@ -4499,6 +4501,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings.ServerScripts.Add(new ServerScript(
                 id: SiteSettings.ServerScripts.MaxOrDefault(o => o.Id) + 1,
                 title: script.Title,
+                name: script.Name,
                 whenloadingSiteSettings: script.WhenloadingSiteSettings ?? default,
                 whenViewProcessing: script.WhenViewProcessing ?? default,
                 whenloadingRecord: script.WhenloadingRecord ?? default,
@@ -4510,8 +4513,9 @@ namespace Implem.Pleasanter.Models
                 afterUpdate: script.AfterUpdate ?? default,
                 beforeDelete: script.BeforeDelete ?? default,
                 afterDelete: script.AfterDelete ?? default,
-                beforeOpeningRow: script.BeforeOpeningRow ?? default,
                 beforeOpeningPage: script.BeforeOpeningPage ?? default,
+                beforeOpeningRow: script.BeforeOpeningRow ?? default,
+                shared: script.Shared ?? default,
                 body: script.Body));
             res
                 .ReplaceAll("#EditServerScript", new HtmlBuilder()
@@ -4529,6 +4533,7 @@ namespace Implem.Pleasanter.Models
             var script = new ServerScript(
                 id: context.Forms.Int("ServerScriptId"),
                 title: context.Forms.Data("ServerScriptTitle"),
+                name: context.Forms.Data("ServerScriptName"),
                 whenloadingSiteSettings: context.Forms.Bool("ServerScriptWhenloadingSiteSettings"),
                 whenViewProcessing: context.Forms.Bool("ServerScriptWhenViewProcessing"),
                 whenloadingRecord: context.Forms.Bool("ServerScriptWhenloadingRecord"),
@@ -4540,8 +4545,9 @@ namespace Implem.Pleasanter.Models
                 afterUpdate: context.Forms.Bool("ServerScriptAfterUpdate"),
                 beforeDelete: context.Forms.Bool("ServerScriptBeforeDelete"),
                 afterDelete: context.Forms.Bool("ServerScriptAfterDelete"),
-                beforeOpeningRow: context.Forms.Bool("ServerScriptBeforeOpeningRow"),
                 beforeOpeningPage: context.Forms.Bool("ServerScriptBeforeOpeningPage"),
+                beforeOpeningRow: context.Forms.Bool("ServerScriptBeforeOpeningRow"),
+                shared: context.Forms.Bool("ServerScriptShared"),
                 body: context.Forms.Data("ServerScriptBody"));
             var invalid = ServerScriptValidators.OnUpdating(
                 context: context,
@@ -4557,6 +4563,7 @@ namespace Implem.Pleasanter.Models
                 .FirstOrDefault(o => o.Id == script.Id)?
                 .Update(
                     title: script.Title,
+                    name: script.Name,
                     whenloadingSiteSettings: script.WhenloadingSiteSettings ?? default,
                     whenViewProcessing: script.WhenViewProcessing ?? default,
                     whenloadingRecord: script.WhenloadingRecord ?? default,
@@ -4568,8 +4575,9 @@ namespace Implem.Pleasanter.Models
                     afterUpdate: script.AfterUpdate ?? default,
                     beforeDelete: script.BeforeDelete ?? default,
                     afterDelete: script.AfterDelete ?? default,
-                    beforeOpeningRow: script.BeforeOpeningRow ?? default,
                     beforeOpeningPage: script.BeforeOpeningPage ?? default,
+                    beforeOpeningRow: script.BeforeOpeningRow ?? default,
+                    shared: script.Shared ?? default,
                     body: script.Body);
             res
                 .Html("#EditServerScript", new HtmlBuilder()

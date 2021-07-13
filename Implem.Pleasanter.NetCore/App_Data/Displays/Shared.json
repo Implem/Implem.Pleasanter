@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Shared",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Shared"
+        },
+        {
+            "Language": "zh",
+            "Body": "共享"
+        },
+        {
+            "Language": "ja",
+            "Body": "共有"
+        },
+        {
+            "Language": "de",
+            "Body": "Geteilt"
+        },
+        {
+            "Language": "ko",
+            "Body": "공유"
+        },
+        {
+            "Language": "es",
+            "Body": "Compartido"
+        },
+        {
+            "Language": "vn",
+            "Body": "Được chia sẻ"
+        }
+    ]
+}
