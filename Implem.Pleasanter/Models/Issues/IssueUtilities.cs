@@ -289,7 +289,7 @@ namespace Implem.Pleasanter.Models
             {
                 if (newRowId != 0)
                 {
-                    if (newRowId != 0)
+                    if (originalId > 0)
                     {
                         issueModel = new IssueModel(
                             context: context,
@@ -301,7 +301,7 @@ namespace Implem.Pleasanter.Models
                     }
                     else
                     {
-                        issueModel =  new IssueModel(
+                        issueModel = new IssueModel(
                             context: context,
                             ss: ss,
                             methodType: BaseModel.MethodTypes.New);

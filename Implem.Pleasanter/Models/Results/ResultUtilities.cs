@@ -289,7 +289,7 @@ namespace Implem.Pleasanter.Models
             {
                 if (newRowId != 0)
                 {
-                    if (newRowId != 0)
+                    if (originalId > 0)
                     {
                         resultModel = new ResultModel(
                             context: context,
@@ -301,7 +301,7 @@ namespace Implem.Pleasanter.Models
                     }
                     else
                     {
-                        resultModel =  new ResultModel(
+                        resultModel = new ResultModel(
                             context: context,
                             ss: ss,
                             methodType: BaseModel.MethodTypes.New);
