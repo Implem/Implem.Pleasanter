@@ -289,15 +289,23 @@ namespace Implem.Pleasanter.Models
             {
                 if (newRowId != 0)
                 {
-                    resultModel = originalId > 0
-                        ? new ResultModel(
+                    if (newRowId != 0)
+                    {
+                        resultModel = new ResultModel(
                             context: context,
                             ss: ss,
-                            resultId: originalId)
-                        : new ResultModel(
+                            resultId: originalId);
+                        resultModel.SetCopyDefault(
+                            context: context,
+                            ss: ss);
+                    }
+                    else
+                    {
+                        resultModel =  new ResultModel(
                             context: context,
                             ss: ss,
                             methodType: BaseModel.MethodTypes.New);
+                    }
                     resultModel.ResultId = 0;
                 }
             }
@@ -471,9 +479,6 @@ namespace Implem.Pleasanter.Models
         {
             if (newOnGrid && originalId > 0)
             {
-                resultModel.SetCopyDefault(
-                    context: context,
-                    ss: ss);
                 ss.GetEditorColumnNames(
                     context: context,
                     columnOnly: true)
