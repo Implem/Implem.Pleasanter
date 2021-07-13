@@ -23,7 +23,12 @@ namespace Implem.Pleasanter.Libraries.Extensions
         }
 
         public static string ToDisplay(
-            this string value, Context context, SiteSettings ss, Column column)
+            this string value,
+            Context context,
+            SiteSettings ss,
+            Column column,
+            string delimiter = ", ",
+            ExportColumn.Types type = ExportColumn.Types.Text)
         {
             if (column.HasChoices())
             {
@@ -32,9 +37,9 @@ namespace Implem.Pleasanter.Libraries.Extensions
                     var choiceParts = column.ChoiceParts(
                         context: context,
                         selectedValues: value,
-                        type: ExportColumn.Types.TextMini);
+                        type: type);
                     return column.MultipleSelections == true
-                        ? choiceParts.Join(", ")
+                        ? choiceParts.Join(delimiter)
                         : choiceParts.FirstOrDefault();
                 }
                 else
