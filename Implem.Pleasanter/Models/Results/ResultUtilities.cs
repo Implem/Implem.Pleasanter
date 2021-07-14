@@ -307,6 +307,9 @@ namespace Implem.Pleasanter.Models
                             methodType: BaseModel.MethodTypes.New);
                     }
                     resultModel.ResultId = 0;
+                    resultModel.SetByBeforeOpeningRowServerScript(
+                        context: context,
+                        ss: ss);
                 }
             }
             return (res ?? new ResponseCollection())
