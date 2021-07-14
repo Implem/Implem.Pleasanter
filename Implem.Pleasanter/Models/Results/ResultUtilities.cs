@@ -289,16 +289,27 @@ namespace Implem.Pleasanter.Models
             {
                 if (newRowId != 0)
                 {
-                    resultModel = originalId > 0
-                        ? new ResultModel(
+                    if (originalId > 0)
+                    {
+                        resultModel = new ResultModel(
                             context: context,
                             ss: ss,
-                            resultId: originalId)
-                        : new ResultModel(
+                            resultId: originalId);
+                        resultModel.SetCopyDefault(
+                            context: context,
+                            ss: ss);
+                    }
+                    else
+                    {
+                        resultModel = new ResultModel(
                             context: context,
                             ss: ss,
                             methodType: BaseModel.MethodTypes.New);
+                    }
                     resultModel.ResultId = 0;
+                    resultModel.SetByBeforeOpeningRowServerScript(
+                        context: context,
+                        ss: ss);
                 }
             }
             return (res ?? new ResponseCollection())
@@ -471,9 +482,6 @@ namespace Implem.Pleasanter.Models
         {
             if (newOnGrid && originalId > 0)
             {
-                resultModel.SetCopyDefault(
-                    context: context,
-                    ss: ss);
                 ss.GetEditorColumnNames(
                     context: context,
                     columnOnly: true)
@@ -3236,6 +3244,10 @@ namespace Implem.Pleasanter.Models
                     resultModel.SetByBeforeCreateServerScript(
                         context: context,
                         ss: ss);
+                    if (context.ErrorData.Type != Error.Types.None)
+                    {
+                        return (context.ErrorData).MessageJson(context: context);
+                    }
                     var invalid = ResultValidators.OnCreating(
                         context: context,
                         ss: ss,
@@ -3431,6 +3443,7 @@ namespace Implem.Pleasanter.Models
                 .Message(Messages.UpdatedByGrid(
                     context: context,
                     data: responses.Count().ToString()))
+                .Log(context.GetLog())
                 .ToJson();
         }
 

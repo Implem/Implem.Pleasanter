@@ -23,6 +23,7 @@
     "OnBulkDeleted": false,
     "OnImporting": false,
     "OnImported": false,
+    "OnSelectingColumn": false,
     "OnSelectingWhere": false,
     "OnUseSecondaryAuthentication": false,
     "CommandText": "-- Write an arbitrary SQL statement."

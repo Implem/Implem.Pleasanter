@@ -4,5 +4,6 @@
     {
         public bool ServerScript;
         public long ServerScriptTimeOut;
+        public int ServerScriptIncludeDepthLimit;
     }
 }

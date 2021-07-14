@@ -1,4 +1,5 @@
 ﻿{
     "ServerScript": true,
-    "ServerScriptTimeOut": 10000
+    "ServerScriptTimeOut": 10000,
+    "ServerScriptIncludeDepthLimit": 10
 }

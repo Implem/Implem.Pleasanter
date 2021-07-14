@@ -13,8 +13,9 @@
         public bool? AfterUpdate;
         public bool? BeforeDelete;
         public bool? AfterDelete;
-        public bool? BeforeOpeningRow;
         public bool? BeforeOpeningPage;
+        public bool? BeforeOpeningRow;
+        public bool? Shared;
         public string Body;
     }
 }

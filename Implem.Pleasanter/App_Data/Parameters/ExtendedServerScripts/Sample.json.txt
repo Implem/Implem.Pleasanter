@@ -18,7 +18,8 @@
     "AfterUpdate": false,
     "BeforeDelete": false,
     "AfterDelete": false,
-    "BeforeOpeningRow": false,
     "BeforeOpeningPage": false,
+    "BeforeOpeningRow": false,
+    "Shared": false,
     "Body": "-- Write an arbitrary javascript."
 }

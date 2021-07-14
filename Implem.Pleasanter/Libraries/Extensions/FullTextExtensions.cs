@@ -123,20 +123,42 @@ namespace Implem.Pleasanter.Libraries.Extensions
                                 case Column.FullTextTypes.DisplayName:
                                     fullText
                                         .Append(" ")
-                                        .Append(column.Choice(self).Text ?? string.Empty);
+                                        .Append(self?.ToDisplay(
+                                            context: context,
+                                            ss: column?.SiteSettings,
+                                            column: column,
+                                            delimiter: " ")
+                                                ?? string.Empty);
                                     break;
                                 case Column.FullTextTypes.Value:
                                     fullText
                                         .Append(" ")
-                                        .Append(column.Choice(self).Value ?? string.Empty);
+                                        .Append(self?.ToDisplay(
+                                            context: context,
+                                            ss: column?.SiteSettings,
+                                            column: column,
+                                            delimiter: " ",
+                                            type: ExportColumn.Types.Value)
+                                                ?? string.Empty);
                                     break;
                                 case Column.FullTextTypes.ValueAndDisplayName:
                                     fullText
                                         .Append(" ")
-                                        .Append(column.Choice(self).Value ?? string.Empty);
+                                        .Append(self?.ToDisplay(
+                                            context: context,
+                                            ss: column?.SiteSettings,
+                                            column: column,
+                                            delimiter: " ",
+                                            type: ExportColumn.Types.Value)
+                                                ?? string.Empty);
                                     fullText
                                         .Append(" ")
-                                        .Append(column.Choice(self).Text ?? string.Empty);
+                                        .Append(self?.ToDisplay(
+                                            context: context,
+                                            ss: column?.SiteSettings,
+                                            column: column,
+                                            delimiter: " ")
+                                                ?? string.Empty);
                                     break;
                             }
                             break;

@@ -16,7 +16,7 @@
         '.confirm-unload .control-spinner',
         function () {
             $p.setFormChanged($(this));
-    });
+        });
     $(window).bind("beforeunload", function () {
         if ($p.formChanged) {
             return $p.display('ConfirmUnload');

@@ -804,7 +804,10 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public ErrorData Send(
-            Context context, SiteSettings ss, List<SqlStatement> additionalStatements = null)
+            Context context,
+            SiteSettings ss,
+            List<SqlStatement> additionalStatements = null,
+            Attachments attachments = null)
         {
             var errorData = Create(context: context, ss: ss);
             if (errorData.Type.Has()) return errorData;
@@ -813,14 +816,21 @@ namespace Implem.Pleasanter.Models
             switch (Host)
             {
                 case "smtp.sendgrid.net":
-                    SendBySendGrid(context: context);
+                    SendBySendGrid(
+                        context: context,
+                        attachments: attachments);
                     break;
                 default:
-                    SendBySmtp(context: context);
+                    SendBySmtp(
+                        context: context,
+                        attachments: attachments);
                     break;
             }
             SentTime = new Time(context, DateTime.Now);
-            errorData = Update(context: context, ss: ss, additionalStatements: additionalStatements);
+            errorData = Update(
+                context: context,
+                ss: ss,
+                additionalStatements: additionalStatements);
             return errorData.Type.Has()
                 ? errorData
                 : new ErrorData(type: Error.Types.None);
@@ -829,7 +839,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void SendBySmtp(Context context)
+        private void SendBySmtp(Context context, Attachments attachments = null)
         {
             new Smtp(
                 context: context,
@@ -841,13 +851,15 @@ namespace Implem.Pleasanter.Models
                 bcc: Bcc,
                 subject: Title.Value,
                 body: Body)
-                    .Send(context: context);
+                    .Send(
+                        context: context,
+                        attachments: attachments);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void SendBySendGrid(Context context)
+        private void SendBySendGrid(Context context, Attachments attachments = null)
         {
             new SendGridMail(
                 context: context,
@@ -858,7 +870,9 @@ namespace Implem.Pleasanter.Models
                 bcc: Bcc,
                 subject: Title.Value,
                 body: Body)
-                    .SendAsync(context: context);
+                    .SendAsync(
+                        context: context,
+                        attachments: attachments);
         }
     }
 }

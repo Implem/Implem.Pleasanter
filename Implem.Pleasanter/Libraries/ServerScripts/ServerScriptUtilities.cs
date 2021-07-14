@@ -639,6 +639,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 model: model,
                 data: data.Model,
                 columns: valueColumns);
+            if (view != null)
+            {
+                view.AlwaysGetColumns = data.View.AlwaysGetColumns;
+            }
             SetColumnFilterHashValues(
                 context: context,
                 view: view,

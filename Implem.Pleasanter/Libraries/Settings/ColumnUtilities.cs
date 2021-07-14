@@ -321,17 +321,20 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public static SqlColumnCollection SqlColumnCollection(
-            Context context, SiteSettings ss, List<Column> columns)
+            Context context,
+            SiteSettings ss,
+            View view,
+            List<Column> columns)
         {
             var sqlColumnCollection = new SqlColumnCollection();
             var sqlColumns = Columns(
                 context: context,
                 ss: ss,
+                view: view,
                 columns: columns)
-                .SelectMany(column => column.SqlColumnWithUpdatedTimeCollection())
-                .GroupBy(o => o.ColumnBracket + o.As)
-                .Select(o => o.First());
-
+                    .SelectMany(column => column.SqlColumnWithUpdatedTimeCollection())
+                    .GroupBy(o => o.ColumnBracket + o.As)
+                    .Select(o => o.First());
             return sqlColumns.SetExtendedSqlSelectingColumn(
                 context: context,
                 ss: ss);
@@ -369,7 +372,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         private static List<Column> Columns(
-            Context context, SiteSettings ss, List<Column> columns)
+            Context context,
+            SiteSettings ss,
+            View view,
+            List<Column> columns)
         {
             columns
                 .GroupBy(o => o.TableAlias)
@@ -388,6 +394,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                     context: context,
                     columnName: columnName)))
                 .ToList();
+            view?.SetAlwaysGetColumns(
+                context: context,
+                ss: ss,
+                columns: columns);
             return columns
                 .Where(o => o != null)
                 .GroupBy(o => o.ColumnName)

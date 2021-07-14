@@ -5,6 +5,7 @@ namespace Implem.Pleasanter.Libraries.Settings
     {
         public int Id { get; set; }
         public string Title;
+        public string Name;
         public bool? WhenloadingSiteSettings;
         public bool? WhenViewProcessing;
         public bool? WhenloadingRecord;
@@ -16,8 +17,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? AfterUpdate;
         public bool? BeforeDelete;
         public bool? AfterDelete;
-        public bool? BeforeOpeningRow;
         public bool? BeforeOpeningPage;
+        public bool? BeforeOpeningRow;
+        public bool? Shared;
         public string Body;
 
         public ServerScript()
@@ -27,6 +29,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public ServerScript(
             int id,
             string title,
+            string name,
             bool whenloadingSiteSettings,
             bool whenViewProcessing,
             bool whenloadingRecord,
@@ -38,12 +41,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool afterUpdate,
             bool beforeDelete,
             bool afterDelete,
-            bool beforeOpeningRow,
             bool beforeOpeningPage,
+            bool beforeOpeningRow,
+            bool shared,
             string body)
         {
             Id = id;
             Title = title;
+            Name = name;
             WhenloadingSiteSettings = whenloadingSiteSettings;
             WhenViewProcessing = whenViewProcessing;
             WhenloadingRecord = whenloadingRecord;
@@ -55,13 +60,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             AfterUpdate = afterUpdate;
             BeforeDelete = beforeDelete;
             AfterDelete = afterDelete;
-            BeforeOpeningRow = beforeOpeningRow;
             BeforeOpeningPage = beforeOpeningPage;
+            BeforeOpeningRow = beforeOpeningRow;
+            Shared = shared;
             Body = body;
         }
 
         public void Update(
             string title,
+            string name,
             bool whenloadingSiteSettings,
             bool whenViewProcessing,
             bool whenloadingRecord,
@@ -73,11 +80,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool afterUpdate,
             bool beforeDelete,
             bool afterDelete,
-            bool beforeOpeningRow,
             bool beforeOpeningPage,
+            bool beforeOpeningRow,
+            bool shared,
             string body)
         {
             Title = title;
+            Name = name;
             WhenloadingSiteSettings = whenloadingSiteSettings;
             WhenViewProcessing = whenViewProcessing;
             WhenloadingRecord = whenloadingRecord;
@@ -89,8 +98,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             AfterUpdate = afterUpdate;
             BeforeDelete = beforeDelete;
             AfterDelete = afterDelete;
-            BeforeOpeningRow = beforeOpeningRow;
             BeforeOpeningPage = beforeOpeningPage;
+            BeforeOpeningRow = beforeOpeningRow;
+            Shared = shared;
             Body = body;
         }
 
@@ -99,6 +109,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var script = new ServerScript();
             script.Id = Id;
             script.Title = Title;
+            script.Name = Name;
             if (WhenloadingSiteSettings == true) script.WhenloadingSiteSettings = true;
             if (WhenViewProcessing == true) script.WhenViewProcessing = true;
             if (WhenloadingRecord == true) script.WhenloadingRecord = true;
@@ -110,8 +121,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (AfterUpdate == true) script.AfterUpdate = true;
             if (BeforeDelete == true) script.BeforeDelete = true;
             if (AfterDelete == true) script.AfterDelete = true;
-            if (BeforeOpeningRow == true) script.BeforeOpeningRow = true;
             if (BeforeOpeningPage == true) script.BeforeOpeningPage = true;
+            if (BeforeOpeningRow == true) script.BeforeOpeningRow = true;
+            if (Shared == true) script.Shared = true;
             script.Body = Body;
             return script;
         }

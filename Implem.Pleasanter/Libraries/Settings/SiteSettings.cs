@@ -4464,30 +4464,108 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public List<ServerScript> GetServerScripts(Context context)
         {
-            ServerScriptsAndExtended = ServerScriptsAndExtended ?? Parameters.ExtendedServerScripts
-                .ExtensionWhere<ParameterAccessor.Parts.ExtendedServerScript>(
-                    context: context,
-                    siteId: SiteId)
-                .Select(extendedServerScript => new ServerScript()
+            if (ServerScriptsAndExtended != null)
+            {
+                return ServerScriptsAndExtended;
+            }
+            else
+            {
+                ServerScriptsAndExtended = Parameters.ExtendedServerScripts
+                    .ExtensionWhere<ParameterAccessor.Parts.ExtendedServerScript>(
+                        context: context,
+                        siteId: SiteId)
+                    .Select(extendedServerScript => new ServerScript()
+                    {
+                        Name = extendedServerScript.Name,
+                        WhenloadingSiteSettings = extendedServerScript.WhenloadingSiteSettings,
+                        WhenViewProcessing = extendedServerScript.WhenViewProcessing,
+                        WhenloadingRecord = extendedServerScript.WhenloadingRecord,
+                        BeforeFormula = extendedServerScript.BeforeFormula,
+                        AfterFormula = extendedServerScript.AfterFormula,
+                        BeforeCreate = extendedServerScript.BeforeCreate,
+                        AfterCreate = extendedServerScript.AfterCreate,
+                        BeforeUpdate = extendedServerScript.BeforeUpdate,
+                        AfterUpdate = extendedServerScript.AfterUpdate,
+                        BeforeDelete = extendedServerScript.BeforeDelete,
+                        AfterDelete = extendedServerScript.AfterDelete,
+                        BeforeOpeningPage = extendedServerScript.BeforeOpeningPage,
+                        BeforeOpeningRow = extendedServerScript.BeforeOpeningRow,
+                        Shared = extendedServerScript.Shared,
+                        Body = extendedServerScript.Body
+                    })
+                        .Concat(ServerScripts)
+                        .ToList();
+                ServerScriptsAndExtended
+                    .Where(serverScript =>
+                        serverScript.WhenloadingSiteSettings == true
+                        || serverScript.WhenViewProcessing == true
+                        || serverScript.WhenloadingRecord == true
+                        || serverScript.BeforeFormula == true
+                        || serverScript.AfterFormula == true
+                        || serverScript.BeforeCreate == true
+                        || serverScript.AfterCreate == true
+                        || serverScript.BeforeUpdate == true
+                        || serverScript.AfterUpdate == true
+                        || serverScript.BeforeDelete == true
+                        || serverScript.AfterDelete == true
+                        || serverScript.BeforeOpeningPage == true
+                        || serverScript.BeforeOpeningRow == true)
+                    .ForEach(serverScript =>
                 {
-                    WhenloadingSiteSettings = extendedServerScript.WhenloadingSiteSettings,
-                    WhenViewProcessing = extendedServerScript.WhenViewProcessing,
-                    WhenloadingRecord = extendedServerScript.WhenloadingRecord,
-                    BeforeFormula = extendedServerScript.BeforeFormula,
-                    AfterFormula = extendedServerScript.AfterFormula,
-                    BeforeCreate = extendedServerScript.BeforeCreate,
-                    AfterCreate = extendedServerScript.AfterCreate,
-                    BeforeUpdate = extendedServerScript.BeforeUpdate,
-                    AfterUpdate = extendedServerScript.AfterUpdate,
-                    BeforeDelete = extendedServerScript.BeforeDelete,
-                    AfterDelete = extendedServerScript.AfterDelete,
-                    BeforeOpeningRow = extendedServerScript.BeforeOpeningRow,
-                    BeforeOpeningPage = extendedServerScript.BeforeOpeningPage,
-                    Body = extendedServerScript.Body
-                })
-                    .Concat(ServerScripts)
-                    .ToList();
-            return ServerScriptsAndExtended;
+                    var body = serverScript.Body;
+                    var sharedServerScripts = SharedServerScripts(serverScripts: ServerScriptsAndExtended);
+                    if (!sharedServerScripts.IsNullOrEmpty())
+                    {
+                        body = sharedServerScripts + "\n" + body;
+                    }
+                    serverScript.Body = body;
+                });
+                ServerScriptsAndExtended.ForEach(serverScript =>
+                {
+                    var body = serverScript.Body;
+                    body = IncludedServerScripts(
+                        serverScripts: ServerScriptsAndExtended,
+                        body: body);
+                    serverScript.Body = body;
+                });
+                return ServerScriptsAndExtended;
+            }
+        }
+
+        private string SharedServerScripts(List<ServerScript> serverScripts)
+        {
+            return serverScripts
+                .Where(o => o.Shared == true)
+                .Select(o => o.Body)
+                .Join("\n");
+        }
+
+        private string IncludedServerScripts(
+            List<ServerScript> serverScripts,
+            string body,
+            int depth = 0)
+        {
+            if (depth > Parameters.Script.ServerScriptIncludeDepthLimit)
+            {
+                return body;
+            }
+            foreach (var includeLine in body.RegexValues("^//Include:.+$", RegexOptions.Multiline))
+            {
+                var name = includeLine.Substring(includeLine.IndexOf(":") + 1).Trim();
+                var includeBody = serverScripts
+                    .Where(o => o.Name == name)
+                    .Select(o => o.Body)
+                    .Join("\n");
+                if (!includeBody.IsNullOrEmpty())
+                {
+                    includeBody = IncludedServerScripts(
+                        serverScripts: serverScripts,
+                        body: includeBody,
+                        depth: depth + 1);
+                    body = body.Replace(includeLine, includeBody);
+                }
+            }
+            return body;
         }
 
         public bool GetNoDisplayIfReadOnly()

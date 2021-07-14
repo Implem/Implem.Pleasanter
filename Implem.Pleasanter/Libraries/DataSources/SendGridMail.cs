@@ -1,10 +1,13 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Mails;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
 namespace Implem.Pleasanter.Libraries.DataSources
@@ -40,7 +43,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Body = body;
         }
 
-        public void SendAsync(Context context)
+        public void SendAsync(Context context, Attachments attachments = null)
         {
             Task.Run(() =>
             {
@@ -62,6 +65,18 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             .ForEach(bcc => sendGridMessage.AddBcc(CreateMailAddress(bcc)));
                     sendGridMessage.Subject = Subject;
                     sendGridMessage.Text = Body;
+                    attachments
+                        ?.Where(attachment => attachment?.Base64?.IsNullOrEmpty() == false)
+                        .ForEach(attachment =>
+                        {
+                            var bytes = Convert.FromBase64String(attachment.Base64);
+                            using (var memoryStream = new MemoryStream(bytes))
+                            {
+                                sendGridMessage.AddAttachment(
+                                    stream: memoryStream,
+                                    name: Strings.CoalesceEmpty(attachment.Name, "NoName"));
+                            }
+                        });
                     if (Parameters.Mail.SmtpUserName.ToLower() == "apikey")
                     {
                         new SendGrid.Web(apiKey: Parameters.Mail.SmtpPassword)
@@ -75,7 +90,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 .DeliverAsync(sendGridMessage);
                     }
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     new SysLogModel(Context, e);
                 }

@@ -9687,6 +9687,8 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.Title(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.Name(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.WhenloadingSiteSettings(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.WhenViewProcessing(context: context)))
@@ -9709,9 +9711,11 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.AfterDelete(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.BeforeOpeningPage(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.BeforeOpeningRow(context: context)))
                     .Th(action: () => hb
-                        .Text(text: Displays.BeforeOpeningPage(context: context)))));
+                        .Text(text: Displays.Shared(context: context)))));
         }
 
         /// <summary>
@@ -9736,6 +9740,8 @@ namespace Implem.Pleasanter.Models
                                 .Text(text: script.Id.ToString()))
                             .Td(action: () => hb
                                 .Text(text: script.Title))
+                            .Td(action: () => hb
+                                .Text(text: script.Name))
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
@@ -9783,11 +9789,15 @@ namespace Implem.Pleasanter.Models
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
+                                    _using: script.BeforeOpeningPage == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
                                     _using: script.BeforeOpeningRow == true))
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
-                                    _using: script.BeforeOpeningPage == true)))));
+                                    _using: script.Shared == true)))));
         }
 
         /// <summary>
@@ -9823,6 +9833,12 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Title(context: context),
                         text: script.Title,
                         validateRequired: true)
+                    .FieldTextBox(
+                        controlId: "ServerScriptName",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Name(context: context),
+                        text: script.Name)
                     .FieldTextBox(
                         textType: HtmlTypes.TextTypes.MultiLine,
                         controlId: "ServerScriptBody",
@@ -9901,17 +9917,23 @@ namespace Implem.Pleasanter.Models
                                 labelText: Displays.AfterDelete(context: context),
                                 _checked: script.AfterDelete == true)
                             .FieldCheckBox(
+                                controlId: "ServerScriptBeforeOpeningPage",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.BeforeOpeningPage(context: context),
+                                _checked: script.BeforeOpeningPage == true)
+                            .FieldCheckBox(
                                 controlId: "ServerScriptBeforeOpeningRow",
                                 fieldCss: outputDestinationCss,
                                 controlCss: " always-send",
                                 labelText: Displays.BeforeOpeningRow(context: context),
                                 _checked: script.BeforeOpeningRow == true)
                             .FieldCheckBox(
-                                controlId: "ServerScriptBeforeOpeningPage",
+                                controlId: "ServerScriptShared",
                                 fieldCss: outputDestinationCss,
                                 controlCss: " always-send",
-                                labelText: Displays.BeforeOpeningPage(context: context),
-                                _checked: script.BeforeOpeningPage == true))
+                                labelText: Displays.Shared(context: context),
+                                _checked: script.Shared == true))
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(

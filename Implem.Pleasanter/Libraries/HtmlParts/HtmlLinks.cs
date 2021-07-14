@@ -351,6 +351,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var column = ColumnUtilities.SqlColumnCollection(
                 context: context,
                 ss: ss,
+                view: view,
                 columns: ss.GetLinkTableColumns(
                     context: context,
                     view: view));
@@ -429,6 +430,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var column = ColumnUtilities.SqlColumnCollection(
                 context: context,
                 ss: ss,
+                view: view,
                 columns: ss.GetLinkTableColumns(
                     context: context,
                     view: view));
