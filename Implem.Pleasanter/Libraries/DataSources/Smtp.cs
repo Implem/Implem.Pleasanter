@@ -1,9 +1,12 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Mails;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
 using System;
+using System.IO;
+using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
 namespace Implem.Pleasanter.Libraries.DataSources
@@ -42,7 +45,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Body = body;
         }
 
-        public void Send(Context context)
+        public void Send(Context context, Attachments attachments = null)
         {
             var task = Task.Run(() =>
             {
@@ -65,6 +68,19 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 .ForEach(bcc => mailMessage.Bcc.Add(bcc));
                         mailMessage.Subject = Subject;
                         mailMessage.Body = Body;
+                        attachments
+                            ?.Where(attachment => attachment?.Base64?.IsNullOrEmpty() == false)
+                            .ForEach(attachment =>
+                            {
+                                var bytes = Convert.FromBase64String(attachment.Base64);
+                                using (var memoryStream = new MemoryStream(bytes))
+                                {
+                                    var attach = new System.Net.Mail.Attachment(
+                                        contentStream: memoryStream,
+                                        name: Strings.CoalesceEmpty(attachment.Name, "NoName"));
+                                    mailMessage.Attachments.Add(attach);
+                                }
+                            });
                         using (var smtpClient = new SmtpClient())
                         {
                             smtpClient.Host = Host;

@@ -18,8 +18,8 @@
         public bool OnBulkDeleted;
         public bool OnImporting;
         public bool OnImported;
-        public bool OnSelectingWhere;
         public bool OnSelectingColumn;
+        public bool OnSelectingWhere;
         public bool OnUseSecondaryAuthentication;
         public string CommandText;
     }

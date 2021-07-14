@@ -2278,6 +2278,7 @@
     <Content Include="App_Data\Displays\ReminderErrorTitle.json" />
     <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase16_IssuesIndexVariation.json" />
     <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase99_Login.json" />
+    <Content Include="App_Data\Displays\Shared.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />
