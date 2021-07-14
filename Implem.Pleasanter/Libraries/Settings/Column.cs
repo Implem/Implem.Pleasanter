@@ -1200,27 +1200,25 @@ namespace Implem.Pleasanter.Libraries.Settings
             List<string> mine,
             bool noCache = false)
         {
-            var canRead = CanRead(
-                context: context,
-                ss: ss,
-                mine: mine,
-                noCache: noCache);
             switch (context.Action)
             {
                 case "new":
-                    return canRead
-                        && CanCreate(
-                            context: context,
-                            ss: ss,
-                            mine: mine,
-                            noCache: noCache);
+                    return CanCreate(
+                        context: context,
+                        ss: ss,
+                        mine: mine,
+                        noCache: noCache);
                 default:
-                    return canRead
-                        && CanUpdate(
-                            context: context,
-                            ss: ss,
-                            mine: mine,
-                            noCache: noCache);
+                    return CanRead(
+                        context: context,
+                        ss: ss,
+                        mine: mine,
+                        noCache: noCache)
+                            && CanUpdate(
+                                context: context,
+                                ss: ss,
+                                mine: mine,
+                                noCache: noCache);
             }
         }
 

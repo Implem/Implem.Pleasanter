@@ -15,6 +15,7 @@ $(document).on('drop', '.control-attachments-upload', function (e) {
     e.preventDefault();
     var files = e.originalEvent.dataTransfer.files;
     $p.uploadAttachments($control, files);
+    $p.setFormChanged($(this));
 });
 
 $(document).on('click', '.control-attachments-upload', function (e) {
