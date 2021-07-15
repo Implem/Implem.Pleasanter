@@ -34,20 +34,20 @@ namespace Implem.Pleasanter.Models
             Column column,
             TenantModel tenantModel,
             int? tabIndex = null,
-            ServerScriptModelColumn serverScriptValues = null)
+            ServerScriptModelColumn serverScriptModelColumn = null)
         {
-            if (serverScriptValues?.Hide == true)
+            if (serverScriptModelColumn?.Hide == true)
             {
                 return hb.Td();
             }
-            if (serverScriptValues?.RawText.IsNullOrEmpty() == false)
+            if (serverScriptModelColumn?.RawText.IsNullOrEmpty() == false)
             {
                 return hb.Td(
                     context: context,
                     column: column,
-                    action: () => hb.Raw(serverScriptValues?.RawText),
+                    action: () => hb.Raw(serverScriptModelColumn?.RawText),
                     tabIndex: tabIndex,
-                    serverScriptValues: serverScriptValues);
+                    serverScriptModelColumn: serverScriptModelColumn);
             }
             else if (!column.GridDesign.IsNullOrEmpty())
             {
@@ -73,13 +73,13 @@ namespace Implem.Pleasanter.Models
                                     column: column,
                                     value: tenantModel.Ver,
                                     tabIndex: tabIndex,
-                                    serverScriptValues: serverScriptValues)
+                                    serverScriptModelColumn: serverScriptModelColumn)
                                 : hb.Td(
                                     context: context,
                                     column: column,
                                     value: string.Empty,
                                     tabIndex: tabIndex,
-                                    serverScriptValues: serverScriptValues);
+                                    serverScriptModelColumn: serverScriptModelColumn);
                     case "Comments":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -91,13 +91,13 @@ namespace Implem.Pleasanter.Models
                                     column: column,
                                     value: tenantModel.Comments,
                                     tabIndex: tabIndex,
-                                    serverScriptValues: serverScriptValues)
+                                    serverScriptModelColumn: serverScriptModelColumn)
                                 : hb.Td(
                                     context: context,
                                     column: column,
                                     value: string.Empty,
                                     tabIndex: tabIndex,
-                                    serverScriptValues: serverScriptValues);
+                                    serverScriptModelColumn: serverScriptModelColumn);
                     case "Creator":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -109,13 +109,13 @@ namespace Implem.Pleasanter.Models
                                     column: column,
                                     value: tenantModel.Creator,
                                     tabIndex: tabIndex,
-                                    serverScriptValues: serverScriptValues)
+                                    serverScriptModelColumn: serverScriptModelColumn)
                                 : hb.Td(
                                     context: context,
                                     column: column,
                                     value: string.Empty,
                                     tabIndex: tabIndex,
-                                    serverScriptValues: serverScriptValues);
+                                    serverScriptModelColumn: serverScriptModelColumn);
                     case "Updator":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -127,13 +127,13 @@ namespace Implem.Pleasanter.Models
                                     column: column,
                                     value: tenantModel.Updator,
                                     tabIndex: tabIndex,
-                                    serverScriptValues: serverScriptValues)
+                                    serverScriptModelColumn: serverScriptModelColumn)
                                 : hb.Td(
                                     context: context,
                                     column: column,
                                     value: string.Empty,
                                     tabIndex: tabIndex,
-                                    serverScriptValues: serverScriptValues);
+                                    serverScriptModelColumn: serverScriptModelColumn);
                     case "CreatedTime":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -145,13 +145,13 @@ namespace Implem.Pleasanter.Models
                                     column: column,
                                     value: tenantModel.CreatedTime,
                                     tabIndex: tabIndex,
-                                    serverScriptValues: serverScriptValues)
+                                    serverScriptModelColumn: serverScriptModelColumn)
                                 : hb.Td(
                                     context: context,
                                     column: column,
                                     value: string.Empty,
                                     tabIndex: tabIndex,
-                                    serverScriptValues: serverScriptValues);
+                                    serverScriptModelColumn: serverScriptModelColumn);
                     case "UpdatedTime":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -163,13 +163,13 @@ namespace Implem.Pleasanter.Models
                                     column: column,
                                     value: tenantModel.UpdatedTime,
                                     tabIndex: tabIndex,
-                                    serverScriptValues: serverScriptValues)
+                                    serverScriptModelColumn: serverScriptModelColumn)
                                 : hb.Td(
                                     context: context,
                                     column: column,
                                     value: string.Empty,
                                     tabIndex: tabIndex,
-                                    serverScriptValues: serverScriptValues);
+                                    serverScriptModelColumn: serverScriptModelColumn);
                     default:
                         switch (Def.ExtendedColumnTypes.Get(column.Name))
                         {
@@ -184,13 +184,13 @@ namespace Implem.Pleasanter.Models
                                             column: column,
                                             value: tenantModel.Class(columnName: column.Name),
                                             tabIndex: tabIndex,
-                                            serverScriptValues: serverScriptValues)
+                                            serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
                                             context: context,
                                             column: column,
                                             value: string.Empty,
                                             tabIndex: tabIndex,
-                                            serverScriptValues: serverScriptValues);
+                                            serverScriptModelColumn: serverScriptModelColumn);
                             case "Num":
                                 return ss.ReadColumnAccessControls.Allowed(
                                     context: context,
@@ -202,13 +202,13 @@ namespace Implem.Pleasanter.Models
                                             column: column,
                                             value: tenantModel.Num(columnName: column.Name),
                                             tabIndex: tabIndex,
-                                            serverScriptValues: serverScriptValues)
+                                            serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
                                             context: context,
                                             column: column,
                                             value: string.Empty,
                                             tabIndex: tabIndex,
-                                            serverScriptValues: serverScriptValues);
+                                            serverScriptModelColumn: serverScriptModelColumn);
                             case "Date":
                                 return ss.ReadColumnAccessControls.Allowed(
                                     context: context,
@@ -220,13 +220,13 @@ namespace Implem.Pleasanter.Models
                                             column: column,
                                             value: tenantModel.Date(columnName: column.Name),
                                             tabIndex: tabIndex,
-                                            serverScriptValues: serverScriptValues)
+                                            serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
                                             context: context,
                                             column: column,
                                             value: string.Empty,
                                             tabIndex: tabIndex,
-                                            serverScriptValues: serverScriptValues);
+                                            serverScriptModelColumn: serverScriptModelColumn);
                             case "Description":
                                 return ss.ReadColumnAccessControls.Allowed(
                                     context: context,
@@ -238,13 +238,13 @@ namespace Implem.Pleasanter.Models
                                             column: column,
                                             value: tenantModel.Description(columnName: column.Name),
                                             tabIndex: tabIndex,
-                                            serverScriptValues: serverScriptValues)
+                                            serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
                                             context: context,
                                             column: column,
                                             value: string.Empty,
                                             tabIndex: tabIndex,
-                                            serverScriptValues: serverScriptValues);
+                                            serverScriptModelColumn: serverScriptModelColumn);
                             case "Check":
                                 return ss.ReadColumnAccessControls.Allowed(
                                     context: context,
@@ -256,13 +256,13 @@ namespace Implem.Pleasanter.Models
                                             column: column,
                                             value: tenantModel.Check(columnName: column.Name),
                                             tabIndex: tabIndex,
-                                            serverScriptValues: serverScriptValues)
+                                            serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
                                             context: context,
                                             column: column,
                                             value: string.Empty,
                                             tabIndex: tabIndex,
-                                            serverScriptValues: serverScriptValues);
+                                            serverScriptModelColumn: serverScriptModelColumn);
                             case "Attachments":
                                 return ss.ReadColumnAccessControls.Allowed(
                                     context: context,
@@ -274,13 +274,13 @@ namespace Implem.Pleasanter.Models
                                             column: column,
                                             value: tenantModel.Attachments(columnName: column.Name),
                                             tabIndex: tabIndex,
-                                            serverScriptValues: serverScriptValues)
+                                            serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
                                             context: context,
                                             column: column,
                                             value: string.Empty,
                                             tabIndex: tabIndex,
-                                            serverScriptValues: serverScriptValues);
+                                            serverScriptModelColumn: serverScriptModelColumn);
                             default:
                                 return hb;
                         }

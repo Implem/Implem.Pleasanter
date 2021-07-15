@@ -437,6 +437,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetByForm": Code.Model_SetByForm = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm, definitionRow, CodeXls); break;
                     case "Model_SetByForm_Sites": Code.Model_SetByForm_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm_Sites, definitionRow, CodeXls); break;
                     case "Model_SetByForm_ColumnCases": Code.Model_SetByForm_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm_ColumnCases, definitionRow, CodeXls); break;
+                    case "Model_SetByForm_RecordPermissions": Code.Model_SetByForm_RecordPermissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm_RecordPermissions, definitionRow, CodeXls); break;
+                    case "Model_SetByForm_RecordPermissions_Sites": Code.Model_SetByForm_RecordPermissions_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm_RecordPermissions_Sites, definitionRow, CodeXls); break;
                     case "Model_SetByForm_SetByFormula": Code.Model_SetByForm_SetByFormula = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm_SetByFormula, definitionRow, CodeXls); break;
                     case "Model_SetByModel": Code.Model_SetByModel = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByModel, definitionRow, CodeXls); break;
                     case "Model_SetByModel_ColumnCases": Code.Model_SetByModel_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByModel_ColumnCases, definitionRow, CodeXls); break;
@@ -445,6 +447,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetLinking": Code.Model_SetLinking = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetLinking, definitionRow, CodeXls); break;
                     case "Model_SetByApi": Code.Model_SetByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi, definitionRow, CodeXls); break;
                     case "Model_SetByApi_ColumnCases": Code.Model_SetByApi_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_ColumnCases, definitionRow, CodeXls); break;
+                    case "Model_SetByApi_RecordPermissions": Code.Model_SetByApi_RecordPermissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_RecordPermissions, definitionRow, CodeXls); break;
                     case "Model_SetByLookups": Code.Model_SetByLookups = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByLookups, definitionRow, CodeXls); break;
                     case "Model_AddSqlParamIdentity": Code.Model_AddSqlParamIdentity = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_AddSqlParamIdentity, definitionRow, CodeXls); break;
                     case "Model_AddSqlParamPk": Code.Model_AddSqlParamPk = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_AddSqlParamPk, definitionRow, CodeXls); break;
@@ -748,6 +751,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Validator_OnUpdating_Users": Code.Model_Validator_OnUpdating_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnUpdating_Users, definitionRow, CodeXls); break;
                     case "Model_Validator_OnUpdatingCases": Code.Model_Validator_OnUpdatingCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnUpdatingCases, definitionRow, CodeXls); break;
                     case "Model_ValidatorMethods_Binaries": Code.Model_ValidatorMethods_Binaries = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ValidatorMethods_Binaries, definitionRow, CodeXls); break;
+                    case "Model_Validator_RecordPermissions": Code.Model_Validator_RecordPermissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_RecordPermissions, definitionRow, CodeXls); break;
                     case "Model_Validator_Api": Code.Model_Validator_Api = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_Api, definitionRow, CodeXls); break;
                     case "Model_Validator_LockedTable": Code.Model_Validator_LockedTable = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_LockedTable, definitionRow, CodeXls); break;
                     case "Model_Validator_LockedRecord": Code.Model_Validator_LockedRecord = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_LockedRecord, definitionRow, CodeXls); break;
@@ -7476,6 +7480,8 @@ namespace Implem.DefinitionAccessor
         public string Model_SetByForm;
         public string Model_SetByForm_Sites;
         public string Model_SetByForm_ColumnCases;
+        public string Model_SetByForm_RecordPermissions;
+        public string Model_SetByForm_RecordPermissions_Sites;
         public string Model_SetByForm_SetByFormula;
         public string Model_SetByModel;
         public string Model_SetByModel_ColumnCases;
@@ -7484,6 +7490,7 @@ namespace Implem.DefinitionAccessor
         public string Model_SetLinking;
         public string Model_SetByApi;
         public string Model_SetByApi_ColumnCases;
+        public string Model_SetByApi_RecordPermissions;
         public string Model_SetByLookups;
         public string Model_AddSqlParamIdentity;
         public string Model_AddSqlParamPk;
@@ -7787,6 +7794,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Validator_OnUpdating_Users;
         public string Model_Validator_OnUpdatingCases;
         public string Model_ValidatorMethods_Binaries;
+        public string Model_Validator_RecordPermissions;
         public string Model_Validator_Api;
         public string Model_Validator_LockedTable;
         public string Model_Validator_LockedRecord;
@@ -8153,6 +8161,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetByForm = new CodeDefinition();
         public CodeDefinition Model_SetByForm_Sites = new CodeDefinition();
         public CodeDefinition Model_SetByForm_ColumnCases = new CodeDefinition();
+        public CodeDefinition Model_SetByForm_RecordPermissions = new CodeDefinition();
+        public CodeDefinition Model_SetByForm_RecordPermissions_Sites = new CodeDefinition();
         public CodeDefinition Model_SetByForm_SetByFormula = new CodeDefinition();
         public CodeDefinition Model_SetByModel = new CodeDefinition();
         public CodeDefinition Model_SetByModel_ColumnCases = new CodeDefinition();
@@ -8161,6 +8171,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetLinking = new CodeDefinition();
         public CodeDefinition Model_SetByApi = new CodeDefinition();
         public CodeDefinition Model_SetByApi_ColumnCases = new CodeDefinition();
+        public CodeDefinition Model_SetByApi_RecordPermissions = new CodeDefinition();
         public CodeDefinition Model_SetByLookups = new CodeDefinition();
         public CodeDefinition Model_AddSqlParamIdentity = new CodeDefinition();
         public CodeDefinition Model_AddSqlParamPk = new CodeDefinition();
@@ -8464,6 +8475,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Validator_OnUpdating_Users = new CodeDefinition();
         public CodeDefinition Model_Validator_OnUpdatingCases = new CodeDefinition();
         public CodeDefinition Model_ValidatorMethods_Binaries = new CodeDefinition();
+        public CodeDefinition Model_Validator_RecordPermissions = new CodeDefinition();
         public CodeDefinition Model_Validator_Api = new CodeDefinition();
         public CodeDefinition Model_Validator_LockedTable = new CodeDefinition();
         public CodeDefinition Model_Validator_LockedRecord = new CodeDefinition();
