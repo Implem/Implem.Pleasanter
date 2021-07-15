@@ -1,5 +1,4 @@
 ﻿using Implem.DefinitionAccessor;
-using Implem.IRds;
 using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
@@ -13,6 +12,7 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Search;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
@@ -202,6 +202,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<ColumnAccessControl> CreateColumnAccessControls;
         public List<ColumnAccessControl> ReadColumnAccessControls;
         public List<ColumnAccessControl> UpdateColumnAccessControls;
+        private ServerScriptModel.ServerScriptModelRow ServerScriptModelRowCache;
         // compatibility Version 1.002
         public Dictionary<string, long> LinkColumnSiteIdHash;
         // compatibility Version 1.003
@@ -4572,6 +4573,22 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool GetNoDisplayIfReadOnly()
         {
             return PermissionType == Permissions.Types.Read && NoDisplayIfReadOnly;
+        }
+
+        public ServerScriptModel.ServerScriptModelRow GetServerScriptModelRow(
+            Context context, BaseItemModel itemModel = null)
+        {
+            if (ServerScriptModelRowCache == null)
+            {
+                ServerScriptModelRowCache = itemModel != null
+                    ? itemModel.SetByBeforeOpeningPageServerScript(
+                        context: context,
+                        ss: this)
+                    : new ItemModel().SetByBeforeOpeningPageServerScript(
+                        context: context,
+                        ss: this);
+            }
+            return ServerScriptModelRowCache;
         }
     }
 }

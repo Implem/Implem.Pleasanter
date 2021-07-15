@@ -128,9 +128,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public class ServerScriptModelColumn
         {
+            public string LabelText { get; set; }
             public Dictionary<object, object> ChoiceHash { get; set; }
             public bool ReadOnly { get; set; }
             public string ExtendedFieldCss { get; set; }
+            public string ExtendedControlCss { get; set; }
             public string ExtendedCellCss { get; set; }
             public string ExtendedHtmlBeforeField { get; set; }
             public string ExtendedHtmlAfterField { get; set; }
@@ -165,6 +167,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             mine: null,
                             noCache: true) == true)
                     || !ExtendedFieldCss.IsNullOrEmpty()
+                    || !ExtendedControlCss.IsNullOrEmpty()
                     || !ExtendedCellCss.IsNullOrEmpty()
                     || !ExtendedHtmlBeforeField.IsNullOrEmpty()
                     || !ExtendedHtmlAfterField.IsNullOrEmpty()

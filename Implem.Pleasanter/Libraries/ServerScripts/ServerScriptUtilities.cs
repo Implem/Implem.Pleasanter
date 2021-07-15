@@ -292,14 +292,22 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         definition.ColumnName,
                         new ServerScriptModelColumn
                         {
+                            LabelText = column?.LabelText
+                                ?? string.Empty,
                             ReadOnly = !(column?.CanEdit(
                                 context: context,
                                 ss: ss,
                                 mine: mine) == true),
-                            ExtendedFieldCss = string.Empty,
-                            ExtendedCellCss = string.Empty,
-                            ExtendedHtmlBeforeField = string.Empty,
-                            ExtendedHtmlAfterField = string.Empty,
+                            ExtendedFieldCss = column?.ExtendedFieldCss
+                                ?? string.Empty,
+                            ExtendedControlCss = column?.ExtendedControlCss
+                                ?? string.Empty,
+                            ExtendedCellCss = column?.ExtendedCellCss
+                                ?? string.Empty,
+                            ExtendedHtmlBeforeField = column?.ExtendedHtmlBeforeField
+                                ?? string.Empty,
+                            ExtendedHtmlAfterField = column?.ExtendedHtmlAfterField
+                                ?? string.Empty,
                             Hide = column?.Hide == true,
                             RawText = string.Empty
                         });
@@ -345,8 +353,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 var serverScriptColumn = datam.Value as ServerScriptModelColumn;
                 scriptValues[datam.Key] = new ServerScriptModelColumn
                 {
+                    LabelText = serverScriptColumn?.LabelText,
                     ChoiceHash = serverScriptColumn?.ChoiceHash,
                     ExtendedFieldCss = serverScriptColumn?.ExtendedFieldCss,
+                    ExtendedControlCss = serverScriptColumn?.ExtendedControlCss,
                     ExtendedCellCss = serverScriptColumn?.ExtendedCellCss,
                     ExtendedHtmlBeforeField = serverScriptColumn?.ExtendedHtmlBeforeField,
                     ExtendedHtmlAfterField = serverScriptColumn?.ExtendedHtmlAfterField,
@@ -792,13 +802,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 ?.Select(row => row?.Columns?.Get(columnName))
                 ?.Any(column => column?.ReadOnly == true) == true;
             return readOnly;
-        }
-
-        public static bool Hide(IEnumerable<ServerScriptModelColumn> serverScriptModelColumns)
-        {
-            var hide = serverScriptModelColumns
-                ?.Any(column => column?.Hide == true) == true;
-            return hide;
         }
 
         public static bool CanEdit(
