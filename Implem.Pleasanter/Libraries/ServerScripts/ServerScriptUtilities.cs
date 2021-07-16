@@ -354,6 +354,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 scriptValues[datam.Key] = new ServerScriptModelColumn
                 {
                     LabelText = serverScriptColumn?.LabelText,
+                    LabelRaw = serverScriptColumn?.LabelRaw,
                     ChoiceHash = serverScriptColumn?.ChoiceHash,
                     ExtendedFieldCss = serverScriptColumn?.ExtendedFieldCss,
                     ExtendedControlCss = serverScriptColumn?.ExtendedControlCss,
@@ -745,6 +746,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         engine.AddHostObject("hidden", model.Hidden);
                         engine.AddHostObject("extendedSql", model.ExtendedSql);
                         engine.AddHostObject("notifications", model.Notification);
+                        engine.AddHostObject("utilities", model.Utilities);
                         foreach (var script in scripts)
                         {
                             engine.Execute(script.Body);

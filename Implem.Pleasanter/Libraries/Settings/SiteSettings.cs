@@ -4547,6 +4547,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             string body,
             int depth = 0)
         {
+            if (body.IsNullOrEmpty())
+            {
+                return body;
+            }
             if (depth > Parameters.Script.ServerScriptIncludeDepthLimit)
             {
                 return body;
