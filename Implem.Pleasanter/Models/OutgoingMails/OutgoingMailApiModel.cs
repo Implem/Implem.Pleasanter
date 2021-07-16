@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Requests;
+﻿using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Requests;
 using System;
 namespace Implem.Pleasanter.Models
 {
@@ -11,5 +12,6 @@ namespace Implem.Pleasanter.Models
         public string Bcc { get; set; }
         public string Title { get; set; }
         public string Body { get; set; }
+        public Attachments Attachments { get; set; }
     }
 }
