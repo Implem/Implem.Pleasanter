@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Mails;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
@@ -7,6 +8,7 @@ using SendGrid;
 using SendGrid.Helpers.Mail;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
 namespace Implem.Pleasanter.Libraries.DataSources
@@ -43,7 +45,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Body = body;
         }
 
-        public async Task SendAsync(Context context)
+        public async Task SendAsync(Context context, Attachments attachments = null)
         {
             try
             {
@@ -56,6 +58,15 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     context: context,
                     addresses: Bcc)
                         .ForEach(bcc => msg.AddBcc(bcc));
+                attachments
+                    ?.Where(attachment => attachment?.Base64?.IsNullOrEmpty() == false)
+                    .ForEach(attachment =>
+                    {
+                        msg.AddAttachment(
+                            filename: Strings.CoalesceEmpty(attachment.Name, "NoName"),
+                            base64Content: attachment.Base64,
+                            type: attachment.ContentType);
+                    });
                 var client = new SendGridClient(Parameters.Mail.SmtpPassword);
                 var response = await client.SendEmailAsync(msg);
             }
