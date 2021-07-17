@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ExtendedHtmlBetweenLabelAndControl",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Between label and control"
+        },
+        {
+            "Language": "zh",
+            "Body": "在标签和控件之间"
+        },
+        {
+            "Language": "ja",
+            "Body": "ラベルとコントロールの間"
+        },
+        {
+            "Language": "de",
+            "Body": "Zwischen Etikett und Kontrolle"
+        },
+        {
+            "Language": "ko",
+            "Body": "레이블과 컨트롤 사이"
+        },
+        {
+            "Language": "es",
+            "Body": "Entre etiqueta y control"
+        },
+        {
+            "Language": "vn",
+            "Body": "Giữa nhãn và kiểm soát"
+        }
+    ]
+}

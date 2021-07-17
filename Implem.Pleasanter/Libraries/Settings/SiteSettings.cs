@@ -1102,6 +1102,21 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.ExtendedHtmlBeforeField = column.ExtendedHtmlBeforeField;
                     }
+                    if (column.ExtendedHtmlBeforeLabel?.Trim().IsNullOrEmpty() == false)
+                    {
+                        enabled = true;
+                        newColumn.ExtendedHtmlBeforeLabel = column.ExtendedHtmlBeforeLabel;
+                    }
+                    if (column.ExtendedHtmlBetweenLabelAndControl?.Trim().IsNullOrEmpty() == false)
+                    {
+                        enabled = true;
+                        newColumn.ExtendedHtmlBetweenLabelAndControl = column.ExtendedHtmlBetweenLabelAndControl;
+                    }
+                    if (column.ExtendedHtmlAfterControl?.Trim().IsNullOrEmpty() == false)
+                    {
+                        enabled = true;
+                        newColumn.ExtendedHtmlAfterControl = column.ExtendedHtmlAfterControl;
+                    }
                     if (column.ExtendedHtmlAfterField?.Trim().IsNullOrEmpty() == false)
                     {
                         enabled = true;
@@ -3167,6 +3182,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ServerRegexValidation": column.ServerRegexValidation = value; break;
                 case "RegexValidationMessage": column.RegexValidationMessage = value; break;
                 case "ExtendedHtmlBeforeField": column.ExtendedHtmlBeforeField = value; break;
+                case "ExtendedHtmlBeforeLabel": column.ExtendedHtmlBeforeLabel = value; break;
+                case "ExtendedHtmlBetweenLabelAndControl": column.ExtendedHtmlBetweenLabelAndControl = value; break;
+                case "ExtendedHtmlAfterControl": column.ExtendedHtmlAfterControl = value; break;
                 case "ExtendedHtmlAfterField": column.ExtendedHtmlAfterField = value; break;
                 case "Nullable": column.Nullable = value.ToBool(); break;
                 case "Unit": column.Unit = value; break;
