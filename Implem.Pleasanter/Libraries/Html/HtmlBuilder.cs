@@ -103,19 +103,25 @@ namespace Implem.Pleasanter.Libraries.Html
 
         public HtmlBuilder Text(string text)
         {
-            Current.Children.Add(new HtmlElement
+            if (!text.IsNullOrEmpty())
             {
-                Text = text
-            });
+                Current.Children.Add(new HtmlElement
+                {
+                    Text = text
+                });
+            }
             return this;
         }
 
         public HtmlBuilder Raw(string text)
         {
-            Current.Children.Add(new HtmlElement
+            if (!text.IsNullOrEmpty())
             {
-                RawText = text
-            });
+                Current.Children.Add(new HtmlElement
+                {
+                    RawText = text
+                });
+            }
             return this;
         }
 

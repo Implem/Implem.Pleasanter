@@ -68,11 +68,11 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Context context,
             Column column,
             int? tabIndex,
-            ServerScriptModelColumn serverScriptValues)
+            ServerScriptModelColumn serverScriptModelColumn)
         {
             var choice = column.Choice(Value.ToString());
             return hb.Td(
-                css: column.CellCss(serverScriptValues?.ExtendedCellCss),
+                css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
                 action: () => hb
                     .P(
                         attributes: new HtmlAttributes()

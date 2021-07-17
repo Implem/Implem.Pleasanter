@@ -3337,17 +3337,17 @@ namespace Implem.Pleasanter.Models
             Context context,
             Column column,
             int? tabIndex,
-            ServerScriptModelColumn serverScriptValues)
+            ServerScriptModelColumn serverScriptModelColumn)
         {
             return UserId != 0
                 ? hb.Td(
-                    css: column.CellCss(serverScriptValues?.ExtendedCellCss),
+                    css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
                     action: () => hb
                         .HtmlUser(
                             context: context,
                             text: column.ChoiceHash.Get(UserId.ToString())?.Text))
                 : hb.Td(
-                    css: column.CellCss(serverScriptValues?.ExtendedCellCss),
+                    css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
                     action: () => { });
         }
 

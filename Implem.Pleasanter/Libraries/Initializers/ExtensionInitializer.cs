@@ -24,6 +24,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                 Parameters.ExtendedScripts = Parameters.ExtendedScripts ?? new List<ExtendedScript>();
                 Parameters.ExtendedServerScripts = Parameters.ExtendedServerScripts ?? new List<ExtendedServerScript>();
                 Parameters.ExtendedHtmls = Parameters.ExtendedHtmls ?? new List<ExtendedHtml>();
+                Parameters.ExtendedNavigationMenus = Parameters.ExtendedNavigationMenus ?? new List<ExtendedNavigationMenu>();
                 extensions.ForEach(extension =>
                 {
                     switch (extension.ExtensionType)
@@ -109,6 +110,16 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                     extendedHtml.Html = listDisplay;
                                 }
                                 Parameters.ExtendedHtmls.Add(extendedHtml);
+                            }
+                            break;
+                        case "NavigationMenu":
+                            var extendedNavigationMenu = extension.ExtensionSettings.Deserialize<ExtendedNavigationMenu>();
+                            if (extendedNavigationMenu != null)
+                            {
+                                extendedNavigationMenu.Name = Strings.CoalesceEmpty(
+                                    extension.ExtensionName,
+                                    extendedNavigationMenu.Name);
+                                Parameters.ExtendedNavigationMenus.Add(extendedNavigationMenu);
                             }
                             break;
                         default:

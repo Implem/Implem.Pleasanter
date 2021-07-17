@@ -86,6 +86,7 @@ namespace Implem.DefinitionAccessor
             Parameters.ExtendedScripts = ExtendedScripts();
             Parameters.ExtendedServerScripts = ExtendedServerScripts();
             Parameters.ExtendedHtmls = ExtendedHtmls();
+            Parameters.ExtendedNavigationMenus = ExtendedNavigationMenus();
             Parameters.ExtendedTags = ExtendedTags();
             Parameters.General = Read<General>();
             Parameters.History = Read<History>();
@@ -386,6 +387,37 @@ namespace Implem.DefinitionAccessor
             foreach (var dir in new DirectoryInfo(path).GetDirectories())
             {
                 list = ExtendedHtmls(dir.FullName, list);
+            }
+            return list;
+        }
+
+        private static List<ExtendedNavigationMenu> ExtendedNavigationMenus(
+            string path = null,
+            List<ExtendedNavigationMenu> list = null)
+        {
+            list = list ?? new List<ExtendedNavigationMenu>();
+            path = path ?? Path.Combine(
+                Environments.CurrentDirectoryPath,
+                "App_Data",
+                "Parameters",
+                "ExtendedNavigationMenus");
+            foreach (var file in new DirectoryInfo(path).GetFiles("*.json"))
+            {
+                var extendedNavigationMenu = Files.Read(file.FullName)
+                    .Deserialize<ExtendedNavigationMenu>();
+                if (extendedNavigationMenu != null)
+                {
+                    extendedNavigationMenu.Path = file.FullName;
+                    list.Add(extendedNavigationMenu);
+                }
+                else
+                {
+                    Parameters.SyntaxErrors.Add(file.Name);
+                }
+            }
+            foreach (var dir in new DirectoryInfo(path).GetDirectories())
+            {
+                list = ExtendedNavigationMenus(dir.FullName, list);
             }
             return list;
         }

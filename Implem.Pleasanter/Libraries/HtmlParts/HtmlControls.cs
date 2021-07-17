@@ -526,6 +526,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlId = null,
             string controlCss = null,
             string labelText = null,
+            string labelRaw = null,
             bool _checked = false,
             bool disabled = false,
             bool alwaysSend = false,
@@ -550,7 +551,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .DataMethod(method)
                     .DataReadOnly(disabled)
                     .Checked(_checked));
-                if (labelText != string.Empty)
+                if (labelRaw != null)
+                {
+                    hb.Raw(text: labelRaw);
+                }
+                else if (labelText != string.Empty)
                 {
                     hb.Label(
                         attributes: new HtmlAttributes().For(controlId),

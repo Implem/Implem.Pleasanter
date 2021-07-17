@@ -1,0 +1,13 @@
+﻿{
+    "TargetId": "",
+    "Action": "",
+    "NavigationMenus": [
+        {
+            "ContainerId": "",
+            "MenuId": "",
+            "Name": "",
+            "Icon": "",
+            "ChildMenus": []
+        }
+    ]
+}

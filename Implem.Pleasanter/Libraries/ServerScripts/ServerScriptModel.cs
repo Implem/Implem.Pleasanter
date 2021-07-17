@@ -24,6 +24,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public ServerScriptModelHidden Hidden;
         public ServerScriptModelExtendedSql ExtendedSql;
         public ServerScriptModelNotification Notification;
+        public readonly ServerScriptModelUtilities Utilities;
         private readonly List<string> ChangeItemNames = new List<string>();
         private DateTime TimeOut;
 
@@ -94,9 +95,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             Items = new ServerScriptModelApiItems(
                 context: context,
                 onTesting: onTesting);
-            TimeOut = Parameters.Script.ServerScriptTimeOut == 0
-                ? DateTime.MaxValue
-                : DateTime.Now.AddMilliseconds(Parameters.Script.ServerScriptTimeOut);
             Hidden = new ServerScriptModelHidden();
             ExtendedSql = new ServerScriptModelExtendedSql(
                 context: context,
@@ -104,6 +102,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             Notification = new ServerScriptModelNotification(
                 context: context,
                 ss: ss);
+            Utilities = new ServerScriptModelUtilities(
+                context: context,
+                ss: ss);
+            TimeOut = Parameters.Script.ServerScriptTimeOut == 0
+                ? DateTime.MaxValue
+                : DateTime.Now.AddMilliseconds(Parameters.Script.ServerScriptTimeOut);
         }
 
         private void DataPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -128,11 +132,17 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public class ServerScriptModelColumn
         {
+            public string LabelText { get; set; }
+            public string LabelRaw { get; set; }
             public Dictionary<object, object> ChoiceHash { get; set; }
             public bool ReadOnly { get; set; }
             public string ExtendedFieldCss { get; set; }
+            public string ExtendedControlCss { get; set; }
             public string ExtendedCellCss { get; set; }
             public string ExtendedHtmlBeforeField { get; set; }
+            public string ExtendedHtmlBeforeLabel { get; set; }
+            public string ExtendedHtmlBetweenLabelAndControl { get; set; }
+            public string ExtendedHtmlAfterControl { get; set; }
             public string ExtendedHtmlAfterField { get; set; }
             public bool Hide { get; set; }
             public string RawText { get; set; }
@@ -154,7 +164,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 var column = ss.GetColumn(
                     context: context,
                     columnName: columnName);
-                return ChoiceHash?.Any() == true
+                var ret = LabelText != column.LabelText
+                    || LabelRaw != null
+                    || ChoiceHash?.Any() == true
                     || ReadOnly != !(column?.CanRead(
                         context: context,
                         ss: ss,
@@ -164,11 +176,16 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             ss: ss,
                             mine: null,
                             noCache: true) == true)
-                    || !ExtendedFieldCss.IsNullOrEmpty()
-                    || !ExtendedCellCss.IsNullOrEmpty()
-                    || !ExtendedHtmlBeforeField.IsNullOrEmpty()
-                    || !ExtendedHtmlAfterField.IsNullOrEmpty()
+                    || ExtendedFieldCss != (column.ExtendedFieldCss ?? string.Empty)
+                    || ExtendedControlCss != (column.ExtendedControlCss ?? string.Empty)
+                    || ExtendedCellCss != (column.ExtendedCellCss ?? string.Empty)
+                    || ExtendedHtmlBeforeField != (column.ExtendedHtmlBeforeField ?? string.Empty)
+                    || ExtendedHtmlBeforeLabel != (column.ExtendedHtmlBeforeLabel ?? string.Empty)
+                    || ExtendedHtmlBetweenLabelAndControl != (column.ExtendedHtmlBetweenLabelAndControl ?? string.Empty)
+                    || ExtendedHtmlAfterControl != (column.ExtendedHtmlAfterControl ?? string.Empty)
+                    || ExtendedHtmlAfterField != (column.ExtendedHtmlAfterField ?? string.Empty)
                     || !RawText.IsNullOrEmpty();
+                return ret;
             }
         }
 
