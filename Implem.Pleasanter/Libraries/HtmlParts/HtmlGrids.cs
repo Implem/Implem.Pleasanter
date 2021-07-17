@@ -29,6 +29,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool checkAll = false,
             string action = "GridRows")
         {
+            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
             return hb.Tr(
                 css: "ui-widget-header",
                 action: () =>
@@ -59,6 +60,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     }
                     columns.ForEach(column =>
                     {
+                        var gridLabelText = column.GridLabelText;
+                        var serverScriptLabelText = serverScriptModelRow?.Columns
+                            ?.Get(column.ColumnName)
+                            ?.LabelText;
+                        if (gridLabelText == column.LabelText
+                            && serverScriptLabelText != null
+                            && serverScriptLabelText != column.LabelText)
+                        {
+                            gridLabelText = serverScriptLabelText;
+                        }
                         if (sort)
                         {
                             hb.Th(
@@ -75,7 +86,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             .DataMethod("post"),
                                         action: () => hb
                                             .Span(action: () => hb
-                                                .Text(text: column.GridLabelText))
+                                                .Text(text: gridLabelText))
                                             .SortIcon(
                                                 view: view,
                                                 key: column.ColumnName)));
@@ -85,7 +96,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             hb.Th(
                                 css: column.CellCss(),
                                 action: () => hb
-                                    .Text(text: column.GridLabelText));
+                                    .Text(text: gridLabelText));
                         }
                     });
                 });
@@ -99,7 +110,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
            IEnumerable<Column> columns)
         {
             return hb.Div(id: "GridHeaderMenus", action: () =>
-                columns.ForEach((column) => hb
+                columns.ForEach(column => hb
                     .Ul(
                         id: "GridHeaderMenu__" + column.ColumnName,
                         attributes: new HtmlAttributes()
@@ -211,7 +222,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var dataId = dataRow.Long(idColumn);
             var dataVersion = dataRow.Int("Ver");
             var isHistory = dataRow.Bool("IsHistory");
-            ServerScriptModelRow serverScriptRowValues = null;
+            ServerScriptModelRow serverScriptModelRow = null;
             var depts = new Dictionary<string, DeptModel>();
             var groups = new Dictionary<string, GroupModel>();
             var registrations = new Dictionary<string, RegistrationModel>();
@@ -231,7 +242,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 o.Id == dataRow.Long("IssueId"))?.Data
                             : null);
                     ss.ClearColumnAccessControlCaches(baseModel: issueModel);
-                    serverScriptRowValues = issueModel?.SetByBeforeOpeningRowServerScript(
+                    serverScriptModelRow = issueModel?.SetByBeforeOpeningRowServerScript(
                         context: context,
                         ss: ss);
                     issues.Add("Issues", issueModel);
@@ -246,13 +257,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 o.Id == dataRow.Long("ResultId"))?.Data
                             : null);
                     ss.ClearColumnAccessControlCaches(baseModel: resultModel);
-                    serverScriptRowValues = resultModel?.SetByBeforeOpeningRowServerScript(
+                    serverScriptModelRow = resultModel?.SetByBeforeOpeningRowServerScript(
                         context: context,
                         ss: ss);
                     results.Add("Results", resultModel);
                     break;
             };
-            var extendedRowCss = serverScriptRowValues?.ExtendedRowCss;
+            var extendedRowCss = serverScriptModelRow?.ExtendedRowCss;
             extendedRowCss = extendedRowCss.IsNullOrEmpty() ? string.Empty : " " + extendedRowCss;
             return hb.Tr(
                 attributes: new HtmlAttributes()
@@ -445,7 +456,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         ss: column.SiteSettings,
                                         column: column,
                                         issueModel: issueModel,
-                                        serverScriptValues: serverScriptRowValues
+                                        serverScriptModelColumn: serverScriptModelRow
                                             ?.Columns
                                             ?.Get(column?.ColumnName));
                                 }
@@ -498,7 +509,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         ss: column.SiteSettings,
                                         column: column,
                                         resultModel: resultModel,
-                                        serverScriptValues: serverScriptRowValues
+                                        serverScriptModelColumn: serverScriptModelRow
                                             ?.Columns
                                             ?.Get(column?.ColumnName));
                                 }

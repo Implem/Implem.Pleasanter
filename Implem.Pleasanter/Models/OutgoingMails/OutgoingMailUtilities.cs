@@ -753,7 +753,8 @@ namespace Implem.Pleasanter.Models
             }
             var errorData = outgoingMailModel.Send(
                 context: context,
-                ss: ss);
+                ss: ss,
+                attachments: data.Attachments);
             switch (errorData.Type)
             {
                 case Error.Types.None:
