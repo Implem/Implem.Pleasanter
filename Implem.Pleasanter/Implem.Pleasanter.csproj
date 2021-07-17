@@ -388,6 +388,7 @@
     <Compile Include="Libraries\ServerScripts\ServerScriptModelExtendedSql.cs" />
     <Compile Include="Libraries\ServerScripts\ServerScriptModelNotification.cs" />
     <Compile Include="Libraries\ServerScripts\ServerScriptModelHidden.cs" />
+    <Compile Include="Libraries\ServerScripts\ServerScriptModelUtilities.cs" />
     <Compile Include="Libraries\ServerScripts\ServerScriptModelView.cs" />
     <Compile Include="Libraries\ServerScripts\ServerScriptModelSiteSettings.cs" />
     <Compile Include="Libraries\ServerScripts\ServerScriptModelContextServerScript.cs" />
@@ -1349,6 +1350,7 @@
     <Content Include="App_Data\Parameters\ExtendedAutoTest\TestParts\Items\Issues\Transition\ToIssuesIndex.json" />
     <Content Include="App_Data\Parameters\ExtendedAutoTest\TestParts\Items\Issues\Transition\ToIssuesKamban.json" />
     <Content Include="App_Data\Parameters\ExtendedHtmls\Sample.html.txt" />
+    <Content Include="App_Data\Parameters\ExtendedNavigationMenus\Sample.json.txt" />
     <Content Include="App_Data\Parameters\ExtendedScripts\Sample.js.txt" />
     <Content Include="App_Data\Parameters\ExtendedServerScripts\Sample.json.txt" />
     <Content Include="App_Data\Parameters\ExtendedSqls\Sample.json.txt" />
@@ -2279,6 +2281,9 @@
     <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase16_IssuesIndexVariation.json" />
     <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase99_Login.json" />
     <Content Include="App_Data\Displays\Shared.json" />
+    <Content Include="App_Data\Displays\ExtendedHtmlBeforeLabel.json" />
+    <Content Include="App_Data\Displays\ExtendedHtmlAfterControl.json" />
+    <Content Include="App_Data\Displays\ExtendedHtmlBetweenLabelAndControl.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

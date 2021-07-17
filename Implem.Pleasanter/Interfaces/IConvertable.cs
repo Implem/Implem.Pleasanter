@@ -15,7 +15,7 @@ namespace Implem.Pleasanter.Interfaces
             Context context,
             Column column,
             int? tabIndex,
-            ServerScriptModelColumn serverScriptValues);
+            ServerScriptModelColumn serverScriptModelColumn);
         string ToExport(Context context, Column column, ExportColumn exportColumn = null);
         bool InitialValue(Context context);
     }

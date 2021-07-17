@@ -292,14 +292,28 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         definition.ColumnName,
                         new ServerScriptModelColumn
                         {
+                            LabelText = column?.LabelText
+                                ?? string.Empty,
                             ReadOnly = !(column?.CanEdit(
                                 context: context,
                                 ss: ss,
                                 mine: mine) == true),
-                            ExtendedFieldCss = string.Empty,
-                            ExtendedCellCss = string.Empty,
-                            ExtendedHtmlBeforeField = string.Empty,
-                            ExtendedHtmlAfterField = string.Empty,
+                            ExtendedFieldCss = column?.ExtendedFieldCss
+                                ?? string.Empty,
+                            ExtendedControlCss = column?.ExtendedControlCss
+                                ?? string.Empty,
+                            ExtendedCellCss = column?.ExtendedCellCss
+                                ?? string.Empty,
+                            ExtendedHtmlBeforeField = column?.ExtendedHtmlBeforeField
+                                ?? string.Empty,
+                            ExtendedHtmlBeforeLabel = column?.ExtendedHtmlBeforeLabel
+                                ?? string.Empty,
+                            ExtendedHtmlBetweenLabelAndControl = column?.ExtendedHtmlBetweenLabelAndControl
+                                ?? string.Empty,
+                            ExtendedHtmlAfterControl = column?.ExtendedHtmlAfterControl
+                                ?? string.Empty,
+                            ExtendedHtmlAfterField = column?.ExtendedHtmlAfterField
+                                ?? string.Empty,
                             Hide = column?.Hide == true,
                             RawText = string.Empty
                         });
@@ -345,10 +359,16 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 var serverScriptColumn = datam.Value as ServerScriptModelColumn;
                 scriptValues[datam.Key] = new ServerScriptModelColumn
                 {
+                    LabelText = serverScriptColumn?.LabelText,
+                    LabelRaw = serverScriptColumn?.LabelRaw,
                     ChoiceHash = serverScriptColumn?.ChoiceHash,
                     ExtendedFieldCss = serverScriptColumn?.ExtendedFieldCss,
+                    ExtendedControlCss = serverScriptColumn?.ExtendedControlCss,
                     ExtendedCellCss = serverScriptColumn?.ExtendedCellCss,
                     ExtendedHtmlBeforeField = serverScriptColumn?.ExtendedHtmlBeforeField,
+                    ExtendedHtmlBeforeLabel = serverScriptColumn?.ExtendedHtmlBeforeLabel,
+                    ExtendedHtmlBetweenLabelAndControl = serverScriptColumn?.ExtendedHtmlBetweenLabelAndControl,
+                    ExtendedHtmlAfterControl = serverScriptColumn?.ExtendedHtmlAfterControl,
                     ExtendedHtmlAfterField = serverScriptColumn?.ExtendedHtmlAfterField,
                     Hide = serverScriptColumn?.Hide == true,
                     RawText = serverScriptColumn?.RawText,
@@ -459,6 +479,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         private static void SetResultModelValues(
             Context context,
+            SiteSettings ss,
             ResultModel resultModel,
             ExpandoObject data,
             Dictionary<string, Column> columns)
@@ -509,6 +530,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 getter: column => Bool(
                     data: data,
                     name: column.Name));
+            if (Bool(data: data, name: "UpdateOnExit"))
+            {
+                resultModel.Update(
+                    context: context,
+                    ss: ss,
+                    notice: true);
+            }
         }
 
         private static void SetIssueModelValues(
@@ -597,6 +625,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 getter: column => Bool(
                     data: data,
                     name: column.Name));
+            if (Bool(data: data, name: "UpdateOnExit"))
+            {
+                issueModel.Update(
+                    context: context,
+                    ss: ss,
+                    notice: true);
+            }
         }
 
         private static void SetViewValues(
@@ -672,6 +707,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         SetResultModelValues(
                             context: context,
+                            ss: ss,
                             resultModel: resultModel,
                             data: data.Model,
                             columns: valueColumnDictionary);
@@ -736,6 +772,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         engine.AddHostObject("hidden", model.Hidden);
                         engine.AddHostObject("extendedSql", model.ExtendedSql);
                         engine.AddHostObject("notifications", model.Notification);
+                        engine.AddHostObject("utilities", model.Utilities);
                         foreach (var script in scripts)
                         {
                             engine.Execute(script.Body);
@@ -793,13 +830,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 ?.Select(row => row?.Columns?.Get(columnName))
                 ?.Any(column => column?.ReadOnly == true) == true;
             return readOnly;
-        }
-
-        public static bool Hide(IEnumerable<ServerScriptModelColumn> serverScriptModelColumns)
-        {
-            var hide = serverScriptModelColumns
-                ?.Any(column => column?.Hide == true) == true;
-            return hide;
         }
 
         public static bool CanEdit(

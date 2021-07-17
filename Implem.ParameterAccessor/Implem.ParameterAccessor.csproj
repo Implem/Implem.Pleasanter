@@ -57,6 +57,7 @@
     <Compile Include="Parts\AutoTestResultCheck.cs" />
     <Compile Include="Parts\AutoTestScenario.cs" />
     <Compile Include="Parts\AutoTestSettings.cs" />
+    <Compile Include="Parts\ExtendedNavigationMenu.cs" />
     <Compile Include="Parts\Mobile.cs" />
     <Compile Include="Parts\NavigationMenu.cs" />
     <Compile Include="Parts\User.cs" />

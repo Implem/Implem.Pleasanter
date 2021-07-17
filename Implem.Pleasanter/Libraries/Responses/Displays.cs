@@ -2959,13 +2959,23 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string ExtendedHtmlAfterField(
+        public static string ExtendedHtmlAfterControl(
             Context context,
             params string[] data)
         {
             return Get(
                 context: context,
-                id: "ExtendedHtmlAfterField",
+                id: "ExtendedHtmlAfterControl",
+                data: data);
+        }
+
+        public static string ExtendedHtmlBeforeLabel(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ExtendedHtmlBeforeLabel",
                 data: data);
         }
 
@@ -2976,6 +2986,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ExtendedHtmlBeforeField",
+                data: data);
+        }
+
+        public static string ExtendedHtmlAfterField(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ExtendedHtmlAfterField",
+                data: data);
+        }
+
+        public static string ExtendedHtmlBetweenLabelAndControl(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ExtendedHtmlBetweenLabelAndControl",
                 data: data);
         }
 

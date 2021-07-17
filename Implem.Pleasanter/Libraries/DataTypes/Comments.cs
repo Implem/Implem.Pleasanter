@@ -59,11 +59,11 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Context context,
             Column column,
             int? tabIndex,
-            ServerScriptModelColumn serverScriptValues)
+            ServerScriptModelColumn serverScriptModelColumn)
         {
             var css = GridCss(context: context);
             return hb.Td(
-                css: column.CellCss(serverScriptValues?.ExtendedCellCss),
+                css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
                 action: () => this?
                     .Take(DisplayCount(context: context))
                     .ForEach(comment => comment

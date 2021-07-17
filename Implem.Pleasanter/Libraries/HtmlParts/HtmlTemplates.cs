@@ -38,7 +38,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string script = null,
             string userScript = null,
             string userStyle = null,
-            ServerScriptModelRow scriptValues = null,
+            ServerScriptModelRow serverScriptModelRow = null,
             Action action = null)
         {
             return hb.Container(
@@ -72,7 +72,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .HiddenData(
                         context: context,
                         ss: ss,
-                        scriptValues: scriptValues)
+                        serverScriptModelRow: serverScriptModelRow)
                     .VideoDialog(
                         context: context,
                         ss: ss)
@@ -547,7 +547,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
 
         private static HtmlBuilder HiddenData(
-            this HtmlBuilder hb, Context context, SiteSettings ss = null, ServerScriptModelRow scriptValues = null)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss = null,
+            ServerScriptModelRow serverScriptModelRow = null)
         {
             return !context.Ajax
                 ? hb
@@ -582,7 +585,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .HiddenServerScript(
                         context: context,
                         ss: ss,
-                        scriptValues: scriptValues)
+                        serverScriptModelRow: serverScriptModelRow)
                     .ExtendedSql(context: context)
                     .Hidden(
                         controlId: "Log",
@@ -610,11 +613,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
-            ServerScriptModelRow scriptValues)
+            ServerScriptModelRow serverScriptModelRow)
         {
-            scriptValues?.Hidden?.ForEach(hidden => hb
+            serverScriptModelRow?.Hidden?.ForEach(hidden => hb
                 .Hidden(controlId: hidden.Key, value: hidden.Value));
-            var needReplaceHtml = scriptValues?.NeedReplaceHtml(
+            var needReplaceHtml = serverScriptModelRow?.NeedReplaceHtml(
                 context: context,
                 ss: ss) ?? new List<string>();
             hb.Hidden(

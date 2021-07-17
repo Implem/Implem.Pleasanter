@@ -79,6 +79,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ServerRegexValidation;
         public string RegexValidationMessage;
         public string ExtendedHtmlBeforeField;
+        public string ExtendedHtmlBeforeLabel;
+        public string ExtendedHtmlBetweenLabelAndControl;
+        public string ExtendedHtmlAfterControl;
         public string ExtendedHtmlAfterField;
         public int? DecimalPlaces;
         public bool? Nullable;
