@@ -7,6 +7,7 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.Linq;
 using NavigationMenu = Implem.ParameterAccessor.Parts.NavigationMenu;
@@ -37,7 +38,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 siteId: siteId,
                                 referenceType: referenceType,
                                 muenuId: "NavigationMenu",
-                                menus: Parameters.NavigationMenus)
+                                menus: ExtendedAssembleNavigationMenu(
+                                    navigationMenus: Parameters.NavigationMenus,
+                                    extendedNavigationMenus: ExtendedNavigationMenu(context)))
                             .Search(
                                 context: context,
                                 _using: useSearch && !Parameters.Search.DisableCrossSearch))
@@ -586,6 +589,168 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .OnClick("$p.openResponsiveMenu();")
                             .DataAction("OpenResponsiveMenu"))
                     : hb;
+        }
+
+        private static List<ParameterAccessor.Parts.ExtendedNavigationMenu> ExtendedNavigationMenu(Context context)
+        {
+            return ExtendedNavigationMenu(
+                userId: context.UserId,
+                deptId: context.DeptId,
+                siteId: context.SiteId,
+                id: context.Id,
+                controller: context.Controller,
+                action: context.Action);
+        }
+
+        private static List<ParameterAccessor.Parts.ExtendedNavigationMenu> ExtendedNavigationMenu(
+            int userId,
+            int deptId,
+            long siteId,
+            long id,
+            string controller,
+            string action)
+        {
+            var extendedNavigationMenus = ExtensionUtilities.ExtensionWhere<ParameterAccessor.Parts.ExtendedNavigationMenu>(
+                extensions: Parameters.ExtendedNavigationMenus,
+                userId: userId,
+                deptId: deptId,
+                siteId: siteId,
+                id: id,
+                controller: controller,
+                action: action);
+            return extendedNavigationMenus.ToList();
+        }
+
+        private static List<NavigationMenu> ExtendedAssembleNavigationMenu(
+            List<NavigationMenu> navigationMenus,
+            List<ParameterAccessor.Parts.ExtendedNavigationMenu> extendedNavigationMenus)
+        {
+            var menus = navigationMenus
+                .ToJson()
+                .Deserialize<List<NavigationMenu>>();
+            var exMenus = extendedNavigationMenus
+                .ToJson()
+                .Deserialize<List<ParameterAccessor.Parts.ExtendedNavigationMenu>>();
+            exMenus?.ForEach(extendedMenu =>
+            {
+                switch (extendedMenu.Action)
+                {
+                    case "Append":
+                        AppendExtendedNavigationMenu(
+                            menus: menus,
+                            targetId: extendedMenu.TargetId,
+                            extendedMenus: extendedMenu.NavigationMenus);
+                        break;
+                    case "Prepend":
+                        PrependExtendedNavigationMenu(
+                            menus: menus,
+                            targetId: extendedMenu.TargetId,
+                            extendedMenus: extendedMenu.NavigationMenus);
+                        break;
+                    case "Remove":
+                        RemoveExtendedNavigationMenu(
+                            menus: menus,
+                            targetId: extendedMenu.TargetId);
+                        break;
+                    case "Replace":
+                        ReplaceExtendedNavigationMenu(
+                            menus: menus,
+                            targetId: extendedMenu.TargetId,
+                            extendedMenus: extendedMenu.NavigationMenus);
+                        break;
+                    case "ReplaceAll":
+                        menus = extendedMenu.NavigationMenus;
+                        break;
+                    default:
+                        break;
+                }
+            });
+            return menus;
+        }
+
+        private static void AppendExtendedNavigationMenu(
+            List<NavigationMenu> menus,
+            string targetId,
+            List<NavigationMenu> extendedMenus)
+        {
+            var targetMenu = menus?
+                .Select((m, i) => new { Index = i, Menu = m })
+                .FirstOrDefault(o => o.Menu.MenuId == targetId);
+            if (targetMenu != null && extendedMenus != null)
+            {
+                menus.InsertRange(targetMenu.Index + 1, extendedMenus);
+            }
+            else
+            {
+                menus?.ForEach(menu =>
+                    AppendExtendedNavigationMenu(
+                        menus: menu.ChildMenus,
+                        targetId: targetId,
+                        extendedMenus: extendedMenus));
+            }
+        }
+
+        private static void PrependExtendedNavigationMenu(
+            List<NavigationMenu> menus,
+            string targetId,
+            List<NavigationMenu> extendedMenus)
+        {
+            var targetMenu = menus?
+                .Select((m, i) => new { Index = i, Menu = m })
+                .FirstOrDefault(o => o.Menu.MenuId == targetId);
+            if (targetMenu != null && extendedMenus != null)
+            {
+                menus.InsertRange(targetMenu.Index, extendedMenus);
+            }
+            else
+            {
+                menus?.ForEach(menu =>
+                    PrependExtendedNavigationMenu(
+                        menus: menu.ChildMenus,
+                        targetId: targetId,
+                        extendedMenus: extendedMenus));
+            }
+        }
+
+        private static void RemoveExtendedNavigationMenu(
+            List<NavigationMenu> menus,
+            string targetId)
+        {
+            var targetMenu = menus?.FirstOrDefault(o => o.MenuId == targetId);
+            if (targetMenu != null)
+            {
+                menus.Remove(targetMenu);
+            }
+            else
+            {
+                menus?.ForEach(menu =>
+                    RemoveExtendedNavigationMenu(
+                        menus: menu.ChildMenus,
+                        targetId: targetId));
+            }
+        }
+
+        private static void ReplaceExtendedNavigationMenu(
+            List<NavigationMenu> menus,
+            string targetId,
+            List<NavigationMenu> extendedMenus)
+        {
+            var targetMenu = menus?
+                .Select((m, i) => new { Index = i, Menu = m })
+                .FirstOrDefault(o => o.Menu.MenuId == targetId);
+            if (targetMenu != null && extendedMenus != null)
+            {
+                menus.RemoveAt(targetMenu.Index);
+                menus.InsertRange(targetMenu.Index, extendedMenus);
+            }
+            else
+            {
+                menus?.ForEach(menu =>
+                    ReplaceExtendedNavigationMenu(
+                        menus: menu.ChildMenus,
+                        targetId: targetId,
+                        extendedMenus: extendedMenus));
+            }
         }
     }
 }
