@@ -15,6 +15,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             SiteSettings = ss;
         }
 
+        public DateTime Today()
+        {
+            return DateTime.Today;
+        }
+
         public bool InRange(DateTime dt)
         {
             return dt.InRange();

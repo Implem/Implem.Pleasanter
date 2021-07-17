@@ -4969,6 +4969,24 @@ namespace Implem.Pleasanter.Models
                                 text: column.ExtendedHtmlBeforeField)
                             .FieldTextBox(
                                 textType: HtmlTypes.TextTypes.MultiLine,
+                                controlId: "ExtendedHtmlBeforeLabel",
+                                fieldCss: "field-wide",
+                                labelText: Displays.ExtendedHtmlBeforeLabel(context: context),
+                                text: column.ExtendedHtmlBeforeLabel)
+                            .FieldTextBox(
+                                textType: HtmlTypes.TextTypes.MultiLine,
+                                controlId: "ExtendedHtmlBetweenLabelAndControl",
+                                fieldCss: "field-wide",
+                                labelText: Displays.ExtendedHtmlBetweenLabelAndControl(context: context),
+                                text: column.ExtendedHtmlBetweenLabelAndControl)
+                            .FieldTextBox(
+                                textType: HtmlTypes.TextTypes.MultiLine,
+                                controlId: "ExtendedHtmlAfterControl",
+                                fieldCss: "field-wide",
+                                labelText: Displays.ExtendedHtmlAfterControl(context: context),
+                                text: column.ExtendedHtmlAfterControl)
+                            .FieldTextBox(
+                                textType: HtmlTypes.TextTypes.MultiLine,
                                 controlId: "ExtendedHtmlAfterField",
                                 fieldCss: "field-wide",
                                 labelText: Displays.ExtendedHtmlAfterField(context: context),

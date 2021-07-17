@@ -306,6 +306,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                                 ?? string.Empty,
                             ExtendedHtmlBeforeField = column?.ExtendedHtmlBeforeField
                                 ?? string.Empty,
+                            ExtendedHtmlBeforeLabel = column?.ExtendedHtmlBeforeLabel
+                                ?? string.Empty,
+                            ExtendedHtmlBetweenLabelAndControl = column?.ExtendedHtmlBetweenLabelAndControl
+                                ?? string.Empty,
+                            ExtendedHtmlAfterControl = column?.ExtendedHtmlAfterControl
+                                ?? string.Empty,
                             ExtendedHtmlAfterField = column?.ExtendedHtmlAfterField
                                 ?? string.Empty,
                             Hide = column?.Hide == true,
@@ -360,6 +366,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ExtendedControlCss = serverScriptColumn?.ExtendedControlCss,
                     ExtendedCellCss = serverScriptColumn?.ExtendedCellCss,
                     ExtendedHtmlBeforeField = serverScriptColumn?.ExtendedHtmlBeforeField,
+                    ExtendedHtmlBeforeLabel = serverScriptColumn?.ExtendedHtmlBeforeLabel,
+                    ExtendedHtmlBetweenLabelAndControl = serverScriptColumn?.ExtendedHtmlBetweenLabelAndControl,
+                    ExtendedHtmlAfterControl = serverScriptColumn?.ExtendedHtmlAfterControl,
                     ExtendedHtmlAfterField = serverScriptColumn?.ExtendedHtmlAfterField,
                     Hide = serverScriptColumn?.Hide == true,
                     RawText = serverScriptColumn?.RawText,
@@ -470,6 +479,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         private static void SetResultModelValues(
             Context context,
+            SiteSettings ss,
             ResultModel resultModel,
             ExpandoObject data,
             Dictionary<string, Column> columns)
@@ -520,6 +530,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 getter: column => Bool(
                     data: data,
                     name: column.Name));
+            if (Bool(data: data, name: "UpdateOnExit"))
+            {
+                resultModel.Update(
+                    context: context,
+                    ss: ss,
+                    notice: true);
+            }
         }
 
         private static void SetIssueModelValues(
@@ -608,6 +625,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 getter: column => Bool(
                     data: data,
                     name: column.Name));
+            if (Bool(data: data, name: "UpdateOnExit"))
+            {
+                issueModel.Update(
+                    context: context,
+                    ss: ss,
+                    notice: true);
+            }
         }
 
         private static void SetViewValues(
@@ -683,6 +707,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         SetResultModelValues(
                             context: context,
+                            ss: ss,
                             resultModel: resultModel,
                             data: data.Model,
                             columns: valueColumnDictionary);

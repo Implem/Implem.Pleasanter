@@ -103,6 +103,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlType: ControlType(column),
                         labelText: serverScriptModelColumn?.LabelText
                             ?? column.LabelText,
+                        labelRaw: serverScriptModelColumn?.LabelRaw,
                         value: value,
                         optionCollection: EditChoices(
                             context: context,
@@ -112,7 +113,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         mobile: context.Mobile,
                         controlOnly: controlOnly,
                         alwaysSend: alwaysSend,
-                        preview: preview)
+                        preview: preview,
+                        extendedHtmlBeforeLabel: column.ExtendedHtmlBeforeLabel
+                            ?? serverScriptModelColumn?.ExtendedHtmlBeforeLabel,
+                        extendedHtmlBetweenLabelAndControl: column.ExtendedHtmlBetweenLabelAndControl
+                            ?? serverScriptModelColumn?.ExtendedHtmlBetweenLabelAndControl,
+                        extendedHtmlAfterControl: column.ExtendedHtmlAfterControl
+                            ?? serverScriptModelColumn?.ExtendedHtmlAfterControl)
                     .Raw(serverScriptModelColumn?.ExtendedHtmlAfterField
                         ?? column.ExtendedHtmlAfterField)
                     .Raw(HtmlHtmls.ExtendedHtmls(
@@ -267,12 +274,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlCss,
             ControlTypes controlType,
             string labelText,
+            string labelRaw,
             string value,
             Dictionary<string, ControlData> optionCollection,
             bool mobile,
             bool controlOnly,
             bool alwaysSend,
-            bool preview)
+            bool preview,
+            string extendedHtmlBeforeLabel,
+            string extendedHtmlBetweenLabelAndControl,
+            string extendedHtmlAfterControl)
         {
             var required = column.Required || (column.ValidateRequired ?? false);
             if (preview)
@@ -299,10 +310,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
                                 labelText: labelText,
+                                labelRaw: labelRaw,
                                 controlOnly: controlOnly,
                                 _checked: value.ToBool(),
                                 disabled: true,
-                                alwaysSend: alwaysSend);
+                                alwaysSend: alwaysSend,
+                                extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                                extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                                extendedHtmlAfterControl: extendedHtmlAfterControl);
                         case ControlTypes.MarkDown:
                             return hb.FieldMarkDown(
                                 context: context,
@@ -315,6 +330,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
                                 labelText: labelText,
+                                labelRaw: labelRaw,
                                 controlOnly: controlOnly,
                                 text: value,
                                 placeholder: labelText,
@@ -326,7 +342,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 preview: preview,
                                 validateMaxLength: column.MaxLength.ToInt(),
                                 validateRegex: column.ClientRegexValidation,
-                                validateRegexErrorMessage: column.RegexValidationMessage);
+                                validateRegexErrorMessage: column.RegexValidationMessage,
+                                extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                                extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                                extendedHtmlAfterControl: extendedHtmlAfterControl);
                         case ControlTypes.Attachments:
                             return hb.FieldAttachments(
                                 context: context,
@@ -338,10 +357,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 labelCss: labelCss,
                                 controlContainerCss: controlContainerCss,
                                 labelText: labelText,
+                                labelRaw: labelRaw,
                                 controlOnly: controlOnly,
                                 value: value,
                                 readOnly: true,
-                                preview: preview);
+                                preview: preview,
+                                extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                                extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                                extendedHtmlAfterControl: extendedHtmlAfterControl);
                         default:
                             return hb.FieldText(
                                 fieldId: controlId + "Field",
@@ -352,6 +375,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
                                 labelText: labelText,
+                                labelRaw: labelRaw,
                                 controlOnly: controlOnly,
                                 text: value.ToDisplay(
                                     context: context,
@@ -359,7 +383,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     column: column),
                                 dataValue: column.HasChoices()
                                     ? value
-                                    : null);
+                                    : null,
+                                extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                                extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                                extendedHtmlAfterControl: extendedHtmlAfterControl);
                     }
                 case Permissions.ColumnPermissionTypes.Update:
                     switch (controlType)
@@ -378,6 +405,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         ? " search"
                                         : string.Empty),
                                 labelText: labelText,
+                                labelRaw: labelRaw,
                                 labelRequired: required,
                                 controlOnly: controlOnly,
                                 optionCollection: optionCollection,
@@ -386,7 +414,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 insertBlank: column.MultipleSelections != true,
                                 alwaysSend: alwaysSend,
                                 validateRequired: required,
-                                column: column);
+                                column: column,
+                                extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                                extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                                extendedHtmlAfterControl: extendedHtmlAfterControl);
                         case ControlTypes.Text:
                             return hb.FieldText(
                                 fieldId: controlId + "Field",
@@ -397,8 +428,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
                                 labelText: labelText,
+                                labelRaw: labelRaw,
                                 controlOnly: controlOnly,
-                                text: value);
+                                text: value,
+                                extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                                extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                                extendedHtmlAfterControl: extendedHtmlAfterControl);
                         case ControlTypes.TextBoxMultiLine:
                             return hb.FieldTextBox(
                                 textType: HtmlTypes.TextTypes.MultiLine,
@@ -410,6 +445,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
                                 labelText: labelText,
+                                labelRaw: labelRaw,
                                 labelRequired: required,
                                 controlOnly: controlOnly,
                                 text: value,
@@ -423,7 +459,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ? column.MaxLength.ToInt()
                                     : column.ValidateMaxLength ?? 0,
                                 validateRegex: column.ClientRegexValidation,
-                                validateRegexErrorMessage: column.RegexValidationMessage);
+                                validateRegexErrorMessage: column.RegexValidationMessage,
+                                extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                                extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                                extendedHtmlAfterControl: extendedHtmlAfterControl);
                         case ControlTypes.MarkDown:
                             return hb.FieldMarkDown(
                                 context: context,
@@ -436,6 +475,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
                                 labelText: labelText,
+                                labelRaw: labelRaw,
                                 labelRequired: required,
                                 controlOnly: controlOnly,
                                 text: value,
@@ -450,7 +490,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 preview: preview,
                                 validateMaxLength: column.MaxLength.ToInt(),
                                 validateRegex: column.ClientRegexValidation,
-                                validateRegexErrorMessage: column.RegexValidationMessage);
+                                validateRegexErrorMessage: column.RegexValidationMessage,
+                                extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                                extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                                extendedHtmlAfterControl: extendedHtmlAfterControl);
                         case ControlTypes.TextBox:
                             return hb.FieldTextBox(
                                 textType: column.Hash
@@ -464,6 +507,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
                                 labelText: labelText,
+                                labelRaw: labelRaw,
                                 labelRequired: required,
                                 controlOnly: controlOnly,
                                 text: value,
@@ -477,7 +521,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ? column.MaxLength.ToInt()
                                     : column.ValidateMaxLength ?? 0,
                                 validateRegex: column.ClientRegexValidation,
-                                validateRegexErrorMessage: column.RegexValidationMessage);
+                                validateRegexErrorMessage: column.RegexValidationMessage,
+                                extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                                extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                                extendedHtmlAfterControl: extendedHtmlAfterControl);
                         case ControlTypes.TextBoxNumeric:
                             return hb.FieldTextBox(
                                 textType: HtmlTypes.TextTypes.Normal,
@@ -489,6 +536,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
                                 labelText: labelText,
+                                labelRaw: labelRaw,
                                 labelRequired: required,
                                 controlOnly: controlOnly,
                                 unit: column.Unit,
@@ -509,7 +557,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ? column.MaxLength.ToInt()
                                     : column.ValidateMaxLength ?? 0,
                                 validateRegex: column.ClientRegexValidation,
-                                validateRegexErrorMessage: column.RegexValidationMessage);
+                                validateRegexErrorMessage: column.RegexValidationMessage,
+                                extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                                extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                                extendedHtmlAfterControl: extendedHtmlAfterControl);
                         case ControlTypes.TextBoxDateTime:
                             return hb.FieldTextBox(
                                 textType: HtmlTypes.TextTypes.DateTime,
@@ -521,6 +572,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
                                 labelText: labelText,
+                                labelRaw: labelRaw,
                                 labelRequired: required,
                                 controlOnly: controlOnly,
                                 text: value,
@@ -541,7 +593,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ? null
                                     : new Dictionary<string, string>() {
                                         { "data-step", column.DateTimeStep?.ToString() }
-                                    });
+                                    },
+                                extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                                extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                                extendedHtmlAfterControl: extendedHtmlAfterControl);
                         case ControlTypes.CheckBox:
                             return hb.FieldCheckBox(
                                 fieldId: controlId + "Field",
@@ -552,11 +607,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
                                 labelText: labelText,
+                                labelRaw: labelRaw,
                                 labelRequired: required,
                                 controlOnly: controlOnly,
                                 _checked: value.ToBool(),
                                 disabled: column.EditorReadOnly == true,
-                                alwaysSend: alwaysSend);
+                                alwaysSend: alwaysSend,
+                                extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                                extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                                extendedHtmlAfterControl: extendedHtmlAfterControl);
                         case ControlTypes.Slider:
                             return hb.FieldSlider(
                                 fieldId: controlId + "Field",
@@ -567,6 +626,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
                                 labelText: labelText,
+                                labelRaw: labelRaw,
                                 labelRequired: required,
                                 controlOnly: controlOnly,
                                 value: value.ToDecimal(),
@@ -574,7 +634,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 max: column.Max.ToDecimal(),
                                 step: column.Step.ToDecimal(),
                                 unit: column.Unit,
-                                alwaysSend: alwaysSend);
+                                alwaysSend: alwaysSend,
+                                extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                                extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                                extendedHtmlAfterControl: extendedHtmlAfterControl);
                         case ControlTypes.Spinner:
                             return hb.FieldSpinner(
                                 fieldId: controlId + "Field",
@@ -585,6 +648,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
                                 labelText: labelText,
+                                labelRaw: labelRaw,
                                 labelRequired: required,
                                 controlOnly: controlOnly,
                                 value: !value.IsNullOrEmpty()
@@ -596,7 +660,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 width: 50,
                                 unit: column.Unit,
                                 alwaysSend: alwaysSend,
-                                allowBlank: true);
+                                allowBlank: true,
+                                extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                                extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                                extendedHtmlAfterControl: extendedHtmlAfterControl);
                         case ControlTypes.Attachments:
                             return hb.FieldAttachments(
                                 context: context,
@@ -608,11 +675,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 labelCss: labelCss,
                                 controlContainerCss: controlContainerCss,
                                 labelText: labelText,
+                                labelRaw: labelRaw,
                                 labelRequired: required,
                                 controlOnly: controlOnly,
                                 value: value,
                                 readOnly: column.EditorReadOnly == true,
-                                preview: preview);
+                                preview: preview,
+                                extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                                extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                                extendedHtmlAfterControl: extendedHtmlAfterControl);
                         default:
                             return hb;
                     }
@@ -720,12 +791,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelCss = null,
             string controlContainerCss = null,
             string labelText = null,
+            string labelRaw = null,
             string labelTitle = null,
             bool labelRequired = false,
             bool controlOnly = false,
+            string tagControlContainer = "div",
+            string extendedHtmlBeforeLabel = null,
+            string extendedHtmlBetweenLabelAndControl = null,
+            string extendedHtmlAfterControl = null,
             Action controlAction = null,
             Action actionOptions = null,
-            string tagControlContainer = "div",
             bool _using = true)
         {
             return _using
@@ -734,11 +809,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     fieldCss: fieldCss,
                     fieldDescription: fieldDescription,
                     controlOnly: controlOnly,
+                    extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                    extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                    extendedHtmlAfterControl: extendedHtmlAfterControl,
                     actionLabel: () => hb
                         .Label(
                             controlId: controlId,
                             labelCss: labelCss,
                             labelText: labelText,
+                            labelRaw: labelRaw,
                             labelTitle: labelTitle,
                             labelRequired: labelRequired,
                             _using: !controlOnly),
@@ -775,6 +854,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string fieldCss = null,
             string fieldDescription = null,
             bool controlOnly = false,
+            string extendedHtmlBeforeLabel = null,
+            string extendedHtmlBetweenLabelAndControl = null,
+            string extendedHtmlAfterControl = null,
             Action actionLabel = null,
             Action actionControl = null,
             Action actionOptions = null,
@@ -790,9 +872,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Title(fieldDescription),
                     action: () =>
                     {
+                        hb.Raw(text: extendedHtmlBeforeLabel);
                         actionLabel?.Invoke();
+                        hb.Raw(text: extendedHtmlBetweenLabelAndControl);
                         actionControl?.Invoke();
                         actionOptions?.Invoke();
+                        hb.Raw(text: extendedHtmlAfterControl);
                     })
                 : hb;
         }
@@ -802,21 +887,31 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlId = null,
             string labelCss = null,
             string labelText = null,
+            string labelRaw = null,
             string labelTitle = null,
             bool labelRequired = false,
             bool _using = true)
         {
             return _using && labelText != string.Empty
-                ? hb.P(css: "field-label", action: () => hb
-                    .Label(
-                        attributes: new HtmlAttributes()
-                            .For(controlId)
-                            .Class(Css.Class(labelCss, labelRequired
-                                ? " required"
-                                : string.Empty))
-                            .Title(labelTitle),
-                        action: () => hb
-                            .Text(labelText)))
+                ? hb.P(css: "field-label", action: () =>
+                {
+                    if (labelRaw != null)
+                    {
+                        hb.Raw(text: labelRaw);
+                    }
+                    else
+                    {
+                        hb.Label(
+                            attributes: new HtmlAttributes()
+                                .For(controlId)
+                                .Class(Css.Class(labelCss, labelRequired
+                                    ? " required"
+                                    : string.Empty))
+                                .Title(labelTitle),
+                            action: () => hb
+                                .Text(labelText));
+                    }
+                })
                 : hb;
         }
 
@@ -851,12 +946,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlContainerCss = null,
             string controlCss = null,
             string labelText = null,
+            string labelRaw = null,
             string labelTitle = null,
             bool labelRequired = false,
             bool controlOnly = false,
             string text = null,
             string dataValue = null,
             bool alwaysSend = false,
+            string extendedHtmlBeforeLabel = null,
+            string extendedHtmlBetweenLabelAndControl = null,
+            string extendedHtmlAfterControl = null,
             bool _using = true)
         {
             return _using
@@ -866,9 +965,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     fieldCss: fieldCss,
                     labelCss: labelCss,
                     labelText: labelText,
+                    labelRaw: labelRaw,
                     labelTitle: labelTitle,
                     labelRequired: labelRequired,
                     controlOnly: controlOnly,
+                    extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                    extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                    extendedHtmlAfterControl: extendedHtmlAfterControl,
                     controlAction: () => hb
                         .Span(
                             attributes: new HtmlAttributes()
@@ -894,6 +997,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlContainerCss = null,
             string controlCss = null,
             string labelText = null,
+            string labelRaw = null,
             string labelTitle = null,
             bool labelRequired = false,
             bool controlOnly = false,
@@ -916,6 +1020,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string action = null,
             string method = null,
             Dictionary<string, string> attributes = null,
+            string extendedHtmlBeforeLabel = null,
+            string extendedHtmlBetweenLabelAndControl = null,
+            string extendedHtmlAfterControl = null,
             bool _using = true)
         {
             return _using
@@ -927,9 +1034,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelCss: labelCss,
                     controlContainerCss: controlContainerCss,
                     labelText: labelText,
+                    labelRaw: labelRaw,
                     labelTitle: labelTitle,
                     labelRequired: labelRequired,
                     controlOnly: controlOnly,
+                    extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                    extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                    extendedHtmlAfterControl: extendedHtmlAfterControl,
                     controlAction: () => hb
                         .TextBox(
                             textType: textType,
@@ -974,6 +1085,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlContainerCss = null,
             string controlCss = null,
             string labelText = null,
+            string labelRaw = null,
             string labelTitle = null,
             int validateMaxLength = 0,
             string validateRegex = null,
@@ -991,6 +1103,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Column.ViewerSwitchingTypes viewerSwitchingTypes = Column.ViewerSwitchingTypes.Auto,
             Dictionary<string, string> attributes = null,
             bool preview = false,
+            string extendedHtmlBeforeLabel = null,
+            string extendedHtmlBetweenLabelAndControl = null,
+            string extendedHtmlAfterControl = null,
             bool _using = true)
         {
             return _using
@@ -1002,9 +1117,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelCss: labelCss,
                     controlContainerCss: controlContainerCss,
                     labelText: labelText,
+                    labelRaw: labelRaw,
                     labelTitle: labelTitle,
                     labelRequired: labelRequired,
                     controlOnly: controlOnly,
+                    extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                    extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                    extendedHtmlAfterControl: extendedHtmlAfterControl,
                     controlAction: () => hb
                         .MarkDown(
                             context: context,
@@ -1037,11 +1156,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlContainerCss = null,
             string controlCss = null,
             string labelText = null,
+            string labelRaw = null,
             string labelTitle = null,
             bool labelRequired = false,
             bool controlOnly = false,
             string text = null,
             Dictionary<string, string> attributes = null,
+            string extendedHtmlBeforeLabel = null,
+            string extendedHtmlBetweenLabelAndControl = null,
+            string extendedHtmlAfterControl = null,
             bool _using = true)
         {
             return _using
@@ -1053,9 +1176,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelCss: labelCss,
                     controlContainerCss: controlContainerCss,
                     labelText: labelText,
+                    labelRaw: labelRaw,
                     labelTitle: labelTitle,
                     labelRequired: labelRequired,
                     controlOnly: controlOnly,
+                    extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                    extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                    extendedHtmlAfterControl: extendedHtmlAfterControl,
                     controlAction: () => hb
                         .MarkUp(
                             controlId: controlId,
@@ -1076,6 +1203,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlContainerCss = null,
             string controlCss = null,
             string labelText = null,
+            string labelRaw = null,
             string labelTitle = null,
             bool labelRequired = false,
             bool controlOnly = false,
@@ -1091,6 +1219,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string action = null,
             string method = null,
             Column column = null,
+            string extendedHtmlBeforeLabel = null,
+            string extendedHtmlBetweenLabelAndControl = null,
+            string extendedHtmlAfterControl = null,
             bool _using = true)
         {
             return _using
@@ -1102,9 +1233,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelCss: labelCss,
                     controlContainerCss: controlContainerCss,
                     labelText: labelText,
+                    labelRaw: labelRaw,
                     labelTitle: labelTitle,
                     labelRequired: labelRequired,
                     controlOnly: controlOnly,
+                    extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                    extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                    extendedHtmlAfterControl: extendedHtmlAfterControl,
                     controlAction: () => hb
                         .DropDown(
                             context: context,
@@ -1137,6 +1272,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlContainerCss = null,
             string controlCss = null,
             string labelText = null,
+            string labelRaw = null,
             string labelTitle = null,
             bool labelRequired = false,
             bool controlOnly = false,
@@ -1152,6 +1288,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string action = null,
             string method = null,
             Column column = null,
+            string extendedHtmlBeforeLabel = null,
+            string extendedHtmlBetweenLabelAndControl = null,
+            string extendedHtmlAfterControl = null,
             bool _using = true)
         {
             return _using
@@ -1163,9 +1302,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelCss: labelCss,
                     controlContainerCss: controlContainerCss,
                     labelText: labelText,
+                    labelRaw: labelRaw,
                     labelTitle: labelTitle,
                     labelRequired: labelRequired,
                     controlOnly: controlOnly,
+                    extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                    extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                    extendedHtmlAfterControl: extendedHtmlAfterControl,
                     controlAction: () => hb
                         .DropDown(
                             context: context,
@@ -1196,6 +1339,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlContainerCss = null,
             string controlCss = null,
             string labelText = null,
+            string labelRaw = null,
             string labelTitle = null,
             bool labelRequired = false,
             bool controlOnly = false,
@@ -1207,6 +1351,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string action = null,
             string method = null,
             bool labelPositionIsRight = true,
+            string extendedHtmlBeforeLabel = null,
+            string extendedHtmlBetweenLabelAndControl = null,
+            string extendedHtmlAfterControl = null,
             bool _using = true)
         {
             if (!_using) return hb;
@@ -1220,9 +1367,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelCss: labelCss,
                     controlContainerCss: controlContainerCss,
                     labelText: labelText,
+                    labelRaw: labelRaw,
                     labelTitle: labelTitle,
                     labelRequired: labelRequired,
                     controlOnly: controlOnly,
+                    extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                    extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                    extendedHtmlAfterControl: extendedHtmlAfterControl,
                     controlAction: () => hb
                         .CheckBox(
                             controlId: controlId,
@@ -1248,6 +1399,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelTitle: labelTitle,
                     labelRequired: labelRequired,
                     controlOnly: controlOnly,
+                    extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                    extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                    extendedHtmlAfterControl: extendedHtmlAfterControl,
                     controlAction: () => hb
                         .CheckBox(
                             controlId: controlId,
@@ -1271,11 +1425,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlContainerCss = null,
             string controlCss = null,
             string labelText = null,
+            string labelRaw = null,
             string labelTitle = null,
             bool labelRequired = false,
             bool controlOnly = false,
             Dictionary<string, ControlData> optionCollection = null,
             string selectedValueText = null,
+            string extendedHtmlBeforeLabel = null,
+            string extendedHtmlBetweenLabelAndControl = null,
+            string extendedHtmlAfterControl = null,
             bool _using = true)
         {
             return _using
@@ -1286,9 +1444,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelCss: labelCss,
                     controlContainerCss: controlContainerCss,
                     labelText: labelText,
+                    labelRaw: labelRaw,
                     labelTitle: labelTitle,
                     labelRequired: labelRequired,
                     controlOnly: controlOnly,
+                    extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                    extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                    extendedHtmlAfterControl: extendedHtmlAfterControl,
                     controlAction: () => hb
                         .RadioButtons(
                             name: name,
@@ -1308,6 +1470,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlContainerCss = null,
             string controlCss = null,
             string labelText = null,
+            string labelRaw = null,
             string labelTitle = null,
             bool labelRequired = false,
             bool controlOnly = false,
@@ -1322,6 +1485,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string onChange = null,
             string action = null,
             string method = null,
+            string extendedHtmlBeforeLabel = null,
+            string extendedHtmlBetweenLabelAndControl = null,
+            string extendedHtmlAfterControl = null,
             bool _using = true)
         {
             return _using
@@ -1333,9 +1499,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelCss: labelCss,
                     controlContainerCss: controlContainerCss,
                     labelText: labelText,
+                    labelRaw: labelRaw,
                     labelTitle: labelTitle,
                     labelRequired: labelRequired,
                     controlOnly: controlOnly,
+                    extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                    extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                    extendedHtmlAfterControl: extendedHtmlAfterControl,
                     controlAction: () =>
                     {
                         hb.Spinner(
@@ -1370,6 +1540,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlContainerCss = null,
             string controlCss = null,
             string labelText = null,
+            string labelRaw = null,
             string labelTitle = null,
             bool labelRequired = false,
             bool controlOnly = false,
@@ -1381,6 +1552,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool alwaysSend = false,
             string action = null,
             string method = null,
+            string extendedHtmlBeforeLabel = null,
+            string extendedHtmlBetweenLabelAndControl = null,
+            string extendedHtmlAfterControl = null,
             bool _using = true)
         {
             return _using
@@ -1392,9 +1566,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelCss: labelCss,
                     controlContainerCss: controlContainerCss,
                     labelText: labelText,
+                    labelRaw: labelRaw,
                     labelTitle: labelTitle,
                     labelRequired: labelRequired,
                     controlOnly: controlOnly,
+                    extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                    extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                    extendedHtmlAfterControl: extendedHtmlAfterControl,
                     controlAction: () => hb
                         .Slider(
                             controlId: controlId,
@@ -1421,6 +1599,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlWrapperCss = null,
             string controlCss = null,
             string labelText = null,
+            string labelRaw = null,
             string labelTitle = null,
             bool labelRequired = false,
             bool controlOnly = false,
@@ -1430,8 +1609,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool alwaysDataValue = false,
             string action = null,
             string method = null,
-            bool _using = true,
-            Action commandOptionAction = null)
+            string extendedHtmlBeforeLabel = null,
+            string extendedHtmlBetweenLabelAndControl = null,
+            string extendedHtmlAfterControl = null,
+            Action commandOptionAction = null,
+            bool _using = true)
         {
             if (!_using) return hb;
             if (!commandOptionPositionIsTop)
@@ -1443,9 +1625,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelCss: labelCss,
                     controlContainerCss: controlContainerCss,
                     labelText: labelText,
+                    labelRaw: labelRaw,
                     labelTitle: labelTitle,
                     labelRequired: labelRequired,
                     controlOnly: controlOnly,
+                    extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                    extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                    extendedHtmlAfterControl: extendedHtmlAfterControl,
                     controlAction: () => hb
                         .SelectableWrapper(
                             controlId: controlId,
@@ -1466,6 +1652,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelCss: labelCss,
                     controlContainerCss: controlContainerCss,
                     labelText: labelText,
+                    labelRaw: labelRaw,
                     labelTitle: labelTitle,
                     labelRequired: labelRequired,
                     controlOnly: controlOnly,
@@ -1495,14 +1682,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Action labelAction = null,
             Dictionary<string, ControlData> listItemCollection = null,
             IEnumerable<string> selectedValueCollection = null,
-            bool _using = true,
-            Action actionOptions = null)
+            string extendedHtmlBeforeLabel = null,
+            string extendedHtmlBetweenLabelAndControl = null,
+            string extendedHtmlAfterControl = null,
+            Action actionOptions = null,
+            bool _using = true)
         {
             return _using
                 ? hb.Field(
                     fieldId: fieldId,
                     fieldCss: fieldCss,
                     fieldDescription: fieldDescription,
+                    extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                    extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                    extendedHtmlAfterControl: extendedHtmlAfterControl,
                     actionLabel: () => hb
                         .Div(css: "field-label", action: labelAction),
                     actionControl: () => hb
@@ -1526,13 +1719,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelCss = null,
             string controlContainerCss = null,
             string labelText = null,
+            string labelRaw = null,
             bool labelRequired = false,
             bool controlOnly = false,
             string value = null,
             bool readOnly = false,
             bool preview = false,
-            bool _using = true,
-            int validateMaxLength = 0)
+            int validateMaxLength = 0,
+            string extendedHtmlBeforeLabel = null,
+            string extendedHtmlBetweenLabelAndControl = null,
+            string extendedHtmlAfterControl = null,
+            bool _using = true)
         {
             return _using
                 ? hb.Field(
@@ -1542,8 +1739,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelCss: labelCss,
                     controlContainerCss: controlContainerCss,
                     labelText: labelText,
+                    labelRaw: labelRaw,
                     labelRequired: labelRequired,
                     controlOnly: controlOnly,
+                    extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                    extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                    extendedHtmlAfterControl: extendedHtmlAfterControl,
                     controlAction: () => hb
                         .Attachments(
                             context: context,
