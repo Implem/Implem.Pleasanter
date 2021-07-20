@@ -38,7 +38,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             con.Bind(entry.Dn, password);
                             UpdateOrInsert(
                                 context: context,
-                                loginId: loginId,
                                 entry: entry,
                                 ldap: ldap,
                                 synchronizedTime: DateTime.Now);
@@ -138,7 +137,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         private static void UpdateOrInsert(
             Context context,
-            string loginId,
             LdapEntry entry,
             ParameterAccessor.Parts.Ldap ldap,
             DateTime synchronizedTime)
@@ -155,6 +153,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 context: context,
                 name: ldap.LdapUserCode,
                 pattern: ldap.LdapUserCodePattern);
+            var loginId = LoginId(
+                context: context,
+                ldap: ldap,
+                entry: entry);
             var name = Name(
                 context: context,
                 loginId: loginId,
@@ -334,29 +336,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         if (Enabled(entry, ldap))
                         {
                             logs.Add("entry", entry.Dn);
-                            if (Authentications.Windows(context: context))
-                            {
-                                UpdateOrInsert(
-                                    context: context,
-                                    loginId: NetBiosName(
-                                        context: context,
-                                        entry: entry,
-                                        ldap: ldap),
-                                    entry: entry,
-                                    ldap: ldap,
-                                    synchronizedTime: synchronizedTime);
-                            }
-                            else
-                            {
-                                UpdateOrInsert(
-                                    context: context,
-                                    loginId: entry.Property(
-                                        context: context,
-                                        name: ldap.LdapSearchProperty),
-                                    entry: entry,
-                                    ldap: ldap,
-                                    synchronizedTime: synchronizedTime);
-                            }
+                            UpdateOrInsert(
+                                context: context,
+                                entry: entry,
+                                ldap: ldap,
+                                synchronizedTime: synchronizedTime);
                         }
                     }
                 }
@@ -420,6 +404,22 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 }
             }
             return string.Empty;
+        }
+
+        private static string LoginId(
+            Context context,
+            ParameterAccessor.Parts.Ldap ldap,
+            LdapEntry entry)
+        {
+            var loginId = Authentications.Windows(context: context)
+                ? NetBiosName(
+                    context: context,
+                    entry: entry,
+                    ldap: ldap)
+                : entry.Property(
+                    context: context,
+                    name: ldap.LdapSearchProperty);
+            return loginId;
         }
 
         private static string Name(
