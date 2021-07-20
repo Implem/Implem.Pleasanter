@@ -1201,7 +1201,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Context context,
             SiteSettings ss,
             List<string> mine,
-            bool noCache = false)
+            bool noCache = true)
         {
             switch (context.Action)
             {
