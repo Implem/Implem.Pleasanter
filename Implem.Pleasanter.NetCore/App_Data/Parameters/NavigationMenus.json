@@ -160,14 +160,14 @@
                 "MenuId": "HelpMenu_AnnualSupportService",
                 "Name": "AnnualSupportService",
                 "Icon": "ui-icon ui-icon-clipboard",
-                "Url": "https://pleasanter.org/service",
+                "Url": "https://pleasanter.org/support",
                 "Target": "_blank"
             },
             {
                 "MenuId": "HelpMenu_EnterpriseEdition",
                 "Name": "EnterpriseEdition",
                 "Icon": "ui-icon ui-icon-lightbulb",
-                "Url": "https://pleasanter.org/support",
+                "Url": "https://pleasanter.org/enterprise",
                 "Target": "_blank"
             },
             {
@@ -181,7 +181,7 @@
                 "MenuId": "HelpMenu_Contact",
                 "Name": "Contact",
                 "Icon": "ui-icon ui-icon-contact",
-                "Url": "https://implem.co.jp/contact/",
+                "Url": "https://pleasanter.org/contact",
                 "Target": "_blank"
             },
             {
