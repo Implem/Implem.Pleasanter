@@ -5158,7 +5158,8 @@ namespace Implem.Pleasanter.Models
                                             && column.ColumnName != "Comments");
                                     break;
                             }
-                            if (!column.Required)
+                            if (column.Required == false
+                                || column.TypeName == "datetime")
                             {
                                 hb
                                     .FieldCheckBox(
