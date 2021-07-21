@@ -1694,20 +1694,22 @@ namespace Implem.Pleasanter.Models
                         ?.SelectMany(tab => tab.Value ?? Enumerable.Empty<string>())
                         .Any(columnName => ss.LinkId(columnName) != 0) == false)
                 {
-                    hb
-                        .Div(id: "LinkCreations", css: "links", action: () => hb
-                            .LinkCreations(
-                                context: context,
-                                ss: ss,
-                                linkId: issueModel.IssueId,
-                                methodType: issueModel.MethodType,
-                                links: links))
-                        .Div(id: "Links", css: "links", action: () => hb
+                    hb.Div(id: "LinkCreations", css: "links", action: () => hb
+                        .LinkCreations(
+                            context: context,
+                            ss: ss,
+                            linkId: issueModel.IssueId,
+                            methodType: issueModel.MethodType,
+                            links: links));
+                    if (ss.HideLink != true)
+                    {
+                        hb.Div(id: "Links", css: "links", action: () => hb
                             .Links(
                                 context: context,
                                 ss: ss,
                                 id: issueModel.IssueId,
                                 dataSet: dataSet));
+                    }
                 }
             }
             return hb;

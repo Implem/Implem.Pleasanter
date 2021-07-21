@@ -171,6 +171,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? AllowEditingComments;
         public bool? AllowSeparate;
         public bool? AllowLockTable;
+        public bool? HideLink;
         public bool? SwitchRecordWithAjax;
         public bool? EnableCalendar;
         public bool? EnableCrosstab;
@@ -298,6 +299,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             AllowEditingComments = AllowEditingComments ?? false;
             AllowSeparate = AllowSeparate ?? false;
             AllowLockTable = AllowLockTable ?? false;
+            HideLink = HideLink ?? false;
             SwitchRecordWithAjax = SwitchRecordWithAjax ?? false;
             EnableCalendar = EnableCalendar ?? true;
             EnableCrosstab = EnableCrosstab ?? true;
@@ -665,6 +667,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (AllowLockTable == true)
             {
                 ss.AllowLockTable = AllowLockTable;
+            }
+            if (HideLink == true)
+            {
+                ss.HideLink = HideLink;
             }
             if (SwitchRecordWithAjax == true)
             {
@@ -2991,6 +2997,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "AllowEditingComments": AllowEditingComments = value.ToBool(); break;
                 case "AllowSeparate": AllowSeparate = value.ToBool(); break;
                 case "AllowLockTable": AllowLockTable = value.ToBool(); break;
+                case "HideLink": HideLink = value.ToBool(); break;
                 case "SwitchRecordWithAjax": SwitchRecordWithAjax = value.ToBool(); break;
                 case "EnableCalendar": EnableCalendar = value.ToBool(); break;
                 case "EnableCrosstab": EnableCrosstab = value.ToBool(); break;

@@ -3229,6 +3229,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string HideLink(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "HideLink",
+                data: data);
+        }
+
         public static string HideList(
             Context context,
             params string[] data)

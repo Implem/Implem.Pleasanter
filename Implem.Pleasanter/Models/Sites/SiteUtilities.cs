@@ -4826,6 +4826,11 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.AllowLockTable(context: context),
                         _checked: ss.AllowLockTable == true)
                     .FieldCheckBox(
+                        controlId: "HideLink",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.HideLink(context: context),
+                        _checked: ss.HideLink == true)
+                    .FieldCheckBox(
                         controlId: "SwitchRecordWithAjax",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.SwitchRecordWithAjax(context: context),
