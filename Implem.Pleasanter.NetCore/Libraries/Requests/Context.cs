@@ -587,10 +587,10 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
             return false;
         }
 
-
         bool IsMobile(HttpRequest request)
         {
-            return request?.Headers.TryGetValue("User-Agent", out var value) == true ? value.Any(v => v.Contains("Mobile")) : false;
+            Microsoft.Extensions.Primitives.StringValues value = new Microsoft.Extensions.Primitives.StringValues();
+            return request?.Headers.TryGetValue("User-Agent", out value) == true ? value.Any(v => v.Contains("Mobile")) : false;
         }
 
         string CreateHttpMethod(HttpRequest request)
