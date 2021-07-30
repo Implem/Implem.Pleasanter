@@ -1247,7 +1247,8 @@ namespace Implem.Pleasanter.Models
                     "#DropDownSearchDialogBody",
                     new HtmlBuilder().DropDownSearchDialogBody(
                         context: context,
-                        column: column))
+                        column: column,
+                        filter: filter))
                 .Val("#DropDownSearchResultsOffset", nextOffset)
                 .ClearFormData("DropDownSearchResults")
                 .ToJson();
@@ -1272,12 +1273,12 @@ namespace Implem.Pleasanter.Models
                 offset: 0,
                 totalCount: column.TotalCount,
                 pageSize: Parameters.General.DropDownSearchPageSize);
-            var selectedValues = column?.MultipleSelections == true
+            var selectedValues = (column?.MultipleSelections == true || filter)
                 ? context.Forms.List("DropDownSearchResultsAll")
                 : new List<string>();
             return new ResponseCollection()
                 .Html(
-                    column?.MultipleSelections == true
+                    (column?.MultipleSelections == true || filter)
                         ? "#DropDownSearchSourceResults"
                         : "#DropDownSearchResults",
                     new HtmlBuilder().SelectableItems(
@@ -1410,7 +1411,7 @@ namespace Implem.Pleasanter.Models
                 filter: filter,
                 searchFormat: false);
             var multiple = context.Forms.Bool("DropDownSearchMultiple");
-            var selected = column.MultipleSelections == true
+            var selected = multiple
                 ? context.Forms.List("DropDownSearchResultsAll")
                 : context.Forms.List("DropDownSearchResults");
             if (multiple)
