@@ -62,7 +62,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     icon: "ui-icon-cancel"))));
         }
 
-        public static HtmlBuilder DropDownSearchDialogBody(this HtmlBuilder hb, Context context, Column column)
+        public static HtmlBuilder DropDownSearchDialogBody(this HtmlBuilder hb, Context context, Column column, bool filter)
         {
             var selectedValues = context.Forms.List("DropDownSearchSelectedValues");
             selectedValues.ForEach(value =>
@@ -72,7 +72,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var listItemCollection = column?.EditChoices(
                 context: context,
                 addNotSet: column?.MultipleSelections != true);
-            if (column?.MultipleSelections == true)
+            if (column?.MultipleSelections == true || filter)
             {
                 return hb
                     .FieldSelectable(
