@@ -835,7 +835,7 @@ namespace Implem.Pleasanter.Models
                     case "Creator": data.Creator = Creator.Id; break;
                     case "Updator": data.Updator = Updator.Id; break;
                     case "CreatedTime": data.CreatedTime = CreatedTime.Value.ToLocal(context: context); break;
-                    case "CompletionTime": data.CompletionTime = CompletionTime.DisplayValue.ToLocal(context: context); break;
+                    case "CompletionTime": data.CompletionTime = CompletionTime.DisplayValue; break;
                     case "Comments": data.Comments = Comments.ToLocal(context: context).ToJson(); break;
                     default: 
                         data.Value(
