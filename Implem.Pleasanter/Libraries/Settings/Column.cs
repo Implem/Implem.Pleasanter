@@ -210,6 +210,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool Joined;
         [NonSerialized]
         public bool Linking;
+        [NonSerialized]
+        public string After;
+        [NonSerialized]
+        public bool SqlParam;
         // compatibility
         public bool? GridVisible;
         public bool? FilterVisible;
@@ -1043,7 +1047,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public string TableName()
         {
-            return Strings.CoalesceEmpty(TableAlias, JoinTableName, SiteSettings.ReferenceType);
+            return Strings.CoalesceEmpty(TableAlias, JoinTableName, SiteSettings?.ReferenceType);
         }
 
         public string ParamName()

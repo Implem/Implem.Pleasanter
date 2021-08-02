@@ -590,13 +590,19 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         private void AddColumnFilterHash(
-            Context context, SiteSettings ss, string columnName, string value)
+            Context context,
+            SiteSettings ss,
+            string columnName,
+            string value)
         {
             if (ColumnFilterHash == null)
             {
                 ColumnFilterHash = new Dictionary<string, string>();
             }
-            var column = ss.GetColumn(context: context, columnName: columnName);
+            var column = ss.GetColumnOrExtendedFieldColumn(
+                context: context,
+                columnName: columnName,
+                extendedFieldType: "Filter");
             if (column != null)
             {
                 if (value == "false"
@@ -724,9 +730,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ColumnFilterHash
                     .Where(o =>
                     {
-                        var column = ss.GetColumn(
+                        var column = ss.GetColumnOrExtendedFieldColumn(
                             context: context,
-                            columnName: o.Key);
+                            columnName: o.Key,
+                            extendedFieldType: "Filter");
                         if (column?.TypeName == null)
                         {
                             return false;
@@ -1714,6 +1721,24 @@ namespace Implem.Pleasanter.Libraries.Settings
                     && Overdue != true
                     && where.Any() != true
                     && Search.IsNullOrEmpty());
+        }
+
+        public SqlParamCollection Param(Context context, SiteSettings ss)
+        {
+            var param = new SqlParamCollection();
+            context.ExtendedFields
+                ?.Where(extendedField =>
+                    extendedField.FieldType == "Filter"
+                    && extendedField.SqlParam
+                    && ColumnFilterHash?.ContainsKey(extendedField.Name) == true)
+                .Select(extendedField => new SqlParam()
+                {
+                    VariableName = extendedField.Name,
+                    Value = ColumnFilterHash[extendedField.Name],
+                    NoCount = true
+                })
+                .ForEach(o => param.Add(o));
+            return param;
         }
     }
 }

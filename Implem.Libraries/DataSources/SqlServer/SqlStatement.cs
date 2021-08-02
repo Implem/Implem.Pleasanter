@@ -190,7 +190,14 @@ namespace Implem.Libraries.DataSources.SqlServer
                 .Where(o => o.Raw.IsNullOrEmpty())
                 .Where(o => o.Value != null)
                 .ForEach(sqlParam =>
-                    AddParam(factory, sqlCommand, sqlParam.VariableName, sqlParam.Value, commandCount));
+                    AddParam(
+                        factory: factory,
+                        sqlCommand: sqlCommand,
+                        name: sqlParam.VariableName,
+                        value: sqlParam.Value,
+                        commandCount: !sqlParam.NoCount
+                            ? commandCount
+                            : null));
         }
 
         protected void AddUnion(StringBuilder commandText, Sqls.UnionTypes unionType)
