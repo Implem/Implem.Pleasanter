@@ -8,6 +8,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         public string Name;
         public string VariableName;
         public object Value;
+        public bool NoCount;
         public SqlStatement Sub = null;
         public string Raw;
         public bool Using = true;
@@ -21,6 +22,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             string columnBracket,
             string name,
             object value,
+            bool noCount = false,
             SqlStatement sub = null,
             string raw = null,
             bool _using = true,
@@ -30,6 +32,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             Name = name;
             VariableName = name + "_";
             Value = Correct(value);
+            NoCount = noCount;
             Sub = sub;
             Raw = raw;
             Using = _using;

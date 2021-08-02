@@ -1772,6 +1772,24 @@ namespace Implem.Pleasanter.Libraries.Settings
             return column;
         }
 
+        public Column GetColumnOrExtendedFieldColumn(
+            Context context,
+            string columnName,
+            string extendedFieldType)
+        {
+            var column = GetColumn(
+                context: context,
+                columnName: columnName);
+            if (column == null)
+            {
+                column = context.ExtendedFieldColumn(
+                    ss: this,
+                    columnName: columnName,
+                    extendedFieldType: extendedFieldType);
+            }
+            return column;
+        }
+
         public bool HasAllColumns(Context context, params string[] parts)
         {
             return parts.All(columnName => GetColumn(
@@ -1923,14 +1941,44 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public List<Column> GetFilterColumns(Context context, bool checkPermission = false)
         {
-            return FilterColumns
-                .Select(columnName => GetColumn(context: context, columnName: columnName))
+            var columns = FilterColumns
+                .Select(columnName => GetColumn(
+                    context: context,
+                    columnName: columnName))
                 .Where(column => column != null)
+                .Where(column =>
+                    GridColumns.Contains(column.ColumnName)
+                    || GetEditorColumnNames().Contains(column.ColumnName))
                 .AllowedColumns(
                     context: context,
                     ss: this,
                     checkPermission: checkPermission)
                 .ToList();
+            foreach (var column in context.ExtendedFieldColumns(
+                ss: this,
+                extendedFieldType: "Filter"))
+            {
+                if (column.After.IsNullOrEmpty())
+                {
+                    columns.Insert(0, column);
+                }
+                else
+                {
+                    var index = columns
+                        .Select((Column, Index) => new { Column, Index })
+                        .FirstOrDefault(o => o.Column.ColumnName == column.After)
+                        ?.Index;
+                    if (index != null)
+                    {
+                        columns.Insert(index.ToInt() + 1, column);
+                    }
+                    else
+                    {
+                        columns.Add(column);
+                    }
+                }
+            }
+            return columns;
         }
 
         public List<Column> GetEditorColumns(Context context, bool columnOnly = true)

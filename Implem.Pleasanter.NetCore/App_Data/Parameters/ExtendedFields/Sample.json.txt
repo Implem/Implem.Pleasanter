@@ -1,0 +1,17 @@
+﻿{
+    "Name": "ExtendedField",
+    "Description": "Sample",
+    "DeptIdList": null,
+    "UserIdList": null,
+    "SiteIdList": null,
+    "IdList": null,
+    "Controllers": null,
+    "Actions": null,
+    "FieldType": "Filter",
+    "TypeName": "nvarchar",
+    "LabelText": "Extended field",
+    "ChoicesText": null,
+    "ControlType": null,
+    "After": null,
+    "SqlParam": false
+}

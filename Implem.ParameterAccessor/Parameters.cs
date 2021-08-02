@@ -15,12 +15,13 @@ namespace Implem.DefinitionAccessor
         public static Deleted Deleted;
         public static Dictionary<string, string> ExtendedColumnDefinitions;
         public static List<ExtendedColumns> ExtendedColumnsSet;
-        public static List<ExtendedSql> ExtendedSqls;
-        public static List<ExtendedStyle> ExtendedStyles;
-        public static List<ExtendedScript> ExtendedScripts;
-        public static List<ExtendedServerScript> ExtendedServerScripts;
+        public static List<ExtendedField> ExtendedFields;
         public static List<ExtendedHtml> ExtendedHtmls;
         public static List<ExtendedNavigationMenu> ExtendedNavigationMenus;
+        public static List<ExtendedScript> ExtendedScripts;
+        public static List<ExtendedServerScript> ExtendedServerScripts;
+        public static List<ExtendedSql> ExtendedSqls;
+        public static List<ExtendedStyle> ExtendedStyles;
         public static Dictionary<string, string> ExtendedTags;
         public static General General;
         public static History History;
@@ -46,6 +47,7 @@ namespace Implem.DefinitionAccessor
         public static User User;
         public static Locations Locations;
         public static Validation Validation;
+
         public static bool CommercialLicense()
         {
             return License.Check();

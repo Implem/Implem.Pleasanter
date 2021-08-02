@@ -13,7 +13,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     public static class HtmlViewFilters
     {
         public static HtmlBuilder ViewFilters(
-            this HtmlBuilder hb, Context context, SiteSettings ss, View view)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            View view)
         {
             return ss.ReferenceType != "Sites" && ss.UseFiltersArea == true
                 ? !Reduced(context: context, siteId: ss.SiteId)
@@ -193,16 +196,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     && Visible(ss, "CompletionTime"));
         }
 
-        private static bool Visible(Column column)
-        {
-            return Visible(column.SiteSettings, column.Name);
-        }
-
         private static bool Visible(SiteSettings ss, string columnName)
         {
             return
-                ss.GridColumns.Contains(columnName) ||
-                ss.GetEditorColumnNames().Contains(columnName);
+                ss.GridColumns.Contains(columnName)
+                || ss.GetEditorColumnNames().Contains(columnName);
         }
 
         internal static string GetDisplayDateFilterRange(
@@ -235,18 +233,32 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder Columns(
-            this HtmlBuilder hb, Context context, SiteSettings ss, View view)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            View view)
         {
-            ss.GetFilterColumns(context: context, checkPermission: true).ForEach(column =>
-            {
-                Column(hb, context, ss, view, column);
-            });
+            ss.GetFilterColumns(
+                context: context,
+                checkPermission: true).ForEach(column =>
+                    Column(
+                        hb: hb,
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        column: column));
             return hb;
         }
 
-        internal static HtmlBuilder ViewFiltersColumnOnGrid(this HtmlBuilder hb, Context context, SiteSettings ss, View view, Column column)
+        internal static HtmlBuilder ViewFiltersColumnOnGrid(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            View view,
+            Column column)
         {
-            Column(hb: hb,
+            Column(
+                hb: hb,
                 context: context,
                 ss: ss,
                 view: view,
@@ -255,7 +267,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb;
         }
 
-        private static void Column(HtmlBuilder hb, Context context, SiteSettings ss, View view, Column column, bool onGridHeader = false)
+        private static void Column(
+            HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            View view,
+            Column column,
+            bool onGridHeader = false)
         {
             var idPrefix = onGridHeader ? "ViewFiltersOnGridHeader__" : "ViewFilters__";
             var action = onGridHeader ? "GridRows" : null;
@@ -263,9 +281,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             switch (column.TypeName.CsTypeSummary())
             {
                 case Types.CsBool:
-                    if (Visible(column))
-                    {
-                        hb.CheckBox(
+                    hb.CheckBox(
                         context: context,
                         ss: ss,
                         column: column,
@@ -273,7 +289,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         idPrefix: idPrefix,
                         action: action,
                         controlOnly: controlOnly);
-                    }
                     break;
                 case Types.CsNumeric:
                     if (column.Id_Ver)
@@ -291,22 +306,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     }
                     else if (column.DateFilterSetMode == ColumnUtilities.DateFilterSetMode.Default)
                     {
-                        if (Visible(column))
-                        {
-                            hb.DropDown(
-                                context: context,
-                                ss: ss,
-                                column: column,
-                                view: view,
-                                optionCollection: column.HasChoices()
-                                    ? column.EditChoices(
-                                        context: context,
-                                        addNotSet: true)
-                                    : column.NumFilterOptions(context: context),
-                                idPrefix: idPrefix,
-                                controlOnly: controlOnly,
-                                action: action);
-                        }
+                        hb.DropDown(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            view: view,
+                            optionCollection: column.HasChoices()
+                                ? column.EditChoices(
+                                    context: context,
+                                    addNotSet: true)
+                                : column.NumFilterOptions(context: context),
+                            idPrefix: idPrefix,
+                            controlOnly: controlOnly,
+                            action: action);
                     }
                     else
                     {
@@ -326,7 +338,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             {
                                 ["onfocus"] = $"$p.openSetNumericRangeDialog($(this))"
                             },
-                            _using: Visible(column) || column.RecordedTime)
+                            _using: column.RecordedTime)
                         .Hidden(attributes: new HtmlAttributes()
                             .Id(idPrefix + column.ColumnName)
                             .Class(column.UseSearch == true ? " search" : string.Empty)
@@ -338,7 +350,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case Types.CsDateTime:
                     if (column.DateFilterSetMode == ColumnUtilities.DateFilterSetMode.Default)
                     {
-                        if (Visible(column) || column.RecordedTime)
+                        if (column.RecordedTime)
                         {
                             hb.DropDown(
                                 context: context,
@@ -372,7 +384,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             {
                                 ["onfocus"] = $"$p.openSetDateRangeDialog($(this))"
                             },
-                            _using: Visible(column) || column.RecordedTime)
+                            _using: column.RecordedTime)
                         .Hidden(attributes: new HtmlAttributes()
                             .Id(idPrefix + column.ColumnName)
                             .Class(column.UseSearch == true ? " search" : string.Empty)
@@ -397,22 +409,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 selectedValues: view.ColumnFilter(column.ColumnName)
                                     .Deserialize<List<string>>());
                         }
-                        if (Visible(column))
-                        {
-                            hb.DropDown(
+                        hb.DropDown(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            view: view,
+                            optionCollection: column.EditChoices(
                                 context: context,
-                                ss: ss,
-                                column: column,
-                                view: view,
-                                optionCollection: column.EditChoices(
-                                    context: context,
-                                    addNotSet: true),
-                                idPrefix: idPrefix,
-                                controlOnly: controlOnly,
-                                action: action);
-                        }
+                                addNotSet: true),
+                            idPrefix: idPrefix,
+                            controlOnly: controlOnly,
+                            action: action);
                     }
-                    else if (Visible(column))
+                    else
                     {
                         hb.FieldTextBox(
                             controlId: idPrefix + column.ColumnName,
