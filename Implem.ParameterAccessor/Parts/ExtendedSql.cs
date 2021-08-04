@@ -1,4 +1,5 @@
-﻿namespace Implem.ParameterAccessor.Parts
+﻿using System.Collections.Generic;
+namespace Implem.ParameterAccessor.Parts
 {
     public class ExtendedSql : ExtendedBase
     {
@@ -18,8 +19,9 @@
         public bool OnBulkDeleted;
         public bool OnImporting;
         public bool OnImported;
-        public bool OnSelectingWhere;
         public bool OnSelectingColumn;
+        public bool OnSelectingWhere;
+        public List<string> OnSelectingWhereParams;
         public bool OnUseSecondaryAuthentication;
         public string CommandText;
     }

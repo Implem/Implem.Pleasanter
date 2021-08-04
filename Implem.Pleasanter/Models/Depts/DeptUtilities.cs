@@ -1272,6 +1272,9 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 setSession: false);
             var where = view.Where(context: context, ss: ss, where: Rds.DeptsWhere().TenantId(context.TenantId));
+            var param = view.Param(
+                context: context,
+                ss: ss);
             var orderBy = view.OrderBy(
                 context: context,
                 ss: ss)
@@ -1291,7 +1294,8 @@ namespace Implem.Pleasanter.Models
                     statements: Rds.SelectDepts(
                         column: Rds.DeptsColumn().DeptsCount(),
                         join: join,
-                        where: where)) <= Parameters.General.SwitchTargetsLimit)
+                        where: where,
+                        param: param)) <= Parameters.General.SwitchTargetsLimit)
                 {
                     switchTargets = Repository.ExecuteTable(
                         context: context,
@@ -1299,6 +1303,7 @@ namespace Implem.Pleasanter.Models
                             column: Rds.DeptsColumn().DeptId(),
                             join: join,
                             where: where,
+                            param: param,
                             orderBy: orderBy))
                                 .AsEnumerable()
                                 .Select(o => o["DeptId"].ToInt())

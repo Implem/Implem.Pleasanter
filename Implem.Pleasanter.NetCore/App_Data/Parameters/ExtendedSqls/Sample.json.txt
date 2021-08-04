@@ -23,7 +23,9 @@
     "OnBulkDeleted": false,
     "OnImporting": false,
     "OnImported": false,
+    "OnSelectingColumn": false,
     "OnSelectingWhere": false,
+    "OnSelectingWhereParams": null,
     "OnUseSecondaryAuthentication": false,
     "CommandText": "-- Write an arbitrary SQL statement."
 }
