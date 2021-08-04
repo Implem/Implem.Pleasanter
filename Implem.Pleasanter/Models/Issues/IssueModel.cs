@@ -2070,41 +2070,40 @@ namespace Implem.Pleasanter.Models
             {
                 Ver = context.QueryStrings.Int("ver");
             }
-        var formsSiteId = context.Forms.Long("FromSiteId");
-        if (formsSiteId > 0)
-        {
-            var column = ss.GetColumn(
-                context: context,
-                columnName: ss.Links
-                    ?.Where(o => o.SiteId > 0)
-                    .FirstOrDefault(o => o.SiteId == formsSiteId).ColumnName);
-            var value = PropertyValue(
-                context: context,
-                column: column);
-            column.Linking = column.MultipleSelections == true
-                ? value.Deserialize<List<string>>()?.Contains(context.Forms.Data("LinkId")) == true
-                : value == context.Forms.Data("LinkId");
-        }
-
-        var queryStringsSiteId = context.QueryStrings.Long("FromSiteId");
-        if (queryStringsSiteId > 0)
-        {
-            var id = context.QueryStrings.Data("LinkId");
-            ss.Links
-                ?.Where(link => link.SiteId > 0)
-                .Select(link => ss.GetColumn(
+            var formsSiteId = context.Forms.Long("FromSiteId");
+            if (formsSiteId > 0)
+            {
+                var column = ss.GetColumn(
                     context: context,
-                    columnName: link.ColumnName))
-                .Where(column => column != null)
-                .ForEach(column =>
-                {
-                    id = column.MultipleSelections == true
-                        ? id.ToSingleList().ToJson()
-                        : id;
-                    Class(column.ColumnName, id);
-                    column.ControlCss += " always-send";
-                });
-        }
+                    columnName: ss.Links
+                        ?.Where(o => o.SiteId > 0)
+                        .FirstOrDefault(o => o.SiteId == formsSiteId).ColumnName);
+                var value = PropertyValue(
+                    context: context,
+                    column: column);
+                column.Linking = column.MultipleSelections == true
+                    ? value.Deserialize<List<string>>()?.Contains(context.Forms.Data("LinkId")) == true
+                    : value == context.Forms.Data("LinkId");
+            }
+            var queryStringsSiteId = context.QueryStrings.Long("FromSiteId");
+            if (queryStringsSiteId > 0)
+            {
+                var id = context.QueryStrings.Data("LinkId");
+                ss.Links
+                    ?.Where(link => link.SiteId > 0)
+                    .Select(link => ss.GetColumn(
+                        context: context,
+                        columnName: link.ColumnName))
+                    .Where(column => column != null)
+                    .ForEach(column =>
+                    {
+                        id = column.MultipleSelections == true
+                            ? id.ToSingleList().ToJson()
+                            : id;
+                        Class(column.ColumnName, id);
+                        column.ControlCss += " always-send";
+                    });
+            }
             SetByFormula(context: context, ss: ss);
             SetChoiceHash(context: context, ss: ss);
             if (context.Action == "deletecomment")
