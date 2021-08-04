@@ -38,7 +38,12 @@ namespace Implem.Pleasanter.Libraries.ViewModes
 
         private void Set(Context context, SiteSettings ss, View view)
         {
-            var where = view.Where(context: context, ss: ss);
+            var where = view.Where(
+                context: context,
+                ss: ss);
+            var param = view.Param(
+                context: context,
+                ss: ss);
             var dataRow = Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectIssues(
@@ -62,7 +67,8 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     join: ss.Join(
                         context: context,
                         join: where),
-                    where: where))
+                    where: where,
+                    param: param))
                         .AsEnumerable()
                         .FirstOrDefault();
             if (dataRow != null)

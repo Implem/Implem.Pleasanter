@@ -895,7 +895,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 checkPermission: checkPermission);
             where.OnSelectingWhereExtendedSqls(
                 context: context,
-                ss: ss);
+                ss: ss,
+                columnFilterHash: ColumnFilterHash);
             if (RequestSearchCondition(
                 context: context,
                 ss: ss))
@@ -1723,9 +1724,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                     && Search.IsNullOrEmpty());
         }
 
-        public SqlParamCollection Param(Context context, SiteSettings ss)
+        public SqlParamCollection Param(
+            Context context,
+            SiteSettings ss,
+            SqlParamCollection param = null)
         {
-            var param = new SqlParamCollection();
+            if (param == null) param = new SqlParamCollection();
             context.ExtendedFields
                 ?.Where(extendedField =>
                     extendedField.FieldType == "Filter"
