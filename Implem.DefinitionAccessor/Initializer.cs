@@ -28,7 +28,7 @@ namespace Implem.DefinitionAccessor
             SetParameters();
             Environments.ServiceName = Parameters.Service.Name;
             SetRdsParameters();
-            Environments.MachineName = Environment.MachineName;
+            Environments.MachineName = $"{Environment.MachineName}:{Environment.OSVersion}";
             Environments.Application =
                 Assembly.GetExecutingAssembly().ManifestModule.Name.FileNameOnly();
             Environments.AssemblyVersion = assemblyVersion;
