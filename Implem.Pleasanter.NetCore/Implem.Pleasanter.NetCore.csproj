@@ -316,6 +316,9 @@
     <None Update="App_Data\Licenses\Implem.License.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="App_Data\Parameters\ExtendedFields\Sample.json.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="App_Data\Parameters\ExtendedScripts\Sample.js.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
