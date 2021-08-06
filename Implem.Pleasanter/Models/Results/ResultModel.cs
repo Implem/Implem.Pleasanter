@@ -1690,7 +1690,11 @@ namespace Implem.Pleasanter.Models
         {
             ss.Columns
                 .Where(column => column.CopyByDefault == true
-                    || column.TypeCs == "Attachments")
+                    || column.TypeCs == "Attachments"
+                    || !column.CanRead(
+                        context: context,
+                        ss: ss,
+                        mine: Mine(context: context)))
                 .ForEach(column => SetDefault(
                     context: context,
                     ss: ss,

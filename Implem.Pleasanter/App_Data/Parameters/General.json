@@ -32,6 +32,8 @@
     "ExportOutputColumnMax": 100,
     "ImportMax": 0,
     "ViewerSwitchingType": 1,
+    "AllowCopy": true,
+    "AllowReferenceCopy": false,
     "UpdateResponseType": 0,
     "SolutionBackupPath": "",
     "SolutionBackupExcludeDirectories": "\\Backups,\\Histories,\\BinaryStorage,\\App_Data\\Logs,\\Temp,\\packages,\\bin,\\obj,\\PublishProfiles,\\BuildProcessTemplates,\\Parameters\\CustomDefinitions,\\Parameters\\ExtendedColumns",

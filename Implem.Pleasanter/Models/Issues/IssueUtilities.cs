@@ -1272,10 +1272,39 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: new ErrorData(type: Error.Types.ItemsLimit));
             }
+            IssueModel issueModel = null;
+            var copyFrom = context.QueryStrings.Long("CopyFrom");
+            if (copyFrom > 0)
+            {
+                issueModel = new IssueModel(
+                    context: context,
+                    ss: ss,
+                    issueId: copyFrom,
+                    methodType: BaseModel.MethodTypes.New);
+                var invalid = IssueValidators.OnEditing(
+                    context: context,
+                    ss: ss,
+                    issueModel: issueModel);
+                switch (invalid.Type)
+                {
+                    case Error.Types.None:
+                        issueModel.SetCopyDefault(
+                            context: context,
+                            ss: ss);
+                        issueModel.IssueId = 0;
+                        issueModel.Ver = 1;
+                        issueModel.Comments = new Comments();
+                        break;
+                    default:
+                        return HtmlTemplates.Error(
+                           context: context,
+                           errorData: invalid);
+                }
+            }
             return Editor(
                 context: context,
                 ss: ss,
-                issueModel: new IssueModel(
+                issueModel: issueModel ?? new IssueModel(
                     context: context,
                     ss: ss,
                     methodType: BaseModel.MethodTypes.New,

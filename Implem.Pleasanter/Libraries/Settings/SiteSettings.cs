@@ -169,6 +169,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ExtendedHeader;
         public Versions.AutoVerUpTypes? AutoVerUpType;
         public bool? AllowEditingComments;
+        public bool? AllowCopy;
+        public bool? AllowReferenceCopy;
         public bool? AllowSeparate;
         public bool? AllowLockTable;
         public bool? HideLink;
@@ -297,6 +299,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (RelatingColumns == null) RelatingColumns = new SettingList<RelatingColumn>();
             AutoVerUpType = AutoVerUpType ?? Versions.AutoVerUpTypes.Default;
             AllowEditingComments = AllowEditingComments ?? false;
+            AllowCopy = AllowCopy ?? Parameters.General.AllowCopy;
+            AllowReferenceCopy = AllowReferenceCopy ?? Parameters.General.AllowReferenceCopy;
             AllowSeparate = AllowSeparate ?? false;
             AllowLockTable = AllowLockTable ?? false;
             HideLink = HideLink ?? false;
@@ -659,6 +663,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (AllowEditingComments == true)
             {
                 ss.AllowEditingComments = AllowEditingComments;
+            }
+            if (AllowCopy != Parameters.General.AllowCopy)
+            {
+                ss.AllowCopy = AllowCopy;
+            }
+            if (AllowReferenceCopy != Parameters.General.AllowReferenceCopy)
+            {
+                ss.AllowReferenceCopy = AllowReferenceCopy;
             }
             if (AllowSeparate == true)
             {
@@ -3042,6 +3054,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "FirstMonth": FirstMonth = value.ToInt(); break;
                 case "Responsive": Responsive = value.ToBool(); break;
                 case "AutoVerUpType": AutoVerUpType = (Versions.AutoVerUpTypes)value.ToInt(); break;
+                case "AllowCopy": AllowCopy = value.ToBool(); break;
+                case "AllowReferenceCopy": AllowReferenceCopy = value.ToBool(); break;
                 case "AllowEditingComments": AllowEditingComments = value.ToBool(); break;
                 case "AllowSeparate": AllowSeparate = value.ToBool(); break;
                 case "AllowLockTable": AllowLockTable = value.ToBool(); break;
