@@ -36,6 +36,8 @@ namespace Implem.ParameterAccessor.Parts
         public int ExportOutputColumnMax;
         public int ImportMax;
         public int ViewerSwitchingType;
+        public bool AllowCopy;
+        public bool AllowReferenceCopy;
         public int UpdateResponseType;
         public string SolutionBackupPath;
         public string SolutionBackupExcludeDirectories;

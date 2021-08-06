@@ -1,0 +1,33 @@
+﻿{
+    "Id": "AllowCopy",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Allow copy"
+        },
+        {
+            "Language": "zh",
+            "Body": "允许复制"
+        },
+        {
+            "Language": "ja",
+            "Body": "コピーを許可"
+        },
+        {
+            "Language": "de",
+            "Body": "Kopieren zulassen"
+        },
+        {
+            "Language": "ko",
+            "Body": "복사 허용"
+        },
+        {
+            "Language": "es",
+            "Body": "Permitir copia"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cho phép sao chép"
+        }
+    ]
+}

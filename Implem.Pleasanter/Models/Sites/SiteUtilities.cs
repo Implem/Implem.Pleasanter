@@ -4815,6 +4815,16 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.AllowEditingComments(context: context),
                         _checked: ss.AllowEditingComments == true)
                     .FieldCheckBox(
+                        controlId: "AllowCopy",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.AllowCopy(context: context),
+                        _checked: ss.AllowCopy == true)
+                    .FieldCheckBox(
+                        controlId: "AllowReferenceCopy",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.AllowReferenceCopy(context: context),
+                        _checked: ss.AllowReferenceCopy == true)
+                    .FieldCheckBox(
                         controlId: "AllowSeparate",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.AllowSeparate(context: context),
