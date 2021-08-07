@@ -1286,7 +1286,8 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             addNotSet: true)
                                 .Where(o => !selectedValues.Contains(o.Key))
-                                .ToDictionary(o => o.Key, o => o.Value)))
+                                .ToDictionary(o => o.Key, o => o.Value),
+                        alwaysDataValue: true))
                 .Val("#DropDownSearchResultsOffset", nextOffset)
                 .ClearFormData("DropDownSearchResults")
                 .ToJson();
