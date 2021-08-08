@@ -85,6 +85,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public abstract string ApiRequestBody { get; set; }
         public abstract string RequestDataString { get; }
         public abstract string ContentType{ get; set; }
+        public abstract List<ParameterAccessor.Parts.ExtendedField> ExtendedFields { get; set; }
         public long ServerScriptDepth { get; set; } = 0;
         public abstract string AuthenticationType { get; }
         public abstract bool? IsAuthenticated { get; }
@@ -247,5 +248,8 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         public abstract string Token();
 
+        public abstract Column ExtendedFieldColumn(SiteSettings ss, string columnName, string extendedFieldType);
+
+        public abstract List<Column> ExtendedFieldColumns(SiteSettings ss, string extendedFieldType);
     }
 }

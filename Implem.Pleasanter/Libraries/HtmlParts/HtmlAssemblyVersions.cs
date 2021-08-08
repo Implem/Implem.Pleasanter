@@ -64,7 +64,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 action: () => hb
                                     .Span(action: () => hb
                                         .A(
-                                            href: Parameters.General.HtmlCommercialLicenseUrl,
+                                            href: Parameters.General.HtmlEnterPriseEditionUrl,
                                             action: () => hb
                                                 .Text(text: Displays.SwitchToCommercialLicense(context: context)))),
                                 _using: !Parameters.CommercialLicense())

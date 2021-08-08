@@ -169,8 +169,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ExtendedHeader;
         public Versions.AutoVerUpTypes? AutoVerUpType;
         public bool? AllowEditingComments;
+        public bool? AllowCopy;
+        public bool? AllowReferenceCopy;
         public bool? AllowSeparate;
         public bool? AllowLockTable;
+        public bool? HideLink;
         public bool? SwitchRecordWithAjax;
         public bool? EnableCalendar;
         public bool? EnableCrosstab;
@@ -296,8 +299,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (RelatingColumns == null) RelatingColumns = new SettingList<RelatingColumn>();
             AutoVerUpType = AutoVerUpType ?? Versions.AutoVerUpTypes.Default;
             AllowEditingComments = AllowEditingComments ?? false;
+            AllowCopy = AllowCopy ?? Parameters.General.AllowCopy;
+            AllowReferenceCopy = AllowReferenceCopy ?? Parameters.General.AllowReferenceCopy;
             AllowSeparate = AllowSeparate ?? false;
             AllowLockTable = AllowLockTable ?? false;
+            HideLink = HideLink ?? false;
             SwitchRecordWithAjax = SwitchRecordWithAjax ?? false;
             EnableCalendar = EnableCalendar ?? true;
             EnableCrosstab = EnableCrosstab ?? true;
@@ -658,6 +664,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.AllowEditingComments = AllowEditingComments;
             }
+            if (AllowCopy != Parameters.General.AllowCopy)
+            {
+                ss.AllowCopy = AllowCopy;
+            }
+            if (AllowReferenceCopy != Parameters.General.AllowReferenceCopy)
+            {
+                ss.AllowReferenceCopy = AllowReferenceCopy;
+            }
             if (AllowSeparate == true)
             {
                 ss.AllowSeparate = AllowSeparate;
@@ -665,6 +679,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (AllowLockTable == true)
             {
                 ss.AllowLockTable = AllowLockTable;
+            }
+            if (HideLink == true)
+            {
+                ss.HideLink = HideLink;
             }
             if (SwitchRecordWithAjax == true)
             {
@@ -1766,6 +1784,24 @@ namespace Implem.Pleasanter.Libraries.Settings
             return column;
         }
 
+        public Column GetColumnOrExtendedFieldColumn(
+            Context context,
+            string columnName,
+            string extendedFieldType)
+        {
+            var column = GetColumn(
+                context: context,
+                columnName: columnName);
+            if (column == null)
+            {
+                column = context.ExtendedFieldColumn(
+                    ss: this,
+                    columnName: columnName,
+                    extendedFieldType: extendedFieldType);
+            }
+            return column;
+        }
+
         public bool HasAllColumns(Context context, params string[] parts)
         {
             return parts.All(columnName => GetColumn(
@@ -1917,14 +1953,44 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public List<Column> GetFilterColumns(Context context, bool checkPermission = false)
         {
-            return FilterColumns
-                .Select(columnName => GetColumn(context: context, columnName: columnName))
+            var columns = FilterColumns
+                .Select(columnName => GetColumn(
+                    context: context,
+                    columnName: columnName))
                 .Where(column => column != null)
+                .Where(column =>
+                    GridColumns.Contains(column.ColumnName)
+                    || GetEditorColumnNames().Contains(column.ColumnName))
                 .AllowedColumns(
                     context: context,
                     ss: this,
                     checkPermission: checkPermission)
                 .ToList();
+            foreach (var column in context.ExtendedFieldColumns(
+                ss: this,
+                extendedFieldType: "Filter"))
+            {
+                if (column.After.IsNullOrEmpty())
+                {
+                    columns.Insert(0, column);
+                }
+                else
+                {
+                    var index = columns
+                        .Select((Column, Index) => new { Column, Index })
+                        .FirstOrDefault(o => o.Column.ColumnName == column.After)
+                        ?.Index;
+                    if (index != null)
+                    {
+                        columns.Insert(index.ToInt() + 1, column);
+                    }
+                    else
+                    {
+                        columns.Add(column);
+                    }
+                }
+            }
+            return columns;
         }
 
         public List<Column> GetEditorColumns(Context context, bool columnOnly = true)
@@ -2988,9 +3054,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "FirstMonth": FirstMonth = value.ToInt(); break;
                 case "Responsive": Responsive = value.ToBool(); break;
                 case "AutoVerUpType": AutoVerUpType = (Versions.AutoVerUpTypes)value.ToInt(); break;
+                case "AllowCopy": AllowCopy = value.ToBool(); break;
+                case "AllowReferenceCopy": AllowReferenceCopy = value.ToBool(); break;
                 case "AllowEditingComments": AllowEditingComments = value.ToBool(); break;
                 case "AllowSeparate": AllowSeparate = value.ToBool(); break;
                 case "AllowLockTable": AllowLockTable = value.ToBool(); break;
+                case "HideLink": HideLink = value.ToBool(); break;
                 case "SwitchRecordWithAjax": SwitchRecordWithAjax = value.ToBool(); break;
                 case "EnableCalendar": EnableCalendar = value.ToBool(); break;
                 case "EnableCrosstab": EnableCrosstab = value.ToBool(); break;

@@ -7,6 +7,7 @@
         string IsNotTrue { get; }
         string CurrentDateTime { get; }
         string Like { get; }
+        string IsNull { get; }
         string WhereLikeTemplateForward { get; }
         string WhereLikeTemplate { get; }
         string GenerateIdentity { get; }

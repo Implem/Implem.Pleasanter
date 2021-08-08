@@ -28,7 +28,7 @@ namespace Implem.DefinitionAccessor
             SetParameters();
             Environments.ServiceName = Parameters.Service.Name;
             SetRdsParameters();
-            Environments.MachineName = Environment.MachineName;
+            Environments.MachineName = $"{Environment.MachineName}:{Environment.OSVersion}";
             Environments.Application =
                 Assembly.GetExecutingAssembly().ManifestModule.Name.FileNameOnly();
             Environments.AssemblyVersion = assemblyVersion;
@@ -78,12 +78,13 @@ namespace Implem.DefinitionAccessor
             Parameters.Deleted = Read<Deleted>();
             Parameters.ExtendedColumnDefinitions = ExtendedColumnDefinitions();
             Parameters.ExtendedColumnsSet = ExtendedColumnsSet();
-            Parameters.ExtendedSqls = ExtendedSqls();
-            Parameters.ExtendedStyles = ExtendedStyles();
-            Parameters.ExtendedScripts = ExtendedScripts();
-            Parameters.ExtendedServerScripts = ExtendedServerScripts();
+            Parameters.ExtendedFields = ExtendedFields();
             Parameters.ExtendedHtmls = ExtendedHtmls();
             Parameters.ExtendedNavigationMenus = ExtendedNavigationMenus();
+            Parameters.ExtendedScripts = ExtendedScripts();
+            Parameters.ExtendedServerScripts = ExtendedServerScripts();
+            Parameters.ExtendedSqls = ExtendedSqls();
+            Parameters.ExtendedStyles = ExtendedStyles();
             Parameters.ExtendedTags = ExtendedTags();
             Parameters.General = Read<General>();
             Parameters.History = Read<History>();
@@ -91,7 +92,7 @@ namespace Implem.DefinitionAccessor
             Parameters.Mail = Read<Mail>();
             Parameters.Mobile = Read<Mobile>();
             Parameters.NavigationMenus = NavigationMenus();
-            Parameters.Migration = Read<ParameterAccessor.Parts.Migration>();
+            Parameters.Migration = Read<Migration>();
             Parameters.Notification = Read<Notification>();
             Parameters.Permissions = Read<Permissions>();
             Parameters.Rds = Read<Rds>();
@@ -214,28 +215,23 @@ namespace Implem.DefinitionAccessor
             return list;
         }
 
-        private static List<ExtendedSql> ExtendedSqls(
-            string path = null, List<ExtendedSql> list = null)
+        private static List<ExtendedField> ExtendedFields(
+            string path = null, List<ExtendedField> list = null)
         {
-            list = list ?? new List<ExtendedSql>();
+            list = list ?? new List<ExtendedField>();
             path = path ?? Path.Combine(
                 Environments.CurrentDirectoryPath,
                 "App_Data",
                 "Parameters",
-                "ExtendedSqls");
+                "ExtendedFields");
             foreach (var file in new DirectoryInfo(path).GetFiles("*.json"))
             {
-                var extendedSql = Files.Read(file.FullName)
-                    .Deserialize<ExtendedSql>();
-                if (extendedSql != null)
+                var extendedField = Files.Read(file.FullName)
+                    .Deserialize<ExtendedField>();
+                if (extendedField != null)
                 {
-                    extendedSql.Path = file.FullName;
-                    var sqlPath = file.FullName + ".sql";
-                    if (Files.Exists(sqlPath))
-                    {
-                        extendedSql.CommandText = Files.Read(sqlPath);
-                    }
-                    list.Add(extendedSql);
+                    extendedField.Path = file.FullName;
+                    list.Add(extendedField);
                 }
                 else
                 {
@@ -244,100 +240,7 @@ namespace Implem.DefinitionAccessor
             }
             foreach (var dir in new DirectoryInfo(path).GetDirectories())
             {
-                list = ExtendedSqls(dir.FullName, list);
-            }
-            return list;
-        }
-
-        private static List<ExtendedStyle> ExtendedStyles(
-            string path = null, List<ExtendedStyle> list = null)
-        {
-            list = list ?? new List<ExtendedStyle>();
-            path = path ?? Path.Combine(
-                Environments.CurrentDirectoryPath,
-                "App_Data",
-                "Parameters",
-                "ExtendedStyles");
-            foreach (var file in new DirectoryInfo(path).GetFiles("*.css"))
-            {
-                var style = Files.Read(file.FullName);
-                if (style != null)
-                {
-                    list.Add(new ExtendedStyle()
-                    {
-                        Name = file.Name,
-                        Path = file.FullName,
-                        Style = style
-                    });
-                }
-            }
-            foreach (var dir in new DirectoryInfo(path).GetDirectories())
-            {
-                list = ExtendedStyles(dir.FullName, list);
-            }
-            return list;
-        }
-
-        private static List<ExtendedScript> ExtendedScripts(
-            string path = null, List<ExtendedScript> list = null)
-        {
-            list = list ?? new List<ExtendedScript>();
-            path = path ?? Path.Combine(
-                Environments.CurrentDirectoryPath,
-                "App_Data",
-                "Parameters",
-                "ExtendedScripts");
-            foreach (var file in new DirectoryInfo(path).GetFiles("*.js"))
-            {
-                var script = Files.Read(file.FullName);
-                if (script != null)
-                {
-                    list.Add(new ExtendedScript()
-                    {
-                        Name = file.Name,
-                        Path = file.FullName,
-                        Script = script
-                    });
-                }
-            }
-            foreach (var dir in new DirectoryInfo(path).GetDirectories())
-            {
-                list = ExtendedScripts(dir.FullName, list);
-            }
-            return list;
-        }
-
-        private static List<ExtendedServerScript> ExtendedServerScripts(
-            string path = null, List<ExtendedServerScript> list = null)
-        {
-            list = list ?? new List<ExtendedServerScript>();
-            path = path ?? Path.Combine(
-                Environments.CurrentDirectoryPath,
-                "App_Data",
-                "Parameters",
-                "ExtendedServerScripts");
-            foreach (var file in new DirectoryInfo(path).GetFiles("*.json"))
-            {
-                var extendedServerScript = Files.Read(file.FullName)
-                    .Deserialize<ExtendedServerScript>();
-                if (extendedServerScript != null)
-                {
-                    extendedServerScript.Path = file.FullName;
-                    var sqlPath = file.FullName + ".js";
-                    if (Files.Exists(sqlPath))
-                    {
-                        extendedServerScript.Body = Files.Read(sqlPath);
-                    }
-                    list.Add(extendedServerScript);
-                }
-                else
-                {
-                    Parameters.SyntaxErrors.Add(file.Name);
-                }
-            }
-            foreach (var dir in new DirectoryInfo(path).GetDirectories())
-            {
-                list = ExtendedServerScripts(dir.FullName, list);
+                list = ExtendedFields(dir.FullName, list);
             }
             return list;
         }
@@ -415,6 +318,134 @@ namespace Implem.DefinitionAccessor
             foreach (var dir in new DirectoryInfo(path).GetDirectories())
             {
                 list = ExtendedNavigationMenus(dir.FullName, list);
+            }
+            return list;
+        }
+
+        private static List<ExtendedScript> ExtendedScripts(
+            string path = null, List<ExtendedScript> list = null)
+        {
+            list = list ?? new List<ExtendedScript>();
+            path = path ?? Path.Combine(
+                Environments.CurrentDirectoryPath,
+                "App_Data",
+                "Parameters",
+                "ExtendedScripts");
+            foreach (var file in new DirectoryInfo(path).GetFiles("*.js"))
+            {
+                var script = Files.Read(file.FullName);
+                if (script != null)
+                {
+                    list.Add(new ExtendedScript()
+                    {
+                        Name = file.Name,
+                        Path = file.FullName,
+                        Script = script
+                    });
+                }
+            }
+            foreach (var dir in new DirectoryInfo(path).GetDirectories())
+            {
+                list = ExtendedScripts(dir.FullName, list);
+            }
+            return list;
+        }
+
+        private static List<ExtendedServerScript> ExtendedServerScripts(
+            string path = null, List<ExtendedServerScript> list = null)
+        {
+            list = list ?? new List<ExtendedServerScript>();
+            path = path ?? Path.Combine(
+                Environments.CurrentDirectoryPath,
+                "App_Data",
+                "Parameters",
+                "ExtendedServerScripts");
+            foreach (var file in new DirectoryInfo(path).GetFiles("*.json"))
+            {
+                var extendedServerScript = Files.Read(file.FullName)
+                    .Deserialize<ExtendedServerScript>();
+                if (extendedServerScript != null)
+                {
+                    extendedServerScript.Path = file.FullName;
+                    var sqlPath = file.FullName + ".js";
+                    if (Files.Exists(sqlPath))
+                    {
+                        extendedServerScript.Body = Files.Read(sqlPath);
+                    }
+                    list.Add(extendedServerScript);
+                }
+                else
+                {
+                    Parameters.SyntaxErrors.Add(file.Name);
+                }
+            }
+            foreach (var dir in new DirectoryInfo(path).GetDirectories())
+            {
+                list = ExtendedServerScripts(dir.FullName, list);
+            }
+            return list;
+        }
+
+        private static List<ExtendedSql> ExtendedSqls(
+            string path = null, List<ExtendedSql> list = null)
+        {
+            list = list ?? new List<ExtendedSql>();
+            path = path ?? Path.Combine(
+                Environments.CurrentDirectoryPath,
+                "App_Data",
+                "Parameters",
+                "ExtendedSqls");
+            foreach (var file in new DirectoryInfo(path).GetFiles("*.json"))
+            {
+                var extendedSql = Files.Read(file.FullName)
+                    .Deserialize<ExtendedSql>();
+                if (extendedSql != null)
+                {
+                    extendedSql.Path = file.FullName;
+                    var sqlPath = file.FullName + ".sql";
+                    if (Files.Exists(sqlPath))
+                    {
+                        extendedSql.CommandText = Files.Read(sqlPath);
+                    }
+                    list.Add(extendedSql);
+                }
+                else
+                {
+                    Parameters.SyntaxErrors.Add(file.Name);
+                }
+            }
+            foreach (var dir in new DirectoryInfo(path).GetDirectories())
+            {
+                list = ExtendedSqls(dir.FullName, list);
+            }
+            return list;
+        }
+
+        private static List<ExtendedStyle> ExtendedStyles(
+            string path = null, List<ExtendedStyle> list = null)
+        {
+            list = list ?? new List<ExtendedStyle>();
+            path = path ?? Path.Combine(
+                Environments.CurrentDirectoryPath,
+                "App_Data",
+                "Parameters",
+                "ExtendedStyles");
+            foreach (var file in new DirectoryInfo(path).GetFiles("*.css"))
+            {
+                var style = Files.Read(file.FullName);
+                if (style != null)
+                {
+                    list.Add(new ExtendedStyle()
+                    {
+                        Name = file.Name,
+                        Path = file.FullName,
+                        Style = style
+                    });
+                }
+            }
+            foreach (var dir in new DirectoryInfo(path).GetDirectories())
+            {
+                list = ExtendedStyles(dir.FullName, list);
             }
             return list;
         }

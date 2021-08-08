@@ -3,6 +3,7 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Models;
 using System.Collections.Generic;
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.Settings
 {
     public class Lookups : List<Lookup>
@@ -21,18 +22,41 @@ namespace Implem.Pleasanter.Libraries.Settings
             Link link,
             long id)
         {
-            var formData = new Dictionary<string, string>();
             var currentSs = ss.Destinations.Get(link.SiteId);
-            link.Lookups.ForEach(lookup =>
+            var canRead = false;
+            if (currentSs == null)
             {
-                formData.AddOrUpdate(
-                    $"{currentSs.ReferenceType}_{lookup.To}",
-                    string.Empty);
-            });
+                canRead = context.CanRead(ss: ss, id: id);
+                switch (link?.TableName)
+                {
+                    case "Depts":
+                        currentSs = SiteSettingsUtilities.DeptsSiteSettings(context: context);
+                        break;
+                    case "Users":
+                        currentSs = SiteSettingsUtilities.UsersSiteSettings(context: context);
+                        break;
+                    case "Groups":
+                        currentSs = SiteSettingsUtilities.GroupsSiteSettings(context: context);
+                        break;
+                }
+            }
+            else
+            {
+                canRead = context.CanRead(ss: currentSs, id: id);
+            }
+            var formData = link.Lookups.ToDictionary(
+                lookup => $"{currentSs.ReferenceType}_{lookup.To}",
+                lookup => string.Empty);
             if (id > 0
                 && currentSs != null
-                && context.CanRead(ss: currentSs, id: id))
+                && canRead)
             {
+                link.Lookups.ForEach(lookup =>
+                {
+                    formData.AddOrUpdate(
+                        $"{currentSs.ReferenceType}_{lookup.To}",
+                        string.Empty);
+                });
                 switch (currentSs.ReferenceType)
                 {
                     case "Issues":
@@ -60,6 +84,45 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     context: context,
                                     ss: currentSs,
                                     resultModel: resultModel)));
+                        break;
+                    case "Depts":
+                        var deptModel = new DeptModel(
+                            context: context,
+                            ss: currentSs,
+                            deptId: id.ToInt());
+                        link.Lookups.ForEach(lookup =>
+                            formData.AddOrUpdate(
+                                $"{currentSs.ReferenceType}_{lookup.To}",
+                                lookup.Data(
+                                    context: context,
+                                    ss: currentSs,
+                                    deptModel: deptModel)));
+                        break;
+                    case "Users":
+                        var userModel = new UserModel(
+                            context: context,
+                            ss: currentSs,
+                            userId: id.ToInt());
+                        link.Lookups.ForEach(lookup =>
+                            formData.AddOrUpdate(
+                                $"{currentSs.ReferenceType}_{lookup.To}",
+                                lookup.Data(
+                                    context: context,
+                                    ss: currentSs,
+                                    userModel: userModel)));
+                        break;
+                    case "Groups":
+                        var groupModel = new GroupModel(
+                            context: context,
+                            ss: currentSs,
+                            groupId: id.ToInt());
+                        link.Lookups.ForEach(lookup =>
+                            formData.AddOrUpdate(
+                                $"{currentSs.ReferenceType}_{lookup.To}",
+                                lookup.Data(
+                                    context: context,
+                                    ss: currentSs,
+                                    groupModel: groupModel)));
                         break;
                 }
             }

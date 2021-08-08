@@ -1167,10 +1167,39 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: new ErrorData(type: Error.Types.ItemsLimit));
             }
+            ResultModel resultModel = null;
+            var copyFrom = context.QueryStrings.Long("CopyFrom");
+            if (copyFrom > 0)
+            {
+                resultModel = new ResultModel(
+                    context: context,
+                    ss: ss,
+                    resultId: copyFrom,
+                    methodType: BaseModel.MethodTypes.New);
+                var invalid = ResultValidators.OnEditing(
+                    context: context,
+                    ss: ss,
+                    resultModel: resultModel);
+                switch (invalid.Type)
+                {
+                    case Error.Types.None:
+                        resultModel.SetCopyDefault(
+                            context: context,
+                            ss: ss);
+                        resultModel.ResultId = 0;
+                        resultModel.Ver = 1;
+                        resultModel.Comments = new Comments();
+                        break;
+                    default:
+                        return HtmlTemplates.Error(
+                           context: context,
+                           errorData: invalid);
+                }
+            }
             return Editor(
                 context: context,
                 ss: ss,
-                resultModel: new ResultModel(
+                resultModel: resultModel ?? new ResultModel(
                     context: context,
                     ss: ss,
                     methodType: BaseModel.MethodTypes.New,
@@ -1589,20 +1618,22 @@ namespace Implem.Pleasanter.Models
                         ?.SelectMany(tab => tab.Value ?? Enumerable.Empty<string>())
                         .Any(columnName => ss.LinkId(columnName) != 0) == false)
                 {
-                    hb
-                        .Div(id: "LinkCreations", css: "links", action: () => hb
-                            .LinkCreations(
-                                context: context,
-                                ss: ss,
-                                linkId: resultModel.ResultId,
-                                methodType: resultModel.MethodType,
-                                links: links))
-                        .Div(id: "Links", css: "links", action: () => hb
+                    hb.Div(id: "LinkCreations", css: "links", action: () => hb
+                        .LinkCreations(
+                            context: context,
+                            ss: ss,
+                            linkId: resultModel.ResultId,
+                            methodType: resultModel.MethodType,
+                            links: links));
+                    if (ss.HideLink != true)
+                    {
+                        hb.Div(id: "Links", css: "links", action: () => hb
                             .Links(
                                 context: context,
                                 ss: ss,
                                 id: resultModel.ResultId,
                                 dataSet: dataSet));
+                    }
                 }
             }
             return hb;
@@ -2113,6 +2144,9 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 setSession: false);
             var where = view.Where(context: context, ss: ss);
+            var param = view.Param(
+                context: context,
+                ss: ss);
             var orderBy = view.OrderBy(
                 context: context,
                 ss: ss)
@@ -2132,7 +2166,8 @@ namespace Implem.Pleasanter.Models
                     statements: Rds.SelectResults(
                         column: Rds.ResultsColumn().ResultsCount(),
                         join: join,
-                        where: where)) <= Parameters.General.SwitchTargetsLimit)
+                        where: where,
+                        param: param)) <= Parameters.General.SwitchTargetsLimit)
                 {
                     switchTargets = Repository.ExecuteTable(
                         context: context,
@@ -2140,6 +2175,7 @@ namespace Implem.Pleasanter.Models
                             column: Rds.ResultsColumn().ResultId(),
                             join: join,
                             where: where,
+                            param: param,
                             orderBy: orderBy))
                                 .AsEnumerable()
                                 .Select(o => o["ResultId"].ToLong())
@@ -2979,10 +3015,15 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 where: selectedWhere,
                 itemJoin: false);
+            param = (Rds.ResultsParamCollection)view.Param(
+                context: context,
+                ss: ss,
+                param: param);
             var invalid = ExistsLockedRecord(
                 context: context,
                 ss: ss,
                 where: where,
+                param: param,
                 orderBy: view.OrderBy(
                     context: context,
                     ss: ss),
@@ -4209,10 +4250,14 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 where: selectedWhere,
                 itemJoin: false);
+            var param = view.Param(
+                context: context,
+                ss: ss);
             var invalid = ExistsLockedRecord(
                 context: context,
                 ss: ss,
                 where: where,
+                param: param,
                 orderBy: view.OrderBy(
                     context: context,
                     ss: ss));
@@ -4229,7 +4274,8 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     statements: Rds.SelectResults(
                         column: Rds.ResultsColumn().ResultsCount(),
-                        where: where))))
+                        where: where,
+                        param: param))))
             {
                 return Error.Types.ItemsLimit.MessageJson(context: context);
             }
@@ -4245,7 +4291,8 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     siteId: siteId,
-                    where: where);
+                    where: where,
+                    param: param);
                 Summaries.Synchronize(context: context, ss: ss);
                 return GridRows(
                     context: context,
@@ -4265,11 +4312,13 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             long siteId,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            SqlParamCollection param)
         {
             var sub = Rds.SelectResults(
                 column: Rds.ResultsColumn().ResultId(),
-                where: where);
+                where: where,
+                param: param);
             var guid = Strings.NewGuid();
             return Repository.ExecuteScalar_response(
                 context: context,
@@ -4316,10 +4365,14 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     where: selectedWhere,
                     itemJoin: false);
+                var param = view.Param(
+                    context: context,
+                    ss: ss);
                 var invalid = ExistsLockedRecord(
                     context: context,
                     ss: ss,
                     where: where,
+                    param: param,
                     orderBy: view.OrderBy(
                         context: context,
                         ss: ss));
@@ -4331,7 +4384,8 @@ namespace Implem.Pleasanter.Models
                 var count = BulkDelete(
                     context: context,
                     ss: ss,
-                    where: where);
+                    where: where,
+                    param: param);
                 Summaries.Synchronize(context: context, ss: ss);
                 return GridRows(
                     context: context,
@@ -4350,7 +4404,8 @@ namespace Implem.Pleasanter.Models
         private static int BulkDelete(
             Context context,
             SiteSettings ss,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            SqlParamCollection param)
         {
             var sub = Rds.SelectResults(
                 column: Rds.ResultsColumn().ResultId(),
@@ -4360,7 +4415,8 @@ namespace Implem.Pleasanter.Models
                     {
                         where
                     }),
-                where: where);
+                where: where,
+                param: param);
             var sites = ss.IntegratedSites?.Any() == true
                 ? ss.AllowedIntegratedSites
                 : ss.SiteId.ToSingleList();
@@ -4442,10 +4498,14 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     where: selectedWhere,
                     itemJoin: false);
+                var param = view.Param(
+                    context: context,
+                    ss: ss);
                 var invalid = ExistsLockedRecord(
                     context: context,
                     ss: ss,
                     where: where,
+                    param: param,
                     orderBy: view.OrderBy(
                         context: context,
                         ss: ss));
@@ -4461,7 +4521,8 @@ namespace Implem.Pleasanter.Models
                 var count = BulkDelete(
                     context: context,
                     ss: ss,
-                    where: where);
+                    where: where,
+                    param: param);
                 Summaries.Synchronize(
                     context: context,
                     ss: ss);
@@ -4505,10 +4566,14 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     where: selectedWhere,
                     itemJoin: false);
+                var param = view.Param(
+                    context: context,
+                    ss: ss);
                 var invalid = ExistsLockedRecord(
                     context: context,
                     ss: ss,
                     where: where,
+                    param: param,
                     orderBy: view.OrderBy(
                         context: context,
                         ss: ss));
@@ -4522,7 +4587,8 @@ namespace Implem.Pleasanter.Models
                 var count = BulkDelete(
                     context: context,
                     ss: ss,
-                    where: where);
+                    where: where,
+                    param: param);
                 Summaries.Synchronize(
                     context: context,
                     ss: ss);
@@ -4681,6 +4747,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             List<long> selected = null,
             SqlWhereCollection where = null,
+            SqlParamCollection param = null,
             bool negative = false,
             Sqls.TableTypes tableType = Sqls.TableTypes.Deleted)
         {
@@ -4722,7 +4789,8 @@ namespace Implem.Pleasanter.Models
                 _as: "Results" + tableName,
                 column: Rds.ResultsColumn()
                     .ResultId(tableName: "Results" + tableName),
-                where: where);
+                where: where,
+                param: param);
             var guid = Strings.NewGuid();
             return Repository.ExecuteScalar_response(
                 context: context,
@@ -4785,10 +4853,14 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     where: selectedWhere,
                     itemJoin: false);
+                var param = view.Param(
+                    context: context,
+                    ss: ss);
                 var invalid = ExistsLockedRecord(
                     context: context,
                     ss: ss,
                     where: where,
+                    param: param,
                     orderBy: view.OrderBy(
                         context: context,
                         ss: ss));
@@ -4805,6 +4877,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     where: where,
+                    param: param,
                     tableType: Sqls.TableTypes.Normal);
                 Summaries.Synchronize(
                     context: context,
@@ -4853,10 +4926,14 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     where: selectedWhere,
                     itemJoin: false);
+                var param = view.Param(
+                    context: context,
+                    ss: ss);
                 var invalid = ExistsLockedRecord(
                     context: context,
                     ss: ss,
                     where: where,
+                    param: param,
                     orderBy: view.OrderBy(
                         context: context,
                         ss: ss));
@@ -4871,6 +4948,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     where: where,
+                    param: param,
                     tableType: Sqls.TableTypes.Normal);
                 Summaries.Synchronize(
                     context: context,
@@ -5677,7 +5755,13 @@ namespace Implem.Pleasanter.Models
                     .Add(raw: $"\"Results\".\"{toColumn.ColumnName}\" between '{begin}' and '{end}'")
                     .Add(raw: $"\"Results\".\"{fromColumn.ColumnName}\"<='{begin}' and \"Results\".\"{toColumn.ColumnName}\">='{end}'"));
             }
-            where = view.Where(context: context, ss: ss, where: where);
+            where = view.Where(
+                context: context,
+                ss: ss,
+                where: where);
+            var param = view.Param(
+                context: context,
+                ss: ss);
             return Rds.ExecuteTable(
                 context: context,
                 statements: Rds.SelectResults(
@@ -5699,7 +5783,8 @@ namespace Implem.Pleasanter.Models
                     join: ss.Join(
                         context: context,
                         join: where),
-                    where: where))
+                    where: where,
+                    param: param))
                         .AsEnumerable();
         }
 
@@ -5993,6 +6078,9 @@ namespace Implem.Pleasanter.Models
                 var where = view.Where(
                     context: context,
                     ss: ss);
+                var param = view.Param(
+                    context: context,
+                    ss: ss);
                 var groupBy = Rds.ResultsGroupBy()
                     .WithItemTitle(
                         context: context,
@@ -6015,6 +6103,7 @@ namespace Implem.Pleasanter.Models
                                 groupBy
                             }),
                         where: where,
+                        param: param,
                         groupBy: groupBy))
                             .AsEnumerable();
             }
@@ -6044,6 +6133,9 @@ namespace Implem.Pleasanter.Models
                         column: groupByX,
                         timePeriod: timePeriod,
                         month: month));
+                var param = view.Param(
+                    context: context,
+                    ss: ss);
                 var groupBy = Rds.ResultsGroupBy()
                     .Add(dateGroup)
                     .WithItemTitle(
@@ -6063,6 +6155,7 @@ namespace Implem.Pleasanter.Models
                                 groupBy
                             }),
                         where: where,
+                        param: param,
                         groupBy: groupBy))
                             .AsEnumerable();
             }
@@ -6259,31 +6352,32 @@ namespace Implem.Pleasanter.Models
                     .Add(
                         context: context,
                         column: value);
-                var where = view.Where(context: context, ss: ss);
+                var where = view.Where(
+                    context: context,
+                    ss: ss);
+                var param = view.Param(
+                    context: context,
+                    ss: ss);
+                var join = ss.Join(
+                    context: context,
+                    join: new IJoin[]
+                    {
+                        column,
+                        where
+                    });
                 var dataRows = Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectResults(
                         tableType: Sqls.TableTypes.NormalAndHistory,
                         column: column,
-                        join: ss.Join(
-                            context: context,
-                            join: new IJoin[]
-                                {
-                                    column,
-                                    where
-                                }),
+                        join: join,
                         where: Rds.ResultsWhere()
                             .ResultId_In(sub: Rds.SelectResults(
                                 column: Rds.ResultsColumn().ResultId(),
-                                join: ss.Join(
-                                    context: context,
-                                    join: new IJoin[]
-                                        {
-                                            column,
-                                            where
-                                        }),
-                                where: where))))
-                                    .AsEnumerable();
+                                join: join,
+                                where: where)),
+                        param: param))
+                            .AsEnumerable();
                 ss.SetChoiceHash(dataRows: dataRows);
                 return dataRows;
             }
@@ -6470,7 +6564,12 @@ namespace Implem.Pleasanter.Models
                 .Add(
                     context: context,
                     column: value);
-            var where = view.Where(context: context, ss: ss);
+            var where = view.Where(
+                context: context,
+                ss: ss);
+            var param = view.Param(
+                context: context,
+                ss: ss);
             return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectResults(
@@ -6482,7 +6581,8 @@ namespace Implem.Pleasanter.Models
                             column,
                             where
                         }),
-                    where: where))
+                    where: where,
+                    param: param))
                         .AsEnumerable()
                         .Select(o => new Libraries.ViewModes.KambanElement()
                         {
@@ -6705,6 +6805,9 @@ namespace Implem.Pleasanter.Models
             var where = view.Where(
                 context: context,
                 ss: ss);
+            var param = view.Param(
+                context: context,
+                ss: ss);
             return Repository.ExecuteScalar_int(
                 context: context,
                 statements: Rds.SelectResults(
@@ -6715,13 +6818,15 @@ namespace Implem.Pleasanter.Models
                         {
                             where
                         }),
-                    where: where)) <= limit;
+                    where: where,
+                    param: param)) <= limit;
         }
 
         private static ErrorData ExistsLockedRecord(
             Context context,
             SiteSettings ss,
             SqlWhereCollection where,
+            SqlParamCollection param,
             SqlOrderByCollection orderBy,
             Column bulkUpdateColumn = null)
         {
@@ -6753,6 +6858,7 @@ namespace Implem.Pleasanter.Models
                             orderBy
                         }),
                     where: lockedRecordWhere,
+                    param: param,
                     orderBy: orderBy,
                     top: 1));
             return resultId > 0

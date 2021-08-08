@@ -98,19 +98,20 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
         public override string ApiRequestBody { get; set; }
         public override string RequestDataString { get => !string.IsNullOrEmpty(ApiRequestBody) ? ApiRequestBody : FormString; }
         public override string ContentType { get; set; }
+        public override List<ParameterAccessor.Parts.ExtendedField> ExtendedFields { get; set; }
         public override string AuthenticationType { get => AspNetCoreHttpContext.Current?.User?.Identity?.AuthenticationType; }
         public override bool? IsAuthenticated { get => AspNetCoreHttpContext.Current?.User?.Identity?.IsAuthenticated; }
         public override IEnumerable<Claim> UserClaims { get => AspNetCoreHttpContext.Current?.User?.Claims; }
 
-         public ContextImplement(
-            bool request = true,
-            bool sessionStatus = true,
-            bool sessionData = true,
-            bool user = true,
-            bool item = true,
-            bool setPermissions = true,
-            string apiRequestBody = null,
-            string contentType = null)
+        public ContextImplement(
+           bool request = true,
+           bool sessionStatus = true,
+           bool sessionData = true,
+           bool user = true,
+           bool item = true,
+           bool setPermissions = true,
+           string apiRequestBody = null,
+           string contentType = null)
         {
             Set(
                 request: request,
@@ -810,6 +811,63 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
         public override string GetLog()
         {
             return LogBuilder?.ToString();
+        }
+
+        public override Column ExtendedFieldColumn(
+            SiteSettings ss,
+            string columnName,
+            string extendedFieldType)
+        {
+            var viewFilter = ExtendedFields?.FirstOrDefault(o =>
+                o.Name == columnName
+                && o.FieldType == extendedFieldType);
+            if (viewFilter != null)
+            {
+                return ExtendedFieldColumn(
+                    ss: ss,
+                    viewFilter: viewFilter);
+            }
+            return null;
+        }
+
+        public override List<Column> ExtendedFieldColumns(
+            SiteSettings ss,
+            string extendedFieldType)
+        {
+            var extendedFieldColumns = ExtendedFields
+                ?.Where(viewFilter => viewFilter.FieldType == extendedFieldType)
+                .Select(viewFilter => ExtendedFieldColumn(
+                    ss: ss,
+                    viewFilter: viewFilter))
+                .ToList()
+                    ?? new List<Column>();
+            return extendedFieldColumns;
+        }
+
+        private Column ExtendedFieldColumn(
+            SiteSettings ss,
+            ParameterAccessor.Parts.ExtendedField viewFilter)
+        {
+            var column = new Column()
+            {
+                SiteSettings = ss,
+                ColumnName = viewFilter.Name,
+                TypeName = viewFilter.TypeName,
+                LabelText = viewFilter.LabelText,
+                GridLabelText = viewFilter.LabelText,
+                ChoicesText = viewFilter.ChoicesText,
+                ControlType = viewFilter.ControlType,
+                CheckFilterControlType = (ColumnUtilities.CheckFilterControlTypes)viewFilter.CheckFilterControlType,
+                After = viewFilter.After,
+                SqlParam = viewFilter.SqlParam
+            };
+            if (column.HasChoices())
+            {
+                column.SetChoiceHash(
+                    context: this,
+                    siteId: SiteId);
+            }
+            return column;
         }
     }
 }

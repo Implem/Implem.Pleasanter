@@ -2457,7 +2457,9 @@ namespace Implem.Pleasanter.Models
         private void SetEditorColumn(Context context, ResponseCollection res)
         {
             var columnName = context.Forms.Data("EditorColumnName");
-            var column = SiteSettings.EditorColumn(columnName);
+            var column = SiteSettings.GetColumn(
+                context: context,
+                columnName: columnName);
             if (column == null)
             {
                 res.Message(Messages.InvalidRequest(context: context));

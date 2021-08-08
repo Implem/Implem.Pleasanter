@@ -50,7 +50,10 @@ namespace Implem.Libraries.DataSources.SqlServer
                     sqlContainer: sqlContainer,
                     sqlCommand: sqlCommand,
                     commandCount: commandCount)
-                : CommandText(tableBracket: tableBracket) + AsBracket();
+                : CommandText(
+                    factory: factory,
+                    tableBracket: tableBracket)
+                        + AsBracket();
         }
 
         private string AsBracket()
@@ -64,7 +67,9 @@ namespace Implem.Libraries.DataSources.SqlServer
                         : string.Empty);
         }
 
-        private string CommandText(string tableBracket)
+        private string CommandText(
+            ISqlObjectFactory factory,
+            string tableBracket)
         {
             var columnBracket = Sqls.TableAndColumnBracket(
                 tableBracket: tableBracket, columnBracket: ColumnBracket);
@@ -79,7 +84,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 case Sqls.Functions.Max:
                     return "max(" + columnBracket + ")";
                 case Sqls.Functions.Avg:
-                    return "avg(" + columnBracket + ")";
+                    return $"avg({factory.Sqls.IsNull}({columnBracket}, 0))";
                 default:
                     return columnBracket;
             }
