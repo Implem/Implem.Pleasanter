@@ -14,6 +14,8 @@ namespace Implem.PostgreSql
 
         public string Like { get; } = " ilike ";
 
+        public string IsNull { get; } = "coalesce";
+
         public string WhereLikeTemplateForward { get; } = "'%' || ";
 
         public string WhereLikeTemplate { get; } = "#ParamCount#_#CommandCount# || '%')";
