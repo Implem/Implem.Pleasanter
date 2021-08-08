@@ -13,6 +13,8 @@ namespace Implem.SqlServer
 
         public string Like { get; } = " like ";
 
+        public string IsNull { get; } = "isnull";
+
         public string WhereLikeTemplateForward { get; } = "'%' + ";
 
         public string WhereLikeTemplate { get; } = "#ParamCount#_#CommandCount# + '%')";
