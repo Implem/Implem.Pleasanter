@@ -4167,7 +4167,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             Parameters.ExtendedSqls
                 ?.Where(o => o.OnSelectingWhere)
-                .Where(o => o.OnSelectingWhereParams?.Any() == false
+                .Where(o => o.OnSelectingWhereParams?.Any() != true
                     || o.OnSelectingWhereParams.All(p => columnFilterHash?.ContainsKey(p) == true) == true)
                 .ExtensionWhere<ExtendedSql>(
                     context: context,
@@ -4243,7 +4243,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             Parameters.ExtendedSqls
                 ?.Where(o => o.OnSelectingWhere)
-                .Where(o => o.OnSelectingWhereParams?.Any() == false
+                .Where(o => o.OnSelectingWhereParams?.Any() != true
                     || o.OnSelectingWhereParams.All(p => columnFilterHash?.ContainsKey(p) == true) == true)
                 .Where(o => o.CommandText?.Any() == true)
                 .ExtensionWhere<ExtendedSql>(
@@ -4275,7 +4275,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             Parameters.ExtendedSqls
                 ?.Where(o => o.OnSelectingWhere)
-                .Where(o => o.OnSelectingWhereParams?.Any() == false
+                .Where(o => o.OnSelectingWhereParams?.Any() != true
                     || o.OnSelectingWhereParams.All(p => columnFilterHash?.ContainsKey(p) == true) == true)
                 .Where(o => o.CommandText?.Any() == true)
                 .ExtensionWhere<ExtendedSql>(
