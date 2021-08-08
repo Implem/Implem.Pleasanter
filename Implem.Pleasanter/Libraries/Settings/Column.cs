@@ -1205,6 +1205,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Context context,
             SiteSettings ss,
             List<string> mine,
+            bool skipCanReadCheck = false,
             bool noCache = true)
         {
             switch (context.Action)
@@ -1216,16 +1217,20 @@ namespace Implem.Pleasanter.Libraries.Settings
                         mine: mine,
                         noCache: noCache);
                 default:
-                    return CanRead(
+                    if (!skipCanReadCheck)
+                    {
+                        var canRead = CanRead(
+                            context: context,
+                            ss: ss,
+                            mine: mine,
+                            noCache: noCache);
+                        if (!canRead) return false;
+                    }
+                    return CanUpdate(
                         context: context,
                         ss: ss,
                         mine: mine,
-                        noCache: noCache)
-                            && CanUpdate(
-                                context: context,
-                                ss: ss,
-                                mine: mine,
-                                noCache: noCache);
+                        noCache: noCache);
             }
         }
 
