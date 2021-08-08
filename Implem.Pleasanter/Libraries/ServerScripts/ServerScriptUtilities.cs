@@ -337,7 +337,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 .Where(column => column?.CanEdit(
                     context: context,
                     ss: ss,
-                    mine: mine) == true)
+                    mine: mine,
+                    skipCanReadCheck: true) == true)
                 .ToArray();
             return columns;
         }

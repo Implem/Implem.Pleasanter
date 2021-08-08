@@ -1349,6 +1349,7 @@
     <Content Include="App_Data\Parameters\ExtendedAutoTest\TestParts\Items\Issues\Transition\ToIssuesImageLib.json" />
     <Content Include="App_Data\Parameters\ExtendedAutoTest\TestParts\Items\Issues\Transition\ToIssuesIndex.json" />
     <Content Include="App_Data\Parameters\ExtendedAutoTest\TestParts\Items\Issues\Transition\ToIssuesKamban.json" />
+    <Content Include="App_Data\Parameters\ExtendedFields\Sample.json.txt" />
     <Content Include="App_Data\Parameters\ExtendedHtmls\Sample.html.txt" />
     <Content Include="App_Data\Parameters\ExtendedNavigationMenus\Sample.json.txt" />
     <Content Include="App_Data\Parameters\ExtendedScripts\Sample.js.txt" />
@@ -2284,6 +2285,10 @@
     <Content Include="App_Data\Displays\ExtendedHtmlBeforeLabel.json" />
     <Content Include="App_Data\Displays\ExtendedHtmlAfterControl.json" />
     <Content Include="App_Data\Displays\ExtendedHtmlBetweenLabelAndControl.json" />
+    <Content Include="App_Data\Displays\HideLink.json" />
+    <Content Include="App_Data\Displays\AllowCopy.json" />
+    <Content Include="App_Data\Displays\ReferenceCopy.json" />
+    <Content Include="App_Data\Displays\AllowReferenceCopy.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

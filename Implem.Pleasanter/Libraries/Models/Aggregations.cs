@@ -23,6 +23,9 @@ namespace Implem.Pleasanter.Libraries.Models
             var where = view.Where(
                 context: context,
                 ss: ss);
+            var param = view.Param(
+                context: context,
+                ss: ss);
             Set(
                 context: context,
                 ss: ss,
@@ -35,7 +38,9 @@ namespace Implem.Pleasanter.Libraries.Models
                         join: ss.Join(
                             context: context,
                             join: where),
-                        where: where).ToArray()));
+                        where: where,
+                        param: param)
+                            .ToArray()));
         }
 
         private void Set(

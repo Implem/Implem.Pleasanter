@@ -4815,6 +4815,16 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.AllowEditingComments(context: context),
                         _checked: ss.AllowEditingComments == true)
                     .FieldCheckBox(
+                        controlId: "AllowCopy",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.AllowCopy(context: context),
+                        _checked: ss.AllowCopy == true)
+                    .FieldCheckBox(
+                        controlId: "AllowReferenceCopy",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.AllowReferenceCopy(context: context),
+                        _checked: ss.AllowReferenceCopy == true)
+                    .FieldCheckBox(
                         controlId: "AllowSeparate",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.AllowSeparate(context: context),
@@ -4825,6 +4835,11 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-auto-thin",
                         labelText: Displays.AllowLockTable(context: context),
                         _checked: ss.AllowLockTable == true)
+                    .FieldCheckBox(
+                        controlId: "HideLink",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.HideLink(context: context),
+                        _checked: ss.HideLink == true)
                     .FieldCheckBox(
                         controlId: "SwitchRecordWithAjax",
                         fieldCss: "field-auto-thin",
@@ -5158,7 +5173,8 @@ namespace Implem.Pleasanter.Models
                                             && column.ColumnName != "Comments");
                                     break;
                             }
-                            if (!column.Required)
+                            if (column.Required == false
+                                || column.TypeName == "datetime")
                             {
                                 hb
                                     .FieldCheckBox(

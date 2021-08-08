@@ -181,7 +181,13 @@ namespace Implem.Libraries.DataSources.SqlServer
                 .Where(o => o.Raw.IsNullOrEmpty())
                 .Where(o => o.Value != null)
                 .ForEach(sqlParam =>
-                    AddParam(sqlCommand, sqlParam.VariableName, sqlParam.Value, commandCount));
+                    AddParam(
+                        sqlCommand: sqlCommand,
+                        name: sqlParam.VariableName,
+                        value: sqlParam.Value,
+                        commandCount: !sqlParam.NoCount
+                            ? commandCount
+                            : null));
         }
 
         protected void AddUnion(StringBuilder commandText, Sqls.UnionTypes unionType)

@@ -81,6 +81,9 @@ namespace Implem.Pleasanter.Libraries.Models
                     where,
                     orderBy
                 });
+            var param = view.Param(
+                context: context,
+                ss: ss);
             var statements = new List<SqlStatement>
             {
                 Rds.Select(
@@ -91,6 +94,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     join: join,
                     where: where,
                     orderBy: orderBy,
+                    param: param,
                     top: top,
                     offset: offset,
                     pageSize: pageSize),

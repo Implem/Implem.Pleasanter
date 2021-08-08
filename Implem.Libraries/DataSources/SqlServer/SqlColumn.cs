@@ -76,7 +76,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 case Sqls.Functions.Max:
                     return "max(" + columnBracket + ")";
                 case Sqls.Functions.Avg:
-                    return "avg(" + columnBracket + ")";
+                    return "avg(isnull(" + columnBracket + ", 0))";
                 default:
                     return columnBracket;
             }

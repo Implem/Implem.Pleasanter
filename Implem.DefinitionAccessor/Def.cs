@@ -1033,6 +1033,11 @@ namespace Implem.DefinitionAccessor
                                 data.ToBool();
                             newCodeDefinition.SavedLike = newCodeDefinition.Like;
                             break;
+                        case "Lookup":
+                            newCodeDefinition.Lookup = customDefinitionRow.Get("Lookup")?.ToBool() ??
+                                data.ToBool();
+                            newCodeDefinition.SavedLookup = newCodeDefinition.Lookup;
+                            break;
                         case "HasIdentity":
                             newCodeDefinition.HasIdentity = customDefinitionRow.Get("HasIdentity")?.ToBool() ??
                                 data.ToBool();
@@ -1370,6 +1375,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("NotUnique")) { definition.NotUnique = definitionRow["NotUnique"].ToBool(); definition.SavedNotUnique = definition.NotUnique; }
             if (definitionRow.ContainsKey("NotDefault")) { definition.NotDefault = definitionRow["NotDefault"].ToBool(); definition.SavedNotDefault = definition.NotDefault; }
             if (definitionRow.ContainsKey("Like")) { definition.Like = definitionRow["Like"].ToBool(); definition.SavedLike = definition.Like; }
+            if (definitionRow.ContainsKey("Lookup")) { definition.Lookup = definitionRow["Lookup"].ToBool(); definition.SavedLookup = definition.Lookup; }
             if (definitionRow.ContainsKey("HasIdentity")) { definition.HasIdentity = definitionRow["HasIdentity"].ToBool(); definition.SavedHasIdentity = definition.HasIdentity; }
             if (definitionRow.ContainsKey("HasNotIdentity")) { definition.HasNotIdentity = definitionRow["HasNotIdentity"].ToBool(); definition.SavedHasNotIdentity = definition.HasNotIdentity; }
             if (definitionRow.ContainsKey("HasTableNameId")) { definition.HasTableNameId = definitionRow["HasTableNameId"].ToBool(); definition.SavedHasTableNameId = definition.HasTableNameId; }
@@ -2229,6 +2235,11 @@ namespace Implem.DefinitionAccessor
                                 data.ToBool();
                             newColumnDefinition.SavedLike = newColumnDefinition.Like;
                             break;
+                        case "NotLookup":
+                            newColumnDefinition.NotLookup = customDefinitionRow.Get("NotLookup")?.ToBool() ??
+                                data.ToBool();
+                            newColumnDefinition.SavedNotLookup = newColumnDefinition.NotLookup;
+                            break;
                         case "WhereSpecial":
                             newColumnDefinition.WhereSpecial = customDefinitionRow.Get("WhereSpecial")?.ToBool() ??
                                 data.ToBool();
@@ -2649,6 +2660,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("JoinType")) { definition.JoinType = definitionRow["JoinType"].ToString(); definition.SavedJoinType = definition.JoinType; }
             if (definitionRow.ContainsKey("JoinExpression")) { definition.JoinExpression = definitionRow["JoinExpression"].ToString(); definition.SavedJoinExpression = definition.JoinExpression; }
             if (definitionRow.ContainsKey("Like")) { definition.Like = definitionRow["Like"].ToBool(); definition.SavedLike = definition.Like; }
+            if (definitionRow.ContainsKey("NotLookup")) { definition.NotLookup = definitionRow["NotLookup"].ToBool(); definition.SavedNotLookup = definition.NotLookup; }
             if (definitionRow.ContainsKey("WhereSpecial")) { definition.WhereSpecial = definitionRow["WhereSpecial"].ToBool(); definition.SavedWhereSpecial = definition.WhereSpecial; }
             if (definitionRow.ContainsKey("Required")) { definition.Required = definitionRow["Required"].ToBool(); definition.SavedRequired = definition.Required; }
             if (definitionRow.ContainsKey("Class")) { definition.Class = definitionRow["Class"].ToBool(); definition.SavedClass = definition.Class; }
@@ -6210,6 +6222,7 @@ namespace Implem.DefinitionAccessor
                         case "NotUnique": codeDefinition.NotUnique = optionValue.ToBool(); break;
                         case "NotDefault": codeDefinition.NotDefault = optionValue.ToBool(); break;
                         case "Like": codeDefinition.Like = optionValue.ToBool(); break;
+                        case "Lookup": codeDefinition.Lookup = optionValue.ToBool(); break;
                         case "HasIdentity": codeDefinition.HasIdentity = optionValue.ToBool(); break;
                         case "HasNotIdentity": codeDefinition.HasNotIdentity = optionValue.ToBool(); break;
                         case "HasTableNameId": codeDefinition.HasTableNameId = optionValue.ToBool(); break;
@@ -6337,6 +6350,7 @@ namespace Implem.DefinitionAccessor
                         case "JoinType": columnDefinition.JoinType = optionValue.ToString(); break;
                         case "JoinExpression": columnDefinition.JoinExpression = optionValue.ToString(); break;
                         case "Like": columnDefinition.Like = optionValue.ToBool(); break;
+                        case "NotLookup": columnDefinition.NotLookup = optionValue.ToBool(); break;
                         case "WhereSpecial": columnDefinition.WhereSpecial = optionValue.ToBool(); break;
                         case "Required": columnDefinition.Required = optionValue.ToBool(); break;
                         case "Class": columnDefinition.Class = optionValue.ToBool(); break;
@@ -6904,6 +6918,7 @@ namespace Implem.DefinitionAccessor
         public bool NotUnique; public bool SavedNotUnique;
         public bool NotDefault; public bool SavedNotDefault;
         public bool Like; public bool SavedLike;
+        public bool Lookup; public bool SavedLookup;
         public bool HasIdentity; public bool SavedHasIdentity;
         public bool HasNotIdentity; public bool SavedHasNotIdentity;
         public bool HasTableNameId; public bool SavedHasTableNameId;
@@ -6991,6 +7006,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("NotUnique")) NotUnique = propertyCollection["NotUnique"].ToBool(); else NotUnique = false;
             if (propertyCollection.ContainsKey("NotDefault")) NotDefault = propertyCollection["NotDefault"].ToBool(); else NotDefault = false;
             if (propertyCollection.ContainsKey("Like")) Like = propertyCollection["Like"].ToBool(); else Like = false;
+            if (propertyCollection.ContainsKey("Lookup")) Lookup = propertyCollection["Lookup"].ToBool(); else Lookup = false;
             if (propertyCollection.ContainsKey("HasIdentity")) HasIdentity = propertyCollection["HasIdentity"].ToBool(); else HasIdentity = false;
             if (propertyCollection.ContainsKey("HasNotIdentity")) HasNotIdentity = propertyCollection["HasNotIdentity"].ToBool(); else HasNotIdentity = false;
             if (propertyCollection.ContainsKey("HasTableNameId")) HasTableNameId = propertyCollection["HasTableNameId"].ToBool(); else HasTableNameId = false;
@@ -7078,6 +7094,7 @@ namespace Implem.DefinitionAccessor
                     case "NotUnique": return NotUnique;
                     case "NotDefault": return NotDefault;
                     case "Like": return Like;
+                    case "Lookup": return Lookup;
                     case "HasIdentity": return HasIdentity;
                     case "HasNotIdentity": return HasNotIdentity;
                     case "HasTableNameId": return HasTableNameId;
@@ -7165,6 +7182,7 @@ namespace Implem.DefinitionAccessor
             NotUnique = SavedNotUnique;
             NotDefault = SavedNotDefault;
             Like = SavedLike;
+            Lookup = SavedLookup;
             HasIdentity = SavedHasIdentity;
             HasNotIdentity = SavedHasNotIdentity;
             HasTableNameId = SavedHasTableNameId;
@@ -8645,6 +8663,7 @@ namespace Implem.DefinitionAccessor
         public string JoinType; public string SavedJoinType;
         public string JoinExpression; public string SavedJoinExpression;
         public bool Like; public bool SavedLike;
+        public bool NotLookup; public bool SavedNotLookup;
         public bool WhereSpecial; public bool SavedWhereSpecial;
         public bool Required; public bool SavedRequired;
         public bool Class; public bool SavedClass;
@@ -8775,6 +8794,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("JoinType")) JoinType = propertyCollection["JoinType"].ToString(); else JoinType = string.Empty;
             if (propertyCollection.ContainsKey("JoinExpression")) JoinExpression = propertyCollection["JoinExpression"].ToString(); else JoinExpression = string.Empty;
             if (propertyCollection.ContainsKey("Like")) Like = propertyCollection["Like"].ToBool(); else Like = false;
+            if (propertyCollection.ContainsKey("NotLookup")) NotLookup = propertyCollection["NotLookup"].ToBool(); else NotLookup = false;
             if (propertyCollection.ContainsKey("WhereSpecial")) WhereSpecial = propertyCollection["WhereSpecial"].ToBool(); else WhereSpecial = false;
             if (propertyCollection.ContainsKey("Required")) Required = propertyCollection["Required"].ToBool(); else Required = false;
             if (propertyCollection.ContainsKey("Class")) Class = propertyCollection["Class"].ToBool(); else Class = false;
@@ -8905,6 +8925,7 @@ namespace Implem.DefinitionAccessor
                     case "JoinType": return JoinType;
                     case "JoinExpression": return JoinExpression;
                     case "Like": return Like;
+                    case "NotLookup": return NotLookup;
                     case "WhereSpecial": return WhereSpecial;
                     case "Required": return Required;
                     case "Class": return Class;
@@ -9035,6 +9056,7 @@ namespace Implem.DefinitionAccessor
             JoinType = SavedJoinType;
             JoinExpression = SavedJoinExpression;
             Like = SavedLike;
+            NotLookup = SavedNotLookup;
             WhereSpecial = SavedWhereSpecial;
             Required = SavedRequired;
             Class = SavedClass;

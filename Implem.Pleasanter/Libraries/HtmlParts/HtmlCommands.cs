@@ -351,7 +351,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     icon: "ui-icon-copy",
                     selector: "#CopyDialog",
                     _using: copyButton
-                        && context.CanCreate(ss: ss))
+                        && context.CanCreate(ss: ss)
+                        && ss.AllowCopy == true)
+                .Button(
+                    controlId: "ReferenceCopy",
+                    text: Displays.ReferenceCopy(context: context),
+                    controlCss: "button-icon",
+                    accessKey: "k",
+                    onClick: $"location.href='{Locations.ItemNew(context: context, id: ss.SiteId)}?CopyFrom={context.Id}'",
+                    icon: "ui-icon-copy",
+                    _using: copyButton
+                        && context.CanCreate(ss: ss)
+                        && ss.AllowReferenceCopy == true)
                 .Button(
                     controlId: "MoveTargetsCommand",
                     text: Displays.Move(context: context),

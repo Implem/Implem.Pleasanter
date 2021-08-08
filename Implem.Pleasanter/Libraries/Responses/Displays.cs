@@ -279,6 +279,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AllowCopy(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AllowCopy",
+                data: data);
+        }
+
         public static string AllowEditingComments(
             Context context,
             params string[] data)
@@ -326,6 +336,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "AllowLockTable",
+                data: data);
+        }
+
+        public static string AllowReferenceCopy(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AllowReferenceCopy",
                 data: data);
         }
 
@@ -2969,13 +2989,13 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string ExtendedHtmlBeforeLabel(
+        public static string ExtendedHtmlAfterField(
             Context context,
             params string[] data)
         {
             return Get(
                 context: context,
-                id: "ExtendedHtmlBeforeLabel",
+                id: "ExtendedHtmlAfterField",
                 data: data);
         }
 
@@ -2989,13 +3009,13 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string ExtendedHtmlAfterField(
+        public static string ExtendedHtmlBeforeLabel(
             Context context,
             params string[] data)
         {
             return Get(
                 context: context,
-                id: "ExtendedHtmlAfterField",
+                id: "ExtendedHtmlBeforeLabel",
                 data: data);
         }
 
@@ -3476,6 +3496,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Hide",
+                data: data);
+        }
+
+        public static string HideLink(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "HideLink",
                 data: data);
         }
 
@@ -6136,6 +6166,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ReCreate",
+                data: data);
+        }
+
+        public static string ReferenceCopy(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ReferenceCopy",
                 data: data);
         }
 

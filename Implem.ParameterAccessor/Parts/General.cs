@@ -14,8 +14,6 @@ namespace Implem.ParameterAccessor.Parts
         public string HtmlSupportUrl;
         public string HtmlContactUrl;
         public string HtmlAGPLUrl;
-        public string HtmlCommercialLicenseUrl;
-        public string HtmlAnnualSupportServiceUrl;
         public string HtmlEnterPriseEditionUrl;
         public string HtmlCasesUrl;
         public bool DisplayLogoText;
@@ -38,6 +36,8 @@ namespace Implem.ParameterAccessor.Parts
         public int ExportOutputColumnMax;
         public int ImportMax;
         public int ViewerSwitchingType;
+        public bool AllowCopy;
+        public bool AllowReferenceCopy;
         public int UpdateResponseType;
         public string SolutionBackupPath;
         public string SolutionBackupExcludeDirectories;

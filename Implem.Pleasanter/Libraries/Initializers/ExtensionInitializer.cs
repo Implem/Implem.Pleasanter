@@ -19,70 +19,25 @@ namespace Implem.Pleasanter.Libraries.Initializers
                     .Disabled(false));
             if (extensions.Any())
             {
-                Parameters.ExtendedSqls = Parameters.ExtendedSqls ?? new List<ExtendedSql>();
-                Parameters.ExtendedStyles = Parameters.ExtendedStyles ?? new List<ExtendedStyle>();
-                Parameters.ExtendedScripts = Parameters.ExtendedScripts ?? new List<ExtendedScript>();
-                Parameters.ExtendedServerScripts = Parameters.ExtendedServerScripts ?? new List<ExtendedServerScript>();
+                Parameters.ExtendedFields = Parameters.ExtendedFields ?? new List<ExtendedField>();
                 Parameters.ExtendedHtmls = Parameters.ExtendedHtmls ?? new List<ExtendedHtml>();
                 Parameters.ExtendedNavigationMenus = Parameters.ExtendedNavigationMenus ?? new List<ExtendedNavigationMenu>();
+                Parameters.ExtendedScripts = Parameters.ExtendedScripts ?? new List<ExtendedScript>();
+                Parameters.ExtendedServerScripts = Parameters.ExtendedServerScripts ?? new List<ExtendedServerScript>();
+                Parameters.ExtendedSqls = Parameters.ExtendedSqls ?? new List<ExtendedSql>();
+                Parameters.ExtendedStyles = Parameters.ExtendedStyles ?? new List<ExtendedStyle>();
                 extensions.ForEach(extension =>
                 {
                     switch (extension.ExtensionType)
                     {
-                        case "Sql":
-                            var extendedSql = extension.ExtensionSettings.Deserialize<ExtendedSql>();
-                            if (extendedSql != null)
+                        case "Fields":
+                            var extendedField = extension.ExtensionSettings.Deserialize<ExtendedField>();
+                            if (extendedField != null)
                             {
-                                extendedSql.Name = Strings.CoalesceEmpty(
+                                extendedField.Name = Strings.CoalesceEmpty(
                                     extension.ExtensionName,
-                                    extendedSql.Name);
-                                if (!extension.Body.IsNullOrEmpty())
-                                {
-                                    extendedSql.CommandText = extension.Body;
-                                }
-                                Parameters.ExtendedSqls.Add(extendedSql);
-                            }
-                            break;
-                        case "Style":
-                            var extendedStyle = extension.ExtensionSettings.Deserialize<ExtendedStyle>();
-                            if (extendedStyle != null)
-                            {
-                                extendedStyle.Name = Strings.CoalesceEmpty(
-                                    extension.ExtensionName,
-                                    extendedStyle.Name);
-                                if (!extension.Body.IsNullOrEmpty())
-                                {
-                                    extendedStyle.Style = extension.Body;
-                                }
-                                Parameters.ExtendedStyles.Add(extendedStyle);
-                            }
-                            break;
-                        case "Script":
-                            var extendedScript = extension.ExtensionSettings.Deserialize<ExtendedScript>();
-                            if (extendedScript != null)
-                            {
-                                extendedScript.Name = Strings.CoalesceEmpty(
-                                    extension.ExtensionName,
-                                    extendedScript.Name);
-                                if (!extension.Body.IsNullOrEmpty())
-                                {
-                                    extendedScript.Script = extension.Body;
-                                }
-                                Parameters.ExtendedScripts.Add(extendedScript);
-                            }
-                            break;
-                        case "ServerScript":
-                            var extendedServerScript = extension.ExtensionSettings.Deserialize<ExtendedServerScript>();
-                            if (extendedServerScript != null)
-                            {
-                                extendedServerScript.Name = Strings.CoalesceEmpty(
-                                    extension.ExtensionName,
-                                    extendedServerScript.Name);
-                                if (!extension.Body.IsNullOrEmpty())
-                                {
-                                    extendedServerScript.Body = extension.Body;
-                                }
-                                Parameters.ExtendedServerScripts.Add(extendedServerScript);
+                                    extendedField.Name);
+                                Parameters.ExtendedFields.Add(extendedField);
                             }
                             break;
                         case "Html":
@@ -120,6 +75,62 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                     extension.ExtensionName,
                                     extendedNavigationMenu.Name);
                                 Parameters.ExtendedNavigationMenus.Add(extendedNavigationMenu);
+                            }
+                            break;
+                        case "Script":
+                            var extendedScript = extension.ExtensionSettings.Deserialize<ExtendedScript>();
+                            if (extendedScript != null)
+                            {
+                                extendedScript.Name = Strings.CoalesceEmpty(
+                                    extension.ExtensionName,
+                                    extendedScript.Name);
+                                if (!extension.Body.IsNullOrEmpty())
+                                {
+                                    extendedScript.Script = extension.Body;
+                                }
+                                Parameters.ExtendedScripts.Add(extendedScript);
+                            }
+                            break;
+                        case "ServerScript":
+                            var extendedServerScript = extension.ExtensionSettings.Deserialize<ExtendedServerScript>();
+                            if (extendedServerScript != null)
+                            {
+                                extendedServerScript.Name = Strings.CoalesceEmpty(
+                                    extension.ExtensionName,
+                                    extendedServerScript.Name);
+                                if (!extension.Body.IsNullOrEmpty())
+                                {
+                                    extendedServerScript.Body = extension.Body;
+                                }
+                                Parameters.ExtendedServerScripts.Add(extendedServerScript);
+                            }
+                            break;
+                        case "Sql":
+                            var extendedSql = extension.ExtensionSettings.Deserialize<ExtendedSql>();
+                            if (extendedSql != null)
+                            {
+                                extendedSql.Name = Strings.CoalesceEmpty(
+                                    extension.ExtensionName,
+                                    extendedSql.Name);
+                                if (!extension.Body.IsNullOrEmpty())
+                                {
+                                    extendedSql.CommandText = extension.Body;
+                                }
+                                Parameters.ExtendedSqls.Add(extendedSql);
+                            }
+                            break;
+                        case "Style":
+                            var extendedStyle = extension.ExtensionSettings.Deserialize<ExtendedStyle>();
+                            if (extendedStyle != null)
+                            {
+                                extendedStyle.Name = Strings.CoalesceEmpty(
+                                    extension.ExtensionName,
+                                    extendedStyle.Name);
+                                if (!extension.Body.IsNullOrEmpty())
+                                {
+                                    extendedStyle.Style = extension.Body;
+                                }
+                                Parameters.ExtendedStyles.Add(extendedStyle);
                             }
                             break;
                         default:

@@ -55,13 +55,14 @@ namespace Implem.Libraries.DataSources.SqlServer
                     case Sqls.Functions.Sum:
                     case Sqls.Functions.Min:
                     case Sqls.Functions.Max:
-                    case Sqls.Functions.Avg:
                         return
                             Function.ToString().ToLower() +
                             "(" +
                             columnBracket +
                             ")" +
                             orderType;
+                    case Sqls.Functions.Avg:
+                        return $"avg(isnull({columnBracket}, 0)) {orderType}";
                     default:
                         return columnBracket + orderType;
                 }

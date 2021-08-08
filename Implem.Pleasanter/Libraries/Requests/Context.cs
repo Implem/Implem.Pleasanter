@@ -95,6 +95,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string RequestDataString { get => ApiRequestBody ?? FormString; }
         public string ContentType;
         public long ServerScriptDepth = 0;
+        public List<ParameterAccessor.Parts.ExtendedField> ExtendedFields;
         public SqlServerSqls Sqls = new SqlServerSqls();
         public SqlServerCommandText SqlCommandText = new SqlServerCommandText();
 
@@ -253,6 +254,9 @@ namespace Implem.Pleasanter.Libraries.Requests
                             + (TrashboxActions()
                                 ? "/trashbox"
                                 : string.Empty);
+                        ExtendedFields = Parameters.ExtendedFields
+                            .ExtensionWhere<ParameterAccessor.Parts.ExtendedField>(context: this)
+                            .ToList();
                         break;
                     default:
                         Page = Controller;
@@ -620,6 +624,63 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string GetLog()
         {
             return LogBuilder?.ToString();
+        }
+
+        public Column ExtendedFieldColumn(
+            SiteSettings ss,
+            string columnName,
+            string extendedFieldType)
+        {
+            var viewFilter = ExtendedFields?.FirstOrDefault(o =>
+                o.Name == columnName
+                && o.FieldType == extendedFieldType);
+            if (viewFilter != null)
+            {
+                return ExtendedFieldColumn(
+                    ss: ss,
+                    viewFilter: viewFilter);
+            }
+            return null;
+        }
+
+        public List<Column> ExtendedFieldColumns(
+            SiteSettings ss,
+            string extendedFieldType)
+        {
+            var extendedFieldColumns = ExtendedFields
+                ?.Where(viewFilter => viewFilter.FieldType == extendedFieldType)
+                .Select(viewFilter => ExtendedFieldColumn(
+                    ss: ss,
+                    viewFilter: viewFilter))
+                .ToList()
+                    ?? new List<Column>();
+            return extendedFieldColumns;
+        }
+
+        private Column ExtendedFieldColumn(
+            SiteSettings ss,
+            ParameterAccessor.Parts.ExtendedField viewFilter)
+        {
+            var column = new Column()
+            {
+                SiteSettings = ss,
+                ColumnName = viewFilter.Name,
+                TypeName = viewFilter.TypeName,
+                LabelText = viewFilter.LabelText,
+                GridLabelText = viewFilter.LabelText,
+                ChoicesText = viewFilter.ChoicesText,
+                ControlType = viewFilter.ControlType,
+                CheckFilterControlType = (ColumnUtilities.CheckFilterControlTypes)viewFilter.CheckFilterControlType,
+                After = viewFilter.After,
+                SqlParam = viewFilter.SqlParam
+            };
+            if (column.HasChoices())
+            {
+                column.SetChoiceHash(
+                    context: this,
+                    siteId: SiteId);
+            }
+            return column;
         }
     }
 }

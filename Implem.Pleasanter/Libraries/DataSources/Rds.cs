@@ -4064,13 +4064,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return statements;
         }
 
-         public static SqlWhereCollection OnSelectingWhereExtendedSqls(
+        public static SqlWhereCollection OnSelectingWhereExtendedSqls(
             this SqlWhereCollection where,
             Context context,
-            SiteSettings ss)
+            SiteSettings ss,
+            Dictionary<string, string> columnFilterHash)
         {
             Parameters.ExtendedSqls
                 ?.Where(o => o.OnSelectingWhere)
+                .Where(o => o.OnSelectingWhereParams?.Any() != true
+                    || o.OnSelectingWhereParams?.All(p => columnFilterHash?.ContainsKey(p) == true) == true)
                 .ExtensionWhere<ExtendedSql>(
                     context: context,
                     siteId: ss.SiteId)
@@ -4140,10 +4143,13 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IssuesWhereCollection OnSelectingIssuesWhereExtendedSqls(
             this IssuesWhereCollection Where,
             Context context,
-            IssueModel issueModel)
+            IssueModel issueModel,
+            Dictionary<string, string> columnFilterHash = null)
         {
-            Parameters.ExtendedSqls?
-                .Where(o => o.OnSelectingWhere)
+            Parameters.ExtendedSqls
+                ?.Where(o => o.OnSelectingWhere)
+                .Where(o => o.OnSelectingWhereParams?.Any() != true
+                    || o.OnSelectingWhereParams?.All(p => columnFilterHash?.ContainsKey(p) == true) == true)
                 .Where(o => o.CommandText?.Any() == true)
                 .ExtensionWhere<ExtendedSql>(
                     context: context,
@@ -4169,10 +4175,13 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static ResultsWhereCollection OnSelectingResultsWhereExtendedSqls(
             this ResultsWhereCollection Where,
             Context context,
-            ResultModel resultModel)
+            ResultModel resultModel,
+            Dictionary<string, string> columnFilterHash = null)
         {
-            Parameters.ExtendedSqls?
-                .Where(o => o.OnSelectingWhere)
+            Parameters.ExtendedSqls
+                ?.Where(o => o.OnSelectingWhere)
+                .Where(o => o.OnSelectingWhereParams?.Any() != true
+                    || o.OnSelectingWhereParams?.All(p => columnFilterHash?.ContainsKey(p) == true) == true)
                 .Where(o => o.CommandText?.Any() == true)
                 .ExtensionWhere<ExtendedSql>(
                     context: context,
@@ -10659,7 +10668,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SiteSettings ss,
             Sqls.TableTypes tableType,
             SqlJoinCollection join,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            SqlParamCollection param)
         {
             switch (ss.ReferenceType)
             {
@@ -10672,7 +10682,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 tableType: tableType,
                                 column: TenantsColumn().TenantId(),
                                 join: join,
-                                where: where)));
+                                where: where)),
+                        param: param);
                 case "Depts":
                     return DeptsAggregations(
                         aggregations: ss.Aggregations,
@@ -10683,7 +10694,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 tableType: tableType,
                                 column: DeptsColumn().DeptId(),
                                 join: join,
-                                where: where)));
+                                where: where)),
+                        param: param);
                 case "Groups":
                     return GroupsAggregations(
                         aggregations: ss.Aggregations,
@@ -10694,7 +10706,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 tableType: tableType,
                                 column: GroupsColumn().GroupId(),
                                 join: join,
-                                where: where)));
+                                where: where)),
+                        param: param);
                 case "Registrations":
                     return RegistrationsAggregations(
                         aggregations: ss.Aggregations,
@@ -10704,7 +10717,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 tableType: tableType,
                                 column: RegistrationsColumn().RegistrationId(),
                                 join: join,
-                                where: where)));
+                                where: where)),
+                        param: param);
                 case "Users":
                     return UsersAggregations(
                         aggregations: ss.Aggregations,
@@ -10715,7 +10729,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 tableType: tableType,
                                 column: UsersColumn().UserId(),
                                 join: join,
-                                where: where)));
+                                where: where)),
+                        param: param);
                 case "Sites":
                     return SitesAggregations(
                         aggregations: ss.Aggregations,
@@ -10725,7 +10740,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 tableType: tableType,
                                 column: SitesColumn().SiteId(),
                                 join: join,
-                                where: where)));
+                                where: where)),
+                        param: param);
                 case "Issues":
                     return IssuesAggregations(
                         aggregations: ss.Aggregations,
@@ -10735,7 +10751,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 tableType: tableType,
                                 column: IssuesColumn().IssueId(),
                                 join: join,
-                                where: where)));
+                                where: where)),
+                        param: param);
                 case "Results":
                     return ResultsAggregations(
                         aggregations: ss.Aggregations,
@@ -10745,7 +10762,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 tableType: tableType,
                                 column: ResultsColumn().ResultId(),
                                 join: join,
-                                where: where)));
+                                where: where)),
+                        param: param);
                 case "Wikis":
                     return WikisAggregations(
                         aggregations: ss.Aggregations,
@@ -10755,7 +10773,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 tableType: tableType,
                                 column: WikisColumn().WikiId(),
                                 join: join,
-                                where: where)));
+                                where: where)),
+                        param: param);
                 default:
                     return null;
             }
@@ -10764,7 +10783,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> TenantsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            SqlParamCollection param)
         {
             var statementCollection = new List<SqlStatement>()
             {
@@ -10772,7 +10792,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: TenantsColumn().TenantsCount(),
-                    where: where)
+                    where: where,
+                    param: param)
             };
             if (tableType != Sqls.TableTypes.Normal)
             {
@@ -10832,7 +10853,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> DemosAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            SqlParamCollection param)
         {
             var statementCollection = new List<SqlStatement>()
             {
@@ -10840,7 +10862,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: DemosColumn().DemosCount(),
-                    where: where)
+                    where: where,
+                    param: param)
             };
             if (tableType != Sqls.TableTypes.Normal)
             {
@@ -10900,7 +10923,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> ExtensionsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            SqlParamCollection param)
         {
             var statementCollection = new List<SqlStatement>()
             {
@@ -10908,7 +10932,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: ExtensionsColumn().ExtensionsCount(),
-                    where: where)
+                    where: where,
+                    param: param)
             };
             if (tableType != Sqls.TableTypes.Normal)
             {
@@ -10968,7 +10993,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> SessionsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            SqlParamCollection param)
         {
             var statementCollection = new List<SqlStatement>()
             {
@@ -10976,7 +11002,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: SessionsColumn().SessionsCount(),
-                    where: where)
+                    where: where,
+                    param: param)
             };
             if (tableType != Sqls.TableTypes.Normal)
             {
@@ -11036,7 +11063,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> SysLogsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            SqlParamCollection param)
         {
             var statementCollection = new List<SqlStatement>()
             {
@@ -11044,7 +11072,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: SysLogsColumn().SysLogsCount(),
-                    where: where)
+                    where: where,
+                    param: param)
             };
             if (tableType != Sqls.TableTypes.Normal)
             {
@@ -11104,7 +11133,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> StatusesAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            SqlParamCollection param)
         {
             var statementCollection = new List<SqlStatement>()
             {
@@ -11112,7 +11142,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: StatusesColumn().StatusesCount(),
-                    where: where)
+                    where: where,
+                    param: param)
             };
             if (tableType != Sqls.TableTypes.Normal)
             {
@@ -11172,7 +11203,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> ReminderSchedulesAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            SqlParamCollection param)
         {
             var statementCollection = new List<SqlStatement>()
             {
@@ -11180,7 +11212,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: ReminderSchedulesColumn().ReminderSchedulesCount(),
-                    where: where)
+                    where: where,
+                    param: param)
             };
             if (tableType != Sqls.TableTypes.Normal)
             {
@@ -11240,7 +11273,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> DeptsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            SqlParamCollection param)
         {
             var statementCollection = new List<SqlStatement>()
             {
@@ -11248,7 +11282,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: DeptsColumn().DeptsCount(),
-                    where: where)
+                    where: where,
+                    param: param)
             };
             if (tableType != Sqls.TableTypes.Normal)
             {
@@ -11308,7 +11343,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> GroupsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            SqlParamCollection param)
         {
             var statementCollection = new List<SqlStatement>()
             {
@@ -11316,7 +11352,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: GroupsColumn().GroupsCount(),
-                    where: where)
+                    where: where,
+                    param: param)
             };
             if (tableType != Sqls.TableTypes.Normal)
             {
@@ -11376,7 +11413,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> GroupMembersAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            SqlParamCollection param)
         {
             var statementCollection = new List<SqlStatement>()
             {
@@ -11384,7 +11422,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: GroupMembersColumn().GroupMembersCount(),
-                    where: where)
+                    where: where,
+                    param: param)
             };
             if (tableType != Sqls.TableTypes.Normal)
             {
@@ -11444,7 +11483,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> RegistrationsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            SqlParamCollection param)
         {
             var statementCollection = new List<SqlStatement>()
             {
@@ -11452,7 +11492,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: RegistrationsColumn().RegistrationsCount(),
-                    where: where)
+                    where: where,
+                    param: param)
             };
             if (tableType != Sqls.TableTypes.Normal)
             {
@@ -11512,7 +11553,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> UsersAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            SqlParamCollection param)
         {
             var statementCollection = new List<SqlStatement>()
             {
@@ -11520,7 +11562,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: UsersColumn().UsersCount(),
-                    where: where)
+                    where: where,
+                    param: param)
             };
             if (tableType != Sqls.TableTypes.Normal)
             {
@@ -11580,7 +11623,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> LoginKeysAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            SqlParamCollection param)
         {
             var statementCollection = new List<SqlStatement>()
             {
@@ -11588,7 +11632,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: LoginKeysColumn().LoginKeysCount(),
-                    where: where)
+                    where: where,
+                    param: param)
             };
             if (tableType != Sqls.TableTypes.Normal)
             {
@@ -11648,7 +11693,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> MailAddressesAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            SqlParamCollection param)
         {
             var statementCollection = new List<SqlStatement>()
             {
@@ -11656,7 +11702,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: MailAddressesColumn().MailAddressesCount(),
-                    where: where)
+                    where: where,
+                    param: param)
             };
             if (tableType != Sqls.TableTypes.Normal)
             {
@@ -11716,7 +11763,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> OutgoingMailsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            SqlParamCollection param)
         {
             var statementCollection = new List<SqlStatement>()
             {
@@ -11724,7 +11772,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: OutgoingMailsColumn().OutgoingMailsCount(),
-                    where: where)
+                    where: where,
+                    param: param)
             };
             if (tableType != Sqls.TableTypes.Normal)
             {
@@ -11784,7 +11833,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> ItemsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            SqlParamCollection param)
         {
             var statementCollection = new List<SqlStatement>()
             {
@@ -11792,7 +11842,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: ItemsColumn().ItemsCount(),
-                    where: where)
+                    where: where,
+                    param: param)
             };
             if (tableType != Sqls.TableTypes.Normal)
             {
@@ -11852,7 +11903,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> SitesAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            SqlParamCollection param)
         {
             var statementCollection = new List<SqlStatement>()
             {
@@ -11860,7 +11912,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: SitesColumn().SitesCount(),
-                    where: where)
+                    where: where,
+                    param: param)
             };
             if (tableType != Sqls.TableTypes.Normal)
             {
@@ -11920,7 +11973,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> OrdersAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            SqlParamCollection param)
         {
             var statementCollection = new List<SqlStatement>()
             {
@@ -11928,7 +11982,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: OrdersColumn().OrdersCount(),
-                    where: where)
+                    where: where,
+                    param: param)
             };
             if (tableType != Sqls.TableTypes.Normal)
             {
@@ -11988,7 +12043,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> ExportSettingsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            SqlParamCollection param)
         {
             var statementCollection = new List<SqlStatement>()
             {
@@ -11996,7 +12052,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: ExportSettingsColumn().ExportSettingsCount(),
-                    where: where)
+                    where: where,
+                    param: param)
             };
             if (tableType != Sqls.TableTypes.Normal)
             {
@@ -12056,7 +12113,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> LinksAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            SqlParamCollection param)
         {
             var statementCollection = new List<SqlStatement>()
             {
@@ -12064,7 +12122,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: LinksColumn().LinksCount(),
-                    where: where)
+                    where: where,
+                    param: param)
             };
             if (tableType != Sqls.TableTypes.Normal)
             {
@@ -12124,7 +12183,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> BinariesAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            SqlParamCollection param)
         {
             var statementCollection = new List<SqlStatement>()
             {
@@ -12132,7 +12192,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: BinariesColumn().BinariesCount(),
-                    where: where)
+                    where: where,
+                    param: param)
             };
             if (tableType != Sqls.TableTypes.Normal)
             {
@@ -12192,7 +12253,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> PermissionsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            SqlParamCollection param)
         {
             var statementCollection = new List<SqlStatement>()
             {
@@ -12200,7 +12262,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: PermissionsColumn().PermissionsCount(),
-                    where: where)
+                    where: where,
+                    param: param)
             };
             if (tableType != Sqls.TableTypes.Normal)
             {
@@ -12266,7 +12329,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> IssuesAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            SqlParamCollection param)
         {
             var statementCollection = new List<SqlStatement>()
             {
@@ -12274,7 +12338,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: IssuesColumn().IssuesCount(),
-                    where: where)
+                    where: where,
+                    param: param)
             };
             if (tableType != Sqls.TableTypes.Normal)
             {
@@ -12371,7 +12436,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> ResultsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            SqlParamCollection param)
         {
             var statementCollection = new List<SqlStatement>()
             {
@@ -12379,7 +12445,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: ResultsColumn().ResultsCount(),
-                    where: where)
+                    where: where,
+                    param: param)
             };
             if (tableType != Sqls.TableTypes.Normal)
             {
@@ -12451,7 +12518,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> WikisAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            SqlParamCollection param)
         {
             var statementCollection = new List<SqlStatement>()
             {
@@ -12459,7 +12527,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: WikisColumn().WikisCount(),
-                    where: where)
+                    where: where,
+                    param: param)
             };
             if (tableType != Sqls.TableTypes.Normal)
             {

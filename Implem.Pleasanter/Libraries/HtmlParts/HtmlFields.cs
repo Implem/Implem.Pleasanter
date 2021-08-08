@@ -66,12 +66,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         action: () => hb
                             .Text(text: column.Section));
                 }
-                value = methodType == BaseModel.MethodTypes.New
-                    ? value.ToLinkId(
-                        context: context,
-                        ss: ss,
-                        column: column)
-                    : value;
                 return hb
                     .Raw(HtmlHtmls.ExtendedHtmls(
                         context: context,
@@ -690,27 +684,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 default:
                     return hb;
             }
-        }
-
-        private static string ToLinkId(
-            this string self, Context context, SiteSettings ss, Column column)
-        {
-            if (column.Linked(ss, context.QueryStrings.Long("FromSiteId")))
-            {
-                var id = context.QueryStrings.Data("LinkId");
-                if (column.UseSearch == true)
-                {
-                    ss.SetChoiceHash(
-                        context: context,
-                        columnName: column?.ColumnName,
-                        selectedValues: id.ToSingleList());
-                }
-                column.ControlCss += " always-send";
-                return column.MultipleSelections == true
-                    ? id.ToSingleList().ToJson()
-                    : id;
-            }
-            return self;
         }
 
         private static ControlTypes ControlType(Column column)

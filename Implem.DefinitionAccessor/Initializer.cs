@@ -77,16 +77,17 @@ namespace Implem.DefinitionAccessor
             Parameters.CustomDefinitions = CustomDefinitionsHash();
             Parameters.Deleted = Read<Deleted>();
             Parameters.ExtendedAutoTestSettings = Read<AutoTestSettings>();
-            Parameters.ExtendedAutoTestOperations = ExtendedAutoTestOperations();
             Parameters.ExtendedAutoTestScenarios = ExtendedAutoTestScenarios();
+            Parameters.ExtendedAutoTestOperations = ExtendedAutoTestOperations();
             Parameters.ExtendedColumnDefinitions = ExtendedColumnDefinitions();
             Parameters.ExtendedColumnsSet = ExtendedColumnsSet();
-            Parameters.ExtendedSqls = ExtendedSqls();
-            Parameters.ExtendedStyles = ExtendedStyles();
-            Parameters.ExtendedScripts = ExtendedScripts();
-            Parameters.ExtendedServerScripts = ExtendedServerScripts();
+            Parameters.ExtendedFields = ExtendedFields();
             Parameters.ExtendedHtmls = ExtendedHtmls();
             Parameters.ExtendedNavigationMenus = ExtendedNavigationMenus();
+            Parameters.ExtendedScripts = ExtendedScripts();
+            Parameters.ExtendedServerScripts = ExtendedServerScripts();
+            Parameters.ExtendedSqls = ExtendedSqls();
+            Parameters.ExtendedStyles = ExtendedStyles();
             Parameters.ExtendedTags = ExtendedTags();
             Parameters.General = Read<General>();
             Parameters.History = Read<History>();
@@ -109,7 +110,7 @@ namespace Implem.DefinitionAccessor
             Parameters.SysLog = Read<SysLog>();
             Parameters.User = Read<User>();
             Parameters.Parameter = Read<Parameter>();
-            Parameters.Locations= Read<Locations>();
+            Parameters.Locations = Read<Locations>();
             Parameters.Validation = Read<Validation>();
             Parameters.Validation = Read<ParameterAccessor.Parts.Validation>();
         }
@@ -160,6 +161,83 @@ namespace Implem.DefinitionAccessor
                 foreach (var sub in dir.GetDirectories())
                 {
                     hash = CustomDefinitionsHash(sub.FullName, hash);
+                }
+            }
+            return hash;
+        }
+
+        private static List<AutoTestScenario> ExtendedAutoTestScenarios()
+        {
+            var hash = new List<AutoTestScenario>();
+            var path = Path.Combine(
+                Environments.CurrentDirectoryPath,
+                "App_Data",
+                "Parameters",
+                "ExtendedAutoTest",
+                "TestCases");
+            var dir = new DirectoryInfo(path);
+            if (dir.Exists)
+            {
+                foreach (var subDir in dir
+                    .GetFiles("*.json", SearchOption.AllDirectories)
+                    .Select((item, index) => new { item, index }))
+                {
+                    hash.Add(Files.Read(subDir.item.FullName).Deserialize<AutoTestScenario>());
+                    hash[subDir.index].CaseName
+                        = $"{Path.GetFileName(Path.GetDirectoryName(subDir.item.FullName))}/" +
+                        $"{Path.GetFileName(subDir.item.FullName.Replace(".json", ""))}";
+                    var testCasesPath = Path.GetDirectoryName(subDir.item.FullName)
+                        .Substring(Path.GetDirectoryName(subDir.item.FullName)
+                            .IndexOf("TestCases"))
+                            .Replace("TestCases\\", "");
+                    if (testCasesPath.Equals("TestCases"))
+                    {
+                        hash[subDir.index].CaseName
+                            = $"\\{Path.GetFileName(subDir.item.FullName.Replace(".json", ""))}";
+                    }
+                    else
+                    {
+                        hash[subDir.index].CaseName
+                            = $"\\{testCasesPath}" +
+                            $"\\{Path.GetFileName(subDir.item.FullName.Replace(".json", ""))}";
+                    }
+                }
+            }
+            return hash;
+        }
+
+        private static List<AutoTestOperation> ExtendedAutoTestOperations()
+        {
+            var hash = new List<AutoTestOperation>();
+            var path = Path.Combine(
+                Environments.CurrentDirectoryPath,
+                "App_Data",
+                "Parameters",
+                "ExtendedAutoTest",
+                "TestParts");
+            var dir = new DirectoryInfo(path);
+            if (dir.Exists)
+            {
+                foreach (var subDir in dir
+                    .GetFiles("*.json", SearchOption.AllDirectories)
+                    .Select((item, index) => new { item, index }))
+                {
+                    hash.Add(Files.Read(subDir.item.FullName).Deserialize<AutoTestOperation>());
+                    var testPartsPath = Path.GetDirectoryName(subDir.item.FullName)
+                        .Substring(Path.GetDirectoryName(subDir.item.FullName)
+                            .IndexOf("TestParts"))
+                            .Replace("TestParts\\", "");
+                    if (testPartsPath.Equals("TestParts"))
+                    {
+                        hash[subDir.index].TestPartsPath
+                            = $"\\{Path.GetFileName(subDir.item.FullName)}";
+                    }
+                    else
+                    {
+                        hash[subDir.index].TestPartsPath
+                            = $"\\{testPartsPath}" +
+                            $"\\{Path.GetFileName(subDir.item.FullName)}";
+                    }
                 }
             }
             return hash;
@@ -217,28 +295,23 @@ namespace Implem.DefinitionAccessor
             return list;
         }
 
-        private static List<ExtendedSql> ExtendedSqls(
-            string path = null, List<ExtendedSql> list = null)
+        private static List<ExtendedField> ExtendedFields(
+            string path = null, List<ExtendedField> list = null)
         {
-            list = list ?? new List<ExtendedSql>();
+            list = list ?? new List<ExtendedField>();
             path = path ?? Path.Combine(
                 Environments.CurrentDirectoryPath,
                 "App_Data",
                 "Parameters",
-                "ExtendedSqls");
+                "ExtendedFields");
             foreach (var file in new DirectoryInfo(path).GetFiles("*.json"))
             {
-                var extendedSql = Files.Read(file.FullName)
-                    .Deserialize<ExtendedSql>();
-                if (extendedSql != null)
+                var extendedField = Files.Read(file.FullName)
+                    .Deserialize<ExtendedField>();
+                if (extendedField != null)
                 {
-                    extendedSql.Path = file.FullName;
-                    var sqlPath = file.FullName + ".sql";
-                    if (Files.Exists(sqlPath))
-                    {
-                        extendedSql.CommandText = Files.Read(sqlPath);
-                    }
-                    list.Add(extendedSql);
+                    extendedField.Path = file.FullName;
+                    list.Add(extendedField);
                 }
                 else
                 {
@@ -247,100 +320,7 @@ namespace Implem.DefinitionAccessor
             }
             foreach (var dir in new DirectoryInfo(path).GetDirectories())
             {
-                list = ExtendedSqls(dir.FullName, list);
-            }
-            return list;
-        }
-
-        private static List<ExtendedStyle> ExtendedStyles(
-            string path = null, List<ExtendedStyle> list = null)
-        {
-            list = list ?? new List<ExtendedStyle>();
-            path = path ?? Path.Combine(
-                Environments.CurrentDirectoryPath,
-                "App_Data",
-                "Parameters",
-                "ExtendedStyles");
-            foreach (var file in new DirectoryInfo(path).GetFiles("*.css"))
-            {
-                var style = Files.Read(file.FullName);
-                if (style != null)
-                {
-                    list.Add(new ExtendedStyle()
-                    {
-                        Name = file.Name,
-                        Path = file.FullName,
-                        Style = style
-                    });
-                }
-            }
-            foreach (var dir in new DirectoryInfo(path).GetDirectories())
-            {
-                list = ExtendedStyles(dir.FullName, list);
-            }
-            return list;
-        }
-
-        private static List<ExtendedScript> ExtendedScripts(
-            string path = null, List<ExtendedScript> list = null)
-        {
-            list = list ?? new List<ExtendedScript>();
-            path = path ?? Path.Combine(
-                Environments.CurrentDirectoryPath,
-                "App_Data",
-                "Parameters",
-                "ExtendedScripts");
-            foreach (var file in new DirectoryInfo(path).GetFiles("*.js"))
-            {
-                var script = Files.Read(file.FullName);
-                if (script != null)
-                {
-                    list.Add(new ExtendedScript()
-                    {
-                        Name = file.Name,
-                        Path = file.FullName,
-                        Script = script
-                    });
-                }
-            }
-            foreach (var dir in new DirectoryInfo(path).GetDirectories())
-            {
-                list = ExtendedScripts(dir.FullName, list);
-            }
-            return list;
-        }
-
-        private static List<ExtendedServerScript> ExtendedServerScripts(
-            string path = null, List<ExtendedServerScript> list = null)
-        {
-            list = list ?? new List<ExtendedServerScript>();
-            path = path ?? Path.Combine(
-                Environments.CurrentDirectoryPath,
-                "App_Data",
-                "Parameters",
-                "ExtendedServerScripts");
-            foreach (var file in new DirectoryInfo(path).GetFiles("*.json"))
-            {
-                var extendedServerScript = Files.Read(file.FullName)
-                    .Deserialize<ExtendedServerScript>();
-                if (extendedServerScript != null)
-                {
-                    extendedServerScript.Path = file.FullName;
-                    var sqlPath = file.FullName + ".js";
-                    if (Files.Exists(sqlPath))
-                    {
-                        extendedServerScript.Body = Files.Read(sqlPath);
-                    }
-                    list.Add(extendedServerScript);
-                }
-                else
-                {
-                    Parameters.SyntaxErrors.Add(file.Name);
-                }
-            }
-            foreach (var dir in new DirectoryInfo(path).GetDirectories())
-            {
-                list = ExtendedServerScripts(dir.FullName, list);
+                list = ExtendedFields(dir.FullName, list);
             }
             return list;
         }
@@ -422,6 +402,134 @@ namespace Implem.DefinitionAccessor
             return list;
         }
 
+        private static List<ExtendedScript> ExtendedScripts(
+            string path = null, List<ExtendedScript> list = null)
+        {
+            list = list ?? new List<ExtendedScript>();
+            path = path ?? Path.Combine(
+                Environments.CurrentDirectoryPath,
+                "App_Data",
+                "Parameters",
+                "ExtendedScripts");
+            foreach (var file in new DirectoryInfo(path).GetFiles("*.js"))
+            {
+                var script = Files.Read(file.FullName);
+                if (script != null)
+                {
+                    list.Add(new ExtendedScript()
+                    {
+                        Name = file.Name,
+                        Path = file.FullName,
+                        Script = script
+                    });
+                }
+            }
+            foreach (var dir in new DirectoryInfo(path).GetDirectories())
+            {
+                list = ExtendedScripts(dir.FullName, list);
+            }
+            return list;
+        }
+
+        private static List<ExtendedServerScript> ExtendedServerScripts(
+            string path = null, List<ExtendedServerScript> list = null)
+        {
+            list = list ?? new List<ExtendedServerScript>();
+            path = path ?? Path.Combine(
+                Environments.CurrentDirectoryPath,
+                "App_Data",
+                "Parameters",
+                "ExtendedServerScripts");
+            foreach (var file in new DirectoryInfo(path).GetFiles("*.json"))
+            {
+                var extendedServerScript = Files.Read(file.FullName)
+                    .Deserialize<ExtendedServerScript>();
+                if (extendedServerScript != null)
+                {
+                    extendedServerScript.Path = file.FullName;
+                    var sqlPath = file.FullName + ".js";
+                    if (Files.Exists(sqlPath))
+                    {
+                        extendedServerScript.Body = Files.Read(sqlPath);
+                    }
+                    list.Add(extendedServerScript);
+                }
+                else
+                {
+                    Parameters.SyntaxErrors.Add(file.Name);
+                }
+            }
+            foreach (var dir in new DirectoryInfo(path).GetDirectories())
+            {
+                list = ExtendedServerScripts(dir.FullName, list);
+            }
+            return list;
+        }
+
+        private static List<ExtendedSql> ExtendedSqls(
+            string path = null, List<ExtendedSql> list = null)
+        {
+            list = list ?? new List<ExtendedSql>();
+            path = path ?? Path.Combine(
+                Environments.CurrentDirectoryPath,
+                "App_Data",
+                "Parameters",
+                "ExtendedSqls");
+            foreach (var file in new DirectoryInfo(path).GetFiles("*.json"))
+            {
+                var extendedSql = Files.Read(file.FullName)
+                    .Deserialize<ExtendedSql>();
+                if (extendedSql != null)
+                {
+                    extendedSql.Path = file.FullName;
+                    var sqlPath = file.FullName + ".sql";
+                    if (Files.Exists(sqlPath))
+                    {
+                        extendedSql.CommandText = Files.Read(sqlPath);
+                    }
+                    list.Add(extendedSql);
+                }
+                else
+                {
+                    Parameters.SyntaxErrors.Add(file.Name);
+                }
+            }
+            foreach (var dir in new DirectoryInfo(path).GetDirectories())
+            {
+                list = ExtendedSqls(dir.FullName, list);
+            }
+            return list;
+        }
+
+        private static List<ExtendedStyle> ExtendedStyles(
+            string path = null, List<ExtendedStyle> list = null)
+        {
+            list = list ?? new List<ExtendedStyle>();
+            path = path ?? Path.Combine(
+                Environments.CurrentDirectoryPath,
+                "App_Data",
+                "Parameters",
+                "ExtendedStyles");
+            foreach (var file in new DirectoryInfo(path).GetFiles("*.css"))
+            {
+                var style = Files.Read(file.FullName);
+                if (style != null)
+                {
+                    list.Add(new ExtendedStyle()
+                    {
+                        Name = file.Name,
+                        Path = file.FullName,
+                        Style = style
+                    });
+                }
+            }
+            foreach (var dir in new DirectoryInfo(path).GetDirectories())
+            {
+                list = ExtendedStyles(dir.FullName, list);
+            }
+            return list;
+        }
+
         private static Dictionary<string, string> ExtendedTags()
         {
             var hash = new Dictionary<string, string>();
@@ -436,83 +544,6 @@ namespace Implem.DefinitionAccessor
                 foreach (var file in dir.GetFiles("*.html"))
                 {
                     hash.Add(Files.FileNameOnly(file.Name), Files.Read(file.FullName));
-                }
-            }
-            return hash;
-        }
-
-        private static List<AutoTestOperation> ExtendedAutoTestOperations()
-        {
-            var hash = new List<AutoTestOperation>();
-            var path = Path.Combine(
-                Environments.CurrentDirectoryPath,
-                "App_Data",
-                "Parameters",
-                "ExtendedAutoTest",
-                "TestParts");
-            var dir = new DirectoryInfo(path);
-            if (dir.Exists)
-            {
-                foreach (var subDir in dir
-                    .GetFiles("*.json", SearchOption.AllDirectories)
-                    .Select((item, index) => new { item, index }))
-                {
-                    hash.Add(Files.Read(subDir.item.FullName).Deserialize<AutoTestOperation>());
-                    var testPartsPath = Path.GetDirectoryName(subDir.item.FullName)
-                        .Substring(Path.GetDirectoryName(subDir.item.FullName)
-                            .IndexOf("TestParts"))
-                            .Replace("TestParts\\", "");
-                    if (testPartsPath.Equals("TestParts"))
-                    {
-                        hash[subDir.index].TestPartsPath
-                            = $"\\{Path.GetFileName(subDir.item.FullName)}";
-                    }
-                    else
-                    {
-                        hash[subDir.index].TestPartsPath
-                            = $"\\{testPartsPath}" +
-                            $"\\{Path.GetFileName(subDir.item.FullName)}";
-                    }
-                }
-            }
-            return hash;
-        }
-
-        private static List<AutoTestScenario> ExtendedAutoTestScenarios()
-        {
-            var hash = new List<AutoTestScenario>();
-            var path = Path.Combine(
-                Environments.CurrentDirectoryPath,
-                "App_Data",
-                "Parameters",
-                "ExtendedAutoTest",
-                "TestCases");
-            var dir = new DirectoryInfo(path);
-            if (dir.Exists)
-            {
-                foreach (var subDir in dir
-                    .GetFiles("*.json", SearchOption.AllDirectories)
-                    .Select((item, index) => new { item, index }))
-                {
-                    hash.Add(Files.Read(subDir.item.FullName).Deserialize<AutoTestScenario>());
-                    hash[subDir.index].CaseName
-                        = $"{Path.GetFileName(Path.GetDirectoryName(subDir.item.FullName))}/" +
-                        $"{Path.GetFileName(subDir.item.FullName.Replace(".json", ""))}";
-                    var testCasesPath = Path.GetDirectoryName(subDir.item.FullName)
-                        .Substring(Path.GetDirectoryName(subDir.item.FullName)
-                            .IndexOf("TestCases"))
-                            .Replace("TestCases\\", "");
-                    if (testCasesPath.Equals("TestCases"))
-                    {
-                        hash[subDir.index].CaseName
-                            = $"\\{Path.GetFileName(subDir.item.FullName.Replace(".json", ""))}";
-                    }
-                    else
-                    {
-                        hash[subDir.index].CaseName
-                            = $"\\{testCasesPath}" +
-                            $"\\{Path.GetFileName(subDir.item.FullName.Replace(".json", ""))}";
-                    }
                 }
             }
             return hash;
