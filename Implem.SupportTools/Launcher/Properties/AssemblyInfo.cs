@@ -12,7 +12,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Implem.SupportTools")]
-[assembly: AssemblyCopyright("Copyright © Implem Inc 2014 - 2019")]
+[assembly: AssemblyCopyright("Copyright © Implem Inc 2014 - 2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
