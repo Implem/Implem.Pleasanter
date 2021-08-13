@@ -2094,7 +2094,7 @@ namespace Implem.Pleasanter.Models
             {
                 var id = context.QueryStrings.Data("LinkId");
                 ss.Links
-                    ?.Where(link => link.SiteId > 0)
+                    ?.Where(link => link.SiteId == queryStringsSiteId)
                     .Select(link => ss.GetColumn(
                         context: context,
                         columnName: link.ColumnName))
