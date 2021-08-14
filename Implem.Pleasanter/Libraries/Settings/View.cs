@@ -56,6 +56,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool WhenViewProcessingServerScriptExecuted;
         [NonSerialized]
         public List<string> AlwaysGetColumns;
+        [NonSerialized]
+        public string OnSelectingWhere;
         // compatibility Version 1.008
         public string KambanGroupBy;
         // compatibility Version 1.012
@@ -896,6 +898,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             where.OnSelectingWhereExtendedSqls(
                 context: context,
                 ss: ss,
+                name: OnSelectingWhere,
                 columnFilterHash: ColumnFilterHash);
             if (RequestSearchCondition(
                 context: context,

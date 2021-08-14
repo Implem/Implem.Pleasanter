@@ -1,5 +1,6 @@
 ﻿{
     "Name": null,
+    "SpecifyByName": false,
     "Description": "Sample",
     "DeptIdList": null,
     "UserIdList": null,

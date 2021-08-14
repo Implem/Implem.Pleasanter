@@ -4159,19 +4159,21 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return statements;
         }
 
-         public static SqlWhereCollection OnSelectingWhereExtendedSqls(
+        public static SqlWhereCollection OnSelectingWhereExtendedSqls(
             this SqlWhereCollection where,
             Context context,
             SiteSettings ss,
+            string name,
             Dictionary<string, string> columnFilterHash)
         {
             Parameters.ExtendedSqls
                 ?.Where(o => o.OnSelectingWhere)
                 .Where(o => o.OnSelectingWhereParams?.Any() != true
-                    || o.OnSelectingWhereParams.All(p => columnFilterHash?.ContainsKey(p) == true) == true)
+                    || o.OnSelectingWhereParams?.All(p => columnFilterHash?.ContainsKey(p) == true) == true)
                 .ExtensionWhere<ExtendedSql>(
                     context: context,
-                    siteId: ss.SiteId)
+                    siteId: ss.SiteId,
+                    name: name)
                 .ExtendedSqlsWhere(
                     where: where,
                     ss: ss);
@@ -4235,28 +4237,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             .Replace("{{Timestamp}}", timestamp?.ToString("yyyy/M/d H:m:s.fff"))));
         }
 
-        public static IssuesWhereCollection OnSelectingIssuesWhereExtendedSqls(
-            this IssuesWhereCollection Where,
+        public static SqlWhereCollection OnSelectingSqlWhereExtendedSqls(
+            this SqlWhereCollection Where,
             Context context,
             IssueModel issueModel,
+            string name,
             Dictionary<string, string> columnFilterHash = null)
         {
             Parameters.ExtendedSqls
                 ?.Where(o => o.OnSelectingWhere)
                 .Where(o => o.OnSelectingWhereParams?.Any() != true
-                    || o.OnSelectingWhereParams.All(p => columnFilterHash?.ContainsKey(p) == true) == true)
+                    || o.OnSelectingWhereParams?.All(p => columnFilterHash?.ContainsKey(p) == true) == true)
                 .Where(o => o.CommandText?.Any() == true)
                 .ExtensionWhere<ExtendedSql>(
                     context: context,
                     siteId: issueModel.SiteId,
-                    id: issueModel.IssueId)
+                    id: issueModel.IssueId,
+                    name: name)
                 .ExtendedSqlsWhereIssues(Where, issueModel);
             return Where;
         }
 
         private static void ExtendedSqlsWhereIssues(
             this IEnumerable<ExtendedSql> self,
-            IssuesWhereCollection where,
+            SqlWhereCollection where,
             IssueModel issueModel,
             DateTime? timestamp = null)
         {
@@ -4267,28 +4271,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     .Replace("{{Timestamp}}", timestamp?.ToString("yyyy/M/d H:m:s.fff"))));
         }
 
-        public static ResultsWhereCollection OnSelectingResultsWhereExtendedSqls(
-            this ResultsWhereCollection Where,
+        public static SqlWhereCollection OnSelectingSqlWhereExtendedSqls(
+            this SqlWhereCollection Where,
             Context context,
             ResultModel resultModel,
+            string name,
             Dictionary<string, string> columnFilterHash = null)
         {
             Parameters.ExtendedSqls
                 ?.Where(o => o.OnSelectingWhere)
                 .Where(o => o.OnSelectingWhereParams?.Any() != true
-                    || o.OnSelectingWhereParams.All(p => columnFilterHash?.ContainsKey(p) == true) == true)
+                    || o.OnSelectingWhereParams?.All(p => columnFilterHash?.ContainsKey(p) == true) == true)
                 .Where(o => o.CommandText?.Any() == true)
                 .ExtensionWhere<ExtendedSql>(
                     context: context,
                     siteId: resultModel.SiteId,
-                    id: resultModel.ResultId)
+                    id: resultModel.ResultId,
+                    name: name)
                 .ExtendedSqlsWhereResults(Where, resultModel);
             return Where;
         }
 
         private static void ExtendedSqlsWhereResults(
             this IEnumerable<ExtendedSql> self,
-            ResultsWhereCollection where,
+            SqlWhereCollection where,
             ResultModel resultModel,
             DateTime? timestamp = null)
         {
@@ -108859,10 +108865,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return IssuesWhere()
                 .SiteId(issueModel.SiteId)
-                .IssueId(issueModel.IssueId)
-                .OnSelectingIssuesWhereExtendedSqls(
-                    context: context,
-                    issueModel: issueModel);
+                .IssueId(issueModel.IssueId);
         }
 
         public static IssuesParamCollection IssuesParamDefault(
@@ -109011,10 +109014,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return ResultsWhere()
                 .SiteId(resultModel.SiteId)
-                .ResultId(resultModel.ResultId)
-                .OnSelectingResultsWhereExtendedSqls(
-                    context: context,
-                    resultModel: resultModel);
+                .ResultId(resultModel.ResultId);
         }
 
         public static ResultsParamCollection ResultsParamDefault(

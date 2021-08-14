@@ -777,10 +777,15 @@ namespace Implem.Pleasanter.Models
             where = where ?? Rds.IssuesWhereDefault(
                 context: context,
                 issueModel: this);
-            new View().SetColumnsWhere(
+            var view = new View();
+            view.SetColumnsWhere(
                 context: context,
                 ss: ss,
                 where: where);
+            where.OnSelectingSqlWhereExtendedSqls(
+                context: context,
+                issueModel: this,
+                name: view.OnSelectingWhere);
             column = (column ?? Rds.IssuesEditorColumns(ss))?.SetExtendedSqlSelectingColumn(context: context, ss: ss);
             join = join ??  Rds.IssuesJoinDefault();
             if (ss?.TableType == Sqls.TableTypes.Normal)
