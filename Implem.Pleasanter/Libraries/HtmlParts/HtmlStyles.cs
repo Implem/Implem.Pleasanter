@@ -54,6 +54,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : string.Empty)
                     + ExtensionUtilities.ExtensionWhere<ExtendedStyle>(
                         extensions: Parameters.ExtendedStyles,
+                        name: null,
                         deptId: deptId,
                         userId: userId,
                         siteId: siteId,

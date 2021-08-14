@@ -651,10 +651,15 @@ namespace Implem.Pleasanter.Models
             where = where ?? Rds.ResultsWhereDefault(
                 context: context,
                 resultModel: this);
-            new View().SetColumnsWhere(
+            var view = new View();
+            view.SetColumnsWhere(
                 context: context,
                 ss: ss,
                 where: where);
+            where.OnSelectingSqlWhereExtendedSqls(
+                context: context,
+                resultModel: this,
+                name: view.OnSelectingWhere);
             column = (column ?? Rds.ResultsEditorColumns(ss))?.SetExtendedSqlSelectingColumn(context: context, ss: ss);
             join = join ??  Rds.ResultsJoinDefault();
             if (ss?.TableType == Sqls.TableTypes.Normal)

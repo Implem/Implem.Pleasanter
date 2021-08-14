@@ -612,6 +612,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             var extendedNavigationMenus = ExtensionUtilities.ExtensionWhere<ParameterAccessor.Parts.ExtendedNavigationMenu>(
                 extensions: Parameters.ExtendedNavigationMenus,
+                name: null,
                 userId: userId,
                 deptId: deptId,
                 siteId: siteId,
