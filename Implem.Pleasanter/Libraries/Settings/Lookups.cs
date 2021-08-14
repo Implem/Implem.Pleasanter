@@ -66,7 +66,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             issueId: id);
                         link.Lookups.ForEach(lookup =>
                             formData.AddOrUpdate(
-                                $"{currentSs.ReferenceType}_{lookup.To}",
+                                $"{ss.ReferenceType}_{lookup.To}",
                                 lookup.Data(
                                     context: context,
                                     ss: currentSs,
@@ -79,7 +79,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             resultId: id);
                         link.Lookups.ForEach(lookup =>
                             formData.AddOrUpdate(
-                                $"{currentSs.ReferenceType}_{lookup.To}",
+                                $"{ss.ReferenceType}_{lookup.To}",
                                 lookup.Data(
                                     context: context,
                                     ss: currentSs,
@@ -92,7 +92,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             deptId: id.ToInt());
                         link.Lookups.ForEach(lookup =>
                             formData.AddOrUpdate(
-                                $"{currentSs.ReferenceType}_{lookup.To}",
+                                $"{ss.ReferenceType}_{lookup.To}",
                                 lookup.Data(
                                     context: context,
                                     ss: currentSs,
@@ -105,7 +105,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             userId: id.ToInt());
                         link.Lookups.ForEach(lookup =>
                             formData.AddOrUpdate(
-                                $"{currentSs.ReferenceType}_{lookup.To}",
+                                $"{ss.ReferenceType}_{lookup.To}",
                                 lookup.Data(
                                     context: context,
                                     ss: currentSs,
@@ -118,7 +118,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             groupId: id.ToInt());
                         link.Lookups.ForEach(lookup =>
                             formData.AddOrUpdate(
-                                $"{currentSs.ReferenceType}_{lookup.To}",
+                                $"{ss.ReferenceType}_{lookup.To}",
                                 lookup.Data(
                                     context: context,
                                     ss: currentSs,
