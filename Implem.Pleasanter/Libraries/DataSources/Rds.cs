@@ -4163,8 +4163,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlWhereCollection where,
             Context context,
             SiteSettings ss,
-            string name,
-            Dictionary<string, string> columnFilterHash)
+            long? siteId = null,
+            long? id = null,
+            DateTime? timestamp = null,
+            string name = null,
+            Dictionary<string, string> columnFilterHash = null,
+            Dictionary<string, string> columnPlaceholders = null)
         {
             Parameters.ExtendedSqls
                 ?.Where(o => o.OnSelectingWhere)
@@ -4174,9 +4178,18 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     context: context,
                     siteId: ss.SiteId,
                     name: name)
-                .ExtendedSqlsWhere(
-                    where: where,
-                    ss: ss);
+                .ForEach(o => where.Add(raw: o.ReplacedCommandText(
+                    siteId: siteId ?? ss?.SiteId ?? context.SiteId,
+                    id: id ?? context.Id,
+                    timestamp: timestamp,
+                    columnPlaceholders: columnPlaceholders?
+                        .ToDictionary(p => p.Key, p => ss.GetColumn(
+                            context: context,
+                            columnName: p.Value))
+                        .Where(p => p.Value != null)
+                        .ToDictionary(
+                            p => p.Key,
+                            p => $"\"{p.Value.TableName()}\".{ColumnBracket(p.Value)}" ))));
             return where;
         }
 
@@ -4212,97 +4225,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             self.ForEach(o => statements.Add(new SqlStatement()
             {
-                CommandText = o.CommandText
-                    .Replace("{{SiteId}}", siteId.ToString())
-                    .Replace("{{Id}}", id.ToString())
-                    .Replace("{{Timestamp}}", timestamp?.ToString("yyyy/M/d H:m:s.fff"))
+                CommandText = o.ReplacedCommandText(
+                    siteId: siteId,
+                    id: id,
+                    timestamp: timestamp)
             }));
-        }
-
-        private static void ExtendedSqlsWhere(
-            this IEnumerable<ExtendedSql> self,
-            SqlWhereCollection where,
-            SiteSettings ss,
-            long id = 0,
-            DateTime? timestamp = null)
-        {
-            self
-                .Where(o => o.CommandText?.Any() == true)
-                .ForEach(o =>
-                    where.Add(
-                        tableName: ss.ReferenceType,
-                        raw: o.CommandText
-                            .Replace("{{SiteId}}", ss.SiteId.ToString())
-                            .Replace("{{Id}}", id.ToString())
-                            .Replace("{{Timestamp}}", timestamp?.ToString("yyyy/M/d H:m:s.fff"))));
-        }
-
-        public static SqlWhereCollection OnSelectingSqlWhereExtendedSqls(
-            this SqlWhereCollection Where,
-            Context context,
-            IssueModel issueModel,
-            string name,
-            Dictionary<string, string> columnFilterHash = null)
-        {
-            Parameters.ExtendedSqls
-                ?.Where(o => o.OnSelectingWhere)
-                .Where(o => o.OnSelectingWhereParams?.Any() != true
-                    || o.OnSelectingWhereParams?.All(p => columnFilterHash?.ContainsKey(p) == true) == true)
-                .Where(o => o.CommandText?.Any() == true)
-                .ExtensionWhere<ExtendedSql>(
-                    context: context,
-                    siteId: issueModel.SiteId,
-                    id: issueModel.IssueId,
-                    name: name)
-                .ExtendedSqlsWhereIssues(Where, issueModel);
-            return Where;
-        }
-
-        private static void ExtendedSqlsWhereIssues(
-            this IEnumerable<ExtendedSql> self,
-            SqlWhereCollection where,
-            IssueModel issueModel,
-            DateTime? timestamp = null)
-        {
-            self.ForEach(o =>
-                where.Add(raw: o.CommandText
-                    .Replace("{{SiteId}}", issueModel.SiteId.ToString())
-                    .Replace("{{Id}}", issueModel.IssueId.ToString())
-                    .Replace("{{Timestamp}}", timestamp?.ToString("yyyy/M/d H:m:s.fff"))));
-        }
-
-        public static SqlWhereCollection OnSelectingSqlWhereExtendedSqls(
-            this SqlWhereCollection Where,
-            Context context,
-            ResultModel resultModel,
-            string name,
-            Dictionary<string, string> columnFilterHash = null)
-        {
-            Parameters.ExtendedSqls
-                ?.Where(o => o.OnSelectingWhere)
-                .Where(o => o.OnSelectingWhereParams?.Any() != true
-                    || o.OnSelectingWhereParams?.All(p => columnFilterHash?.ContainsKey(p) == true) == true)
-                .Where(o => o.CommandText?.Any() == true)
-                .ExtensionWhere<ExtendedSql>(
-                    context: context,
-                    siteId: resultModel.SiteId,
-                    id: resultModel.ResultId,
-                    name: name)
-                .ExtendedSqlsWhereResults(Where, resultModel);
-            return Where;
-        }
-
-        private static void ExtendedSqlsWhereResults(
-            this IEnumerable<ExtendedSql> self,
-            SqlWhereCollection where,
-            ResultModel resultModel,
-            DateTime? timestamp = null)
-        {
-            self.ForEach(o =>
-                where.Add(raw: o.CommandText
-                    .Replace("{{SiteId}}", resultModel.SiteId.ToString())
-                    .Replace("{{Id}}", resultModel.ResultId.ToString())
-                    .Replace("{{Timestamp}}", timestamp?.ToString("yyyy/M/d H:m:s.fff"))));
         }
 
         public static SqlSelect SelectTenants(

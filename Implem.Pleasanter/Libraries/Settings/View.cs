@@ -58,6 +58,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<string> AlwaysGetColumns;
         [NonSerialized]
         public string OnSelectingWhere;
+        [NonSerialized]
+        public Dictionary<string, string> ColumnPlaceholders;
         // compatibility Version 1.008
         public string KambanGroupBy;
         // compatibility Version 1.012
@@ -895,11 +897,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ss: ss,
                 where: where,
                 checkPermission: checkPermission);
-            where.OnSelectingWhereExtendedSqls(
-                context: context,
-                ss: ss,
-                name: OnSelectingWhere,
-                columnFilterHash: ColumnFilterHash);
             if (RequestSearchCondition(
                 context: context,
                 ss: ss))
@@ -1055,7 +1052,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         public void SetColumnsWhere(
             Context context,
             SiteSettings ss,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            long? siteId = null,
+            long? id = null,
+            DateTime? timestamp = null)
         {
             SetByWhenViewProcessingServerScript(
                 context: context,
@@ -1065,6 +1065,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ss: ss,
                 where: where,
                 columnFilterHash: ColumnFilterHash);
+            where.OnSelectingWhereExtendedSqls(
+                context: context,
+                ss: ss,
+                siteId: siteId,
+                id: id,
+                timestamp: timestamp,
+                name: OnSelectingWhere,
+                columnFilterHash: ColumnFilterHash,
+                columnPlaceholders: ColumnPlaceholders);
         }
 
         private void SetColumnsWhere(

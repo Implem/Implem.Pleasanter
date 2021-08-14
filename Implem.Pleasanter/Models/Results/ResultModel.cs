@@ -655,11 +655,10 @@ namespace Implem.Pleasanter.Models
             view.SetColumnsWhere(
                 context: context,
                 ss: ss,
-                where: where);
-            where.OnSelectingSqlWhereExtendedSqls(
-                context: context,
-                resultModel: this,
-                name: view.OnSelectingWhere);
+                where: where,
+                siteId: SiteId,
+                id: ResultId,
+                timestamp: Timestamp.ToDateTime());
             column = (column ?? Rds.ResultsEditorColumns(ss))?.SetExtendedSqlSelectingColumn(context: context, ss: ss);
             join = join ??  Rds.ResultsJoinDefault();
             if (ss?.TableType == Sqls.TableTypes.Normal)
