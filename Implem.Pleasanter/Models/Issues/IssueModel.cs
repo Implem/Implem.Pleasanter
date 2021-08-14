@@ -781,11 +781,10 @@ namespace Implem.Pleasanter.Models
             view.SetColumnsWhere(
                 context: context,
                 ss: ss,
-                where: where);
-            where.OnSelectingSqlWhereExtendedSqls(
-                context: context,
-                issueModel: this,
-                name: view.OnSelectingWhere);
+                where: where,
+                siteId: SiteId,
+                id: IssueId,
+                timestamp: Timestamp.ToDateTime());
             column = (column ?? Rds.IssuesEditorColumns(ss))?.SetExtendedSqlSelectingColumn(context: context, ss: ss);
             join = join ??  Rds.IssuesJoinDefault();
             if (ss?.TableType == Sqls.TableTypes.Normal)

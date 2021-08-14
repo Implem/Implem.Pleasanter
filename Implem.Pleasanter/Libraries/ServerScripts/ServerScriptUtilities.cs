@@ -679,6 +679,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             {
                 view.AlwaysGetColumns = data.View.AlwaysGetColumns;
                 view.OnSelectingWhere = data.View.OnSelectingWhere;
+                view.ColumnPlaceholders = data.View.ColumnPlaceholders;
             }
             SetColumnFilterHashValues(
                 context: context,
