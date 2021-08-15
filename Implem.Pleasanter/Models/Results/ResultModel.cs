@@ -651,10 +651,14 @@ namespace Implem.Pleasanter.Models
             where = where ?? Rds.ResultsWhereDefault(
                 context: context,
                 resultModel: this);
-            new View().SetColumnsWhere(
+            var view = new View();
+            view.SetColumnsWhere(
                 context: context,
                 ss: ss,
-                where: where);
+                where: where,
+                siteId: SiteId,
+                id: ResultId,
+                timestamp: Timestamp.ToDateTime());
             column = (column ?? Rds.ResultsEditorColumns(ss))?.SetExtendedSqlSelectingColumn(context: context, ss: ss);
             join = join ??  Rds.ResultsJoinDefault();
             if (ss?.TableType == Sqls.TableTypes.Normal)
@@ -1879,7 +1883,7 @@ namespace Implem.Pleasanter.Models
             {
                 var id = context.QueryStrings.Data("LinkId");
                 ss.Links
-                    ?.Where(link => link.SiteId > 0)
+                    ?.Where(link => link.SiteId == queryStringsSiteId)
                     .Select(link => ss.GetColumn(
                         context: context,
                         columnName: link.ColumnName))

@@ -171,12 +171,14 @@ namespace Implem.Pleasanter.Models
         public static IEnumerable<T> ExtensionWhere<T>(
             this IEnumerable<ParameterAccessor.Parts.ExtendedBase> extensions,
             Context context,
+            string name = null,
             long? siteId = null,
             long? id = null,
             string columnName = null)
         {
             return ExtensionWhere<T>(
                 extensions: extensions,
+                name: name,
                 deptId: context.DeptId,
                 userId: context.UserId,
                 siteId: siteId ?? context.SiteId,
@@ -191,6 +193,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static IEnumerable<T> ExtensionWhere<T>(
             IEnumerable<ParameterAccessor.Parts.ExtendedBase> extensions,
+            string name,
             int userId,
             int deptId,
             long siteId,
@@ -200,7 +203,8 @@ namespace Implem.Pleasanter.Models
             string columnName = null)
         {
             return extensions
-                ?.Where(o => MeetConditions(o.DeptIdList, deptId))
+                ?.Where(o => !o.SpecifyByName || o.Name == name)
+                .Where(o => MeetConditions(o.DeptIdList, deptId))
                 .Where(o => MeetConditions(o.UserIdList, userId))
                 .Where(o => MeetConditions(o.SiteIdList, siteId))
                 .Where(o => MeetConditions(o.IdList, id))

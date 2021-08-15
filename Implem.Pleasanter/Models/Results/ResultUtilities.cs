@@ -5173,8 +5173,7 @@ namespace Implem.Pleasanter.Models
                         var errorData = resultModel.Create(
                             context: context,
                             ss: ss,
-                            extendedSqls: false,
-                            get: idInTitle);
+                            extendedSqls: false);
                         switch (errorData.Type)
                         {
                             case Error.Types.None:

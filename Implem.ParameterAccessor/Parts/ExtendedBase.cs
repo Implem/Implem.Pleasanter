@@ -4,6 +4,7 @@ namespace Implem.ParameterAccessor.Parts
     public class ExtendedBase
     {
         public string Name;
+        public bool SpecifyByName;
         public string Path;
         public string Description;
         public bool Disabled;
