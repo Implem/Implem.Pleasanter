@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 namespace Implem.ParameterAccessor.Parts
 {
@@ -36,9 +37,12 @@ namespace Implem.ParameterAccessor.Parts
                 .Replace("{{SiteId}}", siteId.ToString())
                 .Replace("{{Id}}", id.ToString())
                 .Replace("{{Timestamp}}", timestamp?.ToString("yyyy/M/d H:m:s.fff"));
-            foreach (var columnPlaceholder in columnPlaceholders)
+            if (columnPlaceholders != null)
             {
-                commandText = commandText.Replace("{{" + columnPlaceholder.Key + "}}", columnPlaceholder.Value);
+                foreach (var columnPlaceholder in columnPlaceholders)
+                {
+                    commandText = commandText.Replace("{{" + columnPlaceholder.Key + "}}", columnPlaceholder.Value);
+                }
             }
             return commandText;
         }
