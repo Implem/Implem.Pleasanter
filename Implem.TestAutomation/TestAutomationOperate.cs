@@ -86,13 +86,17 @@ namespace Implem.TestAutomation
                         $p.set($element, value);";
                     jsDriver.ExecuteScript(script);
                 }
-                Console.WriteLine(Displays.AutoTestEntered(
-                    context: context,
-                    data: new string[]
-                    {
-                            testInput.InputTarget,
-                            testInput.InputValue
-                    }));
+                WriteLog(
+                    logFileName: Parameters.ExtendedAutoTestSettings.LogFileName,
+                    logMessage:
+                        Displays.AutoTestEntered(
+                            context: context,
+                            data: new string[]
+                            {
+                                testInput.InputTarget,
+                                testInput.InputValue
+                            })
+                    );
             });
         }
 
@@ -228,18 +232,17 @@ namespace Implem.TestAutomation
             ResultCheck resultCheck,
             string resultFileName)
         {
-            var executionValue = GetExecutionValue(driver, resultCheck);
+            resultCheck.ExecutionValue = GetExecutionValue(driver, resultCheck);
             WriteResult(
                 resultCheck,
                 resultFileName,
-                ComparisonValue(driver, resultCheck, executionValue),
-                executionValue);
+                ComparisonValue(driver, resultCheck),
+                resultCheck.ExecutionValue);
         }
 
         private static string ComparisonValue(
             IWebDriver driver,
-            ResultCheck resultCheck,
-            string executionValue)
+            ResultCheck resultCheck)
         {
             var context = new Context(
                 request: false,
@@ -249,7 +252,7 @@ namespace Implem.TestAutomation
                 item: false);
             if (resultCheck.CheckType.Equals(CheckTypes.Regex))
             {
-                if (Regex.IsMatch(executionValue, resultCheck.ExpectedValue))
+                if (Regex.IsMatch(resultCheck.ExecutionValue, resultCheck.ExpectedValue))
 
                 {
                     return Displays.AutoTestResultOk(context: context);
@@ -261,8 +264,8 @@ namespace Implem.TestAutomation
             }
             else if (resultCheck.CheckType.Equals(CheckTypes.Existance))
             {
-                executionValue = executionValue == null ? "ExistanceFalse" : "ExistanceTrue";
-                if (executionValue.Equals(resultCheck.ExpectedValue))
+                resultCheck.ExecutionValue = resultCheck.ExecutionValue == null ? "ExistanceFalse" : "ExistanceTrue";
+                if (resultCheck.ExecutionValue.Equals(resultCheck.ExpectedValue))
                 {
                     return Displays.AutoTestResultOk(context: context);
                 }
@@ -295,8 +298,8 @@ namespace Implem.TestAutomation
             }
             else if (resultCheck.CheckType.Equals(CheckTypes.ReadOnly))
             {
-                executionValue = ReadOnly(driver, resultCheck);
-                if (executionValue.Equals(resultCheck.ExpectedValue))
+                resultCheck.ExecutionValue = ReadOnly(driver, resultCheck);
+                if (resultCheck.ExecutionValue.Equals(resultCheck.ExpectedValue))
                 {
                     return Displays.AutoTestResultOk(context: context);
                 }
@@ -307,7 +310,19 @@ namespace Implem.TestAutomation
             }
             else if (resultCheck.CheckType.Equals(CheckTypes.SelectOptions))
             {
-                if (SelectOptions(driver, resultCheck, executionValue))
+                if (SelectOptions(driver, resultCheck, resultCheck.ExecutionValue))
+                {
+                    return Displays.AutoTestResultOk(context: context);
+                }
+                else
+                {
+                    return Displays.AutoTestResultNg(context: context);
+                }
+            }
+            else if (resultCheck.CheckType.Equals(CheckTypes.Label))
+            {
+                resultCheck.ExecutionValue = GetLabelText(driver, resultCheck);
+                if (resultCheck.ExecutionValue.Equals(resultCheck.ExpectedValue))
                 {
                     return Displays.AutoTestResultOk(context: context);
                 }
@@ -318,7 +333,7 @@ namespace Implem.TestAutomation
             }
             else
             {
-                if (executionValue == resultCheck.ExpectedValue)
+                if (resultCheck.ExecutionValue == resultCheck.ExpectedValue)
 
                 {
                     return Displays.AutoTestResultOk(context: context);
@@ -448,6 +463,13 @@ namespace Implem.TestAutomation
             return expectedList.SequenceEqual(executionValueList);
         }
 
+        private static string GetLabelText(IWebDriver driver, ResultCheck resultCheck)
+        {
+            IJavaScriptExecutor jsDriver = driver as IJavaScriptExecutor;
+            return jsDriver.ExecuteScript(
+                $"return $p.getField('{resultCheck.ItemId}').find('label').text();").ToString();
+        }
+
         private static void WriteResult(ResultCheck resultCheck
             ,string resultFileName
             ,string comparisonResult
@@ -466,24 +488,33 @@ namespace Implem.TestAutomation
             resultStr.ExecutionValue = executionValue;
             resultStr.ComparisonResult = comparisonResult;
             WriteResult(resultString: resultStr, ResultFileName: resultFileName);
-            if (resultStr.ComparisonResult.Equals("OK")){
-                Console.ForegroundColor = ConsoleColor.Cyan;
+            WriteLog(
+                logFileName: Parameters.ExtendedAutoTestSettings.LogFileName,
+                logMessage:
+                    Displays.AutoTestResultMessage(
+                    context: context,
+                    data: new string[]
+                    {
+                        resultStr.ComparisonResult,
+                        resultStr.ExpectedContent,
+                        resultStr.ConfirmationTarget,
+                        resultStr.ExpectedValue,
+                        resultStr.ExecutionValue
+                    }),
+                consoleColor : SelectConsoleColor(resultStr.ComparisonResult)
+                );
+        }
+
+        private static ConsoleColor SelectConsoleColor(string comparisonResult)
+        {
+            if (comparisonResult.Equals("OK"))
+            {
+                return ConsoleColor.Cyan;
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-            }
-            Console.WriteLine(Displays.AutoTestResultMessage(
-                context: context,
-                data: new string[]
-                {
-                    resultStr.ComparisonResult,
-                    resultStr.ExpectedContent,
-                    resultStr.ConfirmationTarget,
-                    resultStr.ExpectedValue,
-                    resultStr.ExecutionValue
-                }));
-            Console.ResetColor();
+                return ConsoleColor.Red;
+            };
         }
 
         private static string SetConfirmationTaget(ResultCheck resultCheck)
@@ -507,6 +538,28 @@ namespace Implem.TestAutomation
             }
         }
 
+        public static void WriteLog(string logFileName
+            , string logMessage = null
+            , Boolean logInitial = false
+            , ConsoleColor consoleColor = ConsoleColor.White)
+        {
+            var parts = new DirectoryInfo(Assembly.GetEntryAssembly().Location).FullName.Split('\\');
+            var path = new DirectoryInfo(Path.Combine(
+                parts.Take(Array.IndexOf(parts, "implem.TestAutomation") + 1).Join("\\"),
+                "Log")).FullName;
+            if (!new DirectoryInfo(path).Exists) Directory.CreateDirectory(path);
+            var file = Path.Combine(path, logFileName);
+            if (logInitial == true)
+            {
+                WriteCsvHeader<AutoTestLog>(file);
+            }
+            var logString = new AutoTestLog();
+            logString.Time = DateTime.Now;
+            logString.Message = logMessage;
+            WriteCsvData<AutoTestLog>(logString, file);
+            Console.ForegroundColor = consoleColor;
+            Console.WriteLine(logMessage);
+        }
         public static void WriteResult(string ResultFileName
             , AutoTestResult resultString = null
             , Boolean resultInitial = false)
@@ -520,32 +573,30 @@ namespace Implem.TestAutomation
             var file = Path.Combine(path, ResultFileName);
             if (resultInitial == true)
             {
-                WriteResultCsvHeader(file);
+                WriteCsvHeader<AutoTestResult>(file);
             }
-            WriteResultCsvData(resultString, file);
+            WriteCsvData<AutoTestResult>(resultString, file);
         }
 
-        private static void WriteResultCsvHeader(string CsvFilePath)
+        private static void WriteCsvHeader<T>(string CsvFilePath)
         {
             using (var streamWriter = new StreamWriter(CsvFilePath, false, Encoding.GetEncoding("shift_jis")))
             using (var csvWriter = new CsvWriter(streamWriter))
             {
                 csvWriter.Configuration.HasHeaderRecord = true;
                 csvWriter.Configuration.ShouldQuote = (s, context) => true;
-                csvWriter.Configuration.RegisterClassMap<AutoTestResultTable>();
-                csvWriter.WriteHeader<AutoTestResult>();
+                csvWriter.WriteHeader<T>();
                 csvWriter.NextRecord();
             }
         }
 
-        private static void WriteResultCsvData(AutoTestResult resultString, string CsvFilePath)
+        private static void WriteCsvData<T>(T resultString, string CsvFilePath)
         {
             using (var streamWriter = new StreamWriter(CsvFilePath, true, Encoding.GetEncoding("shift_jis")))
             using (var csvWriter = new CsvWriter(streamWriter))
             {
                 csvWriter.Configuration.HasHeaderRecord = true;
                 csvWriter.Configuration.ShouldQuote = (s, context) => true;
-                csvWriter.Configuration.RegisterClassMap<AutoTestResultTable>();
                 csvWriter.WriteRecord(resultString);
                 csvWriter.NextRecord();
             }
@@ -600,6 +651,12 @@ namespace Implem.TestAutomation
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(60));
             IWebElement firstResult = wait.Until(e => e.FindElement(By.ClassName("alert-success")));
+        }
+
+        public static void WaitingAlertError(IWebDriver driver)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(60));
+            IWebElement firstResult = wait.Until(e => e.FindElement(By.ClassName("alert-error")));
         }
 
         private static bool AlertPresent(IWebDriver driver)

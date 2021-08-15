@@ -2,6 +2,7 @@
 using System.Threading;
 using OpenQA.Selenium;
 using Implem.ParameterAccessor.Parts;
+using Implem.DefinitionAccessor;
 namespace Implem.TestAutomation
 {
     public static class TestAutomationExecute
@@ -12,10 +13,18 @@ namespace Implem.TestAutomation
             AutoTestSettings testSettings,
             AutoTestScenario autoTestScenario = null)
         {
-            Console.WriteLine(testOperation.TestPartsPath);
+            TestAutomationOperate.WriteLog(
+                logFileName: Parameters.ExtendedAutoTestSettings.LogFileName,
+                logMessage: $"Parts:{testOperation.TestPartsPath}"
+                );
             testOperation.TestParts
                 .ForEach(testPart =>
                 {
+                    TestAutomationOperate.WriteLog(
+                        logFileName: Parameters.ExtendedAutoTestSettings.LogFileName,
+                        logMessage: $"Action:{testPart.Action}"
+                        );
+
                     switch (testPart.Action)
                     {
                         case ActionTypes.Input:
@@ -60,8 +69,11 @@ namespace Implem.TestAutomation
                         case ActionTypes.UploadFile:
                             TestAutomationOperate.UploadFileOpe(driver, testPart);
                             break;
-                        case ActionTypes.Execute:
-                            TestAutomationOperate.Execute(driver, testPart);
+                        case ActionTypes.WaitingAlertSuccess:
+                            TestAutomationOperate.WaitingAlertSuccess(driver);
+                            break;
+                        case ActionTypes.WaitingAlertError:
+                            TestAutomationOperate.WaitingAlertError(driver);
                             break;
                     }
                     Thread.Sleep(testPart.WaitTime ?? 500);

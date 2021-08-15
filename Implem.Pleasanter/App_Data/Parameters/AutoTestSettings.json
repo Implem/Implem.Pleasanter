@@ -5,5 +5,6 @@
     "Height": 1000,
     "ScreenShot": false,
     "ScreenShotPath": "ScreenShot",
-    "ResultsPath": "Results"
+    "ResultsPath": "Results",
+    "LogFileName": "AutoTest.log"
 }

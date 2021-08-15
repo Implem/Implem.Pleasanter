@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 namespace Implem.ParameterAccessor.Parts
 {
     public class ExtendedSql : ExtendedBase
@@ -24,5 +25,22 @@ namespace Implem.ParameterAccessor.Parts
         public List<string> OnSelectingWhereParams;
         public bool OnUseSecondaryAuthentication;
         public string CommandText;
+
+        public string ReplacedCommandText(
+            long siteId,
+            long id,
+            DateTime? timestamp,
+            Dictionary<string, string> columnPlaceholders = null)
+        {
+            var commandText = CommandText
+                .Replace("{{SiteId}}", siteId.ToString())
+                .Replace("{{Id}}", id.ToString())
+                .Replace("{{Timestamp}}", timestamp?.ToString("yyyy/M/d H:m:s.fff"));
+            foreach (var columnPlaceholder in columnPlaceholders)
+            {
+                commandText = commandText.Replace("{{" + columnPlaceholder.Key + "}}", columnPlaceholder.Value);
+            }
+            return commandText;
+        }
     }
 }

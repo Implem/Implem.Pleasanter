@@ -9,6 +9,7 @@
         public bool ScreenShot;
         public string ScreenShotPath;
         public string ResultsPath;
+        public string LogFileName;
     }
 
     public enum BrowserTypes

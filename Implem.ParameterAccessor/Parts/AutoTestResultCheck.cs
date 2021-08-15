@@ -8,6 +8,7 @@
         public string ElementLinkText;
         public string ItemId;       
         public string ExpectedValue;
+        public string ExecutionValue;
         public string Description;
         public CheckTypes CheckType;
     }
@@ -20,6 +21,7 @@
         HasNotClass,
         ReadOnly,
         Regex,
-        SelectOptions
+        SelectOptions,
+        Label
     }
 }

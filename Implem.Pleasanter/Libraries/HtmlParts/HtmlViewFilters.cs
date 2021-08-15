@@ -337,8 +337,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             attributes: new Dictionary<string, string>
                             {
                                 ["onfocus"] = $"$p.openSetNumericRangeDialog($(this))"
-                            },
-                            _using: column.RecordedTime)
+                            })
                         .Hidden(attributes: new HtmlAttributes()
                             .Id(idPrefix + column.ColumnName)
                             .Class(column.UseSearch == true ? " search" : string.Empty)
@@ -350,18 +349,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case Types.CsDateTime:
                     if (column.DateFilterSetMode == ColumnUtilities.DateFilterSetMode.Default)
                     {
-                        if (column.RecordedTime)
-                        {
-                            hb.DropDown(
-                                context: context,
-                                ss: ss,
-                                column: column,
-                                view: view,
-                                optionCollection: column.DateFilterOptions(context: context),
-                                idPrefix: idPrefix,
-                                controlOnly: controlOnly,
-                                action: action);
-                        }
+                        hb.DropDown(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            view: view,
+                            optionCollection: column.DateFilterOptions(context: context),
+                            idPrefix: idPrefix,
+                            controlOnly: controlOnly,
+                            action: action);
                     }
                     else
                     {
@@ -383,8 +379,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             attributes: new Dictionary<string, string>
                             {
                                 ["onfocus"] = $"$p.openSetDateRangeDialog($(this))"
-                            },
-                            _using: column.RecordedTime)
+                            })
                         .Hidden(attributes: new HtmlAttributes()
                             .Id(idPrefix + column.ColumnName)
                             .Class(column.UseSearch == true ? " search" : string.Empty)

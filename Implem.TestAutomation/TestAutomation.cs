@@ -50,6 +50,11 @@ namespace Implem.TestAutomation
                                 },
                                 ResultFileName: autoTestScenario.ResultFileName,
                                 resultInitial: true);
+                            TestAutomationOperate.WriteLog(
+                                logFileName : Parameters.ExtendedAutoTestSettings.LogFileName,
+                                logMessage : $"Start case:{ autoTestScenario.CaseName}",
+                                logInitial : true
+                                );
                             autoTestScenario.TestCases
                                 .SelectMany(testCase => Parameters.ExtendedAutoTestOperations
                                     .Where(testOperateion => testOperateion.TestPartsPath
@@ -61,20 +66,35 @@ namespace Implem.TestAutomation
                                         testSettings: Parameters.ExtendedAutoTestSettings,
                                         autoTestScenario: autoTestScenario));
                         });
-                    Console.WriteLine(Displays.AutoTestFinished(context: context));
+                    TestAutomationOperate.WriteLog(
+                        logFileName: Parameters.ExtendedAutoTestSettings.LogFileName,
+                        logMessage: Displays.AutoTestFinished(context: context)
+                        );
                     Console.ReadKey(intercept: true);
                 }
             }
             catch (NoSuchElementException ex)
             {
-                Console.WriteLine(Displays.AutoTestHtmlError(context: context));
-                Console.WriteLine(ex.Message);
+                TestAutomationOperate.WriteLog(
+                    logFileName: Parameters.ExtendedAutoTestSettings.LogFileName,
+                    logMessage: Displays.AutoTestHtmlError(context: context)
+                    );
+                TestAutomationOperate.WriteLog(
+                    logFileName: Parameters.ExtendedAutoTestSettings.LogFileName,
+                    logMessage: ex.Message
+                    );
                 Console.ReadKey(intercept: true);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(Displays.AutoTestOtherError(context: context));
-                Console.WriteLine(ex.Message);
+                TestAutomationOperate.WriteLog(
+                    logFileName: Parameters.ExtendedAutoTestSettings.LogFileName,
+                    logMessage: Displays.AutoTestOtherError(context: context)
+                    );
+                TestAutomationOperate.WriteLog(
+                    logFileName: Parameters.ExtendedAutoTestSettings.LogFileName,
+                    logMessage: ex.Message
+                    );
                 Console.ReadKey(intercept: true);
             }
         }

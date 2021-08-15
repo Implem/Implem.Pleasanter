@@ -25,7 +25,7 @@ namespace Implem.ParameterAccessor.Parts
         {
             return Parameters.ExtendedAutoTestOperations
                 .SelectMany(autoTestOperation => autoTestOperation.TestParts
-                    .Where(autoTestPart => autoTestPart.TestPartId == TargetTestPartId)
+                    .Where(autoTestPart => autoTestPart.TargetTestPartId == TestPartId)
                     .Select(autoTestPart => autoTestPart.CreatedTabeId)).ToList()
                         .FirstOrDefault(p => p != null);
         }
@@ -49,6 +49,7 @@ namespace Implem.ParameterAccessor.Parts
         ResultCheck,
         GoToUrl,
         UploadFile,
-        Execute,
+        WaitingAlertSuccess,
+        WaitingAlertError
     }
 }

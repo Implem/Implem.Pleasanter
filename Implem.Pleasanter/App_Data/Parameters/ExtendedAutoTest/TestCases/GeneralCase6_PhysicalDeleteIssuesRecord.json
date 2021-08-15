@@ -23,7 +23,7 @@
         },
         {
             "TestPartsPath": "\\Items\\Issues\\Delete",
-            "TestPartsName": "DeleteIssueRecord.json",
+            "TestPartsName": "DeleteIssueRecord2.json",
             "CaseDescription": "Issuesテーブルのレコードを削除する。"
         },
         {

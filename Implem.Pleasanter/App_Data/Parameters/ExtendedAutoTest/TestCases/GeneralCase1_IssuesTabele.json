@@ -22,6 +22,11 @@
             "CaseDescription": "Issuesテーブルのレコードを作成する。"
         },
         {
+            "TestPartsPath": "\\Items\\Issues\\Transition",
+            "TestPartsName": "ToIssuesTable.json",
+            "CaseDescription": "作成したIssuesテーブルへ遷移する。"
+        },
+        {
             "TestPartsPath": "\\Items\\Issues\\Settings",
             "CaseDescription": "設定を行う。"
         },

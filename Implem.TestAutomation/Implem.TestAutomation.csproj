@@ -111,6 +111,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Parts\AutoTestLog.cs" />
     <Compile Include="Parts\AutoTestResult.cs" />
     <Compile Include="TestAutomationOperate.cs" />
     <Compile Include="TestAutomationExecute.cs" />
