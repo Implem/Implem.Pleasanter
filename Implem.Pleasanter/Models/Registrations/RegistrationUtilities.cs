@@ -1379,7 +1379,7 @@ namespace Implem.Pleasanter.Models
         {
             return EditorResponse(context, ss, new RegistrationModel(
                 context, ss, registrationId,
-                formData: context.QueryStrings.Bool("control-auto-postback") ? context.Forms : null)).ToJson();
+                formData: context.Forms)).ToJson();
         }
 
         private static ResponseCollection EditorResponse(
