@@ -749,13 +749,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         }
                         else if (column.TypeName.CsTypeSummary() == Types.CsBool)
                         {
-                            switch (column.CheckFilterControlType)
-                            {
-                                case ColumnUtilities.CheckFilterControlTypes.OnOnly:
-                                    return o.Value?.ToBool() == true;
-                                default:
-                                    return o.Value?.ToInt() > 0;
-                            }
+                            return o.Value?.IsNullOrEmpty() != true;
                         }
                         else
                         {
