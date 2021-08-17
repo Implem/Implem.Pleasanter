@@ -52,6 +52,17 @@ namespace Implem.Pleasanter.NetCore
 
         public void ConfigureServices(IServiceCollection services)
         {
+            if (Parameters.Security.AccessControlAllowOrigin?.Any() == true)
+            {
+                services.AddCors(options =>
+                {
+                    options.AddDefaultPolicy(
+                        builder => builder
+                            .AllowAnyMethod()
+                            .AllowAnyHeader()
+                            .WithOrigins(Parameters.Security.AccessControlAllowOrigin.ToArray()));
+                });
+            }
             services.AddControllersWithViews();
             services.AddDistributedMemoryCache();
             services.AddMvc().AddSessionStateTempDataProvider();
@@ -78,7 +89,6 @@ namespace Implem.Pleasanter.NetCore
                     .AddSaml2(options =>
                     {
                         Saml.SetSPOptions(options);
-
                     });
             }
             else 
