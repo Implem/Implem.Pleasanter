@@ -752,9 +752,7 @@ namespace Implem.Pleasanter.Models
                         where: Rds.SysLogsWhereDefault(
                             context: context,
                             sysLogModel: this),
-                        param: Rds.SysLogsParamDefault(
-                            context: context,
-                            sysLogModel: this)));
+                        param: SysLogParam(context: context)));
             }
         }
 
@@ -790,6 +788,39 @@ namespace Implem.Pleasanter.Models
             Class = context.Controller;
             Method = context.Action;
             ErrMessage = errorMessage;
+            WriteSysLog(context: context);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public SysLogModel(
+            Context context,
+            string _class,
+            string method,
+            string message,
+            SysLogTypes sysLogType = SysLogTypes.Info)
+        {
+            SysLogType = sysLogType;
+            Class = _class;
+            Method = method;
+            switch (sysLogType)
+            {
+                case SysLogTypes.UserError:
+                case SysLogTypes.SystemError:
+                case SysLogTypes.Execption:
+                    ErrMessage = message;
+                    break;
+                default:
+                    Comments = new Comments()
+                    {
+                        new Comment()
+                        {
+                            Body = message
+                        }
+                    };
+                    break;
+            }
             WriteSysLog(context: context);
         }
 
@@ -833,11 +864,27 @@ namespace Implem.Pleasanter.Models
                     selectIdentity: true,
                     statements: Rds.InsertSysLogs(
                         selectIdentity: true,
-                        param: Rds.SysLogsParamDefault(
-                            context: context,
-                            sysLogModel: this)))
-                                .Id.ToLong();
+                        param: SysLogParam(context: context)))
+                            .Id.ToLong();
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private SqlParamCollection SysLogParam(Context context)
+        {
+            var param = Rds.SysLogsParamDefault(
+                context: context,
+                sysLogModel: this);
+            var comments = param.FirstOrDefault(o => o.Name == "Comments");
+            if (comments != null && Comments.Count > 0)
+            {
+                comments.Value = Comments
+                    .Select(o => o.Body)
+                    .Join("\n");
+            }
+            return param;
         }
 
         /// <summary>
