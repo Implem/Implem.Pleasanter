@@ -1217,12 +1217,15 @@ namespace Implem.Pleasanter.Models
                     transactional: true,
                     statements: statements.ToArray());
             }
-            return errorData.Type.Has()
-                ? errorData.MessageJson(context: context)
-                : EditorResponse(
+            SessionUtilities.Set(
+                context: context,
+                message: Messages.Copied(context: context));
+            var res = new ResponseCollection()
+                .SetMemory("formChanged", false)
+                .Href(Locations.ItemEdit(
                     context: context,
-                    siteModel: siteModel,
-                    message: Messages.Copied(context: context)).ToJson();
+                    id: siteModel.SiteId));
+            return res.ToJson();
         }
 
         public static string Delete(Context context, SiteSettings ss, long siteId)
