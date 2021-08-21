@@ -1241,6 +1241,7 @@ namespace Implem.Pleasanter.Models
                 .SetMemory("formChanged", false)
                 .Invoke("setCurrentIndex")
                 .Message(message)
+                .Messages(context.Messages)
                 .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"))
                 .Log(context.GetLog());
         }
@@ -1474,7 +1475,8 @@ namespace Implem.Pleasanter.Models
                     .CloseDialog()
                     .Message(Messages.Updated(
                         context: context,
-                        data: wikiModel.Title.DisplayValue));
+                        data: wikiModel.Title.DisplayValue))
+                    .Messages(context.Messages);
             }
             else if (wikiModel.Locked)
             {
@@ -1490,6 +1492,7 @@ namespace Implem.Pleasanter.Models
                         .Message(Messages.Updated(
                             context: context,
                             data: wikiModel.Title.DisplayValue))
+                        .Messages(context.Messages)
                         .ClearFormData();
             }
             else
@@ -1523,6 +1526,7 @@ namespace Implem.Pleasanter.Models
                     .Message(Messages.Updated(
                         context: context,
                         data: wikiModel.Title.DisplayValue))
+                    .Messages(context.Messages)
                     .Comment(
                         context: context,
                         ss: ss,
@@ -1835,6 +1839,7 @@ namespace Implem.Pleasanter.Models
             return new WikisResponseCollection(wikiModel)
                 .Html("#FieldSetHistories", hb)
                 .Message(message)
+                .Messages(context.Messages)
                 .ToJson();
         }
 
@@ -2047,6 +2052,7 @@ namespace Implem.Pleasanter.Models
                         wikiModel: wikiModel)
                             .SetMemory("formChanged", false)
                             .Message(Messages.UnlockedRecord(context: context))
+                            .Messages(context.Messages)
                             .ClearFormData()
                             .ToJson();
                 case Error.Types.UpdateConflicts:

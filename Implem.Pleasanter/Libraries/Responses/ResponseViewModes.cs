@@ -54,6 +54,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                 .SetMemory("formChanged", false, _using: !editOnGrid)
                 .Invoke(invoke)
                 .Message(message)
+                .Messages(context.Messages)
                 .LoadScroll(loadScroll)
                 .ClearFormData(
                     context: context,

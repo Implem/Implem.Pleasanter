@@ -338,6 +338,7 @@ namespace Implem.Pleasanter.Models
                 .Val("#GridColumns", columns.Select(o => o.ColumnName).ToJson())
                 .Paging("#Grid")
                 .Message(message)
+                .Messages(context.Messages)
                 .Log(context.GetLog())
                 .ToJson();
         }
@@ -426,6 +427,7 @@ namespace Implem.Pleasanter.Models
                     .Message(
                         message: Messages.NotFound(context: context),
                         target: "row_" + deptId)
+                    .Messages(context.Messages)
                     .Log(context.GetLog())
                     .ToJson()
                 : res
@@ -443,6 +445,7 @@ namespace Implem.Pleasanter.Models
                             editRow: true,
                             checkRow: false,
                             idColumn: "DeptId"))
+                    .Messages(context.Messages)
                     .Log(context.GetLog())
                     .ToJson();
         }
@@ -1261,6 +1264,7 @@ namespace Implem.Pleasanter.Models
                 .SetMemory("formChanged", false)
                 .Invoke("setCurrentIndex")
                 .Message(message)
+                .Messages(context.Messages)
                 .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"))
                 .Log(context.GetLog());
         }
@@ -1591,7 +1595,8 @@ namespace Implem.Pleasanter.Models
                     .CloseDialog()
                     .Message(Messages.Updated(
                         context: context,
-                        data: deptModel.Title.DisplayValue));
+                        data: deptModel.Title.DisplayValue))
+                    .Messages(context.Messages);
             }
             else
             {
@@ -1615,6 +1620,7 @@ namespace Implem.Pleasanter.Models
                     .Message(Messages.Updated(
                         context: context,
                         data: deptModel.Title.Value))
+                    .Messages(context.Messages)
                     .Comment(
                         context: context,
                         ss: ss,
@@ -1687,6 +1693,7 @@ namespace Implem.Pleasanter.Models
             return new DeptsResponseCollection(deptModel)
                 .Html("#FieldSetHistories", hb)
                 .Message(message)
+                .Messages(context.Messages)
                 .ToJson();
         }
 

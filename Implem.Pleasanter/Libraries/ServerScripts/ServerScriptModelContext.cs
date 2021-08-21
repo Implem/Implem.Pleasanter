@@ -1,6 +1,7 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Responses;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public StringBuilder LogBuilder;
         public ExpandoObject UserData;
         public ErrorData ErrorData;
+        public List<Message> Messages;
         public readonly ServerScriptModelContextServerScript ServerScript;
         public readonly Forms Forms;
         public readonly string FormStringRaw;
@@ -49,6 +51,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             Context context,
             StringBuilder logBuilder,
             ExpandoObject userData,
+            List<Message> messages,
             ErrorData errorData,
             string formStringRaw,
             string formString,
@@ -85,6 +88,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             LogBuilder = logBuilder;
             UserData = userData;
+            Messages = messages;
             ErrorData = errorData;
             ServerScript = new ServerScriptModelContextServerScript(
                 onTesting: onTesting,
@@ -131,6 +135,15 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             ErrorData.Type = General.Error.Types.CustomError;
             ErrorData.Data = message.ToSingleArray();
+        }
+
+        public void AddMessage(string text, string css = "alert-information")
+        {
+            Messages.Add(new Message()
+            {
+                Text = text,
+                Css = css
+            });
         }
     }
 }
