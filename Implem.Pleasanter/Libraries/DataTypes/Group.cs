@@ -13,6 +13,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public int TenantId;
         public int Id;
         public string Name;
+        public string Body;
         public bool Disabled;
 
         public Group()
@@ -24,6 +25,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             TenantId = dataRow.Int("TenantId");
             Id = dataRow.Int("GroupId");
             Name = dataRow.String("GroupName");
+            Body = dataRow.String("Body");
             Disabled = dataRow.Bool("Disabled");
         }
 
@@ -72,6 +74,11 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public string GridText(Context context, Column column)
         {
             return Name;
+        }
+
+        public string Tooltip()
+        {
+            return Body;
         }
 
         public string ToExport(Context context, Column column, ExportColumn exportColumn = null)

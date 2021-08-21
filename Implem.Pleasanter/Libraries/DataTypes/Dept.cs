@@ -4,7 +4,9 @@ using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
@@ -14,6 +16,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public int Id;
         public string Code;
         public string Name;
+        public string Body;
         public bool Disabled;
 
         public Dept()
@@ -26,6 +29,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Id = dataRow.Int("DeptId");
             Code = dataRow.String("DeptCode");
             Name = dataRow.String("DeptName");
+            Body = dataRow.String("Body");
             Disabled = dataRow.Bool("Disabled");
         }
 
@@ -74,6 +78,16 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public string GridText(Context context, Column column)
         {
             return Name;
+        }
+
+        public string Tooltip()
+        {
+            var list = new List<string>()
+            {
+                Code,
+                Body
+            };
+            return list.Where(o => !o.IsNullOrEmpty()).Join(" ");
         }
 
         public string ToExport(Context context, Column column, ExportColumn exportColumn = null)
