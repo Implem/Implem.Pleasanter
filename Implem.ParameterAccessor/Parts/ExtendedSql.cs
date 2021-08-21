@@ -23,6 +23,9 @@ namespace Implem.ParameterAccessor.Parts
         public bool OnImported;
         public bool OnSelectingColumn;
         public bool OnSelectingWhere;
+        public bool OnSelectingWherePermissionsDepts;
+        public bool OnSelectingWherePermissionsGroups;
+        public bool OnSelectingWherePermissionsUsers;
         public List<string> OnSelectingWhereParams;
         public bool OnUseSecondaryAuthentication;
         public string CommandText;

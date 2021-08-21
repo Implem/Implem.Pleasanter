@@ -4163,6 +4163,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlWhereCollection where,
             Context context,
             SiteSettings ss,
+            IEnumerable<ExtendedSql> extendedSqls,
             long? siteId = null,
             long? id = null,
             DateTime? timestamp = null,
@@ -4170,9 +4171,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Dictionary<string, string> columnFilterHash = null,
             Dictionary<string, string> columnPlaceholders = null)
         {
-            Parameters.ExtendedSqls
-                ?.Where(o => o.OnSelectingWhere)
-                .Where(o => o.OnSelectingWhereParams?.Any() != true
+            extendedSqls
+                ?.Where(o => o.OnSelectingWhereParams?.Any() != true
                     || o.OnSelectingWhereParams?.All(p => columnFilterHash?.ContainsKey(p) == true) == true)
                 .ExtensionWhere<ExtendedSql>(
                     context: context,
@@ -4189,7 +4189,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .Where(p => p.Value != null)
                         .ToDictionary(
                             p => p.Key,
-                            p => $"\"{p.Value.TableName()}\".{ColumnBracket(p.Value)}" ))));
+                            p => $"\"{p.Value.TableName()}\".{ColumnBracket(p.Value)}"))));
             return where;
         }
 
