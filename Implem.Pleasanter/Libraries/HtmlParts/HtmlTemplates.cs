@@ -295,7 +295,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             context: context,
                             ss: ss);
                     action?.Invoke();
-                    hb.Message(message: context.Message());
+                    hb.Message(
+                        message: context.Message(),
+                        messages: context.Messages);
                 }
                 else
                 {
@@ -303,7 +305,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         context: context,
                         data: messageData);
                     hb
-                        .Message(message: message)
+                        .Message(
+                            message: message,
+                            messages: context.Messages)
                         .MainCommands(
                             context: context,
                             ss: ss,
@@ -424,14 +428,26 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
-        private static HtmlBuilder Message(this HtmlBuilder hb, Message message)
+        private static HtmlBuilder Message(
+            this HtmlBuilder hb,
+            Message message,
+            List<Message> messages)
         {
-            return hb
+            var data = new List<Message>();
+            if (message != null)
+            {
+                data.Add(message);
+            }
+            if (messages != null)
+            {
+                data.AddRange(messages);
+            }
+            hb
                 .P(id: "Message", css: "message")
                 .Hidden(
                     controlId: "MessageData",
-                    value: message?.ToJson(),
-                    _using: message != null);
+                    value: data.ToJson());
+            return hb;
         }
 
         private static HtmlBuilder Title(

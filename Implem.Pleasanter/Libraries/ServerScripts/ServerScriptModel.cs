@@ -54,6 +54,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 context: context,
                 logBuilder: context.LogBuilder,
                 userData: context.UserData,
+                messages: context.Messages,
                 errorData: context.ErrorData,
                 formStringRaw: context.FormStringRaw,
                 formString: context.FormString,

@@ -5,7 +5,9 @@
 
     var $data = $('#MessageData');
     if ($data.length === 1) {
-        $p.setMessage('#Message', $data.val());
+        for (var message of JSON.parse($data.val())) {
+            $p.setMessage('#Message', JSON.stringify(message));
+        }
         $data.remove();
     }
 });

@@ -866,6 +866,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             var createdContext = context.CreateContext(apiRequestBody: apiRequestBody);
             createdContext.LogBuilder = context.LogBuilder;
+            createdContext.Messages = context.Messages;
             createdContext.Id = id;
             createdContext.ApiRequestBody = apiRequestBody;
             createdContext.PermissionHash = Permissions.Get(context: createdContext);

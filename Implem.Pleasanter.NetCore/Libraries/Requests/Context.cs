@@ -35,6 +35,7 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
         public override Stopwatch Stopwatch { get; set; } = new Stopwatch();
         public override StringBuilder LogBuilder { get; set; } = new StringBuilder();
         public override ExpandoObject UserData { get; set; } = new ExpandoObject();
+        public override List<Message> Messages { get; set; } = new List<Message>();
         public override ErrorData ErrorData { get; set; } = new ErrorData(type: Error.Types.None);
         public override bool InvalidJsonData { get; set; }
         public override bool Authenticated { get; set; }
@@ -509,10 +510,10 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
         public override Dictionary<string, string> GetRouteData()
         {
             return AspNetCoreHttpContext.Current.GetRouteData()?.Values?
-                    .ToDictionary(
-                        o => o.Key.ToLower(),
-                        o => o.Value.ToString())
-                            ?? new Dictionary<string, string>();
+                .ToDictionary(
+                    o => o.Key.ToLower(),
+                    o => o.Value.ToString())
+                        ?? new Dictionary<string, string>();
         }
 
         private string SessionLanguage()

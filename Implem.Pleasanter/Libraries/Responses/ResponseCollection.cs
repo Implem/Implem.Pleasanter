@@ -454,6 +454,18 @@ namespace Implem.Pleasanter.Libraries.Responses
                 : this;
         }
 
+        public ResponseCollection Messages(
+            List<Message> messages,
+            bool _using = true)
+        {
+            if (_using)
+            {
+                messages?.ForEach(message =>
+                    Message(message));
+            }
+            return this;
+        }
+
         public ResponseCollection Response(
             string key,
             string value,
