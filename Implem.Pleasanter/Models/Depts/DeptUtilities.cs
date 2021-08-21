@@ -1900,6 +1900,7 @@ namespace Implem.Pleasanter.Models
                         .LoginId()
                         .Name()
                         .UserCode()
+                        .Body()
                         .TenantManager()
                         .ServiceManager()
                         .Disabled(),
