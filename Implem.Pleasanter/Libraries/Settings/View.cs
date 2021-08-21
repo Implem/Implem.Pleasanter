@@ -1062,6 +1062,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             where.OnSelectingWhereExtendedSqls(
                 context: context,
                 ss: ss,
+                extendedSqls: Parameters.ExtendedSqls?.Where(o => o.OnSelectingWhere),
                 siteId: siteId,
                 id: id,
                 timestamp: timestamp,
