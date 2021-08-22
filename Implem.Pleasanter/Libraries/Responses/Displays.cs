@@ -6449,6 +6449,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ApiCountReset(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ApiCountReset",
+                data: data);
+        }
+
         public static string Sales(
             Context context,
             params string[] data)

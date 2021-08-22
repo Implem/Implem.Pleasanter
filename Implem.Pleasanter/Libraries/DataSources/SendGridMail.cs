@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
+using System.Text;
 using System.Threading.Tasks;
 namespace Implem.Pleasanter.Libraries.DataSources
 {
@@ -72,9 +73,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             var bytes = Convert.FromBase64String(attachment.Base64);
                             using (var memoryStream = new MemoryStream(bytes))
                             {
+                                var utfstr = Encoding.GetEncoding("iso-2022-jp").GetBytes(Strings.CoalesceEmpty(attachment.Name, "NoName"));
+                                var base64str = Convert.ToBase64String(utfstr);
+                                var sendName = "=?iso-2022-jp?B?" + base64str + "?=";
                                 sendGridMessage.AddAttachment(
                                     stream: memoryStream,
-                                    name: Strings.CoalesceEmpty(attachment.Name, "NoName"));
+                                    name: sendName);
                             }
                         });
                     if (Parameters.Mail.SmtpUserName.ToLower() == "apikey")

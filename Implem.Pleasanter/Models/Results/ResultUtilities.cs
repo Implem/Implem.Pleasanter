@@ -366,6 +366,7 @@ namespace Implem.Pleasanter.Models
                 .Val("#GridColumns", columns.Select(o => o.ColumnName).ToJson())
                 .Paging("#Grid")
                 .Message(message)
+                .Messages(context.Messages)
                 .Log(context.GetLog())
                 .ToJson();
         }
@@ -550,6 +551,7 @@ namespace Implem.Pleasanter.Models
                     .Message(
                         message: Messages.NotFound(context: context),
                         target: "row_" + resultId)
+                    .Messages(context.Messages)
                     .Log(context.GetLog())
                     .ToJson()
                 : res
@@ -567,6 +569,7 @@ namespace Implem.Pleasanter.Models
                             editRow: true,
                             checkRow: false,
                             idColumn: "ResultId"))
+                    .Messages(context.Messages)
                     .Log(context.GetLog())
                     .ToJson();
         }
@@ -2064,7 +2067,7 @@ namespace Implem.Pleasanter.Models
         {
             return EditorResponse(context, ss, new ResultModel(
                 context, ss, resultId,
-                formData: context.QueryStrings.Bool("control-auto-postback") ? context.Forms : null)).ToJson();
+                formData: context.Forms)).ToJson();
         }
 
         private static ResponseCollection EditorResponse(
@@ -2092,6 +2095,7 @@ namespace Implem.Pleasanter.Models
                             resultModel: resultModel,
                             editInDialog: editInDialog))
                         .Invoke("openEditorDialog")
+                        .Messages(context.Messages)
                         .Events("on_editor_load")
                         .Log(context.GetLog())
                     : new ResultsResponseCollection(resultModel)
@@ -2104,6 +2108,7 @@ namespace Implem.Pleasanter.Models
                         .Invoke("setCurrentIndex")
                         .Invoke("initRelatingColumnEditor")
                         .Message(message)
+                        .Messages(context.Messages)
                         .ClearFormData()
                         .Events("on_editor_load")
                         .Log(context.GetLog());
@@ -2123,7 +2128,8 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default:
                     return new ResponseCollection()
-                        .Message(invalid.Message(context: context));
+                        .Message(invalid.Message(context: context))
+                        .Messages(context.Messages);
             }
             resultModel.SetByBeforeOpeningPageServerScript(
                 context: context,
@@ -2133,6 +2139,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     resultModel: resultModel)
+                .Messages(context.Messages)
                 .Log(context.GetLog());
             return ret;
         }
@@ -2848,7 +2855,8 @@ namespace Implem.Pleasanter.Models
                     .CloseDialog()
                     .Message(Messages.Updated(
                         context: context,
-                        data: resultModel.Title.DisplayValue));
+                        data: resultModel.Title.DisplayValue))
+                    .Messages(context.Messages);
             }
             else if (resultModel.Locked)
             {
@@ -2864,6 +2872,7 @@ namespace Implem.Pleasanter.Models
                         .Message(Messages.Updated(
                             context: context,
                             data: resultModel.Title.DisplayValue))
+                        .Messages(context.Messages)
                         .ClearFormData();
             }
             else
@@ -2900,6 +2909,7 @@ namespace Implem.Pleasanter.Models
                             .Message(Messages.Updated(
                                 context: context,
                                 data: resultModel.Title.DisplayValue))
+                            .Messages(context.Messages)
                             .Comment(
                                 context: context,
                                 ss: ss,
@@ -3311,6 +3321,7 @@ namespace Implem.Pleasanter.Models
                         id: formData.Id)
                             .Remove($"[data-id=\"{formData.Id}\"][data-latest]")
                             .Message(Messages.NotFound(context: context))
+                            .Messages(context.Messages)
                             .ToJson();
                 }
                 resultModel?.SetByBeforeOpeningRowServerScript(
@@ -3483,6 +3494,7 @@ namespace Implem.Pleasanter.Models
                 .Message(Messages.UpdatedByGrid(
                     context: context,
                     data: responses.Count().ToString()))
+                .Messages(context.Messages)
                 .Log(context.GetLog())
                 .ToJson();
         }
@@ -4147,6 +4159,7 @@ namespace Implem.Pleasanter.Models
             return new ResultsResponseCollection(resultModel)
                 .Html("#FieldSetHistories", hb)
                 .Message(message)
+                .Messages(context.Messages)
                 .ToJson();
         }
 
@@ -6653,6 +6666,7 @@ namespace Implem.Pleasanter.Models
                         resultModel: resultModel)
                             .SetMemory("formChanged", false)
                             .Message(Messages.UnlockedRecord(context: context))
+                            .Messages(context.Messages)
                             .ClearFormData()
                             .ToJson();
                 case Error.Types.UpdateConflicts:

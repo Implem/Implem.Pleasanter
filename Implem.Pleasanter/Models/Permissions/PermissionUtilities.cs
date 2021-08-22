@@ -398,7 +398,11 @@ namespace Implem.Pleasanter.Models
                                     Rds.Depts_DeptCode_WhereLike(factory: context),
                                     Rds.Depts_DeptName_WhereLike(factory: context),
                                     Rds.Depts_Body_WhereLike(factory: context)
-                                })),
+                                })
+                            .OnSelectingWhereExtendedSqls(
+                                context: context,
+                                ss: ss,
+                                extendedSqls: Parameters.ExtendedSqls?.Where(o => o.OnSelectingWherePermissionsDepts))),
                     Rds.SelectGroups(
                         column: Rds.GroupsColumn()
                             .GroupId(_as: "Id")
@@ -416,7 +420,11 @@ namespace Implem.Pleasanter.Models
                                     Rds.Groups_GroupId_WhereLike(factory: context),
                                     Rds.Groups_GroupName_WhereLike(factory: context),
                                     Rds.Groups_Body_WhereLike(factory: context)
-                                }),
+                                })
+                            .OnSelectingWhereExtendedSqls(
+                                context: context,
+                                ss: ss,
+                                extendedSqls: Parameters.ExtendedSqls?.Where(o => o.OnSelectingWherePermissionsGroups)),
                         unionType: Sqls.UnionTypes.UnionAll),
                     Rds.SelectUsers(
                         column: Rds.UsersColumn()
@@ -445,7 +453,10 @@ namespace Implem.Pleasanter.Models
                                     Rds.Depts_DeptName_WhereLike(factory: context),
                                     Rds.Depts_Body_WhereLike(factory: context)
                                 })
-                            .Users_Disabled(false),
+                            .OnSelectingWhereExtendedSqls(
+                                context: context,
+                                ss: ss,
+                                extendedSqls: Parameters.ExtendedSqls?.Where(o => o.OnSelectingWherePermissionsUsers)),
                         unionType: Sqls.UnionTypes.UnionAll)
                 })
                     .AsEnumerable()

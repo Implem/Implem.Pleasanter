@@ -4839,6 +4839,7 @@ namespace Implem.Pleasanter.Models
         public bool WithinApiLimits(Context context)
         {
             var limit = context.ContractSettings.ApiLimit();
+            var reset = false;
             if (limit > 0)
             {
                 var today = DateTime.Now.ToDateTime().ToLocal(context: context).Date;
@@ -4846,6 +4847,7 @@ namespace Implem.Pleasanter.Models
                 {
                     ApiCountDate = today;
                     ApiCount = 0;
+                    reset = true;
                 }
                 ApiCount++;
                 if (ApiCount > limit)
@@ -4853,6 +4855,12 @@ namespace Implem.Pleasanter.Models
                     return false;
                 }
                 UpdateApiCount(context: context);
+                if (reset)
+                {
+                    LogApiCountReset(
+                        context: context,
+                        apiCount: ApiCount);
+                }
                 return true;
             }
             return true;
@@ -4861,7 +4869,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public void UpdateApiCount(Context context)
+        private void UpdateApiCount(Context context)
         {
             Repository.ExecuteNonQuery(
                 context: context,
@@ -4874,6 +4882,20 @@ namespace Implem.Pleasanter.Models
                         .ApiCount(ApiCount),
                     addUpdatorParam: false,
                     addUpdatedTimeParam: false));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void LogApiCountReset(Context context, int apiCount)
+        {
+            new SysLogModel(
+                context: context,
+                _class: nameof(SiteModel),
+                method: nameof(LogApiCountReset),
+                message: Displays.ApiCountReset(
+                    context: context,
+                    apiCount.ToString()));
         }
     }
 }

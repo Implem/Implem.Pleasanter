@@ -27,6 +27,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public Stopwatch Stopwatch = new Stopwatch();
         public StringBuilder LogBuilder = new StringBuilder();
         public ExpandoObject UserData = new ExpandoObject();
+        public List<Message> Messages = new List<Message>();
         public ErrorData ErrorData = new ErrorData(type: Error.Types.None);
         public bool InvalidJsonData;
         public bool Authenticated;

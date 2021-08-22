@@ -2289,6 +2289,7 @@
     <Content Include="App_Data\Displays\AllowCopy.json" />
     <Content Include="App_Data\Displays\ReferenceCopy.json" />
     <Content Include="App_Data\Displays\AllowReferenceCopy.json" />
+    <Content Include="App_Data\Displays\RsetApiCount.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />
