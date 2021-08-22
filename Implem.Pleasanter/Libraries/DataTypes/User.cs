@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Extensions;
@@ -9,7 +10,9 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
@@ -25,6 +28,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public string LoginId;
         public string Name;
         public string UserCode;
+        public string Body;
         public bool TenantManager;
         public bool ServiceManager;
         public bool AllowCreationAtTopSite;
@@ -49,6 +53,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                             .LoginId()
                             .Name()
                             .UserCode()
+                            .Body()
                             .UserSettings()
                             .TenantManager()
                             .ServiceManager()
@@ -88,6 +93,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             LoginId = dataRow.String("LoginId");
             Name = Strings.CoalesceEmpty(dataRow.String("Name"), LoginId);
             UserCode = dataRow.String("UserCode");
+            Body = dataRow.String("Body");
             TenantManager = dataRow.Bool("TenantManager")
                 || Permissions.PrivilegedUsers(loginId: dataRow.String("LoginId"));
             ServiceManager = dataRow.Bool("ServiceManager");
@@ -168,6 +174,22 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     context: context,
                     userId: Id)
                 : string.Empty;
+        }
+
+        public string Tooltip(Context context)
+        {
+            var mailAddress = Parameters.User.IsMailAddressSelectorToolTip()
+                ? MailAddressUtilities.Get(
+                    context: context,
+                    userId: Id)
+                : string.Empty;
+            var list = new List<string>()
+            {
+                Strings.CoalesceEmpty(mailAddress, LoginId),
+                UserCode,
+                Body
+            };
+            return list.Where(o => !o.IsNullOrEmpty()).Join(" ");
         }
 
         public string ToExport(Context context, Column column, ExportColumn exportColumn = null)

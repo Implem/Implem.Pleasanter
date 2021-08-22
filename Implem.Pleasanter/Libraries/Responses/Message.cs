@@ -8,6 +8,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public string Text;
         public string Css;
 
+        public Message()
+        {
+        }
+
         public Message(string id, string text, string css)
         {
             Id = id;

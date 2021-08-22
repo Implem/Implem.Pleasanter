@@ -12,6 +12,7 @@ namespace Implem.ParameterAccessor.Parts
         public bool JoeAccountCheck;
         public bool TokenCheck;
         public bool SecureCookies;
+        public List<string> AccessControlAllowOrigin;
         public List<PasswordPolicy> PasswordPolicies;
         public SecondaryAuthentication SecondaryAuthentication;
     }

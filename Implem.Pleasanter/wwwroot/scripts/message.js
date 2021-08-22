@@ -25,11 +25,11 @@
                 .addClass('body')
                 .addClass(message.Css)
                 .text(message.Text)));
+        if ($control.length === 0 || target == '#Message') {
+            $body.find('span').append($('<span/>')
+                .addClass('ui-icon ui-icon-close close'));
+        }
         if ($control.length === 0) {
-            if ($('#Message').hasClass('message')) {
-                $body.append($('<span/>')
-                    .addClass('ui-icon ui-icon-close close'));
-            }
             $('#Message').append($body);
         } else {
             $control.append($body);

@@ -35,6 +35,7 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
         public override Stopwatch Stopwatch { get; set; } = new Stopwatch();
         public override StringBuilder LogBuilder { get; set; } = new StringBuilder();
         public override ExpandoObject UserData { get; set; } = new ExpandoObject();
+        public override List<Message> Messages { get; set; } = new List<Message>();
         public override ErrorData ErrorData { get; set; } = new ErrorData(type: Error.Types.None);
         public override bool InvalidJsonData { get; set; }
         public override bool Authenticated { get; set; }
@@ -136,7 +137,7 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
             UserId = userId;
             Language = language ?? Language;
             UserHostAddress = HasRoute
-                ? GetUserHostAddress(AspNetCoreHttpContext.Current?.Connection)
+                ? GetUserHostAddress()
                 : null;
             SetTenantProperties();
             SetPublish();
@@ -194,7 +195,7 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
                 Action = RouteData.Get("action")?.ToLower() ?? string.Empty;
                 Id = RouteData.Get("id")?.ToLong() ?? 0;
                 Guid = RouteData.Get("guid")?.ToUpper();
-                UserHostName = GetUserHostAddress(request?.HttpContext?.Connection);
+                UserHostName = GetUserHostAddress();
                 UserHostAddress = CreateUserHostAddress(AspNetCoreHttpContext.Current.Request);
                 UserAgent = CreateUserAgent(AspNetCoreHttpContext.Current.Request);
             }
@@ -326,7 +327,7 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
                 User = SiteInfo.User(context: this, userId: UserId);
                 Language = userModel.Language;
                 Theme = Strings.CoalesceEmpty(userModel.Theme, Parameters.User.Theme, "sunny");
-                UserHostAddress = GetUserHostAddress(AspNetCoreHttpContext.Current?.Connection);
+                UserHostAddress = GetUserHostAddress();
                 Developer = userModel.Developer;
                 TimeZoneInfo = userModel.TimeZoneInfo;
                 UserSettings = userModel.UserSettings;
@@ -509,10 +510,10 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
         public override Dictionary<string, string> GetRouteData()
         {
             return AspNetCoreHttpContext.Current.GetRouteData()?.Values?
-                    .ToDictionary(
-                        o => o.Key.ToLower(),
-                        o => o.Value.ToString())
-                            ?? new Dictionary<string, string>();
+                .ToDictionary(
+                    o => o.Key.ToLower(),
+                    o => o.Value.ToString())
+                        ?? new Dictionary<string, string>();
         }
 
         private string SessionLanguage()
@@ -783,9 +784,24 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
             return AspNetCoreHttpContext.Current.User.Identity?.GetType().Name.Contains("Windows") ?? false;
         }
 
-        private string GetUserHostAddress(ConnectionInfo request)
+        private string GetUserHostAddress()
         {
-            return request?.RemoteIpAddress?.ToString();
+            var xFoForwardedFor = new Microsoft.Extensions.Primitives.StringValues();
+            var address = AspNetCoreHttpContext.Current?.Request?.Headers?.TryGetValue("X-Forwarded-For", out xFoForwardedFor) == true
+                ? xFoForwardedFor.FirstOrDefault()
+                : null;
+            if (address == null)
+            {
+                return AspNetCoreHttpContext.Current?.Connection?.RemoteIpAddress?.ToString();
+            }
+            var sn = address.IndexOf("[");
+            var en = address.IndexOf("]");
+            if (sn >= 0 && en > sn)
+            {
+                return address.Substring(sn + 1, en - 1);
+            }
+            var n = address.IndexOf(":");
+            return (n > 0) ? address.Substring(0, n) : address;
         }
 
         private static readonly Lazy<ISqlObjectFactory> _sqlObjectFactory = new Lazy<ISqlObjectFactory>(() =>

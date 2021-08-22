@@ -43,6 +43,7 @@ namespace Implem.Pleasanter.Libraries.Server
                                 .DeptId()
                                 .DeptCode()
                                 .DeptName()
+                                .Body()
                                 .Disabled(),
                             where: Rds.DeptsWhere().TenantId(context.TenantId),
                             _using: monitor.DeptsUpdated || force),
@@ -52,6 +53,7 @@ namespace Implem.Pleasanter.Libraries.Server
                                 .TenantId()
                                 .GroupId()
                                 .GroupName()
+                                .Body()
                                 .Disabled(),
                             where: Rds.GroupsWhere().TenantId(context.TenantId),
                             _using: monitor.GroupsUpdated || force),
@@ -63,6 +65,8 @@ namespace Implem.Pleasanter.Libraries.Server
                                 .DeptId()
                                 .LoginId()
                                 .Name()
+                                .UserCode()
+                                .Body()
                                 .TenantManager()
                                 .ServiceManager()
                                 .AllowCreationAtTopSite()

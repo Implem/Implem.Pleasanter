@@ -1,0 +1,9 @@
+﻿{
+    "Id": "ApiCountReset",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "API Count has been reset to {0}."
+        }
+    ]
+}

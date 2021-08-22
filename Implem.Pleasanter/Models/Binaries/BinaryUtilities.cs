@@ -983,8 +983,22 @@ namespace Implem.Pleasanter.Models
                     : new ErrorData(Error.Types.HasNotPermission);
             switch (ss.ReferenceType)
             {
-                case "Issues": return IssueValidators.OnUpdating(context, ss, new IssueModel(context, ss));
-                case "Results": return ResultValidators.OnUpdating(context, ss, new ResultModel(context, ss));
+                case "Issues":
+                    return IssueValidators.OnUpdating(
+                        context: context,
+                        ss: ss,
+                        issueModel: new IssueModel(
+                            context: context,
+                            ss: ss,
+                            issueId: context.Id));
+                case "Results":
+                    return ResultValidators.OnUpdating(
+                        context: context,
+                        ss: ss,
+                        new ResultModel(
+                            context: context,
+                            ss: ss,
+                            resultId: context.Id));
                 default: return new ErrorData(Error.Types.HasNotPermission);
             }
         }

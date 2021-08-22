@@ -105,41 +105,31 @@ namespace Implem.Pleasanter.Libraries.Security
                         name: Id != 0
                             ? dept?.Name
                             : null,
-                        title: dept?.Code,
+                        title: dept?.Tooltip(),
                         withType: withType);
                 case "Group":
-                    var groupModel = Id != 0
-                        ? new GroupModel(
-                            context: context,
-                            ss: SiteSettingsUtilities.GroupsSiteSettings(context: context),
-                            groupId: Id)
-                        : null;
+                    var group = SiteInfo.Group(
+                        tenantId: context.TenantId,
+                        groupId: Id);
                     return DisplayText(
                         context: context,
                         text: Displays.Groups(context: context),
-                        name: groupModel?.AccessStatus == Databases.AccessStatuses.Selected
-                            ? groupModel.GroupName
+                        name: Id != 0
+                            ? group?.Name
                             : null,
-                        title: null,
+                        title: group?.Tooltip(),
                         withType: withType);
                 case "User":
                     var user = SiteInfo.User(
                         context: context,
                         userId: Id);
-                    var mailAddress = Parameters.User.IsMailAddressSelectorToolTip()
-                        ? MailAddressUtilities.Get(
-                            context: context,
-                            userId: Id)
-                        : string.Empty;
                     return DisplayText(
                         context: context,
                         text: Displays.Users(context: context),
                         name: Id != 0
                             ? user?.Name
                             : null,
-                        title: Id != 0
-                            ? Strings.CoalesceEmpty(mailAddress, user?.LoginId)
-                            : null,
+                        title: user?.Tooltip(context: context),
                         withType: withType);
                 default:
                     var column = ss?.GetColumn(

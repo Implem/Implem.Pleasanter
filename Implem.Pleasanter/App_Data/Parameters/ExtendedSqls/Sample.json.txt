@@ -26,6 +26,9 @@
     "OnImported": false,
     "OnSelectingColumn": false,
     "OnSelectingWhere": false,
+    "OnSelectingWherePermissionsDepts": false,
+    "OnSelectingWherePermissionsGroups": false,
+    "OnSelectingWherePermissionsUsers": false,
     "OnSelectingWhereParams": null,
     "OnUseSecondaryAuthentication": false,
     "CommandText": "-- Write an arbitrary SQL statement."
