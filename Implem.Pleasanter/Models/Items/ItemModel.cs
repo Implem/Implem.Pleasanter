@@ -1251,6 +1251,7 @@ namespace Implem.Pleasanter.Models
                         filter: filter))
                 .Val("#DropDownSearchResultsOffset", nextOffset)
                 .ClearFormData("DropDownSearchResults")
+                .Log(context.GetLog())
                 .ToJson();
         }
 

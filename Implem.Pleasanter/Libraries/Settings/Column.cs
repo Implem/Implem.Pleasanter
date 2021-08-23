@@ -189,6 +189,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public Dictionary<string, Choice> ChoiceHash;
         [NonSerialized]
+        public bool AddChoiceHashByServerScript;
+        [NonSerialized]
         public Dictionary<string, Choice> LinkedTitleHash = new Dictionary<string, Choice>();
         [NonSerialized]
         public Dictionary<string, string> ChoiceValueHash;
