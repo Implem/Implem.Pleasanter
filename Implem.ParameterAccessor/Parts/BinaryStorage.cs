@@ -49,7 +49,8 @@
 
         public bool IsLocal(string provider)
         {
-            return (!string.IsNullOrEmpty(provider) ? provider : Provider) == "Local";
+            var p = (!string.IsNullOrEmpty(provider) ? provider : Provider);
+            return p == "Local" || p == "LocalFolder";
         }
 
         public bool IsLocal()
