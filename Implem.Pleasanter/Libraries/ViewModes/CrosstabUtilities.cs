@@ -336,7 +336,8 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     context: context,
                     insertBlank: true,
                     checkBlankInSelection: true,
-                    view: view);
+                    view: view,
+                    limit: Parameters.General.CrosstabXLimit);
         }
 
         private static Dictionary<string, ControlData> CorrectedChoices(
@@ -409,7 +410,8 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 context: context,
                 insertBlank: true,
                 checkBlankInSelection: true,
-                view: view);
+                view: view,
+                limit: Parameters.General.CrosstabYLimit);
         }
 
         public static Dictionary<string, ControlData> ChoicesY(List<Column> columnList)
