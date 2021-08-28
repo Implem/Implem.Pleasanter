@@ -2080,23 +2080,29 @@ namespace Implem.Pleasanter.Models
                 : string.Empty;
             if (deptId > 0)
             {
+                var dept = SiteInfo.Dept(
+                    tenantId: context.TenantId,
+                    deptId: deptId);
                 data.Add(
                     $"Dept,{deptId}," + admin,
-                    new ControlData(SiteInfo.Dept(
-                        tenantId: context.TenantId,
-                        deptId: deptId)?.Name + manager));
+                    new ControlData(
+                        id: deptId,
+                        text: Displays.Depts(context: context),
+                        name: SiteInfo.Dept(
+                            tenantId: context.TenantId,
+                            deptId: deptId)?.Name + manager,
+                        title: dept?.Tooltip()));
             }
             else if (userId > 0)
             {
                 var user = SiteInfo.User(context, userId);
-                var mailAddress = Parameters.User.IsMailAddressSelectorToolTip()
-                    ? MailAddressUtilities.Get(context, userId)
-                    : string.Empty;
                 data.Add(
                     $"User,{userId},{admin}",
                     new ControlData(
-                        text: user.Name + manager,
-                        title: Strings.CoalesceEmpty(mailAddress, user.LoginId)));
+                        id: userId,
+                        text: Displays.Users(context: context),
+                        name: user.Name + manager,
+                        title: user?.Tooltip(context: context)));
             }
         }
 

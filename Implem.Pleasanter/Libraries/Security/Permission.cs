@@ -93,84 +93,70 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public ControlData ControlData(Context context, SiteSettings ss, bool withType = true)
         {
+            var typeName = withType
+                ? DisplayTypeName(context: context)
+                : null;
             switch (Name)
             {
                 case "Dept":
                     var dept = SiteInfo.Dept(
                         tenantId: context.TenantId,
                         deptId: Id);
-                    return DisplayText(
-                        context: context,
+                    return new ControlData(
+                        id: Id,
                         text: Displays.Depts(context: context),
                         name: Id != 0
                             ? dept?.Name
                             : null,
                         title: dept?.Tooltip(),
-                        withType: withType);
+                        typeName: typeName);
                 case "Group":
                     var group = SiteInfo.Group(
                         tenantId: context.TenantId,
                         groupId: Id);
-                    return DisplayText(
-                        context: context,
+                    return new ControlData(
+                        id: Id,
                         text: Displays.Groups(context: context),
                         name: Id != 0
                             ? group?.Name
                             : null,
                         title: group?.Tooltip(),
-                        withType: withType);
+                        typeName: typeName);
                 case "User":
                     var user = SiteInfo.User(
                         context: context,
                         userId: Id);
-                    return DisplayText(
-                        context: context,
+                    return new ControlData(
+                        id: Id,
                         text: Displays.Users(context: context),
                         name: Id != 0
                             ? user?.Name
                             : null,
                         title: user?.Tooltip(context: context),
-                        withType: withType);
+                        typeName: typeName);
                 default:
                     var column = ss?.GetColumn(
                         context: context,
                         columnName: Name);
-                    return DisplayText(
-                        context: context,
+                    return new ControlData(
+                        id: Id,
                         text: Displays.Column(context: context),
                         name: column?.LabelText,
                         title: column?.LabelTextDefault,
-                        withType: withType);
+                        typeName: typeName);
             }
-        }
-
-        private ControlData DisplayText(
-            Context context, string text, string name, string title, bool withType)
-        {
-            return new ControlData(
-                text: "[" + text +
-                    (Id != 0
-                        ? " " + Id
-                        : string.Empty) +
-                    "]" +
-                    (name != null
-                        ? " " + name
-                        : string.Empty) +
-                    (withType
-                        ? " - [" + DisplayTypeName(context: context) + "]"
-                        : string.Empty),
-                title: title);
         }
 
         private string DisplayTypeName(Context context)
         {
             var permissionType = Type.ToLong();
-            return Parameters.Permissions.Pattern.ContainsValue(permissionType)
+            var typeName = Parameters.Permissions.Pattern.ContainsValue(permissionType)
                 ? Displays.Get(
                     context: context,
                     id: Parameters.Permissions.Pattern.First(o =>
                         o.Value == permissionType).Key)
                 : Displays.Special(context: context);
+            return $" - [{typeName}]";
         }
     }
 }
