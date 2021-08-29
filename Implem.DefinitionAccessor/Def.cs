@@ -854,8 +854,6 @@ namespace Implem.DefinitionAccessor
                     case "Rds_SiteId": Code.Rds_SiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SiteId, definitionRow, CodeXls); break;
                     case "Rds_TitleColumn": Code.Rds_TitleColumn = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_TitleColumn, definitionRow, CodeXls); break;
                     case "Rds_TitleColumnCases": Code.Rds_TitleColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_TitleColumnCases, definitionRow, CodeXls); break;
-                    case "Rds_OnSelectingWhereExtendedSqls": Code.Rds_OnSelectingWhereExtendedSqls = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_OnSelectingWhereExtendedSqls, definitionRow, CodeXls); break;
-                    case "Rds_OnSelectingWhereExtendedSqlsSemicolon": Code.Rds_OnSelectingWhereExtendedSqlsSemicolon = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_OnSelectingWhereExtendedSqlsSemicolon, definitionRow, CodeXls); break;
                     case "Indexes": Code.Indexes = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Indexes, definitionRow, CodeXls); break;
                     case "Indexes_CreateTableByIdCases": Code.Indexes_CreateTableByIdCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Indexes_CreateTableByIdCases, definitionRow, CodeXls); break;
                     case "Indexes_SetChoiceHash": Code.Indexes_SetChoiceHash = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Indexes_SetChoiceHash, definitionRow, CodeXls); break;
@@ -1700,6 +1698,7 @@ namespace Implem.DefinitionAccessor
                     case "Sites_InheritPermission": Column.Sites_InheritPermission = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_InheritPermission, definitionRow, ColumnXls); break;
                     case "Sites_SiteSettings": Column.Sites_SiteSettings = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_SiteSettings, definitionRow, ColumnXls); break;
                     case "Sites_Publish": Column.Sites_Publish = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_Publish, definitionRow, ColumnXls); break;
+                    case "Sites_DisableCrossSearch": Column.Sites_DisableCrossSearch = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_DisableCrossSearch, definitionRow, ColumnXls); break;
                     case "Sites_LockedTime": Column.Sites_LockedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_LockedTime, definitionRow, ColumnXls); break;
                     case "Sites_LockedUser": Column.Sites_LockedUser = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_LockedUser, definitionRow, ColumnXls); break;
                     case "Sites_Ancestors": Column.Sites_Ancestors = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_Ancestors, definitionRow, ColumnXls); break;
@@ -7915,8 +7914,6 @@ namespace Implem.DefinitionAccessor
         public string Rds_SiteId;
         public string Rds_TitleColumn;
         public string Rds_TitleColumnCases;
-        public string Rds_OnSelectingWhereExtendedSqls;
-        public string Rds_OnSelectingWhereExtendedSqlsSemicolon;
         public string Indexes;
         public string Indexes_CreateTableByIdCases;
         public string Indexes_SetChoiceHash;
@@ -8596,8 +8593,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Rds_SiteId = new CodeDefinition();
         public CodeDefinition Rds_TitleColumn = new CodeDefinition();
         public CodeDefinition Rds_TitleColumnCases = new CodeDefinition();
-        public CodeDefinition Rds_OnSelectingWhereExtendedSqls = new CodeDefinition();
-        public CodeDefinition Rds_OnSelectingWhereExtendedSqlsSemicolon = new CodeDefinition();
         public CodeDefinition Indexes = new CodeDefinition();
         public CodeDefinition Indexes_CreateTableByIdCases = new CodeDefinition();
         public CodeDefinition Indexes_SetChoiceHash = new CodeDefinition();
@@ -9435,6 +9430,7 @@ namespace Implem.DefinitionAccessor
         public string Sites_InheritPermission;
         public string Sites_SiteSettings;
         public string Sites_Publish;
+        public string Sites_DisableCrossSearch;
         public string Sites_LockedTime;
         public string Sites_LockedUser;
         public string Sites_Ancestors;
@@ -9938,6 +9934,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Sites_InheritPermission = new ColumnDefinition();
         public ColumnDefinition Sites_SiteSettings = new ColumnDefinition();
         public ColumnDefinition Sites_Publish = new ColumnDefinition();
+        public ColumnDefinition Sites_DisableCrossSearch = new ColumnDefinition();
         public ColumnDefinition Sites_LockedTime = new ColumnDefinition();
         public ColumnDefinition Sites_LockedUser = new ColumnDefinition();
         public ColumnDefinition Sites_Ancestors = new ColumnDefinition();

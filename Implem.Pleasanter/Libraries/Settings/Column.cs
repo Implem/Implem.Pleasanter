@@ -189,6 +189,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public Dictionary<string, Choice> ChoiceHash;
         [NonSerialized]
+        public bool AddChoiceHashByServerScript;
+        [NonSerialized]
         public Dictionary<string, Choice> LinkedTitleHash = new Dictionary<string, Choice>();
         [NonSerialized]
         public Dictionary<string, string> ChoiceValueHash;
@@ -1636,6 +1638,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                             break;
                         case "Publish":
                             sql.Sites_Publish(tableName: path, _as: _as);
+                            break;
+                        case "DisableCrossSearch":
+                            sql.Sites_DisableCrossSearch(tableName: path, _as: _as);
                             break;
                         case "LockedTime":
                             sql.Sites_LockedTime(tableName: path, _as: _as);

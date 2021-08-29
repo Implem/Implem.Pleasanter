@@ -28,6 +28,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             Attributes = attributes;
         }
 
+        public ControlData(
+            int id,
+            string text,
+            string name,
+            string title,
+            string typeName = null)
+        {
+            Text = "["
+                + text
+                + (id != 0
+                    ? " " + id
+                    : string.Empty)
+                + "]"
+                + (name != null
+                    ? " " + name
+                    : string.Empty)
+                + typeName;
+            Title = title;
+        }
+
         public string DisplayValue(Context context)
         {
             return !Text.IsNullOrEmpty()

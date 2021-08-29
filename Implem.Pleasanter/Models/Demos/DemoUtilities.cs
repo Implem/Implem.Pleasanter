@@ -358,46 +358,49 @@ namespace Implem.Pleasanter.Models
                     var creator = idHash.Get(demoDefinition.Creator);
                     var updator = idHash.Get(demoDefinition.Updator);
                     context.UserId = updator.ToInt();
-                    idHash.Add(
-                        demoDefinition.Id, Repository.ExecuteScalar_response(
-                            context: context,
+                    var siteId = Repository.ExecuteScalar_response(
+                        context: context,
+                        selectIdentity: true,
+                        statements: new SqlStatement[]
+                        {
+                        Rds.InsertItems(
                             selectIdentity: true,
-                            statements: new SqlStatement[]
-                            {
-                            Rds.InsertItems(
-                                selectIdentity: true,
-                                param: Rds.ItemsParam()
-                                    .ReferenceType("Sites")
-                                    .Creator(creator)
-                                    .Updator(updator)
-                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(
-                                        context: context,
-                                        demoModel: demoModel))
-                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(
-                                        context: context,
-                                        demoModel: demoModel)),
-                                addUpdatorParam: false),
-                            Rds.InsertSites(
-                                param: Rds.SitesParam()
-                                    .TenantId(demoModel.TenantId)
-                                    .SiteId(raw: Def.Sql.Identity)
-                                    .Title(demoDefinition.Title)
-                                    .ReferenceType(demoDefinition.ClassA)
-                                    .ParentId(idHash.ContainsKey(demoDefinition.ParentId)
-                                        ? idHash.Get(demoDefinition.ParentId)
-                                        : 0)
-                                    .InheritPermission(idHash, topId, demoDefinition.ParentId)
-                                    .SiteSettings(demoDefinition.Body.Replace(idHash))
-                                    .Creator(creator)
-                                    .Updator(updator)
-                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(
-                                        context: context,
-                                        demoModel: demoModel))
-                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(
-                                        context: context,
-                                        demoModel: demoModel)),
-                                addUpdatorParam: false)
-                            }).Id.ToLong());
+                            param: Rds.ItemsParam()
+                                .ReferenceType("Sites")
+                                .Creator(creator)
+                                .Updator(updator)
+                                .CreatedTime(demoDefinition.CreatedTime.DemoTime(
+                                    context: context,
+                                    demoModel: demoModel))
+                                .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(
+                                    context: context,
+                                    demoModel: demoModel)),
+                            addUpdatorParam: false),
+                        Rds.InsertSites(
+                            param: Rds.SitesParam()
+                                .TenantId(demoModel.TenantId)
+                                .SiteId(raw: Def.Sql.Identity)
+                                .Title(demoDefinition.Title)
+                                .ReferenceType(demoDefinition.ClassA)
+                                .ParentId(idHash.ContainsKey(demoDefinition.ParentId)
+                                    ? idHash.Get(demoDefinition.ParentId)
+                                    : 0)
+                                .InheritPermission(idHash, topId, demoDefinition.ParentId)
+                                .SiteSettings(demoDefinition.Body.Replace(idHash))
+                                .Creator(creator)
+                                .Updator(updator)
+                                .CreatedTime(demoDefinition.CreatedTime.DemoTime(
+                                    context: context,
+                                    demoModel: demoModel))
+                                .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(
+                                    context: context,
+                                    demoModel: demoModel)),
+                            addUpdatorParam: false)
+                        }).Id.ToLong();
+                    idHash.Add(demoDefinition.Id, siteId);
+                    ssHash.AddIfNotConainsKey(siteId, SiteSettingsUtilities.Get(
+                        context: context,
+                        siteId: siteId));
                 });
         }
 

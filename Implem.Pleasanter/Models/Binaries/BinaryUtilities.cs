@@ -689,13 +689,18 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string BinaryStorageProvider(Column column)
         {
-            if (!Parameters.BinaryStorage.UseStorageSelect)
+            if (Parameters.BinaryStorage.UseStorageSelect)
             {
                 return string.IsNullOrEmpty(column?.BinaryStorageProvider)
-                ? Parameters.BinaryStorage.DefaultBinaryStorageProvider
-                : column?.BinaryStorageProvider;
+                    ? Parameters.BinaryStorage.DefaultBinaryStorageProvider
+                    : column?.BinaryStorageProvider;
             }
-            return column?.BinaryStorageProvider;
+            else
+            {
+                return Parameters.BinaryStorage.IsLocal()
+                    ? "LocalFolder"
+                    : "DataBase";
+            }
         }
 
         /// <summary>
