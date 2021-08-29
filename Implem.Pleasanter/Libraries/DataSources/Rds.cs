@@ -1341,6 +1341,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "InheritPermission": return "\"InheritPermission\"";
                         case "SiteSettings": return "\"SiteSettings\"";
                         case "Publish": return "\"Publish\"";
+                        case "DisableCrossSearch": return "\"DisableCrossSearch\"";
                         case "LockedTime": return "\"LockedTime\"";
                         case "LockedUser": return "\"LockedUser\"";
                         case "Ancestors": return "\"Ancestors\"";
@@ -3171,6 +3172,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 function: function);
                         case "Publish":
                             return self.Sites_Publish(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "DisableCrossSearch":
+                            return self.Sites_DisableCrossSearch(
                                 tableName: column.TableName(),
                                 orderType: orderType,
                                 function: function);
@@ -10626,6 +10632,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             column.InheritPermission(function: Sqls.Functions.SingleColumn); param.InheritPermission();
             column.SiteSettings(function: Sqls.Functions.SingleColumn); param.SiteSettings();
             column.Publish(function: Sqls.Functions.SingleColumn); param.Publish();
+            column.DisableCrossSearch(function: Sqls.Functions.SingleColumn); param.DisableCrossSearch();
             column.LockedTime(function: Sqls.Functions.SingleColumn); param.LockedTime();
             column.LockedUser(function: Sqls.Functions.SingleColumn); param.LockedUser();
             column.ApiCountDate(function: Sqls.Functions.SingleColumn); param.ApiCountDate();
@@ -13636,6 +13643,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""InheritPermission"",
                     ""SiteSettings"",
                     ""Publish"",
+                    ""DisableCrossSearch"",
                     ""LockedTime"",
                     ""LockedUser"",
                     ""ApiCountDate"",
@@ -13661,6 +13669,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Sites"".""InheritPermission"",
                     ""Sites"".""SiteSettings"",
                     ""Sites"".""Publish"",
+                    ""Sites"".""DisableCrossSearch"",
                     ""Sites"".""LockedTime"",
                     ""Sites"".""LockedUser"",
                     ""Sites"".""ApiCountDate"",
@@ -14927,6 +14936,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""InheritPermission"",
                     ""SiteSettings"",
                     ""Publish"",
+                    ""DisableCrossSearch"",
                     ""LockedTime"",
                     ""LockedUser"",
                     ""ApiCountDate"",
@@ -14952,6 +14962,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Sites_deleted"".""InheritPermission"",
                     ""Sites_deleted"".""SiteSettings"",
                     ""Sites_deleted"".""Publish"",
+                    ""Sites_deleted"".""DisableCrossSearch"",
                     ""Sites_deleted"".""LockedTime"",
                     ""Sites_deleted"".""LockedUser"",
                     ""Sites_deleted"".""ApiCountDate"",
@@ -74249,6 +74260,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     return self.SiteSettings(_as: _as, function: function);
                 case "Publish":
                     return self.Publish(_as: _as, function: function);
+                case "DisableCrossSearch":
+                    return self.DisableCrossSearch(_as: _as, function: function);
                 case "LockedTime":
                     return self.LockedTime(_as: _as, function: function);
                 case "LockedUser":
@@ -74711,6 +74724,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return self.Add(
                 columnBracket: "\"Publish\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SitesColumnCollection DisableCrossSearch(
+            this SitesColumnCollection self,
+            string tableName = "Sites",
+            string columnName = "DisableCrossSearch",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"DisableCrossSearch\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Sites_DisableCrossSearch(
+            this SqlColumnCollection self,
+            string tableName = "Sites",
+            string columnName = "DisableCrossSearch",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"DisableCrossSearch\"",
                 tableName: tableName,
                 columnName: columnName,
                 _as: _as,
@@ -75788,6 +75835,64 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBrackets: new string[] { "\"Publish\"" },
                     tableName: tableName,
                     name: "Publish",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SitesWhereCollection DisableCrossSearch(
+            this SitesWhereCollection self,
+            object value = null,
+            string tableName = "Sites",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"DisableCrossSearch\"" },
+                    tableName: tableName,
+                    name: "DisableCrossSearch",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Sites_DisableCrossSearch(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Sites",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"DisableCrossSearch\"" },
+                    tableName: tableName,
+                    name: "DisableCrossSearch",
                     value: value,
                     _operator: _operator,
                     multiColumnOperator: multiColumnOperator,
@@ -77135,6 +77240,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     case "InheritPermission": return self.InheritPermission();
                     case "SiteSettings": return self.SiteSettings();
                     case "Publish": return self.Publish();
+                    case "DisableCrossSearch": return self.DisableCrossSearch();
                     case "LockedTime": return self.LockedTime();
                     case "LockedUser": return self.LockedUser();
                     case "ApiCountDate": return self.ApiCountDate();
@@ -77321,6 +77427,18 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlGroupByCollection self, string tableName = "Sites")
         {
             return self.Add(columnBracket: "\"Publish\"", tableName: tableName);
+        }
+
+        public static SitesGroupByCollection DisableCrossSearch(
+            this SitesGroupByCollection self, string tableName = "Sites")
+        {
+            return self.Add(columnBracket: "\"DisableCrossSearch\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Sites_DisableCrossSearch(
+            this SqlGroupByCollection self, string tableName = "Sites")
+        {
+            return self.Add(columnBracket: "\"DisableCrossSearch\"", tableName: tableName);
         }
 
         public static SitesGroupByCollection LockedTime(
@@ -77658,6 +77776,21 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return self;
         }
 
+        public static SitesOrderByCollection DisableCrossSearch(
+            this SitesOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Sites",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"DisableCrossSearch\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
         public static SitesOrderByCollection LockedTime(
             this SitesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
@@ -77980,6 +78113,21 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Publish\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Sites_DisableCrossSearch(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Sites",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"DisableCrossSearch\"" }.ForEach(columnBracket =>
                 self.Add(
                     columnBracket: columnBracket,
                     orderType: orderType,
@@ -78566,6 +78714,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 ? self.Add(
                     columnBracket: "\"Publish\"",
                     name: "Publish",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SitesParamCollection DisableCrossSearch(
+            this SitesParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"DisableCrossSearch\"",
+                    name: "DisableCrossSearch",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Sites_DisableCrossSearch(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"DisableCrossSearch\"",
+                    name: "DisableCrossSearch",
                     value: value,
                     sub: sub,
                     raw: raw)
@@ -107973,6 +108155,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .InheritPermission()
                 .SiteSettings()
                 .Publish()
+                .DisableCrossSearch()
                 .LockedTime()
                 .LockedUser()
                 .ApiCountDate()
@@ -108022,6 +108205,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .InheritPermission(siteModel.InheritPermission, _using: siteModel.InheritPermission_Updated(context) || setDefault || (otherInitValue && !siteModel.InheritPermission.InitialValue(context)))
                 .SiteSettings(siteModel.SiteSettings.RecordingJson(context: context), _using: siteModel.SiteSettings_Updated(context) || (otherInitValue && !siteModel.SiteSettings.InitialValue(context)))
                 .Publish(siteModel.Publish, _using: siteModel.Publish_Updated(context) || (otherInitValue && !siteModel.Publish.InitialValue(context)))
+                .DisableCrossSearch(siteModel.DisableCrossSearch, _using: siteModel.DisableCrossSearch_Updated(context) || (otherInitValue && !siteModel.DisableCrossSearch.InitialValue(context)))
                 .LockedTime(siteModel.LockedTime.Value, _using: siteModel.LockedTime_Updated(context) || (otherInitValue && !siteModel.LockedTime.InitialValue(context)))
                 .LockedUser(siteModel.LockedUser.Id, _using: siteModel.LockedUser_Updated(context) || (otherInitValue && !siteModel.LockedUser.InitialValue(context)))
                 .ApiCountDate(siteModel.ApiCountDate, _using: siteModel.ApiCountDate_Updated(context) || (otherInitValue && !siteModel.ApiCountDate.InitialValue(context)))

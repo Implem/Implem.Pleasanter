@@ -1639,6 +1639,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "Publish":
                             sql.Sites_Publish(tableName: path, _as: _as);
                             break;
+                        case "DisableCrossSearch":
+                            sql.Sites_DisableCrossSearch(tableName: path, _as: _as);
+                            break;
                         case "LockedTime":
                             sql.Sites_LockedTime(tableName: path, _as: _as);
                             break;

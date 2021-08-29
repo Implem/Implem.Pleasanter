@@ -3898,7 +3898,7 @@ namespace Implem.Pleasanter.Models
                             .TimeSeriesSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .KambanSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .ImageLibSettingsEditor(context: context, ss: siteModel.SiteSettings)
-                            .SearchSettingsEditor(context: context, ss: siteModel.SiteSettings)
+                            .SearchSettingsEditor(context: context, siteModel: siteModel)
                             .MailSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .SiteIntegrationEditor(context: context, ss: siteModel.SiteSettings)
                             .StylesSettingsEditor(context: context, ss: siteModel.SiteSettings)
@@ -8864,38 +8864,47 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static HtmlBuilder SearchSettingsEditor(
-            this HtmlBuilder hb, Context context, SiteSettings ss)
+            this HtmlBuilder hb,
+            Context context,
+            SiteModel siteModel)
         {
+            var ss = siteModel.SiteSettings;
             return hb.FieldSet(id: "SearchSettingsEditor", action: () => hb
                 .FieldSet(
                     id: "SearchSettingsEditorGeneral",
                     css: " enclosed",
                     legendText: Displays.SearchSettings(context: context),
-                    action: () => hb.FieldDropDown(
-                        context: context,
-                        controlId: "SearchType",
-                        controlCss: " always-send",
-                        labelText: Displays.SearchTypes(context: context),
-                        optionCollection: new Dictionary<string, string>()
-                        {
+                    action: () => hb
+                        .FieldDropDown(
+                            context: context,
+                            controlId: "SearchType",
+                            controlCss: " always-send",
+                            labelText: Displays.SearchTypes(context: context),
+                            optionCollection: new Dictionary<string, string>()
                             {
-                                SiteSettings.SearchTypes.FullText.ToInt().ToString(),
-                                Displays.FullText(context: context)
+                                {
+                                    SiteSettings.SearchTypes.FullText.ToInt().ToString(),
+                                    Displays.FullText(context: context)
+                                },
+                                {
+                                    SiteSettings.SearchTypes.PartialMatch.ToInt().ToString(),
+                                    Displays.PartialMatch(context: context)
+                                },
+                                {
+                                    SiteSettings.SearchTypes.MatchInFrontOfTitle.ToInt().ToString(),
+                                    Displays.MatchInFrontOfTitle(context: context)
+                                },
+                                {
+                                    SiteSettings.SearchTypes.BroadMatchOfTitle.ToInt().ToString(),
+                                    Displays.BroadMatchOfTitle(context: context)
+                                }
                             },
-                            {
-                                SiteSettings.SearchTypes.PartialMatch.ToInt().ToString(),
-                                Displays.PartialMatch(context: context)
-                            },
-                            {
-                                SiteSettings.SearchTypes.MatchInFrontOfTitle.ToInt().ToString(),
-                                Displays.MatchInFrontOfTitle(context: context)
-                            },
-                            {
-                                SiteSettings.SearchTypes.BroadMatchOfTitle.ToInt().ToString(),
-                                Displays.BroadMatchOfTitle(context: context)
-                            }
-                        },
-                        selectedValue: ss.SearchType.ToInt().ToString()))
+                            selectedValue: ss.SearchType.ToInt().ToString())
+                        .FieldCheckBox(
+                            controlId: "Sites_DisableCrossSearch",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.Sites_DisableCrossSearch(context: context),
+                            _checked: siteModel.DisableCrossSearch))
                 .FieldSet(
                     id: "SearchSettingsEditorFulltext",
                     css: " enclosed",
