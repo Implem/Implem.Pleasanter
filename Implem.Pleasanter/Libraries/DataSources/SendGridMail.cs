@@ -17,7 +17,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
     {
         public string Host;
         public EmailAddress From;
-        public EmailAddress To;
+        public string To;
         public string Cc;
         public string Bcc;
         public string Subject;
@@ -36,9 +36,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             Context = context;
             Host = host;
-            From = new EmailAddress(from.Address);
-            To = new EmailAddress(Strings.CoalesceEmpty(
-                to, Parameters.Mail.FixedFrom, Parameters.Mail.SupportFrom));
+            From = new EmailAddress(from.Address, from.DisplayName);
+            To = Strings.CoalesceEmpty(to, Parameters.Mail.FixedFrom, Parameters.Mail.SupportFrom);
             Cc = cc;
             Bcc = bcc;
             Subject = subject;
@@ -49,15 +48,47 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             try
             {
-                var msg = MailHelper.CreateSingleEmail(From, To, Subject, Body, Body);
+                var existAddresses = new List<string>();
+                var client = new SendGridClient(Parameters.Mail.SmtpPassword);
+                var msg = new SendGridMessage()
+                {
+                    From = From,
+                    Subject = Subject,
+                    PlainTextContent = Body
+                };
+                Addresses.Get(
+                    context: context,
+                    addresses: To)
+                        .ForEach(to =>
+                        {
+                            var mailAddress = new MailAddress(to);
+                            existAddresses.Add(mailAddress.Address);
+                            msg.AddTo(mailAddress.Address, mailAddress.DisplayName);
+                        });
                 Addresses.Get(
                     context: context,
                     addresses: Cc)
-                        .ForEach(cc => msg.AddCc(cc));
+                        .ForEach(cc =>
+                        {
+                            var mailAddress = new MailAddress(cc);
+                            if (!existAddresses.Contains(mailAddress.Address))
+                            {
+                                existAddresses.Add(mailAddress.Address);
+                                msg.AddCc(mailAddress.Address, mailAddress.DisplayName);
+                            }
+                        });
                 Addresses.Get(
                     context: context,
                     addresses: Bcc)
-                        .ForEach(bcc => msg.AddBcc(bcc));
+                        .ForEach(bcc =>
+                        {
+                            var mailAddress = new MailAddress(bcc);
+                            if (!existAddresses.Contains(mailAddress.Address))
+                            {
+                                existAddresses.Add(mailAddress.Address);
+                                msg.AddBcc(mailAddress.Address, mailAddress.DisplayName);
+                            }
+                        });
                 attachments
                     ?.Where(attachment => attachment?.Base64?.IsNullOrEmpty() == false)
                     .ForEach(attachment =>
@@ -67,37 +98,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             base64Content: attachment.Base64,
                             type: attachment.ContentType);
                     });
-                var client = new SendGridClient(Parameters.Mail.SmtpPassword);
-                var response = await client.SendEmailAsync(msg);
+                var response = await client.SendEmailAsync(msg).ConfigureAwait(false);
             }
             catch (Exception e)
             {
                 new SysLogModel(Context, e);
             }
-        }
-
-        private IDictionary<string, IDictionary<string, string>> CreateAddressInfo(string address)
-        {
-            var mailAddress = new MailAddress(address);
-            return new Dictionary<string, IDictionary<string, string>>
-            {
-                [mailAddress.Address] = new Dictionary<string, string>
-                {
-                    ["DisplayName"] = mailAddress.DisplayName.IsNullOrEmpty()
-                        ? mailAddress.Address
-                        : mailAddress.DisplayName
-                }
-            };
-        }
-
-        private MailAddress CreateMailAddress(string address)
-        {
-            var mailAddress = new MailAddress(address);
-            return new MailAddress(
-                mailAddress.Address,
-                mailAddress.DisplayName.IsNullOrEmpty()
-                    ? mailAddress.Address
-                    : mailAddress.DisplayName);
         }
     }
 }
