@@ -72,14 +72,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             ?.Where(attachment => attachment?.Base64?.IsNullOrEmpty() == false)
                             .ForEach(attachment =>
                             {
-                                var bytes = Convert.FromBase64String(attachment.Base64);
-                                using (var memoryStream = new MemoryStream(bytes))
-                                {
-                                    var attach = new System.Net.Mail.Attachment(
-                                        contentStream: memoryStream,
-                                        name: Strings.CoalesceEmpty(attachment.Name, "NoName"));
-                                    mailMessage.Attachments.Add(attach);
-                                }
+                                var attach = System.Net.Mail.Attachment.CreateAttachmentFromString(
+                                    content: attachment.Base64,
+                                    name: Strings.CoalesceEmpty(attachment.Name, "NoName"));
+                                mailMessage.Attachments.Add(attach);
                             });
                         using (var smtpClient = new SmtpClient())
                         {
