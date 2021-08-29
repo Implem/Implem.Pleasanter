@@ -126,9 +126,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .DeptName(deptName),
                     where: Rds.DeptsWhere().DeptCode(deptCode)));
             }
+            var exists = Rds.ExecuteScalar_int(
+                context: context,
+                statements: Rds.SelectUsers(
+                    column: Rds.UsersColumn().UsersCount(),
+                    where: Rds.UsersWhere().LoginId(loginId, _operator: context.Sqls.Like))) == 1;
             var param = Rds.UsersParam()
                 .TenantId(ldap.LdapTenantId)
-                .LoginId(loginId)
+                .LoginId(loginId, _using: !exists)
                 .UserCode(userCode)
                 .Name(name)
                 .DeptId(
@@ -149,7 +154,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         pattern: attribute.Pattern)));
             statements.Add(Rds.UpdateOrInsertUsers(
                 param: param,
-                where: Rds.UsersWhere().LoginId(loginId),
+                where: Rds.UsersWhere().LoginId(loginId, _operator: context.Sqls.Like),
                 addUpdatorParam: false,
                 addUpdatedTimeParam: false));
             if (!mailAddress.IsNullOrEmpty())
@@ -159,12 +164,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .OwnerType("Users")
                         .OwnerId(sub: Rds.SelectUsers(
                             column: Rds.UsersColumn().UserId(),
-                            where: Rds.UsersWhere().LoginId(loginId)))));
+                            where: Rds.UsersWhere().LoginId(loginId, _operator: context.Sqls.Like)))));
                 statements.Add(Rds.InsertMailAddresses(
                     param: Rds.MailAddressesParam()
                         .OwnerId(sub: Rds.SelectUsers(
                             column: Rds.UsersColumn().UserId(),
-                            where: Rds.UsersWhere().LoginId(loginId)))
+                            where: Rds.UsersWhere().LoginId(loginId, _operator: context.Sqls.Like)))
                         .OwnerType("Users")
                         .MailAddress(mailAddress)));
             }

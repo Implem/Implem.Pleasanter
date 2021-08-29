@@ -2199,7 +2199,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.SelectUsers(
                 column: Rds.UsersColumn().UserId(),
-                where: Rds.UsersWhere().LoginId(registrationModel.LoginId)));
+                where: Rds.UsersWhere().LoginId(registrationModel.LoginId, _operator: context.Sqls.Like)));
             if (existsId != 0)
             {
                 return Messages.ResponseLoginIdAlreadyUse(context: context).ToJson();
