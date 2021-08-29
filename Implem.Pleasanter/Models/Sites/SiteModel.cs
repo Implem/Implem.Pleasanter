@@ -34,6 +34,7 @@ namespace Implem.Pleasanter.Models
         public long ParentId = 0;
         public long InheritPermission = 0;
         public bool Publish = false;
+        public bool DisableCrossSearch = false;
         public Time LockedTime = new Time();
         public User LockedUser = new User();
         public SiteCollection Ancestors = null;
@@ -60,6 +61,7 @@ namespace Implem.Pleasanter.Models
         public long SavedInheritPermission = 0;
         public string SavedSiteSettings = string.Empty;
         public bool SavedPublish = false;
+        public bool SavedDisableCrossSearch = false;
         public DateTime SavedLockedTime = 0.ToDateTime();
         public int SavedLockedUser = 0;
         public SiteCollection SavedAncestors = null;
@@ -132,6 +134,14 @@ namespace Implem.Pleasanter.Models
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.GetDefaultInput(context: context).ToBool() != Publish);
+        }
+
+        public bool DisableCrossSearch_Updated(Context context, Column column = null)
+        {
+            return DisableCrossSearch != SavedDisableCrossSearch &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToBool() != DisableCrossSearch);
         }
 
         public bool LockedUser_Updated(Context context, Column column = null)
@@ -248,6 +258,7 @@ namespace Implem.Pleasanter.Models
                 case "InheritPermission": return InheritPermission.ToString();
                 case "SiteSettings": return SiteSettings.RecordingJson(context: context);
                 case "Publish": return Publish.ToString();
+                case "DisableCrossSearch": return DisableCrossSearch.ToString();
                 case "LockedTime": return LockedTime.Value.ToString();
                 case "LockedUser": return LockedUser.Id.ToString();
                 case "Ancestors": return Ancestors.ToString();
@@ -320,6 +331,9 @@ namespace Implem.Pleasanter.Models
                         case "Publish":
                             hash.Add("Publish", Publish.ToString());
                             break;
+                        case "DisableCrossSearch":
+                            hash.Add("DisableCrossSearch", DisableCrossSearch.ToString());
+                            break;
                         case "LockedTime":
                             hash.Add("LockedTime", LockedTime.Value.ToString());
                             break;
@@ -390,6 +404,7 @@ namespace Implem.Pleasanter.Models
                 case "InheritPermission": return InheritPermission_Updated(context: context);
                 case "SiteSettings": return SiteSettings_Updated(context: context);
                 case "Publish": return Publish_Updated(context: context);
+                case "DisableCrossSearch": return DisableCrossSearch_Updated(context: context);
                 case "LockedTime": return LockedTime_Updated(context: context);
                 case "LockedUser": return LockedUser_Updated(context: context);
                 case "ApiCountDate": return ApiCountDate_Updated(context: context);
@@ -968,6 +983,7 @@ namespace Implem.Pleasanter.Models
                     case "Sites_ReferenceType": ReferenceType = value.ToString(); break;
                     case "Sites_InheritPermission": InheritPermission = value.ToLong(); break;
                     case "Sites_Publish": Publish = value.ToBool(); break;
+                    case "Sites_DisableCrossSearch": DisableCrossSearch = value.ToBool(); break;
                     case "Sites_Timestamp": Timestamp = value.ToString(); break;
                     case "Comments": Comments.Prepend(
                         context: context,
@@ -1062,6 +1078,7 @@ namespace Implem.Pleasanter.Models
             InheritPermission = siteModel.InheritPermission;
             SiteSettings = siteModel.SiteSettings;
             Publish = siteModel.Publish;
+            DisableCrossSearch = siteModel.DisableCrossSearch;
             LockedTime = siteModel.LockedTime;
             LockedUser = siteModel.LockedUser;
             Ancestors = siteModel.Ancestors;
@@ -1100,6 +1117,7 @@ namespace Implem.Pleasanter.Models
             if (data.ReferenceType != null) ReferenceType = data.ReferenceType.ToString().ToString();
             if (data.InheritPermission != null) InheritPermission = data.InheritPermission.ToLong().ToLong();
             if (data.Publish != null) Publish = data.Publish.ToBool().ToBool();
+            if (data.DisableCrossSearch != null) DisableCrossSearch = data.DisableCrossSearch.ToBool().ToBool();
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             data.ClassHash?.ForEach(o => Class(
@@ -1344,6 +1362,10 @@ namespace Implem.Pleasanter.Models
                             Publish = dataRow[column.ColumnName].ToBool();
                             SavedPublish = Publish;
                             break;
+                        case "DisableCrossSearch":
+                            DisableCrossSearch = dataRow[column.ColumnName].ToBool();
+                            SavedDisableCrossSearch = DisableCrossSearch;
+                            break;
                         case "LockedTime":
                             LockedTime = new Time(context, dataRow, column.ColumnName);
                             SavedLockedTime = LockedTime.Value;
@@ -1455,6 +1477,7 @@ namespace Implem.Pleasanter.Models
                 || InheritPermission_Updated(context: context)
                 || SiteSettings_Updated(context: context)
                 || Publish_Updated(context: context)
+                || DisableCrossSearch_Updated(context: context)
                 || LockedTime_Updated(context: context)
                 || LockedUser_Updated(context: context)
                 || ApiCountDate_Updated(context: context)

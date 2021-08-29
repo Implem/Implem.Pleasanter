@@ -70,11 +70,16 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public void WriteToLocal(Context context)
         {
+            var filePath = Path.Combine(
+                Directories.BinaryStorage(),
+                "Attachments",
+                Guid);
+            if (!new FileInfo(filePath).Directory.Exists)
+            {
+                Directory.CreateDirectory(new FileInfo(filePath).Directory.FullName);
+            }
             new FileInfo(Path.Combine(Directories.Temp(), Guid, Name ?? FileName))
-                .CopyTo(Path.Combine(
-                    Directories.BinaryStorage(),
-                    "Attachments",
-                    Guid), overwrite: true);
+                .CopyTo(filePath, overwrite: true);
         }
 
         public void DeleteFromLocal(Context context)

@@ -743,13 +743,20 @@ namespace Implem.Pleasanter.Models
                 .Where(scriptColumn => scriptColumn.Value?.ChoiceHash != null)
                 .ForEach(scriptColumn =>
                 {
-                    var columns = ss.GetColumn(
+                    var column = ss.GetColumn(
                         context: context,
                         columnName: scriptColumn.Key);
-                    if (columns != null)
+                    if (column != null)
                     {
-                        columns.ChoiceHash = scriptColumn.Value
+                        var searchText = context.Forms.Data("DropDownSearchText");
+                        var searchIndexes = searchText.SearchIndexes();
+                        column.AddChoiceHashByServerScript = true;
+                        column.ChoiceHash = scriptColumn.Value
                             ?.ChoiceHash
+                            ?.Where(o => searchIndexes?.Any() != true ||
+                                searchIndexes.All(p =>
+                                    o.Key.ToString() == p ||
+                                    (o.Value?.ToString()).RegexLike(p).Any()))
                             ?.ToDictionary(
                                 o => o.Key.ToString(),
                                 o => new Choice(

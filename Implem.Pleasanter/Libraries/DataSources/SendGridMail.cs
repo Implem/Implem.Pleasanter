@@ -4,19 +4,19 @@ using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Mails;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net.Mail;
-using System.Text;
 using System.Threading.Tasks;
 namespace Implem.Pleasanter.Libraries.DataSources
 {
     public class SendGridMail
     {
         public string Host;
-        public MailAddress From;
+        public EmailAddress From;
         public string To;
         public string Cc;
         public string Bcc;
@@ -36,7 +36,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             Context = context;
             Host = host;
-            From = from;
+            From = new EmailAddress(from.Address, from.DisplayName);
             To = Strings.CoalesceEmpty(to, Parameters.Mail.FixedFrom, Parameters.Mail.SupportFrom);
             Cc = cc;
             Bcc = bcc;
@@ -44,85 +44,66 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Body = body;
         }
 
-        public void SendAsync(Context context, Attachments attachments = null)
+        public async Task SendAsync(Context context, Attachments attachments = null)
         {
-            Task.Run(() =>
+            try
             {
-                try
+                var existAddresses = new List<string>();
+                var client = new SendGridClient(Parameters.Mail.SmtpPassword);
+                var msg = new SendGridMessage()
                 {
-                    var sendGridMessage = new SendGrid.SendGridMessage();
-                    sendGridMessage.From = Addresses.From(From);
-                    Addresses.Get(
-                        context: context,
-                        addresses: To)
-                           .ForEach(to => sendGridMessage.AddTo(CreateAddressInfo(to)));
-                    Addresses.Get(
-                        context: context,
-                        addresses: Cc)
-                            .ForEach(cc => sendGridMessage.AddCc(CreateMailAddress(cc)));
-                    Addresses.Get(
-                        context: context,
-                        addresses: Bcc)
-                            .ForEach(bcc => sendGridMessage.AddBcc(CreateMailAddress(bcc)));
-                    sendGridMessage.Subject = Subject;
-                    sendGridMessage.Text = Body;
-                    attachments
-                        ?.Where(attachment => attachment?.Base64?.IsNullOrEmpty() == false)
-                        .ForEach(attachment =>
+                    From = From,
+                    Subject = Subject,
+                    PlainTextContent = Body
+                };
+                Addresses.Get(
+                    context: context,
+                    addresses: To)
+                        .ForEach(to =>
                         {
-                            var bytes = Convert.FromBase64String(attachment.Base64);
-                            using (var memoryStream = new MemoryStream(bytes))
+                            var mailAddress = new MailAddress(to);
+                            existAddresses.Add(mailAddress.Address);
+                            msg.AddTo(mailAddress.Address, mailAddress.DisplayName);
+                        });
+                Addresses.Get(
+                    context: context,
+                    addresses: Cc)
+                        .ForEach(cc =>
+                        {
+                            var mailAddress = new MailAddress(cc);
+                            if (!existAddresses.Contains(mailAddress.Address))
                             {
-                                var utfstr = Encoding.GetEncoding("iso-2022-jp").GetBytes(Strings.CoalesceEmpty(attachment.Name, "NoName"));
-                                var base64str = Convert.ToBase64String(utfstr);
-                                var sendName = "=?iso-2022-jp?B?" + base64str + "?=";
-                                sendGridMessage.AddAttachment(
-                                    stream: memoryStream,
-                                    name: sendName);
+                                existAddresses.Add(mailAddress.Address);
+                                msg.AddCc(mailAddress.Address, mailAddress.DisplayName);
                             }
                         });
-                    if (Parameters.Mail.SmtpUserName.ToLower() == "apikey")
+                Addresses.Get(
+                    context: context,
+                    addresses: Bcc)
+                        .ForEach(bcc =>
+                        {
+                            var mailAddress = new MailAddress(bcc);
+                            if (!existAddresses.Contains(mailAddress.Address))
+                            {
+                                existAddresses.Add(mailAddress.Address);
+                                msg.AddBcc(mailAddress.Address, mailAddress.DisplayName);
+                            }
+                        });
+                attachments
+                    ?.Where(attachment => attachment?.Base64?.IsNullOrEmpty() == false)
+                    .ForEach(attachment =>
                     {
-                        new SendGrid.Web(apiKey: Parameters.Mail.SmtpPassword)
-                            .DeliverAsync(sendGridMessage);
-                    }
-                    else
-                    {
-                        new SendGrid.Web(new System.Net.NetworkCredential(
-                            Parameters.Mail.SmtpUserName,
-                            Parameters.Mail.SmtpPassword))
-                                .DeliverAsync(sendGridMessage);
-                    }
-                }
-                catch (Exception e)
-                {
-                    new SysLogModel(Context, e);
-                }
-            });
-        }
-
-        private IDictionary<string, IDictionary<string, string>> CreateAddressInfo(string address)
-        {
-            var mailAddress = new MailAddress(address);
-            return new Dictionary<string, IDictionary<string, string>>
+                        msg.AddAttachment(
+                            filename: Strings.CoalesceEmpty(attachment.Name, "NoName"),
+                            base64Content: attachment.Base64,
+                            type: attachment.ContentType);
+                    });
+                var response = await client.SendEmailAsync(msg).ConfigureAwait(false);
+            }
+            catch (Exception e)
             {
-                [mailAddress.Address] = new Dictionary<string, string>
-                {
-                    ["DisplayName"] = mailAddress.DisplayName.IsNullOrEmpty()
-                        ? mailAddress.Address
-                        : mailAddress.DisplayName
-                }
-            };
-        }
-
-        private MailAddress CreateMailAddress(string address)
-        {
-            var mailAddress = new MailAddress(address);
-            return new MailAddress(
-                mailAddress.Address,
-                mailAddress.DisplayName.IsNullOrEmpty()
-                    ? mailAddress.Address
-                    : mailAddress.DisplayName);
+                new SysLogModel(Context, e);
+            }
         }
     }
 }

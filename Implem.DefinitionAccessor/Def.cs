@@ -1686,6 +1686,7 @@ namespace Implem.DefinitionAccessor
                     case "Sites_InheritPermission": Column.Sites_InheritPermission = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_InheritPermission, definitionRow, ColumnXls); break;
                     case "Sites_SiteSettings": Column.Sites_SiteSettings = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_SiteSettings, definitionRow, ColumnXls); break;
                     case "Sites_Publish": Column.Sites_Publish = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_Publish, definitionRow, ColumnXls); break;
+                    case "Sites_DisableCrossSearch": Column.Sites_DisableCrossSearch = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_DisableCrossSearch, definitionRow, ColumnXls); break;
                     case "Sites_LockedTime": Column.Sites_LockedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_LockedTime, definitionRow, ColumnXls); break;
                     case "Sites_LockedUser": Column.Sites_LockedUser = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_LockedUser, definitionRow, ColumnXls); break;
                     case "Sites_Ancestors": Column.Sites_Ancestors = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_Ancestors, definitionRow, ColumnXls); break;
@@ -9355,6 +9356,7 @@ namespace Implem.DefinitionAccessor
         public string Sites_InheritPermission;
         public string Sites_SiteSettings;
         public string Sites_Publish;
+        public string Sites_DisableCrossSearch;
         public string Sites_LockedTime;
         public string Sites_LockedUser;
         public string Sites_Ancestors;
@@ -9858,6 +9860,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Sites_InheritPermission = new ColumnDefinition();
         public ColumnDefinition Sites_SiteSettings = new ColumnDefinition();
         public ColumnDefinition Sites_Publish = new ColumnDefinition();
+        public ColumnDefinition Sites_DisableCrossSearch = new ColumnDefinition();
         public ColumnDefinition Sites_LockedTime = new ColumnDefinition();
         public ColumnDefinition Sites_LockedUser = new ColumnDefinition();
         public ColumnDefinition Sites_Ancestors = new ColumnDefinition();

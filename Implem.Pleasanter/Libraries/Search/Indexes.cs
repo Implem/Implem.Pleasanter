@@ -780,7 +780,8 @@ namespace Implem.Pleasanter.Libraries.Search
                             _using: !context.HasPrivilege && !context.Publish)
                         .Add(
                             raw: "\"Items\".\"SiteId\" in ({0})".Params(siteIdList?.Join()),
-                            _using: siteIdList?.Any() == true),
+                            _using: siteIdList?.Any() == true)
+                        .Add(raw: $"{context.Sqls.IsNull}(\"Sites\".\"DisableCrossSearch\",'false')='false'"),
                     param: FullTextParam(words),
                     orderBy: orderBy,
                     offset: offset,

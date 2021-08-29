@@ -18,6 +18,7 @@ namespace Implem.Pleasanter.Models
         public long? InheritPermission { get; set; }
         public string SiteSettings { get; set; }
         public bool? Publish { get; set; }
+        public bool? DisableCrossSearch { get; set; }
         public DateTime? LockedTime { get; set; }
         public int? LockedUser { get; set; }
         public DateTime? ApiCountDate { get; set; }

@@ -10609,6 +10609,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Sites_DisableCrossSearch(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sites_DisableCrossSearch",
+                data: data);
+        }
+
         public static string Sites_LockedTime(
             Context context,
             params string[] data)

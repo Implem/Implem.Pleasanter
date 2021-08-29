@@ -3583,6 +3583,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var columns = new List<Column>();
             Columns?
                 .Where(o => o.HasChoices())
+                .Where(o => !o.AddChoiceHashByServerScript)
                 .Where(o => columnName == null || o.ColumnName == columnName)
                 .ForEach(column =>
                 {
