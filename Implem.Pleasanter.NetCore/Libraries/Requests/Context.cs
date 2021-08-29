@@ -296,7 +296,7 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
                                 loginId: AspNetCoreHttpContext.Current?.User?.Identity.Name)
                                     ? SessionData.Get("SwitchLoginId")
                                     : null,
-                            LoginId))));
+                            LoginId), _operator: Sqls.Like)));
                 }
                 else
                 {
