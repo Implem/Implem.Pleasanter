@@ -769,8 +769,13 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public SysLogModel(Context context, Exception e, Logs logs = null)
+        public SysLogModel(
+            Context context,
+            Exception e,
+            Logs logs = null,
+            SysLogTypes sysLogType = SysLogTypes.Execption)
         {
+            SysLogType = sysLogType;
             Class = context.Controller;
             Method = context.Action;
             ErrMessage = e.Message + (logs?.Any() == true
