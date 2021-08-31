@@ -290,5 +290,17 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 idHash.AddOrUpdate(e.SiteId, e.SavedSiteId ?? 0));
             return idHash;
         }
+
+        public void ConvertInheritPermissionInNotIncluded()
+        {
+            var includeSiteIds = HeaderInfo.Convertors
+                .Where(o => o != null)
+                .Where(o => o.SiteId > 0)
+                .Select(o => o.SiteId)
+                .ToList();
+            Sites
+                .Where(site => !includeSiteIds.Contains(site.InheritPermission))
+                .ForEach(site => site.InheritPermission = includeSiteIds.FirstOrDefault());
+        }
     }
 }

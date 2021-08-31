@@ -100,6 +100,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                                 .ToJson();
                     }
                 }
+                sitePackage.ConvertInheritPermissionInNotIncluded();
                 sitePackage.HeaderInfo.SavedBaseSiteId = context.SiteId;
                 sitePackage.HeaderInfo.SavedInheritPermission = ss.InheritPermission;
                 foreach (var conv in sitePackage.HeaderInfo.Convertors)
