@@ -4863,6 +4863,7 @@ namespace Implem.Pleasanter.Models
         {
             var limit = context.ContractSettings.ApiLimit();
             var reset = false;
+            var beforeResetCount = ApiCount;
             if (limit > 0)
             {
                 var today = DateTime.Now.ToDateTime().ToLocal(context: context).Date;
@@ -4882,6 +4883,7 @@ namespace Implem.Pleasanter.Models
                 {
                     LogApiCountReset(
                         context: context,
+                        beforeResetCount: beforeResetCount,
                         apiCount: ApiCount);
                 }
                 return true;
@@ -4910,7 +4912,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static void LogApiCountReset(Context context, int apiCount)
+        private static void LogApiCountReset(Context context, int beforeResetCount, int apiCount)
         {
             new SysLogModel(
                 context: context,
@@ -4918,7 +4920,11 @@ namespace Implem.Pleasanter.Models
                 method: nameof(LogApiCountReset),
                 message: Displays.ApiCountReset(
                     context: context,
-                    apiCount.ToString()));
+                    new string[]
+                    {
+                        beforeResetCount.ToString(),
+                        apiCount.ToString()
+                    }));
         }
     }
 }
