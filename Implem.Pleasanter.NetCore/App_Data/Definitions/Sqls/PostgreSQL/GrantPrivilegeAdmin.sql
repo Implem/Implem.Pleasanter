@@ -1,1 +1,1 @@
-﻿alter role "#Uid#" superuser;
+﻿alter role "#Uid#";
