@@ -90,7 +90,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             return view;
         }
 
-        private static void SetSession(
+        public static void SetSession(
             Context context,
             SiteSettings ss,
             View view,

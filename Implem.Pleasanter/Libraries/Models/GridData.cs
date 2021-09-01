@@ -114,11 +114,13 @@ namespace Implem.Pleasanter.Libraries.Models
             }
             catch (System.Exception e)
             {
-                SessionUtilities.Set(
+                Views.SetSession(
                     context: context,
+                    ss: ss,
+                    view: new View(),
+                    setSession: true,
                     key: "View",
-                    value: null,
-                    page: true);
+                    useUsersView: ss.SaveViewType == SiteSettings.SaveViewTypes.User);
                 throw e;
             }
             DataRows = dataSet.Tables["Main"].AsEnumerable();
