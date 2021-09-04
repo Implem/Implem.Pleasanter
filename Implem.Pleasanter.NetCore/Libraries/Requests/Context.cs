@@ -178,7 +178,6 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
             if (HasRoute)
             {
                 var request = AspNetCoreHttpContext.Current?.Request;
-                var userHostAddress = GetUserHostAddress();
                 FormStringRaw = CreateFormStringRaw(AspNetCoreHttpContext.Current.Request);
                 FormString = HttpUtility.UrlDecode(FormStringRaw, System.Text.Encoding.UTF8);
                 HttpMethod = request?.Method;
@@ -196,8 +195,8 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
                 Action = RouteData.Get("action")?.ToLower() ?? string.Empty;
                 Id = RouteData.Get("id")?.ToLong() ?? 0;
                 Guid = RouteData.Get("guid")?.ToUpper();
-                UserHostName = userHostAddress;
-                UserHostAddress = userHostAddress;
+                UserHostName = AspNetCoreHttpContext.Current?.Connection?.RemoteIpAddress?.ToString();
+                UserHostAddress = GetUserHostAddress();
                 UserAgent = CreateUserAgent(AspNetCoreHttpContext.Current.Request);
             }
         }
