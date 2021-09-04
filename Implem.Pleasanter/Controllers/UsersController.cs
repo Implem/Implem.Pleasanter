@@ -375,6 +375,19 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
+        public string OpenChangePasswordDialog(Context context)
+        {
+            var log = new SysLogModel(context: context);
+            var json = UserUtilities.OpenChangePasswordDialog(
+                context: context,
+                ss: SiteSettingsUtilities.UsersSiteSettings(context: context));
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public string ChangePassword(Context context, int id)
         {
             var log = new SysLogModel(context: context);
