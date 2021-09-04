@@ -954,6 +954,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
+            long copyFrom = 0,
             bool extendedSqls = true,
             bool synchronizeSummary = true,
             bool forceSynchronizeSourceSummary = false,
@@ -1055,6 +1056,17 @@ namespace Implem.Pleasanter.Models
                 Get(
                     context: context,
                     ss: ss);
+            }
+            if (copyFrom > 0)
+            {
+                ss.LinkActions(
+                    context: context,
+                    type: "CopyWithLinks",
+                    data: new Dictionary<string, string>()
+                    {
+                        { "From", copyFrom.ToString() },
+                        { "To", ResultId.ToString() }
+                    });
             }
             SetByAfterCreateServerScript(
                 context: context,
