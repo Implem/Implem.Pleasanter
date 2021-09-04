@@ -1555,6 +1555,11 @@ namespace Implem.Pleasanter.Models
                             value: context.QueryStrings.Data("FromSiteId"),
                             _using: context.QueryStrings.Long("FromSiteId") > 0)
                         .Hidden(
+                            controlId: "CopyFrom",
+                            css: "control-hidden",
+                            value: context.QueryStrings.Long("CopyFrom").ToString(),
+                            _using: context.QueryStrings.Long("CopyFrom") > 0)
+                        .Hidden(
                             controlId: "LinkId",
                             css: "control-hidden always-send",
                             value: context.QueryStrings.Data("LinkId"),
@@ -1769,11 +1774,10 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     column: column,
-                    serverScriptModelColumn: issueModel
+                    serverScriptModelColumns: issueModel
                         ?.ServerScriptModelRows
-                        ?.FirstOrDefault()
-                        ?.Columns
-                        ?.Get(column.ColumnName),
+                        ?.Select(row => row.Columns.Get(column.ColumnName))
+                        .ToArray(),
                     methodType: issueModel.MethodType,
                     value: value,
                     columnPermissionType: Permissions.ColumnPermissionType(
@@ -2807,7 +2811,11 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            var errorData = issueModel.Create(context: context, ss: ss, notice: true);
+            var errorData = issueModel.Create(
+                context: context,
+                ss: ss,
+                copyFrom: context.Forms.Long("CopyFrom"),
+                notice: true);
             switch (errorData.Type)
             {
                 case Error.Types.None:
@@ -3843,7 +3851,11 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss);
             var errorData = issueModel.Create(
-                context, ss, forceSynchronizeSourceSummary: true, otherInitValue: true);
+                context: context,
+                ss: ss,
+                copyFrom: issueId,
+                forceSynchronizeSourceSummary: true,
+                otherInitValue: true);
             switch (errorData.Type)
             {
                 case Error.Types.None:
@@ -4755,7 +4767,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private static int BulkDelete(
+        public static int BulkDelete(
             Context context,
             SiteSettings ss,
             SqlWhereCollection where,
@@ -4771,6 +4783,10 @@ namespace Implem.Pleasanter.Models
                     }),
                 where: where,
                 param: param);
+            ss.LinkActions(
+                context: context,
+                type: "DeleteWithLinks",
+                sub: sub);
             var sites = ss.IntegratedSites?.Any() == true
                 ? ss.AllowedIntegratedSites
                 : ss.SiteId.ToSingleList();
@@ -6130,14 +6146,14 @@ namespace Implem.Pleasanter.Models
             {
                 where.Add(
                     tableName: "Issues",
-                    raw: $"\"Issues\".\"{fromColumn.ColumnName}\" between '{begin}' and '{end}'");
+                    raw: $"\"Issues\".\"{fromColumn.ColumnName}\" between @Begin and @End");
             }
             else
             {
                 where.Add(or: Rds.IssuesWhere()
-                    .Add(raw: $"\"Issues\".\"{fromColumn.ColumnName}\" between '{begin}' and '{end}'")
-                    .Add(raw: $"\"Issues\".\"{toColumn.ColumnName}\" between '{begin}' and '{end}'")
-                    .Add(raw: $"\"Issues\".\"{fromColumn.ColumnName}\"<='{begin}' and \"Issues\".\"{toColumn.ColumnName}\">='{end}'"));
+                    .Add(raw: $"\"Issues\".\"{fromColumn.ColumnName}\" between @Begin and @End")
+                    .Add(raw: $"\"Issues\".\"{toColumn.ColumnName}\" between @Begin and @End")
+                    .Add(raw: $"\"Issues\".\"{fromColumn.ColumnName}\"<=@Begin and \"Issues\".\"{toColumn.ColumnName}\">=@End"));
             }
             where = view.Where(
                 context: context,
@@ -6146,6 +6162,18 @@ namespace Implem.Pleasanter.Models
             var param = view.Param(
                 context: context,
                 ss: ss);
+            param.Add(new SqlParam()
+            {
+                VariableName = "Begin",
+                Value = begin,
+                NoCount = true
+            });
+            param.Add(new SqlParam()
+            {
+                VariableName = "End",
+                Value = end,
+                NoCount = true
+            });
             return Rds.ExecuteTable(
                 context: context,
                 statements: Rds.SelectIssues(
@@ -6764,10 +6792,25 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 where: Libraries.ViewModes.GanttUtilities.Where(
-                    context: context, ss: ss, view: view));
+                    context: context,
+                    ss: ss));
             var param = view.Param(
                 context: context,
                 ss: ss);
+            var start = view.GanttStartDate.ToDateTime().ToUniversal(context: context);
+            var end = start.AddDays(view.GanttPeriod.ToInt()).AddMilliseconds(-3);
+            param.Add(new SqlParam()
+            {
+                VariableName = "Start",
+                Value = start,
+                NoCount = true
+            });
+            param.Add(new SqlParam()
+            {
+                VariableName = "End",
+                Value = end,
+                NoCount = true
+            });
             return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectIssues(
@@ -7601,7 +7644,7 @@ namespace Implem.Pleasanter.Models
                     param: param)) <= limit;
         }
 
-        private static ErrorData ExistsLockedRecord(
+        public static ErrorData ExistsLockedRecord(
             Context context,
             SiteSettings ss,
             SqlWhereCollection where,

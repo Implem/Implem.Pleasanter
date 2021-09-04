@@ -426,6 +426,8 @@
     <Compile Include="Libraries\Requests\Context.cs" />
     <Compile Include="Libraries\Settings\ImportColumn.cs" />
     <Compile Include="Libraries\Settings\ImportUtilities.cs" />
+    <Compile Include="Libraries\Settings\LinkActions.cs" />
+    <Compile Include="Libraries\Settings\LinkAction.cs" />
     <Compile Include="Libraries\Settings\Lookup.cs" />
     <Compile Include="Libraries\Settings\Lookups.cs" />
     <Compile Include="Libraries\Settings\ServerScript.cs" />
@@ -2302,7 +2304,7 @@
     <Content Include="App_Data\Displays\AllowCopy.json" />
     <Content Include="App_Data\Displays\ReferenceCopy.json" />
     <Content Include="App_Data\Displays\AllowReferenceCopy.json" />
-    <Content Include="App_Data\Displays\RsetApiCount.json" />
+    <Content Include="App_Data\Displays\ApiCountReset.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

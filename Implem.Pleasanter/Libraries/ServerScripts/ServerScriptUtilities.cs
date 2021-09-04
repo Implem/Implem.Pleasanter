@@ -835,6 +835,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return readOnly;
         }
 
+        public static bool Hide(IEnumerable<ServerScriptModelColumn> serverScriptModelColumns)
+        {
+            var hide = serverScriptModelColumns
+                ?.Any(column => column?.Hide == true) == true;
+            return hide;
+        }
+
         public static bool CanEdit(
             this Column column,
             Context context,

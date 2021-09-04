@@ -51,6 +51,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message ApiCountReset(Context context, params string[] data)
+        {
+            return Get(
+                id: "ApiCountReset",
+                text: Displays.ApiCountReset(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
         public static Message ApiKeyCreated(Context context, params string[] data)
         {
             return Get(
@@ -1191,16 +1201,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
-        public static Message ApiCountReset(Context context, params string[] data)
-        {
-            return Get(
-                id: "ApiCountReset",
-                text: Displays.ApiCountReset(
-                    context: context,
-                    data: data),
-                css: "alert-success");
-        }
-
         public static Message SamlLoginFailed(Context context, params string[] data)
         {
             return Get(
@@ -1466,6 +1466,16 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return ResponseMessage(
                 message: AlreadyLinked(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseApiCountReset(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: ApiCountReset(
                     context: context,
                     data: data),
                 target: target);
@@ -2606,16 +2616,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return ResponseMessage(
                 message: Restricted(
-                    context: context,
-                    data: data),
-                target: target);
-        }
-
-        public static ResponseCollection ResponseApiCountReset(
-            Context context, string target = null, params string[] data)
-        {
-            return ResponseMessage(
-                message: ApiCountReset(
                     context: context,
                     data: data),
                 target: target);

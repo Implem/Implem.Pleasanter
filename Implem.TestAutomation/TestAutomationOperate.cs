@@ -53,9 +53,16 @@ namespace Implem.TestAutomation
                 user: false,
                 item: false);
             IJavaScriptExecutor jsDriver = driver as IJavaScriptExecutor;
-            jsDriver.ExecuteScript($"$p.disableAutPostback = true;");
             testPart.Inputs.ForEach(testInput =>
             {
+                if (testInput.InputAutoPostBack == true)
+                {
+                    jsDriver.ExecuteScript($"$p.disableAutPostback = false;");
+                }
+                else
+                {
+                    jsDriver.ExecuteScript($"$p.disableAutPostback = true;");
+                }
                 if (!testInput.InputWaitTime.IsNullOrEmpty())
                 {
                     Thread.Sleep(testInput.InputWaitTime.ToInt());

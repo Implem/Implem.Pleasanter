@@ -169,8 +169,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .TenantId(tenantId)
                 .LoginId(loginId)
                 .Name(name,
-                    _using: Parameters.Authentication.SamlParameters.DisableOverwriteName == true
-                        && !userExists)
+                    _using: (Parameters.Authentication.SamlParameters.DisableOverwriteName == true)
+                        ? (false == userExists)
+                        : true)
                 .TenantManager(attributes.TenantManager,
                     _using: attributes[nameof(UserModel.TenantManager)] != null)
                 .SynchronizedTime(synchronizedTime)

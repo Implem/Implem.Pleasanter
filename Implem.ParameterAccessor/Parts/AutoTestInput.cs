@@ -5,5 +5,6 @@
         public string InputTarget;
         public string InputValue;
         public string InputWaitTime;
+        public bool InputAutoPostBack;
     }
 }

@@ -3,7 +3,9 @@ using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Models;
 using System;
@@ -24,6 +26,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string SearchFormat;
         public View View;
         public Lookups Lookups;
+        public LinkActions LinkActions;
         public bool? JsonFormat;
         [NonSerialized]
         public string SiteTitle;
@@ -87,6 +90,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 context: context,
                 ss: ss);
             link.Lookups = Lookups?.GetRecordingData();
+            link.LinkActions = LinkActions?.GetRecordingData(
+                context: context,
+                ss: ss);
             if (JsonFormat == true) link.JsonFormat = true;
             return link;
         }
@@ -629,6 +635,42 @@ namespace Implem.Pleasanter.Libraries.Settings
                 view.ColumnFilterHash.AddIfNotConainsKey("Disabled", "false");
             }
             return view;
+        }
+
+        public void Action(
+            Context context,
+            long siteId,
+            string type,
+            Dictionary<string, string> data,
+            SqlSelect sub)
+        {
+            var ss = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: siteId);
+            LinkActions?.ForEach(action =>
+            {
+                if (action.Type == type)
+                {
+                    switch (type)
+                    {
+                        case "CopyWithLinks":
+                            action.CopyWithLinks(
+                                context: context,
+                                ss: ss,
+                                columnName: ColumnName,
+                                from: data.Get("From").ToLong(),
+                                to: data.Get("To").ToLong());
+                            break;
+                        case "DeleteWithLinks":
+                            action.DeleteWithLinks(
+                                context: context,
+                                ss: ss,
+                                columnName: ColumnName,
+                                sub: sub);
+                            break;
+                    }
+                }
+            });
         }
     }
 }

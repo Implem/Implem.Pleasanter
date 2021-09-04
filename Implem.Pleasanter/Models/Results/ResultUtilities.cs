@@ -1450,6 +1450,11 @@ namespace Implem.Pleasanter.Models
                             value: context.QueryStrings.Data("FromSiteId"),
                             _using: context.QueryStrings.Long("FromSiteId") > 0)
                         .Hidden(
+                            controlId: "CopyFrom",
+                            css: "control-hidden",
+                            value: context.QueryStrings.Long("CopyFrom").ToString(),
+                            _using: context.QueryStrings.Long("CopyFrom") > 0)
+                        .Hidden(
                             controlId: "LinkId",
                             css: "control-hidden always-send",
                             value: context.QueryStrings.Data("LinkId"),
@@ -1664,11 +1669,10 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     column: column,
-                    serverScriptModelColumn: resultModel
+                    serverScriptModelColumns: resultModel
                         ?.ServerScriptModelRows
-                        ?.FirstOrDefault()
-                        ?.Columns
-                        ?.Get(column.ColumnName),
+                        ?.Select(row => row.Columns.Get(column.ColumnName))
+                        .ToArray(),
                     methodType: resultModel.MethodType,
                     value: value,
                     columnPermissionType: Permissions.ColumnPermissionType(
@@ -2626,7 +2630,11 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            var errorData = resultModel.Create(context: context, ss: ss, notice: true);
+            var errorData = resultModel.Create(
+                context: context,
+                ss: ss,
+                copyFrom: context.Forms.Long("CopyFrom"),
+                notice: true);
             switch (errorData.Type)
             {
                 case Error.Types.None:
@@ -3643,7 +3651,11 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss);
             var errorData = resultModel.Create(
-                context, ss, forceSynchronizeSourceSummary: true, otherInitValue: true);
+                context: context,
+                ss: ss,
+                copyFrom: resultId,
+                forceSynchronizeSourceSummary: true,
+                otherInitValue: true);
             switch (errorData.Type)
             {
                 case Error.Types.None:
@@ -4414,7 +4426,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private static int BulkDelete(
+        public static int BulkDelete(
             Context context,
             SiteSettings ss,
             SqlWhereCollection where,
@@ -4430,6 +4442,10 @@ namespace Implem.Pleasanter.Models
                     }),
                 where: where,
                 param: param);
+            ss.LinkActions(
+                context: context,
+                type: "DeleteWithLinks",
+                sub: sub);
             var sites = ss.IntegratedSites?.Any() == true
                 ? ss.AllowedIntegratedSites
                 : ss.SiteId.ToSingleList();
@@ -5758,14 +5774,14 @@ namespace Implem.Pleasanter.Models
             {
                 where.Add(
                     tableName: "Results",
-                    raw: $"\"Results\".\"{fromColumn.ColumnName}\" between '{begin}' and '{end}'");
+                    raw: $"\"Results\".\"{fromColumn.ColumnName}\" between @Begin and @End");
             }
             else
             {
                 where.Add(or: Rds.ResultsWhere()
-                    .Add(raw: $"\"Results\".\"{fromColumn.ColumnName}\" between '{begin}' and '{end}'")
-                    .Add(raw: $"\"Results\".\"{toColumn.ColumnName}\" between '{begin}' and '{end}'")
-                    .Add(raw: $"\"Results\".\"{fromColumn.ColumnName}\"<='{begin}' and \"Results\".\"{toColumn.ColumnName}\">='{end}'"));
+                    .Add(raw: $"\"Results\".\"{fromColumn.ColumnName}\" between @Begin and @End")
+                    .Add(raw: $"\"Results\".\"{toColumn.ColumnName}\" between @Begin and @End")
+                    .Add(raw: $"\"Results\".\"{fromColumn.ColumnName}\"<=@Begin and \"Results\".\"{toColumn.ColumnName}\">=@End"));
             }
             where = view.Where(
                 context: context,
@@ -5774,6 +5790,18 @@ namespace Implem.Pleasanter.Models
             var param = view.Param(
                 context: context,
                 ss: ss);
+            param.Add(new SqlParam()
+            {
+                VariableName = "Begin",
+                Value = begin,
+                NoCount = true
+            });
+            param.Add(new SqlParam()
+            {
+                VariableName = "End",
+                Value = end,
+                NoCount = true
+            });
             return Rds.ExecuteTable(
                 context: context,
                 statements: Rds.SelectResults(
@@ -6835,7 +6863,7 @@ namespace Implem.Pleasanter.Models
                     param: param)) <= limit;
         }
 
-        private static ErrorData ExistsLockedRecord(
+        public static ErrorData ExistsLockedRecord(
             Context context,
             SiteSettings ss,
             SqlWhereCollection where,

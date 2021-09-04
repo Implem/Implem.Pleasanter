@@ -29,7 +29,8 @@ namespace Implem.Pleasanter.Libraries.Models
             SqlWhereCollection where = null,
             int top = 0,
             int offset = 0,
-            int pageSize = 0)
+            int pageSize = 0,
+            bool count = true)
         {
             Get(
                 context: context,
@@ -43,7 +44,8 @@ namespace Implem.Pleasanter.Libraries.Models
                 where: where,
                 top: top,
                 offset: offset,
-                pageSize: pageSize);
+                pageSize: pageSize,
+                count: count);
         }
 
         private void Get(
@@ -56,7 +58,8 @@ namespace Implem.Pleasanter.Libraries.Models
             SqlWhereCollection where = null,
             int top = 0,
             int offset = 0,
-            int pageSize = 0)
+            int pageSize = 0,
+            bool count = true)
         {
             column = column ?? ColumnUtilities.SqlColumnCollection(
                 context: context,
@@ -84,9 +87,8 @@ namespace Implem.Pleasanter.Libraries.Models
             var param = view.Param(
                 context: context,
                 ss: ss);
-            var statements = new List<SqlStatement>
-            {
-                Rds.Select(
+            var statements = new List<SqlStatement>();
+            statements.Add(Rds.Select(
                     tableName: ss.ReferenceType,
                     tableType: tableType,
                     dataTableName: "Main",
@@ -97,13 +99,15 @@ namespace Implem.Pleasanter.Libraries.Models
                     param: param,
                     top: top,
                     offset: offset,
-                    pageSize: pageSize),
-                Rds.SelectCount(
+                    pageSize: pageSize));
+            if (count)
+            {
+                statements.Add(Rds.SelectCount(
                     tableName: ss.ReferenceType,
                     tableType: tableType,
                     join: join,
-                    where: where)
-            };
+                    where: where));
+            }
             DataSet dataSet;
             try
             {
@@ -114,11 +118,13 @@ namespace Implem.Pleasanter.Libraries.Models
             }
             catch (System.Exception e)
             {
-                SessionUtilities.Set(
+                Views.SetSession(
                     context: context,
+                    ss: ss,
+                    view: new View(),
+                    setSession: true,
                     key: "View",
-                    value: null,
-                    page: true);
+                    useUsersView: ss.SaveViewType == SiteSettings.SaveViewTypes.User);
                 throw e;
             }
             DataRows = dataSet.Tables["Main"].AsEnumerable();
