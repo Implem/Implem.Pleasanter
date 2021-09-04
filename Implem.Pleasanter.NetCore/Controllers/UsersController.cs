@@ -282,6 +282,17 @@ namespace Implem.Pleasanter.NetCore.Controllers
         /// Fixed:
         /// </summary>
         [HttpPost]
+        public string OpenChangePasswordDialog()
+        {
+            var context = new ContextImplement();
+            var controller = new Pleasanter.Controllers.UsersController();
+            var json = controller.OpenChangePasswordDialog(context: context);
+            return json;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public string ChangePassword(int id)
         {
             var context = new ContextImplement();
