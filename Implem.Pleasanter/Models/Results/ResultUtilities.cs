@@ -5775,14 +5775,14 @@ namespace Implem.Pleasanter.Models
             {
                 where.Add(
                     tableName: "Results",
-                    raw: $"\"Results\".\"{fromColumn.ColumnName}\" between '{begin}' and '{end}'");
+                    raw: $"\"Results\".\"{fromColumn.ColumnName}\" between @Begin and @End");
             }
             else
             {
                 where.Add(or: Rds.ResultsWhere()
-                    .Add(raw: $"\"Results\".\"{fromColumn.ColumnName}\" between '{begin}' and '{end}'")
-                    .Add(raw: $"\"Results\".\"{toColumn.ColumnName}\" between '{begin}' and '{end}'")
-                    .Add(raw: $"\"Results\".\"{fromColumn.ColumnName}\"<='{begin}' and \"Results\".\"{toColumn.ColumnName}\">='{end}'"));
+                    .Add(raw: $"\"Results\".\"{fromColumn.ColumnName}\" between @Begin and @End")
+                    .Add(raw: $"\"Results\".\"{toColumn.ColumnName}\" between @Begin and @End")
+                    .Add(raw: $"\"Results\".\"{fromColumn.ColumnName}\"<=@Begin and \"Results\".\"{toColumn.ColumnName}\">=@End"));
             }
             where = view.Where(
                 context: context,
@@ -5791,6 +5791,18 @@ namespace Implem.Pleasanter.Models
             var param = view.Param(
                 context: context,
                 ss: ss);
+            param.Add(new SqlParam()
+            {
+                VariableName = "Begin",
+                Value = begin,
+                NoCount = true
+            });
+            param.Add(new SqlParam()
+            {
+                VariableName = "End",
+                Value = end,
+                NoCount = true
+            });
             return Rds.ExecuteTable(
                 context: context,
                 statements: Rds.SelectResults(

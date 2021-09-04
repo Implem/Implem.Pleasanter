@@ -30,25 +30,16 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             }
         }
 
-        public static SqlWhereCollection Where(
-            Context context, SiteSettings ss, View view)
+        public static SqlWhereCollection Where(Context context, SiteSettings ss)
         {
-            var start = view.GanttStartDate.ToDateTime().ToUniversal(context: context);
-            var end = start.AddDays(view.GanttPeriod.ToInt()).AddMilliseconds(-3);
             return Rds.IssuesWhere().Add(or: Rds.IssuesWhere()
-                .Add(raw: "(({0}) <= '{1}' and {2} >= '{3}')".Params(
+                .Add(raw: "(({0}) <= @Start and {1} >= @End)".Params(
                     Def.Sql.StartTimeColumn,
-                    start,
-                    CompletionTimeSql(context: context, ss: ss),
-                    end))
-                .Add(raw: "({0}) between '{1}' and '{2}'".Params(
-                    Def.Sql.StartTimeColumn,
-                    start,
-                    end))
-                .Add(raw: "({0}) between '{1}' and '{2}'".Params(
-                    CompletionTimeSql(context: context, ss: ss),
-                    start,
-                    end)));
+                    CompletionTimeSql(context: context, ss: ss)))
+                .Add(raw: "({0}) between @Start and @End".Params(
+                    Def.Sql.StartTimeColumn))
+                .Add(raw: "({0}) between @Start and @End".Params(
+                    CompletionTimeSql(context: context, ss: ss))));
         }
 
         private static string CompletionTimeSql(Context context, SiteSettings ss)

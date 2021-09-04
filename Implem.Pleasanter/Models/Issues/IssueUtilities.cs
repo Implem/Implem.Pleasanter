@@ -6147,14 +6147,14 @@ namespace Implem.Pleasanter.Models
             {
                 where.Add(
                     tableName: "Issues",
-                    raw: $"\"Issues\".\"{fromColumn.ColumnName}\" between '{begin}' and '{end}'");
+                    raw: $"\"Issues\".\"{fromColumn.ColumnName}\" between @Begin and @End");
             }
             else
             {
                 where.Add(or: Rds.IssuesWhere()
-                    .Add(raw: $"\"Issues\".\"{fromColumn.ColumnName}\" between '{begin}' and '{end}'")
-                    .Add(raw: $"\"Issues\".\"{toColumn.ColumnName}\" between '{begin}' and '{end}'")
-                    .Add(raw: $"\"Issues\".\"{fromColumn.ColumnName}\"<='{begin}' and \"Issues\".\"{toColumn.ColumnName}\">='{end}'"));
+                    .Add(raw: $"\"Issues\".\"{fromColumn.ColumnName}\" between @Begin and @End")
+                    .Add(raw: $"\"Issues\".\"{toColumn.ColumnName}\" between @Begin and @End")
+                    .Add(raw: $"\"Issues\".\"{fromColumn.ColumnName}\"<=@Begin and \"Issues\".\"{toColumn.ColumnName}\">=@End"));
             }
             where = view.Where(
                 context: context,
@@ -6163,6 +6163,18 @@ namespace Implem.Pleasanter.Models
             var param = view.Param(
                 context: context,
                 ss: ss);
+            param.Add(new SqlParam()
+            {
+                VariableName = "Begin",
+                Value = begin,
+                NoCount = true
+            });
+            param.Add(new SqlParam()
+            {
+                VariableName = "End",
+                Value = end,
+                NoCount = true
+            });
             return Rds.ExecuteTable(
                 context: context,
                 statements: Rds.SelectIssues(
@@ -6781,10 +6793,25 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 where: Libraries.ViewModes.GanttUtilities.Where(
-                    context: context, ss: ss, view: view));
+                    context: context,
+                    ss: ss));
             var param = view.Param(
                 context: context,
                 ss: ss);
+            var start = view.GanttStartDate.ToDateTime().ToUniversal(context: context);
+            var end = start.AddDays(view.GanttPeriod.ToInt()).AddMilliseconds(-3);
+            param.Add(new SqlParam()
+            {
+                VariableName = "Start",
+                Value = start,
+                NoCount = true
+            });
+            param.Add(new SqlParam()
+            {
+                VariableName = "End",
+                Value = end,
+                NoCount = true
+            });
             return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectIssues(
