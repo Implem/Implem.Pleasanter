@@ -369,6 +369,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_OnCreatingExtendedSqls": Code.Model_OnCreatingExtendedSqls = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnCreatingExtendedSqls, definitionRow, CodeXls); break;
                     case "Model_OnCreatedExtendedSqls": Code.Model_OnCreatedExtendedSqls = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnCreatedExtendedSqls, definitionRow, CodeXls); break;
                     case "Model_GetAfterCreatedExtendedSqls": Code.Model_GetAfterCreatedExtendedSqls = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetAfterCreatedExtendedSqls, definitionRow, CodeXls); break;
+                    case "Model_CopyWithLinks": Code.Model_CopyWithLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CopyWithLinks, definitionRow, CodeXls); break;
                     case "Model_Insert": Code.Model_Insert = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Insert, definitionRow, CodeXls); break;
                     case "Model_InsertIdentity": Code.Model_InsertIdentity = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertIdentity, definitionRow, CodeXls); break;
                     case "Model_InsertIdentitySet": Code.Model_InsertIdentitySet = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertIdentitySet, definitionRow, CodeXls); break;
@@ -651,6 +652,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_Create": Code.Model_Utilities_Create = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreateParams": Code.Model_Utilities_CreateParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateParams, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreateParams_Sites": Code.Model_Utilities_CreateParams_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateParams_Sites, definitionRow, CodeXls); break;
+                    case "Model_Utilities_Create_Models": Code.Model_Utilities_Create_Models = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_Models, definitionRow, CodeXls); break;
+                    case "Model_Utilities_Create_Tables": Code.Model_Utilities_Create_Tables = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_Tables, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_JoeAccountCheck": Code.Model_Utilities_Create_JoeAccountCheck = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_JoeAccountCheck, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_PasswordPolicies": Code.Model_Utilities_Create_PasswordPolicies = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_PasswordPolicies, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreatedResponse": Code.Model_Utilities_CreatedResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreatedResponse, definitionRow, CodeXls); break;
@@ -7429,6 +7432,7 @@ namespace Implem.DefinitionAccessor
         public string Model_OnCreatingExtendedSqls;
         public string Model_OnCreatedExtendedSqls;
         public string Model_GetAfterCreatedExtendedSqls;
+        public string Model_CopyWithLinks;
         public string Model_Insert;
         public string Model_InsertIdentity;
         public string Model_InsertIdentitySet;
@@ -7711,6 +7715,8 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_Create;
         public string Model_Utilities_CreateParams;
         public string Model_Utilities_CreateParams_Sites;
+        public string Model_Utilities_Create_Models;
+        public string Model_Utilities_Create_Tables;
         public string Model_Utilities_Create_JoeAccountCheck;
         public string Model_Utilities_Create_PasswordPolicies;
         public string Model_Utilities_CreatedResponse;
@@ -8108,6 +8114,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_OnCreatingExtendedSqls = new CodeDefinition();
         public CodeDefinition Model_OnCreatedExtendedSqls = new CodeDefinition();
         public CodeDefinition Model_GetAfterCreatedExtendedSqls = new CodeDefinition();
+        public CodeDefinition Model_CopyWithLinks = new CodeDefinition();
         public CodeDefinition Model_Insert = new CodeDefinition();
         public CodeDefinition Model_InsertIdentity = new CodeDefinition();
         public CodeDefinition Model_InsertIdentitySet = new CodeDefinition();
@@ -8390,6 +8397,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_Create = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreateParams = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreateParams_Sites = new CodeDefinition();
+        public CodeDefinition Model_Utilities_Create_Models = new CodeDefinition();
+        public CodeDefinition Model_Utilities_Create_Tables = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_JoeAccountCheck = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_PasswordPolicies = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreatedResponse = new CodeDefinition();

@@ -1450,6 +1450,11 @@ namespace Implem.Pleasanter.Models
                             value: context.QueryStrings.Data("FromSiteId"),
                             _using: context.QueryStrings.Long("FromSiteId") > 0)
                         .Hidden(
+                            controlId: "CopyFrom",
+                            css: "control-hidden",
+                            value: context.QueryStrings.Long("CopyFrom").ToString(),
+                            _using: context.QueryStrings.Long("CopyFrom") > 0)
+                        .Hidden(
                             controlId: "LinkId",
                             css: "control-hidden always-send",
                             value: context.QueryStrings.Data("LinkId"),
@@ -2626,7 +2631,11 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            var errorData = resultModel.Create(context: context, ss: ss, notice: true);
+            var errorData = resultModel.Create(
+                context: context,
+                ss: ss,
+                copyFrom: context.Forms.Long("CopyFrom"),
+                notice: true);
             switch (errorData.Type)
             {
                 case Error.Types.None:
@@ -3643,7 +3652,11 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss);
             var errorData = resultModel.Create(
-                context, ss, forceSynchronizeSourceSummary: true, otherInitValue: true);
+                context: context,
+                ss: ss,
+                copyFrom: resultId,
+                forceSynchronizeSourceSummary: true,
+                otherInitValue: true);
             switch (errorData.Type)
             {
                 case Error.Types.None:

@@ -4667,6 +4667,17 @@ namespace Implem.Pleasanter.Libraries.Settings
             return PermissionType == Permissions.Types.Read && NoDisplayIfReadOnly;
         }
 
+        public void LinkActions(Context context, string type, Dictionary<string, string> data)
+        {
+            Sources?.Values.ForEach(ss =>
+                ss?.Links?.ForEach(link =>
+                    link.Action(
+                        context: context,
+                        siteId: ss.SiteId,
+                        type: type,
+                        data: data)));
+        }
+
         public ServerScriptModel.ServerScriptModelRow GetServerScriptModelRow(
             Context context, BaseItemModel itemModel = null)
         {
