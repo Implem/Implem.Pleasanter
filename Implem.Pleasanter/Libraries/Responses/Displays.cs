@@ -429,6 +429,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ApiCountReset(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ApiCountReset",
+                data: data);
+        }
+
         public static string ApiKey(
             Context context,
             params string[] data)
@@ -6196,16 +6206,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Row",
-                data: data);
-        }
-
-        public static string ApiCountReset(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "ApiCountReset",
                 data: data);
         }
 

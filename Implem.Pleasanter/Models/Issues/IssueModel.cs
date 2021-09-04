@@ -1129,6 +1129,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
+            long copyFrom = 0,
             bool extendedSqls = true,
             bool synchronizeSummary = true,
             bool forceSynchronizeSourceSummary = false,
@@ -1230,6 +1231,17 @@ namespace Implem.Pleasanter.Models
                 Get(
                     context: context,
                     ss: ss);
+            }
+            if (copyFrom > 0)
+            {
+                ss.LinkActions(
+                    context: context,
+                    type: "CopyWithLinks",
+                    data: new Dictionary<string, string>()
+                    {
+                        { "From", copyFrom.ToString() },
+                        { "To", IssueId.ToString() }
+                    });
             }
             SetByAfterCreateServerScript(
                 context: context,
@@ -1666,6 +1678,14 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     notice: notice)
                 : null;
+            ss.LinkActions(
+                context: context,
+                type: "DeleteWithLinks",
+                sub: Rds.SelectIssues(
+                    column: Rds.IssuesColumn().IssueId(),
+                    where: Rds.IssuesWhere()
+                        .SiteId(ss.SiteId)
+                        .IssueId(IssueId)));
             var statements = new List<SqlStatement>();
             var where = Rds.IssuesWhere().SiteId(SiteId).IssueId(IssueId);
             statements.OnDeletingExtendedSqls(

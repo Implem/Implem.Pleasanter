@@ -195,8 +195,8 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
                 Action = RouteData.Get("action")?.ToLower() ?? string.Empty;
                 Id = RouteData.Get("id")?.ToLong() ?? 0;
                 Guid = RouteData.Get("guid")?.ToUpper();
-                UserHostName = GetUserHostAddress();
-                UserHostAddress = CreateUserHostAddress(AspNetCoreHttpContext.Current.Request);
+                UserHostName = AspNetCoreHttpContext.Current?.Connection?.RemoteIpAddress?.ToString();
+                UserHostAddress = GetUserHostAddress();
                 UserAgent = CreateUserAgent(AspNetCoreHttpContext.Current.Request);
             }
         }
@@ -295,7 +295,7 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
                                 loginId: AspNetCoreHttpContext.Current?.User?.Identity.Name)
                                     ? SessionData.Get("SwitchLoginId")
                                     : null,
-                            LoginId))));
+                            LoginId), _operator: Sqls.Like)));
                 }
                 else
                 {
@@ -613,27 +613,6 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
         {
             return request.Headers.TryGetValue("Referer", out var value)
                 ? value.FirstOrDefault().ToString()
-                : null;
-        }
-
-        string CreateUserHostName(HttpRequest request)
-        {
-            return request.HttpContext.Connection.RemoteIpAddress != null
-               ? request.HttpContext.Connection.RemoteIpAddress.ToString()
-               : null;
-        }
-
-        string CreateUserHostAddress(HttpRequest request)
-        {
-            return request.HttpContext.Connection.RemoteIpAddress != null
-               ? request.HttpContext.Connection.RemoteIpAddress.ToString()
-               : null;
-        }
-
-        string CreateUserLanguage(HttpRequest request)
-        {
-            return request.Headers.TryGetValue("Accept-Language", out var value)
-                ? value.FirstOrDefault()
                 : null;
         }
 

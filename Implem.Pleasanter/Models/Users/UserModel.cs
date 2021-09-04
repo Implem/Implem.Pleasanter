@@ -2649,7 +2649,7 @@ namespace Implem.Pleasanter.Models
                         Get(
                             context: context,
                             ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
-                            where: Rds.UsersWhere().LoginId(LoginId));
+                            where: Rds.UsersWhere().LoginId(LoginId, _operator: context.Sqls.Like));
                     }
                     break;
                 case "LDAP+Local":
@@ -2662,7 +2662,7 @@ namespace Implem.Pleasanter.Models
                         Get(
                             context: context,
                             ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
-                            where: Rds.UsersWhere().LoginId(LoginId));
+                            where: Rds.UsersWhere().LoginId(LoginId, _operator: context.Sqls.Like));
                     }
                     else
                     {
@@ -2756,15 +2756,11 @@ namespace Implem.Pleasanter.Models
         public bool GetByCredentials(
             Context context, string loginId, string password, int tenantId = 0)
         {
-            var loginIdRaw = "(lower(\"Users\".\"LoginId\") = lower(@LoginId))";
             Get(
                 context: context,
                 ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
                 where: Rds.UsersWhere()
-                    .Add(
-                        name: "LoginId",
-                        value: loginId,
-                        raw: loginIdRaw)
+                    .LoginId(loginId, _operator: context.Sqls.Like)
                     .Password(password)
                     .Disabled(false));
             if (Parameters.Security.LockoutCount > 0)
@@ -2777,10 +2773,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             statements: Rds.UpdateUsers(
                                 where: Rds.UsersWhere()
-                                    .Add(
-                                        name: "LoginId",
-                                        value: loginId,
-                                        raw: loginIdRaw),
+                                    .LoginId(loginId, _operator: context.Sqls.Like),
                                 param: Rds.UsersParam().LockoutCounter(0),
                                 addUpdatorParam: false,
                                 addUpdatedTimeParam: false));
@@ -2792,10 +2785,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         statements: Rds.UpdateUsers(
                             where: Rds.UsersWhere()
-                                .Add(
-                                    name: "LoginId",
-                                    value: loginId,
-                                    raw: loginIdRaw),
+                                .LoginId(loginId, _operator: context.Sqls.Like),
                             param: Rds.UsersParam()
                                 .Lockout(
                                     raw: "case when \"Users\".\"LockoutCounter\"+1>={0} then {1} else {2} end"

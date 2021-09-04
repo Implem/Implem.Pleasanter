@@ -128,7 +128,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             .OwnerType("Users")
                             .OwnerId(sub: Rds.SelectUsers(
                                 column: Rds.UsersColumn().UserId(),
-                                where: Rds.UsersWhere().LoginId(loginId)))
+                                where: Rds.UsersWhere().LoginId(loginId, _operator: context.Sqls.Like)))
                             .MailAddress(mailAddress))
                     });
                 if (addressCount > 0)
@@ -188,7 +188,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     _using: attributes[nameof(UserModel.Body)] != null);
             statements.Add(Rds.UpdateOrInsertUsers(
                 param: param,
-                where: Rds.UsersWhere().TenantId(tenantId).LoginId(loginId),
+                where: Rds.UsersWhere().TenantId(tenantId).LoginId(loginId, _operator: context.Sqls.Like),
                 addUpdatorParam: true,
                 addUpdatedTimeParam: true));
             if (!mailAddress.IsNullOrEmpty())
@@ -198,12 +198,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .OwnerType("Users")
                         .OwnerId(sub: Rds.SelectUsers(
                             column: Rds.UsersColumn().UserId(),
-                            where: Rds.UsersWhere().LoginId(loginId)))));
+                            where: Rds.UsersWhere().LoginId(loginId, _operator: context.Sqls.Like)))));
                 statements.Add(Rds.InsertMailAddresses(
                     param: Rds.MailAddressesParam()
                         .OwnerId(sub: Rds.SelectUsers(
                             column: Rds.UsersColumn().UserId(),
-                            where: Rds.UsersWhere().LoginId(loginId)))
+                            where: Rds.UsersWhere().LoginId(loginId, _operator: context.Sqls.Like)))
                         .OwnerType("Users")
                         .MailAddress(mailAddress)));
             }

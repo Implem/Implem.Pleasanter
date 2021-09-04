@@ -100,6 +100,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                                 .ToJson();
                     }
                 }
+                sitePackage.ConvertInheritPermissionInNotIncluded();
                 sitePackage.HeaderInfo.SavedBaseSiteId = context.SiteId;
                 sitePackage.HeaderInfo.SavedInheritPermission = ss.InheritPermission;
                 foreach (var conv in sitePackage.HeaderInfo.Convertors)
@@ -304,7 +305,16 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                                 permissionShortModel: permissionShortModel,
                                 permissionIdList: sitePackage.PermissionIdList,
                                 convertSiteId: idHash[permissionShortModel.ReferenceId]);
-                            if (idConverter.Convert == true)
+                            var exists = Rds.ExecuteScalar_int(
+                                context: context,
+                                statements: Rds.SelectPermissions(
+                                    column: Rds.PermissionsColumn().ReferenceId(),
+                                    where: Rds.PermissionsWhere()
+                                        .ReferenceId(idHash[permissionShortModel.ReferenceId])
+                                        .DeptId(idConverter.ConvertDeptId)
+                                        .GroupId(idConverter.ConvertGroupId)
+                                        .UserId(idConverter.ConvertUserId))) > 0;
+                            if (idConverter.Convert == true && !exists)
                             {
                                 Repository.ExecuteNonQuery(
                                     context: context,
