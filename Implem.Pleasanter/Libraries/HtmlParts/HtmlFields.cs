@@ -7,6 +7,7 @@ using Implem.Pleasanter.Libraries.Resources;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
@@ -37,7 +38,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context,
             SiteSettings ss,
             Column column,
-            ServerScriptModelColumn serverScriptModelColumn = null,
+            IEnumerable<ServerScriptModelColumn> serverScriptModelColumns = null,
             BaseModel.MethodTypes methodType = BaseModel.MethodTypes.NotSet,
             string value = null,
             Permissions.ColumnPermissionTypes columnPermissionType =
@@ -71,8 +72,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         context: context,
                         id: "ColumnTop",
                         columnName: column.ColumnName))
-                    .Raw(serverScriptModelColumn?.ExtendedHtmlBeforeField
-                        ?? column.ExtendedHtmlBeforeField)
+                    .Raw(column.ExtendedHtmlBeforeField
+                        + serverScriptModelColumns
+                            ?.Select(scriptColumn => scriptColumn.ExtendedHtmlBeforeField)
+                            .Where(o => !o.IsNullOrEmpty())
+                            .Join(string.Empty))
                     .SwitchField(
                         context: context,
                         ss: ss,
@@ -86,18 +90,25 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         columnName: $"{column.ColumnName}{idSuffix}",
                         fieldCss: FieldCss(
                             column: column,
-                            serverScriptModelColumn: serverScriptModelColumn,
+                            serverScriptModelColumns: serverScriptModelColumns,
                             fieldCss: fieldCss),
                         labelCss: labelCss,
                         controlContainerCss: controlContainerCss,
                         controlCss: ControlCss(
                             column: column,
-                            serverScriptModelColumn: serverScriptModelColumn,
+                            serverScriptModelColumns: serverScriptModelColumns,
                             controlCss: controlCss),
                         controlType: ControlType(column),
-                        labelText: serverScriptModelColumn?.LabelText
-                            ?? column.LabelText,
-                        labelRaw: serverScriptModelColumn?.LabelRaw,
+                        labelText: Strings.CoalesceEmpty(
+                            serverScriptModelColumns
+                                ?.Select(scriptColumn => scriptColumn.LabelText)
+                                .Where(o => !o.IsNullOrEmpty())
+                                .Join(string.Empty),
+                            column.LabelText),
+                        labelRaw: serverScriptModelColumns
+                            ?.Select(scriptColumn => scriptColumn.LabelRaw)
+                            .Where(o => !o.IsNullOrEmpty())
+                            .Join(string.Empty),
                         value: value,
                         optionCollection: EditChoices(
                             context: context,
@@ -109,13 +120,25 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         alwaysSend: alwaysSend,
                         preview: preview,
                         extendedHtmlBeforeLabel: column.ExtendedHtmlBeforeLabel
-                            ?? serverScriptModelColumn?.ExtendedHtmlBeforeLabel,
+                            + serverScriptModelColumns
+                                ?.Select(scriptColumn => scriptColumn.ExtendedHtmlBeforeLabel)
+                                .Where(o => !o.IsNullOrEmpty())
+                                .Join(string.Empty),
                         extendedHtmlBetweenLabelAndControl: column.ExtendedHtmlBetweenLabelAndControl
-                            ?? serverScriptModelColumn?.ExtendedHtmlBetweenLabelAndControl,
+                            + serverScriptModelColumns
+                                ?.Select(scriptColumn => scriptColumn.ExtendedHtmlBetweenLabelAndControl)
+                                .Where(o => !o.IsNullOrEmpty())
+                                .Join(string.Empty),
                         extendedHtmlAfterControl: column.ExtendedHtmlAfterControl
-                            ?? serverScriptModelColumn?.ExtendedHtmlAfterControl)
-                    .Raw(serverScriptModelColumn?.ExtendedHtmlAfterField
-                        ?? column.ExtendedHtmlAfterField)
+                            + serverScriptModelColumns
+                                ?.Select(scriptColumn => scriptColumn.ExtendedHtmlAfterControl)
+                                .Where(o => !o.IsNullOrEmpty())
+                                .Join(string.Empty))
+                    .Raw(column.ExtendedHtmlAfterField
+                        + serverScriptModelColumns
+                            ?.Select(scriptColumn => scriptColumn.ExtendedHtmlAfterField)
+                            .Where(o => !o.IsNullOrEmpty())
+                            .Join(string.Empty))
                     .Raw(HtmlHtmls.ExtendedHtmls(
                         context: context,
                         id: "ColumnBottom",
@@ -129,18 +152,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static string FieldCss(
             Column column,
-            ServerScriptModelColumn serverScriptModelColumn,
+            IEnumerable<ServerScriptModelColumn> serverScriptModelColumns,
             string fieldCss)
         {
-            var extendedFieldCss = serverScriptModelColumn?.ExtendedFieldCss
-                ?? column.ExtendedFieldCss;
+            var extendedFieldCss = column.ExtendedFieldCss
+                + serverScriptModelColumns
+                    ?.Select(scriptColumn => scriptColumn.ExtendedFieldCss)
+                    .Where(o => !o.IsNullOrEmpty())
+                    .Join(" ");
             return Strings.CoalesceEmpty(fieldCss, column.FieldCss)
                 + (column.NoWrap == true
                     ? " both"
                     : string.Empty)
-                + ((serverScriptModelColumn?.Hide ?? column.Hide) == true
-                    ? " hidden"
-                    : string.Empty)
+                + (column.Hide == true
+                    || ServerScriptUtilities.Hide(
+                        serverScriptModelColumns: serverScriptModelColumns)
+                            ? " hidden"
+                            : string.Empty)
                 + (column.TextAlign == SiteSettings.TextAlignTypes.Right
                     ? " right-align"
                     : string.Empty)
@@ -151,11 +179,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static string ControlCss(
             Column column,
-            ServerScriptModelColumn serverScriptModelColumn,
+            IEnumerable<ServerScriptModelColumn> serverScriptModelColumns,
             string controlCss)
         {
-            var extendedControlCss = serverScriptModelColumn?.ExtendedControlCss
-                ?? column.ExtendedControlCss;
+            var extendedControlCss = column.ExtendedControlCss
+                + serverScriptModelColumns
+                    ?.Select(scriptColumn => scriptColumn.ExtendedControlCss)
+                    .Where(o => !o.IsNullOrEmpty())
+                    .Join(" ");
             return Strings.CoalesceEmpty(controlCss, column.ControlCss)
                 + (column.AutoPostBack == true
                     ? " control-auto-postback"

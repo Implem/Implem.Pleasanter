@@ -836,11 +836,10 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     column: column,
-                    serverScriptModelColumn: wikiModel
+                    serverScriptModelColumns: wikiModel
                         ?.ServerScriptModelRows
-                        ?.FirstOrDefault()
-                        ?.Columns
-                        ?.Get(column.ColumnName),
+                        ?.Select(row => row.Columns.Get(column.ColumnName))
+                        .ToArray(),
                     methodType: wikiModel.MethodType,
                     value: value,
                     columnPermissionType: Permissions.ColumnPermissionType(
