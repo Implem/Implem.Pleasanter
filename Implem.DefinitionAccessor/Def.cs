@@ -420,6 +420,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_OnDeleted_SetSiteInfo": Code.Model_OnDeleted_SetSiteInfo = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnDeleted_SetSiteInfo, definitionRow, CodeXls); break;
                     case "Model_OnDeletedNotifications": Code.Model_OnDeletedNotifications = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnDeletedNotifications, definitionRow, CodeXls); break;
                     case "Model_OnDeletedNotice": Code.Model_OnDeletedNotice = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnDeletedNotice, definitionRow, CodeXls); break;
+                    case "Model_DeleteWithLinks": Code.Model_DeleteWithLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteWithLinks, definitionRow, CodeXls); break;
                     case "Model_OnDeleting_ServerScript": Code.Model_OnDeleting_ServerScript = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnDeleting_ServerScript, definitionRow, CodeXls); break;
                     case "Model_OnDeleted_ServerScript": Code.Model_OnDeleted_ServerScript = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnDeleted_ServerScript, definitionRow, CodeXls); break;
                     case "Model_Restore": Code.Model_Restore = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Restore, definitionRow, CodeXls); break;
@@ -925,6 +926,9 @@ namespace Implem.DefinitionAccessor
                     case "Summaries_SelectMaxColumns": Code.Summaries_SelectMaxColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Summaries_SelectMaxColumns, definitionRow, CodeXls); break;
                     case "Summaries_SelectMaxColumnCases": Code.Summaries_SelectMaxColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Summaries_SelectMaxColumnCases, definitionRow, CodeXls); break;
                     case "Summaries_WhereTables": Code.Summaries_WhereTables = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Summaries_WhereTables, definitionRow, CodeXls); break;
+                    case "LinkAction": Code.LinkAction = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.LinkAction, definitionRow, CodeXls); break;
+                    case "LinkAction_CopyWithLinks": Code.LinkAction_CopyWithLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.LinkAction_CopyWithLinks, definitionRow, CodeXls); break;
+                    case "LinkAction_DeleteWithLinks": Code.LinkAction_DeleteWithLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.LinkAction_DeleteWithLinks, definitionRow, CodeXls); break;
                     case "Messages": Code.Messages = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Messages, definitionRow, CodeXls); break;
                     case "Messages_Parts": Code.Messages_Parts = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Messages_Parts, definitionRow, CodeXls); break;
                     case "Messages_Resonses": Code.Messages_Resonses = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Messages_Resonses, definitionRow, CodeXls); break;
@@ -7483,6 +7487,7 @@ namespace Implem.DefinitionAccessor
         public string Model_OnDeleted_SetSiteInfo;
         public string Model_OnDeletedNotifications;
         public string Model_OnDeletedNotice;
+        public string Model_DeleteWithLinks;
         public string Model_OnDeleting_ServerScript;
         public string Model_OnDeleted_ServerScript;
         public string Model_Restore;
@@ -7988,6 +7993,9 @@ namespace Implem.DefinitionAccessor
         public string Summaries_SelectMaxColumns;
         public string Summaries_SelectMaxColumnCases;
         public string Summaries_WhereTables;
+        public string LinkAction;
+        public string LinkAction_CopyWithLinks;
+        public string LinkAction_DeleteWithLinks;
         public string Messages;
         public string Messages_Parts;
         public string Messages_Resonses;
@@ -8165,6 +8173,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_OnDeleted_SetSiteInfo = new CodeDefinition();
         public CodeDefinition Model_OnDeletedNotifications = new CodeDefinition();
         public CodeDefinition Model_OnDeletedNotice = new CodeDefinition();
+        public CodeDefinition Model_DeleteWithLinks = new CodeDefinition();
         public CodeDefinition Model_OnDeleting_ServerScript = new CodeDefinition();
         public CodeDefinition Model_OnDeleted_ServerScript = new CodeDefinition();
         public CodeDefinition Model_Restore = new CodeDefinition();
@@ -8670,6 +8679,9 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Summaries_SelectMaxColumns = new CodeDefinition();
         public CodeDefinition Summaries_SelectMaxColumnCases = new CodeDefinition();
         public CodeDefinition Summaries_WhereTables = new CodeDefinition();
+        public CodeDefinition LinkAction = new CodeDefinition();
+        public CodeDefinition LinkAction_CopyWithLinks = new CodeDefinition();
+        public CodeDefinition LinkAction_DeleteWithLinks = new CodeDefinition();
         public CodeDefinition Messages = new CodeDefinition();
         public CodeDefinition Messages_Parts = new CodeDefinition();
         public CodeDefinition Messages_Resonses = new CodeDefinition();

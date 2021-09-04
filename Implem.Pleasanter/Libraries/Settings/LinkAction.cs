@@ -1,8 +1,10 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.Libraries.DataSources.SqlServer;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
@@ -169,6 +171,98 @@ namespace Implem.Pleasanter.Libraries.Settings
                 data = list.Replace($"\"{from}\"", $"\"{to}\"");
             }
             return data;
+        }
+
+        public void DeleteWithLinks(
+            Context context,
+            SiteSettings ss,
+            string columnName,
+            SqlSelect sub)
+        {
+            if (!context.CanDelete(ss: ss))
+            {
+                return;
+            }
+            var column = ss.GetColumn(
+                context: context,
+                columnName: columnName);
+            if (column == null)
+            {
+                return;
+            }
+            if (View == null)
+            {
+                View = new View();
+            }
+            if (View.ColumnFilterHash == null)
+            {
+                View.ColumnFilterHash = new Dictionary<string, string>();
+            }
+            var where = View.Where(
+                context: context,
+                ss: ss,
+                itemJoin: false);
+            var linksSub = Rds.SelectItems(
+                column: Rds.ItemsColumn().ReferenceId(),
+                join: new Rds.LinksJoinCollection().Add(new SqlJoin(
+                    tableBracket: "\"Links\"",
+                    joinType: SqlJoin.JoinTypes.Inner,
+                    joinExpression: "\"Links\".\"SourceId\"=\"Items\".\"ReferenceId\"")),
+                where: Rds.LinksWhere().DestinationId_In(sub: sub));
+            ErrorData invalid;
+            switch (ss.ReferenceType)
+            {
+                case "Issues":
+                    invalid = IssueUtilities.ExistsLockedRecord(
+                        context: context,
+                        ss: ss,
+                        where: where,
+                        param: null,
+                        orderBy: View.OrderBy(
+                            context: context,
+                            ss: ss));
+                    where.AddRange(new Rds.IssuesWhereCollection()
+                        .IssueId_In(sub: linksSub));
+                    switch (invalid.Type)
+                    {
+                        case Error.Types.None:
+                            IssueUtilities.BulkDelete(
+                                context: context,
+                                ss: ss,
+                                where: where,
+                                param: null);
+                            break;
+                    }
+                    Summaries.Synchronize(
+                        context: context,
+                        ss: ss);
+                    break;
+                case "Results":
+                    invalid = ResultUtilities.ExistsLockedRecord(
+                        context: context,
+                        ss: ss,
+                        where: where,
+                        param: null,
+                        orderBy: View.OrderBy(
+                            context: context,
+                            ss: ss));
+                    where.AddRange(new Rds.ResultsWhereCollection()
+                        .ResultId_In(sub: linksSub));
+                    switch (invalid.Type)
+                    {
+                        case Error.Types.None:
+                            ResultUtilities.BulkDelete(
+                                context: context,
+                                ss: ss,
+                                where: where,
+                                param: null);
+                            break;
+                    }
+                    Summaries.Synchronize(
+                        context: context,
+                        ss: ss);
+                    break;
+            }
         }
     }
 }

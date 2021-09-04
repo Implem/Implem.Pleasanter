@@ -4768,7 +4768,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private static int BulkDelete(
+        public static int BulkDelete(
             Context context,
             SiteSettings ss,
             SqlWhereCollection where,
@@ -4784,6 +4784,10 @@ namespace Implem.Pleasanter.Models
                     }),
                 where: where,
                 param: param);
+            ss.LinkActions(
+                context: context,
+                type: "DeleteWithLinks",
+                sub: sub);
             var sites = ss.IntegratedSites?.Any() == true
                 ? ss.AllowedIntegratedSites
                 : ss.SiteId.ToSingleList();
@@ -7614,7 +7618,7 @@ namespace Implem.Pleasanter.Models
                     param: param)) <= limit;
         }
 
-        private static ErrorData ExistsLockedRecord(
+        public static ErrorData ExistsLockedRecord(
             Context context,
             SiteSettings ss,
             SqlWhereCollection where,
