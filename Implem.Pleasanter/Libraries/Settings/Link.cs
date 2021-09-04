@@ -641,7 +641,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Context context,
             long siteId,
             string type,
-            Dictionary<string, string> data)
+            Dictionary<string, string> data,
+            SqlSelect sub)
         {
             var ss = SiteSettingsUtilities.Get(
                 context: context,
@@ -659,6 +660,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 columnName: ColumnName,
                                 from: data.Get("From").ToLong(),
                                 to: data.Get("To").ToLong());
+                            break;
+                        case "DeleteWithLinks":
+                            action.DeleteWithLinks(
+                                context: context,
+                                ss: ss,
+                                columnName: ColumnName,
+                                sub: sub);
                             break;
                     }
                 }

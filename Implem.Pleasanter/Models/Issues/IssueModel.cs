@@ -1678,6 +1678,14 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     notice: notice)
                 : null;
+            ss.LinkActions(
+                context: context,
+                type: "DeleteWithLinks",
+                sub: Rds.SelectIssues(
+                    column: Rds.IssuesColumn().IssueId(),
+                    where: Rds.IssuesWhere()
+                        .SiteId(ss.SiteId)
+                        .IssueId(IssueId)));
             var statements = new List<SqlStatement>();
             var where = Rds.IssuesWhere().SiteId(SiteId).IssueId(IssueId);
             statements.OnDeletingExtendedSqls(
