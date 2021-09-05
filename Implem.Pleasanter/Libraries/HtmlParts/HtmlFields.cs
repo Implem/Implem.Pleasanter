@@ -899,7 +899,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return _using && labelText != string.Empty
                 ? hb.P(css: "field-label", action: () =>
                 {
-                    if (labelRaw != null)
+                    if (!labelRaw.IsNullOrEmpty())
                     {
                         hb.Raw(text: labelRaw);
                     }
