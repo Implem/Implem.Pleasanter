@@ -288,35 +288,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 {
                     Column column = null;
                     ss?.ColumnHash?.TryGetValue(definition.ColumnName, out column);
-                    return (
-                        definition.ColumnName,
-                        new ServerScriptModelColumn
-                        {
-                            LabelText = column?.LabelText
-                                ?? string.Empty,
-                            ReadOnly = !(column?.CanEdit(
-                                context: context,
-                                ss: ss,
-                                mine: mine) == true),
-                            ExtendedFieldCss = column?.ExtendedFieldCss
-                                ?? string.Empty,
-                            ExtendedControlCss = column?.ExtendedControlCss
-                                ?? string.Empty,
-                            ExtendedCellCss = column?.ExtendedCellCss
-                                ?? string.Empty,
-                            ExtendedHtmlBeforeField = column?.ExtendedHtmlBeforeField
-                                ?? string.Empty,
-                            ExtendedHtmlBeforeLabel = column?.ExtendedHtmlBeforeLabel
-                                ?? string.Empty,
-                            ExtendedHtmlBetweenLabelAndControl = column?.ExtendedHtmlBetweenLabelAndControl
-                                ?? string.Empty,
-                            ExtendedHtmlAfterControl = column?.ExtendedHtmlAfterControl
-                                ?? string.Empty,
-                            ExtendedHtmlAfterField = column?.ExtendedHtmlAfterField
-                                ?? string.Empty,
-                            Hide = column?.Hide == true,
-                            RawText = string.Empty
-                        });
+                    return (definition.ColumnName, new ServerScriptModelColumn());
                 })
                 .ToArray();
             return columns;
@@ -874,6 +846,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             var createdContext = new Context(apiRequestBody: apiRequestBody);
             createdContext.LogBuilder = context.LogBuilder;
+            createdContext.Messages = context.Messages;
             createdContext.Id = id;
             createdContext.ApiRequestBody = apiRequestBody;
             createdContext.PermissionHash = Permissions.Get(context: createdContext);
