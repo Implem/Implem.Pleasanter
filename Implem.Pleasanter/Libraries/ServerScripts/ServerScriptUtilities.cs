@@ -424,7 +424,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 {
                     view.ColumnSorterHash = new Dictionary<string, SqlOrderBy.Types>();
                 }
-                if (Enum.TryParse<SqlOrderBy.Types>(String(columnSorterHash, columnFilter.Key), out var value))
+                if (Enum.TryParse<SqlOrderBy.Types>(Value(columnSorterHash, columnFilter.Key).ToString(), out var value))
                 {
                     view.ColumnSorterHash[columnFilter.Key] = value;
                 }
