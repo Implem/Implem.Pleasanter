@@ -168,7 +168,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     context: context,
                     value: Value,
                     format: column.Format == "C" || column.Format == "N")
-                        + (column.EditorReadOnly == true
+                        + (column.GetEditorReadOnly()
                             || Permissions.ColumnPermissionType(
                                 context: context,
                                 ss: ss,
