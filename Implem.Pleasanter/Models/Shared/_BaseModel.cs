@@ -689,7 +689,7 @@ namespace Implem.Pleasanter.Models
                 itemModel: null,
                 view: null,
                 where: script => script.WhenloadingSiteSettings == true);
-            SetAddChoiceHashByServerScript(context: context,
+            SetServerScriptModelColumns(context: context,
                 ss: ss,
                 scriptValues: scriptValues);
         }
@@ -724,7 +724,7 @@ namespace Implem.Pleasanter.Models
                 where: script => script.BeforeOpeningPage == true);
             if (scriptValues != null)
             {
-                SetAddChoiceHashByServerScript(context: context,
+                SetServerScriptModelColumns(context: context,
                     ss: ss,
                     scriptValues: scriptValues);
                 ServerScriptModelRows.Add(scriptValues);
@@ -737,20 +737,19 @@ namespace Implem.Pleasanter.Models
             return null;
         }
 
-        public static void SetAddChoiceHashByServerScript(Context context, SiteSettings ss, ServerScriptModelRow scriptValues)
+        public static void SetServerScriptModelColumns(Context context, SiteSettings ss, ServerScriptModelRow scriptValues)
         {
-            scriptValues?.Columns
-                .Where(scriptColumn => scriptColumn.Value?.ChoiceHash != null)
-                .ForEach(scriptColumn =>
+            scriptValues?.Columns.ForEach(scriptColumn =>
+            {
+                var column = ss.GetColumn(
+                    context: context,
+                    columnName: scriptColumn.Key);
+                if (column != null)
                 {
-                    var column = ss.GetColumn(
-                        context: context,
-                        columnName: scriptColumn.Key);
-                    if (column != null)
+                    if (scriptColumn.Value.ChoiceHash != null)
                     {
                         var searchText = context.Forms.Data("DropDownSearchText");
                         var searchIndexes = searchText.SearchIndexes();
-                        column.AddChoiceHashByServerScript = true;
                         column.ChoiceHash = scriptColumn.Value
                             ?.ChoiceHash
                             ?.Where(o => searchIndexes?.Any() != true ||
@@ -762,8 +761,11 @@ namespace Implem.Pleasanter.Models
                                 o => new Choice(
                                     o.Key.ToString(),
                                     o.Value?.ToString()));
+                        column.AddChoiceHashByServerScript = true;
                     }
-                });
+                    column.ServerScriptModelColumns.Add(scriptColumn.Value);
+                }
+            });
         }
     }
 
@@ -922,7 +924,7 @@ namespace Implem.Pleasanter.Models
                 where: script => script.BeforeOpeningRow == true);
             if (scriptValues != null)
             {
-                SetAddChoiceHashByServerScript(context: context,
+                SetServerScriptModelColumns(context: context,
                     ss: ss,
                     scriptValues: scriptValues);
                 ServerScriptModelRows.Add(scriptValues);
@@ -942,7 +944,7 @@ namespace Implem.Pleasanter.Models
                 where: script => script.BeforeOpeningPage == true);
             if (scriptValues != null)
             {
-                SetAddChoiceHashByServerScript(context: context,
+                SetServerScriptModelColumns(context: context,
                     ss: ss,
                     scriptValues: scriptValues);
                 ServerScriptModelRows.Add(scriptValues);
