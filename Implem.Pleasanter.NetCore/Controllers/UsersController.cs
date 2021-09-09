@@ -199,7 +199,7 @@ namespace Implem.Pleasanter.NetCore.Controllers
                         ? null
                         : new Dictionary<string, string> { ["idp"] = idp })
                 {
-                    RedirectUri = Url.Action(nameof(SsoSync))
+                    RedirectUri = Url.Action(nameof(SamlLogin))
                 });
         }
 
@@ -225,7 +225,7 @@ namespace Implem.Pleasanter.NetCore.Controllers
                         items: null,
                         parameters: new Dictionary<string, object> { ["idp"] = redirectResultUrl })
                     {
-                        RedirectUri = Url.Action(nameof(SsoSync), new { returnUrl })
+                        RedirectUri = Url.Action(nameof(SamlLogin), new { returnUrl })
                     });
             }
             if (!string.IsNullOrEmpty(redirectUrl)) return base.Redirect(redirectUrl);
@@ -237,12 +237,12 @@ namespace Implem.Pleasanter.NetCore.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
-        public ActionResult SsoSync()
+        public ActionResult SamlLogin()
         {
 
             var context = new ContextImplement();
             var controller = new Pleasanter.Controllers.UsersController();
-            var result = controller.SsoSync(context: context);
+            var result = controller.SamlLogin(context: context);
             var redirectResult = new RedirectResult(result.redirectResultUrl);
             return redirectResult;
         }
