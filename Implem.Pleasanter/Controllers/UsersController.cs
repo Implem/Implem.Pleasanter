@@ -252,7 +252,7 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
-        public (string redirectUrl, string redirectResultUrl, string html) SsoSync(Context context)
+        public (string redirectUrl, string redirectResultUrl, string html) SamlLogin(Context context)
         {
             if (!Authentications.SAML()
                 || context.AuthenticationType != "Federation"
