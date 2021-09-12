@@ -258,6 +258,11 @@ namespace Implem.Pleasanter.Libraries.Requests
                         ExtendedFields = Parameters.ExtendedFields
                             .ExtensionWhere<ParameterAccessor.Parts.ExtendedField>(context: this)
                             .ToList();
+
+                        break;
+                    case "groups":
+                        Page = Controller;
+                        ExtendedFields = GroupUtilities.GetExtendedFields(context: this);
                         break;
                     default:
                         Page = Controller;

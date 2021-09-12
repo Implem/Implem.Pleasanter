@@ -59,6 +59,7 @@
     <Compile Include="Parts\AutoTestSettings.cs" />
     <Compile Include="Parts\ExtendedField.cs" />
     <Compile Include="Parts\ExtendedNavigationMenu.cs" />
+    <Compile Include="Parts\GroupMembers.cs" />
     <Compile Include="Parts\Mobile.cs" />
     <Compile Include="Parts\NavigationMenu.cs" />
     <Compile Include="Parts\User.cs" />

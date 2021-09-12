@@ -8,5 +8,8 @@
         "Leader": 255,
         "Manager": 511
     },
-    "PageSize": 100
+    "PageSize": 100,
+    "DeptFormat": "[[Dept] [DeptId]] [DeptName]",
+    "GroupFormat": "[[Group] [GroupId]] [GroupName]",
+    "UserFormat": "[[User] [UserId]] [Name]"
 }

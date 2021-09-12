@@ -12,6 +12,7 @@
     "HistoryColumn": "600",
     "TypeName": "bit",
     "Nullable": "1",
+    "CheckFilterControlType": 1,
     "ExtendedColumnType": "Check",
     "FullTextType": 0,
     "LabelText_en": "Check",

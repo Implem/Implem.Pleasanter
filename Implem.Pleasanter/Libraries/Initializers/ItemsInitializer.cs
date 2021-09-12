@@ -178,7 +178,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                                         .ReferenceId(issueModel.IssueId)
                                                         .ReferenceType("Issues")
                                                         .SiteId(issueModel.SiteId)
-                                                        .Title(issueModel.Title.DisplayValue)
+                                                        .Title(issueModel.Title.MessageDisplay(context: context))
                                                         .FullText(fullText, _using: fullText != null)
                                                         .SearchIndexCreatedTime(DateTime.Now)),
                                                 Rds.IdentityInsertItems(
@@ -243,7 +243,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                                         .Ver(issueModel.Ver)
                                                         .ReferenceType("Issues")
                                                         .SiteId(issueModel.SiteId)
-                                                        .Title(issueModel.Title.DisplayValue))
+                                                        .Title(issueModel.Title.MessageDisplay(context: context)))
                                             });
                                     }
                                 });
@@ -324,7 +324,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                                         .ReferenceId(resultModel.ResultId)
                                                         .ReferenceType("Results")
                                                         .SiteId(resultModel.SiteId)
-                                                        .Title(resultModel.Title.DisplayValue)
+                                                        .Title(resultModel.Title.MessageDisplay(context: context))
                                                         .FullText(fullText, _using: fullText != null)
                                                         .SearchIndexCreatedTime(DateTime.Now)),
                                                 Rds.IdentityInsertItems(
@@ -389,7 +389,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                                         .Ver(resultModel.Ver)
                                                         .ReferenceType("Results")
                                                         .SiteId(resultModel.SiteId)
-                                                        .Title(resultModel.Title.DisplayValue))
+                                                        .Title(resultModel.Title.MessageDisplay(context: context)))
                                             });
                                     }
                                 });
@@ -470,7 +470,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                                         .ReferenceId(wikiModel.WikiId)
                                                         .ReferenceType("Wikis")
                                                         .SiteId(wikiModel.SiteId)
-                                                        .Title(wikiModel.Title.DisplayValue)
+                                                        .Title(wikiModel.Title.MessageDisplay(context: context))
                                                         .FullText(fullText, _using: fullText != null)
                                                         .SearchIndexCreatedTime(DateTime.Now)),
                                                 Rds.IdentityInsertItems(
@@ -535,7 +535,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                                         .Ver(wikiModel.Ver)
                                                         .ReferenceType("Wikis")
                                                         .SiteId(wikiModel.SiteId)
-                                                        .Title(wikiModel.Title.DisplayValue))
+                                                        .Title(wikiModel.Title.MessageDisplay(context: context)))
                                             });
                                     }
                                 });

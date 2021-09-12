@@ -1399,6 +1399,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CharToAddWhenCopying(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CharToAddWhenCopying",
+                data: data);
+        }
+
         public static string ChatWork(
             Context context,
             params string[] data)
@@ -7196,16 +7206,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Subject",
-                data: data);
-        }
-
-        public static string SuffixCopy(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "SuffixCopy",
                 data: data);
         }
 

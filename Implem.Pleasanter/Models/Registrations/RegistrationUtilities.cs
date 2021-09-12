@@ -891,7 +891,7 @@ namespace Implem.Pleasanter.Models
                 referenceType: "Registrations",
                 title: registrationModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Registrations(context: context) + " - " + Displays.New(context: context)
-                    : registrationModel.Title.Value,
+                    : registrationModel.Title.MessageDisplay(context: context),
                 action: () => hb
                     .Editor(
                         context: context,
@@ -1820,7 +1820,7 @@ namespace Implem.Pleasanter.Models
                     .CloseDialog()
                     .Message(Messages.Updated(
                         context: context,
-                        data: registrationModel.Title.DisplayValue))
+                        data: registrationModel.Title.MessageDisplay(context: context)))
                     .Messages(context.Messages);
             }
             else
@@ -1876,7 +1876,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         message: Messages.Deleted(
                             context: context,
-                            data: registrationModel.Title.Value));
+                            data: registrationModel.Title.MessageDisplay(context: context)));
                     var res = new RegistrationsResponseCollection(registrationModel);
                     res
                         .SetMemory("formChanged", false)

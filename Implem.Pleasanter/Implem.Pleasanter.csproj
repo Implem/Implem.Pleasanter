@@ -1253,7 +1253,6 @@
     <Content Include="App_Data\Displays\Style.json" />
     <Content Include="App_Data\Displays\Styles.json" />
     <Content Include="App_Data\Displays\Subject.json" />
-    <Content Include="App_Data\Displays\SuffixCopy.json" />
     <Content Include="App_Data\Displays\Summaries.json" />
     <Content Include="App_Data\Displays\SummaryLinkColumn.json" />
     <Content Include="App_Data\Displays\SummarySourceColumn.json" />
@@ -2305,6 +2304,8 @@
     <Content Include="App_Data\Displays\ReferenceCopy.json" />
     <Content Include="App_Data\Displays\AllowReferenceCopy.json" />
     <Content Include="App_Data\Displays\ApiCountReset.json" />
+    <Content Include="App_Data\Parameters\GroupMembers.json" />
+    <Content Include="App_Data\Displays\CharToAddWhenCopying.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />
