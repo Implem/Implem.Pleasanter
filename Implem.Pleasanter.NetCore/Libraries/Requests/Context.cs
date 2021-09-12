@@ -268,6 +268,10 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
                                 ? "/trashbox"
                                 : string.Empty);
                         break;
+                    case "groups":
+                        Page = Controller;
+                        ExtendedFields = GroupUtilities.GetExtendedFields(context: this);
+                        break;
                     default:
                         Page = Controller;
                         break;
