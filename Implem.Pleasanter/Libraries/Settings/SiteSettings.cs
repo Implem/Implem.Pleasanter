@@ -171,6 +171,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? AllowEditingComments;
         public bool? AllowCopy;
         public bool? AllowReferenceCopy;
+        public string CharToAddWhenCopying;
         public bool? AllowSeparate;
         public bool? AllowLockTable;
         public bool? HideLink;
@@ -301,6 +302,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             AllowEditingComments = AllowEditingComments ?? false;
             AllowCopy = AllowCopy ?? Parameters.General.AllowCopy;
             AllowReferenceCopy = AllowReferenceCopy ?? Parameters.General.AllowReferenceCopy;
+            CharToAddWhenCopying = CharToAddWhenCopying ?? Parameters.General.CharToAddWhenCopying;
             AllowSeparate = AllowSeparate ?? false;
             AllowLockTable = AllowLockTable ?? false;
             HideLink = HideLink ?? false;
@@ -671,6 +673,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (AllowReferenceCopy != Parameters.General.AllowReferenceCopy)
             {
                 ss.AllowReferenceCopy = AllowReferenceCopy;
+            }
+            if (CharToAddWhenCopying != Parameters.General.CharToAddWhenCopying)
+            {
+                ss.CharToAddWhenCopying = CharToAddWhenCopying;
             }
             if (AllowSeparate == true)
             {
@@ -3056,6 +3062,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "AutoVerUpType": AutoVerUpType = (Versions.AutoVerUpTypes)value.ToInt(); break;
                 case "AllowCopy": AllowCopy = value.ToBool(); break;
                 case "AllowReferenceCopy": AllowReferenceCopy = value.ToBool(); break;
+                case "CharToAddWhenCopying": CharToAddWhenCopying = value; break;
                 case "AllowEditingComments": AllowEditingComments = value.ToBool(); break;
                 case "AllowSeparate": AllowSeparate = value.ToBool(); break;
                 case "AllowLockTable": AllowLockTable = value.ToBool(); break;
