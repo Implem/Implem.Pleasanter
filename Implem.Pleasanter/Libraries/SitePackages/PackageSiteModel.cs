@@ -24,6 +24,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
         public long InheritPermission = 0;
         public SiteSettings SiteSettings;
         public bool Publish = false;
+        public bool DisableCrossSearch = false;
         public Comments Comments = new Comments();
         public long? WikiId;
         [NonSerialized]
@@ -53,6 +54,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             SiteSettings = siteModel.SiteSettings;
             SiteSettings.Update_ColumnAccessControls();
             Publish = siteModel.Publish;
+            DisableCrossSearch = siteModel.DisableCrossSearch;
             Comments = siteModel.Comments;
         }
 
