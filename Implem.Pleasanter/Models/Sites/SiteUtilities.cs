@@ -1167,7 +1167,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.SitesLimit.MessageJson(context: context);
             }
-            siteModel.Title.Value += Displays.SuffixCopy(context: context);
+            siteModel.Title.Value += Parameters.General.CharToAddWhenCopying;
             if (!context.Forms.Bool("CopyWithComments"))
             {
                 siteModel.Comments.Clear();
@@ -4834,6 +4834,11 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-auto-thin",
                         labelText: Displays.AllowReferenceCopy(context: context),
                         _checked: ss.AllowReferenceCopy == true)
+                    .FieldTextBox(
+                        controlId: "CharToAddWhenCopying",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.CharToAddWhenCopying(context: context),
+                        text: ss.CharToAddWhenCopying)
                     .FieldCheckBox(
                         controlId: "AllowSeparate",
                         fieldCss: "field-auto-thin",

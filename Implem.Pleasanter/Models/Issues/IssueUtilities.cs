@@ -3841,7 +3841,7 @@ namespace Implem.Pleasanter.Models
             issueModel.Ver = 1;
             if (ss.GetEditorColumnNames().Contains("Title"))
             {
-                issueModel.Title.Value += Displays.SuffixCopy(context: context);
+                issueModel.Title.Value += ss.CharToAddWhenCopying;
             }
             if (!context.Forms.Bool("CopyWithComments"))
             {

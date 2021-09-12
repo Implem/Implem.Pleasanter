@@ -38,6 +38,7 @@ namespace Implem.ParameterAccessor.Parts
         public int ViewerSwitchingType;
         public bool AllowCopy;
         public bool AllowReferenceCopy;
+        public string CharToAddWhenCopying;
         public int UpdateResponseType;
         public string SolutionBackupPath;
         public string SolutionBackupExcludeDirectories;

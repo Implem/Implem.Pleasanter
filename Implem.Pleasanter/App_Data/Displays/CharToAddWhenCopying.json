@@ -1,0 +1,33 @@
+﻿{
+    "Id": "CharToAddWhenCopying",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Characters to add when copying"
+        },
+        {
+            "Language": "zh",
+            "Body": "复制时要添加的字符"
+        },
+        {
+            "Language": "ja",
+            "Body": "コピー時に追加する文字"
+        },
+        {
+            "Language": "de",
+            "Body": "Beim Kopieren hinzuzufügende Zeichen"
+        },
+        {
+            "Language": "ko",
+            "Body": "복사할 때 추가할 문자"
+        },
+        {
+            "Language": "es",
+            "Body": "Caracteres para agregar al copiar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Các ký tự để thêm khi sao chép"
+        }
+    ]
+}

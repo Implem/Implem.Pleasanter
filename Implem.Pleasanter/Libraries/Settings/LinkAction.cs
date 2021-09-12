@@ -16,6 +16,8 @@ namespace Implem.Pleasanter.Libraries.Settings
     {
         public string Type;
         public View View;
+        public string CharToAddWhenCopying;
+        public bool? CopyWithComments;
 
         public LinkAction GetRecordingData(Context context, SiteSettings ss)
         {
@@ -24,6 +26,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             linkAction.View = View?.GetRecordingData(
                 context: context,
                 ss: ss);
+            linkAction.CharToAddWhenCopying = CharToAddWhenCopying;
+            linkAction.CopyWithComments = CopyWithComments == true
+                ? (bool?)true
+                : null;
             return linkAction;
         }
 
@@ -94,6 +100,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 case Error.Types.None:
                                     issueModel.IssueId = 0;
                                     issueModel.Ver = 1;
+                                    issueModel.Title.Value += CharToAddWhenCopying ?? ss.CharToAddWhenCopying;
+                                    if (CopyWithComments != true) issueModel.Comments.Clear();
                                     issueModel.SetCopyDefault(
                                         context: context,
                                         ss: ss);
@@ -140,6 +148,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 case Error.Types.None:
                                     resultModel.ResultId = 0;
                                     resultModel.Ver = 1;
+                                    resultModel.Title.Value += CharToAddWhenCopying ?? ss.CharToAddWhenCopying;
+                                    if (CopyWithComments != true) resultModel.Comments.Clear();
                                     resultModel.SetCopyDefault(
                                         context: context,
                                         ss: ss);
