@@ -88,11 +88,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 onTesting: onTesting,
                 scriptDepth: context.ServerScriptDepth,
                 controlId: context.Forms.ControlId());
-            SiteSettings = new ServerScriptModelSiteSettings
-            {
-                DefaultViewId = ss?.GridView,
-                Sections = ss?.Sections
-            };
+            SiteSettings = new ServerScriptModelSiteSettings(
+                context: context,
+                ss: ss);
             Items = new ServerScriptModelApiItems(
                 context: context,
                 onTesting: onTesting);
