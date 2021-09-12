@@ -2086,11 +2086,9 @@ namespace Implem.Pleasanter.Models
                 data.Add(
                     $"Dept,{deptId}," + admin,
                     new ControlData(
-                        id: deptId,
-                        text: Displays.Depts(context: context),
-                        name: SiteInfo.Dept(
-                            tenantId: context.TenantId,
-                            deptId: deptId)?.Name + manager,
+                        text: dept.SelectableText(
+                            context: context,
+                            format: Parameters.GroupMembers.DeptFormat),
                         title: dept?.Tooltip()));
             }
             else if (userId > 0)
@@ -2099,9 +2097,9 @@ namespace Implem.Pleasanter.Models
                 data.Add(
                     $"User,{userId},{admin}",
                     new ControlData(
-                        id: userId,
-                        text: Displays.Users(context: context),
-                        name: user.Name + manager,
+                        text: user.SelectableText(
+                            context: context,
+                            format: Parameters.GroupMembers.UserFormat),
                         title: user?.Tooltip(context: context)));
             }
         }

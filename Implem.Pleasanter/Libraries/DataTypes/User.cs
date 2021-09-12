@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text.RegularExpressions;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
@@ -174,6 +175,46 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     context: context,
                     userId: Id)
                 : string.Empty;
+        }
+
+        public string SelectableText(Context context, string format)
+        {
+            var value = format;
+            foreach (Match match in format.RegexMatches("\\[[A-Za-z]+?\\]"))
+            {
+                switch (match.Value)
+                {
+                    case "[User]":
+                        value = value.Replace(match.Value, Displays.Users(context: context));
+                        break;
+                    case "[UserId]":
+                        value = value.Replace(match.Value, Id.ToString());
+                        break;
+                    case "[DeptId]":
+                        value = value.Replace(match.Value, DeptId.ToString());
+                        break;
+                    case "[Dept]":
+                    case "[DeptName]":
+                        value = value.Replace(match.Value, Dept?.Name);
+                        break;
+                    case "[DeptCode]":
+                        value = value.Replace(match.Value, Dept?.Code);
+                        break;
+                    case "[LoginId]":
+                        value = value.Replace(match.Value, LoginId);
+                        break;
+                    case "[Name]":
+                        value = value.Replace(match.Value, Name);
+                        break;
+                    case "[UserCode]":
+                        value = value.Replace(match.Value, UserCode);
+                        break;
+                    case "[Body]":
+                        value = value.Replace(match.Value, Body);
+                        break;
+                }
+            }
+            return value;
         }
 
         public string Tooltip(Context context)
