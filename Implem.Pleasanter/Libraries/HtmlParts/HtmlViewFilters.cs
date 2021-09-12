@@ -449,19 +449,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             switch (column.CheckFilterControlType)
             {
-                case ColumnUtilities.CheckFilterControlTypes.OnOnly:
-                    return hb.FieldCheckBox(
-                        controlId: idPrefix + column.ColumnName,
-                        fieldCss: "field-auto-thin",
-                        controlCss: " auto-postback",
-                        labelText: Displays.Get(
-                            context: context,
-                            id: column.GridLabelText),
-                        labelTitle: ss.LabelTitle(column),
-                        controlOnly: controlOnly,
-                        action: action,
-                        _checked: view.ColumnFilter(column.ColumnName).ToBool(),
-                        method: "post");
                 case ColumnUtilities.CheckFilterControlTypes.OnAndOff:
                     return hb.FieldDropDown(
                         context: context,
@@ -480,8 +467,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         addSelectedValue: false,
                         insertBlank: true,
                         method: "post");
+                default:
+                    return hb.FieldCheckBox(
+                        controlId: idPrefix + column.ColumnName,
+                        fieldCss: "field-auto-thin",
+                        controlCss: " auto-postback",
+                        labelText: Displays.Get(
+                            context: context,
+                            id: column.GridLabelText),
+                        labelTitle: ss.LabelTitle(column),
+                        controlOnly: controlOnly,
+                        action: action,
+                        _checked: view.ColumnFilter(column.ColumnName).ToBool(),
+                        method: "post");
             }
-            return hb;
         }
 
         private static HtmlBuilder DropDown(
