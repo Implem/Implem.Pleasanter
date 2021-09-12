@@ -2378,6 +2378,11 @@ namespace Implem.DefinitionAccessor
                                 data.ToString();
                             newColumnDefinition.SavedGridStyle = newColumnDefinition.GridStyle;
                             break;
+                        case "CheckFilterControlType":
+                            newColumnDefinition.CheckFilterControlType = customDefinitionRow.Get("CheckFilterControlType")?.ToInt() ??
+                                data.ToInt();
+                            newColumnDefinition.SavedCheckFilterControlType = newColumnDefinition.CheckFilterControlType;
+                            break;
                         case "Hash":
                             newColumnDefinition.Hash = customDefinitionRow.Get("Hash")?.ToBool() ??
                                 data.ToBool();
@@ -2703,6 +2708,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("FieldCss")) { definition.FieldCss = definitionRow["FieldCss"].ToString(); definition.SavedFieldCss = definition.FieldCss; }
             if (definitionRow.ContainsKey("ControlCss")) { definition.ControlCss = definitionRow["ControlCss"].ToString(); definition.SavedControlCss = definition.ControlCss; }
             if (definitionRow.ContainsKey("GridStyle")) { definition.GridStyle = definitionRow["GridStyle"].ToString(); definition.SavedGridStyle = definition.GridStyle; }
+            if (definitionRow.ContainsKey("CheckFilterControlType")) { definition.CheckFilterControlType = definitionRow["CheckFilterControlType"].ToInt(); definition.SavedCheckFilterControlType = definition.CheckFilterControlType; }
             if (definitionRow.ContainsKey("Hash")) { definition.Hash = definitionRow["Hash"].ToBool(); definition.SavedHash = definition.Hash; }
             if (definitionRow.ContainsKey("Calc")) { definition.Calc = definitionRow["Calc"].ToString(); definition.SavedCalc = definition.Calc; }
             if (definitionRow.ContainsKey("Session")) { definition.Session = definitionRow["Session"].ToBool(); definition.SavedSession = definition.Session; }
@@ -6361,6 +6367,7 @@ namespace Implem.DefinitionAccessor
                         case "FieldCss": columnDefinition.FieldCss = optionValue.ToString(); break;
                         case "ControlCss": columnDefinition.ControlCss = optionValue.ToString(); break;
                         case "GridStyle": columnDefinition.GridStyle = optionValue.ToString(); break;
+                        case "CheckFilterControlType": columnDefinition.CheckFilterControlType = optionValue.ToInt(); break;
                         case "Hash": columnDefinition.Hash = optionValue.ToBool(); break;
                         case "Calc": columnDefinition.Calc = optionValue.ToString(); break;
                         case "Session": columnDefinition.Session = optionValue.ToBool(); break;
@@ -8778,6 +8785,7 @@ namespace Implem.DefinitionAccessor
         public string FieldCss; public string SavedFieldCss;
         public string ControlCss; public string SavedControlCss;
         public string GridStyle; public string SavedGridStyle;
+        public int CheckFilterControlType; public int SavedCheckFilterControlType;
         public bool Hash; public bool SavedHash;
         public string Calc; public string SavedCalc;
         public bool Session; public bool SavedSession;
@@ -8909,6 +8917,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("FieldCss")) FieldCss = propertyCollection["FieldCss"].ToString(); else FieldCss = string.Empty;
             if (propertyCollection.ContainsKey("ControlCss")) ControlCss = propertyCollection["ControlCss"].ToString(); else ControlCss = string.Empty;
             if (propertyCollection.ContainsKey("GridStyle")) GridStyle = propertyCollection["GridStyle"].ToString(); else GridStyle = string.Empty;
+            if (propertyCollection.ContainsKey("CheckFilterControlType")) CheckFilterControlType = propertyCollection["CheckFilterControlType"].ToInt(); else CheckFilterControlType = 0;
             if (propertyCollection.ContainsKey("Hash")) Hash = propertyCollection["Hash"].ToBool(); else Hash = false;
             if (propertyCollection.ContainsKey("Calc")) Calc = propertyCollection["Calc"].ToString(); else Calc = string.Empty;
             if (propertyCollection.ContainsKey("Session")) Session = propertyCollection["Session"].ToBool(); else Session = false;
@@ -9040,6 +9049,7 @@ namespace Implem.DefinitionAccessor
                     case "FieldCss": return FieldCss;
                     case "ControlCss": return ControlCss;
                     case "GridStyle": return GridStyle;
+                    case "CheckFilterControlType": return CheckFilterControlType;
                     case "Hash": return Hash;
                     case "Calc": return Calc;
                     case "Session": return Session;
@@ -9171,6 +9181,7 @@ namespace Implem.DefinitionAccessor
             FieldCss = SavedFieldCss;
             ControlCss = SavedControlCss;
             GridStyle = SavedGridStyle;
+            CheckFilterControlType = SavedCheckFilterControlType;
             Hash = SavedHash;
             Calc = SavedCalc;
             Session = SavedSession;

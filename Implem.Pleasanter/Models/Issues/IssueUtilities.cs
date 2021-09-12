@@ -1379,7 +1379,7 @@ namespace Implem.Pleasanter.Models
                     referenceType: "Issues",
                     title: issueModel.MethodType == BaseModel.MethodTypes.New
                         ? Displays.New(context: context)
-                        : issueModel.Title.DisplayValue,
+                        : issueModel.Title.MessageDisplay(context: context),
                     body: issueModel.Body,
                     useTitle: ss.TitleColumns?.Any(o => ss
                         .GetEditorColumnNames()
@@ -2895,7 +2895,7 @@ namespace Implem.Pleasanter.Models
                         limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
                         message: Displays.Created(
                             context: context,
-                            data: issueModel.Title.DisplayValue));
+                            data: issueModel.Title.MessageDisplay(context: context)));
                 case Error.Types.Duplicated:
                     return ApiResults.Error(
                         context: context,
@@ -3051,7 +3051,7 @@ namespace Implem.Pleasanter.Models
                     .CloseDialog()
                     .Message(Messages.Updated(
                         context: context,
-                        data: issueModel.Title.DisplayValue))
+                        data: issueModel.Title.MessageDisplay(context: context)))
                     .Messages(context.Messages);
             }
             else if (issueModel.Locked)
@@ -3067,7 +3067,7 @@ namespace Implem.Pleasanter.Models
                         .SetMemory("formChanged", false)
                         .Message(Messages.Updated(
                             context: context,
-                            data: issueModel.Title.DisplayValue))
+                            data: issueModel.Title.MessageDisplay(context: context)))
                         .Messages(context.Messages)
                         .ClearFormData();
             }
@@ -3087,7 +3087,7 @@ namespace Implem.Pleasanter.Models
                             .Val("#VerUp", verUp)
                             .Val("#Ver", issueModel.Ver)
                             .Disabled("#VerUp", verUp)
-                            .Html("#HeaderTitle", HttpUtility.HtmlEncode(issueModel.Title.DisplayValue))
+                            .Html("#HeaderTitle", HttpUtility.HtmlEncode(issueModel.Title.MessageDisplay(context: context)))
                             .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
                                 context: context,
                                 baseModel: issueModel,
@@ -3104,7 +3104,7 @@ namespace Implem.Pleasanter.Models
                             .SetMemory("formChanged", false)
                             .Message(Messages.Updated(
                                 context: context,
-                                data: issueModel.Title.DisplayValue))
+                                data: issueModel.Title.MessageDisplay(context: context)))
                             .Messages(context.Messages)
                             .Comment(
                                 context: context,
@@ -3120,7 +3120,7 @@ namespace Implem.Pleasanter.Models
                             issueModel: issueModel,
                             message: Messages.Updated(
                                 context: context,
-                                data: issueModel.Title.DisplayValue));
+                                data: issueModel.Title.MessageDisplay(context: context)));
                 }
             }
         }
@@ -3756,7 +3756,7 @@ namespace Implem.Pleasanter.Models
                         limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
                         message: Displays.Updated(
                             context: context,
-                            data: issueModel.Title.DisplayValue));
+                            data: issueModel.Title.MessageDisplay(context: context)));
                 case Error.Types.Duplicated:
                     return ApiResults.Error(
                         context: context,
@@ -3841,7 +3841,7 @@ namespace Implem.Pleasanter.Models
             issueModel.Ver = 1;
             if (ss.GetEditorColumnNames().Contains("Title"))
             {
-                issueModel.Title.Value += Displays.SuffixCopy(context: context);
+                issueModel.Title.Value += ss.CharToAddWhenCopying;
             }
             if (!context.Forms.Bool("CopyWithComments"))
             {
@@ -3951,7 +3951,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             message: Messages.Moved(
                                 context: context,
-                                data: issueModel.Title.DisplayValue));
+                                data: issueModel.Title.MessageDisplay(context: context)));
                         return new ResponseCollection()
                             .Response("id", issueModel.IssueId.ToString())
                             .Href(Locations.ItemEdit(
@@ -3991,7 +3991,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         message: Messages.Deleted(
                             context: context,
-                            data: issueModel.Title.Value));
+                            data: issueModel.Title.MessageDisplay(context: context)));
                     var res = new IssuesResponseCollection(issueModel);
                     res
                         .SetMemory("formChanged", false)
@@ -4045,7 +4045,7 @@ namespace Implem.Pleasanter.Models
                         limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
                         message: Displays.Deleted(
                             context: context,
-                            data: issueModel.Title.DisplayValue));
+                            data: issueModel.Title.MessageDisplay(context: context)));
                 default:
                     return ApiResults.Error(
                         context: context,
@@ -4484,7 +4484,7 @@ namespace Implem.Pleasanter.Models
                     new HtmlBuilder().SeparateSettings(
                         context: context,
                         ss: ss,
-                        title: issueModel.Title.Value,
+                        title: issueModel.Title.MessageDisplay(context: context),
                         workValue: issueModel.WorkValue.Value,
                         mine: issueModel.Mine(context: context)))
                 .Invoke("separateSettings")
@@ -6013,7 +6013,7 @@ namespace Implem.Pleasanter.Models
                 update: true,
                 message: Messages.Updated(
                     context: context,
-                    data: issueModel.Title.DisplayValue));
+                    data: issueModel.Title.MessageDisplay(context: context)));
         }
 
         public static string CalendarJson(

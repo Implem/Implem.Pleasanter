@@ -167,7 +167,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     statements: Rds.UpdateItems(
                         param: Rds.ItemsParam()
-                            .Title(issueModel.Title.DisplayValue)
+                            .Title(issueModel.Title.MessageDisplay(context: context))
                             .SearchIndexCreatedTime(raw: "null"),
                         where: Rds.ItemsWhere()
                             .ReferenceId(issueModel.IssueId)
@@ -234,7 +234,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     statements: Rds.UpdateItems(
                         param: Rds.ItemsParam()
-                            .Title(resultModel.Title.DisplayValue)
+                            .Title(resultModel.Title.MessageDisplay(context: context))
                             .SearchIndexCreatedTime(raw: "null"),
                         where: Rds.ItemsWhere()
                             .ReferenceId(resultModel.ResultId)
@@ -301,7 +301,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     statements: Rds.UpdateItems(
                         param: Rds.ItemsParam()
-                            .Title(wikiModel.Title.DisplayValue)
+                            .Title(wikiModel.Title.MessageDisplay(context: context))
                             .SearchIndexCreatedTime(raw: "null"),
                         where: Rds.ItemsWhere()
                             .ReferenceId(wikiModel.WikiId)

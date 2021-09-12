@@ -937,7 +937,7 @@ namespace Implem.Pleasanter.Models
                 referenceType: "Depts",
                 title: deptModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Depts(context: context) + " - " + Displays.New(context: context)
-                    : deptModel.Title.Value,
+                    : deptModel.Title.MessageDisplay(context: context),
                 action: () => hb
                     .Editor(
                         context: context,
@@ -1595,7 +1595,7 @@ namespace Implem.Pleasanter.Models
                     .CloseDialog()
                     .Message(Messages.Updated(
                         context: context,
-                        data: deptModel.Title.DisplayValue))
+                        data: deptModel.Title.MessageDisplay(context: context)))
                     .Messages(context.Messages);
             }
             else
@@ -1651,7 +1651,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         message: Messages.Deleted(
                             context: context,
-                            data: deptModel.Title.Value));
+                            data: deptModel.Title.MessageDisplay(context: context)));
                     var res = new DeptsResponseCollection(deptModel);
                     res
                         .SetMemory("formChanged", false)

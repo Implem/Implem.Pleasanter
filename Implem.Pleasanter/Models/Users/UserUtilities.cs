@@ -1322,7 +1322,7 @@ namespace Implem.Pleasanter.Models
                 referenceType: "Users",
                 title: userModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Users(context: context) + " - " + Displays.New(context: context)
-                    : userModel.Title.Value,
+                    : userModel.Title.MessageDisplay(context: context),
                 action: () => hb
                     .Editor(
                         context: context,
@@ -2403,7 +2403,7 @@ namespace Implem.Pleasanter.Models
                     .CloseDialog()
                     .Message(Messages.Updated(
                         context: context,
-                        data: userModel.Title.DisplayValue))
+                        data: userModel.Title.MessageDisplay(context: context)))
                     .Messages(context.Messages);
             }
             else
@@ -2459,7 +2459,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         message: Messages.Deleted(
                             context: context,
-                            data: userModel.Title.Value));
+                            data: userModel.Title.MessageDisplay(context: context)));
                     var res = new UsersResponseCollection(userModel);
                     res
                         .SetMemory("formChanged", false)

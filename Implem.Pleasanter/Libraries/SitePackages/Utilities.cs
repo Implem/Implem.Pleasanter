@@ -156,6 +156,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                                 .InheritPermission(packageSiteModel.SavedInheritPermission)
                                 .SiteSettings(packageSiteModel.SiteSettings.ToJson())
                                 .Publish(packageSiteModel.Publish)
+                                .DisableCrossSearch(packageSiteModel.DisableCrossSearch)
                                 .Comments(packageSiteModel.Comments.ToJson())),
                             Rds.PhysicalDeleteLinks(
                                 where: Rds.LinksWhere().SourceId(packageSiteModel.SavedSiteId)),

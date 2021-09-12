@@ -220,6 +220,8 @@ namespace Implem.Pleasanter.Models
         private static GridData GetGridData(
             Context context, SiteSettings ss, View view, int offset = 0)
         {
+            var deptsSearchText = view.ColumnFilterHash.Get("Depts");
+            var usersSearchText = view.ColumnFilterHash.Get("Users");
             return new GridData(
                 context: context,
                 ss: ss,
@@ -231,7 +233,96 @@ namespace Implem.Pleasanter.Models
                         column: Rds.GroupMembersColumn().GroupId(),
                         where: Rds.GroupMembersWhere()
                             .Add(raw: Permissions.DeptOrUser("GroupMembers"))),
-                        _using: !Permissions.CanManageTenant(context: context)),
+                        _using: !Permissions.CanManageTenant(context: context))
+                    .GroupId_In(sub: Rds.SelectGroupMembers(
+                        distinct: true,
+                        column: Rds.GroupMembersColumn().GroupId(),
+                        join: Rds.GroupMembersJoin()
+                            .Add(new SqlJoin(
+                                tableBracket: "\"Depts\"",
+                                joinType: SqlJoin.JoinTypes.Inner,
+                                joinExpression: "\"GroupMembers\".\"DeptId\"=\"Depts\".\"DeptId\"")),
+                        where: new SqlWhereCollection()
+                            .Or(or: new SqlWhereCollection()
+                                .SqlWhereLike(
+                                    tableName: "Depts",
+                                    name: "DeptsSearchText",
+                                    searchText: deptsSearchText,
+                                    clauseCollection: new List<string>()
+                                    {
+                                        Rds.Depts_DeptCode_WhereLike(
+                                            factory: context,
+                                            name: "DeptsSearchText"),
+                                        Rds.Depts_DeptName_WhereLike(
+                                            factory: context,
+                                            name: "DeptsSearchText"),
+                                        Rds.Depts_Body_WhereLike(
+                                            factory: context,
+                                            name: "DeptsSearchText")
+                                    }))),
+                        _using: !deptsSearchText.IsNullOrEmpty())
+                    .GroupId_In(sub: Rds.SelectGroupMembers(
+                        distinct: true,
+                        column: Rds.GroupMembersColumn().GroupId(),
+                        join: Rds.GroupMembersJoin()
+                            .Add(new SqlJoin(
+                                tableBracket: "\"Depts\"",
+                                joinType: SqlJoin.JoinTypes.LeftOuter,
+                                joinExpression: "\"GroupMembers\".\"DeptId\"=\"Depts\".\"DeptId\""))
+                            .Add(new SqlJoin(
+                                tableBracket: "\"Users\"",
+                                joinType: SqlJoin.JoinTypes.LeftOuter,
+                                joinExpression: "\"Depts\".\"DeptId\"=\"DeptUsers\".\"DeptId\"",
+                                _as: "DeptUsers"))
+                            .Add(new SqlJoin(
+                                tableBracket: "\"Users\"",
+                                joinType: SqlJoin.JoinTypes.LeftOuter,
+                                joinExpression: "\"GroupMembers\".\"UserId\"=\"Users\".\"UserId\"")),
+                        where: new SqlWhereCollection()
+                            .Or(or: new SqlWhereCollection()
+                                .SqlWhereLike(
+                                    tableName: "DeptUsers",
+                                    name: "UsersSearchText",
+                                    searchText: usersSearchText,
+                                    clauseCollection: new List<string>()
+                                    {
+                                        Rds.Users_LoginId_WhereLike(
+                                            tableName: "DeptUsers",
+                                            factory: context,
+                                            name: "UsersSearchText"),
+                                        Rds.Users_Name_WhereLike(
+                                            tableName: "DeptUsers",
+                                            factory: context,
+                                            name: "UsersSearchText"),
+                                        Rds.Users_UserCode_WhereLike(
+                                            tableName: "DeptUsers",
+                                            factory: context,
+                                            name: "UsersSearchText"),
+                                        Rds.Users_Body_WhereLike(
+                                            tableName: "DeptUsers",
+                                            factory: context,
+                                            name: "UsersSearchText"),
+                                    })
+                                .SqlWhereLike(
+                                    tableName: "Users",
+                                    name: "UsersSearchText",
+                                    searchText: usersSearchText,
+                                    clauseCollection: new List<string>()
+                                    {
+                                        Rds.Users_LoginId_WhereLike(
+                                            factory: context,
+                                            name: "UsersSearchText"),
+                                        Rds.Users_Name_WhereLike(
+                                            factory: context,
+                                            name: "UsersSearchText"),
+                                        Rds.Users_UserCode_WhereLike(
+                                            factory: context,
+                                            name: "UsersSearchText"),
+                                        Rds.Users_Body_WhereLike(
+                                            factory: context,
+                                            name: "UsersSearchText")
+                                    }))),
+                        _using: !usersSearchText.IsNullOrEmpty()),
                 offset: offset,
                 pageSize: ss.GridPageSize.ToInt());
         }
@@ -929,7 +1020,7 @@ namespace Implem.Pleasanter.Models
                 referenceType: "Groups",
                 title: groupModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Groups(context: context) + " - " + Displays.New(context: context)
-                    : groupModel.Title.Value,
+                    : groupModel.Title.MessageDisplay(context: context),
                 action: () => hb
                     .Editor(
                         context: context,
@@ -1596,7 +1687,7 @@ namespace Implem.Pleasanter.Models
                     .CloseDialog()
                     .Message(Messages.Updated(
                         context: context,
-                        data: groupModel.Title.DisplayValue))
+                        data: groupModel.Title.MessageDisplay(context: context)))
                     .Messages(context.Messages);
             }
             else
@@ -1652,7 +1743,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         message: Messages.Deleted(
                             context: context,
-                            data: groupModel.Title.Value));
+                            data: groupModel.Title.MessageDisplay(context: context)));
                     var res = new GroupsResponseCollection(groupModel);
                     res
                         .SetMemory("formChanged", false)
@@ -2086,11 +2177,9 @@ namespace Implem.Pleasanter.Models
                 data.Add(
                     $"Dept,{deptId}," + admin,
                     new ControlData(
-                        id: deptId,
-                        text: Displays.Depts(context: context),
-                        name: SiteInfo.Dept(
-                            tenantId: context.TenantId,
-                            deptId: deptId)?.Name + manager,
+                        text: dept.SelectableText(
+                            context: context,
+                            format: Parameters.GroupMembers.DeptFormat),
                         title: dept?.Tooltip()));
             }
             else if (userId > 0)
@@ -2099,9 +2188,9 @@ namespace Implem.Pleasanter.Models
                 data.Add(
                     $"User,{userId},{admin}",
                     new ControlData(
-                        id: userId,
-                        text: Displays.Users(context: context),
-                        name: user.Name + manager,
+                        text: user.SelectableText(
+                            context: context,
+                            format: Parameters.GroupMembers.UserFormat),
                         title: user?.Tooltip(context: context)));
             }
         }
@@ -2350,6 +2439,32 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         errorData: errorData);
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static List<ParameterAccessor.Parts.ExtendedField> GetExtendedFields(Context context)
+        {
+            return new List<ParameterAccessor.Parts.ExtendedField>()
+            {
+                new ParameterAccessor.Parts.ExtendedField()
+                {
+                    Name = "Depts",
+                    FieldType = "Filter",
+                    TypeName = "nvarchar",
+                    LabelText = Displays.Depts(context: context),
+                    After = "Disabled"
+                },
+                new ParameterAccessor.Parts.ExtendedField()
+                {
+                    Name = "Users",
+                    FieldType = "Filter",
+                    TypeName = "nvarchar",
+                    LabelText = Displays.Users(context: context),
+                    After = "Depts"
+                }
+            };
         }
     }
 }

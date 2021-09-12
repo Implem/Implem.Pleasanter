@@ -103,37 +103,28 @@ namespace Implem.Pleasanter.Libraries.Security
                         tenantId: context.TenantId,
                         deptId: Id);
                     return new ControlData(
-                        id: Id,
-                        text: Displays.Depts(context: context),
-                        name: Id != 0
-                            ? dept?.Name
-                            : null,
-                        title: dept?.Tooltip(),
-                        typeName: typeName);
+                        text: dept?.SelectableText(
+                            context: context,
+                            format: Parameters.Permissions.DeptFormat) + typeName,
+                        title: dept?.Tooltip());
                 case "Group":
                     var group = SiteInfo.Group(
                         tenantId: context.TenantId,
                         groupId: Id);
                     return new ControlData(
-                        id: Id,
-                        text: Displays.Groups(context: context),
-                        name: Id != 0
-                            ? group?.Name
-                            : null,
-                        title: group?.Tooltip(),
-                        typeName: typeName);
+                        text: group?.SelectableText(
+                            context: context,
+                            format: Parameters.Permissions.GroupFormat) + typeName,
+                        title: group?.Tooltip());
                 case "User":
                     var user = SiteInfo.User(
                         context: context,
                         userId: Id);
                     return new ControlData(
-                        id: Id,
-                        text: Displays.Users(context: context),
-                        name: Id != 0
-                            ? user?.Name
-                            : null,
-                        title: user?.Tooltip(context: context),
-                        typeName: typeName);
+                        text: user?.SelectableText(
+                            context: context,
+                            format: Parameters.Permissions.UserFormat) + typeName,
+                        title: user?.Tooltip(context: context));
                 default:
                     var column = ss?.GetColumn(
                         context: context,

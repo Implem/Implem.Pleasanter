@@ -87,6 +87,7 @@ namespace Implem.DefinitionAccessor
             Parameters.ExtendedStyles = ExtendedStyles();
             Parameters.ExtendedTags = ExtendedTags();
             Parameters.General = Read<General>();
+            Parameters.GroupMembers = Read<GroupMembers>();
             Parameters.History = Read<History>();
             Parameters.Version = Read<ParameterAccessor.Parts.Version>();
             Parameters.Mail = Read<Mail>();
