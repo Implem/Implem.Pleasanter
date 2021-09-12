@@ -24,6 +24,7 @@ namespace Implem.DefinitionAccessor
         public static List<ExtendedStyle> ExtendedStyles;
         public static Dictionary<string, string> ExtendedTags;
         public static General General;
+        public static GroupMembers GroupMembers;
         public static History History;
         public static ParameterAccessor.Parts.Version Version;
         public static Mail Mail;

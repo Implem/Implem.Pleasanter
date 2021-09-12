@@ -3,8 +3,10 @@ using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Data;
+using System.Text.RegularExpressions;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
@@ -74,6 +76,30 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public string GridText(Context context, Column column)
         {
             return Name;
+        }
+
+        public string SelectableText(Context context, string format)
+        {
+            var value = format;
+            foreach (Match match in format.RegexMatches("\\[[A-Za-z]+?\\]"))
+            {
+                switch (match.Value)
+                {
+                    case "[Group]":
+                        value = value.Replace(match.Value, Displays.Groups(context: context));
+                        break;
+                    case "[GroupId]":
+                        value = value.Replace(match.Value, Id.ToString());
+                        break;
+                    case "[GroupName]":
+                        value = value.Replace(match.Value, Name);
+                        break;
+                    case "[Body]":
+                        value = value.Replace(match.Value, Body);
+                        break;
+                }
+            }
+            return value;
         }
 
         public string Tooltip()
