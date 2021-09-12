@@ -1236,7 +1236,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.Link = column.Link;
                     }
-                    if (column.CheckFilterControlType != ColumnUtilities.CheckFilterControlTypes.OnOnly)
+                    if (column.CheckFilterControlType != (ColumnUtilities.CheckFilterControlTypes)columnDefinition.CheckFilterControlType)
                     {
                         enabled = true;
                         newColumn.CheckFilterControlType = column.CheckFilterControlType;
@@ -1598,7 +1598,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.FieldCss = column.FieldCss ?? columnDefinition.FieldCss;
                 column.ViewerSwitchingType = column.ViewerSwitchingType ?? (Column.ViewerSwitchingTypes)Parameters.General.ViewerSwitchingType;
                 column.TextAlign = column.TextAlign ?? TextAlignTypes.Left;
-                column.CheckFilterControlType = column.CheckFilterControlType ?? ColumnUtilities.CheckFilterControlTypes.OnOnly;
+                column.CheckFilterControlType = column.CheckFilterControlType ?? (ColumnUtilities.CheckFilterControlTypes)columnDefinition.CheckFilterControlType;
                 column.NumFilterMin = column.NumFilterMin ?? columnDefinition.NumFilterMin;
                 column.NumFilterMax = column.NumFilterMax ?? columnDefinition.NumFilterMax;
                 column.NumFilterStep = column.NumFilterStep ?? columnDefinition.NumFilterStep;
