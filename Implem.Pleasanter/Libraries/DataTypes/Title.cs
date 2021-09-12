@@ -364,5 +364,14 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             return Value.IsNullOrEmpty();
         }
+
+        public string MessageDisplay(Context context)
+        {
+            var title = Strings.CoalesceEmpty(
+                DisplayValue,
+                Value,
+                $"ID: {context.Id}");
+            return title;
+        }
     }
 }

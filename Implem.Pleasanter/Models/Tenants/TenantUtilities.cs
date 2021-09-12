@@ -427,7 +427,7 @@ namespace Implem.Pleasanter.Models
                 referenceType: "Tenants",
                 title: tenantModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Tenants(context: context) + " - " + Displays.New(context: context)
-                    : tenantModel.Title.Value,
+                    : tenantModel.Title.MessageDisplay(context: context),
                 action: () => hb
                     .Editor(
                         context: context,
@@ -1232,7 +1232,7 @@ namespace Implem.Pleasanter.Models
                     .CloseDialog()
                     .Message(Messages.Updated(
                         context: context,
-                        data: tenantModel.Title.DisplayValue))
+                        data: tenantModel.Title.MessageDisplay(context: context)))
                     .Messages(context.Messages);
             }
             else
@@ -1288,7 +1288,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         message: Messages.Deleted(
                             context: context,
-                            data: tenantModel.Title.Value));
+                            data: tenantModel.Title.MessageDisplay(context: context)));
                     var res = new TenantsResponseCollection(tenantModel);
                     res
                         .SetMemory("formChanged", false)
