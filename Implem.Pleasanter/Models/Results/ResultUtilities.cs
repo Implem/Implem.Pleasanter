@@ -1274,7 +1274,7 @@ namespace Implem.Pleasanter.Models
                     referenceType: "Results",
                     title: resultModel.MethodType == BaseModel.MethodTypes.New
                         ? Displays.New(context: context)
-                        : resultModel.Title.DisplayValue,
+                        : resultModel.Title.MessageDisplay(context: context),
                     body: resultModel.Body,
                     useTitle: ss.TitleColumns?.Any(o => ss
                         .GetEditorColumnNames()
@@ -2714,7 +2714,7 @@ namespace Implem.Pleasanter.Models
                         limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
                         message: Displays.Created(
                             context: context,
-                            data: resultModel.Title.DisplayValue));
+                            data: resultModel.Title.MessageDisplay(context: context)));
                 case Error.Types.Duplicated:
                     return ApiResults.Error(
                         context: context,
@@ -2863,7 +2863,7 @@ namespace Implem.Pleasanter.Models
                     .CloseDialog()
                     .Message(Messages.Updated(
                         context: context,
-                        data: resultModel.Title.DisplayValue))
+                        data: resultModel.Title.MessageDisplay(context: context)))
                     .Messages(context.Messages);
             }
             else if (resultModel.Locked)
@@ -2879,7 +2879,7 @@ namespace Implem.Pleasanter.Models
                         .SetMemory("formChanged", false)
                         .Message(Messages.Updated(
                             context: context,
-                            data: resultModel.Title.DisplayValue))
+                            data: resultModel.Title.MessageDisplay(context: context)))
                         .Messages(context.Messages)
                         .ClearFormData();
             }
@@ -2899,7 +2899,7 @@ namespace Implem.Pleasanter.Models
                             .Val("#VerUp", verUp)
                             .Val("#Ver", resultModel.Ver)
                             .Disabled("#VerUp", verUp)
-                            .Html("#HeaderTitle", HttpUtility.HtmlEncode(resultModel.Title.DisplayValue))
+                            .Html("#HeaderTitle", HttpUtility.HtmlEncode(resultModel.Title.MessageDisplay(context: context)))
                             .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
                                 context: context,
                                 baseModel: resultModel,
@@ -2916,7 +2916,7 @@ namespace Implem.Pleasanter.Models
                             .SetMemory("formChanged", false)
                             .Message(Messages.Updated(
                                 context: context,
-                                data: resultModel.Title.DisplayValue))
+                                data: resultModel.Title.MessageDisplay(context: context)))
                             .Messages(context.Messages)
                             .Comment(
                                 context: context,
@@ -2932,7 +2932,7 @@ namespace Implem.Pleasanter.Models
                             resultModel: resultModel,
                             message: Messages.Updated(
                                 context: context,
-                                data: resultModel.Title.DisplayValue));
+                                data: resultModel.Title.MessageDisplay(context: context)));
                 }
             }
         }
@@ -3556,7 +3556,7 @@ namespace Implem.Pleasanter.Models
                         limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
                         message: Displays.Updated(
                             context: context,
-                            data: resultModel.Title.DisplayValue));
+                            data: resultModel.Title.MessageDisplay(context: context)));
                 case Error.Types.Duplicated:
                     return ApiResults.Error(
                         context: context,
@@ -3751,7 +3751,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             message: Messages.Moved(
                                 context: context,
-                                data: resultModel.Title.DisplayValue));
+                                data: resultModel.Title.MessageDisplay(context: context)));
                         return new ResponseCollection()
                             .Response("id", resultModel.ResultId.ToString())
                             .Href(Locations.ItemEdit(
@@ -3791,7 +3791,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         message: Messages.Deleted(
                             context: context,
-                            data: resultModel.Title.Value));
+                            data: resultModel.Title.MessageDisplay(context: context)));
                     var res = new ResultsResponseCollection(resultModel);
                     res
                         .SetMemory("formChanged", false)
@@ -3845,7 +3845,7 @@ namespace Implem.Pleasanter.Models
                         limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
                         message: Displays.Deleted(
                             context: context,
-                            data: resultModel.Title.DisplayValue));
+                            data: resultModel.Title.MessageDisplay(context: context)));
                 default:
                     return ApiResults.Error(
                         context: context,
@@ -5641,7 +5641,7 @@ namespace Implem.Pleasanter.Models
                 update: true,
                 message: Messages.Updated(
                     context: context,
-                    data: resultModel.Title.DisplayValue));
+                    data: resultModel.Title.MessageDisplay(context: context)));
         }
 
         public static string CalendarJson(

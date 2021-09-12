@@ -566,7 +566,7 @@ namespace Implem.Pleasanter.Models
                     referenceType: "Wikis",
                     title: wikiModel.MethodType == BaseModel.MethodTypes.New
                         ? Displays.New(context: context)
-                        : wikiModel.Title.DisplayValue,
+                        : wikiModel.Title.MessageDisplay(context: context),
                     body: wikiModel.Body,
                     useTitle: ss.TitleColumns?.Any(o => ss
                         .GetEditorColumnNames()
@@ -1474,7 +1474,7 @@ namespace Implem.Pleasanter.Models
                     .CloseDialog()
                     .Message(Messages.Updated(
                         context: context,
-                        data: wikiModel.Title.DisplayValue))
+                        data: wikiModel.Title.MessageDisplay(context: context)))
                     .Messages(context.Messages);
             }
             else if (wikiModel.Locked)
@@ -1490,7 +1490,7 @@ namespace Implem.Pleasanter.Models
                         .SetMemory("formChanged", false)
                         .Message(Messages.Updated(
                             context: context,
-                            data: wikiModel.Title.DisplayValue))
+                            data: wikiModel.Title.MessageDisplay(context: context)))
                         .Messages(context.Messages)
                         .ClearFormData();
             }
@@ -1556,7 +1556,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         message: Messages.Deleted(
                             context: context,
-                            data: wikiModel.Title.Value));
+                            data: wikiModel.Title.MessageDisplay(context: context)));
                     var res = new WikisResponseCollection(wikiModel);
                     res
                         .SetMemory("formChanged", false)

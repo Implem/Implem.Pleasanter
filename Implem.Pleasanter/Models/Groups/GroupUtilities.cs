@@ -929,7 +929,7 @@ namespace Implem.Pleasanter.Models
                 referenceType: "Groups",
                 title: groupModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Groups(context: context) + " - " + Displays.New(context: context)
-                    : groupModel.Title.Value,
+                    : groupModel.Title.MessageDisplay(context: context),
                 action: () => hb
                     .Editor(
                         context: context,
@@ -1596,7 +1596,7 @@ namespace Implem.Pleasanter.Models
                     .CloseDialog()
                     .Message(Messages.Updated(
                         context: context,
-                        data: groupModel.Title.DisplayValue))
+                        data: groupModel.Title.MessageDisplay(context: context)))
                     .Messages(context.Messages);
             }
             else
@@ -1652,7 +1652,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         message: Messages.Deleted(
                             context: context,
-                            data: groupModel.Title.Value));
+                            data: groupModel.Title.MessageDisplay(context: context)));
                     var res = new GroupsResponseCollection(groupModel);
                     res
                         .SetMemory("formChanged", false)

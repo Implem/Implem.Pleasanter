@@ -1125,7 +1125,7 @@ namespace Implem.Pleasanter.Models
                     .CloseDialog()
                     .Message(Messages.Updated(
                         context: context,
-                        data: siteModel.Title.DisplayValue))
+                        data: siteModel.Title.MessageDisplay(context: context)))
                     .Messages(context.Messages);
             }
             else
@@ -1254,7 +1254,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         message: Messages.Deleted(
                             context: context,
-                            data: siteModel.Title.Value));
+                            data: siteModel.Title.MessageDisplay(context: context)));
                     var res = new SitesResponseCollection(siteModel);
                     res
                         .SetMemory("formChanged", false)
