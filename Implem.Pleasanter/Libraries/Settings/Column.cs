@@ -1069,27 +1069,22 @@ namespace Implem.Pleasanter.Libraries.Settings
             { IfDuplicated = true };
         }
 
+        public string IsNullValue()
+        {
+            switch (TypeName.CsTypeSummary())
+            {
+                case Implem.Libraries.Utilities.Types.CsNumeric:
+                    return Nullable == true
+                        ? null
+                        : "0";
+                default:
+                    return null;
+            }
+        }
+
         public string TableName()
         {
             return Strings.CoalesceEmpty(TableAlias, JoinTableName, SiteSettings?.ReferenceType);
-        }
-
-        public string ParamName()
-        {
-            return ColumnName
-                .Replace(",", "_")
-                .Replace("-", "_")
-                .Replace("~", "_");
-        }
-
-        public bool Linked(SiteSettings ss, long fromSiteId)
-        {
-            return
-                fromSiteId != 0 &&
-                ss.Links
-                    .Where(o => o.SiteId > 0)
-                    .Any(o => o.ColumnName == ColumnName
-                        && o.SiteId == fromSiteId);
         }
 
         public bool Linked(bool withoutWiki = false)
