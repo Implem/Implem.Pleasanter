@@ -2145,7 +2145,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 where: Rds.RegistrationsWhere()
-                    .Passphrase(context.QueryStrings.Data("passphrase")));
+                    .Passphrase(context.QueryStrings.Data("passphrase"), _operator: context.Sqls.Like));
             if (registrationModel.AccessStatus == Databases.AccessStatuses.Selected)
             {
                 registrationModel.MethodType = BaseModel.MethodTypes.Edit;
