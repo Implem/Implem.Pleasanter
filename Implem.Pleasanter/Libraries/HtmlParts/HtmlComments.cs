@@ -18,10 +18,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Versions.VerTypes verType,
             Permissions.ColumnPermissionTypes columnPermissionType)
         {
-            var readOnly = verType != Versions.VerTypes.Latest ||
-                !context.CanUpdate(ss: ss) ||
-                column?.EditorReadOnly == true ||
-                columnPermissionType != Permissions.ColumnPermissionTypes.Update;
+            var readOnly = verType != Versions.VerTypes.Latest
+                || !context.CanUpdate(ss: ss)
+                || column?.GetEditorReadOnly() == true
+                || columnPermissionType != Permissions.ColumnPermissionTypes.Update;
             var css = column.TextAlign == SiteSettings.TextAlignTypes.Right
                 ? " right-align "
                 : string.Empty;

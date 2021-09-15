@@ -45,7 +45,7 @@ namespace Implem.Pleasanter.Models
         public bool SavedVerUp = false;
         public string SavedTimestamp = string.Empty;
         public string SavedComments = "[]";
-        public IList<ServerScriptModelRow> ServerScriptModelRows = new List<ServerScriptModelRow>();
+        public ServerScriptModelRow ServerScriptModelRow = new ServerScriptModelRow();
 
         public bool Ver_Updated(Context context, Column column = null)
         {
@@ -727,7 +727,7 @@ namespace Implem.Pleasanter.Models
                 SetServerScriptModelColumns(context: context,
                     ss: ss,
                     scriptValues: scriptValues);
-                ServerScriptModelRows.Add(scriptValues);
+                ServerScriptModelRow = scriptValues;
             }
             return scriptValues;
         }
@@ -763,7 +763,7 @@ namespace Implem.Pleasanter.Models
                                     o.Value?.ToString()));
                         column.AddChoiceHashByServerScript = true;
                     }
-                    column.ServerScriptModelColumns.Add(scriptColumn.Value);
+                    column.ServerScriptModelColumn = scriptColumn.Value;
                 }
             });
         }
@@ -815,7 +815,7 @@ namespace Implem.Pleasanter.Models
                 where: script => script.WhenloadingRecord == true);
             if (scriptValues != null)
             {
-                ServerScriptModelRows.Add(scriptValues);
+                ServerScriptModelRow = scriptValues;
             }
             return scriptValues;
         }
@@ -927,7 +927,7 @@ namespace Implem.Pleasanter.Models
                 SetServerScriptModelColumns(context: context,
                     ss: ss,
                     scriptValues: scriptValues);
-                ServerScriptModelRows.Add(scriptValues);
+                ServerScriptModelRow = scriptValues;
             }
             return scriptValues;
         }
@@ -947,7 +947,7 @@ namespace Implem.Pleasanter.Models
                 SetServerScriptModelColumns(context: context,
                     ss: ss,
                     scriptValues: scriptValues);
-                ServerScriptModelRows.Add(scriptValues);
+                ServerScriptModelRow = scriptValues;
             }
             return scriptValues;
         }

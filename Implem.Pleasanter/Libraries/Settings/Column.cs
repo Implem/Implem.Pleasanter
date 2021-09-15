@@ -191,7 +191,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public bool AddChoiceHashByServerScript;
         [NonSerialized]
-        public List<ServerScriptModelColumn> ServerScriptModelColumns = new List<ServerScriptModelColumn>();
+        public ServerScriptModelColumn ServerScriptModelColumn;
         [NonSerialized]
         public Dictionary<string, Choice> LinkedTitleHash = new Dictionary<string, Choice>();
         [NonSerialized]
@@ -847,7 +847,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 context: context,
                 value: value,
                 format: format)
-                    + (EditorReadOnly == true
+                    + (GetEditorReadOnly()
                         || Permissions.ColumnPermissionType(
                             context: context,
                             ss: ss,
@@ -873,9 +873,22 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public bool GetEditorReadOnly()
         {
-            var readOnly = EditorReadOnly == true
-                || ServerScriptModelColumns?.Any(o => o.ReadOnly) == true;
-            return readOnly;
+            var readOnly = ServerScriptModelColumn?.GetReadOnly();
+            if (readOnly != null)
+            {
+                return readOnly == true;
+            }
+            return EditorReadOnly == true;
+        }
+
+        public bool GetHide()
+        {
+            var hide = ServerScriptModelColumn?.GetHide();
+            if (hide != null)
+            {
+                return hide == true;
+            }
+            return Hide == true;
         }
 
         public decimal Round(decimal value)

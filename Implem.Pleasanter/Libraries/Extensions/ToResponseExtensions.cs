@@ -54,7 +54,7 @@ namespace Implem.Pleasanter.Libraries.Extensions
                     context: context,
                     ss: ss,
                     mine: mine)
-                        && column.EditorReadOnly != true)
+                        && !column.GetEditorReadOnly())
                             ? self
                             : self?.ToDisplay(
                                 context: context,
