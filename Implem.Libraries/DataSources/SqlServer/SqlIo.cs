@@ -39,14 +39,15 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         private void SetCommandUserParams()
         {
+            var prefix = Parameters.Parameter.SqlParameterPrefix.Replace("@", "");
             SqlCommand.Parameters_AddWithValue(
-                parameterName: $"{Parameters.Parameter.SqlParameterPrefix}T",
+                parameterName: $"{prefix}T",
                 value: SqlContainer.RdsUser.TenantId);
             SqlCommand.Parameters_AddWithValue(
-                parameterName: $"{Parameters.Parameter.SqlParameterPrefix}D",
+                parameterName: $"{prefix}D",
                 value: SqlContainer.RdsUser.DeptId);
             SqlCommand.Parameters_AddWithValue(
-                parameterName: $"{Parameters.Parameter.SqlParameterPrefix}U",
+                parameterName: $"{prefix}U",
                 value: SqlContainer.RdsUser.UserId);
         }
 
@@ -69,7 +70,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                         commandCount: data.Count));
             var additionalParams = SqlContainer
                 .SqlStatementCollection
-                .Where(statement=>statement.AdditionalParams != null)
+                .Where(statement => statement.AdditionalParams != null)
                 .SelectMany(statement => statement.AdditionalParams)
                 .GroupBy(param => param.Name)
                 .ToArray();
@@ -80,15 +81,6 @@ namespace Implem.Libraries.DataSources.SqlServer
                   SqlCommand
                   .Parameters_AddWithValue(group.Key, group.First().Value);
               });
-            }
-        }
-
-        private void SetTransaction()
-        {
-            if (SqlContainer.Transactional)
-            {
-                CommandText.Insert(0, Sqls.BeginTransaction);
-                CommandText.Append(Sqls.CommitTransaction);
             }
         }
 
