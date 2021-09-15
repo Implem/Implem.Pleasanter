@@ -2066,7 +2066,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return GetEditorColumns(context: context)
                 .Where(c => !c.Id_Ver)
-                .Where(c => c.EditorReadOnly != true)
+                .Where(c => !c.GetEditorReadOnly())
                 .Where(c => c.NoDuplication != true)
                 .Where(c => c.ColumnName != "Comments")
                 .Where(column => !Formulas.Any(formulaSet =>

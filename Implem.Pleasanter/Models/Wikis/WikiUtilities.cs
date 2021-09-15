@@ -836,10 +836,9 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     column: column,
-                    serverScriptModelColumns: wikiModel
-                        ?.ServerScriptModelRows
-                        ?.Select(row => row.Columns.Get(column.ColumnName))
-                        .ToArray(),
+                    serverScriptModelColumn: wikiModel
+                        ?.ServerScriptModelRow
+                        ?.Columns.Get(column.ColumnName),
                     methodType: wikiModel.MethodType,
                     value: value,
                     columnPermissionType: Permissions.ColumnPermissionType(
@@ -1252,10 +1251,7 @@ namespace Implem.Pleasanter.Models
             WikiModel wikiModel,
             string idSuffix = null)
         {
-            var serverScriptModelRow = wikiModel
-                ?.ServerScriptModelRows
-                ?.FirstOrDefault();
-            var needReplaceHtml = serverScriptModelRow?.NeedReplaceHtml(
+            var needReplaceHtml = wikiModel.ServerScriptModelRow?.NeedReplaceHtml(
                 context: context,
                 ss: ss);
             res.Val(
@@ -1273,7 +1269,8 @@ namespace Implem.Pleasanter.Models
                 .Where(column => column != null)
                 .ForEach(column =>
                 {
-                    var serverScriptModelColumn = serverScriptModelRow
+                    var serverScriptModelColumn = wikiModel
+                        ?.ServerScriptModelRow
                         ?.Columns.Get(column.ColumnName);
                     if (needReplaceHtml?.Contains(column.ColumnName) == true)
                     {

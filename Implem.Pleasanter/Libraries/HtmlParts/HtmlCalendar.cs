@@ -133,7 +133,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlId: "CalendarCanUpdate",
                     value: (
                         !fromColumn.RecordedTime
-                        && fromColumn.EditorReadOnly != true
+                        && !fromColumn.GetEditorReadOnly()
                         && fromColumn.CanUpdate(
                             context: context,
                             ss: ss,
