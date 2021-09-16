@@ -1,4 +1,6 @@
-﻿using Implem.IRds;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Implem.IRds;
 namespace Implem.Libraries.DataSources.SqlServer
 {
     public class SqlOrderBy
@@ -10,6 +12,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         public Sqls.Functions Function;
         public SqlStatement Sub;
 
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum Types
         {
             asc,
