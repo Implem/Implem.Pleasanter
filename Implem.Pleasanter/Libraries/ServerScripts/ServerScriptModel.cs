@@ -263,9 +263,14 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         .Select(o => o.Key)
                         .ToList();
                     NeedReplaceHtmlCache = context.Forms.List("NeedReplaceHtml")
-                        .Concat(targetColumns)
-                        .Distinct()
                         .ToList();
+                    if (targetColumns != null)
+                    {
+                        NeedReplaceHtmlCache = NeedReplaceHtmlCache
+                            ?.Concat(targetColumns)
+                            .Distinct()
+                            .ToList();
+                    }
                 }
                 return NeedReplaceHtmlCache;
             }
