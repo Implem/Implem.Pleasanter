@@ -2177,7 +2177,7 @@ namespace Implem.Pleasanter.Models
                     new ControlData(
                         text: dept.SelectableText(
                             context: context,
-                            format: Parameters.GroupMembers.DeptFormat),
+                            format: Parameters.GroupMembers.DeptFormat) + manager,
                         title: dept?.Tooltip()));
             }
             else if (userId > 0)
@@ -2188,7 +2188,7 @@ namespace Implem.Pleasanter.Models
                     new ControlData(
                         text: user.SelectableText(
                             context: context,
-                            format: Parameters.GroupMembers.UserFormat),
+                            format: Parameters.GroupMembers.UserFormat) + manager,
                         title: user?.Tooltip(context: context)));
             }
         }
