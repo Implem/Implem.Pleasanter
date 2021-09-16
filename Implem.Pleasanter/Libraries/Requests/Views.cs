@@ -48,6 +48,14 @@ namespace Implem.Pleasanter.Libraries.Requests
                 view: view,
                 setSession: setSession,
                 useUsersView: useUsersView);
+            switch (ss.ReferenceType)
+            {
+                case "Groups":
+                    view.AdditionalWhere = GroupUtilities.AdditionalWhere(
+                        context: context,
+                        view: view);
+                    break;
+            }
             return view;
         }
 

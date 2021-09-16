@@ -53,6 +53,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int? KambanColumns;
         public bool? KambanAggregationView;
         [NonSerialized]
+        public SqlWhereCollection AdditionalWhere;
+        [NonSerialized]
         public bool WhenViewProcessingServerScriptExecuted;
         [NonSerialized]
         public List<string> AlwaysGetColumns;
@@ -1059,6 +1061,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ss: ss,
                 where: where,
                 columnFilterHash: ColumnFilterHash);
+            if (AdditionalWhere?.Any() == true)
+            {
+                where.AddRange(AdditionalWhere);
+            }
             where.OnSelectingWhereExtendedSqls(
                 context: context,
                 ss: ss,
