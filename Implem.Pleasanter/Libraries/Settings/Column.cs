@@ -1087,6 +1087,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             return Strings.CoalesceEmpty(TableAlias, JoinTableName, SiteSettings?.ReferenceType);
         }
 
+        public string TableItemTitleCases()
+        {
+            switch (Name)
+            {
+                case "Title":
+                    var tableName = Strings.CoalesceEmpty(TableAlias, JoinTableName, SiteSettings?.ReferenceType);
+                    return tableName + "_Items";
+                default:
+                    return TableName();
+            }
+        }
+
         public bool Linked(bool withoutWiki = false)
         {
             return SiteSettings?.Links?

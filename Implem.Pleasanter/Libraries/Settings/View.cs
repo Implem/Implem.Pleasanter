@@ -1536,7 +1536,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private void CreateCsStringSqlWhereLike(Context context, Column column, string value, SqlWhereCollection where, string query)
         {
-            var tableName = column.TableName();
+            var tableName = column.TableItemTitleCases();
             var name = Strings.NewGuid();
             where.SqlWhereLike(
                 tableName: tableName,
@@ -1557,7 +1557,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return param.Any(o => o != "\t")
                 ? new SqlWhere(
-                    tableName: column.TableName(),
+                    tableName: column.TableItemTitleCases(),
                     columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                     name: Strings.NewGuid(),
                     value: param
@@ -1582,15 +1582,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             return param.Any(o => o == "\t")
                 ? new SqlWhere(or: new SqlWhereCollection(
                     new SqlWhere(
-                        tableName: column.TableName(),
+                        tableName: column.TableItemTitleCases(),
                         columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                         _operator: " is null"),
                     new SqlWhere(
-                        tableName: column.TableName(),
+                        tableName: column.TableItemTitleCases(),
                         columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                         _operator: "=''"),
                     new SqlWhere(
-                        tableName: column.TableName(),
+                        tableName: column.TableItemTitleCases(),
                         columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                         _operator: "='[]'",
                         _using: column.MultipleSelections == true)))
