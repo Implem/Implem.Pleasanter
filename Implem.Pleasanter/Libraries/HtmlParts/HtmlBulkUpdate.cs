@@ -13,10 +13,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
-            List<Column> columns,
+            Dictionary<string, string> optionCollection,
             Action action)
         {
-            var optionCollection = columns.ToDictionary(o => o.ColumnName, o => o.LabelText);
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("BulkUpdateSelectorForm")
@@ -29,7 +28,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                        context: context,
                        controlId: "BulkUpdateColumnName",
                        controlCss: " always-send",
-                       labelText: Displays.Column(context: context),
+                       labelText: Displays.Target(context: context),
                        onChange: "$p.send($(this));",
                        action: "BulkUpdateSelectChanged",
                        method: "post",

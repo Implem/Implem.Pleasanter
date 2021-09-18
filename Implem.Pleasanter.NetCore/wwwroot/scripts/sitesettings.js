@@ -165,6 +165,16 @@ $p.addSummary = function ($control) {
     $p.send($control);
 }
 
+$p.openBulkUpdateColumnDialog = function ($control) {
+    $p.data.BulkUpdateColumnForm = {};
+    $p.openSiteSettingsDialog($control, '#BulkUpdateColumnDialog');
+}
+
+$p.setBulkUpdateColumn = function ($control) {
+    $p.setData($('#EditBulkUpdateColumns'), $p.getData($control));
+    $p.send($control);
+}
+
 $p.openRelatingColumnDialog = function ($control) {
     $p.data.RelatingColumnForm = {};
     $p.openSiteSettingsDialog($control, '#RelatingColumnDialog');

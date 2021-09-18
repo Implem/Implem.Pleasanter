@@ -3744,9 +3744,14 @@ namespace Implem.Pleasanter.Models
                         && Parameters.Script.ServerScript != false)
                 .Div(
                     attributes: new HtmlAttributes()
+                        .Id("BulkUpdateColumnDialog")
+                        .Class("dialog")
+                        .Title(Displays.BulkUpdateColumnSettings(context: context)))
+                .Div(
+                    attributes: new HtmlAttributes()
                         .Id("RelatingColumnDialog")
                         .Class("dialog")
-                        .Title(Displays.RelatingColumn(context: context)))
+                        .Title(Displays.RelatingColumnSettings(context: context)))
                 .Div(
                     attributes: new HtmlAttributes()
                         .Id("SetNumericRangeDialog")
@@ -3962,6 +3967,47 @@ namespace Implem.Pleasanter.Models
         {
             return hb.FieldSet(id: "GridSettingsEditor", action: () => hb
                 .GridColumns(context: context, ss: ss)
+                .FieldSet(id: "BulkUpdateColumnsSettingsEditor",
+                    css: " enclosed",
+                    legendText: Displays.BulkUpdateColumnSettings(context: context),
+                    action: () => hb
+                    .Div(css: "command-left", action: () => hb
+                        .Button(
+                            controlId: "MoveUpBulkUpdateColumns",
+                            controlCss: "button-icon",
+                            text: Displays.MoveUp(context: context),
+                            onClick: "$p.setAndSend('#EditBulkUpdateColumns', $(this));",
+                            icon: "ui-icon-circle-triangle-n",
+                            action: "SetSiteSettings",
+                            method: "post")
+                        .Button(
+                            controlId: "MoveDownBulkUpdateColumns",
+                            controlCss: "button-icon",
+                            text: Displays.MoveDown(context: context),
+                            onClick: "$p.setAndSend('#EditBulkUpdateColumns', $(this));",
+                            icon: "ui-icon-circle-triangle-s",
+                            action: "SetSiteSettings",
+                            method: "post")
+                        .Button(
+                            controlId: "NewBulkUpdateColumn",
+                            text: Displays.New(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.openBulkUpdateColumnDialog($(this));",
+                            icon: "ui-icon-gear",
+                            action: "SetSiteSettings",
+                            method: "put")
+                        .Button(
+                            controlId: "DeleteBulkUpdateColumns",
+                            text: Displays.Delete(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.setAndSend('#EditBulkUpdateColumns', $(this));",
+                            icon: "ui-icon-trash",
+                            action: "SetSiteSettings",
+                            method: "delete",
+                            confirm: Displays.ConfirmDelete(context: context)))
+                    .EditBulkUpdateColumns(
+                        context: context,
+                        ss: ss))
                 .FieldSpinner(
                     controlId: "GridPageSize",
                     fieldCss: "field-auto-thin",
@@ -4175,6 +4221,75 @@ namespace Implem.Pleasanter.Models
                         controlCss: "button-icon",
                         onClick: "$p.closeDialog($(this));",
                         icon: "ui-icon-cancel"));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder EditBulkUpdateColumns(
+            this HtmlBuilder hb, Context context, SiteSettings ss)
+        {
+            var selected = context.Forms.Data("EditBulkUpdateColumns")
+                .Deserialize<IEnumerable<int>>();
+            return hb.Table(
+                id: "EditBulkUpdateColumns",
+                css: "grid",
+                attributes: new HtmlAttributes()
+                    .DataName("BulkUpdateColumnId")
+                    .DataFunc("openBulkUpdateColumnDialog")
+                    .DataAction("SetSiteSettings")
+                    .DataMethod("post"),
+                action: () => hb
+                    .EditBulkUpdateColumnsHeader(
+                        context: context,
+                        ss: ss,
+                        selected: selected)
+                    .EditBulkUpdateColumnsBody(
+                        ss: ss,
+                        selected: selected));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditBulkUpdateColumnsHeader(
+            this HtmlBuilder hb, Context context, SiteSettings ss, IEnumerable<int> selected)
+        {
+            return hb.THead(action: () => hb
+                .Tr(css: "ui-widget-header", action: () => hb
+                    .Th(action: () => hb
+                        .CheckBox(
+                            controlCss: "select-all",
+                            _checked: false))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Title(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Links(context: context)))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditBulkUpdateColumnsBody(
+            this HtmlBuilder hb, SiteSettings ss, IEnumerable<int> selected)
+        {
+            return hb.TBody(action: () => ss
+                .BulkUpdateColumns?.ForEach(relatingColumn => hb
+                    .Tr(
+                        css: "grid-row",
+                        attributes: new HtmlAttributes()
+                            .DataId(relatingColumn.Id.ToString()),
+                        action: () => hb
+                            .Td(action: () => hb
+                                .CheckBox(
+                                    controlCss: "select",
+                                    _checked: selected?
+                                        .Contains(relatingColumn.Id) == true))
+                            .Td(action: () => hb
+                                .Text(text: relatingColumn.Title))
+                            .Td(action: () => hb
+                                .Text(text: relatingColumn.Columns?
+                                    .Select(o => GetClassLabelText(ss, o)).Join(", "))))));
         }
 
         /// <summary>
@@ -4812,70 +4927,73 @@ namespace Implem.Pleasanter.Models
                     .EditRelatingColumns(
                         context: context,
                         ss: ss))
-                    .FieldDropDown(
-                        context: context,
-                        controlId: "AutoVerUpType",
-                        fieldCss: "field-auto-thin both",
-                        labelText: Displays.AutoVerUpType(context: context),
-                        optionCollection: new Dictionary<string, string>
+                .FieldDropDown(
+                    context: context,
+                    controlId: "AutoVerUpType",
+                    fieldCss: "field-auto-thin both",
+                    labelText: Displays.AutoVerUpType(context: context),
+                    optionCollection: new Dictionary<string, string>
+                    {
                         {
-                            {
-                                Versions.AutoVerUpTypes.Default.ToInt().ToString(),
-                                Displays.Default(context: context)
-                            },
-                            {
-                                Versions.AutoVerUpTypes.Always.ToInt().ToString(),
-                                Displays.Always(context: context)
-                            },
-                            {
-                                Versions.AutoVerUpTypes.Disabled.ToInt().ToString(),
-                                Displays.Disabled(context: context)
-                            }
+                            Versions.AutoVerUpTypes.Default.ToInt().ToString(),
+                            Displays.Default(context: context)
                         },
-                        selectedValue: ss.AutoVerUpType.ToInt().ToString())
-                    .FieldCheckBox(
-                        controlId: "AllowEditingComments",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.AllowEditingComments(context: context),
-                        _checked: ss.AllowEditingComments == true)
-                    .FieldCheckBox(
-                        controlId: "AllowCopy",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.AllowCopy(context: context),
-                        _checked: ss.AllowCopy == true)
-                    .FieldCheckBox(
-                        controlId: "AllowReferenceCopy",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.AllowReferenceCopy(context: context),
-                        _checked: ss.AllowReferenceCopy == true)
-                    .FieldTextBox(
-                        controlId: "CharToAddWhenCopying",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.CharToAddWhenCopying(context: context),
-                        text: ss.CharToAddWhenCopying)
-                    .FieldCheckBox(
-                        controlId: "AllowSeparate",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.AllowSeparate(context: context),
-                        _checked: ss.AllowSeparate == true,
-                        _using: ss.ReferenceType == "Issues")
-                    .FieldCheckBox(
-                        controlId: "AllowLockTable",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.AllowLockTable(context: context),
-                        _checked: ss.AllowLockTable == true)
-                    .FieldCheckBox(
-                        controlId: "HideLink",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.HideLink(context: context),
-                        _checked: ss.HideLink == true)
-                    .FieldCheckBox(
-                        controlId: "SwitchRecordWithAjax",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.SwitchRecordWithAjax(context: context),
-                        _checked: ss.SwitchRecordWithAjax == true));
+                        {
+                            Versions.AutoVerUpTypes.Always.ToInt().ToString(),
+                            Displays.Always(context: context)
+                        },
+                        {
+                            Versions.AutoVerUpTypes.Disabled.ToInt().ToString(),
+                            Displays.Disabled(context: context)
+                        }
+                    },
+                    selectedValue: ss.AutoVerUpType.ToInt().ToString())
+                .FieldCheckBox(
+                    controlId: "AllowEditingComments",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.AllowEditingComments(context: context),
+                    _checked: ss.AllowEditingComments == true)
+                .FieldCheckBox(
+                    controlId: "AllowCopy",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.AllowCopy(context: context),
+                    _checked: ss.AllowCopy == true)
+                .FieldCheckBox(
+                    controlId: "AllowReferenceCopy",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.AllowReferenceCopy(context: context),
+                    _checked: ss.AllowReferenceCopy == true)
+                .FieldTextBox(
+                    controlId: "CharToAddWhenCopying",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.CharToAddWhenCopying(context: context),
+                    text: ss.CharToAddWhenCopying)
+                .FieldCheckBox(
+                    controlId: "AllowSeparate",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.AllowSeparate(context: context),
+                    _checked: ss.AllowSeparate == true,
+                    _using: ss.ReferenceType == "Issues")
+                .FieldCheckBox(
+                    controlId: "AllowLockTable",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.AllowLockTable(context: context),
+                    _checked: ss.AllowLockTable == true)
+                .FieldCheckBox(
+                    controlId: "HideLink",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.HideLink(context: context),
+                    _checked: ss.HideLink == true)
+                .FieldCheckBox(
+                    controlId: "SwitchRecordWithAjax",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.SwitchRecordWithAjax(context: context),
+                    _checked: ss.SwitchRecordWithAjax == true));
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static HtmlBuilder EditorOtherColumn(
             this HtmlBuilder hb,
             Context context,
@@ -10325,6 +10443,114 @@ namespace Implem.Pleasanter.Models
         private static string GetClassLabelText(SiteSettings ss, string className)
         {
             return (ss?.ColumnHash?.FirstOrDefault(o => o.Key == className))?.Value?.LabelText ?? className;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder BulkUpdateColumnDialog(
+            Context context, SiteSettings ss, string controlId, BulkUpdateColumn bulkUpdateColumn)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("BulkUpdateColumnForm")
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
+                action: () => hb
+                    .FieldText(
+                        controlId: "BulkUpdateColumnId",
+                        controlCss: " always-send",
+                        labelText: Displays.Id(context: context),
+                        text: bulkUpdateColumn.Id.ToString(),
+                        _using: controlId == "EditBulkUpdateColumns")
+                    .FieldTextBox(
+                        controlId: "BulkUpdateColumnTitle",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Title(context: context),
+                        text: bulkUpdateColumn.Title,
+                        validateRequired: true)
+                .FieldSet(
+                    css: " enclosed",
+                    legendText: Displays.BulkUpdateColumnSettings(context: context),
+                    action: () => hb
+                        .FieldSelectable(
+                            controlId: "BulkUpdateColumnColumns",
+                            fieldCss: "field-vertical",
+                            controlContainerCss: "container-selectable",
+                            controlWrapperCss: " h350",
+                            controlCss: " always-send send-all",
+                            labelText: Displays.CurrentSettings(context: context),
+                            listItemCollection: ss.BulkUpdateColumnSelectableOptions(
+                                context: context,
+                                id: bulkUpdateColumn.Id),
+                            commandOptionPositionIsTop: true,
+                            commandOptionAction: () => hb
+                                .Div(css: "command-center", action: () => hb
+                                    .Button(
+                                        controlId: "MoveUpBulkUpdateColumnColumnsLocal",
+                                        text: Displays.MoveUp(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.moveColumns($(this),'BulkUpdateColumn');",
+                                        icon: "ui-icon-circle-triangle-n")
+                                    .Button(
+                                        controlId: "MoveDownBulkUpdateColumnColumnsLocal",
+                                        text: Displays.MoveDown(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.moveColumns($(this),'BulkUpdateColumn');",
+                                        icon: "ui-icon-circle-triangle-s")
+                                    .Button(
+                                        controlId: "ToDisableBulkUpdateColumnColumnsLocal",
+                                        text: Displays.ToDisable(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.moveColumns($(this),'BulkUpdateColumn');",
+                                        icon: "ui-icon-circle-triangle-e")))
+                        .FieldSelectable(
+                            controlId: "BulkUpdateColumnSourceColumns",
+                            fieldCss: "field-vertical",
+                            controlContainerCss: "container-selectable",
+                            controlWrapperCss: " h350",
+                            labelText: Displays.OptionList(context: context),
+                            listItemCollection: ss.BulkUpdateColumnSelectableOptions(
+                                context: context,
+                                id: bulkUpdateColumn.Id,
+                                enabled: false),
+                            commandOptionPositionIsTop: true,
+                            commandOptionAction: () => hb
+                                .Div(css: "command-center", action: () => hb
+                                    .Button(
+                                        controlId: "ToEnableBulkUpdateColumnColumnsLocal",
+                                        text: Displays.ToEnable(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.moveColumns($(this),'BulkUpdateColumn');",
+                                        icon: "ui-icon-circle-triangle-w"))))
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "AddBulkUpdateColumn",
+                            text: Displays.Add(context: context),
+                            controlCss: "button-icon validate",
+                            icon: "ui-icon-disk",
+                            onClick: "$p.setBulkUpdateColumn($(this));",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "NewBulkUpdateColumn")
+                        .Button(
+                            controlId: "UpdateBulkUpdateColumn",
+                            text: Displays.Change(context: context),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.setBulkUpdateColumn($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "EditBulkUpdateColumns")
+                        .Button(
+                            text: Displays.Cancel(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
         }
 
         /// <summary>
