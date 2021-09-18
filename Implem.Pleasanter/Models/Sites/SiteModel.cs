@@ -1696,6 +1696,12 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
+                case "OpenEditorOtherColumnDialog":
+                    OpenEditorColumnDialog(
+                        context: context,
+                        res: res,
+                        editorOtherColumn: true);
+                    break;
                 case "SetEditorColumn":
                     SetEditorColumn(
                         context: context,
@@ -2418,16 +2424,23 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void OpenEditorColumnDialog(Context context, ResponseCollection res)
+        private void OpenEditorColumnDialog(
+            Context context,
+            ResponseCollection res,
+            bool editorOtherColumn = false)
         {
-            var selectedColumns = context.Forms.List("EditorColumns");
+            var selectedColumns = !editorOtherColumn
+                ? context.Forms.List("EditorColumns")
+                : context.Forms.Data("EditorOtherColumn").ToSingleList();
             if (selectedColumns.Count() != 1)
             {
                 res.Message(Messages.SelectOne(context: context));
             }
             else
             {
-                var column = SiteSettings.EditorColumn(selectedColumns.FirstOrDefault());
+                var column = SiteSettings.GetColumn(
+                    context: context,
+                    columnName: selectedColumns.FirstOrDefault());
                 var section = SiteSettings.Sections.Get(SiteSettings.SectionId(selectedColumns
                     .FirstOrDefault()));
                 var linkId = SiteSettings.LinkId(selectedColumns.FirstOrDefault());
@@ -2489,9 +2502,18 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                if (column.ColumnName == "Title")
+                var editorOtherColumn = false;
+                switch (column.ColumnName)
                 {
-                    SiteSettings.TitleColumns = context.Forms.List("TitleColumnsAll");
+                    case "Creator":
+                    case "Updator":
+                    case "CreatedTime":
+                    case "UpdatedTime":
+                        editorOtherColumn = true;
+                        break;
+                    case "Title":
+                        SiteSettings.TitleColumns = context.Forms.List("TitleColumnsAll");
+                        break;
                 }
                 context.Forms.ForEach(control =>
                     SiteSettings.SetColumnProperty(
@@ -2499,11 +2521,20 @@ namespace Implem.Pleasanter.Models
                         column: column,
                         propertyName: control.Key,
                         value: control.Value));
-                res
-                    .Html("#EditorColumns", new HtmlBuilder().SelectableItems(
+                if (!editorOtherColumn)
+                {
+                    res.Html("#EditorColumns", new HtmlBuilder().SelectableItems(
                         listItemCollection: SiteSettings.EditorSelectableOptions(context: context),
-                        selectedValueTextCollection: columnName.ToSingleList()))
-                    .CloseDialog();
+                        selectedValueTextCollection: columnName.ToSingleList()));
+                }
+                else
+                {
+                    res.Html("#EditorOtherColumn", new HtmlBuilder().EditorOtherColumn(
+                        context: context,
+                        ss: SiteSettings,
+                        selectedValue: column.ColumnName));
+                }
+                res.CloseDialog();
             }
         }
 

@@ -149,6 +149,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public bool NotEditorSettings;
         [NonSerialized]
+        public bool NotForm;
+        [NonSerialized]
         public bool TitleColumn;
         [NonSerialized]
         public bool LinkColumn;
