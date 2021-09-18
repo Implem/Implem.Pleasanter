@@ -1391,6 +1391,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             labelText: labelText,
                             _checked: _checked,
                             disabled: disabled,
+                            alwaysSend: alwaysSend,
                             onChange: onChange,
                             action: action,
                             method: method));
