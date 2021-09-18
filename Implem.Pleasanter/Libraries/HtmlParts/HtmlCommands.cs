@@ -272,7 +272,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                     action: "OpenBulkUpdateSelectorDialog",
                                                     method: "post",
                                                     _using: context.CanUpdate(ss: ss) 
-                                                        && ss.GetAllowBulkUpdateColumns(context, ss).Any()
+                                                        && ss.GetAllowBulkUpdateOptions(context: context)?.Any() == true
                                                         && !readOnly)
                                                 .Button(
                                                     controlId: "EditOnGridCommand",

@@ -3,7 +3,7 @@
     if (error === 0) {
         $('#BulkUpdateSelectorDialog').dialog({
             modal: true,
-            width: '520px',
+            width: '800px',
             resizable: false
         });
     }
