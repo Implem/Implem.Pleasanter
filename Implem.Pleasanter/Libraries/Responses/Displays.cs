@@ -5349,6 +5349,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string OtherColumns(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "OtherColumns",
+                data: data);
+        }
+
         public static string Others(
             Context context,
             params string[] data)

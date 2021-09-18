@@ -1,0 +1,33 @@
+﻿{
+    "Id": "OtherColumns",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Other columns"
+        },
+        {
+            "Language": "zh",
+            "Body": "其他栏目"
+        },
+        {
+            "Language": "ja",
+            "Body": "その他の項目"
+        },
+        {
+            "Language": "de",
+            "Body": "Andere Spalten"
+        },
+        {
+            "Language": "ko",
+            "Body": "기타 열"
+        },
+        {
+            "Language": "es",
+            "Body": "Otras columnas"
+        },
+        {
+            "Language": "vn",
+            "Body": "Các cột khác"
+        }
+    ]
+}

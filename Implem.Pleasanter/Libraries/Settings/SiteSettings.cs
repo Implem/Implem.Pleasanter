@@ -1627,6 +1627,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.FilterColumn = columnDefinition.FilterColumn > 0;
                 column.EditorColumn = columnDefinition.EditorColumn > 0;
                 column.NotEditorSettings = columnDefinition.NotEditorSettings;
+                column.NotForm = columnDefinition.NotForm;
                 column.TitleColumn = columnDefinition.TitleColumn > 0;
                 column.LinkColumn = columnDefinition.LinkColumn > 0;
                 column.HistoryColumn = columnDefinition.HistoryColumn > 0;
