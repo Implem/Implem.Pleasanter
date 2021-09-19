@@ -301,7 +301,8 @@ namespace Implem.Pleasanter.Models
                    .ReplaceAll(
                        "#Logo",
                        new HtmlBuilder().HeaderLogo(
-                           context: context))
+                           context: context,
+                           ss: ss))
                    .ReplaceAll(
                        "#TenantImageSettingsEditor",
                        new HtmlBuilder().TenantImageSettingsEditor(
@@ -379,7 +380,8 @@ namespace Implem.Pleasanter.Models
                    .ReplaceAll(
                        "#Logo",
                        new HtmlBuilder().HeaderLogo(
-                           context: context))
+                           context: context,
+                           ss: ss))
                    .ReplaceAll(
                        "#TenantImageSettingsEditor",
                        new HtmlBuilder().TenantImageSettingsEditor(
