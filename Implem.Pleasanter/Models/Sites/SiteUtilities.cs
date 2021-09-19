@@ -2622,8 +2622,7 @@ namespace Implem.Pleasanter.Models
                                         .A(
                                             href: "#NotificationsSettingsEditor",
                                             text: Displays.Notifications(context: context)),
-                                    _using: context.ContractSettings.Notice != false
-                                        && NotificationUtilities.Types(context: context).Any())
+                                    _using: context.ContractSettings.Notice != false)
                                 .Li(action: () => hb
                                     .A(
                                         href: "#MailSettingsEditor",
@@ -2639,7 +2638,13 @@ namespace Implem.Pleasanter.Models
                                         .A(
                                             href: "#ScriptsSettingsEditor",
                                             text: Displays.Scripts(context: context)),
-                                    _using: context.ContractSettings.Script != false);
+                                    _using: context.ContractSettings.Script != false)
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#PublishSettingsEditor",
+                                            text: Displays.Publish(context: context)),
+                                    _using: context.ContractSettings.Extensions.Get("Publish"));
                             break;
                         default:
                             hb
@@ -3879,7 +3884,11 @@ namespace Implem.Pleasanter.Models
                             .NotificationsSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .MailSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .StylesSettingsEditor(context: context, ss: siteModel.SiteSettings)
-                            .ScriptsSettingsEditor(context: context, ss: siteModel.SiteSettings);
+                            .ScriptsSettingsEditor(context: context, ss: siteModel.SiteSettings)
+                            .PublishSettingsEditor(
+                                context: context,
+                                ss: siteModel.SiteSettings,
+                                publish: siteModel.Publish);
                         break;
                     default:
                         hb
