@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Images;
@@ -400,6 +401,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context,
             SiteSettings ss)
         {
+            var wikiId = ss.ReferenceType == "Wikis"
+                ? (long?)Rds.ExecuteScalar_long(
+                    context: context,
+                    statements: Rds.SelectWikis(
+                        column: Rds.WikisColumn().WikiId(),
+                        where: Rds.WikisWhere().SiteId(ss.SiteId)))
+                : null;
             return ss?.Publish == true && context.Authenticated
                 ? hb.Div(id: "PublishWarning", action: () => hb
                     .A(
@@ -410,9 +418,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ? "publishes"
                                     : "items")
                                 + "/"
-                                + context.Id
+                                + (context.Controller == "items"
+                                    ? wikiId ?? context.Id
+                                    : context.Id).ToString()
                                 + "/"
-                                + context.Action,
+                                + (context.Id == context.SiteId && wikiId == null
+                                    ? "index"
+                                    : string.Empty),
                         action: () => hb
                             .Text(text: Displays.PublishWarning(context: context))))
                 : hb;

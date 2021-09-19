@@ -20,6 +20,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             string columnBracket,
             SqlOrderBy.Types orderType,
             string tableName,
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             if (orderType != SqlOrderBy.Types.release)
@@ -28,6 +29,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             }
             return this;

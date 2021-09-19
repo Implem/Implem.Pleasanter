@@ -165,6 +165,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? Responsive;
         public SettingList<Script> Scripts;
         public SettingList<ServerScript> ServerScripts;
+        public SettingList<BulkUpdateColumn> BulkUpdateColumns;
         public SettingList<RelatingColumn> RelatingColumns;
         public string ExtendedHeader;
         public Versions.AutoVerUpTypes? AutoVerUpType;
@@ -297,6 +298,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Responsive == null) Responsive = Parameters.Mobile.SiteSettingsResponsive;
             if (Scripts == null) Scripts = new SettingList<Script>();
             if (ServerScripts == null) ServerScripts = new SettingList<ServerScript>();
+            if (BulkUpdateColumns == null) BulkUpdateColumns = new SettingList<BulkUpdateColumn>();
             if (RelatingColumns == null) RelatingColumns = new SettingList<RelatingColumn>();
             AutoVerUpType = AutoVerUpType ?? Versions.AutoVerUpTypes.Default;
             AllowEditingComments = AllowEditingComments ?? false;
@@ -887,6 +889,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss.ServerScripts = new SettingList<ServerScript>();
                 }
                 ss.ServerScripts.Add(script.GetRecordingData());
+            });
+            BulkUpdateColumns?.ForEach(bulkUpdateColumn =>
+            {
+                if (ss.BulkUpdateColumns == null)
+                {
+                    ss.BulkUpdateColumns = new SettingList<BulkUpdateColumn>();
+                }
+                ss.BulkUpdateColumns.Add(bulkUpdateColumn.GetRecordingData());
             });
             RelatingColumns?.ForEach(relatingColumn =>
             {
@@ -1627,6 +1637,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.FilterColumn = columnDefinition.FilterColumn > 0;
                 column.EditorColumn = columnDefinition.EditorColumn > 0;
                 column.NotEditorSettings = columnDefinition.NotEditorSettings;
+                column.NotForm = columnDefinition.NotForm;
                 column.TitleColumn = columnDefinition.TitleColumn > 0;
                 column.LinkColumn = columnDefinition.LinkColumn > 0;
                 column.HistoryColumn = columnDefinition.HistoryColumn > 0;
@@ -1966,7 +1977,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(column => column != null)
                 .Where(column =>
                     GridColumns.Contains(column.ColumnName)
-                    || GetEditorColumnNames().Contains(column.ColumnName))
+                    || GetEditorColumnNames().Contains(column.ColumnName)
+                    || column.ColumnName.Contains("~"))
                 .AllowedColumns(
                     context: context,
                     ss: this,
@@ -2062,11 +2074,22 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToList();
         }
 
-        public List<Column> GetAllowBulkUpdateColumns(Context context, SiteSettings ss)
+        public Dictionary<string, string> GetAllowBulkUpdateOptions(Context context)
+        {
+            var options = BulkUpdateColumns?.ToDictionary(o => $"BulkUpdate_{o.Id}", o => o.Title)
+                ?? new Dictionary<string, string>();
+            options = options
+                .Concat(GetAllowBulkUpdateColumns(context: context)
+                    .ToDictionary(o => o.ColumnName, o => o.LabelText))
+                .ToDictionary(o => o.Key, o => o.Value);
+            return options;
+        }
+
+        public List<Column> GetAllowBulkUpdateColumns(Context context)
         {
             return GetEditorColumns(context: context)
                 .Where(c => !c.Id_Ver)
-                .Where(c => c.EditorReadOnly != true)
+                .Where(c => !c.GetEditorReadOnly())
                 .Where(c => c.NoDuplication != true)
                 .Where(c => c.ColumnName != "Comments")
                 .Where(column => !Formulas.Any(formulaSet =>
@@ -2077,7 +2100,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(column => column.AllowBulkUpdate == true)
                 .Where(column => column.CanUpdate(
                     context: context,
-                    ss: ss,
+                    ss: this,
                     mine: null))
                 .ToList();
         }
@@ -4381,6 +4404,57 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool InitialValue(Context context)
         {
             return RecordingJson(context: context) == "[]";
+        }
+
+        public BulkUpdateColumn GetBulkUpdateColumn(int id)
+        {
+            return BulkUpdateColumns?.FirstOrDefault(o => o.Id == id) ?? new BulkUpdateColumn();
+        }
+
+        public List<string> GetBulkUpdateColumnNames(Context context)
+        {
+            return ColumnDefinitionHash.EditorDefinitions(context: context)
+                .Select(columnDefinition => GetColumn(
+                    context: context,
+                    columnName: columnDefinition.ColumnName))
+                .Where(column => column.ColumnName != "Comments"
+                    && column.ControlType != "Attachments"
+                    && !column.Id_Ver
+                    && !column.NotForm)
+                .Select(o => o.ColumnName)
+                .ToList();
+        }
+
+        public Dictionary<string, ControlData> BulkUpdateColumnSelectableOptions(
+            Context context, int id, bool enabled = true)
+        {
+            return enabled
+                ? ColumnUtilities.SelectableOptions(
+                    context: context,
+                    ss: this,
+                    columns: GetBulkUpdateColumn(id).Columns ?? new List<string>(),
+                    order: GetBulkUpdateColumnNames(context: context))
+                : ColumnUtilities.SelectableSourceOptions(
+                    context: context,
+                    ss: this,
+                    columns: GetBulkUpdateColumnNames(context: context)
+                        .Where(o => GetBulkUpdateColumn(id).Columns?.Contains(o) != true),
+                    order: GetBulkUpdateColumnNames(context: context));
+        }
+
+        public List<Column> GetBulkUpdateColumns(
+            Context context,
+            string target)
+        {
+            var columnNames = target.StartsWith("BulkUpdate_")
+                ? BulkUpdateColumns.Get(target.Split_2nd('_').ToInt())?.Columns
+                : target.ToSingleList();
+            var columns = columnNames
+                .Select(columnName => GetColumn(
+                    context: context,
+                    columnName: columnName))
+                .ToList();
+            return columns;
         }
 
         public RelatingColumn GetRelatingColumn(int id)

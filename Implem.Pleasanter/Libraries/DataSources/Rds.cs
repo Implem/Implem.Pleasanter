@@ -1589,6 +1589,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
+                                    isNullValue: column.IsNullValue(),
                                     function: function)
                                 : self;
                     }
@@ -1666,6 +1667,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
+                                    isNullValue: column.IsNullValue(),
                                     function: function)
                                 : self;
                     }
@@ -1743,6 +1745,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
+                                    isNullValue: column.IsNullValue(),
                                     function: function)
                                 : self;
                     }
@@ -1815,6 +1818,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
+                                    isNullValue: column.IsNullValue(),
                                     function: function)
                                 : self;
                     }
@@ -2027,6 +2031,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
+                                    isNullValue: column.IsNullValue(),
                                     function: function)
                                 : self;
                     }
@@ -2084,6 +2089,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
+                                    isNullValue: column.IsNullValue(),
                                     function: function)
                                 : self;
                     }
@@ -2141,6 +2147,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
+                                    isNullValue: column.IsNullValue(),
                                     function: function)
                                 : self;
                     }
@@ -2218,6 +2225,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
+                                    isNullValue: column.IsNullValue(),
                                     function: function)
                                 : self;
                     }
@@ -2285,6 +2293,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
+                                    isNullValue: column.IsNullValue(),
                                     function: function)
                                 : self;
                     }
@@ -2347,6 +2356,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
+                                    isNullValue: column.IsNullValue(),
                                     function: function)
                                 : self;
                     }
@@ -2459,6 +2469,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
+                                    isNullValue: column.IsNullValue(),
                                     function: function)
                                 : self;
                     }
@@ -2696,6 +2707,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
+                                    isNullValue: column.IsNullValue(),
                                     function: function)
                                 : self;
                     }
@@ -2763,6 +2775,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
+                                    isNullValue: column.IsNullValue(),
                                     function: function)
                                 : self;
                     }
@@ -2825,6 +2838,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
+                                    isNullValue: column.IsNullValue(),
                                     function: function)
                                 : self;
                     }
@@ -2932,6 +2946,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
+                                    isNullValue: column.IsNullValue(),
                                     function: function)
                                 : self;
                     }
@@ -3004,6 +3019,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
+                                    isNullValue: column.IsNullValue(),
                                     function: function)
                                 : self;
                     }
@@ -3131,6 +3147,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
+                                    isNullValue: column.IsNullValue(),
                                     function: function)
                                 : self;
                     }
@@ -3193,6 +3210,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
+                                    isNullValue: column.IsNullValue(),
                                     function: function)
                                 : self;
                     }
@@ -3265,6 +3283,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
+                                    isNullValue: column.IsNullValue(),
                                     function: function)
                                 : self;
                     }
@@ -3342,6 +3361,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
+                                    isNullValue: column.IsNullValue(),
                                     function: function)
                                 : self;
                     }
@@ -3459,6 +3479,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
+                                    isNullValue: column.IsNullValue(),
                                     function: function)
                                 : self;
                     }
@@ -3541,6 +3562,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
+                                    isNullValue: column.IsNullValue(),
                                     function: function)
                                 : self;
                     }
@@ -3658,6 +3680,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
+                                    isNullValue: column.IsNullValue(),
                                     function: function)
                                 : self;
                     }
@@ -3750,6 +3773,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
+                                    isNullValue: column.IsNullValue(),
                                     function: function)
                                 : self;
                     }
@@ -3822,6 +3846,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
+                                    isNullValue: column.IsNullValue(),
                                     function: function)
                                 : self;
                     }

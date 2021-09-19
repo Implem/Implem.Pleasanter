@@ -430,6 +430,7 @@
     <Compile Include="Libraries\Settings\LinkAction.cs" />
     <Compile Include="Libraries\Settings\Lookup.cs" />
     <Compile Include="Libraries\Settings\Lookups.cs" />
+    <Compile Include="Libraries\Settings\BulkUpdateColumn.cs" />
     <Compile Include="Libraries\Settings\ServerScript.cs" />
     <Compile Include="Libraries\Settings\Section.cs" />
     <Compile Include="Libraries\Settings\JoinStack.cs" />
@@ -2306,6 +2307,8 @@
     <Content Include="App_Data\Displays\ApiCountReset.json" />
     <Content Include="App_Data\Parameters\GroupMembers.json" />
     <Content Include="App_Data\Displays\CharToAddWhenCopying.json" />
+    <Content Include="App_Data\Displays\OtherColumns.json" />
+    <Content Include="App_Data\Displays\BulkUpdateColumnSettings.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

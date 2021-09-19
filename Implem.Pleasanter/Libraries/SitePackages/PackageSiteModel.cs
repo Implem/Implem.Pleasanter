@@ -251,24 +251,15 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 });
                 return links.ToJson(Formatting.Indented);
             }
-            var srcId = string.Empty;
-            switch (source)
+            var match = System.Text.RegularExpressions.Regex.Match(source, @"(?<=\[\[).+(?=\]\])");
+            var data = match?.Success == true
+                ? match.Value.Split(',')
+                : null;
+            var srcId = data?.FirstOrDefault().ToLong() ?? 0;
+            if (srcId > 0)
             {
-                case "[[Users]]":
-                case "[[Users*]]":
-                case "[[Depts]]":
-                    break;
-                default:
-                    var match = System.Text.RegularExpressions.Regex.Match(source, @"(?<=\[\[).+(?=\]\])");
-                    srcId = (match?.Success == true)
-                        ? match.Value.Split_1st().ToString()
-                        : string.Empty;
-                    break;
-            }
-            if (!srcId.IsNullOrEmpty())
-            {
-                var newId = header.GetConvertedId(srcId.ToLong());
-                var rep = source.Replace(srcId, newId.ToString());
+                data[0] = header.GetConvertedId(srcId).ToString();
+                var rep = $"[[{data.Join()}]]";
                 return rep;
             }
             else

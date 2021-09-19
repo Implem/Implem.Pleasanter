@@ -21,7 +21,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool useSearch)
         {
             return hb.Header(id: "Header", action: () => hb
-                .HeaderLogo(context)
+                .HeaderLogo(
+                    context: context,
+                    ss: ss)
                 .NavigationMenu(
                     context: context,
                     ss: ss,
@@ -32,9 +34,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     useSearch: useSearch));
         }
 
-        public static HtmlBuilder HeaderLogo(this HtmlBuilder hb, Context context)
+        public static HtmlBuilder HeaderLogo(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss)
         {
-            var ss = SiteSettingsUtilities.TenantsSiteSettings(context);
             var existsImage = BinaryUtilities.ExistsTenantImage(
                 context: context,
                 ss: ss,
@@ -44,9 +48,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.H(number: 2, id: "Logo", action: () => hb
                 .A(
                     attributes: new HtmlAttributes().Href(context.Publish
-                        ? Locations.ItemIndex(
-                            context: context,
-                            id: context.SiteId)
+                        ? ss.ReferenceType == "Wikis"
+                            ? Locations.ItemEdit(
+                                context: context,
+                                id: context.Id)
+                            : Locations.ItemIndex(
+                                context: context,
+                                id: context.SiteId)
                         : Locations.Top(context: context)),
                     action: () => hb
                         .LogoImage(

@@ -39,7 +39,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public string ToResponse(Context context, SiteSettings ss, Column column)
         {
-            return column.EditorReadOnly != true
+            return !column.GetEditorReadOnly()
                 ? Value.ToString()
                 : column.Choice(ToString()).Text;
         }
