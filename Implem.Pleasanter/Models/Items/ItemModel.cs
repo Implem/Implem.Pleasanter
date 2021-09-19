@@ -1367,7 +1367,8 @@ namespace Implem.Pleasanter.Models
                 filter: filter,
                 parentClass: parentClass,
                 parentIds: parentIds,
-                searchColumnOnly: false);
+                searchColumnOnly: false,
+                searchFormat: false);
             Dictionary<string, ControlData> optionCollection
                 = new Dictionary<string, ControlData>();
             var multiple = (column.MultipleSelections ?? false) || filter;

@@ -708,7 +708,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 statements: Rds.SelectRegistrations(
                     column: Rds.RegistrationsColumn(),
                     where: Rds.RegistrationsWhere()
-                        .Passphrase(context.QueryStrings.Data("passphrase"))))
+                        .Passphrase(context.QueryStrings.Data("passphrase"), _operator: context.Sqls.Like)))
                             .AsEnumerable();
         }
 

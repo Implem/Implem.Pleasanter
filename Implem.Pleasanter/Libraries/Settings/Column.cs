@@ -149,6 +149,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public bool NotEditorSettings;
         [NonSerialized]
+        public bool NotForm;
+        [NonSerialized]
         public bool TitleColumn;
         [NonSerialized]
         public bool LinkColumn;
@@ -191,7 +193,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public bool AddChoiceHashByServerScript;
         [NonSerialized]
-        public List<ServerScriptModelColumn> ServerScriptModelColumns = new List<ServerScriptModelColumn>();
+        public ServerScriptModelColumn ServerScriptModelColumn;
         [NonSerialized]
         public Dictionary<string, Choice> LinkedTitleHash = new Dictionary<string, Choice>();
         [NonSerialized]
@@ -847,7 +849,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 context: context,
                 value: value,
                 format: format)
-                    + (EditorReadOnly == true
+                    + (GetEditorReadOnly()
                         || Permissions.ColumnPermissionType(
                             context: context,
                             ss: ss,
@@ -873,9 +875,22 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public bool GetEditorReadOnly()
         {
-            var readOnly = EditorReadOnly == true
-                || ServerScriptModelColumns?.Any(o => o.ReadOnly) == true;
-            return readOnly;
+            var readOnly = ServerScriptModelColumn?.GetReadOnly();
+            if (readOnly != null)
+            {
+                return readOnly == true;
+            }
+            return EditorReadOnly == true;
+        }
+
+        public bool GetHide()
+        {
+            var hide = ServerScriptModelColumn?.GetHide();
+            if (hide != null)
+            {
+                return hide == true;
+            }
+            return Hide == true;
         }
 
         public decimal Round(decimal value)
@@ -1056,27 +1071,34 @@ namespace Implem.Pleasanter.Libraries.Settings
             { IfDuplicated = true };
         }
 
+        public string IsNullValue()
+        {
+            switch (TypeName.CsTypeSummary())
+            {
+                case Implem.Libraries.Utilities.Types.CsNumeric:
+                    return Nullable == true
+                        ? null
+                        : "0";
+                default:
+                    return null;
+            }
+        }
+
         public string TableName()
         {
             return Strings.CoalesceEmpty(TableAlias, JoinTableName, SiteSettings?.ReferenceType);
         }
 
-        public string ParamName()
+        public string TableItemTitleCases()
         {
-            return ColumnName
-                .Replace(",", "_")
-                .Replace("-", "_")
-                .Replace("~", "_");
-        }
-
-        public bool Linked(SiteSettings ss, long fromSiteId)
-        {
-            return
-                fromSiteId != 0 &&
-                ss.Links
-                    .Where(o => o.SiteId > 0)
-                    .Any(o => o.ColumnName == ColumnName
-                        && o.SiteId == fromSiteId);
+            switch (Name)
+            {
+                case "Title":
+                    var tableName = Strings.CoalesceEmpty(TableAlias, JoinTableName, SiteSettings?.ReferenceType);
+                    return tableName + "_Items";
+                default:
+                    return TableName();
+            }
         }
 
         public bool Linked(bool withoutWiki = false)

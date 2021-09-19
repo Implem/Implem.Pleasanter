@@ -34,9 +34,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string subject,
             string body)
         {
+            var siteFrom = Addresses.From(from);
             Context = context;
             Host = host;
-            From = new EmailAddress(from.Address, from.DisplayName);
+            From = new EmailAddress(siteFrom.Address, siteFrom.DisplayName);
             To = Strings.CoalesceEmpty(to, Parameters.Mail.FixedFrom, Parameters.Mail.SupportFrom);
             Cc = cc;
             Bcc = bcc;

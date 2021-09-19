@@ -155,6 +155,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 });
         }
 
+        public static string ItemIndexAbsoluteUri(Context context, long id)
+        {
+            return Parameters.Service.AbsoluteUri != null
+                ? Parameters.Service.AbsoluteUri + "/items/" + id + ""
+                : context.AbsoluteUri.Replace(
+                    context.AbsolutePath,
+                    ItemIndex(
+                        context: context,
+                        id: id));
+        }
+
         public static string ItemEditAbsoluteUri(Context context, long id)
         {
             return Parameters.Service.AbsoluteUri != null

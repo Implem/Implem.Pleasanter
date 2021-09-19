@@ -923,10 +923,7 @@ namespace Implem.Pleasanter.Models
             TenantModel tenantModel,
             string idSuffix = null)
         {
-            var serverScriptModelRow = tenantModel
-                ?.ServerScriptModelRows
-                ?.FirstOrDefault();
-            var needReplaceHtml = serverScriptModelRow?.NeedReplaceHtml(
+            var needReplaceHtml = tenantModel.ServerScriptModelRow?.NeedReplaceHtml(
                 context: context,
                 ss: ss);
             res.Val(
@@ -944,7 +941,8 @@ namespace Implem.Pleasanter.Models
                 .Where(column => column != null)
                 .ForEach(column =>
                 {
-                    var serverScriptModelColumn = serverScriptModelRow
+                    var serverScriptModelColumn = tenantModel
+                        ?.ServerScriptModelRow
                         ?.Columns.Get(column.ColumnName);
                     if (needReplaceHtml?.Contains(column.ColumnName) == true)
                     {

@@ -929,6 +929,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string BulkUpdateColumnSettings(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BulkUpdateColumnSettings",
+                data: data);
+        }
+
         public static string BulkUpdated(
             Context context,
             params string[] data)
@@ -5346,6 +5356,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "OriginalMessage",
+                data: data);
+        }
+
+        public static string OtherColumns(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "OtherColumns",
                 data: data);
         }
 

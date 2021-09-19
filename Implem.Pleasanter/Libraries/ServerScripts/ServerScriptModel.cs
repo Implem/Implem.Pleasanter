@@ -131,20 +131,78 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public class ServerScriptModelColumn
         {
-            public string LabelText { get; set; }
-            public string LabelRaw { get; set; }
+            private string _labelText;
+            private bool _labelTextChanged;
+            private string _labelRaw;
+            private bool _labelRawChanged;
+            private string _rawText;
+            private bool _rawTextChanged;
+            private bool _readOnly;
+            private bool _readOnlyChanged;
+            private bool _hide;
+            private bool _hideChanged;
+            private string _extendedFieldCss;
+            private bool _extendedFieldCssChanged;
+            private string _extendedControlCss;
+            private bool _extendedControlCssChanged;
+            private string _extendedCellCss;
+            private bool _extendedCellCssChanged;
+            private string _extendedHtmlBeforeField;
+            private bool _extendedHtmlBeforeFieldChanged;
+            private string _extendedHtmlBeforeLabel;
+            private bool _extendedHtmlBeforeLabelChanged;
+            private string _extendedHtmlBetweenLabelAndControl;
+            private bool _extendedHtmlBetweenLabelAndControlChanged;
+            private string _extendedHtmlAfterControl;
+            private bool _extendedHtmlAfterControlChanged;
+            private string _extendedHtmlAfterField;
+            private bool _extendedHtmlAfterFieldChanged;
+            private bool _choiceHashChanged;
+
+            public string LabelText { get { return _labelText; } set { _labelText = value; _labelTextChanged = true; } }
+            public string LabelRaw { get { return _labelRaw; } set { _labelRaw = value; _labelRawChanged = true; } }
+            public string RawText { get { return _rawText; } set { _rawText = value; _rawTextChanged = true; } }
+            public bool ReadOnly { get { return _readOnly; } set { _readOnly = value; _readOnlyChanged = true; } }
+            public bool Hide { get { return _hide; } set { _hide = value; _hideChanged = true; } }
+            public string ExtendedFieldCss { get { return _extendedFieldCss; } set { _extendedFieldCss = value; _extendedFieldCssChanged = true; } }
+            public string ExtendedControlCss { get { return _extendedControlCss; } set { _extendedControlCss = value; _extendedControlCssChanged = true; } }
+            public string ExtendedCellCss { get { return _extendedCellCss; } set { _extendedCellCss = value; _extendedCellCssChanged = true; } }
+            public string ExtendedHtmlBeforeField { get { return _extendedHtmlBeforeField; } set { _extendedHtmlBeforeField = value; _extendedHtmlBeforeFieldChanged = true; } }
+            public string ExtendedHtmlBeforeLabel { get { return _extendedHtmlBeforeLabel; } set { _extendedHtmlBeforeLabel = value; _extendedHtmlBeforeLabelChanged = true; } }
+            public string ExtendedHtmlBetweenLabelAndControl { get { return _extendedHtmlBetweenLabelAndControl; } set { _extendedHtmlBetweenLabelAndControl = value; _extendedHtmlBetweenLabelAndControlChanged = true; } }
+            public string ExtendedHtmlAfterControl { get { return _extendedHtmlAfterControl; } set { _extendedHtmlAfterControl = value; _extendedHtmlAfterControlChanged = true; } }
+            public string ExtendedHtmlAfterField { get { return _extendedHtmlAfterField; } set { _extendedHtmlAfterField = value; _extendedHtmlAfterFieldChanged = true; } }
             public Dictionary<object, object> ChoiceHash { get; set; }
-            public bool ReadOnly { get; set; }
-            public string ExtendedFieldCss { get; set; }
-            public string ExtendedControlCss { get; set; }
-            public string ExtendedCellCss { get; set; }
-            public string ExtendedHtmlBeforeField { get; set; }
-            public string ExtendedHtmlBeforeLabel { get; set; }
-            public string ExtendedHtmlBetweenLabelAndControl { get; set; }
-            public string ExtendedHtmlAfterControl { get; set; }
-            public string ExtendedHtmlAfterField { get; set; }
-            public bool Hide { get; set; }
-            public string RawText { get; set; }
+
+            public ServerScriptModelColumn(
+                string labelText,
+                string labelRaw,
+                string rawText,
+                bool readOnly,
+                bool hide,
+                string extendedFieldCss,
+                string extendedControlCss,
+                string extendedCellCss,
+                string extendedHtmlBeforeField,
+                string extendedHtmlBeforeLabel,
+                string extendedHtmlBetweenLabelAndControl,
+                string extendedHtmlAfterControl,
+                string extendedHtmlAfterField)
+            {
+                _labelText = labelText;
+                _labelRaw = labelRaw;
+                _rawText = rawText;
+                _readOnly = readOnly;
+                _hide = hide;
+                _extendedFieldCss = extendedFieldCss;
+                _extendedControlCss = extendedControlCss;
+                _extendedCellCss = extendedCellCss;
+                _extendedHtmlBeforeField = extendedHtmlBeforeField;
+                _extendedHtmlBeforeLabel = extendedHtmlBeforeLabel;
+                _extendedHtmlBetweenLabelAndControl = extendedHtmlBetweenLabelAndControl;
+                _extendedHtmlAfterControl = extendedHtmlAfterControl;
+                _extendedHtmlAfterField = extendedHtmlAfterField;
+            }
 
             public void AddChoiceHash(object key, object value)
             {
@@ -153,38 +211,39 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ChoiceHash = new Dictionary<object, object>();
                 }
                 ChoiceHash.Add(key, value);
+                _choiceHashChanged = true;
             }
 
-            public bool NeedReplace(
-                Context context,
-                SiteSettings ss,
-                string columnName)
+            public bool Changed()
             {
-                var column = ss.GetColumn(
-                    context: context,
-                    columnName: columnName);
-                var ret = LabelText != column.LabelText
-                    || LabelRaw != null
-                    || ChoiceHash?.Any() == true
-                    || ReadOnly != !(column?.CanRead(
-                        context: context,
-                        ss: ss,
-                        mine: null,
-                        noCache: true) == true && column?.CanUpdate(
-                            context: context,
-                            ss: ss,
-                            mine: null,
-                            noCache: true) == true)
-                    || ExtendedFieldCss != (column.ExtendedFieldCss ?? string.Empty)
-                    || ExtendedControlCss != (column.ExtendedControlCss ?? string.Empty)
-                    || ExtendedCellCss != (column.ExtendedCellCss ?? string.Empty)
-                    || ExtendedHtmlBeforeField != (column.ExtendedHtmlBeforeField ?? string.Empty)
-                    || ExtendedHtmlBeforeLabel != (column.ExtendedHtmlBeforeLabel ?? string.Empty)
-                    || ExtendedHtmlBetweenLabelAndControl != (column.ExtendedHtmlBetweenLabelAndControl ?? string.Empty)
-                    || ExtendedHtmlAfterControl != (column.ExtendedHtmlAfterControl ?? string.Empty)
-                    || ExtendedHtmlAfterField != (column.ExtendedHtmlAfterField ?? string.Empty)
-                    || !RawText.IsNullOrEmpty();
-                return ret;
+                return _labelTextChanged
+                    || _labelRawChanged
+                    || _rawTextChanged
+                    || _readOnlyChanged
+                    || _hideChanged
+                    || _extendedFieldCssChanged
+                    || _extendedControlCssChanged
+                    || _extendedCellCssChanged
+                    || _extendedHtmlBeforeFieldChanged
+                    || _extendedHtmlBeforeLabelChanged
+                    || _extendedHtmlBetweenLabelAndControlChanged
+                    || _extendedHtmlAfterControlChanged
+                    || _extendedHtmlAfterFieldChanged
+                    || _choiceHashChanged;
+            }
+
+            public bool? GetReadOnly()
+            {
+                return _readOnlyChanged
+                    ? (bool?)ReadOnly
+                    : null;
+            }
+
+            public bool? GetHide()
+            {
+                return _hide
+                    ? (bool?)Hide
+                    : null;
             }
         }
 
@@ -200,16 +259,18 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 if (NeedReplaceHtmlCache == null)
                 {
                     var targetColumns = Columns
-                        ?.Where(o => o.Value.NeedReplace(
-                            context: context,
-                            ss: ss,
-                            columnName: o.Key))
+                        ?.Where(o => o.Value.Changed())
                         .Select(o => o.Key)
                         .ToList();
                     NeedReplaceHtmlCache = context.Forms.List("NeedReplaceHtml")
-                        .Concat(targetColumns)
-                        .Distinct()
                         .ToList();
+                    if (targetColumns != null)
+                    {
+                        NeedReplaceHtmlCache = NeedReplaceHtmlCache
+                            ?.Concat(targetColumns)
+                            .Distinct()
+                            .ToList();
+                    }
                 }
                 return NeedReplaceHtmlCache;
             }

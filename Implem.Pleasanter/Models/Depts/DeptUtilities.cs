@@ -1328,10 +1328,7 @@ namespace Implem.Pleasanter.Models
             DeptModel deptModel,
             string idSuffix = null)
         {
-            var serverScriptModelRow = deptModel
-                ?.ServerScriptModelRows
-                ?.FirstOrDefault();
-            var needReplaceHtml = serverScriptModelRow?.NeedReplaceHtml(
+            var needReplaceHtml = deptModel.ServerScriptModelRow?.NeedReplaceHtml(
                 context: context,
                 ss: ss);
             res.Val(
@@ -1349,7 +1346,8 @@ namespace Implem.Pleasanter.Models
                 .Where(column => column != null)
                 .ForEach(column =>
                 {
-                    var serverScriptModelColumn = serverScriptModelRow
+                    var serverScriptModelColumn = deptModel
+                        ?.ServerScriptModelRow
                         ?.Columns.Get(column.ColumnName);
                     if (needReplaceHtml?.Contains(column.ColumnName) == true)
                     {

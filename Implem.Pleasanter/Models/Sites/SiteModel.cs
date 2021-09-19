@@ -1696,6 +1696,12 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
+                case "OpenEditorOtherColumnDialog":
+                    OpenEditorColumnDialog(
+                        context: context,
+                        res: res,
+                        editorOtherColumn: true);
+                    break;
                 case "SetEditorColumn":
                     SetEditorColumn(
                         context: context,
@@ -2073,6 +2079,37 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
+                case "MoveUpBulkUpdateColumns":
+                case "MoveDownBulkUpdateColumns":
+                    SetBulkUpdateColumnsOrder(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "NewBulkUpdateColumn":
+                case "EditBulkUpdateColumns":
+                    OpenBulkUpdateColumnDialog(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "AddBulkUpdateColumn":
+                    AddBulkUpdateColumn(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "UpdateBulkUpdateColumn":
+                    UpdateBulkUpdateColumn(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "DeleteBulkUpdateColumns":
+                    DeleteBulkUpdateColumns(
+                        context: context,
+                        res: res);
+                    break;
                 case "MoveUpRelatingColumns":
                 case "MoveDownRelatingColumns":
                     SetRelatingColumnsOrder(
@@ -2418,16 +2455,23 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void OpenEditorColumnDialog(Context context, ResponseCollection res)
+        private void OpenEditorColumnDialog(
+            Context context,
+            ResponseCollection res,
+            bool editorOtherColumn = false)
         {
-            var selectedColumns = context.Forms.List("EditorColumns");
+            var selectedColumns = !editorOtherColumn
+                ? context.Forms.List("EditorColumns")
+                : context.Forms.Data("EditorOtherColumn").ToSingleList();
             if (selectedColumns.Count() != 1)
             {
                 res.Message(Messages.SelectOne(context: context));
             }
             else
             {
-                var column = SiteSettings.EditorColumn(selectedColumns.FirstOrDefault());
+                var column = SiteSettings.GetColumn(
+                    context: context,
+                    columnName: selectedColumns.FirstOrDefault());
                 var section = SiteSettings.Sections.Get(SiteSettings.SectionId(selectedColumns
                     .FirstOrDefault()));
                 var linkId = SiteSettings.LinkId(selectedColumns.FirstOrDefault());
@@ -2489,9 +2533,18 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                if (column.ColumnName == "Title")
+                var editorOtherColumn = false;
+                switch (column.ColumnName)
                 {
-                    SiteSettings.TitleColumns = context.Forms.List("TitleColumnsAll");
+                    case "Creator":
+                    case "Updator":
+                    case "CreatedTime":
+                    case "UpdatedTime":
+                        editorOtherColumn = true;
+                        break;
+                    case "Title":
+                        SiteSettings.TitleColumns = context.Forms.List("TitleColumnsAll");
+                        break;
                 }
                 context.Forms.ForEach(control =>
                     SiteSettings.SetColumnProperty(
@@ -2499,11 +2552,20 @@ namespace Implem.Pleasanter.Models
                         column: column,
                         propertyName: control.Key,
                         value: control.Value));
-                res
-                    .Html("#EditorColumns", new HtmlBuilder().SelectableItems(
+                if (!editorOtherColumn)
+                {
+                    res.Html("#EditorColumns", new HtmlBuilder().SelectableItems(
                         listItemCollection: SiteSettings.EditorSelectableOptions(context: context),
-                        selectedValueTextCollection: columnName.ToSingleList()))
-                    .CloseDialog();
+                        selectedValueTextCollection: columnName.ToSingleList()));
+                }
+                else
+                {
+                    res.Html("#EditorOtherColumn", new HtmlBuilder().EditorOtherColumn(
+                        context: context,
+                        ss: SiteSettings,
+                        selectedValue: column.ColumnName));
+                }
+                res.CloseDialog();
             }
         }
 
@@ -4666,6 +4728,130 @@ namespace Implem.Pleasanter.Models
             res
                 .CloseDialog()
                 .Message(message);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetBulkUpdateColumnsOrder(
+            Context context, ResponseCollection res, string controlId)
+        {
+            var selected = context.Forms.IntList("EditBulkUpdateColumns");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.BulkUpdateColumns.MoveUpOrDown(
+                    ColumnUtilities.ChangeCommand(controlId), selected);
+                res.Html("#EditBulkUpdateColumns", new HtmlBuilder()
+                    .EditBulkUpdateColumns(
+                        context: context,
+                        ss: SiteSettings));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenBulkUpdateColumnDialog(
+            Context context, ResponseCollection res, string controlId)
+        {
+            if (controlId == "NewBulkUpdateColumn")
+            {
+                var bulkUpdateColumn = new BulkUpdateColumn() { };
+                OpenBulkUpdateColumnDialog(
+                    context: context,
+                    res: res,
+                    bulkUpdateColumn: bulkUpdateColumn);
+            }
+            else
+            {
+                var BulkUpdateColumn = SiteSettings.BulkUpdateColumns?.Get(context.Forms.Int("BulkUpdateColumnId"));
+                if (BulkUpdateColumn == null)
+                {
+                    OpenDialogError(res, Messages.SelectOne(context: context));
+                }
+                else
+                {
+                    SiteSettingsUtilities.Get(
+                        context: context, siteModel: this, referenceId: SiteId);
+                    OpenBulkUpdateColumnDialog(
+                        context: context,
+                        res: res,
+                        bulkUpdateColumn: BulkUpdateColumn);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenBulkUpdateColumnDialog(
+            Context context, ResponseCollection res, BulkUpdateColumn bulkUpdateColumn)
+        {
+            res.Html("#BulkUpdateColumnDialog", SiteUtilities.BulkUpdateColumnDialog(
+                context: context,
+                ss: SiteSettings,
+                controlId: context.Forms.ControlId(),
+                bulkUpdateColumn: bulkUpdateColumn));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void AddBulkUpdateColumn(Context context, ResponseCollection res, string controlId)
+        {
+            SiteSettings.BulkUpdateColumns.Add(new BulkUpdateColumn(
+                id: SiteSettings.BulkUpdateColumns.MaxOrDefault(o => o.Id) + 1,
+                title: context.Forms.Data("BulkUpdateColumnTitle"),
+                columns: context.Forms.List("BulkUpdateColumnColumnsAll")));
+            res
+                .ReplaceAll("#EditBulkUpdateColumns", new HtmlBuilder()
+                    .EditBulkUpdateColumns(
+                        context: context,
+                        ss: SiteSettings))
+                .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateBulkUpdateColumn(
+            Context context, ResponseCollection res, string controlId)
+        {
+            SiteSettings.BulkUpdateColumns?
+                .FirstOrDefault(o => o.Id == context.Forms.Int("BulkUpdateColumnId"))?
+                .Update(
+                    title: context.Forms.Data("BulkUpdateColumnTitle"),
+                    columns: context.Forms.List("BulkUpdateColumnColumnsAll"));
+            res
+                .Html("#EditBulkUpdateColumns", new HtmlBuilder()
+                    .EditBulkUpdateColumns(
+                        context: context,
+                        ss: SiteSettings))
+                .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void DeleteBulkUpdateColumns(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.IntList("EditBulkUpdateColumns");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.BulkUpdateColumns.Delete(selected);
+                res.ReplaceAll("#EditBulkUpdateColumns", new HtmlBuilder()
+                    .EditBulkUpdateColumns(
+                        context: context,
+                        ss: SiteSettings));
+            }
         }
 
         /// <summary>

@@ -1,4 +1,6 @@
-﻿using Implem.IRds;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Implem.IRds;
 namespace Implem.Libraries.DataSources.SqlServer
 {
     public class SqlOrderBy
@@ -6,9 +8,11 @@ namespace Implem.Libraries.DataSources.SqlServer
         public string TableName;
         public string ColumnBracket;
         public Types OrderType;
+        public string IsNullValue;
         public Sqls.Functions Function;
         public SqlStatement Sub;
 
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum Types
         {
             asc,
@@ -20,12 +24,14 @@ namespace Implem.Libraries.DataSources.SqlServer
             string columnBracket = null,
             Types orderType = Types.asc,
             string tableName = null,
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None,
             SqlStatement sub = null)
         {
-            TableName = tableName;
             ColumnBracket = columnBracket;
             OrderType = orderType;
+            TableName = tableName;
+            IsNullValue = isNullValue;
             Function = function;
             Sub = sub;
         }
@@ -68,7 +74,9 @@ namespace Implem.Libraries.DataSources.SqlServer
                     case Sqls.Functions.Avg:
                         return $"avg({factory.Sqls.IsNull}({columnBracket}, 0)) {orderType}";
                     default:
-                        return columnBracket + orderType;
+                        return IsNullValue == null
+                            ? columnBracket + orderType
+                            : $"{factory.Sqls.IsNull}({columnBracket}, {IsNullValue}) {orderType}";
                 }
             }
         }

@@ -288,7 +288,23 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 {
                     Column column = null;
                     ss?.ColumnHash?.TryGetValue(definition.ColumnName, out column);
-                    return (definition.ColumnName, new ServerScriptModelColumn());
+                    return (
+                        definition.ColumnName,
+                        model.ServerScriptModelRow.Columns?.Get(column.ColumnName)
+                            ?? new ServerScriptModelColumn(
+                                labelText: column?.LabelText,
+                                labelRaw: string.Empty,
+                                rawText: string.Empty,
+                                readOnly: column?.EditorReadOnly == true,
+                                hide: column?.Hide == true,
+                                extendedFieldCss: column?.ExtendedFieldCss,
+                                extendedControlCss: column?.ExtendedControlCss,
+                                extendedCellCss: column?.ExtendedCellCss,
+                                extendedHtmlBeforeField: column?.ExtendedHtmlBeforeField,
+                                extendedHtmlBeforeLabel: column?.ExtendedHtmlBeforeLabel,
+                                extendedHtmlBetweenLabelAndControl: column?.ExtendedHtmlBetweenLabelAndControl,
+                                extendedHtmlAfterControl: column?.ExtendedHtmlAfterControl,
+                                extendedHtmlAfterField: column?.ExtendedHtmlAfterField));
                 })
                 .ToArray();
             return columns;
@@ -330,27 +346,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     return;
                 }
                 var serverScriptColumn = datam.Value as ServerScriptModelColumn;
-                scriptValues[datam.Key] = new ServerScriptModelColumn
+                if (serverScriptColumn.Changed())
                 {
-                    LabelText = serverScriptColumn?.LabelText,
-                    LabelRaw = serverScriptColumn?.LabelRaw,
-                    ChoiceHash = serverScriptColumn?.ChoiceHash,
-                    ExtendedFieldCss = serverScriptColumn?.ExtendedFieldCss,
-                    ExtendedControlCss = serverScriptColumn?.ExtendedControlCss,
-                    ExtendedCellCss = serverScriptColumn?.ExtendedCellCss,
-                    ExtendedHtmlBeforeField = serverScriptColumn?.ExtendedHtmlBeforeField,
-                    ExtendedHtmlBeforeLabel = serverScriptColumn?.ExtendedHtmlBeforeLabel,
-                    ExtendedHtmlBetweenLabelAndControl = serverScriptColumn?.ExtendedHtmlBetweenLabelAndControl,
-                    ExtendedHtmlAfterControl = serverScriptColumn?.ExtendedHtmlAfterControl,
-                    ExtendedHtmlAfterField = serverScriptColumn?.ExtendedHtmlAfterField,
-                    Hide = serverScriptColumn?.Hide == true,
-                    RawText = serverScriptColumn?.RawText,
-                    ReadOnly = !(column?.CanEdit(
-                        context: context,
-                        ss: ss,
-                        mine: mine) == true
-                            && serverScriptColumn?.ReadOnly != true)
-                };
+                    scriptValues[datam.Key] = serverScriptColumn;
+                }
             });
             return scriptValues;
         }
@@ -798,18 +797,17 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         private static bool ReadOnly(
             string columnName,
-            IEnumerable<ServerScriptModelRow> serverScriptModelRows)
+            ServerScriptModelRow serverScriptModelRow)
         {
-            var readOnly = serverScriptModelRows
-                ?.Select(row => row?.Columns?.Get(columnName))
-                ?.Any(column => column?.ReadOnly == true) == true;
+            var readOnly = serverScriptModelRow
+                ?.Columns.Get(columnName)
+                ?.ReadOnly == true;
             return readOnly;
         }
 
-        public static bool Hide(IEnumerable<ServerScriptModelColumn> serverScriptModelColumns)
+        public static bool Hide(ServerScriptModelColumn serverScriptModelColumn)
         {
-            var hide = serverScriptModelColumns
-                ?.Any(column => column?.Hide == true) == true;
+            var hide = serverScriptModelColumn?.Hide == true;
             return hide;
         }
 
@@ -823,21 +821,20 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             {
                 return false;
             }
-            if (baseModel == null || baseModel.ServerScriptModelRows?.Any() != true)
+            if (baseModel?.ServerScriptModelRow == null)
             {
                 return column.CanEdit(
                     context: context,
                     ss: ss,
                     mine: baseModel?.Mine(context: context));
             }
-            var serverScriptReadOnly = ReadOnly(
-                columnName: column.ColumnName,
-                serverScriptModelRows: baseModel?.ServerScriptModelRows);
-            var canUpdate = column.CanEdit(
-                context: context,
-                ss: ss,
-                mine: baseModel?.Mine(context: context))
-                    && !serverScriptReadOnly;
+            var serverScriptReadOnly = column.ServerScriptModelColumn?.GetReadOnly();
+            var canUpdate = serverScriptReadOnly != null
+                ? serverScriptReadOnly != true
+                : column.CanEdit(
+                    context: context,
+                    ss: ss,
+                    mine: baseModel?.Mine(context: context));
             return canUpdate;
         }
 

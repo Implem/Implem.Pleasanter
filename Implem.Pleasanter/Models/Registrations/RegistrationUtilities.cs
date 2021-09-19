@@ -1466,10 +1466,7 @@ namespace Implem.Pleasanter.Models
             RegistrationModel registrationModel,
             string idSuffix = null)
         {
-            var serverScriptModelRow = registrationModel
-                ?.ServerScriptModelRows
-                ?.FirstOrDefault();
-            var needReplaceHtml = serverScriptModelRow?.NeedReplaceHtml(
+            var needReplaceHtml = registrationModel.ServerScriptModelRow?.NeedReplaceHtml(
                 context: context,
                 ss: ss);
             res.Val(
@@ -1487,7 +1484,8 @@ namespace Implem.Pleasanter.Models
                 .Where(column => column != null)
                 .ForEach(column =>
                 {
-                    var serverScriptModelColumn = serverScriptModelRow
+                    var serverScriptModelColumn = registrationModel
+                        ?.ServerScriptModelRow
                         ?.Columns.Get(column.ColumnName);
                     if (needReplaceHtml?.Contains(column.ColumnName) == true)
                     {
@@ -2145,7 +2143,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 where: Rds.RegistrationsWhere()
-                    .Passphrase(context.QueryStrings.Data("passphrase")));
+                    .Passphrase(context.QueryStrings.Data("passphrase"), _operator: context.Sqls.Like));
             if (registrationModel.AccessStatus == Databases.AccessStatuses.Selected)
             {
                 registrationModel.MethodType = BaseModel.MethodTypes.Edit;

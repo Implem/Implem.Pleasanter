@@ -1669,10 +1669,9 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     column: column,
-                    serverScriptModelColumns: resultModel
-                        ?.ServerScriptModelRows
-                        ?.Select(row => row.Columns.Get(column.ColumnName))
-                        .ToArray(),
+                    serverScriptModelColumn: resultModel
+                        ?.ServerScriptModelRow
+                        ?.Columns.Get(column.ColumnName),
                     methodType: resultModel.MethodType,
                     value: value,
                     columnPermissionType: Permissions.ColumnPermissionType(
@@ -2207,10 +2206,7 @@ namespace Implem.Pleasanter.Models
             ResultModel resultModel,
             string idSuffix = null)
         {
-            var serverScriptModelRow = resultModel
-                ?.ServerScriptModelRows
-                ?.FirstOrDefault();
-            var needReplaceHtml = serverScriptModelRow?.NeedReplaceHtml(
+            var needReplaceHtml = resultModel.ServerScriptModelRow?.NeedReplaceHtml(
                 context: context,
                 ss: ss);
             res.Val(
@@ -2228,7 +2224,8 @@ namespace Implem.Pleasanter.Models
                 .Where(column => column != null)
                 .ForEach(column =>
                 {
-                    var serverScriptModelColumn = serverScriptModelRow
+                    var serverScriptModelColumn = resultModel
+                        ?.ServerScriptModelRow
                         ?.Columns.Get(column.ColumnName);
                     if (needReplaceHtml?.Contains(column.ColumnName) == true)
                     {
@@ -2950,8 +2947,8 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseSelectTargets(context: context).ToJson();
             }
-            var columns = ss.GetAllowBulkUpdateColumns(context, ss);
-            var column = columns.FirstOrDefault();
+            var optionCollection = ss.GetAllowBulkUpdateOptions(context: context);
+            var target = optionCollection.FirstOrDefault().Key;
             var hb = new HtmlBuilder();
             return new ResponseCollection()
                 .Html(
@@ -2959,15 +2956,12 @@ namespace Implem.Pleasanter.Models
                     hb.BulkUpdateSelectorDialog(
                         context: context,
                         ss: ss,
-                        columns: columns,
+                        optionCollection: optionCollection,
                         action: () => hb
-                            .Field(
+                            .BulkUpdateEditor(
                                 context: context,
                                 ss: ss,
-                                resultModel: new ResultModel(),
-                                column: column,
-                                alwaysSend: true,
-                                disableSection: true)))
+                                target: target)))
                 .ToJson();
         }
 
@@ -2977,20 +2971,41 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
-            var column = ss.GetColumn(
-                context: context,
-                columnName: context.Forms.Data("BulkUpdateColumnName"));
             return new ResponseCollection()
                 .Html(
                     "#BulkUpdateSelectedField",
-                    new HtmlBuilder().Field(
+                    new HtmlBuilder().BulkUpdateEditor(
                         context: context,
                         ss: ss,
-                        resultModel: new ResultModel(),
-                        column: column,
-                        alwaysSend: true,
-                        disableSection: true))
+                        target: context.Forms.Data("BulkUpdateColumnName")))
+                .ClearFormData()
                 .ToJson();
+        }
+
+        private static HtmlBuilder BulkUpdateEditor(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            string target)
+        {
+            hb.FieldSet(id: "BulkUpdateEditor", css: "both", action: () => hb
+                .FieldSet(
+                    css: " enclosed",
+                    legendText: Displays.Editor(context: context),
+                    action: () => ss.GetBulkUpdateColumns(
+                        context: context,
+                        target: target)
+                            .ForEach(column =>
+                                hb.Field(
+                                    context: context,
+                                    ss: ss,
+                                    resultModel: new ResultModel(),
+                                    column: ss.GetColumn(
+                                        context: context,
+                                        columnName: column.ColumnName),
+                                    alwaysSend: true,
+                                    disableSection: true))));
+            return hb;
         }
 
         public static string BulkUpdate(Context context, SiteSettings ss)
@@ -3000,13 +3015,14 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
             var param = new Rds.ResultsParamCollection();
-            var column = ss.GetColumn(
+            var target = context.Forms.Data("BulkUpdateColumnName");
+            var columns = ss.GetBulkUpdateColumns(
                 context: context,
-                columnName: context.Forms.Data("BulkUpdateColumnName"));
-            if (!column.CanUpdate(
+                target: target);
+            if (!columns.All(column => column.CanUpdate(
                 context: context,
                 ss: ss,
-                mine: null))
+                mine: null)))
             {
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
@@ -3015,9 +3031,6 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 resultId: 0,
                 formData: context.Forms);
-            resultModel.PropertyValue(
-                context: context,
-                column: column);
             var selectedWhere = SelectedWhere(
                 context: context,
                 ss: ss);
@@ -3045,7 +3058,7 @@ namespace Implem.Pleasanter.Models
                 orderBy: view.OrderBy(
                     context: context,
                     ss: ss),
-                bulkUpdateColumn: column);
+                lockedColumn: columns.Any(o => o.ColumnName == "Locked"));
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
@@ -3054,177 +3067,93 @@ namespace Implem.Pleasanter.Models
             var count = BulkUpdate(
                 context: context,
                 ss: ss,
+                columns: columns,
                 where: where);
-            Summaries.Synchronize(context: context, ss: ss);
+            var data = new string[]
+            {
+                ss.Title,
+                count.ToString()
+            };
             ss.Notifications.ForEach(notification =>
             {
-                var body = new Dictionary<string, string>();
-                body.Add(
-                    Displays.Results_Updator(context: context),
-                    context.User.Name);
-                body.Add(
-                    Displays.Column(context: context),
-                    column.LabelText);
-                body.Add(
-                    Displays.Value(context: context),
-                    resultModel.PropertyValue(
-                          context: context,
-                          column: column));
+                var body = new System.Text.StringBuilder();
+                body.Append(Locations.ItemIndexAbsoluteUri(
+                    context: context,
+                    ss.SiteId) + "\n");
+                body.Append(
+                    $"{Displays.Results_Updator(context: context)}: ",
+                    $"{context.User.Name}\n");
+                columns.ForEach(column =>
+                    body.Append(
+                        $"{column.LabelText} : ",
+                        $"{resultModel.ToDisplay(context: context, ss: ss, column: column, mine: null)}\n"));
                 notification.Send(
                     context: context,
                     ss: ss,
                     title: Displays.BulkUpdated(
                         context: context,
-                        data: count.ToString()).ToString(),
-                    body: Locations.ItemIndex(
-                        context: context,
-                        ss.SiteId)
-                            + body.Select(o => o.Key + ":" + o.Value).Join("\n"));
+                        data: data),
+                    body: body.ToString());
             });
-            return GridRows(
+            var res = GridRows(
                 context: context,
                 ss: ss,
                 clearCheck: true,
                 message: Messages.BulkUpdated(
                     context: context,
-                    data: count.ToString()));
+                    data: data));
+            return res;
         }
 
         private static int BulkUpdate(
             Context context,
             SiteSettings ss,
+            List<Column> columns,
             SqlWhereCollection where)
         {
-            var sub = Rds.SelectResults(
-                column: Rds.ResultsColumn().ResultId(),
+            var onBulkUpdatingExtendedStatements = new List<SqlStatement>().OnBulkUpdatingExtendedSqls(
+                context: context,
+                siteId: ss.SiteId);
+            if (onBulkUpdatingExtendedStatements.Count > 0)
+            {
+                Repository.ExecuteNonQuery(
+                    context: context,
+                    transactional: true,
+                    statements: onBulkUpdatingExtendedStatements.ToArray());
+            }
+            var count = 0;
+            new ResultCollection(
+                context: context,
+                ss: ss,
                 join: ss.Join(
                     context: context,
                     join: new IJoin[]
                     {
                         where
                     }),
-                where: where);
-            var verUpWhere = VerUpWhere(
+                where: where).ForEach(resultModel =>
+                {
+                    resultModel.SetByForm(
+                        context: context,
+                        ss: ss,
+                        formData: context.Forms);
+                    resultModel.Update(
+                        context: context,
+                        ss: ss,
+                        extendedSqls: false);
+                    count++;
+                });
+            var onBulkUpdatedExtendedStatements = new List<SqlStatement>().OnBulkUpdatedExtendedSqls(
                 context: context,
-                ss: ss, 
-                sub: sub);
-            var column = ss.GetColumn(
-                context: context,
-                columnName: context.Forms.Data("BulkUpdateColumnName"));
-            var resultModel = new ResultModel(
-                context: context,
-                ss: ss,
-                resultId: 0,
-                formData: context.Forms);
-                resultModel.PropertyValue(
+                siteId: ss.SiteId);
+            if (onBulkUpdatedExtendedStatements.Count > 0)
+            {
+                Repository.ExecuteNonQuery(
                     context: context,
-                    column: column);
-            var statements = new List<SqlStatement>();
-            statements.OnBulkUpdatingExtendedSqls(
-                context: context,
-                siteId: ss.SiteId);
-            statements.Add(Rds.ResultsCopyToStatement(
-                where: verUpWhere,
-                tableType: Sqls.TableTypes.History,
-                resultModel.ColumnNames()));
-            statements.Add(Rds.UpdateResults(
-                where: verUpWhere,
-                param: Rds.ResultsParam().Ver(raw: "\"Ver\"+1"),
-                addUpdatorParam: false,
-                addUpdatedTimeParam: false));
-            var param = new Rds.ResultsParamCollection();
-            switch (column.ColumnName)
-            {
-                case "Title":
-                    param.Title(resultModel.Title.Value.MaxLength(1024));
-                    break;
-                case "Body":
-                    param.Body(resultModel.Body);
-                    break;
-                case "Status":
-                    param.Status(resultModel.Status.Value);
-                    break;
-                case "Manager":
-                    param.Manager(resultModel.Manager.Id);
-                    break;
-                case "Owner":
-                    param.Owner(resultModel.Owner.Id);
-                    break;
-                case "Locked":
-                    param.Locked(resultModel.Locked);
-                    break;
-                default:
-                    var columnNameBracket = $"\"{column.ColumnName}\"";
-                    switch (Def.ExtendedColumnTypes.Get(column.ColumnName))
-                    {
-                        case "Class":
-                            param.Add(
-                                columnBracket: columnNameBracket,
-                                name: column.ColumnName,
-                                value: resultModel.Class(column.ColumnName).MaxLength(1024));
-                            break;
-                        case "Num":
-                            param.Add(
-                                columnBracket: columnNameBracket,
-                                name: column.ColumnName,
-                                value: resultModel.Num(column.ColumnName).Value);
-                            break;
-                        case "Date":
-                            param.Add(
-                                columnBracket: columnNameBracket,
-                                name: column.ColumnName,
-                                value: resultModel.Date(column.ColumnName));
-                            break;
-                        case "Check":
-                            param.Add(
-                                columnBracket: columnNameBracket,
-                                name: column.ColumnName,
-                                value: resultModel.Check(column.ColumnName));
-                            break;
-                        case "Description":
-                            param.Add(
-                                columnBracket: columnNameBracket,
-                                name: column.ColumnName,
-                                value: resultModel.Description(column.ColumnName));
-                            break;
-                    }
-                    break;
+                    transactional: true,
+                    statements: onBulkUpdatedExtendedStatements.ToArray());
             }
-            statements.Add(Rds.UpdateResults(
-                where: Rds.ResultsWhere()
-                    .SiteId(ss.SiteId)
-                    .ResultId_In(sub: sub),
-                param: param));
-            statements.Add(Rds.RowCount());
-            statements.OnBulkUpdatedExtendedSqls(
-                context: context,
-                siteId: ss.SiteId);
-            return Repository.ExecuteScalar_response(
-                context: context,
-                transactional: true,
-                statements: statements.ToArray())
-                    .Count.ToInt();
-        }
-
-        private static SqlWhereCollection VerUpWhere(
-            Context context, SiteSettings ss, SqlSelect sub)
-        {
-            var where = Rds.ResultsWhere()
-                .SiteId(ss.SiteId)
-                .ResultId_In(sub: sub);
-            switch (ss.AutoVerUpType)
-            {
-                case Versions.AutoVerUpTypes.Always:
-                    return where;
-                case Versions.AutoVerUpTypes.Disabled:
-                    return where.Add(raw: "0=1");
-                default:
-                    return where.Add(or: Rds.ResultsWhere()
-                        .Updator(context.UserId, _operator: "<>")
-                        .UpdatedTime(
-                            DateTime.Today.ToDateTime().ToUniversal(context: context),
-                            _operator: "<"));
-            }
+            return count;
         }
 
         public static string UpdateByGrid(Context context, SiteSettings ss)
@@ -6869,12 +6798,12 @@ namespace Implem.Pleasanter.Models
             SqlWhereCollection where,
             SqlParamCollection param,
             SqlOrderByCollection orderBy,
-            Column bulkUpdateColumn = null)
+            bool lockedColumn = false)
         {
             var lockedRecordWhere = new Rds.ResultsWhereCollection()
                 .Results_Locked(true);
             lockedRecordWhere.AddRange(where);
-            if (bulkUpdateColumn?.ColumnName == "Locked")
+            if (lockedColumn)
             {
                 if (context.HasPrivilege)
                 {

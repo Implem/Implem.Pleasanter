@@ -544,7 +544,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 return false;
             }
-            if (column.EditorReadOnly == true)
+            if (column.GetEditorReadOnly())
             {
                 return false;
             }
