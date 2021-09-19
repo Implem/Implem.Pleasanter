@@ -5,10 +5,10 @@ using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
-using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using Newtonsoft.Json;
@@ -227,6 +227,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                             break;
                     }
                 }
+                SiteInfo.Reflesh(context: context);
                 int dataCount = 0;
                 if (includeData)
                 {
