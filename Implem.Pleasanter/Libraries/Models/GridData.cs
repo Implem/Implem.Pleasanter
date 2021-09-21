@@ -89,17 +89,17 @@ namespace Implem.Pleasanter.Libraries.Models
                 ss: ss);
             var statements = new List<SqlStatement>();
             statements.Add(Rds.Select(
-                    tableName: ss.ReferenceType,
-                    tableType: tableType,
-                    dataTableName: "Main",
-                    column: column,
-                    join: join,
-                    where: where,
-                    orderBy: orderBy,
-                    param: param,
-                    top: top,
-                    offset: offset,
-                    pageSize: pageSize));
+                tableName: ss.ReferenceType,
+                tableType: tableType,
+                dataTableName: "Main",
+                column: column,
+                join: join,
+                where: where,
+                orderBy: orderBy,
+                param: param,
+                top: top,
+                offset: offset,
+                pageSize: pageSize));
             if (count)
             {
                 statements.Add(Rds.SelectCount(
