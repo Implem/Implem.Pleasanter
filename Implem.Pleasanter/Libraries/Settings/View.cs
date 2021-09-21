@@ -1060,7 +1060,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 context: context,
                 ss: ss,
                 where: where,
-                columnFilterHash: ColumnFilterHash);
+                columnFilterHash: ColumnFilterHash,
+                siteId: siteId,
+                id: id,
+                timestamp: timestamp);
             if (AdditionalWhere?.Any() == true)
             {
                 where.AddRange(AdditionalWhere);
@@ -1081,7 +1084,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             Context context,
             SiteSettings ss,
             SqlWhereCollection where,
-            Dictionary<string, string> columnFilterHash)
+            Dictionary<string, string> columnFilterHash,
+            long? siteId,
+            long? id,
+            DateTime? timestamp)
         {
             columnFilterHash?
                 .Select(data => new
@@ -1092,9 +1098,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ColumnName = data.Key,
                     data.Value,
                     Or = data.Key.StartsWith("or_"),
-                    And = data.Key.StartsWith("and_")
+                    And = data.Key.StartsWith("and_"),
+                    OnSelectingWhere = data.Key == "OnSelectingWhere"
                 })
-                .Where(o => o.Column != null || o.Or || o.And)
+                .Where(o => o.Column != null || o.Or || o.And || o.OnSelectingWhere)
                 .ForEach(data =>
                 {
                     if (data.Or)
@@ -1107,7 +1114,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 context: context,
                                 ss: ss,
                                 where: or,
-                                columnFilterHash: orColumnFilterHash);
+                                columnFilterHash: orColumnFilterHash,
+                                siteId: siteId,
+                                id: id,
+                                timestamp: timestamp);
                             if (or.Any()) where.Or(or: or);
                         }
                     }
@@ -1121,9 +1131,25 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 context: context,
                                 ss: ss,
                                 where: and,
-                                columnFilterHash: andColumnFilterHash);
+                                columnFilterHash: andColumnFilterHash,
+                                siteId: siteId,
+                                id: id,
+                                timestamp: timestamp);
                             if (and.Any()) where.Add(and: and);
                         }
+                    }
+                    else if (data.OnSelectingWhere)
+                    {
+                        where.OnSelectingWhereExtendedSqls(
+                            context: context,
+                            ss: ss,
+                            extendedSqls: Parameters.ExtendedSqls?.Where(o => o.OnSelectingWhere),
+                            siteId: siteId,
+                            id: id,
+                            timestamp: timestamp,
+                            name: data.Value,
+                            columnFilterHash: ColumnFilterHash,
+                            columnPlaceholders: ColumnPlaceholders);
                     }
                     else if (data.ColumnName == "SiteTitle")
                     {
