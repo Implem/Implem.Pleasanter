@@ -736,7 +736,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ColumnFilterHash
                     .Where(o =>
                     {
-                        var column = ss.GetColumnOrExtendedFieldColumn(
+                        var column = ss?.GetColumnOrExtendedFieldColumn(
                             context: context,
                             columnName: o.Key,
                             extendedFieldType: "Filter");
@@ -1488,7 +1488,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         private void CsStringColumns(
             Context context, Column column, string value, SqlWhereCollection where)
         {
-            if (column.HasChoices())
+            if (column.HasChoices() || column.ColumnName == "DeptCode")
             {
                 var param = value.Deserialize<List<string>>();
                 if (param?.Any() == true)
