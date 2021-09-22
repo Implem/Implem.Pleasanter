@@ -383,7 +383,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context,
             SiteSettings ss)
         {
-            var wikiId = ss.ReferenceType == "Wikis"
+            var wikiId = ss?.ReferenceType == "Wikis"
                 ? (long?)Rds.ExecuteScalar_long(
                     context: context,
                     statements: Rds.SelectWikis(
