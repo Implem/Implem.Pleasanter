@@ -881,6 +881,7 @@ namespace Implem.Pleasanter.Models
         {
             var param = Rds.SysLogsParamDefault(
                 context: context,
+                ss: null,
                 sysLogModel: this);
             var comments = param.FirstOrDefault(o => o.Name == "Comments");
             if (comments != null && Comments.Count > 0)

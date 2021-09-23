@@ -2543,7 +2543,9 @@ namespace Implem.Pleasanter.Models
                 ReferenceType = "Sites",
                 OwnerId = ownerId,
                 Data = context.Forms.LongList("Data")
-            }.UpdateOrCreate(context: context);
+            }.UpdateOrCreate(
+                context: context,
+                ss: siteModel.SiteSettings);
         }
 
         /// <summary>

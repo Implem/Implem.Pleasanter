@@ -301,6 +301,7 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>();
             statements.AddRange(CreateStatements(
                 context: context,
+                ss: ss,
                 tableType: tableType,
                 param: param,
                 otherInitValue: otherInitValue));
@@ -316,6 +317,7 @@ namespace Implem.Pleasanter.Models
 
         public List<SqlStatement> CreateStatements(
             Context context,
+            SiteSettings ss,
             string dataTableName = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
@@ -330,6 +332,7 @@ namespace Implem.Pleasanter.Models
                     selectIdentity: true,
                     param: param ?? Rds.BinariesParamDefault(
                         context: context,
+                        ss: ss,
                         binaryModel: this,
                         setDefault: true,
                         otherInitValue: otherInitValue))
@@ -401,6 +404,7 @@ namespace Implem.Pleasanter.Models
             }
             statements.AddRange(UpdateStatements(
                 context: context,
+                ss: ss,
                 dataTableName: dataTableName,
                 where: where,
                 param: param,
@@ -414,6 +418,7 @@ namespace Implem.Pleasanter.Models
 
         private List<SqlStatement> UpdateStatements(
             Context context,
+            SiteSettings ss,
             string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -426,6 +431,7 @@ namespace Implem.Pleasanter.Models
                     where: where,
                     param: param ?? Rds.BinariesParamDefault(
                         context: context,
+                        ss: ss,
                         binaryModel: this,
                         otherInitValue: otherInitValue)),
                 new SqlStatement(Def.Sql.IfConflicted.Params(BinaryId)) {
@@ -437,6 +443,7 @@ namespace Implem.Pleasanter.Models
 
         public ErrorData UpdateOrCreate(
             Context context,
+            SiteSettings ss,
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {
@@ -448,7 +455,10 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         binaryModel: this),
                     param: param ?? Rds.BinariesParamDefault(
-                        context: context, binaryModel: this, setDefault: true))
+                        context: context,
+                        ss: ss,
+                        binaryModel: this,
+                        setDefault: true))
             };
             var response = Repository.ExecuteScalar_response(
                 context: context,
@@ -837,7 +847,10 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public Error.Types UpdateSiteImage(Context context, byte[] bin)
+        public Error.Types UpdateSiteImage(
+            Context context,
+            SiteSettings ss,
+            byte[] bin)
         {
             BinaryType = "SiteImage";
             var imageData = new Libraries.Images.ImageData(
@@ -862,6 +875,7 @@ namespace Implem.Pleasanter.Models
                                 .BinaryType("SiteImage"),
                             param: Rds.BinariesParamDefault(
                                 context: context,
+                                ss: ss,
                                 binaryModel: this,
                                 setDefault: true)));
                     break;
@@ -872,7 +886,10 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public Error.Types UpdateTenantImage(Context context, byte[] bin)
+        public Error.Types UpdateTenantImage(
+            Context context,
+            SiteSettings ss,
+            byte[] bin)
         {
             BinaryType = "TenantImage";
             var imageData = new Libraries.Images.ImageData(
@@ -894,6 +911,7 @@ namespace Implem.Pleasanter.Models
                                 .BinaryType("TenantImage"),
                             param: Rds.BinariesParamDefault(
                                 context: context,
+                                ss: ss,
                                 binaryModel: this,
                                 setDefault: true)));
                     break;
