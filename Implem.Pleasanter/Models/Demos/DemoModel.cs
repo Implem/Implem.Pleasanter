@@ -217,6 +217,7 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>();
             statements.AddRange(CreateStatements(
                 context: context,
+                ss: ss,
                 tableType: tableType,
                 param: param,
                 otherInitValue: otherInitValue));
@@ -232,6 +233,7 @@ namespace Implem.Pleasanter.Models
 
         public List<SqlStatement> CreateStatements(
             Context context,
+            SiteSettings ss,
             string dataTableName = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
@@ -246,6 +248,7 @@ namespace Implem.Pleasanter.Models
                     selectIdentity: true,
                     param: param ?? Rds.DemosParamDefault(
                         context: context,
+                        ss: ss,
                         demoModel: this,
                         setDefault: true,
                         otherInitValue: otherInitValue))
@@ -317,6 +320,7 @@ namespace Implem.Pleasanter.Models
             }
             statements.AddRange(UpdateStatements(
                 context: context,
+                ss: ss,
                 dataTableName: dataTableName,
                 where: where,
                 param: param,
@@ -330,6 +334,7 @@ namespace Implem.Pleasanter.Models
 
         private List<SqlStatement> UpdateStatements(
             Context context,
+            SiteSettings ss,
             string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -342,6 +347,7 @@ namespace Implem.Pleasanter.Models
                     where: where,
                     param: param ?? Rds.DemosParamDefault(
                         context: context,
+                        ss: ss,
                         demoModel: this,
                         otherInitValue: otherInitValue)),
                 new SqlStatement(Def.Sql.IfConflicted.Params(DemoId)) {
@@ -353,6 +359,7 @@ namespace Implem.Pleasanter.Models
 
         public ErrorData UpdateOrCreate(
             Context context,
+            SiteSettings ss,
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {
@@ -364,7 +371,10 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         demoModel: this),
                     param: param ?? Rds.DemosParamDefault(
-                        context: context, demoModel: this, setDefault: true))
+                        context: context,
+                        ss: ss,
+                        demoModel: this,
+                        setDefault: true))
             };
             var response = Repository.ExecuteScalar_response(
                 context: context,

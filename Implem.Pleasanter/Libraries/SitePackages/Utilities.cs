@@ -266,7 +266,9 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                                         ReferenceType = "Sites",
                                         OwnerId = 0,
                                         Data = newOrders
-                                    }.UpdateOrCreate(context: context);
+                                    }.UpdateOrCreate(
+                                        context: context,
+                                        ss: ss);
                                 }
                             }
                         }

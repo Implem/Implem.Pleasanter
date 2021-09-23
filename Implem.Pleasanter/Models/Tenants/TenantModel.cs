@@ -393,6 +393,7 @@ namespace Implem.Pleasanter.Models
                     selectIdentity: true,
                     param: param ?? Rds.TenantsParamDefault(
                         context: context,
+                        ss: ss,
                         tenantModel: this,
                         setDefault: true,
                         otherInitValue: otherInitValue))
@@ -464,6 +465,7 @@ namespace Implem.Pleasanter.Models
             }
             statements.AddRange(UpdateStatements(
                 context: context,
+                ss: ss,
                 dataTableName: dataTableName,
                 where: where,
                 param: param,
@@ -477,6 +479,7 @@ namespace Implem.Pleasanter.Models
 
         private List<SqlStatement> UpdateStatements(
             Context context,
+            SiteSettings ss,
             string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -489,6 +492,7 @@ namespace Implem.Pleasanter.Models
                     where: where,
                     param: param ?? Rds.TenantsParamDefault(
                         context: context,
+                        ss: ss,
                         tenantModel: this,
                         otherInitValue: otherInitValue)),
                 new SqlStatement(Def.Sql.IfConflicted.Params(TenantId)) {
@@ -512,7 +516,10 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         tenantModel: this),
                     param: param ?? Rds.TenantsParamDefault(
-                        context: context, tenantModel: this, setDefault: true))
+                        context: context,
+                        ss: ss,
+                        tenantModel: this,
+                        setDefault: true))
             };
             var response = Repository.ExecuteScalar_response(
                 context: context,

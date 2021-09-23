@@ -79,7 +79,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         context: context,
                         ss: ss,
                         column: column,
-                        columnPermissionType: context.Publish
+                        columnPermissionType: context.Publish || column.GetEditorReadOnly()
                             ? Permissions.ColumnPermissionTypes.Read
                             : columnPermissionType,
                         controlId: !preview

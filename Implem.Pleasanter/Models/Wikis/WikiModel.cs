@@ -556,6 +556,7 @@ namespace Implem.Pleasanter.Models
                     tableType: tableType,
                     param: param ?? Rds.WikisParamDefault(
                         context: context,
+                        ss: ss,
                         wikiModel: this,
                         setDefault: true,
                         otherInitValue: otherInitValue)),
@@ -684,6 +685,7 @@ namespace Implem.Pleasanter.Models
             }
             statements.AddRange(UpdateStatements(
                 context: context,
+                ss: ss,
                 dataTableName: dataTableName,
                 where: where,
                 param: param,
@@ -701,6 +703,7 @@ namespace Implem.Pleasanter.Models
 
         private List<SqlStatement> UpdateStatements(
             Context context,
+            SiteSettings ss,
             string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -713,6 +716,7 @@ namespace Implem.Pleasanter.Models
                     where: where,
                     param: param ?? Rds.WikisParamDefault(
                         context: context,
+                        ss: ss,
                         wikiModel: this,
                         otherInitValue: otherInitValue)),
                 new SqlStatement(Def.Sql.IfConflicted.Params(WikiId)) {
@@ -818,7 +822,10 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         wikiModel: this),
                     param: param ?? Rds.WikisParamDefault(
-                        context: context, wikiModel: this, setDefault: true))
+                        context: context,
+                        ss: ss,
+                        wikiModel: this,
+                        setDefault: true))
             };
             var response = Repository.ExecuteScalar_response(
                 context: context,

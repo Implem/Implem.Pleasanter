@@ -195,8 +195,7 @@
                 "MenuId": "HelpMenu_Version",
                 "Name": "Version",
                 "Icon": "ui-icon ui-icon-info",
-                "LinkParams": [ "versions" ],
-                "Target": "_blank"
+                "LinkParams": [ "versions" ]
             }
         ]
     },
