@@ -325,6 +325,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public string UpdateOrCreate(
             Context context,
+            SiteSettings ss,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
@@ -339,6 +340,7 @@ namespace Implem.Pleasanter.Models
                     param: param ?? Rds.OrdersParamDefault(
                         context: context,
                         orderModel: this,
+                        ss: ss,
                         setDefault: true),
                     tableType: tableType));
             return new ResponseCollection().ToJson();

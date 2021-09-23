@@ -385,6 +385,7 @@ namespace Implem.Pleasanter.Models
                     selectIdentity: true,
                     param: param ?? Rds.GroupsParamDefault(
                         context: context,
+                        ss: ss,
                         groupModel: this,
                         setDefault: true,
                         otherInitValue: otherInitValue)),
@@ -494,6 +495,7 @@ namespace Implem.Pleasanter.Models
             }
             statements.AddRange(UpdateStatements(
                 context: context,
+                ss: ss,
                 dataTableName: dataTableName,
                 where: where,
                 param: param,
@@ -507,6 +509,7 @@ namespace Implem.Pleasanter.Models
 
         private List<SqlStatement> UpdateStatements(
             Context context,
+            SiteSettings ss,
             string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -519,6 +522,7 @@ namespace Implem.Pleasanter.Models
                     where: where,
                     param: param ?? Rds.GroupsParamDefault(
                         context: context,
+                        ss: ss,
                         groupModel: this,
                         otherInitValue: otherInitValue)),
                 new SqlStatement(Def.Sql.IfConflicted.Params(GroupId)) {
@@ -545,7 +549,10 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         groupModel: this),
                     param: param ?? Rds.GroupsParamDefault(
-                        context: context, groupModel: this, setDefault: true)),
+                        context: context,
+                        ss: ss,
+                        groupModel: this,
+                        setDefault: true)),
                 StatusUtilities.UpdateStatus(
                     tenantId: context.TenantId,
                     type: StatusUtilities.Types.GroupsUpdated),
