@@ -149,8 +149,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public bool NotEditorSettings;
         [NonSerialized]
-        public bool NotForm;
-        [NonSerialized]
         public bool TitleColumn;
         [NonSerialized]
         public bool LinkColumn;
@@ -1012,6 +1010,20 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 .AsEnumerable()
                                 .Select(dataRow => dataRow.Int("GroupId"))
                                 .FirstOrDefault(groupId => ChoiceHash.ContainsKey(groupId.ToString()));
+        }
+
+        public bool OtherColumn()
+        {
+            switch (ColumnName)
+            {
+                case "Creator":
+                case "Updator":
+                case "CreatedTime":
+                case "UpdatedTime":
+                    return true;
+                default:
+                    return false;
+            }
         }
 
         public SqlColumnCollection SqlColumnCollection()

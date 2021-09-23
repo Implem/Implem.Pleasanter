@@ -5078,13 +5078,13 @@ namespace Implem.Pleasanter.Models
                                     .A(
                                         href: "#EditorDetailsettingTab",
                                         text: Displays.ValidateInput(context: context)),
-                                _using: !column.NotForm)
+                                _using: !column.OtherColumn())
                             .Li(
                                 action: () => hb
                                     .A(
                                         href: "#ExtendedHtmlSettingTab",
                                         text: Displays.ExtendedHtml(context: context)),
-                                _using: !column.NotForm))
+                                _using: !column.OtherColumn()))
                         .ExtendedHtmlSettingTab(
                             context: context,
                             ss: ss,
@@ -5147,7 +5147,7 @@ namespace Implem.Pleasanter.Models
                                         .A(
                                             href: "#ExtendedHtmlSettingTab",
                                             text: Displays.ExtendedHtml(context: context)),
-                                    _using: !column.NotForm))
+                                    _using: !column.OtherColumn()))
                             .ExtendedHtmlSettingTab(
                                 context: context,
                                 ss: ss,
@@ -5197,7 +5197,7 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder ExtendedHtmlSettingTab(
             this HtmlBuilder hb, Column column, Context context, SiteSettings ss)
         {
-            if (column.NotForm)
+            if (column.OtherColumn())
             {
                 return hb;
             }
@@ -5246,7 +5246,7 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder EditorDetailsettingTab(
             this HtmlBuilder hb, Column column, Context context, SiteSettings ss)
         {
-            if (column.NotForm)
+            if (column.OtherColumn())
             {
                 return hb;
             }
@@ -5318,7 +5318,7 @@ namespace Implem.Pleasanter.Models
                                         },
                                     },
                                     selectedValue: column.TextAlign.ToInt().ToString());
-                            if (!column.NotForm)
+                            if (!column.OtherColumn())
                             {
                                 if (column.TypeName == "nvarchar"
                                     && column.ControlType != "Attachments")
@@ -5389,12 +5389,14 @@ namespace Implem.Pleasanter.Models
                                             labelText: Displays.Required(context: context),
                                             _checked: column.ValidateRequired ?? false,
                                             disabled: column.Required,
-                                            _using: !column.Id_Ver)
+                                            _using: !column.Id_Ver
+                                                && !column.NotUpdate)
                                         .FieldCheckBox(
                                             controlId: "AllowBulkUpdate",
                                             labelText: Displays.AllowBulkUpdate(context: context),
                                             _checked: column.AllowBulkUpdate == true,
-                                            _using: !column.Id_Ver);
+                                            _using: !column.Id_Ver
+                                                && !column.NotUpdate);
                                 }
                                 switch (type)
                                 {
@@ -5411,8 +5413,9 @@ namespace Implem.Pleasanter.Models
                                                 && column.ColumnName != "Comments");
                                         break;
                                 }
-                                if (column.Required == false
+                                if ((column.Required == false
                                     || column.TypeName == "datetime")
+                                        && !column.NotUpdate)
                                 {
                                     hb
                                         .FieldCheckBox(
@@ -5440,7 +5443,8 @@ namespace Implem.Pleasanter.Models
                                             optionCollection: DateTimeOptions(
                                                 context: context,
                                                 editorFormat: true),
-                                            selectedValue: column.EditorFormat);
+                                            selectedValue: column.EditorFormat,
+                                            _using: !column.NotUpdate);
                                 }
                                 switch (type)
                                 {
@@ -5448,7 +5452,8 @@ namespace Implem.Pleasanter.Models
                                         hb.FieldCheckBox(
                                             controlId: "DefaultInput",
                                             labelText: Displays.DefaultInput(context: context),
-                                            _checked: column.DefaultInput.ToBool());
+                                            _checked: column.DefaultInput.ToBool(),
+                                            _using: !column.NotUpdate);
                                         break;
                                     case Types.CsNumeric:
                                         if (column.ControlType == "ChoicesText")
@@ -5470,7 +5475,8 @@ namespace Implem.Pleasanter.Models
                                                         ? column.DefaultInput.ToLong().ToString()
                                                         : string.Empty,
                                                     validateNumber: true,
-                                                    _using: !column.Id_Ver)
+                                                    _using: !column.Id_Ver
+                                                        && !column.NotUpdate)
                                                 .EditorColumnFormatProperties(
                                                     context: context,
                                                     column: column)
@@ -5478,7 +5484,8 @@ namespace Implem.Pleasanter.Models
                                                     controlId: "Nullable",
                                                     labelText: Displays.Nullable(context: context),
                                                     _checked: column.Nullable.ToBool(),
-                                                    _using: !column.Id_Ver)
+                                                    _using: !column.Id_Ver
+                                                        && !column.NotUpdate)
                                                 .FieldTextBox(
                                                     controlId: "Unit",
                                                     controlCss: " w50",
@@ -5572,7 +5579,8 @@ namespace Implem.Pleasanter.Models
                                                 min: column.Min.ToInt(),
                                                 max: column.Max.ToInt(),
                                                 step: column.Step.ToInt(),
-                                                width: column.Width)
+                                                width: column.Width,
+                                                _using: !column.NotUpdate)
                                             .FieldDropDown(
                                                 context: context,
                                                 fieldId: "DateTimeStepField",
@@ -5694,7 +5702,8 @@ namespace Implem.Pleasanter.Models
                                                         fieldCss: "field-wide",
                                                         labelText: Displays.DefaultInput(context: context),
                                                         text: column.DefaultInput,
-                                                        _using: column.ColumnName != "Comments");
+                                                        _using: column.ColumnName != "Comments"
+                                                            && !column.NotUpdate);
                                                 break;
                                         }
                                         break;
@@ -5741,7 +5750,8 @@ namespace Implem.Pleasanter.Models
                                             controlId: "AutoPostBack",
                                             labelText: Displays.AutoPostBack(context: context),
                                             _checked: column.AutoPostBack == true,
-                                            _using: !column.Id_Ver)
+                                            _using: !column.Id_Ver
+                                                && !column.NotUpdate)
                                         .FieldTextBox(
                                             fieldId: "ColumnsReturnedWhenAutomaticPostbackField",
                                             controlId: "ColumnsReturnedWhenAutomaticPostback",
