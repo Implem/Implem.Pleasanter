@@ -105798,6 +105798,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static TenantsParamCollection TenantsParamDefault(
             Context context,
+            SiteSettings ss,
             TenantModel tenantModel,
             bool setDefault = false,
             bool otherInitValue = false)
@@ -105828,26 +105829,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             tenantModel.NumHash
-                .Where(o => tenantModel.Num_Updated(columnName: o.Key)
-                    || (otherInitValue && !tenantModel.Num(columnName: o.Key)
-                        .InitialValue(context: context)))
-                .ForEach(o =>
-                {
-                    if (o.Value?.Value != null)
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            value: o.Value.Value);
-                    }
-                    else
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            raw: "null");
-                    }
-                });
+                .Where(o => tenantModel.Num_Updated(
+                    columnName: o.Key,
+                    column: ss?.GetColumn(
+                        context: context,
+                        columnName: o.Key))
+                            || (otherInitValue && !tenantModel.Num(columnName: o.Key)
+                                .InitialValue(context: context)))
+                                    .ForEach(o =>
+                                    {
+                                        if (o.Value?.Value != null)
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                value: o.Value.Value);
+                                        }
+                                        else
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                raw: "null");
+                                        }
+                                    });
             tenantModel.DateHash
                 .Where(o => tenantModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !tenantModel.Date(columnName: o.Key)
@@ -105926,6 +105931,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static DemosParamCollection DemosParamDefault(
             Context context,
+            SiteSettings ss,
             DemoModel demoModel,
             bool setDefault = false,
             bool otherInitValue = false)
@@ -105949,26 +105955,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             demoModel.NumHash
-                .Where(o => demoModel.Num_Updated(columnName: o.Key)
-                    || (otherInitValue && !demoModel.Num(columnName: o.Key)
-                        .InitialValue(context: context)))
-                .ForEach(o =>
-                {
-                    if (o.Value?.Value != null)
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            value: o.Value.Value);
-                    }
-                    else
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            raw: "null");
-                    }
-                });
+                .Where(o => demoModel.Num_Updated(
+                    columnName: o.Key,
+                    column: ss?.GetColumn(
+                        context: context,
+                        columnName: o.Key))
+                            || (otherInitValue && !demoModel.Num(columnName: o.Key)
+                                .InitialValue(context: context)))
+                                    .ForEach(o =>
+                                    {
+                                        if (o.Value?.Value != null)
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                value: o.Value.Value);
+                                        }
+                                        else
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                raw: "null");
+                                        }
+                                    });
             demoModel.DateHash
                 .Where(o => demoModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !demoModel.Date(columnName: o.Key)
@@ -106047,6 +106057,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static ExtensionsParamCollection ExtensionsParamDefault(
             Context context,
+            SiteSettings ss,
             ExtensionModel extensionModel,
             bool setDefault = false,
             bool otherInitValue = false)
@@ -106070,26 +106081,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             extensionModel.NumHash
-                .Where(o => extensionModel.Num_Updated(columnName: o.Key)
-                    || (otherInitValue && !extensionModel.Num(columnName: o.Key)
-                        .InitialValue(context: context)))
-                .ForEach(o =>
-                {
-                    if (o.Value?.Value != null)
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            value: o.Value.Value);
-                    }
-                    else
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            raw: "null");
-                    }
-                });
+                .Where(o => extensionModel.Num_Updated(
+                    columnName: o.Key,
+                    column: ss?.GetColumn(
+                        context: context,
+                        columnName: o.Key))
+                            || (otherInitValue && !extensionModel.Num(columnName: o.Key)
+                                .InitialValue(context: context)))
+                                    .ForEach(o =>
+                                    {
+                                        if (o.Value?.Value != null)
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                value: o.Value.Value);
+                                        }
+                                        else
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                raw: "null");
+                                        }
+                                    });
             extensionModel.DateHash
                 .Where(o => extensionModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !extensionModel.Date(columnName: o.Key)
@@ -106169,6 +106184,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static SessionsParamCollection SessionsParamDefault(
             Context context,
+            SiteSettings ss,
             SessionModel sessionModel,
             bool setDefault = false,
             bool otherInitValue = false)
@@ -106192,26 +106208,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             sessionModel.NumHash
-                .Where(o => sessionModel.Num_Updated(columnName: o.Key)
-                    || (otherInitValue && !sessionModel.Num(columnName: o.Key)
-                        .InitialValue(context: context)))
-                .ForEach(o =>
-                {
-                    if (o.Value?.Value != null)
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            value: o.Value.Value);
-                    }
-                    else
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            raw: "null");
-                    }
-                });
+                .Where(o => sessionModel.Num_Updated(
+                    columnName: o.Key,
+                    column: ss?.GetColumn(
+                        context: context,
+                        columnName: o.Key))
+                            || (otherInitValue && !sessionModel.Num(columnName: o.Key)
+                                .InitialValue(context: context)))
+                                    .ForEach(o =>
+                                    {
+                                        if (o.Value?.Value != null)
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                value: o.Value.Value);
+                                        }
+                                        else
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                raw: "null");
+                                        }
+                                    });
             sessionModel.DateHash
                 .Where(o => sessionModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !sessionModel.Date(columnName: o.Key)
@@ -106317,6 +106337,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static SysLogsParamCollection SysLogsParamDefault(
             Context context,
+            SiteSettings ss,
             SysLogModel sysLogModel,
             bool setDefault = false,
             bool otherInitValue = false)
@@ -106367,26 +106388,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             sysLogModel.NumHash
-                .Where(o => sysLogModel.Num_Updated(columnName: o.Key)
-                    || (otherInitValue && !sysLogModel.Num(columnName: o.Key)
-                        .InitialValue(context: context)))
-                .ForEach(o =>
-                {
-                    if (o.Value?.Value != null)
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            value: o.Value.Value);
-                    }
-                    else
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            raw: "null");
-                    }
-                });
+                .Where(o => sysLogModel.Num_Updated(
+                    columnName: o.Key,
+                    column: ss?.GetColumn(
+                        context: context,
+                        columnName: o.Key))
+                            || (otherInitValue && !sysLogModel.Num(columnName: o.Key)
+                                .InitialValue(context: context)))
+                                    .ForEach(o =>
+                                    {
+                                        if (o.Value?.Value != null)
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                value: o.Value.Value);
+                                        }
+                                        else
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                raw: "null");
+                                        }
+                                    });
             sysLogModel.DateHash
                 .Where(o => sysLogModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !sysLogModel.Date(columnName: o.Key)
@@ -106462,6 +106487,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static StatusesParamCollection StatusesParamDefault(
             Context context,
+            SiteSettings ss,
             StatusModel statusModel,
             bool setDefault = false,
             bool otherInitValue = false)
@@ -106482,26 +106508,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             statusModel.NumHash
-                .Where(o => statusModel.Num_Updated(columnName: o.Key)
-                    || (otherInitValue && !statusModel.Num(columnName: o.Key)
-                        .InitialValue(context: context)))
-                .ForEach(o =>
-                {
-                    if (o.Value?.Value != null)
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            value: o.Value.Value);
-                    }
-                    else
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            raw: "null");
-                    }
-                });
+                .Where(o => statusModel.Num_Updated(
+                    columnName: o.Key,
+                    column: ss?.GetColumn(
+                        context: context,
+                        columnName: o.Key))
+                            || (otherInitValue && !statusModel.Num(columnName: o.Key)
+                                .InitialValue(context: context)))
+                                    .ForEach(o =>
+                                    {
+                                        if (o.Value?.Value != null)
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                value: o.Value.Value);
+                                        }
+                                        else
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                raw: "null");
+                                        }
+                                    });
             statusModel.DateHash
                 .Where(o => statusModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !statusModel.Date(columnName: o.Key)
@@ -106577,6 +106607,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static ReminderSchedulesParamCollection ReminderSchedulesParamDefault(
             Context context,
+            SiteSettings ss,
             ReminderScheduleModel reminderScheduleModel,
             bool setDefault = false,
             bool otherInitValue = false)
@@ -106597,26 +106628,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             reminderScheduleModel.NumHash
-                .Where(o => reminderScheduleModel.Num_Updated(columnName: o.Key)
-                    || (otherInitValue && !reminderScheduleModel.Num(columnName: o.Key)
-                        .InitialValue(context: context)))
-                .ForEach(o =>
-                {
-                    if (o.Value?.Value != null)
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            value: o.Value.Value);
-                    }
-                    else
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            raw: "null");
-                    }
-                });
+                .Where(o => reminderScheduleModel.Num_Updated(
+                    columnName: o.Key,
+                    column: ss?.GetColumn(
+                        context: context,
+                        columnName: o.Key))
+                            || (otherInitValue && !reminderScheduleModel.Num(columnName: o.Key)
+                                .InitialValue(context: context)))
+                                    .ForEach(o =>
+                                    {
+                                        if (o.Value?.Value != null)
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                value: o.Value.Value);
+                                        }
+                                        else
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                raw: "null");
+                                        }
+                                    });
             reminderScheduleModel.DateHash
                 .Where(o => reminderScheduleModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !reminderScheduleModel.Date(columnName: o.Key)
@@ -106696,6 +106731,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static DeptsParamCollection DeptsParamDefault(
             Context context,
+            SiteSettings ss,
             DeptModel deptModel,
             bool setDefault = false,
             bool otherInitValue = false)
@@ -106718,26 +106754,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             deptModel.NumHash
-                .Where(o => deptModel.Num_Updated(columnName: o.Key)
-                    || (otherInitValue && !deptModel.Num(columnName: o.Key)
-                        .InitialValue(context: context)))
-                .ForEach(o =>
-                {
-                    if (o.Value?.Value != null)
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            value: o.Value.Value);
-                    }
-                    else
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            raw: "null");
-                    }
-                });
+                .Where(o => deptModel.Num_Updated(
+                    columnName: o.Key,
+                    column: ss?.GetColumn(
+                        context: context,
+                        columnName: o.Key))
+                            || (otherInitValue && !deptModel.Num(columnName: o.Key)
+                                .InitialValue(context: context)))
+                                    .ForEach(o =>
+                                    {
+                                        if (o.Value?.Value != null)
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                value: o.Value.Value);
+                                        }
+                                        else
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                raw: "null");
+                                        }
+                                    });
             deptModel.DateHash
                 .Where(o => deptModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !deptModel.Date(columnName: o.Key)
@@ -106815,6 +106855,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static GroupsParamCollection GroupsParamDefault(
             Context context,
+            SiteSettings ss,
             GroupModel groupModel,
             bool setDefault = false,
             bool otherInitValue = false)
@@ -106836,26 +106877,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             groupModel.NumHash
-                .Where(o => groupModel.Num_Updated(columnName: o.Key)
-                    || (otherInitValue && !groupModel.Num(columnName: o.Key)
-                        .InitialValue(context: context)))
-                .ForEach(o =>
-                {
-                    if (o.Value?.Value != null)
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            value: o.Value.Value);
-                    }
-                    else
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            raw: "null");
-                    }
-                });
+                .Where(o => groupModel.Num_Updated(
+                    columnName: o.Key,
+                    column: ss?.GetColumn(
+                        context: context,
+                        columnName: o.Key))
+                            || (otherInitValue && !groupModel.Num(columnName: o.Key)
+                                .InitialValue(context: context)))
+                                    .ForEach(o =>
+                                    {
+                                        if (o.Value?.Value != null)
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                value: o.Value.Value);
+                                        }
+                                        else
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                raw: "null");
+                                        }
+                                    });
             groupModel.DateHash
                 .Where(o => groupModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !groupModel.Date(columnName: o.Key)
@@ -106931,6 +106976,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static GroupMembersParamCollection GroupMembersParamDefault(
             Context context,
+            SiteSettings ss,
             GroupMemberModel groupMemberModel,
             bool setDefault = false,
             bool otherInitValue = false)
@@ -106952,26 +106998,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             groupMemberModel.NumHash
-                .Where(o => groupMemberModel.Num_Updated(columnName: o.Key)
-                    || (otherInitValue && !groupMemberModel.Num(columnName: o.Key)
-                        .InitialValue(context: context)))
-                .ForEach(o =>
-                {
-                    if (o.Value?.Value != null)
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            value: o.Value.Value);
-                    }
-                    else
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            raw: "null");
-                    }
-                });
+                .Where(o => groupMemberModel.Num_Updated(
+                    columnName: o.Key,
+                    column: ss?.GetColumn(
+                        context: context,
+                        columnName: o.Key))
+                            || (otherInitValue && !groupMemberModel.Num(columnName: o.Key)
+                                .InitialValue(context: context)))
+                                    .ForEach(o =>
+                                    {
+                                        if (o.Value?.Value != null)
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                value: o.Value.Value);
+                                        }
+                                        else
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                raw: "null");
+                                        }
+                                    });
             groupMemberModel.DateHash
                 .Where(o => groupMemberModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !groupMemberModel.Date(columnName: o.Key)
@@ -107058,6 +107108,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static RegistrationsParamCollection RegistrationsParamDefault(
             Context context,
+            SiteSettings ss,
             RegistrationModel registrationModel,
             bool setDefault = false,
             bool otherInitValue = false)
@@ -107088,26 +107139,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             registrationModel.NumHash
-                .Where(o => registrationModel.Num_Updated(columnName: o.Key)
-                    || (otherInitValue && !registrationModel.Num(columnName: o.Key)
-                        .InitialValue(context: context)))
-                .ForEach(o =>
-                {
-                    if (o.Value?.Value != null)
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            value: o.Value.Value);
-                    }
-                    else
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            raw: "null");
-                    }
-                });
+                .Where(o => registrationModel.Num_Updated(
+                    columnName: o.Key,
+                    column: ss?.GetColumn(
+                        context: context,
+                        columnName: o.Key))
+                            || (otherInitValue && !registrationModel.Num(columnName: o.Key)
+                                .InitialValue(context: context)))
+                                    .ForEach(o =>
+                                    {
+                                        if (o.Value?.Value != null)
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                value: o.Value.Value);
+                                        }
+                                        else
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                raw: "null");
+                                        }
+                                    });
             registrationModel.DateHash
                 .Where(o => registrationModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !registrationModel.Date(columnName: o.Key)
@@ -107223,6 +107278,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static UsersParamCollection UsersParamDefault(
             Context context,
+            SiteSettings ss,
             UserModel userModel,
             bool setDefault = false,
             bool otherInitValue = false)
@@ -107275,26 +107331,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             userModel.NumHash
-                .Where(o => userModel.Num_Updated(columnName: o.Key)
-                    || (otherInitValue && !userModel.Num(columnName: o.Key)
-                        .InitialValue(context: context)))
-                .ForEach(o =>
-                {
-                    if (o.Value?.Value != null)
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            value: o.Value.Value);
-                    }
-                    else
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            raw: "null");
-                    }
-                });
+                .Where(o => userModel.Num_Updated(
+                    columnName: o.Key,
+                    column: ss?.GetColumn(
+                        context: context,
+                        columnName: o.Key))
+                            || (otherInitValue && !userModel.Num(columnName: o.Key)
+                                .InitialValue(context: context)))
+                                    .ForEach(o =>
+                                    {
+                                        if (o.Value?.Value != null)
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                value: o.Value.Value);
+                                        }
+                                        else
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                raw: "null");
+                                        }
+                                    });
             userModel.DateHash
                 .Where(o => userModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !userModel.Date(columnName: o.Key)
@@ -107372,6 +107432,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static LoginKeysParamCollection LoginKeysParamDefault(
             Context context,
+            SiteSettings ss,
             LoginKeyModel loginKeyModel,
             bool setDefault = false,
             bool otherInitValue = false)
@@ -107394,26 +107455,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             loginKeyModel.NumHash
-                .Where(o => loginKeyModel.Num_Updated(columnName: o.Key)
-                    || (otherInitValue && !loginKeyModel.Num(columnName: o.Key)
-                        .InitialValue(context: context)))
-                .ForEach(o =>
-                {
-                    if (o.Value?.Value != null)
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            value: o.Value.Value);
-                    }
-                    else
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            raw: "null");
-                    }
-                });
+                .Where(o => loginKeyModel.Num_Updated(
+                    columnName: o.Key,
+                    column: ss?.GetColumn(
+                        context: context,
+                        columnName: o.Key))
+                            || (otherInitValue && !loginKeyModel.Num(columnName: o.Key)
+                                .InitialValue(context: context)))
+                                    .ForEach(o =>
+                                    {
+                                        if (o.Value?.Value != null)
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                value: o.Value.Value);
+                                        }
+                                        else
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                raw: "null");
+                                        }
+                                    });
             loginKeyModel.DateHash
                 .Where(o => loginKeyModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !loginKeyModel.Date(columnName: o.Key)
@@ -107491,6 +107556,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static MailAddressesParamCollection MailAddressesParamDefault(
             Context context,
+            SiteSettings ss,
             MailAddressModel mailAddressModel,
             bool setDefault = false,
             bool otherInitValue = false)
@@ -107511,26 +107577,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             mailAddressModel.NumHash
-                .Where(o => mailAddressModel.Num_Updated(columnName: o.Key)
-                    || (otherInitValue && !mailAddressModel.Num(columnName: o.Key)
-                        .InitialValue(context: context)))
-                .ForEach(o =>
-                {
-                    if (o.Value?.Value != null)
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            value: o.Value.Value);
-                    }
-                    else
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            raw: "null");
-                    }
-                });
+                .Where(o => mailAddressModel.Num_Updated(
+                    columnName: o.Key,
+                    column: ss?.GetColumn(
+                        context: context,
+                        columnName: o.Key))
+                            || (otherInitValue && !mailAddressModel.Num(columnName: o.Key)
+                                .InitialValue(context: context)))
+                                    .ForEach(o =>
+                                    {
+                                        if (o.Value?.Value != null)
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                value: o.Value.Value);
+                                        }
+                                        else
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                raw: "null");
+                                        }
+                                    });
             mailAddressModel.DateHash
                 .Where(o => mailAddressModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !mailAddressModel.Date(columnName: o.Key)
@@ -107618,6 +107688,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static OutgoingMailsParamCollection OutgoingMailsParamDefault(
             Context context,
+            SiteSettings ss,
             OutgoingMailModel outgoingMailModel,
             bool setDefault = false,
             bool otherInitValue = false)
@@ -107647,26 +107718,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             outgoingMailModel.NumHash
-                .Where(o => outgoingMailModel.Num_Updated(columnName: o.Key)
-                    || (otherInitValue && !outgoingMailModel.Num(columnName: o.Key)
-                        .InitialValue(context: context)))
-                .ForEach(o =>
-                {
-                    if (o.Value?.Value != null)
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            value: o.Value.Value);
-                    }
-                    else
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            raw: "null");
-                    }
-                });
+                .Where(o => outgoingMailModel.Num_Updated(
+                    columnName: o.Key,
+                    column: ss?.GetColumn(
+                        context: context,
+                        columnName: o.Key))
+                            || (otherInitValue && !outgoingMailModel.Num(columnName: o.Key)
+                                .InitialValue(context: context)))
+                                    .ForEach(o =>
+                                    {
+                                        if (o.Value?.Value != null)
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                value: o.Value.Value);
+                                        }
+                                        else
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                raw: "null");
+                                        }
+                                    });
             outgoingMailModel.DateHash
                 .Where(o => outgoingMailModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !outgoingMailModel.Date(columnName: o.Key)
@@ -107744,6 +107819,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static ItemsParamCollection ItemsParamDefault(
             Context context,
+            SiteSettings ss,
             ItemModel itemModel,
             bool setDefault = false,
             bool otherInitValue = false)
@@ -107766,26 +107842,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             itemModel.NumHash
-                .Where(o => itemModel.Num_Updated(columnName: o.Key)
-                    || (otherInitValue && !itemModel.Num(columnName: o.Key)
-                        .InitialValue(context: context)))
-                .ForEach(o =>
-                {
-                    if (o.Value?.Value != null)
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            value: o.Value.Value);
-                    }
-                    else
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            raw: "null");
-                    }
-                });
+                .Where(o => itemModel.Num_Updated(
+                    columnName: o.Key,
+                    column: ss?.GetColumn(
+                        context: context,
+                        columnName: o.Key))
+                            || (otherInitValue && !itemModel.Num(columnName: o.Key)
+                                .InitialValue(context: context)))
+                                    .ForEach(o =>
+                                    {
+                                        if (o.Value?.Value != null)
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                value: o.Value.Value);
+                                        }
+                                        else
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                raw: "null");
+                                        }
+                                    });
             itemModel.DateHash
                 .Where(o => itemModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !itemModel.Date(columnName: o.Key)
@@ -107875,6 +107955,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static SitesParamCollection SitesParamDefault(
             Context context,
+            SiteSettings ss,
             SiteModel siteModel,
             bool setDefault = false,
             bool otherInitValue = false)
@@ -107908,26 +107989,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             siteModel.NumHash
-                .Where(o => siteModel.Num_Updated(columnName: o.Key)
-                    || (otherInitValue && !siteModel.Num(columnName: o.Key)
-                        .InitialValue(context: context)))
-                .ForEach(o =>
-                {
-                    if (o.Value?.Value != null)
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            value: o.Value.Value);
-                    }
-                    else
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            raw: "null");
-                    }
-                });
+                .Where(o => siteModel.Num_Updated(
+                    columnName: o.Key,
+                    column: ss?.GetColumn(
+                        context: context,
+                        columnName: o.Key))
+                            || (otherInitValue && !siteModel.Num(columnName: o.Key)
+                                .InitialValue(context: context)))
+                                    .ForEach(o =>
+                                    {
+                                        if (o.Value?.Value != null)
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                value: o.Value.Value);
+                                        }
+                                        else
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                raw: "null");
+                                        }
+                                    });
             siteModel.DateHash
                 .Where(o => siteModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !siteModel.Date(columnName: o.Key)
@@ -108005,6 +108090,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static OrdersParamCollection OrdersParamDefault(
             Context context,
+            SiteSettings ss,
             OrderModel orderModel,
             bool setDefault = false,
             bool otherInitValue = false)
@@ -108026,26 +108112,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             orderModel.NumHash
-                .Where(o => orderModel.Num_Updated(columnName: o.Key)
-                    || (otherInitValue && !orderModel.Num(columnName: o.Key)
-                        .InitialValue(context: context)))
-                .ForEach(o =>
-                {
-                    if (o.Value?.Value != null)
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            value: o.Value.Value);
-                    }
-                    else
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            raw: "null");
-                    }
-                });
+                .Where(o => orderModel.Num_Updated(
+                    columnName: o.Key,
+                    column: ss?.GetColumn(
+                        context: context,
+                        columnName: o.Key))
+                            || (otherInitValue && !orderModel.Num(columnName: o.Key)
+                                .InitialValue(context: context)))
+                                    .ForEach(o =>
+                                    {
+                                        if (o.Value?.Value != null)
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                value: o.Value.Value);
+                                        }
+                                        else
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                raw: "null");
+                                        }
+                                    });
             orderModel.DateHash
                 .Where(o => orderModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !orderModel.Date(columnName: o.Key)
@@ -108125,6 +108215,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static ExportSettingsParamCollection ExportSettingsParamDefault(
             Context context,
+            SiteSettings ss,
             ExportSettingModel exportSettingModel,
             bool setDefault = false,
             bool otherInitValue = false)
@@ -108147,26 +108238,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             exportSettingModel.NumHash
-                .Where(o => exportSettingModel.Num_Updated(columnName: o.Key)
-                    || (otherInitValue && !exportSettingModel.Num(columnName: o.Key)
-                        .InitialValue(context: context)))
-                .ForEach(o =>
-                {
-                    if (o.Value?.Value != null)
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            value: o.Value.Value);
-                    }
-                    else
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            raw: "null");
-                    }
-                });
+                .Where(o => exportSettingModel.Num_Updated(
+                    columnName: o.Key,
+                    column: ss?.GetColumn(
+                        context: context,
+                        columnName: o.Key))
+                            || (otherInitValue && !exportSettingModel.Num(columnName: o.Key)
+                                .InitialValue(context: context)))
+                                    .ForEach(o =>
+                                    {
+                                        if (o.Value?.Value != null)
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                value: o.Value.Value);
+                                        }
+                                        else
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                raw: "null");
+                                        }
+                                    });
             exportSettingModel.DateHash
                 .Where(o => exportSettingModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !exportSettingModel.Date(columnName: o.Key)
@@ -108254,6 +108349,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static LinksParamCollection LinksParamDefault(
             Context context,
+            SiteSettings ss,
             LinkModel linkModel,
             bool setDefault = false,
             bool otherInitValue = false)
@@ -108273,26 +108369,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             linkModel.NumHash
-                .Where(o => linkModel.Num_Updated(columnName: o.Key)
-                    || (otherInitValue && !linkModel.Num(columnName: o.Key)
-                        .InitialValue(context: context)))
-                .ForEach(o =>
-                {
-                    if (o.Value?.Value != null)
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            value: o.Value.Value);
-                    }
-                    else
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            raw: "null");
-                    }
-                });
+                .Where(o => linkModel.Num_Updated(
+                    columnName: o.Key,
+                    column: ss?.GetColumn(
+                        context: context,
+                        columnName: o.Key))
+                            || (otherInitValue && !linkModel.Num(columnName: o.Key)
+                                .InitialValue(context: context)))
+                                    .ForEach(o =>
+                                    {
+                                        if (o.Value?.Value != null)
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                value: o.Value.Value);
+                                        }
+                                        else
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                raw: "null");
+                                        }
+                                    });
             linkModel.DateHash
                 .Where(o => linkModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !linkModel.Date(columnName: o.Key)
@@ -108379,6 +108479,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static BinariesParamCollection BinariesParamDefault(
             Context context,
+            SiteSettings ss,
             BinaryModel binaryModel,
             bool setDefault = false,
             bool otherInitValue = false)
@@ -108410,26 +108511,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             binaryModel.NumHash
-                .Where(o => binaryModel.Num_Updated(columnName: o.Key)
-                    || (otherInitValue && !binaryModel.Num(columnName: o.Key)
-                        .InitialValue(context: context)))
-                .ForEach(o =>
-                {
-                    if (o.Value?.Value != null)
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            value: o.Value.Value);
-                    }
-                    else
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            raw: "null");
-                    }
-                });
+                .Where(o => binaryModel.Num_Updated(
+                    columnName: o.Key,
+                    column: ss?.GetColumn(
+                        context: context,
+                        columnName: o.Key))
+                            || (otherInitValue && !binaryModel.Num(columnName: o.Key)
+                                .InitialValue(context: context)))
+                                    .ForEach(o =>
+                                    {
+                                        if (o.Value?.Value != null)
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                value: o.Value.Value);
+                                        }
+                                        else
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                raw: "null");
+                                        }
+                                    });
             binaryModel.DateHash
                 .Where(o => binaryModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !binaryModel.Date(columnName: o.Key)
@@ -108521,6 +108626,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static PermissionsParamCollection PermissionsParamDefault(
             Context context,
+            SiteSettings ss,
             PermissionModel permissionModel,
             bool setDefault = false,
             bool otherInitValue = false)
@@ -108543,26 +108649,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             permissionModel.NumHash
-                .Where(o => permissionModel.Num_Updated(columnName: o.Key)
-                    || (otherInitValue && !permissionModel.Num(columnName: o.Key)
-                        .InitialValue(context: context)))
-                .ForEach(o =>
-                {
-                    if (o.Value?.Value != null)
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            value: o.Value.Value);
-                    }
-                    else
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            raw: "null");
-                    }
-                });
+                .Where(o => permissionModel.Num_Updated(
+                    columnName: o.Key,
+                    column: ss?.GetColumn(
+                        context: context,
+                        columnName: o.Key))
+                            || (otherInitValue && !permissionModel.Num(columnName: o.Key)
+                                .InitialValue(context: context)))
+                                    .ForEach(o =>
+                                    {
+                                        if (o.Value?.Value != null)
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                value: o.Value.Value);
+                                        }
+                                        else
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                raw: "null");
+                                        }
+                                    });
             permissionModel.DateHash
                 .Where(o => permissionModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !permissionModel.Date(columnName: o.Key)
@@ -108668,6 +108778,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static IssuesParamCollection IssuesParamDefault(
             Context context,
+            SiteSettings ss,
             IssueModel issueModel,
             bool setDefault = false,
             bool otherInitValue = false)
@@ -108697,26 +108808,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             issueModel.NumHash
-                .Where(o => issueModel.Num_Updated(columnName: o.Key)
-                    || (otherInitValue && !issueModel.Num(columnName: o.Key)
-                        .InitialValue(context: context)))
-                .ForEach(o =>
-                {
-                    if (o.Value?.Value != null)
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            value: o.Value.Value);
-                    }
-                    else
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            raw: "null");
-                    }
-                });
+                .Where(o => issueModel.Num_Updated(
+                    columnName: o.Key,
+                    column: ss?.GetColumn(
+                        context: context,
+                        columnName: o.Key))
+                            || (otherInitValue && !issueModel.Num(columnName: o.Key)
+                                .InitialValue(context: context)))
+                                    .ForEach(o =>
+                                    {
+                                        if (o.Value?.Value != null)
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                value: o.Value.Value);
+                                        }
+                                        else
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                raw: "null");
+                                        }
+                                    });
             issueModel.DateHash
                 .Where(o => issueModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !issueModel.Date(columnName: o.Key)
@@ -108817,6 +108932,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static ResultsParamCollection ResultsParamDefault(
             Context context,
+            SiteSettings ss,
             ResultModel resultModel,
             bool setDefault = false,
             bool otherInitValue = false)
@@ -108842,26 +108958,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             resultModel.NumHash
-                .Where(o => resultModel.Num_Updated(columnName: o.Key)
-                    || (otherInitValue && !resultModel.Num(columnName: o.Key)
-                        .InitialValue(context: context)))
-                .ForEach(o =>
-                {
-                    if (o.Value?.Value != null)
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            value: o.Value.Value);
-                    }
-                    else
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            raw: "null");
-                    }
-                });
+                .Where(o => resultModel.Num_Updated(
+                    columnName: o.Key,
+                    column: ss?.GetColumn(
+                        context: context,
+                        columnName: o.Key))
+                            || (otherInitValue && !resultModel.Num(columnName: o.Key)
+                                .InitialValue(context: context)))
+                                    .ForEach(o =>
+                                    {
+                                        if (o.Value?.Value != null)
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                value: o.Value.Value);
+                                        }
+                                        else
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                raw: "null");
+                                        }
+                                    });
             resultModel.DateHash
                 .Where(o => resultModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !resultModel.Date(columnName: o.Key)
@@ -108958,6 +109078,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static WikisParamCollection WikisParamDefault(
             Context context,
+            SiteSettings ss,
             WikiModel wikiModel,
             bool setDefault = false,
             bool otherInitValue = false)
@@ -108980,26 +109101,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             wikiModel.NumHash
-                .Where(o => wikiModel.Num_Updated(columnName: o.Key)
-                    || (otherInitValue && !wikiModel.Num(columnName: o.Key)
-                        .InitialValue(context: context)))
-                .ForEach(o =>
-                {
-                    if (o.Value?.Value != null)
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            value: o.Value.Value);
-                    }
-                    else
-                    {
-                        param.Add(
-                            columnBracket: $"\"{o.Key}\"",
-                            name: o.Key,
-                            raw: "null");
-                    }
-                });
+                .Where(o => wikiModel.Num_Updated(
+                    columnName: o.Key,
+                    column: ss?.GetColumn(
+                        context: context,
+                        columnName: o.Key))
+                            || (otherInitValue && !wikiModel.Num(columnName: o.Key)
+                                .InitialValue(context: context)))
+                                    .ForEach(o =>
+                                    {
+                                        if (o.Value?.Value != null)
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                value: o.Value.Value);
+                                        }
+                                        else
+                                        {
+                                            param.Add(
+                                                columnBracket: $"\"{o.Key}\"",
+                                                name: o.Key,
+                                                raw: "null");
+                                        }
+                                    });
             wikiModel.DateHash
                 .Where(o => wikiModel.Date_Updated(columnName: o.Key)
                     || (otherInitValue && !wikiModel.Date(columnName: o.Key)

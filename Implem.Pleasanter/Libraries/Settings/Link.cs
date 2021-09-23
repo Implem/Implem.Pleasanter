@@ -86,15 +86,33 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (AddSource == true) link.AddSource = true;
             if (MembersOnly == true) link.MembersOnly = true;
             if (!SearchFormat.IsNullOrEmpty()) link.SearchFormat = SearchFormat;
-            link.View = View?.GetRecordingData(
+            var currentSs = GetSiteSettings(
                 context: context,
                 ss: ss);
+            link.View = View?.GetRecordingData(
+                context: context,
+                ss: currentSs);
             link.Lookups = Lookups?.GetRecordingData();
             link.LinkActions = LinkActions?.GetRecordingData(
                 context: context,
-                ss: ss);
+                ss: currentSs);
             if (JsonFormat == true) link.JsonFormat = true;
             return link;
+        }
+
+        private SiteSettings GetSiteSettings(Context context, SiteSettings ss)
+        {
+            switch (TableName)
+            {
+                case "Depts":
+                    return SiteSettingsUtilities.DeptsSiteSettings(context: context);
+                case "Groups":
+                    return SiteSettingsUtilities.GroupsSiteSettings(context: context);
+                case "Users":
+                    return SiteSettingsUtilities.UsersSiteSettings(context: context);
+                default:
+                    return ss;
+            }
         }
 
         public void SetChoiceHash(

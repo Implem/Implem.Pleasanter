@@ -249,7 +249,9 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson(context: context);
             }
             var error = new BinaryModel(siteModel.SiteId).UpdateSiteImage(
-                context: context, bin: bin);
+                context: context,
+                ss: siteModel.SiteSettings,
+                bin: bin);
             if (error.Has())
             {
                 return error.MessageJson(context: context);
@@ -290,7 +292,9 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson(context: context);
             }
             var error = new BinaryModel(tenantModel.TenantId).UpdateTenantImage(
-                context: context, bin: bin);
+                context: context,
+                ss: ss,
+                bin: bin);
             if (error.Has())
             {
                 return error.MessageJson(context: context);

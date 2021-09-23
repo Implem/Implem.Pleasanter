@@ -3272,6 +3272,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_ui_multiselect_checkboxes": Css._dot_ui_multiselect_checkboxes = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_multiselect_checkboxes, definitionRow, CssXls); break;
                     case "_dot_ui_multiselect_checkboxes_space_input": Css._dot_ui_multiselect_checkboxes_space_input = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_multiselect_checkboxes_space_input, definitionRow, CssXls); break;
                     case "_dot_ui_corner_all_dot_ui_state_hover": Css._dot_ui_corner_all_dot_ui_state_hover = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_corner_all_dot_ui_state_hover, definitionRow, CssXls); break;
+                    case "div_dot_field_control_space__dot_ui_multiselect_dot_ui_state_disabled": Css.div_dot_field_control_space__dot_ui_multiselect_dot_ui_state_disabled = definitionRow[1].ToString(); SetCssTable(CssTable.div_dot_field_control_space__dot_ui_multiselect_dot_ui_state_disabled, definitionRow, CssXls); break;
                     case "_dot_height_auto": Css._dot_height_auto = definitionRow[1].ToString(); SetCssTable(CssTable._dot_height_auto, definitionRow, CssXls); break;
                     case "_dot_focus_inform": Css._dot_focus_inform = definitionRow[1].ToString(); SetCssTable(CssTable._dot_focus_inform, definitionRow, CssXls); break;
                     case "_dot_sortable": Css._dot_sortable = definitionRow[1].ToString(); SetCssTable(CssTable._dot_sortable, definitionRow, CssXls); break;
@@ -3579,6 +3580,11 @@ namespace Implem.DefinitionAccessor
                                 data.ToString();
                             newCssDefinition.Savedfill_opacity = newCssDefinition.fill_opacity;
                             break;
+                        case "opacity":
+                            newCssDefinition.opacity = customDefinitionRow.Get("opacity")?.ToString() ??
+                                data.ToString();
+                            newCssDefinition.Savedopacity = newCssDefinition.opacity;
+                            break;
                         case "stroke":
                             newCssDefinition.stroke = customDefinitionRow.Get("stroke")?.ToString() ??
                                 data.ToString();
@@ -3663,6 +3669,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("z-index")) { definition.z_index = definitionRow["z-index"].ToString(); definition.Savedz_index = definition.z_index; }
             if (definitionRow.ContainsKey("fill")) { definition.fill = definitionRow["fill"].ToString(); definition.Savedfill = definition.fill; }
             if (definitionRow.ContainsKey("fill-opacity")) { definition.fill_opacity = definitionRow["fill-opacity"].ToString(); definition.Savedfill_opacity = definition.fill_opacity; }
+            if (definitionRow.ContainsKey("opacity")) { definition.opacity = definitionRow["opacity"].ToString(); definition.Savedopacity = definition.opacity; }
             if (definitionRow.ContainsKey("stroke")) { definition.stroke = definitionRow["stroke"].ToString(); definition.Savedstroke = definition.stroke; }
             if (definitionRow.ContainsKey("stroke-width")) { definition.stroke_width = definitionRow["stroke-width"].ToString(); definition.Savedstroke_width = definition.stroke_width; }
             if (definitionRow.ContainsKey("text-anchor")) { definition.text_anchor = definitionRow["text-anchor"].ToString(); definition.Savedtext_anchor = definition.text_anchor; }
@@ -6505,6 +6512,7 @@ namespace Implem.DefinitionAccessor
                         case "z-index": cssDefinition.z_index = optionValue.ToString(); break;
                         case "fill": cssDefinition.fill = optionValue.ToString(); break;
                         case "fill-opacity": cssDefinition.fill_opacity = optionValue.ToString(); break;
+                        case "opacity": cssDefinition.opacity = optionValue.ToString(); break;
                         case "stroke": cssDefinition.stroke = optionValue.ToString(); break;
                         case "stroke-width": cssDefinition.stroke_width = optionValue.ToString(); break;
                         case "text-anchor": cssDefinition.text_anchor = optionValue.ToString(); break;
@@ -10224,6 +10232,7 @@ namespace Implem.DefinitionAccessor
         public string z_index; public string Savedz_index;
         public string fill; public string Savedfill;
         public string fill_opacity; public string Savedfill_opacity;
+        public string opacity; public string Savedopacity;
         public string stroke; public string Savedstroke;
         public string stroke_width; public string Savedstroke_width;
         public string text_anchor; public string Savedtext_anchor;
@@ -10290,6 +10299,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("z_index")) z_index = propertyCollection["z_index"].ToString(); else z_index = string.Empty;
             if (propertyCollection.ContainsKey("fill")) fill = propertyCollection["fill"].ToString(); else fill = string.Empty;
             if (propertyCollection.ContainsKey("fill_opacity")) fill_opacity = propertyCollection["fill_opacity"].ToString(); else fill_opacity = string.Empty;
+            if (propertyCollection.ContainsKey("opacity")) opacity = propertyCollection["opacity"].ToString(); else opacity = string.Empty;
             if (propertyCollection.ContainsKey("stroke")) stroke = propertyCollection["stroke"].ToString(); else stroke = string.Empty;
             if (propertyCollection.ContainsKey("stroke_width")) stroke_width = propertyCollection["stroke_width"].ToString(); else stroke_width = string.Empty;
             if (propertyCollection.ContainsKey("text_anchor")) text_anchor = propertyCollection["text_anchor"].ToString(); else text_anchor = string.Empty;
@@ -10356,6 +10366,7 @@ namespace Implem.DefinitionAccessor
                     case "z_index": return z_index;
                     case "fill": return fill;
                     case "fill_opacity": return fill_opacity;
+                    case "opacity": return opacity;
                     case "stroke": return stroke;
                     case "stroke_width": return stroke_width;
                     case "text_anchor": return text_anchor;
@@ -10422,6 +10433,7 @@ namespace Implem.DefinitionAccessor
             z_index = Savedz_index;
             fill = Savedfill;
             fill_opacity = Savedfill_opacity;
+            opacity = Savedopacity;
             stroke = Savedstroke;
             stroke_width = Savedstroke_width;
             text_anchor = Savedtext_anchor;
@@ -10935,6 +10947,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_ui_multiselect_checkboxes;
         public string _dot_ui_multiselect_checkboxes_space_input;
         public string _dot_ui_corner_all_dot_ui_state_hover;
+        public string div_dot_field_control_space__dot_ui_multiselect_dot_ui_state_disabled;
         public string _dot_height_auto;
         public string _dot_focus_inform;
         public string _dot_sortable;
@@ -11460,6 +11473,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_ui_multiselect_checkboxes = new CssDefinition();
         public CssDefinition _dot_ui_multiselect_checkboxes_space_input = new CssDefinition();
         public CssDefinition _dot_ui_corner_all_dot_ui_state_hover = new CssDefinition();
+        public CssDefinition div_dot_field_control_space__dot_ui_multiselect_dot_ui_state_disabled = new CssDefinition();
         public CssDefinition _dot_height_auto = new CssDefinition();
         public CssDefinition _dot_focus_inform = new CssDefinition();
         public CssDefinition _dot_sortable = new CssDefinition();

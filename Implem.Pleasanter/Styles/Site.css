@@ -2993,6 +2993,11 @@ h3.title-header{
     border-radius:2px;
 }
 
+div.field-control .ui-multiselect.ui-state-disabled{
+    background-color:whitesmoke;
+    opacity:1;
+}
+
 .height-auto{
     max-height:none !important;
 }

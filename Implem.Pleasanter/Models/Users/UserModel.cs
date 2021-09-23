@@ -1637,6 +1637,7 @@ namespace Implem.Pleasanter.Models
                     selectIdentity: true,
                     param: param ?? Rds.UsersParamDefault(
                         context: context,
+                        ss: ss,
                         userModel: this,
                         setDefault: true,
                         otherInitValue: otherInitValue)),
@@ -1735,6 +1736,7 @@ namespace Implem.Pleasanter.Models
             }
             statements.AddRange(UpdateStatements(
                 context: context,
+                ss: ss,
                 dataTableName: dataTableName,
                 where: where,
                 param: param,
@@ -1748,6 +1750,7 @@ namespace Implem.Pleasanter.Models
 
         private List<SqlStatement> UpdateStatements(
             Context context,
+            SiteSettings ss,
             string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -1760,6 +1763,7 @@ namespace Implem.Pleasanter.Models
                     where: where,
                     param: param ?? Rds.UsersParamDefault(
                         context: context,
+                        ss: ss,
                         userModel: this,
                         otherInitValue: otherInitValue)),
                 new SqlStatement(Def.Sql.IfConflicted.Params(UserId)) {

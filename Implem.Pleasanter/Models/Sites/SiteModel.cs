@@ -751,6 +751,7 @@ namespace Implem.Pleasanter.Models
             }
             statements.AddRange(UpdateStatements(
                 context: context,
+                ss: ss,
                 dataTableName: dataTableName,
                 where: where,
                 param: param,
@@ -768,6 +769,7 @@ namespace Implem.Pleasanter.Models
 
         private List<SqlStatement> UpdateStatements(
             Context context,
+            SiteSettings ss,
             string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -784,6 +786,7 @@ namespace Implem.Pleasanter.Models
                     where: where,
                     param: param ?? Rds.SitesParamDefault(
                         context: context,
+                        ss: ss,
                         siteModel: this,
                         otherInitValue: otherInitValue)),
                 new SqlStatement(Def.Sql.IfConflicted.Params(SiteId)) {
@@ -842,6 +845,7 @@ namespace Implem.Pleasanter.Models
 
         public ErrorData UpdateOrCreate(
             Context context,
+            SiteSettings ss,
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {
@@ -859,7 +863,10 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         siteModel: this),
                     param: param ?? Rds.SitesParamDefault(
-                        context: context, siteModel: this, setDefault: true))
+                        context: context,
+                        ss: ss,
+                        siteModel: this,
+                        setDefault: true))
             };
             var response = Repository.ExecuteScalar_response(
                 context: context,
