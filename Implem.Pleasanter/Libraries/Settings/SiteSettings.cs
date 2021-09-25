@@ -4723,22 +4723,32 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 return body;
             }
-            foreach (var includeLine in body.RegexValues("^//Include:.+$", RegexOptions.Multiline))
+            if (!body.Contains("//Include:"))
             {
-                var name = includeLine.Substring(includeLine.IndexOf(":") + 1).Trim();
-                var includeBody = serverScripts
-                    .Where(o => o.Name == name)
-                    .Select(o => o.Body)
-                    .Join("\n");
-                if (!includeBody.IsNullOrEmpty())
+                return body;
+            }
+            var replacedBody = new List<string>();
+            foreach (var line in body.Split('\n'))
+            {
+                if (line.StartsWith("//Include:"))
                 {
+                    var name = line.Substring(line.IndexOf(":") + 1).Trim();
+                    var includeBody = serverScripts
+                        .Where(o => o.Name == name)
+                        .Select(o => o.Body)
+                        .Join("\n");
                     includeBody = IncludedServerScripts(
                         serverScripts: serverScripts,
                         body: includeBody,
                         depth: depth + 1);
-                    body = body.Replace(includeLine, includeBody);
+                    replacedBody.Add(includeBody);
+                }
+                else
+                {
+                    replacedBody.Add(line);
                 }
             }
+            body = replacedBody.Join("\n");
             return body;
         }
 
