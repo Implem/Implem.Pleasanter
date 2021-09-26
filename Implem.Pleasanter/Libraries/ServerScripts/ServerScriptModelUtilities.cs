@@ -21,9 +21,14 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return DateTime.Now.ToLocal(context: Context).Date.ToUniversal(context: Context);
         }
 
-        public bool InRange(DateTime dt)
+        public bool InRange(object dt)
         {
-            return dt.InRange();
+            if (dt?.GetType().FullName != "System.DateTime")
+            {
+                return false;
+            }
+            var inRange = dt.ToDateTime().InRange();
+            return inRange;
         }
     }
 }
