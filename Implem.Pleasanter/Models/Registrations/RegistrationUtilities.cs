@@ -2216,6 +2216,7 @@ namespace Implem.Pleasanter.Models
                         statements: Rds.SelectTenants(
                         column: Rds.TenantsColumn().Title(),
                         where: Rds.TenantsWhere().TenantId(registrationModel.TenantId)));
+                    var from = Libraries.Mails.Addresses.From(new System.Net.Mail.MailAddress(registrationModel.MailAddress));
                     new OutgoingMailModel()
                     {
                         Title = new Title(Displays.ApprovalRequestMailTitle(
@@ -2230,7 +2231,7 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     id: registrationId.ToString())
                             }),
-                        From = new System.Net.Mail.MailAddress(registrationModel.MailAddress),
+                        From = from,
                         To = Parameters.Registration.ApprovalRequestTo,
                         Bcc = Parameters.Mail.SupportFrom
                     }.Send(

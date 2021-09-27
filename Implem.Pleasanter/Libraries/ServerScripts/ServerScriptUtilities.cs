@@ -796,22 +796,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return scriptValues;
         }
 
-        private static bool ReadOnly(
-            string columnName,
-            ServerScriptModelRow serverScriptModelRow)
-        {
-            var readOnly = serverScriptModelRow
-                ?.Columns.Get(columnName)
-                ?.ReadOnly == true;
-            return readOnly;
-        }
-
-        public static bool Hide(ServerScriptModelColumn serverScriptModelColumn)
-        {
-            var hide = serverScriptModelColumn?.Hide == true;
-            return hide;
-        }
-
         public static bool CanEdit(
             this Column column,
             Context context,
