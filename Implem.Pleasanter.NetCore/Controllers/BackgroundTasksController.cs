@@ -12,9 +12,18 @@ namespace Implem.Pleasanter.NetCore.Controllers
         public string Do()
         {
             var context = new ContextImplement();
-
             var controller = new Pleasanter.Controllers.BackgroundTasksController();
             var html = controller.Do(context: context, backgroundTasks: new BackgroundTasks(context: context));
+            return html;
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public string RebuildSearchIndexes()
+        {
+            var context = new ContextImplement();
+            var controller = new Pleasanter.Controllers.BackgroundTasksController();
+            var html = controller.RebuildSearchIndexes(context: context);
             return html;
         }
     }
