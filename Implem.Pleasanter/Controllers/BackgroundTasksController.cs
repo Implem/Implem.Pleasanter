@@ -1,8 +1,8 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Search;
 using Implem.Pleasanter.Models;
 using Implem.Pleasanter.Tools;
-
 namespace Implem.Pleasanter.Controllers
 {
     public class BackgroundTasksController
@@ -27,6 +27,26 @@ namespace Implem.Pleasanter.Controllers
             {
                 return null;
             }
+        }
+
+        public string RebuildSearchIndexes(Context context)
+        {
+            if (Parameters.BackgroundTask.Enabled)
+            {
+                if (context.QueryStrings.Bool("NoLog"))
+                {
+                    Indexes.RebuildSearchIndexes(context: context);
+                }
+                else
+                {
+                    var log = new SysLogModel(context: context);
+                    Indexes.RebuildSearchIndexes(
+                        context: context,
+                        siteId: context.QueryStrings.Long("SiteId"));
+                    log.Finish(context: context, responseSize: 0);
+                }
+            }
+            return null;
         }
     }
 }
