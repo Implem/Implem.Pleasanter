@@ -325,7 +325,8 @@ namespace Implem.Pleasanter.Models
         public bool Num_Updated(
             string columnName,
             Context context = null,
-            Column column = null)
+            Column column = null,
+            bool paramDefault = false)
         {
             var value = Num(columnName: columnName)?.Value;
             var savedValue = SavedNum(columnName: columnName);
@@ -335,7 +336,8 @@ namespace Implem.Pleasanter.Models
                 savedValue = savedValue ?? 0;
             }
             return value != savedValue
-                && (column == null
+                && (paramDefault
+                    || column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.GetDefaultInput(context: context).ToDecimal() != value);
         }
