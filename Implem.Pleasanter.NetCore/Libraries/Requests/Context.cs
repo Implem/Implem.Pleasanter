@@ -305,6 +305,10 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
                 {
                     if (sessionStatus) Language = SessionLanguage();
                 }
+                UserSessionData = SessionUtilities.Get(
+                    context: this,
+                    includeUserArea: Controller == "sessions",
+                    sessionGuid: "@" + UserId);
             }
         }
 
