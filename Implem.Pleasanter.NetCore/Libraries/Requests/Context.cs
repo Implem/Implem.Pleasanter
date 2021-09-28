@@ -744,7 +744,11 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
         {
             var userClaims = new List<Claim> { new Claim(ClaimTypes.Name, userName) };
             var principal = new ClaimsPrincipal(new ClaimsIdentity(userClaims, "Forms"));
-            AspNetCoreHttpContext.Current.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+            var properties = new AuthenticationProperties() { IsPersistent = createPersistentCookie };
+            AspNetCoreHttpContext.Current.SignInAsync(
+                scheme: CookieAuthenticationDefaults.AuthenticationScheme,
+                principal: principal,
+                properties: properties);
         }
 
         public override void FormsAuthenticationSignOut()
