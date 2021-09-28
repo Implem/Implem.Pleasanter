@@ -106171,23 +106171,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnName: o.Key,
                     column: ss?.GetColumn(
                         context: context,
-                        columnName: o.Key))
-                            || (otherInitValue && !tenantModel.Num(columnName: o.Key)
-                                .InitialValue(context: context)))
-                                    .ForEach(o =>
+                        columnName: o.Key),
+                    paramDefault: true)
+                        || (otherInitValue && !tenantModel.Num(columnName: o.Key)
+                            .InitialValue(context: context)))
+                                .ForEach(o =>
+                                {
+                                    if (o.Value?.Value != null)
                                     {
-                                        if (o.Value?.Value != null)
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
-                                                value: o.Value.Value);
-                                        }
-                                        else
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
+                                            value: o.Value.Value);
+                                    }
+                                    else
+                                    {
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
                                                 raw: "null");
                                         }
                                     });
@@ -106297,23 +106298,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnName: o.Key,
                     column: ss?.GetColumn(
                         context: context,
-                        columnName: o.Key))
-                            || (otherInitValue && !demoModel.Num(columnName: o.Key)
-                                .InitialValue(context: context)))
-                                    .ForEach(o =>
+                        columnName: o.Key),
+                    paramDefault: true)
+                        || (otherInitValue && !demoModel.Num(columnName: o.Key)
+                            .InitialValue(context: context)))
+                                .ForEach(o =>
+                                {
+                                    if (o.Value?.Value != null)
                                     {
-                                        if (o.Value?.Value != null)
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
-                                                value: o.Value.Value);
-                                        }
-                                        else
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
+                                            value: o.Value.Value);
+                                    }
+                                    else
+                                    {
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
                                                 raw: "null");
                                         }
                                     });
@@ -106423,23 +106425,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnName: o.Key,
                     column: ss?.GetColumn(
                         context: context,
-                        columnName: o.Key))
-                            || (otherInitValue && !extensionModel.Num(columnName: o.Key)
-                                .InitialValue(context: context)))
-                                    .ForEach(o =>
+                        columnName: o.Key),
+                    paramDefault: true)
+                        || (otherInitValue && !extensionModel.Num(columnName: o.Key)
+                            .InitialValue(context: context)))
+                                .ForEach(o =>
+                                {
+                                    if (o.Value?.Value != null)
                                     {
-                                        if (o.Value?.Value != null)
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
-                                                value: o.Value.Value);
-                                        }
-                                        else
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
+                                            value: o.Value.Value);
+                                    }
+                                    else
+                                    {
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
                                                 raw: "null");
                                         }
                                     });
@@ -106550,23 +106553,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnName: o.Key,
                     column: ss?.GetColumn(
                         context: context,
-                        columnName: o.Key))
-                            || (otherInitValue && !sessionModel.Num(columnName: o.Key)
-                                .InitialValue(context: context)))
-                                    .ForEach(o =>
+                        columnName: o.Key),
+                    paramDefault: true)
+                        || (otherInitValue && !sessionModel.Num(columnName: o.Key)
+                            .InitialValue(context: context)))
+                                .ForEach(o =>
+                                {
+                                    if (o.Value?.Value != null)
                                     {
-                                        if (o.Value?.Value != null)
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
-                                                value: o.Value.Value);
-                                        }
-                                        else
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
+                                            value: o.Value.Value);
+                                    }
+                                    else
+                                    {
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
                                                 raw: "null");
                                         }
                                     });
@@ -106730,23 +106734,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnName: o.Key,
                     column: ss?.GetColumn(
                         context: context,
-                        columnName: o.Key))
-                            || (otherInitValue && !sysLogModel.Num(columnName: o.Key)
-                                .InitialValue(context: context)))
-                                    .ForEach(o =>
+                        columnName: o.Key),
+                    paramDefault: true)
+                        || (otherInitValue && !sysLogModel.Num(columnName: o.Key)
+                            .InitialValue(context: context)))
+                                .ForEach(o =>
+                                {
+                                    if (o.Value?.Value != null)
                                     {
-                                        if (o.Value?.Value != null)
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
-                                                value: o.Value.Value);
-                                        }
-                                        else
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
+                                            value: o.Value.Value);
+                                    }
+                                    else
+                                    {
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
                                                 raw: "null");
                                         }
                                     });
@@ -106850,23 +106855,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnName: o.Key,
                     column: ss?.GetColumn(
                         context: context,
-                        columnName: o.Key))
-                            || (otherInitValue && !statusModel.Num(columnName: o.Key)
-                                .InitialValue(context: context)))
-                                    .ForEach(o =>
+                        columnName: o.Key),
+                    paramDefault: true)
+                        || (otherInitValue && !statusModel.Num(columnName: o.Key)
+                            .InitialValue(context: context)))
+                                .ForEach(o =>
+                                {
+                                    if (o.Value?.Value != null)
                                     {
-                                        if (o.Value?.Value != null)
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
-                                                value: o.Value.Value);
-                                        }
-                                        else
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
+                                            value: o.Value.Value);
+                                    }
+                                    else
+                                    {
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
                                                 raw: "null");
                                         }
                                     });
@@ -106970,23 +106976,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnName: o.Key,
                     column: ss?.GetColumn(
                         context: context,
-                        columnName: o.Key))
-                            || (otherInitValue && !reminderScheduleModel.Num(columnName: o.Key)
-                                .InitialValue(context: context)))
-                                    .ForEach(o =>
+                        columnName: o.Key),
+                    paramDefault: true)
+                        || (otherInitValue && !reminderScheduleModel.Num(columnName: o.Key)
+                            .InitialValue(context: context)))
+                                .ForEach(o =>
+                                {
+                                    if (o.Value?.Value != null)
                                     {
-                                        if (o.Value?.Value != null)
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
-                                                value: o.Value.Value);
-                                        }
-                                        else
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
+                                            value: o.Value.Value);
+                                    }
+                                    else
+                                    {
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
                                                 raw: "null");
                                         }
                                     });
@@ -107096,23 +107103,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnName: o.Key,
                     column: ss?.GetColumn(
                         context: context,
-                        columnName: o.Key))
-                            || (otherInitValue && !deptModel.Num(columnName: o.Key)
-                                .InitialValue(context: context)))
-                                    .ForEach(o =>
+                        columnName: o.Key),
+                    paramDefault: true)
+                        || (otherInitValue && !deptModel.Num(columnName: o.Key)
+                            .InitialValue(context: context)))
+                                .ForEach(o =>
+                                {
+                                    if (o.Value?.Value != null)
                                     {
-                                        if (o.Value?.Value != null)
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
-                                                value: o.Value.Value);
-                                        }
-                                        else
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
+                                            value: o.Value.Value);
+                                    }
+                                    else
+                                    {
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
                                                 raw: "null");
                                         }
                                     });
@@ -107219,23 +107227,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnName: o.Key,
                     column: ss?.GetColumn(
                         context: context,
-                        columnName: o.Key))
-                            || (otherInitValue && !groupModel.Num(columnName: o.Key)
-                                .InitialValue(context: context)))
-                                    .ForEach(o =>
+                        columnName: o.Key),
+                    paramDefault: true)
+                        || (otherInitValue && !groupModel.Num(columnName: o.Key)
+                            .InitialValue(context: context)))
+                                .ForEach(o =>
+                                {
+                                    if (o.Value?.Value != null)
                                     {
-                                        if (o.Value?.Value != null)
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
-                                                value: o.Value.Value);
-                                        }
-                                        else
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
+                                            value: o.Value.Value);
+                                    }
+                                    else
+                                    {
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
                                                 raw: "null");
                                         }
                                     });
@@ -107340,23 +107349,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnName: o.Key,
                     column: ss?.GetColumn(
                         context: context,
-                        columnName: o.Key))
-                            || (otherInitValue && !groupMemberModel.Num(columnName: o.Key)
-                                .InitialValue(context: context)))
-                                    .ForEach(o =>
+                        columnName: o.Key),
+                    paramDefault: true)
+                        || (otherInitValue && !groupMemberModel.Num(columnName: o.Key)
+                            .InitialValue(context: context)))
+                                .ForEach(o =>
+                                {
+                                    if (o.Value?.Value != null)
                                     {
-                                        if (o.Value?.Value != null)
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
-                                                value: o.Value.Value);
-                                        }
-                                        else
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
+                                            value: o.Value.Value);
+                                    }
+                                    else
+                                    {
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
                                                 raw: "null");
                                         }
                                     });
@@ -107481,23 +107491,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnName: o.Key,
                     column: ss?.GetColumn(
                         context: context,
-                        columnName: o.Key))
-                            || (otherInitValue && !registrationModel.Num(columnName: o.Key)
-                                .InitialValue(context: context)))
-                                    .ForEach(o =>
+                        columnName: o.Key),
+                    paramDefault: true)
+                        || (otherInitValue && !registrationModel.Num(columnName: o.Key)
+                            .InitialValue(context: context)))
+                                .ForEach(o =>
+                                {
+                                    if (o.Value?.Value != null)
                                     {
-                                        if (o.Value?.Value != null)
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
-                                                value: o.Value.Value);
-                                        }
-                                        else
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
+                                            value: o.Value.Value);
+                                    }
+                                    else
+                                    {
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
                                                 raw: "null");
                                         }
                                     });
@@ -107673,23 +107684,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnName: o.Key,
                     column: ss?.GetColumn(
                         context: context,
-                        columnName: o.Key))
-                            || (otherInitValue && !userModel.Num(columnName: o.Key)
-                                .InitialValue(context: context)))
-                                    .ForEach(o =>
+                        columnName: o.Key),
+                    paramDefault: true)
+                        || (otherInitValue && !userModel.Num(columnName: o.Key)
+                            .InitialValue(context: context)))
+                                .ForEach(o =>
+                                {
+                                    if (o.Value?.Value != null)
                                     {
-                                        if (o.Value?.Value != null)
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
-                                                value: o.Value.Value);
-                                        }
-                                        else
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
+                                            value: o.Value.Value);
+                                    }
+                                    else
+                                    {
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
                                                 raw: "null");
                                         }
                                     });
@@ -107797,23 +107809,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnName: o.Key,
                     column: ss?.GetColumn(
                         context: context,
-                        columnName: o.Key))
-                            || (otherInitValue && !loginKeyModel.Num(columnName: o.Key)
-                                .InitialValue(context: context)))
-                                    .ForEach(o =>
+                        columnName: o.Key),
+                    paramDefault: true)
+                        || (otherInitValue && !loginKeyModel.Num(columnName: o.Key)
+                            .InitialValue(context: context)))
+                                .ForEach(o =>
+                                {
+                                    if (o.Value?.Value != null)
                                     {
-                                        if (o.Value?.Value != null)
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
-                                                value: o.Value.Value);
-                                        }
-                                        else
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
+                                            value: o.Value.Value);
+                                    }
+                                    else
+                                    {
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
                                                 raw: "null");
                                         }
                                     });
@@ -107919,23 +107932,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnName: o.Key,
                     column: ss?.GetColumn(
                         context: context,
-                        columnName: o.Key))
-                            || (otherInitValue && !mailAddressModel.Num(columnName: o.Key)
-                                .InitialValue(context: context)))
-                                    .ForEach(o =>
+                        columnName: o.Key),
+                    paramDefault: true)
+                        || (otherInitValue && !mailAddressModel.Num(columnName: o.Key)
+                            .InitialValue(context: context)))
+                                .ForEach(o =>
+                                {
+                                    if (o.Value?.Value != null)
                                     {
-                                        if (o.Value?.Value != null)
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
-                                                value: o.Value.Value);
-                                        }
-                                        else
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
+                                            value: o.Value.Value);
+                                    }
+                                    else
+                                    {
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
                                                 raw: "null");
                                         }
                                     });
@@ -108060,23 +108074,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnName: o.Key,
                     column: ss?.GetColumn(
                         context: context,
-                        columnName: o.Key))
-                            || (otherInitValue && !outgoingMailModel.Num(columnName: o.Key)
-                                .InitialValue(context: context)))
-                                    .ForEach(o =>
+                        columnName: o.Key),
+                    paramDefault: true)
+                        || (otherInitValue && !outgoingMailModel.Num(columnName: o.Key)
+                            .InitialValue(context: context)))
+                                .ForEach(o =>
+                                {
+                                    if (o.Value?.Value != null)
                                     {
-                                        if (o.Value?.Value != null)
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
-                                                value: o.Value.Value);
-                                        }
-                                        else
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
+                                            value: o.Value.Value);
+                                    }
+                                    else
+                                    {
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
                                                 raw: "null");
                                         }
                                     });
@@ -108184,23 +108199,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnName: o.Key,
                     column: ss?.GetColumn(
                         context: context,
-                        columnName: o.Key))
-                            || (otherInitValue && !itemModel.Num(columnName: o.Key)
-                                .InitialValue(context: context)))
-                                    .ForEach(o =>
+                        columnName: o.Key),
+                    paramDefault: true)
+                        || (otherInitValue && !itemModel.Num(columnName: o.Key)
+                            .InitialValue(context: context)))
+                                .ForEach(o =>
+                                {
+                                    if (o.Value?.Value != null)
                                     {
-                                        if (o.Value?.Value != null)
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
-                                                value: o.Value.Value);
-                                        }
-                                        else
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
+                                            value: o.Value.Value);
+                                    }
+                                    else
+                                    {
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
                                                 raw: "null");
                                         }
                                     });
@@ -108331,23 +108347,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnName: o.Key,
                     column: ss?.GetColumn(
                         context: context,
-                        columnName: o.Key))
-                            || (otherInitValue && !siteModel.Num(columnName: o.Key)
-                                .InitialValue(context: context)))
-                                    .ForEach(o =>
+                        columnName: o.Key),
+                    paramDefault: true)
+                        || (otherInitValue && !siteModel.Num(columnName: o.Key)
+                            .InitialValue(context: context)))
+                                .ForEach(o =>
+                                {
+                                    if (o.Value?.Value != null)
                                     {
-                                        if (o.Value?.Value != null)
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
-                                                value: o.Value.Value);
-                                        }
-                                        else
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
+                                            value: o.Value.Value);
+                                    }
+                                    else
+                                    {
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
                                                 raw: "null");
                                         }
                                     });
@@ -108454,23 +108471,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnName: o.Key,
                     column: ss?.GetColumn(
                         context: context,
-                        columnName: o.Key))
-                            || (otherInitValue && !orderModel.Num(columnName: o.Key)
-                                .InitialValue(context: context)))
-                                    .ForEach(o =>
+                        columnName: o.Key),
+                    paramDefault: true)
+                        || (otherInitValue && !orderModel.Num(columnName: o.Key)
+                            .InitialValue(context: context)))
+                                .ForEach(o =>
+                                {
+                                    if (o.Value?.Value != null)
                                     {
-                                        if (o.Value?.Value != null)
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
-                                                value: o.Value.Value);
-                                        }
-                                        else
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
+                                            value: o.Value.Value);
+                                    }
+                                    else
+                                    {
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
                                                 raw: "null");
                                         }
                                     });
@@ -108580,23 +108598,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnName: o.Key,
                     column: ss?.GetColumn(
                         context: context,
-                        columnName: o.Key))
-                            || (otherInitValue && !exportSettingModel.Num(columnName: o.Key)
-                                .InitialValue(context: context)))
-                                    .ForEach(o =>
+                        columnName: o.Key),
+                    paramDefault: true)
+                        || (otherInitValue && !exportSettingModel.Num(columnName: o.Key)
+                            .InitialValue(context: context)))
+                                .ForEach(o =>
+                                {
+                                    if (o.Value?.Value != null)
                                     {
-                                        if (o.Value?.Value != null)
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
-                                                value: o.Value.Value);
-                                        }
-                                        else
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
+                                            value: o.Value.Value);
+                                    }
+                                    else
+                                    {
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
                                                 raw: "null");
                                         }
                                     });
@@ -108711,23 +108730,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnName: o.Key,
                     column: ss?.GetColumn(
                         context: context,
-                        columnName: o.Key))
-                            || (otherInitValue && !linkModel.Num(columnName: o.Key)
-                                .InitialValue(context: context)))
-                                    .ForEach(o =>
+                        columnName: o.Key),
+                    paramDefault: true)
+                        || (otherInitValue && !linkModel.Num(columnName: o.Key)
+                            .InitialValue(context: context)))
+                                .ForEach(o =>
+                                {
+                                    if (o.Value?.Value != null)
                                     {
-                                        if (o.Value?.Value != null)
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
-                                                value: o.Value.Value);
-                                        }
-                                        else
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
+                                            value: o.Value.Value);
+                                    }
+                                    else
+                                    {
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
                                                 raw: "null");
                                         }
                                     });
@@ -108853,23 +108873,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnName: o.Key,
                     column: ss?.GetColumn(
                         context: context,
-                        columnName: o.Key))
-                            || (otherInitValue && !binaryModel.Num(columnName: o.Key)
-                                .InitialValue(context: context)))
-                                    .ForEach(o =>
+                        columnName: o.Key),
+                    paramDefault: true)
+                        || (otherInitValue && !binaryModel.Num(columnName: o.Key)
+                            .InitialValue(context: context)))
+                                .ForEach(o =>
+                                {
+                                    if (o.Value?.Value != null)
                                     {
-                                        if (o.Value?.Value != null)
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
-                                                value: o.Value.Value);
-                                        }
-                                        else
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
+                                            value: o.Value.Value);
+                                    }
+                                    else
+                                    {
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
                                                 raw: "null");
                                         }
                                     });
@@ -108991,23 +109012,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnName: o.Key,
                     column: ss?.GetColumn(
                         context: context,
-                        columnName: o.Key))
-                            || (otherInitValue && !permissionModel.Num(columnName: o.Key)
-                                .InitialValue(context: context)))
-                                    .ForEach(o =>
+                        columnName: o.Key),
+                    paramDefault: true)
+                        || (otherInitValue && !permissionModel.Num(columnName: o.Key)
+                            .InitialValue(context: context)))
+                                .ForEach(o =>
+                                {
+                                    if (o.Value?.Value != null)
                                     {
-                                        if (o.Value?.Value != null)
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
-                                                value: o.Value.Value);
-                                        }
-                                        else
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
+                                            value: o.Value.Value);
+                                    }
+                                    else
+                                    {
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
                                                 raw: "null");
                                         }
                                     });
@@ -109150,23 +109172,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnName: o.Key,
                     column: ss?.GetColumn(
                         context: context,
-                        columnName: o.Key))
-                            || (otherInitValue && !issueModel.Num(columnName: o.Key)
-                                .InitialValue(context: context)))
-                                    .ForEach(o =>
+                        columnName: o.Key),
+                    paramDefault: true)
+                        || (otherInitValue && !issueModel.Num(columnName: o.Key)
+                            .InitialValue(context: context)))
+                                .ForEach(o =>
+                                {
+                                    if (o.Value?.Value != null)
                                     {
-                                        if (o.Value?.Value != null)
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
-                                                value: o.Value.Value);
-                                        }
-                                        else
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
+                                            value: o.Value.Value);
+                                    }
+                                    else
+                                    {
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
                                                 raw: "null");
                                         }
                                     });
@@ -109300,23 +109323,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnName: o.Key,
                     column: ss?.GetColumn(
                         context: context,
-                        columnName: o.Key))
-                            || (otherInitValue && !resultModel.Num(columnName: o.Key)
-                                .InitialValue(context: context)))
-                                    .ForEach(o =>
+                        columnName: o.Key),
+                    paramDefault: true)
+                        || (otherInitValue && !resultModel.Num(columnName: o.Key)
+                            .InitialValue(context: context)))
+                                .ForEach(o =>
+                                {
+                                    if (o.Value?.Value != null)
                                     {
-                                        if (o.Value?.Value != null)
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
-                                                value: o.Value.Value);
-                                        }
-                                        else
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
+                                            value: o.Value.Value);
+                                    }
+                                    else
+                                    {
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
                                                 raw: "null");
                                         }
                                     });
@@ -109443,23 +109467,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnName: o.Key,
                     column: ss?.GetColumn(
                         context: context,
-                        columnName: o.Key))
-                            || (otherInitValue && !wikiModel.Num(columnName: o.Key)
-                                .InitialValue(context: context)))
-                                    .ForEach(o =>
+                        columnName: o.Key),
+                    paramDefault: true)
+                        || (otherInitValue && !wikiModel.Num(columnName: o.Key)
+                            .InitialValue(context: context)))
+                                .ForEach(o =>
+                                {
+                                    if (o.Value?.Value != null)
                                     {
-                                        if (o.Value?.Value != null)
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
-                                                value: o.Value.Value);
-                                        }
-                                        else
-                                        {
-                                            param.Add(
-                                                columnBracket: $"\"{o.Key}\"",
-                                                name: o.Key,
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
+                                            value: o.Value.Value);
+                                    }
+                                    else
+                                    {
+                                        param.Add(
+                                            columnBracket: $"\"{o.Key}\"",
+                                            name: o.Key,
                                                 raw: "null");
                                         }
                                     });
