@@ -148,6 +148,10 @@ td{
     color:black;
 }
 
+td.right-align > p{
+    float:right;
+}
+
 pre{
     line-height:1.5em;
     font-family:Terminal;
