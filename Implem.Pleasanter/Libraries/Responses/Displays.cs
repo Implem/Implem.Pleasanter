@@ -3469,6 +3469,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string InCircle(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "InCircle",
+                data: data);
+        }
+
+        public static string InCircleInvalidToken(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "InCircleInvalidToken",
+                data: data);
+        }
+
         public static string IncludeColumnPermission(
             Context context,
             params string[] data)

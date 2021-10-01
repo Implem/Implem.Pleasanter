@@ -1,0 +1,33 @@
+﻿{
+    "Id": "InCircleInvalidToken",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The token is not specified correctly."
+        },
+        {
+            "Language": "zh",
+            "Body": "未正确指定令牌。"
+        },
+        {
+            "Language": "ja",
+            "Body": "トークンが正しく指定されていません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Das Token ist nicht richtig angegeben."
+        },
+        {
+            "Language": "ko",
+            "Body": "토큰이 제대로 지정되어 있지 않습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "El token no está especificado correctamente."
+        },
+        {
+            "Language": "vn",
+            "Body": "Mã thông báo không được chỉ định chính xác."
+        }
+    ]
+}
