@@ -40,7 +40,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Line = 4,
             LineGroup = 5,
             Teams = 6,
-            RocketChat = 7
+            RocketChat = 7,
+            InCircle = 8
         }
 
         public enum Expressions : int
@@ -229,6 +230,17 @@ namespace Implem.Pleasanter.Libraries.Settings
                             _context: context,
                             _text: $"*{Prefix}{title}*\n{body}",
                             _username: from)
+                                .Send(Address);
+                    }
+                    break;
+                case Types.InCircle:
+                    if (Parameters.Notification.InCircle)
+                    {
+                        new InCircle(
+                            _context: context,
+                            _text: $"*{Prefix}{title}*\n{body}",
+                            _username: from,
+                            _token: Token)
                                 .Send(Address);
                     }
                     break;
