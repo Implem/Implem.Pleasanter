@@ -352,19 +352,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb, Context context)
         {
             return context.SwitchUser
-            ? hb.Div(id: "SwitchUserInfo", action: () => hb
-                .A(
-                    href: "javascript:void(0);",
-                    attributes: new HtmlAttributes()
-                        .OnClick("$p.ajax('{0}','post',null,$('#SwitchUserInfo a'));".Params(
-                            Locations.Get(
-                                context,
-                                "Users",
-                                "ReturnOriginalUser")))
-                        .DataConfirm("ConfirmSwitchUser"),
-                    action: () => hb
-                        .Text(text: Displays.SwitchUserInfo(context: context))))
-            : hb;
+                ? hb.Div(id: "SwitchUserInfo", action: () => hb
+                    .A(
+                        href: "javascript:void(0);",
+                        attributes: new HtmlAttributes()
+                            .OnClick("$p.ajax('{0}','post',null,$('#SwitchUserInfo a'));".Params(
+                                Locations.Get(
+                                    context,
+                                    "Users",
+                                    "ReturnOriginalUser")))
+                            .DataConfirm("ConfirmSwitchUser"),
+                        action: () => hb
+                            .Text(text: Displays.SwitchUserInfo(context: context))))
+                : hb;
         }
 
         private static HtmlBuilder ExcessLicenseWarning(this HtmlBuilder hb, Context context)
