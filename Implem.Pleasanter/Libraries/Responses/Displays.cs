@@ -209,6 +209,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AggregationsDisplayType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AggregationsDisplayType",
+                data: data);
+        }
+
         public static string AggregationSettings(
             Context context,
             params string[] data)
@@ -396,6 +406,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Always",
+                data: data);
+        }
+
+        public static string AlwaysDisplayed(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AlwaysDisplayed",
+                data: data);
+        }
+
+        public static string AlwaysHidden(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AlwaysHidden",
                 data: data);
         }
 
@@ -2289,6 +2319,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Displayed(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Displayed",
+                data: data);
+        }
+
         public static string DisplayName(
             Context context,
             params string[] data)
@@ -2886,6 +2926,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Filters",
+                data: data);
+        }
+
+        public static string FiltersDisplayType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "FiltersDisplayType",
                 data: data);
         }
 

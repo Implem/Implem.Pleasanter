@@ -61,21 +61,6 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static bool Bool(Context context, string key)
-        {
-            return Repository.ExecuteScalar_bool(
-                context: context,
-                statements: Rds.SelectSessions(
-                    column: Rds.SessionsColumn().Value(),
-                    where: Rds.SessionsWhere()
-                        .SessionGuid(context.SessionGuid)
-                        .Key(key)
-                        .Page(context.Page, _using: context.Page != null)));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public static void Set(
             Context context,
             string key,

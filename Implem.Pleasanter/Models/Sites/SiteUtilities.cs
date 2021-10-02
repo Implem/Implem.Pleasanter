@@ -7283,6 +7283,25 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder ViewGridTab(
             this HtmlBuilder hb, Context context, SiteSettings ss, View view)
         {
+            var displayTypeOptionCollection = new Dictionary<string, string>()
+            {
+                {
+                    View.DisplayTypes.Displayed.ToInt().ToString(),
+                    Displays.Displayed(context: context)
+                },
+                {
+                    View.DisplayTypes.Hidden.ToInt().ToString(),
+                    Displays.Hidden(context: context)
+                },
+                {
+                    View.DisplayTypes.AlwaysDisplayed.ToInt().ToString(),
+                    Displays.AlwaysDisplayed(context: context)
+                },
+                {
+                    View.DisplayTypes.AlwaysHidden.ToInt().ToString(),
+                    Displays.AlwaysHidden(context: context)
+                }
+            };
             return hb.FieldSet(id: "ViewGridTab", action: () => hb
                 .FieldSet(
                     css: " enclosed-thin",
@@ -7347,7 +7366,21 @@ namespace Implem.Pleasanter.Models
                                         optionCollection: ss.JoinOptions(),
                                         addSelectedValue: false,
                                         action: "SetSiteSettings",
-                                        method: "post")))));
+                                        method: "post"))))
+                .FieldDropDown(
+                    context: context,
+                    controlId: "ViewFilters_FiltersDisplayType",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.FiltersDisplayType(context: context),
+                    optionCollection: displayTypeOptionCollection,
+                    selectedValue: view.FiltersDisplayType?.ToInt().ToString())
+                .FieldDropDown(
+                    context: context,
+                    controlId: "ViewFilters_AggregationsDisplayType",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.AggregationsDisplayType(context: context),
+                    optionCollection: displayTypeOptionCollection,
+                    selectedValue: view.AggregationsDisplayType?.ToInt().ToString()));
         }
 
         /// <summary>
@@ -7358,6 +7391,13 @@ namespace Implem.Pleasanter.Models
         {
             return hb.FieldSet(id: "ViewFiltersTab", action: () => hb
                 .Div(css: "items", action: () => hb
+                    .FieldCheckBox(
+                        controlId: "ViewFilters_Incomplete",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.Incomplete(context: context),
+                        _checked: view.Incomplete == true,
+                        labelPositionIsRight: true,
+                        _using: view.HasIncompleteColumns(context: context, ss: ss))
                     .FieldCheckBox(
                         controlId: "ViewFilters_Incomplete",
                         fieldCss: "field-auto-thin",

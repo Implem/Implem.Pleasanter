@@ -1,0 +1,33 @@
+﻿{
+    "Id": "AlwaysDisplayed",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Always displayed"
+        },
+        {
+            "Language": "zh",
+            "Body": "始终显示"
+        },
+        {
+            "Language": "ja",
+            "Body": "常に表示"
+        },
+        {
+            "Language": "de",
+            "Body": "Immer angezeigt"
+        },
+        {
+            "Language": "ko",
+            "Body": "항상 표시"
+        },
+        {
+            "Language": "es",
+            "Body": "Siempre mostrado"
+        },
+        {
+            "Language": "vn",
+            "Body": "Luôn hiển thị"
+        }
+    ]
+}
