@@ -2671,6 +2671,10 @@ label.error{
     background:gray;
 }
 
+.always-hidden{
+    display:none;
+}
+
 h3.title-header{
     height:40px;
     padding:10px 20px;

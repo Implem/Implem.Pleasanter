@@ -19,54 +19,45 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder Aggregations(
             this HtmlBuilder hb, Context context, SiteSettings ss, View view)
         {
-            return !Reduced(context: context)
-                ? hb.Div(
-                    id: "Aggregations",
-                    action: () => hb
-                        .DisplayControl(
-                            context: context,
-                            id: "ReduceAggregations",
-                            icon: "ui-icon-close")
-                        .Contents(
-                            context: context,
-                            ss: ss,
-                            view: view))
+            return view?.AggregationsDisplayType != View.DisplayTypes.AlwaysHidden
+                ? view?.GetAggregationsReduced() != true
+                    ? hb.Div(
+                        id: "Aggregations",
+                        action: () => hb
+                            .DisplayControl(
+                                context: context,
+                                view: view,
+                                id: "ReduceAggregations",
+                                icon: "ui-icon-close")
+                            .Contents(
+                                context: context,
+                                ss: ss,
+                                view: view))
+                    : hb.Div(
+                        id: "Aggregations",
+                        css: "reduced",
+                        action: () => hb
+                            .DisplayControl(
+                                context: context,
+                                view: view,
+                                id: "ExpandAggregations",
+                                icon: "ui-icon-folder-open"))
                 : hb.Div(
                     id: "Aggregations",
-                    css: "reduced",
-                    action: () => hb
-                        .DisplayControl(
-                            context: context,
-                            id: "ExpandAggregations",
-                            icon: "ui-icon-folder-open"));
-        }
-
-        private static bool Reduced(Context context)
-        {
-            var key = "ReduceAggregations";
-            if (context.Forms.ControlId() == key)
-            {
-                SessionUtilities.Set(
-                    context: context,
-                    key: key,
-                    value: "1",
-                    page: true);
-            }
-            else if (context.Forms.ControlId() == "ExpandAggregations")
-            {
-                SessionUtilities.Remove(
-                    context: context,
-                    key: key,
-                    page: true);
-            }
-            return SessionUtilities.Bool(
-                context: context,
-                key: key);
+                    css: "always-hidden");
         }
 
         private static HtmlBuilder DisplayControl(
-            this HtmlBuilder hb, Context context, string id, string icon)
+            this HtmlBuilder hb,
+            Context context,
+            View view,
+            string id,
+            string icon)
         {
+            if (view?.AggregationsDisplayType == View.DisplayTypes.AlwaysDisplayed)
+            {
+                return hb;
+            }
             return hb.Div(
                 attributes: new HtmlAttributes()
                     .Id(id)

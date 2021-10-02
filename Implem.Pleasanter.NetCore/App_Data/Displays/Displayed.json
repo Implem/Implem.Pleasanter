@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Displayed",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Displayed"
+        },
+        {
+            "Language": "zh",
+            "Body": "显示"
+        },
+        {
+            "Language": "ja",
+            "Body": "表示"
+        },
+        {
+            "Language": "de",
+            "Body": "angezeigt"
+        },
+        {
+            "Language": "ko",
+            "Body": "표시"
+        },
+        {
+            "Language": "es",
+            "Body": "desplegado"
+        },
+        {
+            "Language": "vn",
+            "Body": "hiển thị"
+        }
+    ]
+}

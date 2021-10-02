@@ -17,9 +17,21 @@ namespace Implem.Pleasanter.Libraries.Settings
     [Serializable]
     public class View
     {
+        public enum DisplayTypes
+        {
+            Displayed = 0,
+            Hidden = 1,
+            AlwaysDisplayed = 2,
+            AlwaysHidden = 3,
+        }
+
         public int Id;
         public string Name;
         public List<string> GridColumns;
+        public DisplayTypes? FiltersDisplayType;
+        public bool? FiltersReduced;
+        public DisplayTypes? AggregationsDisplayType;
+        public bool? AggregationsReduced;
         public bool? Incomplete;
         public bool? Own;
         public bool? NearCompletionTime;
@@ -312,6 +324,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             var columnSorterPrefix = "ViewSorters__";
             switch (context.Forms.ControlId())
             {
+                case "ReduceViewFilters":
+                    FiltersReduced = true;
+                    break;
+                case "ExpandViewFilters":
+                    FiltersReduced = false;
+                    break;
+                case "ReduceAggregations":
+                    AggregationsReduced = true;
+                    break;
+                case "ExpandAggregations":
+                    AggregationsReduced = false;
+                    break;
                 case "ViewFilters_Reset":
                     Id = 0;
                     Name = null;
@@ -341,6 +365,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 GridColumns = String(
                                     context: context,
                                     controlId: controlId).Deserialize<List<string>>();
+                                break;
+                            case "ViewFilters_FiltersDisplayType":
+                                FiltersDisplayType = (DisplayTypes)Int(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "ViewFilters_AggregationsDisplayType":
+                                AggregationsDisplayType = (DisplayTypes)Int(
+                                    context: context,
+                                    controlId: controlId);
                                 break;
                             case "ViewFilters_Incomplete":
                                 Incomplete = Bool(
@@ -555,6 +589,19 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
+        private int? Int(Context context, string controlId)
+        {
+            var data = context.Forms.Data(controlId).Trim();
+            if (data != string.Empty)
+            {
+                return data.ToInt();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         private DateTime? Time(Context context, string controlId)
         {
             var data = context.Forms.DateTime(controlId);
@@ -709,6 +756,22 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (GridColumns != null && GridColumns.Join() != ss.GridColumns.Join())
             {
                 view.GridColumns = GridColumns;
+            }
+            if (FiltersDisplayType != DisplayTypes.Displayed)
+            {
+                view.FiltersDisplayType = FiltersDisplayType;
+            }
+            if (FiltersReduced != null)
+            {
+                view.FiltersReduced = FiltersReduced;
+            }
+            if (AggregationsDisplayType != DisplayTypes.Displayed)
+            {
+                view.AggregationsDisplayType = AggregationsDisplayType;
+            }
+            if (AggregationsReduced != null)
+            {
+                view.AggregationsReduced = AggregationsReduced;
             }
             if (Incomplete == true)
             {
@@ -1782,6 +1845,36 @@ namespace Implem.Pleasanter.Libraries.Settings
                 })
                 .ForEach(o => param.Add(o));
             return param;
+        }
+
+        public bool GetFiltersReduced()
+        {
+            if (FiltersReduced != null)
+            {
+                return FiltersReduced.ToBool();
+            }
+            switch (FiltersDisplayType)
+            {
+                case DisplayTypes.Hidden:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        public bool GetAggregationsReduced()
+        {
+            if (AggregationsReduced != null)
+            {
+                return AggregationsReduced.ToBool();
+            }
+            switch (AggregationsDisplayType)
+            {
+                case DisplayTypes.Hidden:
+                    return true;
+                default:
+                    return false;
+            }
         }
     }
 }
