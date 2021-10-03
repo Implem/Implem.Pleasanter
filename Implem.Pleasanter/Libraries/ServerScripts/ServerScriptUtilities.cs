@@ -360,6 +360,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             ExpandoObject model,
             ExpandoObject columns,
             ServerScriptModelHidden hidden,
+            ServerScriptElements elements,
             BaseItemModel itemModel)
         {
             var row = new ServerScriptModelRow
@@ -370,7 +371,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ss: ss,
                     columns: columns,
                     model: itemModel),
-                Hidden = hidden.GetAll()
+                Hidden = hidden.GetAll(),
+                Elements = elements
             };
             return row;
         }
@@ -640,6 +642,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 model: data.Model,
                 columns: data.Columns,
                 hidden: data.Hidden,
+                elements: data.Elements,
                 itemModel: model);
             SetExtendedColumnValues(
                 context: context,
@@ -743,6 +746,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         engine.AddHostObject("view", model.View);
                         engine.AddHostObject("items", model.Items);
                         engine.AddHostObject("hidden", model.Hidden);
+                        engine.AddHostObject("elements", model.Elements);
                         engine.AddHostObject("extendedSql", model.ExtendedSql);
                         engine.AddHostObject("notifications", model.Notification);
                         engine.AddHostObject("utilities", model.Utilities);
