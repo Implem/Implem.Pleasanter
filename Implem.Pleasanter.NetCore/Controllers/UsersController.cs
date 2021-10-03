@@ -124,6 +124,24 @@ namespace Implem.Pleasanter.NetCore.Controllers
             return json;
         }
 
+        [HttpPost]
+        public string SearchDropDown()
+        {
+            var context = new ContextImplement();
+            var controller = new Pleasanter.Controllers.UsersController();
+            var json = controller.SearchDropDown(context: context);
+            return json;
+        }
+
+        [HttpPost]
+        public string SelectSearchDropDown()
+        {
+            var context = new ContextImplement();
+            var controller = new Pleasanter.Controllers.UsersController();
+            var json = controller.SelectSearchDropDown(context: context);
+            return json;
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>

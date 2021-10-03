@@ -1,0 +1,33 @@
+﻿{
+    "Id": "FiltersDisplayType",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Filters display type"
+        },
+        {
+            "Language": "zh",
+            "Body": "过滤器显示类型"
+        },
+        {
+            "Language": "ja",
+            "Body": "フィルタの表示種別"
+        },
+        {
+            "Language": "de",
+            "Body": "Filteranzeigetyp"
+        },
+        {
+            "Language": "ko",
+            "Body": "필터 표시 유형"
+        },
+        {
+            "Language": "es",
+            "Body": "Tipo de visualización de filtros"
+        },
+        {
+            "Language": "vn",
+            "Body": "Loại hiển thị bộ lọc"
+        }
+    ]
+}

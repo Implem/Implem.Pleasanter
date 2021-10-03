@@ -339,8 +339,8 @@ namespace Implem.Pleasanter.Models
                         orderModel: this),
                     param: param ?? Rds.OrdersParamDefault(
                         context: context,
-                        orderModel: this,
                         ss: ss,
+                        orderModel: this,
                         setDefault: true),
                     tableType: tableType));
             return new ResponseCollection().ToJson();

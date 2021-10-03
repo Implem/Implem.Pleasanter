@@ -2792,6 +2792,7 @@ namespace Implem.DefinitionAccessor
                     case "select": Css.select = definitionRow[1].ToString(); SetCssTable(CssTable.select, definitionRow, CssXls); break;
                     case "table": Css.table = definitionRow[1].ToString(); SetCssTable(CssTable.table, definitionRow, CssXls); break;
                     case "td": Css.td = definitionRow[1].ToString(); SetCssTable(CssTable.td, definitionRow, CssXls); break;
+                    case "td_dot_right_align_space___space_p": Css.td_dot_right_align_space___space_p = definitionRow[1].ToString(); SetCssTable(CssTable.td_dot_right_align_space___space_p, definitionRow, CssXls); break;
                     case "pre": Css.pre = definitionRow[1].ToString(); SetCssTable(CssTable.pre, definitionRow, CssXls); break;
                     case "_sharp_Logo": Css._sharp_Logo = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Logo, definitionRow, CssXls); break;
                     case "_sharp_CorpLogo": Css._sharp_CorpLogo = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CorpLogo, definitionRow, CssXls); break;
@@ -3210,6 +3211,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_status_review": Css._dot_status_review = definitionRow[1].ToString(); SetCssTable(CssTable._dot_status_review, definitionRow, CssXls); break;
                     case "_dot_status_closed": Css._dot_status_closed = definitionRow[1].ToString(); SetCssTable(CssTable._dot_status_closed, definitionRow, CssXls); break;
                     case "_dot_status_rejected": Css._dot_status_rejected = definitionRow[1].ToString(); SetCssTable(CssTable._dot_status_rejected, definitionRow, CssXls); break;
+                    case "_dot_always_hidden": Css._dot_always_hidden = definitionRow[1].ToString(); SetCssTable(CssTable._dot_always_hidden, definitionRow, CssXls); break;
                     case "h3_dot_title_header": Css.h3_dot_title_header = definitionRow[1].ToString(); SetCssTable(CssTable.h3_dot_title_header, definitionRow, CssXls); break;
                     case "_dot_outgoing_mail_space__dot_dialog": Css._dot_outgoing_mail_space__dot_dialog = definitionRow[1].ToString(); SetCssTable(CssTable._dot_outgoing_mail_space__dot_dialog, definitionRow, CssXls); break;
                     case "_dot_outgoing_mail_space__dot_ui_dialog_titlebar": Css._dot_outgoing_mail_space__dot_ui_dialog_titlebar = definitionRow[1].ToString(); SetCssTable(CssTable._dot_outgoing_mail_space__dot_ui_dialog_titlebar, definitionRow, CssXls); break;
@@ -10529,6 +10531,7 @@ namespace Implem.DefinitionAccessor
         public string select;
         public string table;
         public string td;
+        public string td_dot_right_align_space___space_p;
         public string pre;
         public string _sharp_Logo;
         public string _sharp_CorpLogo;
@@ -10947,6 +10950,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_status_review;
         public string _dot_status_closed;
         public string _dot_status_rejected;
+        public string _dot_always_hidden;
         public string h3_dot_title_header;
         public string _dot_outgoing_mail_space__dot_dialog;
         public string _dot_outgoing_mail_space__dot_ui_dialog_titlebar;
@@ -11055,6 +11059,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition select = new CssDefinition();
         public CssDefinition table = new CssDefinition();
         public CssDefinition td = new CssDefinition();
+        public CssDefinition td_dot_right_align_space___space_p = new CssDefinition();
         public CssDefinition pre = new CssDefinition();
         public CssDefinition _sharp_Logo = new CssDefinition();
         public CssDefinition _sharp_CorpLogo = new CssDefinition();
@@ -11473,6 +11478,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_status_review = new CssDefinition();
         public CssDefinition _dot_status_closed = new CssDefinition();
         public CssDefinition _dot_status_rejected = new CssDefinition();
+        public CssDefinition _dot_always_hidden = new CssDefinition();
         public CssDefinition h3_dot_title_header = new CssDefinition();
         public CssDefinition _dot_outgoing_mail_space__dot_dialog = new CssDefinition();
         public CssDefinition _dot_outgoing_mail_space__dot_ui_dialog_titlebar = new CssDefinition();

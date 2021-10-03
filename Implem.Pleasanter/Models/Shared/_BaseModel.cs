@@ -118,7 +118,7 @@ namespace Implem.Pleasanter.Models
                 case "Class":
                     return Class(columnName: column.ColumnName);
                 case "Num":
-                    return !column.Nullable != true
+                    return column.Nullable != true
                         ? Num(columnName: column.ColumnName).Value?.ToString() ?? "0"
                         : Num(columnName: column.ColumnName).Value?.ToString() ?? string.Empty;
                 case "Date":

@@ -38,6 +38,7 @@ namespace Implem.Pleasanter.Libraries.General
             FileNotFound,
             HasNotPermission,
             ImportMax,
+            InCircleInvalidToken,
             IncorrectCurrentPassword,
             IncorrectFileFormat,
             IncorrectServerScript,
@@ -223,6 +224,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.ImportMax:
                     return Messages.ImportMax(
+                        context: context,
+                        data: data);
+                case Types.InCircleInvalidToken:
+                    return Messages.InCircleInvalidToken(
                         context: context,
                         data: data);
                 case Types.IncorrectCurrentPassword:

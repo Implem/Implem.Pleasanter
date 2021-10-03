@@ -305,6 +305,10 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
                 {
                     if (sessionStatus) Language = SessionLanguage();
                 }
+                UserSessionData = SessionUtilities.Get(
+                    context: this,
+                    includeUserArea: Controller == "sessions",
+                    sessionGuid: "@" + UserId);
             }
         }
 
@@ -322,7 +326,7 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
         {
             if (userModel.AccessStatus == Databases.AccessStatuses.Selected)
             {
-                SwitchUser = LoginId != userModel.LoginId;
+                SwitchUser = SessionData.Get("SwitchLoginId") != null;
                 Authenticated = true;
                 TenantId = userModel.TenantId;
                 DeptId = userModel.DeptId;

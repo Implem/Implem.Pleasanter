@@ -18,88 +18,79 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             View view)
         {
-            return ss.ReferenceType != "Sites" && ss.UseFiltersArea == true
-                ? !Reduced(context: context, siteId: ss.SiteId)
-                    ? hb.Div(
-                        id: "ViewFilters",
-                        action: () => hb
-                            .DisplayControl(
-                                context: context,
-                                id: "ReduceViewFilters",
-                                icon: "ui-icon-close")
-                            .Reset(context: context)
-                            .Incomplete(
-                                context: context,
-                                ss: ss,
-                                view: view)
-                            .Own(
-                                context: context,
-                                ss: ss,
-                                view: view)
-                            .NearCompletionTime(
-                                context: context,
-                                ss: ss,
-                                view: view)
-                            .Delay(
-                                context: context,
-                                ss: ss,
-                                view: view)
-                            .Limit(
-                                context: context,
-                                ss: ss,
-                                view: view)
-                            .Columns(
-                                context: context,
-                                ss: ss,
-                                view: view)
-                            .Search(
-                                context: context,
-                                view: view)
-                            .Hidden(
-                                controlId: "TriggerRelatingColumns_Filter",
-                                value: Jsons.ToJson(ss?.RelatingColumns),
-                                _using: ss?.UseRelatingColumnsOnFilter == true))
+            return ss.ReferenceType != "Sites"
+                && ss.UseFiltersArea == true
+                && view?.FiltersDisplayType != View.DisplayTypes.AlwaysHidden
+                    ? view?.GetFiltersReduced() != true
+                        ? hb.Div(
+                            id: "ViewFilters",
+                            action: () => hb
+                                .DisplayControl(
+                                    context: context,
+                                    view: view,
+                                    id: "ReduceViewFilters",
+                                    icon: "ui-icon-close")
+                                .Reset(context: context)
+                                .Incomplete(
+                                    context: context,
+                                    ss: ss,
+                                    view: view)
+                                .Own(
+                                    context: context,
+                                    ss: ss,
+                                    view: view)
+                                .NearCompletionTime(
+                                    context: context,
+                                    ss: ss,
+                                    view: view)
+                                .Delay(
+                                    context: context,
+                                    ss: ss,
+                                    view: view)
+                                .Limit(
+                                    context: context,
+                                    ss: ss,
+                                    view: view)
+                                .Columns(
+                                    context: context,
+                                    ss: ss,
+                                    view: view)
+                                .Search(
+                                    context: context,
+                                    view: view)
+                                .Hidden(
+                                    controlId: "TriggerRelatingColumns_Filter",
+                                    value: Jsons.ToJson(ss?.RelatingColumns),
+                                    _using: ss?.UseRelatingColumnsOnFilter == true))
+                        : hb.Div(
+                            id: "ViewFilters",
+                            css: "reduced",
+                            action: () => hb
+                                .DisplayControl(
+                                    context: context,
+                                    view: view,
+                                    id: "ExpandViewFilters",
+                                    icon: "ui-icon-folder-open")
+                                .Hidden(
+                                    controlId: "TriggerRelatingColumns_Filter",
+                                    value: Jsons.ToJson(ss?.RelatingColumns),
+                                    _using: ss?.UseRelatingColumnsOnFilter == true))
                     : hb.Div(
                         id: "ViewFilters",
-                        css: "reduced",
-                        action: () => hb
-                            .DisplayControl(
-                                context: context,
-                                id: "ExpandViewFilters",
-                                icon: "ui-icon-folder-open")
-                            .Hidden(
-                                controlId: "TriggerRelatingColumns_Filter",
-                                value: Jsons.ToJson(ss?.RelatingColumns),
-                                _using: ss?.UseRelatingColumnsOnFilter == true))
-                : hb;
-        }
-
-        private static bool Reduced(Context context, long? siteId)
-        {
-            var key = "ReduceViewFilters";
-            if (context.Forms.ControlId() == key)
-            {
-                SessionUtilities.Set(
-                    context: context,
-                    key: key,
-                    value: "1",
-                    page: true);
-            }
-            else if (context.Forms.ControlId() == "ExpandViewFilters")
-            {
-                SessionUtilities.Remove(
-                    context: context,
-                    key: key,
-                    page: true);
-            }
-            return SessionUtilities.Bool(
-                context: context,
-                key: key);
+                        css: "always-hidden");
         }
 
         private static HtmlBuilder DisplayControl(
-            this HtmlBuilder hb, Context context, string id, string icon)
+            this HtmlBuilder hb,
+            Context context,
+            string id,
+            string icon,
+            View view)
         {
+            if (view?.FiltersDisplayType == View.DisplayTypes.AlwaysDisplayed)
+            {
+                return hb;
+            }
             return hb.Div(
                 attributes: new HtmlAttributes()
                     .Id(id)

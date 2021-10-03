@@ -148,6 +148,10 @@ td{
     color:black;
 }
 
+td.right-align > p{
+    float:right;
+}
+
 pre{
     line-height:1.5em;
     font-family:Terminal;
@@ -2665,6 +2669,10 @@ label.error{
 .status-rejected{
     color:white;
     background:gray;
+}
+
+.always-hidden{
+    display:none;
 }
 
 h3.title-header{
