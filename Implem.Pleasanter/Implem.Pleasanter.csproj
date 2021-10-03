@@ -286,6 +286,7 @@
     <Compile Include="Interfaces\ISettingListItem.cs" />
     <Compile Include="Libraries\DataSources\Line.cs" />
     <Compile Include="Libraries\DataSources\Repository.cs" />
+    <Compile Include="Libraries\DataSources\InCircle.cs" />
     <Compile Include="Libraries\DataSources\RocketChat.cs" />
     <Compile Include="Libraries\DataSources\Saml.cs" />
     <Compile Include="Libraries\DataSources\Teams.cs" />
@@ -368,6 +369,7 @@
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_007.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_006.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_005.cs" />
+    <Compile Include="Libraries\Models\DropDowns.cs" />
     <Compile Include="Libraries\Models\GridData.cs" />
     <Compile Include="Libraries\Models\ImageLibData.cs" />
     <Compile Include="Libraries\Models\JsonConverter.cs" />
@@ -2309,6 +2311,13 @@
     <Content Include="App_Data\Displays\CharToAddWhenCopying.json" />
     <Content Include="App_Data\Displays\OtherColumns.json" />
     <Content Include="App_Data\Displays\BulkUpdateColumnSettings.json" />
+    <Content Include="App_Data\Displays\InCircle.json" />
+    <Content Include="App_Data\Displays\InCircleInvalidToken.json" />
+    <Content Include="App_Data\Displays\AggregationsDisplayType.json" />
+    <Content Include="App_Data\Displays\AlwaysDisplayed.json" />
+    <Content Include="App_Data\Displays\AlwaysHidden.json" />
+    <Content Include="App_Data\Displays\Displayed.json" />
+    <Content Include="App_Data\Displays\FiltersDisplayType.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

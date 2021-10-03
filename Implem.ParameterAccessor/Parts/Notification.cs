@@ -9,5 +9,6 @@
         public bool Line;
         public bool Teams;
         public bool RocketChat;
+        public bool InCircle;
     }
 }

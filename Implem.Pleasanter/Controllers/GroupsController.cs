@@ -165,6 +165,30 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        public ActionResult SearchDropDown()
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = Libraries.Models.DropDowns.SearchDropDown(
+                context: context,
+                ss: SiteSettingsUtilities.GroupsSiteSettings(context: context));
+            log.Finish(context: context, responseSize: json.Length);
+            return Content(json);
+        }
+
+        [HttpPost]
+        public ActionResult SelectSearchDropDown()
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = Libraries.Models.DropDowns.SelectSearchDropDown(
+                context: context,
+                ss: SiteSettingsUtilities.GroupsSiteSettings(context: context));
+            log.Finish(context: context, responseSize: json.Length);
+            return Content(json);
+        }
+
+        [HttpPost]
         public string SelectableMembers(int id)
         {
             var context = new Context();

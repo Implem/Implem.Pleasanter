@@ -354,34 +354,34 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             if (context.SwitchTenant)
             {
                 return hb.Div(id: "SwitchUserInfo", action: () => hb
-                        .A(
-                            href: "#",
-                            attributes: new HtmlAttributes()
-                                .OnClick("location.href='{0}'; ".Params(
-                                    Locations.Get(
-                                        context,
-                                        "Users",
-                                        "ReturnOriginalTenant")))
-                                .DataConfirm("ConfirmSwitchTenant"),
-                            action: () => hb
-                                .Text(text: Displays.SwitchTenantInfo(context: context))));
+                    .A(
+                        href: "#",
+                        attributes: new HtmlAttributes()
+                            .OnClick("location.href='{0}'; ".Params(
+                                Locations.Get(
+                                    context,
+                                    "Users",
+                                    "ReturnOriginalTenant")))
+                            .DataConfirm("ConfirmSwitchTenant"),
+                        action: () => hb
+                            .Text(text: Displays.SwitchTenantInfo(context: context))));
             }
             else
             {
                 return context.SwitchUser
-                ? hb.Div(id: "SwitchUserInfo", action: () => hb
-                    .A(
-                        href: "javascript:void(0);",
-                        attributes: new HtmlAttributes()
-                            .OnClick("$p.ajax('{0}','post',null,$('#SwitchUserInfo a'));".Params(
-                                Locations.Get(
-                                    context,
-                                    "Users",
-                                    "ReturnOriginalUser")))
-                            .DataConfirm("ConfirmSwitchUser"),
-                        action: () => hb
-                            .Text(text: Displays.SwitchUserInfo(context: context))))
-                : hb;
+                    ? hb.Div(id: "SwitchUserInfo", action: () => hb
+                        .A(
+                            href: "javascript:void(0);",
+                            attributes: new HtmlAttributes()
+                                .OnClick("$p.ajax('{0}','post',null,$('#SwitchUserInfo a'));".Params(
+                                    Locations.Get(
+                                        context,
+                                        "Users",
+                                        "ReturnOriginalUser")))
+                                .DataConfirm("ConfirmSwitchUser"),
+                            action: () => hb
+                                .Text(text: Displays.SwitchUserInfo(context: context))))
+                    : hb;
             }
         }
 

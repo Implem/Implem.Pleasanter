@@ -1,0 +1,33 @@
+﻿{
+    "Id": "AlwaysHidden",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Always hidden"
+        },
+        {
+            "Language": "zh",
+            "Body": "始终隐藏"
+        },
+        {
+            "Language": "ja",
+            "Body": "常に非表示"
+        },
+        {
+            "Language": "de",
+            "Body": "Immer versteckt"
+        },
+        {
+            "Language": "ko",
+            "Body": "항상 숨김"
+        },
+        {
+            "Language": "es",
+            "Body": "Siempre escondido"
+        },
+        {
+            "Language": "vn",
+            "Body": "Luôn ẩn"
+        }
+    ]
+}

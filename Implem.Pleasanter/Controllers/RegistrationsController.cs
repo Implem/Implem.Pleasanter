@@ -164,6 +164,30 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
+        [HttpPost]
+        public ActionResult SearchDropDown()
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = Libraries.Models.DropDowns.SearchDropDown(
+                context: context,
+                ss: SiteSettingsUtilities.RegistrationsSiteSettings(context: context));
+            log.Finish(context: context, responseSize: json.Length);
+            return Content(json);
+        }
+
+        [HttpPost]
+        public ActionResult SelectSearchDropDown()
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = Libraries.Models.DropDowns.SelectSearchDropDown(
+                context: context,
+                ss: SiteSettingsUtilities.RegistrationsSiteSettings(context: context));
+            log.Finish(context: context, responseSize: json.Length);
+            return Content(json);
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>

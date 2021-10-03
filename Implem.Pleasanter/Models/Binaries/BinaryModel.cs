@@ -852,7 +852,6 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             byte[] bin)
         {
-
             BinaryType = "SiteImage";
             var imageData = new Libraries.Images.ImageData(
                 bin,

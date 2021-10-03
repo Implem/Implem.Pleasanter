@@ -51,6 +51,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                     Notification.Types.RocketChat.ToInt().ToString(),
                     Displays.RocketChat(context: context));
             }
+            if (Parameters.Notification.InCircle)
+            {
+                notificationType.Add(
+                    Notification.Types.InCircle.ToInt().ToString(),
+                    Displays.InCircle(context: context));
+            }
             return notificationType;
         }
 
@@ -70,7 +76,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 Notification.Types.ChatWork,
                 Notification.Types.Line,
-                Notification.Types.LineGroup
+                Notification.Types.LineGroup,
+                Notification.Types.InCircle
             };
         }
 
