@@ -113,5 +113,23 @@ namespace Implem.Pleasanter.NetCore.Controllers
             var json = controller.History(context: context, id: id);
             return json;
         }
+
+        [HttpPost]
+        public string SearchDropDown()
+        {
+            var context = new ContextImplement();
+            var controller = new Pleasanter.Controllers.DeptsController();
+            var json = controller.SearchDropDown(context: context);
+            return json;
+        }
+
+        [HttpPost]
+        public string SelectSearchDropDown()
+        {
+            var context = new ContextImplement();
+            var controller = new Pleasanter.Controllers.DeptsController();
+            var json = controller.SelectSearchDropDown(context: context);
+            return json;
+        }
     }
 }

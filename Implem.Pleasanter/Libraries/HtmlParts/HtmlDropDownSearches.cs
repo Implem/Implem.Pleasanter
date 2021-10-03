@@ -18,7 +18,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Form(
                         attributes: new HtmlAttributes()
                             .Id("DropDownSearchDialogForm")
-                            .Action(Locations.ItemAction(
+                            .Action(DropDownSearchDialogFormAction(
                                 context: context,
                                 id: id)),
                         action: () => hb
@@ -60,6 +60,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     controlCss: "button-icon",
                                     onClick: "$p.closeDialog($(this));",
                                     icon: "ui-icon-cancel"))));
+        }
+
+        private static string DropDownSearchDialogFormAction(Context context, long id)
+        {
+            switch (context.Controller)
+            {
+                case "items":
+                    return Locations.ItemAction(
+                        context: context,
+                        id: id);
+                default:
+                    return Locations.Action(
+                        context: context,
+                        controller: context.Controller);
+            }
         }
 
         public static HtmlBuilder DropDownSearchDialogBody(this HtmlBuilder hb, Context context, Column column, bool filter)
