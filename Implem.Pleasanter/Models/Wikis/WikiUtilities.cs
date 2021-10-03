@@ -580,7 +580,8 @@ namespace Implem.Pleasanter.Models
                         .Editor(
                             context: context,
                             ss: ss,
-                            wikiModel: wikiModel)
+                            wikiModel: wikiModel,
+                            serverScriptModelRow: serverScriptModelRow)
                         .Hidden(controlId: "DropDownSearchPageSize", value: Parameters.General.DropDownSearchPageSize.ToString()))
                             .ToString();
         }
@@ -628,7 +629,8 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
-            WikiModel wikiModel)
+            WikiModel wikiModel,
+            ServerScriptModelRow serverScriptModelRow)
         {
             var commentsColumn = ss.GetColumn(
                 context: context,

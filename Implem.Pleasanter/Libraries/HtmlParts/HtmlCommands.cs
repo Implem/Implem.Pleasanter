@@ -7,6 +7,8 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Linq;
+using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
+
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlCommands
@@ -24,6 +26,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool moveButton = false,
             bool mailButton = false,
             bool deleteButton = false,
+            ServerScriptModelRow serverScriptModelRow = null,
             Action extensions = null)
         {
             return hb.Div(id: "MainCommandsContainer", action: () => hb
@@ -79,7 +82,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     copyButton: copyButton,
                                     moveButton: moveButton,
                                     mailButton: mailButton,
-                                    deleteButton: deleteButton);
+                                    deleteButton: deleteButton,
+                                    serverScriptModelRow: serverScriptModelRow);
                                 switch (context.Action)
                                 {
                                     case "index":
@@ -183,7 +187,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     copyButton: copyButton,
                                     moveButton: moveButton,
                                     mailButton: mailButton,
-                                    deleteButton: deleteButton);
+                                    deleteButton: deleteButton,
+                                    serverScriptModelRow: serverScriptModelRow);
                                 if (context.Forms.Bool("EditOnGrid"))
                                 {
                                     hb
@@ -310,7 +315,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     copyButton: copyButton,
                                     moveButton: moveButton,
                                     mailButton: mailButton,
-                                    deleteButton: deleteButton);
+                                    deleteButton: deleteButton,
+                                    serverScriptModelRow: serverScriptModelRow);
                                 break;
                         }
                         extensions?.Invoke();
@@ -327,82 +333,114 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool copyButton,
             bool moveButton,
             bool mailButton,
-            bool deleteButton)
+            bool deleteButton,
+            ServerScriptModelRow serverScriptModelRow)
         {
             return hb
                 .Button(
                     controlId: "UpdateCommand",
                     text: Displays.Update(context: context),
                     controlCss: "button-icon validate",
+                    style: serverScriptModelRow?.Elements?.Hidden("UpdateCommand") == true
+                        ? "display:none;"
+                        : string.Empty,
                     accessKey: "s",
                     onClick: "$p.send($(this));",
                     icon: "ui-icon-disk",
                     action: "Update",
                     method: "put",
+                    disabled: serverScriptModelRow?.Elements?.Disabled("UpdateCommand") == true,
                     _using: updateButton
                         && context.CanUpdate(ss: ss)
-                        && !readOnly)
+                        && !readOnly
+                        && serverScriptModelRow?.Elements?.Nothing("UpdateCommand") != true)
                 .Button(
                     controlId: "OpenCopyDialogCommand",
                     text: Displays.Copy(context: context),
                     controlCss: "button-icon open-dialog",
+                    style: serverScriptModelRow?.Elements?.Hidden("OpenCopyDialogCommand") == true
+                        ? "display:none;"
+                        : string.Empty,
                     accessKey: "c",
                     onClick: "$p.openDialog($(this));",
                     icon: "ui-icon-copy",
                     selector: "#CopyDialog",
+                    disabled: serverScriptModelRow?.Elements?.Disabled("OpenCopyDialogCommand") == true,
                     _using: copyButton
                         && context.CanCreate(ss: ss)
-                        && ss.AllowCopy == true)
+                        && ss.AllowCopy == true
+                        && serverScriptModelRow?.Elements?.Nothing("OpenCopyDialogCommand") != true)
                 .Button(
                     controlId: "ReferenceCopy",
                     text: Displays.ReferenceCopy(context: context),
                     controlCss: "button-icon",
+                    style: serverScriptModelRow?.Elements?.Hidden("ReferenceCopy") == true
+                        ? "display:none;"
+                        : string.Empty,
                     accessKey: "k",
                     onClick: $"location.href='{Locations.ItemNew(context: context, id: ss.SiteId)}?CopyFrom={context.Id}'",
                     icon: "ui-icon-copy",
+                    disabled: serverScriptModelRow?.Elements?.Disabled("ReferenceCopy") == true,
                     _using: copyButton
                         && context.CanCreate(ss: ss)
-                        && ss.AllowReferenceCopy == true)
+                        && ss.AllowReferenceCopy == true
+                        && serverScriptModelRow?.Elements?.Nothing("ReferenceCopy") != true)
                 .Button(
                     controlId: "MoveTargetsCommand",
                     text: Displays.Move(context: context),
                     controlCss: "button-icon open-dialog",
+                    style: serverScriptModelRow?.Elements?.Hidden("MoveTargetsCommand") == true
+                        ? "display:none;"
+                        : string.Empty,
                     accessKey: "o",
                     onClick: "$p.moveTargets($(this));",
                     icon: "ui-icon-transferthick-e-w",
                     selector: "#MoveDialog",
                     action: "MoveTargets",
                     method: "get",
+                    disabled: serverScriptModelRow?.Elements?.Disabled("MoveTargetsCommand") == true,
                     _using: moveButton
                         && ss.MoveTargets?.Any() == true
                         && context.CanUpdate(ss: ss)
                         && ss.MoveTargetsOptions(sites: ss.NumberOfMoveTargetsTable(context: context))
                             .Any(o => ss.MoveTargets.Contains(o.Key.ToLong()))
-                        && !readOnly)
+                        && !readOnly
+                        && serverScriptModelRow?.Elements?.Nothing("MoveTargetsCommand") != true)
                 .Button(
                     controlId: "EditOutgoingMail",
                     text: Displays.Mail(context: context),
                     controlCss: "button-icon",
+                    style: serverScriptModelRow?.Elements?.Hidden("EditOutgoingMail") == true
+                        ? "display:none;"
+                        : string.Empty,
                     onClick: "$p.openOutgoingMailDialog($(this));",
                     icon: "ui-icon-mail-closed",
                     action: "Edit",
                     method: "put",
                     accessKey: "m",
-                    _using: mailButton && context.CanSendMail(ss: ss))
+                    disabled: serverScriptModelRow?.Elements?.Disabled("EditOutgoingMail") == true,
+                    _using: mailButton
+                        && context.CanSendMail(ss: ss)
+                        && serverScriptModelRow?.Elements?.Nothing("EditOutgoingMail") != true)
                 .Button(
                     controlId: "DeleteCommand",
                     text: Displays.Delete(context: context),
                     controlCss: "button-icon",
+                    style: serverScriptModelRow?.Elements?.Hidden("DeleteCommand") == true
+                        ? "display:none;"
+                        : string.Empty,
                     accessKey: "r",
                     onClick: "$p.send($(this));",
                     icon: "ui-icon-trash",
                     action: "Delete",
                     method: "delete",
                     confirm: "ConfirmDelete",
+                    disabled: serverScriptModelRow?.Elements?.Disabled("DeleteCommand") == true,
                     _using: deleteButton
                         && context.CanDelete(ss: ss)
                         && !ss.IsSite(context: context)
-                        && !readOnly)
+                        && !readOnly
+                        && serverScriptModelRow?.Elements?.Nothing("DeleteCommand") != true)
                 .Button(
                     controlId: "OpenDeleteSiteDialogCommand",
                     text: Displays.DeleteSite(context: context),
