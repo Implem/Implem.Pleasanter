@@ -115,6 +115,24 @@ namespace Implem.Pleasanter.NetCore.Controllers
         }
 
         [HttpPost]
+        public string SearchDropDown()
+        {
+            var context = new ContextImplement();
+            var controller = new Pleasanter.Controllers.GroupsController();
+            var json = controller.SearchDropDown(context: context);
+            return json;
+        }
+
+        [HttpPost]
+        public string SelectSearchDropDown()
+        {
+            var context = new ContextImplement();
+            var controller = new Pleasanter.Controllers.GroupsController();
+            var json = controller.SelectSearchDropDown(context: context);
+            return json;
+        }
+
+        [HttpPost]
         public string SelectableMembers(int id)
         {
             var context = new ContextImplement();

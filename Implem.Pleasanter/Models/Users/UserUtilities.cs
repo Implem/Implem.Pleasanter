@@ -128,6 +128,9 @@ namespace Implem.Pleasanter.Models
                                 controlId: "NewRowId",
                                 css: "always-send",
                                 value: context.Forms.Data("NewRowId")))
+                    .DropDownSearchDialog(
+                        context: context,
+                        id: ss.SiteId)
                     .MoveDialog(context: context, bulk: true)
                     .ImportSettingsDialog(context: context)
                     .Div(attributes: new HtmlAttributes()
@@ -1426,6 +1429,9 @@ namespace Implem.Pleasanter.Models
                     referenceType: "Users",
                     referenceId: userModel.UserId,
                     referenceVer: userModel.Ver)
+                .DropDownSearchDialog(
+                    context: context,
+                    id: ss.SiteId)
                 .CopyDialog(
                     context: context,
                     referenceType: "Users",
