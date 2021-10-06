@@ -10,6 +10,7 @@ using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 namespace Implem.Pleasanter.Libraries.ViewModes
@@ -382,10 +383,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             for (var i = -77; i <= 0; i += 7)
             {
                 var day = end.AddDays(i);
-                var append = (int)(new DateTime(day.Year, 1, 1).DayOfWeek) > 1
-                    ? 8 - (int)(new DateTime(day.Year, 1, 1).DayOfWeek)
-                    : 0;
-                var key = day.Year * 100 + ((day.DayOfYear + append) / 7) + 1;
+                var key = day.Year * 100 + ISOWeek.GetWeekOfYear(day);
                 hash.Add(key.ToString(), new ControlData(day.ToString("MM/dd")));
             }
             return hash;
