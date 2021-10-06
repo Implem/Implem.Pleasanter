@@ -383,7 +383,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             for (var i = -77; i <= 0; i += 7)
             {
                 var day = end.AddDays(i);
-                var key = day.Year * 100 + ISOWeek.GetWeekOfYear(day);
+                var key = (ISOWeek.GetYear(day) * 100) + ISOWeek.GetWeekOfYear(day);
                 hash.Add(key.ToString(), new ControlData(day.ToString("MM/dd")));
             }
             return hash;
