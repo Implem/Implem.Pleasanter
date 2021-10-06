@@ -47,7 +47,7 @@ namespace Implem.SqlServer
 
         public string DateGroupWeeklyPart { get; } = "case datepart(weekday,{0}) when 1 then dateadd(day,-6,{0}) else dateadd(day,(2-datepart(weekday,{0})),{0}) end";
 
-        public string DateGroupWeekly { get; } = "datepart(year,{0}) * 100 + datepart(week,{0})";
+        public string DateGroupWeekly { get; } = "datepart(year,{0}) * 100 + datepart(iso_week,{0})";
 
         public string DateGroupDaily { get; } = "convert(varchar,{0},111)";
 
