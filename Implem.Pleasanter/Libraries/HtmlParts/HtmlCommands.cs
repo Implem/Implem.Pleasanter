@@ -90,41 +90,42 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 switch (context.Action)
                                 {
                                     case "index":
-                                        hb.Button(
-                                            serverScriptModelRow: serverScriptModelRow,
-                                            controlId: "BulkDeleteCommand",
-                                            text: Displays.BulkDelete(context: context),
-                                            controlCss: "button-icon",
-                                            accessKey: "r",
-                                            onClick: "$p.send($(this));",
-                                            icon: "ui-icon-trash",
-                                            action: "BulkDelete",
-                                            method: "delete",
-                                            confirm: "ConfirmDelete",
-                                            _using: context.CanDelete(ss: ss)
-                                                && !readOnly)
-                                        .Button(
-                                            serverScriptModelRow: serverScriptModelRow,
-                                            controlId: "EditImportSettings",
-                                            text: Displays.Import(context: context),
-                                            controlCss: "button-icon",
-                                            accessKey: "w",
-                                            onClick: "$p.openImportSettingsDialog($(this));",
-                                            icon: "ui-icon-arrowreturnthick-1-e",
-                                            selector: "#ImportSettingsDialog",
-                                            _using: context.CanImport(ss: ss)
-                                                && !readOnly)
-                                        .Button(
-                                            serverScriptModelRow: serverScriptModelRow,
-                                            controlId: "OpenExportSelectorDialogCommand",
-                                            text: Displays.Export(context: context),
-                                            controlCss: "button-icon",
-                                            accessKey: "x",
-                                            onClick: "$p.openExportSelectorDialog($(this));",
-                                            icon: "ui-icon-arrowreturnthick-1-w",
-                                            action: "OpenExportSelectorDialog",
-                                            method: "post",
-                                            _using: context.CanExport(ss: ss));
+                                        hb
+                                            .Button(
+                                                serverScriptModelRow: serverScriptModelRow,
+                                                controlId: "BulkDeleteCommand",
+                                                text: Displays.BulkDelete(context: context),
+                                                controlCss: "button-icon",
+                                                accessKey: "r",
+                                                onClick: "$p.send($(this));",
+                                                icon: "ui-icon-trash",
+                                                action: "BulkDelete",
+                                                method: "delete",
+                                                confirm: "ConfirmDelete",
+                                                _using: context.CanDelete(ss: ss)
+                                                    && !readOnly)
+                                            .Button(
+                                                serverScriptModelRow: serverScriptModelRow,
+                                                controlId: "EditImportSettings",
+                                                text: Displays.Import(context: context),
+                                                controlCss: "button-icon",
+                                                accessKey: "w",
+                                                onClick: "$p.openImportSettingsDialog($(this));",
+                                                icon: "ui-icon-arrowreturnthick-1-e",
+                                                selector: "#ImportSettingsDialog",
+                                                _using: context.CanImport(ss: ss)
+                                                    && !readOnly)
+                                            .Button(
+                                                serverScriptModelRow: serverScriptModelRow,
+                                                controlId: "OpenExportSelectorDialogCommand",
+                                                text: Displays.Export(context: context),
+                                                controlCss: "button-icon",
+                                                accessKey: "x",
+                                                onClick: "$p.openExportSelectorDialog($(this));",
+                                                icon: "ui-icon-arrowreturnthick-1-w",
+                                                action: "OpenExportSelectorDialog",
+                                                method: "post",
+                                                _using: context.CanExport(ss: ss));
                                         break;
                                 }
                                 break;
@@ -143,31 +144,32 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             method: "post");
                                         break;
                                     case "edit":
-                                        hb.Button(
-                                            serverScriptModelRow: serverScriptModelRow,
-                                            controlId: "RegistrationApproval",
-                                            text: Displays.Approval(context: context),
-                                            controlCss: "button-icon",
-                                            onClick: "$p.send($(this));",
-                                            icon: "ui-icon-mail-closed",
-                                            action: "Approval",
-                                            method: "put",
-                                            _using: Permissions.PrivilegedUsers(loginId: context.LoginId))
-                                        .Button(
-                                            serverScriptModelRow: serverScriptModelRow,
-                                            controlId: "DeleteCommand",
-                                            text: Displays.Delete(context: context),
-                                            controlCss: "button-icon",
-                                            accessKey: "r",
-                                            onClick: "$p.send($(this));",
-                                            icon: "ui-icon-trash",
-                                            action: "Delete",
-                                            method: "delete",
-                                            confirm: "ConfirmDelete",
-                                            _using: deleteButton
-                                                && context.CanDelete(ss: ss)
-                                                && !ss.IsSite(context: context)
-                                                && !readOnly);
+                                        hb
+                                            .Button(
+                                                serverScriptModelRow: serverScriptModelRow,
+                                                controlId: "RegistrationApproval",
+                                                text: Displays.Approval(context: context),
+                                                controlCss: "button-icon",
+                                                onClick: "$p.send($(this));",
+                                                icon: "ui-icon-mail-closed",
+                                                action: "Approval",
+                                                method: "put",
+                                                _using: Permissions.PrivilegedUsers(loginId: context.LoginId))
+                                            .Button(
+                                                serverScriptModelRow: serverScriptModelRow,
+                                                controlId: "DeleteCommand",
+                                                text: Displays.Delete(context: context),
+                                                controlCss: "button-icon",
+                                                accessKey: "r",
+                                                onClick: "$p.send($(this));",
+                                                icon: "ui-icon-trash",
+                                                action: "Delete",
+                                                method: "delete",
+                                                confirm: "ConfirmDelete",
+                                                _using: deleteButton
+                                                    && context.CanDelete(ss: ss)
+                                                    && !ss.IsSite(context: context)
+                                                    && !readOnly);
                                         break;
                                     case "index":
                                         hb.Button(
@@ -199,113 +201,115 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     serverScriptModelRow: serverScriptModelRow);
                                 if (context.Forms.Bool("EditOnGrid"))
                                 {
-                                    hb.Button(
-                                        serverScriptModelRow: serverScriptModelRow,
-                                        controlId: "UpdateByGridCommand",
-                                        text: Displays.Update(context: context),
-                                        controlCss: "button-icon validate",
-                                        accessKey: "s",
-                                        onClick: "$p.send($(this));",
-                                        icon: "ui-icon-disk",
-                                        action: "UpdateByGrid",
-                                        method: "post",
-                                        _using: context.CanRead(ss: ss))
-                                    .Button(
-                                        serverScriptModelRow: serverScriptModelRow,
-                                        controlId: "EditOnGridCommand",
-                                        text: Displays.ListMode(context: context),
-                                        controlCss: "button-icon",
-                                        onClick: "$p.editOnGrid($(this),0);",
-                                        icon: "ui-icon-arrowreturnthick-1-w",
-                                        action: "Index",
-                                        method: "post",
-                                        _using: context.CanRead(ss: ss));
+                                    hb
+                                        .Button(
+                                            serverScriptModelRow: serverScriptModelRow,
+                                            controlId: "UpdateByGridCommand",
+                                            text: Displays.Update(context: context),
+                                            controlCss: "button-icon validate",
+                                            accessKey: "s",
+                                            onClick: "$p.send($(this));",
+                                            icon: "ui-icon-disk",
+                                            action: "UpdateByGrid",
+                                            method: "post",
+                                            _using: context.CanRead(ss: ss))
+                                        .Button(
+                                            serverScriptModelRow: serverScriptModelRow,
+                                            controlId: "EditOnGridCommand",
+                                            text: Displays.ListMode(context: context),
+                                            controlCss: "button-icon",
+                                            onClick: "$p.editOnGrid($(this),0);",
+                                            icon: "ui-icon-arrowreturnthick-1-w",
+                                            action: "Index",
+                                            method: "post",
+                                            _using: context.CanRead(ss: ss));
                                 }
                                 else if (ss.ReferenceType != "Sites")
                                 {
                                     switch (context.Action)
                                     {
                                         case "index":
-                                            hb.Button(
-                                                serverScriptModelRow: serverScriptModelRow,
-                                                controlId: "MoveTargetsCommand",
-                                                text: Displays.BulkMove(context: context),
-                                                controlCss: "button-icon open-dialog",
-                                                accessKey: "o",
-                                                onClick: "$p.moveTargets($(this));",
-                                                icon: "ui-icon-transferthick-e-w",
-                                                selector: "#MoveDialog",
-                                                action: "MoveTargets",
-                                                method: "get",
-                                                _using: ss.MoveTargets?.Any() == true
-                                                    && context.CanUpdate(ss: ss)
-                                                    && !ss.GridColumnsHasSources(gridColumns: view?.GridColumns)
-                                                    && ss.MoveTargetsOptions(sites: ss.NumberOfMoveTargetsTable(context: context))
-                                                        .Any(o => ss.MoveTargets.Contains(o.Key.ToLong()))
-                                                    && !readOnly)
-                                            .Button(
-                                                serverScriptModelRow: serverScriptModelRow,
-                                                controlId: "BulkDeleteCommand",
-                                                text: Displays.BulkDelete(context: context),
-                                                controlCss: "button-icon",
-                                                accessKey: "r",
-                                                onClick: "$p.send($(this));",
-                                                icon: "ui-icon-trash",
-                                                action: "BulkDelete",
-                                                method: "delete",
-                                                confirm: "ConfirmDelete",
-                                                _using: context.CanDelete(ss: ss)
-                                                    && !ss.GridColumnsHasSources(gridColumns: view?.GridColumns)
-                                                    && !readOnly)
-                                            .Button(
-                                                serverScriptModelRow: serverScriptModelRow,
-                                                controlId: "EditImportSettings",
-                                                text: Displays.Import(context: context),
-                                                controlCss: "button-icon",
-                                                accessKey: "w",
-                                                onClick: "$p.openImportSettingsDialog($(this));",
-                                                icon: "ui-icon-arrowreturnthick-1-e",
-                                                selector: "#ImportSettingsDialog",
-                                                _using: context.CanImport(ss: ss)
-                                                    && !readOnly)
-                                            .Button(
-                                                serverScriptModelRow: serverScriptModelRow,
-                                                controlId: "OpenExportSelectorDialogCommand",
-                                                text: Displays.Export(context: context),
-                                                controlCss: "button-icon",
-                                                accessKey: "x",
-                                                onClick: "$p.openExportSelectorDialog($(this));",
-                                                icon: "ui-icon-arrowreturnthick-1-w",
-                                                action: "OpenExportSelectorDialog",
-                                                method: "post",
-                                                _using: context.CanExport(ss: ss))
-                                            .Button(
-                                                serverScriptModelRow: serverScriptModelRow,
-                                                controlId: "OpenBulkUpdateSelectorDialogCommand",
-                                                text: Displays.BulkUpdate(context: context),
-                                                controlCss: "button-icon",
-                                                accessKey: "s",
-                                                onClick: "$p.openBulkUpdateSelectorDialog($(this));",
-                                                icon: "ui-icon-disk",
-                                                action: "OpenBulkUpdateSelectorDialog",
-                                                method: "post",
-                                                _using: context.CanUpdate(ss: ss) 
-                                                    && ss.GetAllowBulkUpdateOptions(context: context)?.Any() == true
-                                                    && !readOnly)
-                                            .Button(
-                                                serverScriptModelRow: serverScriptModelRow,
-                                                controlId: "EditOnGridCommand",
-                                                text: Displays.EditMode(context: context),
-                                                controlCss: "button-icon",
-                                                onClick: "$p.editOnGrid($(this),1);",
-                                                icon: "ui-icon-arrowreturnthick-1-w",
-                                                action: "Index",
-                                                method: "post",
-                                                _using: ss.GridEditorType == SiteSettings.GridEditorTypes.Grid
-                                                    && context.CanUpdate(ss: ss)
-                                                    && !ss.GridColumnsHasSources(gridColumns: view?.GridColumns)
-                                                    && ss.IntegratedSites?.Any() != true
-                                                    && !readOnly);
+                                            hb
+                                                .Button(
+                                                    serverScriptModelRow: serverScriptModelRow,
+                                                    controlId: "MoveTargetsCommand",
+                                                    text: Displays.BulkMove(context: context),
+                                                    controlCss: "button-icon open-dialog",
+                                                    accessKey: "o",
+                                                    onClick: "$p.moveTargets($(this));",
+                                                    icon: "ui-icon-transferthick-e-w",
+                                                    selector: "#MoveDialog",
+                                                    action: "MoveTargets",
+                                                    method: "get",
+                                                    _using: ss.MoveTargets?.Any() == true
+                                                        && context.CanUpdate(ss: ss)
+                                                        && !ss.GridColumnsHasSources(gridColumns: view?.GridColumns)
+                                                        && ss.MoveTargetsOptions(sites: ss.NumberOfMoveTargetsTable(context: context))
+                                                            .Any(o => ss.MoveTargets.Contains(o.Key.ToLong()))
+                                                        && !readOnly)
+                                                .Button(
+                                                    serverScriptModelRow: serverScriptModelRow,
+                                                    controlId: "BulkDeleteCommand",
+                                                    text: Displays.BulkDelete(context: context),
+                                                    controlCss: "button-icon",
+                                                    accessKey: "r",
+                                                    onClick: "$p.send($(this));",
+                                                    icon: "ui-icon-trash",
+                                                    action: "BulkDelete",
+                                                    method: "delete",
+                                                    confirm: "ConfirmDelete",
+                                                    _using: context.CanDelete(ss: ss)
+                                                        && !ss.GridColumnsHasSources(gridColumns: view?.GridColumns)
+                                                        && !readOnly)
+                                                .Button(
+                                                    serverScriptModelRow: serverScriptModelRow,
+                                                    controlId: "EditImportSettings",
+                                                    text: Displays.Import(context: context),
+                                                    controlCss: "button-icon",
+                                                    accessKey: "w",
+                                                    onClick: "$p.openImportSettingsDialog($(this));",
+                                                    icon: "ui-icon-arrowreturnthick-1-e",
+                                                    selector: "#ImportSettingsDialog",
+                                                    _using: context.CanImport(ss: ss)
+                                                        && !readOnly)
+                                                .Button(
+                                                    serverScriptModelRow: serverScriptModelRow,
+                                                    controlId: "OpenExportSelectorDialogCommand",
+                                                    text: Displays.Export(context: context),
+                                                    controlCss: "button-icon",
+                                                    accessKey: "x",
+                                                    onClick: "$p.openExportSelectorDialog($(this));",
+                                                    icon: "ui-icon-arrowreturnthick-1-w",
+                                                    action: "OpenExportSelectorDialog",
+                                                    method: "post",
+                                                    _using: context.CanExport(ss: ss))
+                                                .Button(
+                                                    serverScriptModelRow: serverScriptModelRow,
+                                                    controlId: "OpenBulkUpdateSelectorDialogCommand",
+                                                    text: Displays.BulkUpdate(context: context),
+                                                    controlCss: "button-icon",
+                                                    accessKey: "s",
+                                                    onClick: "$p.openBulkUpdateSelectorDialog($(this));",
+                                                    icon: "ui-icon-disk",
+                                                    action: "OpenBulkUpdateSelectorDialog",
+                                                    method: "post",
+                                                    _using: context.CanUpdate(ss: ss) 
+                                                        && ss.GetAllowBulkUpdateOptions(context: context)?.Any() == true
+                                                        && !readOnly)
+                                                .Button(
+                                                    serverScriptModelRow: serverScriptModelRow,
+                                                    controlId: "EditOnGridCommand",
+                                                    text: Displays.EditMode(context: context),
+                                                    controlCss: "button-icon",
+                                                    onClick: "$p.editOnGrid($(this),1);",
+                                                    icon: "ui-icon-arrowreturnthick-1-w",
+                                                    action: "Index",
+                                                    method: "post",
+                                                    _using: ss.GridEditorType == SiteSettings.GridEditorTypes.Grid
+                                                        && context.CanUpdate(ss: ss)
+                                                        && !ss.GridColumnsHasSources(gridColumns: view?.GridColumns)
+                                                        && ss.IntegratedSites?.Any() != true
+                                                        && !readOnly);
                                             break;
                                         case "crosstab":
                                             hb.Button(
@@ -351,98 +355,99 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool deleteButton,
             ServerScriptModelRow serverScriptModelRow)
         {
-            return hb.Button(
-                serverScriptModelRow: serverScriptModelRow,
-                controlId: "UpdateCommand",
-                text: Displays.Update(context: context),
-                controlCss: "button-icon validate",
-                accessKey: "s",
-                onClick: "$p.send($(this));",
-                icon: "ui-icon-disk",
-                action: "Update",
-                method: "put",
-                _using: updateButton
-                    && context.CanUpdate(ss: ss)
-                    && !readOnly)
-            .Button(
-                serverScriptModelRow: serverScriptModelRow,
-                controlId: "OpenCopyDialogCommand",
-                text: Displays.Copy(context: context),
-                controlCss: "button-icon open-dialog",
-                accessKey: "c",
-                onClick: "$p.openDialog($(this));",
-                icon: "ui-icon-copy",
-                selector: "#CopyDialog",
-                _using: copyButton
-                    && context.CanCreate(ss: ss)
-                    && ss.AllowCopy == true)
-            .Button(
-                serverScriptModelRow: serverScriptModelRow,
-                controlId: "ReferenceCopy",
-                text: Displays.ReferenceCopy(context: context),
-                controlCss: "button-icon",
-                accessKey: "k",
-                onClick: $"location.href='{Locations.ItemNew(context: context, id: ss.SiteId)}?CopyFrom={context.Id}'",
-                icon: "ui-icon-copy",
-                _using: copyButton
-                    && context.CanCreate(ss: ss)
-                    && ss.AllowReferenceCopy == true)
-            .Button(
-                serverScriptModelRow: serverScriptModelRow,
-                controlId: "MoveTargetsCommand",
-                text: Displays.Move(context: context),
-                controlCss: "button-icon open-dialog",
-                accessKey: "o",
-                onClick: "$p.moveTargets($(this));",
-                icon: "ui-icon-transferthick-e-w",
-                selector: "#MoveDialog",
-                action: "MoveTargets",
-                method: "get",
-                _using: moveButton
-                    && ss.MoveTargets?.Any() == true
-                    && context.CanUpdate(ss: ss)
-                    && ss.MoveTargetsOptions(sites: ss.NumberOfMoveTargetsTable(context: context))
-                        .Any(o => ss.MoveTargets.Contains(o.Key.ToLong()))
-                    && !readOnly)
-            .Button(
-                serverScriptModelRow:serverScriptModelRow,
-                controlId: "EditOutgoingMail",
-                text: Displays.Mail(context: context),
-                controlCss: "button-icon",
-                onClick: "$p.openOutgoingMailDialog($(this));",
-                icon: "ui-icon-mail-closed",
-                action: "Edit",
-                method: "put",
-                accessKey: "m",
-                _using: mailButton
-                    && context.CanSendMail(ss: ss))
-            .Button(
-                serverScriptModelRow: serverScriptModelRow,
-                controlId: "DeleteCommand",
-                text: Displays.Delete(context: context),
-                controlCss: "button-icon",
-                accessKey: "r",
-                onClick: "$p.send($(this));",
-                icon: "ui-icon-trash",
-                action: "Delete",
-                method: "delete",
-                confirm: "ConfirmDelete",
-                _using: deleteButton
-                    && context.CanDelete(ss: ss)
-                    && !ss.IsSite(context: context)
-                    && !readOnly)
-            .Button(
-                serverScriptModelRow: serverScriptModelRow,
-                controlId: "OpenDeleteSiteDialogCommand",
-                text: Displays.DeleteSite(context: context),
-                controlCss: "button-icon",
-                accessKey: "r",
-                onClick: "$p.openDeleteSiteDialog($(this));",
-                icon: "ui-icon-trash",
-                _using: deleteButton
-                    && context.CanDelete(ss: ss)
-                    && ss.IsSite(context: context)
-                    && !readOnly);
+            return hb
+                .Button(
+                    serverScriptModelRow: serverScriptModelRow,
+                    controlId: "UpdateCommand",
+                    text: Displays.Update(context: context),
+                    controlCss: "button-icon validate",
+                    accessKey: "s",
+                    onClick: "$p.send($(this));",
+                    icon: "ui-icon-disk",
+                    action: "Update",
+                    method: "put",
+                    _using: updateButton
+                        && context.CanUpdate(ss: ss)
+                        && !readOnly)
+                .Button(
+                    serverScriptModelRow: serverScriptModelRow,
+                    controlId: "OpenCopyDialogCommand",
+                    text: Displays.Copy(context: context),
+                    controlCss: "button-icon open-dialog",
+                    accessKey: "c",
+                    onClick: "$p.openDialog($(this));",
+                    icon: "ui-icon-copy",
+                    selector: "#CopyDialog",
+                    _using: copyButton
+                        && context.CanCreate(ss: ss)
+                        && ss.AllowCopy == true)
+                .Button(
+                    serverScriptModelRow: serverScriptModelRow,
+                    controlId: "ReferenceCopy",
+                    text: Displays.ReferenceCopy(context: context),
+                    controlCss: "button-icon",
+                    accessKey: "k",
+                    onClick: $"location.href='{Locations.ItemNew(context: context, id: ss.SiteId)}?CopyFrom={context.Id}'",
+                    icon: "ui-icon-copy",
+                    _using: copyButton
+                        && context.CanCreate(ss: ss)
+                        && ss.AllowReferenceCopy == true)
+                .Button(
+                    serverScriptModelRow: serverScriptModelRow,
+                    controlId: "MoveTargetsCommand",
+                    text: Displays.Move(context: context),
+                    controlCss: "button-icon open-dialog",
+                    accessKey: "o",
+                    onClick: "$p.moveTargets($(this));",
+                    icon: "ui-icon-transferthick-e-w",
+                    selector: "#MoveDialog",
+                    action: "MoveTargets",
+                    method: "get",
+                    _using: moveButton
+                        && ss.MoveTargets?.Any() == true
+                        && context.CanUpdate(ss: ss)
+                        && ss.MoveTargetsOptions(sites: ss.NumberOfMoveTargetsTable(context: context))
+                            .Any(o => ss.MoveTargets.Contains(o.Key.ToLong()))
+                        && !readOnly)
+                .Button(
+                    serverScriptModelRow:serverScriptModelRow,
+                    controlId: "EditOutgoingMail",
+                    text: Displays.Mail(context: context),
+                    controlCss: "button-icon",
+                    onClick: "$p.openOutgoingMailDialog($(this));",
+                    icon: "ui-icon-mail-closed",
+                    action: "Edit",
+                    method: "put",
+                    accessKey: "m",
+                    _using: mailButton
+                        && context.CanSendMail(ss: ss))
+                .Button(
+                    serverScriptModelRow: serverScriptModelRow,
+                    controlId: "DeleteCommand",
+                    text: Displays.Delete(context: context),
+                    controlCss: "button-icon",
+                    accessKey: "r",
+                    onClick: "$p.send($(this));",
+                    icon: "ui-icon-trash",
+                    action: "Delete",
+                    method: "delete",
+                    confirm: "ConfirmDelete",
+                    _using: deleteButton
+                        && context.CanDelete(ss: ss)
+                        && !ss.IsSite(context: context)
+                        && !readOnly)
+                .Button(
+                    serverScriptModelRow: serverScriptModelRow,
+                    controlId: "OpenDeleteSiteDialogCommand",
+                    text: Displays.DeleteSite(context: context),
+                    controlCss: "button-icon",
+                    accessKey: "r",
+                    onClick: "$p.openDeleteSiteDialog($(this));",
+                    icon: "ui-icon-trash",
+                    _using: deleteButton
+                        && context.CanDelete(ss: ss)
+                        && ss.IsSite(context: context)
+                        && !readOnly);
         }
 
         private static HtmlBuilder Button(
