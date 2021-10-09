@@ -34,6 +34,7 @@ namespace Implem.Pleasanter.Libraries.Resources
                 Content = HtmlScripts.ExtendedScripts(
                     context: context,
                     deptId: context.DeptId,
+                    groups: context.Groups,
                     userId: context.UserId,
                     siteTop: siteTop,
                     siteId: siteId,
