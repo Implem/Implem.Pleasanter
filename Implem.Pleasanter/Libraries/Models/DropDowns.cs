@@ -302,11 +302,6 @@ namespace Implem.Pleasanter.Libraries.Models
             bool searchColumnOnly = true,
             bool searchFormat = true)
         {
-            //var ss = SiteSettingsUtilities.Get(
-            //    context: context,
-            //    siteModel: Site,
-            //    referenceId: ReferenceId,
-            //    setSiteIntegration: true);
             var column = ss.GetColumn(
                 context: context,
                 columnName: filter

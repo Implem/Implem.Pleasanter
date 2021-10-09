@@ -1187,7 +1187,10 @@ namespace Implem.Pleasanter.Models
 
         public string SearchDropDown(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
             return DropDowns.SearchDropDown(
                 context: context,
                 ss: Site.SiteSettings);
@@ -1195,7 +1198,10 @@ namespace Implem.Pleasanter.Models
 
         public string RelatingDropDown(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
             return DropDowns.RelatingDropDown(
                 context: context,
                 ss: Site.SiteSettings);
@@ -1203,7 +1209,10 @@ namespace Implem.Pleasanter.Models
 
         public string SelectSearchDropDown(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
             return DropDowns.SelectSearchDropDown(
                 context: context,
                 ss: Site.SiteSettings);
