@@ -9,6 +9,7 @@ namespace Implem.ParameterAccessor.Parts
         public string Description;
         public bool Disabled;
         public List<int> DeptIdList;
+        public List<int> GroupIdList;
         public List<int> UserIdList;
         public List<long> SiteIdList;
         public List<long> IdList;

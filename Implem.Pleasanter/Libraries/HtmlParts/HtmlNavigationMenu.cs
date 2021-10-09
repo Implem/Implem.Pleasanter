@@ -594,8 +594,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static List<ParameterAccessor.Parts.ExtendedNavigationMenu> ExtendedNavigationMenu(Context context)
         {
             return ExtendedNavigationMenu(
-                userId: context.UserId,
                 deptId: context.DeptId,
+                groups: context.Groups,
+                userId: context.UserId,
                 siteId: context.SiteId,
                 id: context.Id,
                 controller: context.Controller,
@@ -603,8 +604,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static List<ParameterAccessor.Parts.ExtendedNavigationMenu> ExtendedNavigationMenu(
-            int userId,
             int deptId,
+            List<int> groups,
+            int userId,
             long siteId,
             long id,
             string controller,
@@ -613,8 +615,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var extendedNavigationMenus = ExtensionUtilities.ExtensionWhere<ParameterAccessor.Parts.ExtendedNavigationMenu>(
                 extensions: Parameters.ExtendedNavigationMenus,
                 name: null,
-                userId: userId,
                 deptId: deptId,
+                groups: groups,
+                userId: userId,
                 siteId: siteId,
                 id: id,
                 controller: controller,
