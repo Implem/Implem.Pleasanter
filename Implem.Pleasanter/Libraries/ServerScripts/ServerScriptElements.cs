@@ -1,46 +1,39 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Settings;
 using System.Collections.Generic;
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public class ServerScriptElements
     {
-        public enum DisplayTypes : int
-        {
-            Normal = 0,
-            Nothing = 1,
-            Disabled = 2,
-            Hidden = 3,
-        }
-
-        public Dictionary<string, DisplayTypes> DisplayTypeHash = new Dictionary<string, DisplayTypes>();
+        public Dictionary<string, Settings.View.CommandDisplayTypes> DisplayTypeHash = new Dictionary<string, Settings.View.CommandDisplayTypes>();
 
         public void DisplayType(string key, int type)
         {
-            DisplayTypeHash.AddOrUpdate(key, (DisplayTypes)type);
+            DisplayTypeHash.AddOrUpdate(key, (View.CommandDisplayTypes)type);
         }
 
-        public bool Normal(string key)
+        public bool Displayed(string key)
         {
             var value = DisplayTypeHash.Get(key);
-            return value == DisplayTypes.Normal;
+            return value == View.CommandDisplayTypes.Displayed;
         }
 
-        public bool Nothing(string key)
+        public bool None(string key)
         {
             var value = DisplayTypeHash.Get(key);
-            return value == DisplayTypes.Nothing;
+            return value == View.CommandDisplayTypes.None;
         }
 
         public bool Disabled(string key)
         {
             var value = DisplayTypeHash.Get(key);
-            return value == DisplayTypes.Disabled;
+            return value == View.CommandDisplayTypes.Disabled;
         }
 
         public bool Hidden(string key)
         {
             var value = DisplayTypeHash.Get(key);
-            return value == DisplayTypes.Hidden;
+            return value == View.CommandDisplayTypes.Hidden;
         }
     }
 }

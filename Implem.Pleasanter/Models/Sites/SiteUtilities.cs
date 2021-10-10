@@ -7182,6 +7182,8 @@ namespace Implem.Pleasanter.Models
                 .Any(o => o.Name == "TimeSeries" && o.ReferenceType == ss.ReferenceType);
             var hasKamban = Def.ViewModeDefinitionCollection
                 .Any(o => o.Name == "Kamban" && o.ReferenceType == ss.ReferenceType);
+            var displayTypeOptionCollection = GetDisplayTypeOptionCollection(context);
+            var commandDisplayTypeOptionCollection = GetCommandDisplayTypeOptionCollection(context);
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("ViewForm")
@@ -7216,6 +7218,11 @@ namespace Implem.Pleasanter.Models
                             .Li(
                                 action: () => hb
                                     .A(
+                                        href: "#ViewEditorTab",
+                                        text: Displays.Editor(context: context)))
+                            .Li(
+                                action: () => hb
+                                    .A(
                                         href: "#ViewCalendarTab",
                                         text: Displays.Calendar(context: context)),
                                 _using: hasCalendar)
@@ -7243,14 +7250,51 @@ namespace Implem.Pleasanter.Models
                                         href: "#ViewKambanTab",
                                         text: Displays.Kamban(context: context)),
                                 _using: hasKamban))
-                        .ViewGridTab(context: context, ss: ss, view: view)
-                        .ViewFiltersTab(context: context, ss: ss, view: view)
-                        .ViewSortersTab(context: context, ss: ss, view: view)
-                        .ViewCalendarTab(context: context, ss: ss, view: view, _using: hasCalendar)
-                        .ViewCrosstabTab(context: context, ss: ss, view: view, _using: hasCrosstab)
-                        .ViewGanttTab(context: context, ss: ss, view: view, _using: hasGantt)
-                        .ViewTimeSeriesTab(context: context, ss: ss, view: view, _using: hasTimeSeries)
-                        .ViewKambanTab(context: context, ss: ss, view: view, _using: hasKamban))
+                        .ViewGridTab(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            displayTypeOptionCollection: displayTypeOptionCollection,
+                            commandDisplayTypeOptionCollection: commandDisplayTypeOptionCollection)
+                        .ViewFiltersTab(
+                            context: context,
+                            ss: ss,
+                            view: view)
+                        .ViewSortersTab(
+                            context: context,
+                            ss: ss,
+                            view: view)
+                        .ViewEditorTab(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            commandDisplayTypeOptionCollection: commandDisplayTypeOptionCollection)
+                        .ViewCalendarTab(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            _using: hasCalendar)
+                        .ViewCrosstabTab(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            commandDisplayTypeOptionCollection: commandDisplayTypeOptionCollection,
+                            _using: hasCrosstab)
+                        .ViewGanttTab(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            _using: hasGantt)
+                        .ViewTimeSeriesTab(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            _using: hasTimeSeries)
+                        .ViewKambanTab(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            _using: hasKamban))
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
@@ -7282,27 +7326,13 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static HtmlBuilder ViewGridTab(
-            this HtmlBuilder hb, Context context, SiteSettings ss, View view)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            View view,
+            Dictionary<string, string> displayTypeOptionCollection,
+            Dictionary<string, string> commandDisplayTypeOptionCollection)
         {
-            var displayTypeOptionCollection = new Dictionary<string, string>()
-            {
-                {
-                    View.DisplayTypes.Displayed.ToInt().ToString(),
-                    Displays.Displayed(context: context)
-                },
-                {
-                    View.DisplayTypes.Hidden.ToInt().ToString(),
-                    Displays.Hidden(context: context)
-                },
-                {
-                    View.DisplayTypes.AlwaysDisplayed.ToInt().ToString(),
-                    Displays.AlwaysDisplayed(context: context)
-                },
-                {
-                    View.DisplayTypes.AlwaysHidden.ToInt().ToString(),
-                    Displays.AlwaysHidden(context: context)
-                }
-            };
             return hb.FieldSet(id: "ViewGridTab", action: () => hb
                 .FieldSet(
                     css: " enclosed-thin",
@@ -7368,20 +7398,70 @@ namespace Implem.Pleasanter.Models
                                         addSelectedValue: false,
                                         action: "SetSiteSettings",
                                         method: "post"))))
-                .FieldDropDown(
-                    context: context,
-                    controlId: "ViewFilters_FiltersDisplayType",
-                    fieldCss: "field-auto-thin",
-                    labelText: Displays.FiltersDisplayType(context: context),
-                    optionCollection: displayTypeOptionCollection,
-                    selectedValue: view.FiltersDisplayType?.ToInt().ToString())
-                .FieldDropDown(
-                    context: context,
-                    controlId: "ViewFilters_AggregationsDisplayType",
-                    fieldCss: "field-auto-thin",
-                    labelText: Displays.AggregationsDisplayType(context: context),
-                    optionCollection: displayTypeOptionCollection,
-                    selectedValue: view.AggregationsDisplayType?.ToInt().ToString()));
+                .FieldSet(
+                    css: " enclosed-thin",
+                    legendText: Displays.FilterAndAggregationSettings(context: context),
+                    action: () => hb
+                        .FieldDropDown(
+                            context: context,
+                            controlId: "ViewFilters_FiltersDisplayType",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.FiltersDisplayType(context: context),
+                            optionCollection: displayTypeOptionCollection,
+                            selectedValue: view.FiltersDisplayType?.ToInt().ToString())
+                        .FieldDropDown(
+                            context: context,
+                            controlId: "ViewFilters_AggregationsDisplayType",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.AggregationsDisplayType(context: context),
+                            optionCollection: displayTypeOptionCollection,
+                            selectedValue: view.AggregationsDisplayType?.ToInt().ToString()))
+                .FieldSet(
+                    css: " enclosed-thin",
+                    legendText: Displays.CommandButtonsSettings(context: context),
+                    action: () => hb
+                        .FieldDropDown(
+                            context: context,
+                            controlId: "ViewFilters_BulkMoveTargetsCommand",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.BulkMove(context: context),
+                            optionCollection: commandDisplayTypeOptionCollection,
+                            selectedValue: view.BulkMoveTargetsCommand?.ToInt().ToString())
+                        .FieldDropDown(
+                            context: context,
+                            controlId: "ViewFilters_BulkDeleteCommand",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.BulkDelete(context: context),
+                            optionCollection: commandDisplayTypeOptionCollection,
+                            selectedValue: view.BulkDeleteCommand?.ToInt().ToString())
+                        .FieldDropDown(
+                            context: context,
+                            controlId: "ViewFilters_EditImportSettings",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.Import(context: context),
+                            optionCollection: commandDisplayTypeOptionCollection,
+                            selectedValue: view.EditImportSettings?.ToInt().ToString())
+                        .FieldDropDown(
+                            context: context,
+                            controlId: "ViewFilters_OpenExportSelectorDialogCommand",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.Export(context: context),
+                            optionCollection: commandDisplayTypeOptionCollection,
+                            selectedValue: view.OpenExportSelectorDialogCommand?.ToInt().ToString())
+                        .FieldDropDown(
+                            context: context,
+                            controlId: "ViewFilters_OpenBulkUpdateSelectorDialogCommand",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.BulkUpdate(context: context),
+                            optionCollection: commandDisplayTypeOptionCollection,
+                            selectedValue: view.OpenBulkUpdateSelectorDialogCommand?.ToInt().ToString())
+                        .FieldDropDown(
+                            context: context,
+                            controlId: "ViewFilters_EditOnGridCommand",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.EditMode(context: context),
+                            optionCollection: commandDisplayTypeOptionCollection,
+                            selectedValue: view.EditOnGridCommand?.ToInt().ToString())));
         }
 
         /// <summary>
@@ -7668,33 +7748,96 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private static HtmlBuilder ViewEditorTab(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            View view,
+            Dictionary<string, string> commandDisplayTypeOptionCollection)
+        {
+            return hb.FieldSet(id: "ViewEditorTab", action: () => hb
+                .FieldSet(
+                    css: " enclosed-thin",
+                    legendText: Displays.CommandButtonsSettings(context: context),
+                    action: () => hb
+                        .FieldDropDown(
+                            context: context,
+                            controlId: "ViewFilters_UpdateCommand",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.Update(context: context),
+                            optionCollection: commandDisplayTypeOptionCollection,
+                            selectedValue: view.UpdateCommand?.ToInt().ToString())
+                        .FieldDropDown(
+                            context: context,
+                            controlId: "ViewFilters_OpenCopyDialogCommand",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.Copy(context: context),
+                            optionCollection: commandDisplayTypeOptionCollection,
+                            selectedValue: view.OpenCopyDialogCommand?.ToInt().ToString())
+                        .FieldDropDown(
+                            context: context,
+                            controlId: "ViewFilters_ReferenceCopyCommand",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.ReferenceCopy(context: context),
+                            optionCollection: commandDisplayTypeOptionCollection,
+                            selectedValue: view.ReferenceCopyCommand?.ToInt().ToString())
+                        .FieldDropDown(
+                            context: context,
+                            controlId: "ViewFilters_MoveTargetsCommand",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.Move(context: context),
+                            optionCollection: commandDisplayTypeOptionCollection,
+                            selectedValue: view.MoveTargetsCommand?.ToInt().ToString())
+                        .FieldDropDown(
+                            context: context,
+                            controlId: "ViewFilters_EditOutgoingMail",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.Mail(context: context),
+                            optionCollection: commandDisplayTypeOptionCollection,
+                            selectedValue: view.EditOutgoingMail?.ToInt().ToString())
+                        .FieldDropDown(
+                            context: context,
+                            controlId: "ViewFilters_DeleteCommand",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.Delete(context: context),
+                            optionCollection: commandDisplayTypeOptionCollection,
+                            selectedValue: view.DeleteCommand?.ToInt().ToString())));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static HtmlBuilder ViewCalendarTab(
             this HtmlBuilder hb, Context context, SiteSettings ss, View view, bool _using)
         {
             return _using
                 ? hb.FieldSet(id: "ViewCalendarTab", action: () => hb
-                    .FieldDropDown(
-                        context: context,
-                        controlId: "CalendarGroupBy",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.GroupBy(context: context),
-                        optionCollection: ss.CalendarGroupByOptions(context: context),
-                        selectedValue: view.GetCalendarGroupBy(),
-                        insertBlank: true)
-                    .FieldDropDown(
-                        context: context,
-                        controlId: "CalendarTimePeriod",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.Period(context: context),
-                        optionCollection: ss.CalendarTimePeriodOptions(context: context),
-                        selectedValue: view.GetCalendarTimePeriod(ss: ss))
-                    .FieldDropDown(
-                        context: context,
-                        controlId: "CalendarFromTo",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.Column(context: context),
-                        optionCollection: ss.CalendarColumnOptions(context: context),
-                        selectedValue: view.GetCalendarFromTo(ss: ss)))
+                    .FieldSet(
+                        css: " enclosed-thin",
+                        legendText: Displays.CalendarSettings(context: context),
+                        action: () => hb
+                            .FieldDropDown(
+                                context: context,
+                                controlId: "CalendarGroupBy",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.GroupBy(context: context),
+                                optionCollection: ss.CalendarGroupByOptions(context: context),
+                                selectedValue: view.GetCalendarGroupBy(),
+                                insertBlank: true)
+                            .FieldDropDown(
+                                context: context,
+                                controlId: "CalendarTimePeriod",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.Period(context: context),
+                                optionCollection: ss.CalendarTimePeriodOptions(context: context),
+                                selectedValue: view.GetCalendarTimePeriod(ss: ss))
+                            .FieldDropDown(
+                                context: context,
+                                controlId: "CalendarFromTo",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.Column(context: context),
+                                optionCollection: ss.CalendarColumnOptions(context: context),
+                                selectedValue: view.GetCalendarFromTo(ss: ss))))
                 : hb;
         }
 
@@ -7706,55 +7849,71 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             View view,
+            Dictionary<string, string> commandDisplayTypeOptionCollection,
             bool _using)
         {
             return _using
                 ? hb.FieldSet(id: "ViewCrosstabTab", action: () => hb
-                    .FieldDropDown(
-                        context: context,
-                        controlId: "CrosstabGroupByX",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.GroupByX(context: context),
-                        optionCollection: ss.CrosstabGroupByXOptions(context: context),
-                        selectedValue: view.GetCrosstabGroupByX(context: context, ss: ss))
-                    .FieldDropDown(
-                        context: context,
-                        controlId: "CrosstabGroupByY",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.GroupByY(context: context),
-                        optionCollection: ss.CrosstabGroupByYOptions(context: context),
-                        selectedValue: view.GetCrosstabGroupByY(context: context, ss: ss))
-                    .FieldDropDown(
-                        context: context,
-                        controlId: "CrosstabColumns",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.NumericColumn(context: context),
-                        optionCollection: ss.CrosstabColumnsOptions(context: context),
-                        selectedValue: view.CrosstabColumns,
-                        multiple: true)
-                    .FieldDropDown(
-                        context: context,
-                        controlId: "CrosstabAggregateType",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.AggregationType(context: context),
-                        optionCollection: ss.CrosstabAggregationTypeOptions(context: context),
-                        selectedValue: view.GetCrosstabAggregateType(ss))
-                    .FieldDropDown(
-                        context: context,
-                        controlId: "CrosstabValue",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.AggregationTarget(context: context),
-                        optionCollection: ss.CrosstabColumnsOptions(context: context),
-                        selectedValue: view.GetCrosstabValue(
-                            context: context,
-                            ss: ss))
-                    .FieldDropDown(
-                        context: context,
-                        controlId: "CrosstabTimePeriod",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.Period(context: context),
-                        optionCollection: ss.CrosstabTimePeriodOptions(context: context),
-                        selectedValue: view.GetCrosstabTimePeriod(ss)))
+                    .FieldSet(
+                        css: " enclosed-thin",
+                        legendText: Displays.CrosstabSettings(context: context),
+                        action: () => hb
+                            .FieldDropDown(
+                                context: context,
+                                controlId: "CrosstabGroupByX",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.GroupByX(context: context),
+                                optionCollection: ss.CrosstabGroupByXOptions(context: context),
+                                selectedValue: view.GetCrosstabGroupByX(context: context, ss: ss))
+                            .FieldDropDown(
+                                context: context,
+                                controlId: "CrosstabGroupByY",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.GroupByY(context: context),
+                                optionCollection: ss.CrosstabGroupByYOptions(context: context),
+                                selectedValue: view.GetCrosstabGroupByY(context: context, ss: ss))
+                            .FieldDropDown(
+                                context: context,
+                                controlId: "CrosstabColumns",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.NumericColumn(context: context),
+                                optionCollection: ss.CrosstabColumnsOptions(context: context),
+                                selectedValue: view.CrosstabColumns,
+                                multiple: true)
+                            .FieldDropDown(
+                                context: context,
+                                controlId: "CrosstabAggregateType",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.AggregationType(context: context),
+                                optionCollection: ss.CrosstabAggregationTypeOptions(context: context),
+                                selectedValue: view.GetCrosstabAggregateType(ss))
+                            .FieldDropDown(
+                                context: context,
+                                controlId: "CrosstabValue",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.AggregationTarget(context: context),
+                                optionCollection: ss.CrosstabColumnsOptions(context: context),
+                                selectedValue: view.GetCrosstabValue(
+                                    context: context,
+                                    ss: ss))
+                            .FieldDropDown(
+                                context: context,
+                                controlId: "CrosstabTimePeriod",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.Period(context: context),
+                                optionCollection: ss.CrosstabTimePeriodOptions(context: context),
+                                selectedValue: view.GetCrosstabTimePeriod(ss)))
+                    .FieldSet(
+                        css: " enclosed-thin",
+                        legendText: Displays.CommandButtonsSettings(context: context),
+                        action: () => hb
+                            .FieldDropDown(
+                                context: context,
+                                controlId: "ViewFilters_ExportCrosstabCommand",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.Export(context: context),
+                                optionCollection: commandDisplayTypeOptionCollection,
+                                selectedValue: view.ExportCrosstabCommand?.ToInt().ToString())))
                 : hb;
         }
 
@@ -7766,22 +7925,26 @@ namespace Implem.Pleasanter.Models
         {
             return _using
                 ? hb.FieldSet(id: "ViewGanttTab", action: () => hb
-                    .FieldDropDown(
-                        context: context,
-                        controlId: "GanttGroupBy",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.GroupBy(context: context),
-                        optionCollection: ss.GanttGroupByOptions(context: context),
-                        selectedValue: view.GetGanttGroupBy(),
-                        insertBlank: true)
-                    .FieldDropDown(
-                        context: context,
-                        controlId: "GanttSortBy",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.SortBy(context: context),
-                        optionCollection: ss.GanttSortByOptions(context: context),
-                        selectedValue: view.GetGanttSortBy(),
-                        insertBlank: true))
+                    .FieldSet(
+                        css: " enclosed-thin",
+                        legendText: Displays.GanttSettings(context: context),
+                        action: () => hb
+                            .FieldDropDown(
+                                context: context,
+                                controlId: "GanttGroupBy",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.GroupBy(context: context),
+                                optionCollection: ss.GanttGroupByOptions(context: context),
+                                selectedValue: view.GetGanttGroupBy(),
+                                insertBlank: true)
+                            .FieldDropDown(
+                                context: context,
+                                controlId: "GanttSortBy",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.SortBy(context: context),
+                                optionCollection: ss.GanttSortByOptions(context: context),
+                                selectedValue: view.GetGanttSortBy(),
+                                insertBlank: true)))
                 : hb;
         }
 
@@ -7793,27 +7956,31 @@ namespace Implem.Pleasanter.Models
         {
             return _using
                 ? hb.FieldSet(id: "ViewTimeSeriesTab", action: () => hb
-                    .FieldDropDown(
-                        context: context,
-                        controlId: "TimeSeriesGroupBy",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.GroupBy(context: context),
-                        optionCollection: ss.TimeSeriesGroupByOptions(context: context),
-                        selectedValue: view.TimeSeriesGroupBy)
-                    .FieldDropDown(
-                        context: context,
-                        controlId: "TimeSeriesAggregateType",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.AggregationType(context: context),
-                        optionCollection: ss.TimeSeriesAggregationTypeOptions(context: context),
-                        selectedValue: view.TimeSeriesAggregateType)
-                    .FieldDropDown(
-                        context: context,
-                        controlId: "TimeSeriesValue",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.AggregationTarget(context: context),
-                        optionCollection: ss.TimeSeriesValueOptions(context: context),
-                        selectedValue: view.TimeSeriesValue))
+                    .FieldSet(
+                        css: " enclosed-thin",
+                        legendText: Displays.TimeSeriesSettings(context: context),
+                        action: () => hb
+                            .FieldDropDown(
+                                context: context,
+                                controlId: "TimeSeriesGroupBy",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.GroupBy(context: context),
+                                optionCollection: ss.TimeSeriesGroupByOptions(context: context),
+                                selectedValue: view.TimeSeriesGroupBy)
+                            .FieldDropDown(
+                                context: context,
+                                controlId: "TimeSeriesAggregateType",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.AggregationType(context: context),
+                                optionCollection: ss.TimeSeriesAggregationTypeOptions(context: context),
+                                selectedValue: view.TimeSeriesAggregateType)
+                            .FieldDropDown(
+                                context: context,
+                                controlId: "TimeSeriesValue",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.AggregationTarget(context: context),
+                                optionCollection: ss.TimeSeriesValueOptions(context: context),
+                                selectedValue: view.TimeSeriesValue)))
                 : hb;
         }
 
@@ -7825,51 +7992,55 @@ namespace Implem.Pleasanter.Models
         {
             return _using
                 ? hb.FieldSet(id: "ViewKambanTab", action: () => hb
-                    .FieldDropDown(
-                        context: context,
-                        controlId: "KambanGroupByX",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.GroupByX(context: context),
-                        optionCollection: ss.KambanGroupByOptions(context: context),
-                        selectedValue: view.KambanGroupByX)
-                    .FieldDropDown(
-                        context: context,
-                        controlId: "KambanGroupByY",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.GroupByY(context: context),
-                        optionCollection: ss.KambanGroupByOptions(context: context),
-                        selectedValue: view.KambanGroupByY,
-                        insertBlank: true)
-                    .FieldDropDown(
-                        context: context,
-                        controlId: "KambanAggregateType",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.AggregationType(context: context),
-                        optionCollection: ss.KambanAggregationTypeOptions(context: context),
-                        selectedValue: view.KambanAggregateType)
-                    .FieldDropDown(
-                        context: context,
-                        controlId: "KambanValue",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.AggregationTarget(context: context),
-                        optionCollection: ss.KambanValueOptions(context: context),
-                        selectedValue: view.KambanValue)
-                    .FieldDropDown(
-                        context: context,
-                        controlId: "KambanColumns",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.MaxColumns(context: context),
-                        optionCollection: Enumerable.Range(
-                            Parameters.General.KambanMinColumns,
-                            Parameters.General.KambanMaxColumns)
-                                .ToDictionary(o => o.ToString(), o => o.ToString()),
-                        selectedValue: view.GetKambanColumns().ToString())
-                    .FieldCheckBox(
-                        controlId: "KambanAggregationView",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.AggregationView(context: context),
-                        _checked: view.KambanAggregationView == true,
-                        labelPositionIsRight: true))
+                    .FieldSet(
+                        css: " enclosed-thin",
+                        legendText: Displays.KambanSettings(context: context),
+                        action: () => hb
+                            .FieldDropDown(
+                                context: context,
+                                controlId: "KambanGroupByX",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.GroupByX(context: context),
+                                optionCollection: ss.KambanGroupByOptions(context: context),
+                                selectedValue: view.KambanGroupByX)
+                            .FieldDropDown(
+                                context: context,
+                                controlId: "KambanGroupByY",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.GroupByY(context: context),
+                                optionCollection: ss.KambanGroupByOptions(context: context),
+                                selectedValue: view.KambanGroupByY,
+                                insertBlank: true)
+                            .FieldDropDown(
+                                context: context,
+                                controlId: "KambanAggregateType",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.AggregationType(context: context),
+                                optionCollection: ss.KambanAggregationTypeOptions(context: context),
+                                selectedValue: view.KambanAggregateType)
+                            .FieldDropDown(
+                                context: context,
+                                controlId: "KambanValue",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.AggregationTarget(context: context),
+                                optionCollection: ss.KambanValueOptions(context: context),
+                                selectedValue: view.KambanValue)
+                            .FieldDropDown(
+                                context: context,
+                                controlId: "KambanColumns",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.MaxColumns(context: context),
+                                optionCollection: Enumerable.Range(
+                                    Parameters.General.KambanMinColumns,
+                                    Parameters.General.KambanMaxColumns)
+                                        .ToDictionary(o => o.ToString(), o => o.ToString()),
+                                selectedValue: view.GetKambanColumns().ToString())
+                            .FieldCheckBox(
+                                controlId: "KambanAggregationView",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.AggregationView(context: context),
+                                _checked: view.KambanAggregationView == true,
+                                labelPositionIsRight: true)))
                 : hb;
         }
 
@@ -7884,6 +8055,58 @@ namespace Implem.Pleasanter.Models
                     listItemCollection: ss.ViewSelectableOptions(),
                     selectedValueTextCollection: selected?.Select(o => o.ToString())))
                 .SetData("#Views");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static Dictionary<string, string> GetDisplayTypeOptionCollection(Context context)
+        {
+            return new Dictionary<string, string>()
+            {
+                {
+                    View.DisplayTypes.Displayed.ToInt().ToString(),
+                    Displays.Displayed(context: context)
+                },
+                {
+                    View.DisplayTypes.Hidden.ToInt().ToString(),
+                    Displays.Hidden(context: context)
+                },
+                {
+                    View.DisplayTypes.AlwaysDisplayed.ToInt().ToString(),
+                    Displays.AlwaysDisplayed(context: context)
+                },
+                {
+                    View.DisplayTypes.AlwaysHidden.ToInt().ToString(),
+                    Displays.AlwaysHidden(context: context)
+                }
+            };
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static Dictionary<string, string> GetCommandDisplayTypeOptionCollection(Context context)
+        {
+            return new Dictionary<string, string>()
+            {
+                {
+                    View.CommandDisplayTypes.Displayed.ToInt().ToString(),
+                    Displays.Displayed(context: context)
+                },
+                {
+                    View.CommandDisplayTypes.None.ToInt().ToString(),
+                    Displays.None(context: context)
+                },
+                {
+                    View.CommandDisplayTypes.Disabled.ToInt().ToString(),
+                    Displays.Disabled(context: context)
+                },
+                {
+                    View.CommandDisplayTypes.Hidden.ToInt().ToString(),
+                    Displays.Hidden(context: context)
+                }
+            };
         }
 
         /// <summary>

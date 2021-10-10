@@ -1,0 +1,33 @@
+﻿{
+    "Id": "CommandButtonsSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Command buttons settings"
+        },
+        {
+            "Language": "zh",
+            "Body": "命令按钮设置"
+        },
+        {
+            "Language": "ja",
+            "Body": "コマンドボタンの設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Befehlstasteneinstellungen"
+        },
+        {
+            "Language": "ko",
+            "Body": "명령 버튼 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Configuración de los botones de comando"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cài đặt nút lệnh"
+        }
+    ]
+}
