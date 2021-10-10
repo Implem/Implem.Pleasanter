@@ -10,6 +10,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.Linq;
+using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 using NavigationMenu = Implem.ParameterAccessor.Parts.NavigationMenu;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
@@ -23,7 +24,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string referenceType,
             Error.Types errorType,
             bool useNavigationMenu,
-            bool useSearch)
+            bool useSearch,
+            ServerScriptModelRow serverScriptModelRow)
         {
             return errorType == Error.Types.None
                 && useNavigationMenu
@@ -40,7 +42,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 muenuId: "NavigationMenu",
                                 menus: ExtendedAssembleNavigationMenu(
                                     navigationMenus: Parameters.NavigationMenus,
-                                    extendedNavigationMenus: ExtendedNavigationMenu(context)))
+                                    extendedNavigationMenus: ExtendedNavigationMenu(context)),
+                                serverScriptModelRow: serverScriptModelRow)
                             .Search(
                                 context: context,
                                 _using: useSearch && !Parameters.Search.DisableCrossSearch))
@@ -59,7 +62,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string css = null,
             string cssUiWidget = null,
             List<NavigationMenu> menus = null,
-            bool childMenu = false)
+            bool childMenu = false,
+            ServerScriptModelRow serverScriptModelRow = null)
         {
             if (menus?.Any() != true)
             {
@@ -72,22 +76,28 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Where(menu => !menu.Disabled)
                     .ForEach(menu =>
                     {
+                        var id = menu.ContainerId ?? menu.MenuId;
                         if (Check(
                             context: context,
                             ss: ss,
                             menus: menu,
-                            _using: Using(
-                                context: context,
-                                ss: ss,
-                                referenceType: referenceType,
-                                siteId: siteId,
-                                menu: menu)))
+                            _using: serverScriptModelRow?.Elements?.None(id) != true
+                                && Using(
+                                    context: context,
+                                    ss: ss,
+                                    referenceType: referenceType,
+                                    siteId: siteId,
+                                    menu: menu)))
                         {
                             hb.Li(
-                                id: menu.ContainerId ?? menu.MenuId,
+                                id: id,
                                 css: menu.ChildMenus?.Any() != true
                                     ? null
                                     : "sub-menu",
+                                attributes: new HtmlAttributes()
+                                    .Style(
+                                        value: "display:none;",
+                                        _using: serverScriptModelRow?.Elements?.Hidden(id) == true),
                                 action: () => hb
                                     .Content(
                                         context: context,
@@ -104,18 +114,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         css: "menu",
                                         cssUiWidget: "ui-widget-content",
                                         childMenu: true,
-                                        menus: menu.ChildMenus));
+                                        menus: menu.ChildMenus,
+                                        serverScriptModelRow: serverScriptModelRow));
                         }
                     }));
         }
 
         private static HtmlBuilder Content(
-                    this HtmlBuilder hb,
-                    Context context,
-                    SiteSettings ss,
-                    long siteId,
-                    bool childMenu,
-                    NavigationMenu menu)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            long siteId,
+            bool childMenu,
+            NavigationMenu menu)
         {
             return childMenu
                 ? hb.ContentBody(
@@ -130,8 +141,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         ss: ss,
                         siteId: siteId,
                         menu: menu)
-                        .DataId(menu.MenuId)
-                        .Id(menu.Id),
+                            .DataId(menu.MenuId)
+                            .Id(menu.Id),
                     action: () => hb.ContentBody(
                         context: context,
                         ss: ss,

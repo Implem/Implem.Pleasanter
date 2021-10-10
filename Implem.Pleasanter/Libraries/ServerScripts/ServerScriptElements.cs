@@ -5,7 +5,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public class ServerScriptElements
     {
-        public Dictionary<string, Settings.View.CommandDisplayTypes> DisplayTypeHash = new Dictionary<string, Settings.View.CommandDisplayTypes>();
+        public Dictionary<string, View.CommandDisplayTypes> DisplayTypeHash = new Dictionary<string, View.CommandDisplayTypes>();
 
         public void DisplayType(string key, int type)
         {
