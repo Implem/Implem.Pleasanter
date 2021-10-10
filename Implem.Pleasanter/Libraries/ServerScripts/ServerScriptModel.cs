@@ -22,6 +22,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public readonly ServerScriptModelView View = new ServerScriptModelView();
         public readonly ServerScriptModelApiItems Items;
         public ServerScriptModelHidden Hidden;
+        public ServerScriptElements Elements;
         public ServerScriptModelExtendedSql ExtendedSql;
         public ServerScriptModelNotification Notification;
         public readonly ServerScriptModelUtilities Utilities;
@@ -95,6 +96,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 context: context,
                 onTesting: onTesting);
             Hidden = new ServerScriptModelHidden();
+            Elements = new ServerScriptElements();
             ExtendedSql = new ServerScriptModelExtendedSql(
                 context: context,
                 onTesting: onTesting);
@@ -252,6 +254,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             public string ExtendedRowCss { get; set; }
             public Dictionary<string, ServerScriptModelColumn> Columns { get; set; }
             public Dictionary<string, string> Hidden { get; set; }
+            public ServerScriptElements Elements { get; set; }
             private List<string> NeedReplaceHtmlCache { get; set; }
 
             public List<string> NeedReplaceHtml(Context context, SiteSettings ss)

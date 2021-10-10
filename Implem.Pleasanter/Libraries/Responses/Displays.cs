@@ -1009,6 +1009,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CalendarSettings(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CalendarSettings",
+                data: data);
+        }
+
         public static string Camera(
             Context context,
             params string[] data)
@@ -1409,6 +1419,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CommandButtonsSettings(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CommandButtonsSettings",
+                data: data);
+        }
+
         public static string CommentDeleted(
             Context context,
             params string[] data)
@@ -1766,6 +1786,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Crosstab",
+                data: data);
+        }
+
+        public static string CrosstabSettings(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CrosstabSettings",
                 data: data);
         }
 
@@ -2919,6 +2949,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string FilterAndAggregationSettings(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "FilterAndAggregationSettings",
+                data: data);
+        }
+
         public static string Filters(
             Context context,
             params string[] data)
@@ -3126,6 +3166,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Gantt",
+                data: data);
+        }
+
+        public static string GanttSettings(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "GanttSettings",
                 data: data);
         }
 
@@ -3886,6 +3936,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Kamban",
+                data: data);
+        }
+
+        public static string KambanSettings(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "KambanSettings",
                 data: data);
         }
 
@@ -7336,6 +7396,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "TimeSeries",
+                data: data);
+        }
+
+        public static string TimeSeriesSettings(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "TimeSeriesSettings",
                 data: data);
         }
 

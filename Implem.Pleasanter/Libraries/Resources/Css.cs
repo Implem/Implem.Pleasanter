@@ -39,6 +39,7 @@ namespace Implem.Pleasanter.Libraries.Resources
                 Content = HtmlStyles.ExtendedStyles(
                     context: context,
                     deptId: context.DeptId,
+                    groups: context.Groups,
                     userId: context.UserId,
                     siteTop: siteTop,
                     siteId: siteId,

@@ -1,0 +1,33 @@
+﻿{
+    "Id": "CalendarSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Calendar settings"
+        },
+        {
+            "Language": "zh",
+            "Body": "日历设置"
+        },
+        {
+            "Language": "ja",
+            "Body": "カレンダーの設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Kalendereinstellungen"
+        },
+        {
+            "Language": "ko",
+            "Body": "캘린더 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Configuraciones de calendario"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cài đặt lịch"
+        }
+    ]
+}

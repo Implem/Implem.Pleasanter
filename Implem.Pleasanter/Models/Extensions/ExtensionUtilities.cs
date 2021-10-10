@@ -180,6 +180,7 @@ namespace Implem.Pleasanter.Models
                 extensions: extensions,
                 name: name,
                 deptId: context.DeptId,
+                groups: context.Groups,
                 userId: context.UserId,
                 siteId: siteId ?? context.SiteId,
                 id: id ?? context.Id,
@@ -194,8 +195,9 @@ namespace Implem.Pleasanter.Models
         public static IEnumerable<T> ExtensionWhere<T>(
             IEnumerable<ParameterAccessor.Parts.ExtendedBase> extensions,
             string name,
-            int userId,
             int deptId,
+            List<int> groups,
+            int userId,
             long siteId,
             long id,
             string controller,
@@ -205,6 +207,8 @@ namespace Implem.Pleasanter.Models
             return extensions
                 ?.Where(o => !o.SpecifyByName || o.Name == name)
                 .Where(o => MeetConditions(o.DeptIdList, deptId))
+                .Where(o => o.GroupIdList?.Any() != true
+                    || groups?.Any(groupId => MeetConditions(o.GroupIdList, groupId)) == true)
                 .Where(o => MeetConditions(o.UserIdList, userId))
                 .Where(o => MeetConditions(o.SiteIdList, siteId))
                 .Where(o => MeetConditions(o.IdList, id))

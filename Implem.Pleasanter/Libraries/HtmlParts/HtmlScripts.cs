@@ -6,6 +6,7 @@ using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
@@ -105,6 +106,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return ExtendedScripts(
                 context: context,
                 deptId: context.DeptId,
+                groups: context.Groups,
                 userId: context.UserId,
                 siteTop: context.SiteTop(),
                 siteId: context.SiteId,
@@ -116,6 +118,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static string ExtendedScripts(
             Context context,
             int deptId,
+            List<int> groups,
             int userId,
             bool siteTop,
             long siteId,
@@ -130,6 +133,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         extensions: Parameters.ExtendedScripts,
                         name: null,
                         deptId: deptId,
+                        groups: groups,
                         userId: userId,
                         siteId: siteId,
                         id: id,

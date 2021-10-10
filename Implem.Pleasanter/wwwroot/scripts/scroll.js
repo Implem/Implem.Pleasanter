@@ -13,6 +13,9 @@ $p.clearScroll = function () {
 }
 
 $p.paging = function (selector) {
+    if ($('.ui-dialog:visible').length > 0) {
+        return;
+    }
     var $control = $(selector);
     var $offset = $(selector + 'Offset');
     if ($control.length) {

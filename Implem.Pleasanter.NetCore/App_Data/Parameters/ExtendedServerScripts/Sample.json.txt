@@ -2,6 +2,7 @@
     "Name": null,
     "Description": "Sample",
     "DeptIdList": null,
+    "GroupIdList": null,
     "UserIdList": null,
     "SiteIdList": null,
     "IdList": null,

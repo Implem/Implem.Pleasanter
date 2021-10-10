@@ -3360,7 +3360,9 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                view.SetByForm(context: context, ss: SiteSettings);
+                view.SetByForm(
+                    context: context,
+                    ss: SiteSettings);
                 res
                     .ViewResponses(SiteSettings, new List<int> { selected })
                     .CloseDialog();

@@ -267,6 +267,9 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
                             + (TrashboxActions()
                                 ? "/trashbox"
                                 : string.Empty);
+                        ExtendedFields = Parameters.ExtendedFields
+                            .ExtensionWhere<ParameterAccessor.Parts.ExtendedField>(context: this)
+                            .ToList();
                         break;
                     case "groups":
                         Page = Controller;
