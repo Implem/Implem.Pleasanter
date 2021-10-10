@@ -49,6 +49,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                     .MainCommands(
                         context: context,
                         ss: ss,
+                        view: view,
                         verType: Versions.VerTypes.Latest,
                         backButton: !context.Publish && !editOnGrid))
                 .SetMemory("formChanged", false, _using: !editOnGrid)
