@@ -608,6 +608,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlId = null,
             string text = null,
             string controlCss = null,
+            string style = null,
             string title = null,
             string accessKey = null,
             string onClick = null,
@@ -619,6 +620,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string method = null,
             string confirm = null,
             string type = "button",
+            bool disabled = false,
             bool _using = true)
         {
             return _using
@@ -626,6 +628,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     attributes: new HtmlAttributes()
                         .Id(controlId)
                         .Class("button " + controlCss)
+                        .Style(style)
                         .Type(type)
                         .Title(title)
                         .AccessKey(accessKey)
@@ -635,7 +638,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .DataSelector(selector)
                         .DataAction(action)
                         .DataMethod(method)
-                        .DataConfirm(confirm),
+                        .DataConfirm(confirm)
+                        .Disabled(disabled),
                     action: () => hb
                         .Text(text: text))
                 : hb;

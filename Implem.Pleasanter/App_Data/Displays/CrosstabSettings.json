@@ -1,0 +1,33 @@
+﻿{
+    "Id": "CrosstabSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Crosstab settings"
+        },
+        {
+            "Language": "zh",
+            "Body": "交叉表设置"
+        },
+        {
+            "Language": "ja",
+            "Body": "クロス集計の設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Kreuztabelleneinstellungen"
+        },
+        {
+            "Language": "ko",
+            "Body": "크로스탭 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Configuración de tabla de referencias cruzadas"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cài đặt bảng chéo"
+        }
+    ]
+}

@@ -25,6 +25,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             AlwaysHidden = 3,
         }
 
+        public enum CommandDisplayTypes : int
+        {
+            Displayed = 0,
+            None = 1,
+            Disabled = 2,
+            Hidden = 3,
+        }
+
         public int Id;
         public string Name;
         public List<string> GridColumns;
@@ -37,6 +45,20 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? NearCompletionTime;
         public bool? Delay;
         public bool? Overdue;
+        public CommandDisplayTypes? BulkMoveTargetsCommand;
+        public CommandDisplayTypes? BulkDeleteCommand;
+        public CommandDisplayTypes? EditImportSettings;
+        public CommandDisplayTypes? OpenExportSelectorDialogCommand;
+        public CommandDisplayTypes? OpenBulkUpdateSelectorDialogCommand;
+        public CommandDisplayTypes? EditOnGridCommand;
+        public CommandDisplayTypes? ExportCrosstabCommand;
+        public CommandDisplayTypes? UpdateCommand;
+        public CommandDisplayTypes? OpenCopyDialogCommand;
+        public CommandDisplayTypes? ReferenceCopyCommand;
+        public CommandDisplayTypes? MoveTargetsCommand;
+        public CommandDisplayTypes? EditOutgoingMail;
+        public CommandDisplayTypes? DeleteCommand;
+        public CommandDisplayTypes? OpenDeleteSiteDialogCommand;
         public Dictionary<string, string> ColumnFilterHash;
         public string Search;
         public Dictionary<string, SqlOrderBy.Types> ColumnSorterHash;
@@ -376,6 +398,36 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     context: context,
                                     controlId: controlId);
                                 break;
+                            case "ViewFilters_BulkMoveTargetsCommand":
+                                BulkMoveTargetsCommand = (CommandDisplayTypes)Int(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "ViewFilters_BulkDeleteCommand":
+                                BulkDeleteCommand = (CommandDisplayTypes)Int(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "ViewFilters_EditImportSettings":
+                                EditImportSettings = (CommandDisplayTypes)Int(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "ViewFilters_OpenExportSelectorDialogCommand":
+                                OpenExportSelectorDialogCommand = (CommandDisplayTypes)Int(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "ViewFilters_OpenBulkUpdateSelectorDialogCommand":
+                                OpenBulkUpdateSelectorDialogCommand = (CommandDisplayTypes)Int(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "ViewFilters_EditOnGridCommand":
+                                EditOnGridCommand = (CommandDisplayTypes)Int(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
                             case "ViewFilters_Incomplete":
                                 Incomplete = Bool(
                                     context: context,
@@ -425,6 +477,41 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 SetSorters(
                                     context: context,
                                     ss: ss);
+                                break;
+                            case "ViewFilters_UpdateCommand":
+                                UpdateCommand = (CommandDisplayTypes)Int(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "ViewFilters_OpenCopyDialogCommand":
+                                OpenCopyDialogCommand = (CommandDisplayTypes)Int(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "ViewFilters_ReferenceCopyCommand":
+                                ReferenceCopyCommand = (CommandDisplayTypes)Int(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "ViewFilters_MoveTargetsCommand":
+                                MoveTargetsCommand = (CommandDisplayTypes)Int(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "ViewFilters_EditOutgoingMail":
+                                EditOutgoingMail = (CommandDisplayTypes)Int(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "ViewFilters_DeleteCommand":
+                                DeleteCommand = (CommandDisplayTypes)Int(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "ViewFilters_OpenDeleteSiteDialogCommand":
+                                OpenDeleteSiteDialogCommand = (CommandDisplayTypes)Int(
+                                    context: context,
+                                    controlId: controlId);
                                 break;
                             case "CalendarTimePeriod":
                                 CalendarTimePeriod = String(
@@ -478,6 +565,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 break;
                             case "CrosstabMonth":
                                 CrosstabMonth = Time(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "ViewFilters_ExportCrosstabCommand":
+                                ExportCrosstabCommand = (CommandDisplayTypes)Int(
                                     context: context,
                                     controlId: controlId);
                                 break;
@@ -792,6 +884,62 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Overdue == true)
             {
                 view.Overdue = true;
+            }
+            if (BulkMoveTargetsCommand != CommandDisplayTypes.Displayed)
+            {
+                view.BulkMoveTargetsCommand = BulkMoveTargetsCommand;
+            }
+            if (BulkDeleteCommand != CommandDisplayTypes.Displayed)
+            {
+                view.BulkDeleteCommand = BulkDeleteCommand;
+            }
+            if (EditImportSettings != CommandDisplayTypes.Displayed)
+            {
+                view.EditImportSettings = EditImportSettings;
+            }
+            if (OpenExportSelectorDialogCommand != CommandDisplayTypes.Displayed)
+            {
+                view.OpenExportSelectorDialogCommand = OpenExportSelectorDialogCommand;
+            }
+            if (OpenBulkUpdateSelectorDialogCommand != CommandDisplayTypes.Displayed)
+            {
+                view.OpenBulkUpdateSelectorDialogCommand = OpenBulkUpdateSelectorDialogCommand;
+            }
+            if (EditOnGridCommand != CommandDisplayTypes.Displayed)
+            {
+                view.EditOnGridCommand = EditOnGridCommand;
+            }
+            if (ExportCrosstabCommand != CommandDisplayTypes.Displayed)
+            {
+                view.ExportCrosstabCommand = ExportCrosstabCommand;
+            }
+            if (UpdateCommand != CommandDisplayTypes.Displayed)
+            {
+                view.UpdateCommand = UpdateCommand;
+            }
+            if (OpenCopyDialogCommand != CommandDisplayTypes.Displayed)
+            {
+                view.OpenCopyDialogCommand = OpenCopyDialogCommand;
+            }
+            if (ReferenceCopyCommand != CommandDisplayTypes.Displayed)
+            {
+                view.ReferenceCopyCommand = ReferenceCopyCommand;
+            }
+            if (MoveTargetsCommand != CommandDisplayTypes.Displayed)
+            {
+                view.MoveTargetsCommand = MoveTargetsCommand;
+            }
+            if (EditOutgoingMail != CommandDisplayTypes.Displayed)
+            {
+                view.EditOutgoingMail = EditOutgoingMail;
+            }
+            if (DeleteCommand != CommandDisplayTypes.Displayed)
+            {
+                view.DeleteCommand = DeleteCommand;
+            }
+            if (OpenDeleteSiteDialogCommand != CommandDisplayTypes.Displayed)
+            {
+                view.OpenDeleteSiteDialogCommand = OpenDeleteSiteDialogCommand;
             }
             if (ColumnFilterHash?.Any() == true)
             {

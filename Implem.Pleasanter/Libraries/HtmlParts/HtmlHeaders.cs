@@ -6,6 +6,7 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlHeaders
@@ -18,7 +19,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string referenceType,
             Error.Types errorType,
             bool useNavigationMenu,
-            bool useSearch)
+            bool useSearch,
+            ServerScriptModelRow serverScriptModelRow)
         {
             return hb.Header(id: "Header", action: () => hb
                 .HeaderLogo(
@@ -31,7 +33,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     referenceType: referenceType,
                     errorType: errorType,
                     useNavigationMenu: useNavigationMenu,
-                    useSearch: useSearch));
+                    useSearch: useSearch,
+                    serverScriptModelRow: serverScriptModelRow));
         }
 
         public static HtmlBuilder HeaderLogo(

@@ -115,7 +115,8 @@ namespace Implem.Pleasanter.Models
                                 ss: ss,
                                 view: view,
                                 verType: Versions.VerTypes.Latest,
-                                backButton: !context.Publish)
+                                backButton: !context.Publish,
+                                serverScriptModelRow: serverScriptModelRow)
                             .Div(css: "margin-bottom")
                             .Hidden(
                                 controlId: "BaseUrl",

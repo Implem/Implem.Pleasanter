@@ -124,7 +124,8 @@ namespace Implem.Pleasanter.Models
                                 ss: ss,
                                 view: view,
                                 verType: Versions.VerTypes.Latest,
-                                backButton: !context.Publish)
+                                backButton: !context.Publish,
+                                serverScriptModelRow: serverScriptModelRow)
                             .Div(css: "margin-bottom")
                             .Hidden(
                                 controlId: "BaseUrl",
@@ -1393,7 +1394,8 @@ namespace Implem.Pleasanter.Models
                         .Editor(
                             context: context,
                             ss: ss,
-                            issueModel: issueModel)
+                            issueModel: issueModel,
+                            serverScriptModelRow: serverScriptModelRow)
                         .Hidden(controlId: "DropDownSearchPageSize", value: Parameters.General.DropDownSearchPageSize.ToString()))
                             .ToString();
         }
@@ -1438,7 +1440,8 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
-            IssueModel issueModel)
+            IssueModel issueModel,
+            ServerScriptModelRow serverScriptModelRow)
         {
             var commentsColumn = ss.GetColumn(context: context, columnName: "Comments");
             var commentsColumnPermissionType =  Permissions.ColumnPermissionType(
@@ -1528,6 +1531,7 @@ namespace Implem.Pleasanter.Models
                                     moveButton: true,
                                     mailButton: true,
                                     deleteButton: true,
+                                    serverScriptModelRow: serverScriptModelRow,
                                     extensions: () => hb
                                         .MainCommandExtensions(
                                             context: context,

@@ -65,6 +65,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         useTitle: useTitle,
                         useSearch: useSearch,
                         useNavigationMenu: useNavigationMenu,
+                        serverScriptModelRow: serverScriptModelRow,
                         action: action)
                     .TemplateDialogs(
                         context: context,
@@ -228,6 +229,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool useTitle = true,
             bool useSearch = true,
             bool useNavigationMenu = true,
+            ServerScriptModelRow serverScriptModelRow = null,
             Action action = null)
         {
             return hb.Div(id: "MainContainer", action: () => hb
@@ -238,7 +240,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     referenceType: referenceType,
                     errorType: errorType,
                     useNavigationMenu: useNavigationMenu,
-                    useSearch: useSearch)
+                    useSearch: useSearch,
+                    serverScriptModelRow: serverScriptModelRow)
                 .Content(
                     context: context,
                     ss: ss,
