@@ -3424,6 +3424,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToList();
         }
 
+        public void SetLinks(Context context)
+        {
+            Columns
+                ?.Where(column => column.HasChoices())
+                .ForEach(column => SetLinks(
+                    context: context,
+                    column: column));
+        }
+
         public void SetLinks(Context context, Column column)
         {
             column.Link = false;
