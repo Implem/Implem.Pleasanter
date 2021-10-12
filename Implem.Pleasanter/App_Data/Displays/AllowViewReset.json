@@ -1,0 +1,33 @@
+﻿{
+    "Id": "AllowViewReset",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Allow view reset"
+        },
+        {
+            "Language": "zh",
+            "Body": "允许视图重置"
+        },
+        {
+            "Language": "ja",
+            "Body": "ビューのリセットを許可"
+        },
+        {
+            "Language": "de",
+            "Body": "Zurücksetzen der Ansicht zulassen"
+        },
+        {
+            "Language": "ko",
+            "Body": "보기 재설정 허용"
+        },
+        {
+            "Language": "es",
+            "Body": "Permitir restablecer la vista"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cho phép đặt lại chế độ xem"
+        }
+    ]
+}
