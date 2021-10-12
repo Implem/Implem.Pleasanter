@@ -153,6 +153,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ReferenceType = "Tenants"
             };
             ss.Init(context: context);
+            ss.SetLinks(context: context);
             ss.SetChoiceHash(context: context, withLink: false);
             ss.PermissionType = Permissions.Admins(context: context);
             return ss;
@@ -225,6 +226,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ReferenceType = "Depts"
             };
             ss.Init(context: context);
+            ss.SetLinks(context: context);
             ss.SetChoiceHash(context: context, withLink: false);
             ss.PermissionType = Permissions.Admins(context: context);
             return ss;
@@ -237,6 +239,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ReferenceType = "Groups"
             };
             ss.Init(context: context);
+            ss.SetLinks(context: context);
             ss.SetChoiceHash(context: context, withLink: false);
             ss.PermissionType = Permissions.Admins(context: context);
             return ss;
@@ -259,6 +262,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ReferenceType = "Registrations"
             };
             ss.Init(context: context);
+            ss.SetLinks(context: context);
             ss.SetChoiceHash(context: context, withLink: false);
             ss.PermissionType = Permissions.Admins(context: context);
             return ss;
@@ -271,6 +275,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ReferenceType = "Users"
             };
             ss.Init(context: context);
+            ss.SetLinks(context: context);
             ss.SetChoiceHash(context: context, withLink: false);
             ss.PermissionType = Permissions.Admins(context: context);
             return ss;
