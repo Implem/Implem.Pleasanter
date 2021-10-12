@@ -8,6 +8,8 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -32,6 +34,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Disabled = 3
         }
 
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum SearchTypes : int
         {
             PartialMatch = 1,

@@ -60,6 +60,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public CommandDisplayTypes? DeleteCommand;
         public CommandDisplayTypes? OpenDeleteSiteDialogCommand;
         public Dictionary<string, string> ColumnFilterHash;
+        public Dictionary<string, Column.SearchTypes> ColumnFilterSearchTypes;
         public string Search;
         public Dictionary<string, SqlOrderBy.Types> ColumnSorterHash;
         public string CalendarTimePeriod;
@@ -1721,7 +1722,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 }
                 else
                 {
-                    switch (column.SearchType)
+                    var searchType = ColumnFilterSearchTypes?.ContainsKey(column.ColumnName) == true
+                        ? ColumnFilterSearchTypes.Get(column.ColumnName)
+                        : column.SearchType;
+                    switch (searchType)
                     {
                         case Column.SearchTypes.ExactMatch:
                             var param = value.ToSingleList();
