@@ -133,6 +133,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public decimal? NearCompletionTimeBeforeDays;
         public int? GridPageSize;
         public int? GridView;
+        public bool? AllowViewReset;
         public GridEditorTypes? GridEditorType;
         public bool? HistoryOnGrid;
         public bool? AlwaysRequestSearchCondition;
@@ -267,6 +268,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             NearCompletionTimeAfterDays = NearCompletionTimeAfterDays ??
                 Parameters.General.NearCompletionTimeAfterDays;
             GridPageSize = GridPageSize ?? Parameters.General.GridPageSize;
+            AllowViewReset = AllowViewReset ?? Parameters.General.AllowViewReset;
             FirstDayOfWeek = FirstDayOfWeek ?? Parameters.General.FirstDayOfWeek;
             FirstMonth = FirstMonth ?? Parameters.General.FirstMonth;
             UpdateColumnDefinitionHash();
@@ -586,6 +588,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (GridView != 0)
             {
                 ss.GridView = GridView;
+            }
+            if (AllowViewReset != Parameters.General.AllowViewReset)
+            {
+                ss.AllowViewReset = AllowViewReset;
             }
             if (GridEditorType != GridEditorTypes.None)
             {
@@ -3074,6 +3080,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "NearCompletionTimeAfterDays": NearCompletionTimeAfterDays = value.ToInt(); break;
                 case "GridPageSize": GridPageSize = value.ToInt(); break;
                 case "GridView": GridView = value.ToInt(); break;
+                case "AllowViewReset": AllowViewReset = value.ToBool(); break;
                 case "GridEditorType": GridEditorType = (GridEditorTypes)value.ToInt(); break;
                 case "HistoryOnGrid": HistoryOnGrid = value.ToBool(); break;
                 case "AlwaysRequestSearchCondition": AlwaysRequestSearchCondition = value.ToBool(); break;
