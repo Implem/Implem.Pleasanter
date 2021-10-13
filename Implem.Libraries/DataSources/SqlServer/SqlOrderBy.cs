@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Implem.IRds;
+using Implem.Libraries.Utilities;
 namespace Implem.Libraries.DataSources.SqlServer
 {
     public class SqlOrderBy
@@ -74,7 +75,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                     case Sqls.Functions.Avg:
                         return $"avg({factory.Sqls.IsNull}({columnBracket}, 0)) {orderType}";
                     default:
-                        return IsNullValue == null
+                        return IsNullValue.IsNullOrEmpty()
                             ? columnBracket + orderType
                             : $"{factory.Sqls.IsNull}({columnBracket}, {IsNullValue}) {orderType}";
                 }
