@@ -1901,20 +1901,23 @@ namespace Implem.Pleasanter.Libraries.Settings
                     orderBy.Add(new SqlOrderBy(
                         columnBracket: "\"Title\"",
                         orderType: data.Value,
-                        tableName: $"{tableName}_Items"));
+                        tableName: $"{tableName}_Items",
+                        isNullValue: "''"));
                     break;
                 case "TitleBody":
                     orderBy.Add(new SqlOrderBy(
                         columnBracket: "\"Title\"",
                         orderType: data.Value,
-                        tableName: $"{tableName}_Items"));
+                        tableName: $"{tableName}_Items",
+                        isNullValue: "''"));
                     orderBy.Add(
                         column: ss.GetColumn(
                             context: context,
                             columnName: column.Joined
                                 ? $"{tableName},Body"
                                 : "Body"),
-                        orderType: data.Value);
+                        orderType: data.Value,
+                        isNullValue: column.IsNullValue(context: context));
                     break;
                 default:
                     if (column.Linked(withoutWiki: true))
@@ -1934,7 +1937,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         orderBy.Add(
                             column: column,
-                            orderType: data.Value);
+                            orderType: data.Value,
+                            isNullValue: column.IsNullValue(context: context));
                     }
                     break;
             }
