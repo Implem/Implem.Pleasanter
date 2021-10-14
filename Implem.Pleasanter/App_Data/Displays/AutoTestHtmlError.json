@@ -1,0 +1,9 @@
+﻿{
+    "Id": "AutoTestHtmlError",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "HTML element does not exist."
+        }
+    ]
+}

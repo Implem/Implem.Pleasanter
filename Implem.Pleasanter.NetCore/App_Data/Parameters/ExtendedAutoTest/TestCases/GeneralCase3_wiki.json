@@ -1,0 +1,43 @@
+﻿{
+    "CasesDescription": "汎用テストケース　wikiの確認",
+    "ResultFileName": "GeneralCase3.csv",
+    "TestCases": [
+        {
+            "TestPartsPath": "\\Users",
+            "TestPartsName": "LoginLocal.json"
+        },
+        {
+            "TestPartsPath": "\\Items\\Wiki\\Create",
+            "TestPartsName": "CreateWiki.json",
+            "CaseDescription": "Wikiを作成する。"
+        },
+        {
+            "TestPartsPath": "\\Items\\Wiki\\Transition",
+            "TestPartsName": "ToWiki.json",
+            "CaseDescription": "作成したWikiへ遷移する。"
+        },
+        {
+            "TestPartsPath": "\\Items\\Wiki\\Update",
+            "TestPartsName": "UpdateWiki.json",
+            "CaseDescription": "Wikiを更新する。"
+        },
+        {
+            "TestPartsPath": "\\Items\\Wiki\\Transition",
+            "TestPartsName": "ToWiki.json",
+            "CaseDescription": "作成したWikiへ遷移する。"
+        },
+        {
+            "TestPartsPath": "\\Items\\Wiki\\Delete",
+            "TestPartsName": "DeleteWiki.json",
+            "CaseDescription": "Wikiを削除する。"
+        },
+        {
+            "TestPartsPath": "\\Other",
+            "TestPartsName": "ToTop.json"
+        },
+        {
+            "TestPartsPath": "\\Users",
+            "TestPartsName": "Logout.json"
+        }
+    ]
+}

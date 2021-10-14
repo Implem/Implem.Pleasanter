@@ -76,6 +76,9 @@ namespace Implem.DefinitionAccessor
             Parameters.BinaryStorage = Read<BinaryStorage>();
             Parameters.CustomDefinitions = CustomDefinitionsHash();
             Parameters.Deleted = Read<Deleted>();
+            Parameters.ExtendedAutoTestSettings = Read<AutoTestSettings>();
+            Parameters.ExtendedAutoTestScenarios = ExtendedAutoTestScenarios();
+            Parameters.ExtendedAutoTestOperations = ExtendedAutoTestOperations();
             Parameters.ExtendedColumnDefinitions = ExtendedColumnDefinitions();
             Parameters.ExtendedColumnsSet = ExtendedColumnsSet();
             Parameters.ExtendedFields = ExtendedFields();
@@ -159,6 +162,83 @@ namespace Implem.DefinitionAccessor
                 foreach (var sub in dir.GetDirectories())
                 {
                     hash = CustomDefinitionsHash(sub.FullName, hash);
+                }
+            }
+            return hash;
+        }
+
+        private static List<AutoTestScenario> ExtendedAutoTestScenarios()
+        {
+            var hash = new List<AutoTestScenario>();
+            var path = Path.Combine(
+                Environments.CurrentDirectoryPath,
+                "App_Data",
+                "Parameters",
+                "ExtendedAutoTest",
+                "TestCases");
+            var dir = new DirectoryInfo(path);
+            if (dir.Exists)
+            {
+                foreach (var subDir in dir
+                    .GetFiles("*.json", SearchOption.AllDirectories)
+                    .Select((item, index) => new { item, index }))
+                {
+                    hash.Add(Files.Read(subDir.item.FullName).Deserialize<AutoTestScenario>());
+                    hash[subDir.index].CaseName
+                        = $"{Path.GetFileName(Path.GetDirectoryName(subDir.item.FullName))}/" +
+                        $"{Path.GetFileName(subDir.item.FullName.Replace(".json", ""))}";
+                    var testCasesPath = Path.GetDirectoryName(subDir.item.FullName)
+                        .Substring(Path.GetDirectoryName(subDir.item.FullName)
+                            .IndexOf("TestCases"))
+                            .Replace("TestCases\\", "");
+                    if (testCasesPath.Equals("TestCases"))
+                    {
+                        hash[subDir.index].CaseName
+                            = $"\\{Path.GetFileName(subDir.item.FullName.Replace(".json", ""))}";
+                    }
+                    else
+                    {
+                        hash[subDir.index].CaseName
+                            = $"\\{testCasesPath}" +
+                            $"\\{Path.GetFileName(subDir.item.FullName.Replace(".json", ""))}";
+                    }
+                }
+            }
+            return hash;
+        }
+
+        private static List<AutoTestOperation> ExtendedAutoTestOperations()
+        {
+            var hash = new List<AutoTestOperation>();
+            var path = Path.Combine(
+                Environments.CurrentDirectoryPath,
+                "App_Data",
+                "Parameters",
+                "ExtendedAutoTest",
+                "TestParts");
+            var dir = new DirectoryInfo(path);
+            if (dir.Exists)
+            {
+                foreach (var subDir in dir
+                    .GetFiles("*.json", SearchOption.AllDirectories)
+                    .Select((item, index) => new { item, index }))
+                {
+                    hash.Add(Files.Read(subDir.item.FullName).Deserialize<AutoTestOperation>());
+                    var testPartsPath = Path.GetDirectoryName(subDir.item.FullName)
+                        .Substring(Path.GetDirectoryName(subDir.item.FullName)
+                            .IndexOf("TestParts"))
+                            .Replace("TestParts\\", "");
+                    if (testPartsPath.Equals("TestParts"))
+                    {
+                        hash[subDir.index].TestPartsPath
+                            = $"\\{Path.GetFileName(subDir.item.FullName)}";
+                    }
+                    else
+                    {
+                        hash[subDir.index].TestPartsPath
+                            = $"\\{testPartsPath}" +
+                            $"\\{Path.GetFileName(subDir.item.FullName)}";
+                    }
                 }
             }
             return hash;

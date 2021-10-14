@@ -1,0 +1,71 @@
+﻿{
+    "CasesDescription": "汎用テストケース　期限付きテーブルの確認",
+    "ResultFileName": "GeneralCase1.csv",
+    "TestCases": [
+        {
+            "TestPartsPath": "\\Users",
+            "TestPartsName": "LoginLocal.json"
+        },
+        {
+            "TestPartsPath": "\\Items\\Issues\\Create",
+            "TestPartsName": "CreateIssuesTable.json",
+            "CaseDescription": "Issuesテーブルを作成する。"
+        },
+        {
+            "TestPartsPath": "\\Items\\Issues\\Transition",
+            "TestPartsName": "ToIssuesTable.json",
+            "CaseDescription": "作成したIssuesテーブルへ遷移する。"
+        },
+        {
+            "TestPartsPath": "\\Items\\Issues\\Create",
+            "TestPartsName": "CreateIssueRecord.json",
+            "CaseDescription": "Issuesテーブルのレコードを作成する。"
+        },
+        {
+            "TestPartsPath": "\\Items\\Issues\\Transition",
+            "TestPartsName": "ToIssuesTable.json",
+            "CaseDescription": "作成したIssuesテーブルへ遷移する。"
+        },
+        {
+            "TestPartsPath": "\\Items\\Issues\\Settings",
+            "CaseDescription": "設定を行う。"
+        },
+        {
+            "TestPartsPath": "\\Other",
+            "TestPartsName": "ToTop.json"
+        },
+        {
+            "TestPartsPath": "\\Items\\Issues\\Transition",
+            "TestPartsName": "ToIssuesTable.json",
+            "CaseDescription": "作成したIssuesテーブルへ遷移する。"
+        },
+        {
+            "TestPartsPath": "\\Items\\Issues\\Update",
+            "TestPartsName": "UpdateIssueRecord.json",
+            "CaseDescription": "Issuesテーブルのレコードを更新する。"
+        },
+        {
+            "TestPartsPath": "\\Items\\Issues\\Delete",
+            "TestPartsName": "DeleteIssueRecord.json",
+            "CaseDescription": "Issuesテーブルのレコードを削除する。"
+        },
+        {
+            "TestPartsPath": "\\Items\\Issues\\Transition",
+            "TestPartsName": "ToIssuesTable.json",
+            "CaseDescription": "作成したIssuesテーブルへ遷移する。"
+        },
+        {
+            "TestPartsPath": "\\Items\\Issues\\Delete",
+            "TestPartsName": "DeleteIssuesTable.json",
+            "CaseDescription": "Issuesテーブルを削除する。"
+        },
+        {
+            "TestPartsPath": "\\Other",
+            "TestPartsName": "ToTop.json"
+        },
+        {
+            "TestPartsPath": "\\Users",
+            "TestPartsName": "Logout.json"
+        }
+    ]
+}

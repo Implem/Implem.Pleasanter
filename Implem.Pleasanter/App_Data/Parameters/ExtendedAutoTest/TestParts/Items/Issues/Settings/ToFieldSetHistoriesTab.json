@@ -1,0 +1,16 @@
+﻿{
+    "TestParts": [
+        {
+            "ElementId": "SettingsMenuContainer",
+            "Action": "Hover"
+        },
+        {
+            "ElementId": "SettingsMenu_SiteSettings",
+            "Action": "Click"
+        },
+        {
+            "ElementLinkText": "変更履歴の一覧",
+            "Action": "Click"
+        }
+    ]
+}

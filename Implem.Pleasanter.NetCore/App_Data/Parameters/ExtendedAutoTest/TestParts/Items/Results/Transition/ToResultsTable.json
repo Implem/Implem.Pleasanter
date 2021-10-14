@@ -1,0 +1,10 @@
+﻿{
+    "TestParts":
+    [
+        {
+            "ElementLinkText": "テスト用記録テーブル",
+            "Action": "Click",
+            "Description": "作成したテーブルへ遷移する"
+        }
+    ]
+}

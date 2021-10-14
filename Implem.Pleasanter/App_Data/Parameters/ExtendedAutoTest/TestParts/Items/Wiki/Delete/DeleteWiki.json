@@ -1,0 +1,17 @@
+﻿{
+    "TestParts": [
+        {
+            "Action": "Delete"
+        },
+        {
+            "Action": "AlertAccept",
+            "Results": [
+                {
+                    "ElementId": "Message",
+                    "Description": "レコードが削除されること。",
+                    "ExpectedValue": "\" テスト用Wiki \" を削除しました。"
+                }
+            ]
+        }
+    ]
+}

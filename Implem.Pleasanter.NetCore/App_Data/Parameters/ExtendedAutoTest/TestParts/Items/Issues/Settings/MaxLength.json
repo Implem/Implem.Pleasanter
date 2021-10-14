@@ -1,0 +1,80 @@
+﻿{
+    "TestParts": [
+        {
+            "ElementId": "SettingsMenuContainer",
+            "Action": "Hover"
+        },
+        {
+            "ElementId": "SettingsMenu_SiteSettings",
+            "Action": "Click"
+        },
+        {
+            "ElementLinkText": "エディタ",
+            "Action": "Click"
+        },
+        {
+            "ElementCss": "#EditorColumns li[data-value=\"Title\"]",
+            "Action": "Click"
+        },
+        {
+            "ElementId": "OpenEditorColumnDialog",
+            "Action": "Click"
+        },
+        {
+            "ElementId": "MaxLength",
+            "Action": "Input",
+            "Value": "9"
+        },
+        {
+            "ElementId": "SetEditorColumn",
+            "Action": "Click"
+        },
+        {
+            "ElementId": "UpdateCommand",
+            "Action": "Click"
+        },
+        {
+            "ElementId": "GoBack",
+            "Action": "Click"
+        },
+        {
+            "TestPartId": "IssueRecord1",
+            "Action": "Click"
+        },
+        {
+            "ElementId": "Issues_Title",
+            "Action": "Input",
+            "Value": "0123456789"
+        },
+        {
+            "ElementId": "UpdateCommand",
+            "Action": "Click",
+            "Results": [
+                {
+                    "ElementId": "Issues_Title-error",
+                    "ExpectedValue": "9 文字以内で入力してください。",
+                    "Description": "入力文字数のエラーが表示されていること。"
+                }
+            ]
+        },
+        {
+            "ElementId": "Issues_Title",
+            "Action": "Input",
+            "Value": "012345678"
+        },
+        {
+            "Action": "Update",
+            "Results": [
+                {
+                    "ItemId": "Title",
+                    "ExpectedValue": "012345678",
+                    "Description": "更新内容が登録されていること。"
+                }
+            ]
+        },
+        {
+            "ElementId": "GoBack",
+            "Action": "Click"
+        }
+    ]
+}
