@@ -79,12 +79,12 @@ namespace Implem.TestAutomation
                     Thread.Sleep(testPart.WaitTime ?? 500);
 
                     //スクリーンショットとるメソッドが動かないので調査
-                    //if (testSettings.ScreenShot)
-                    //{
-                    //    TestAutomationOperate.GetScreenShot(
-                    //        driver: driver,
-                    //        ActionName: testPart.Action.ToString());
-                    //}
+                    if (testSettings.ScreenShot)
+                    {
+                        TestAutomationOperate.GetScreenShot(
+                            driver: driver,
+                            ActionName: testPart.Action.ToString());
+                    }
                     if (testPart.Results?.Count > 0)
                     {
                         testPart.Results.ForEach(resultCheck =>

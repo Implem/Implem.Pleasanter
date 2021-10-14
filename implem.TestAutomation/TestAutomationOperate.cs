@@ -604,30 +604,35 @@ namespace Implem.TestAutomation
             }
         }
 
-        //public static void GetScreenShot(IWebDriver driver, string ActionName = null)
-        //{
-        //    if (!AlertPresent(driver))
-        //    {
-        //        var parts = new DirectoryInfo(Assembly.GetEntryAssembly().Location).FullName.Split('\\');
-        //        var path = new DirectoryInfo(Path.Combine(
-        //            parts.Take(Array.IndexOf(parts, "implem.TestAutomation") + 1).Join("\\"),
-        //            "Log",
-        //            Parameters.ExtendedAutoTestSettings.ScreenShotPath)).FullName;
-        //        if (!new DirectoryInfo(path).Exists) Directory.CreateDirectory(path);
-        //        var result = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-        //        string str = null;
-        //        if (!ActionName.IsNullOrEmpty()) { str = $"_{ActionName}"; }
-        //        var file = Path.Combine(path, result + str + ".jpg");
-        //        VisibleItem(driver, "MainCommandsContainer");
-        //        VisibleItem(driver, "Footer");
-        //        VisibleItem(driver, "Message");
-        //        VerticalCombineDecorator vcd = new VerticalCombineDecorator(new ScreenshotMaker());
-        //        driver.TakeScreenshot(vcd).ToMagickImage().ToBitmap().Save(file);
-        //        VisibleItem(driver, "MainCommandsContainer");
-        //        VisibleItem(driver, "Footer");
-        //        VisibleItem(driver, "Message");
-        //    }
-        //}
+        public static void GetScreenShot(IWebDriver driver, string ActionName = null)
+        {
+            if (!AlertPresent(driver))
+            {
+                var parts = new DirectoryInfo(Assembly.GetEntryAssembly().Location).FullName.Split('\\');
+                var path = new DirectoryInfo(Path.Combine(
+                    parts.Take(Array.IndexOf(parts, "implem.TestAutomation") + 1).Join("\\"),
+                    "Log",
+                    Parameters.ExtendedAutoTestSettings.ScreenShotPath)).FullName;
+                if (!new DirectoryInfo(path).Exists) Directory.CreateDirectory(path);
+                var result = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                string str = null;
+                if (!ActionName.IsNullOrEmpty()) { str = $"_{ActionName}"; }
+                var file = Path.Combine(path, result + str + ".png");
+                VisibleItem(driver, "MainCommandsContainer");
+                VisibleItem(driver, "Footer");
+                VisibleItem(driver, "Message");
+                Screenshot screenshot = (driver as ITakesScreenshot).GetScreenshot();
+                screenshot.SaveAsFile(file, ScreenshotImageFormat.Png);
+                //driver.Manage().Window.FullScreen();
+                //VerticalCombineDecorator vcd = new VerticalCombineDecorator(new ScreenshotMaker());
+                //driver.TakeScreenshot(vcd).ToMagickImage().ToBitmap().Save(file);
+                //var ss = driver.TakeScreenshot(vcd);
+                //ss.SaveAsFile((string.Format("{0}\\{1}", createdFolderLocation, testName + ".Jpeg")), System.Drawing.Imaging.ImageFormat.Jpeg);
+                VisibleItem(driver, "MainCommandsContainer");
+                VisibleItem(driver, "Footer");
+                VisibleItem(driver, "Message");
+            }
+        }
 
         public static void VisibleItem(IWebDriver driver, string itemID)
         {
