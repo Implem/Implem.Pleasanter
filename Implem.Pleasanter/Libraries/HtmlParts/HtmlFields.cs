@@ -209,8 +209,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 {
                     case Column.Types.Dept:
                         (column.MultipleSelections == true
-                            ? value.Deserialize<List<int>>()
-                                ?? new List<int>()
+                            ? value.Deserialize<List<string>>()
+                                ?.Select(deptId => deptId.ToInt())
+                                .ToList()
+                                    ?? new List<int>()
                             : value.ToInt().ToSingleList())
                                 .Select(deptId => SiteInfo.Dept(
                                     tenantId: context.TenantId,
@@ -222,8 +224,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         break;
                     case Column.Types.Group:
                         (column.MultipleSelections == true
-                            ? value.Deserialize<List<int>>()
-                                ?? new List<int>()
+                            ? value.Deserialize<List<string>>()
+                                ?.Select(groupId => groupId.ToInt())
+                                .ToList()
+                                    ?? new List<int>()
                             : value.ToInt().ToSingleList())
                                 .Select(groupId => SiteInfo.Group(
                                     tenantId: context.TenantId,
@@ -235,8 +239,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         break;
                     case Column.Types.User:
                         (column.MultipleSelections == true
-                            ? value.Deserialize<List<int>>()
-                                ?? new List<int>()
+                            ? value.Deserialize<List<string>>()
+                                ?.Select(userId => userId.ToInt())
+                                .ToList()
+                                    ?? new List<int>()
                             : value.ToInt().ToSingleList())
                                 .Select(userId => SiteInfo.User(
                                     context: context,
