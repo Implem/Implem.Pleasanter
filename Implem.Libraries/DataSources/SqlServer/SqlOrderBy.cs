@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Implem.Libraries.Utilities;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Data.SqlClient;
 namespace Implem.Libraries.DataSources.SqlServer
@@ -70,7 +71,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                     case Sqls.Functions.Avg:
                         return $"avg(isnull({columnBracket}, 0)) {orderType}";
                     default:
-                        return IsNullValue == null
+                        return IsNullValue.IsNullOrEmpty()
                             ? columnBracket + orderType
                             : $"isnull({columnBracket}, {IsNullValue}) {orderType}";
                 }

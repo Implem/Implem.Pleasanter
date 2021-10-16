@@ -1474,6 +1474,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             Column column,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None,
             bool _using = true)
         {
@@ -1487,101 +1488,121 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             return self.Tenants_TenantId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Ver":
                             return self.Tenants_Ver(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "TenantName":
                             return self.Tenants_TenantName(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Title":
                             return self.Tenants_Title(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Body":
                             return self.Tenants_Body(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ContractSettings":
                             return self.Tenants_ContractSettings(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ContractDeadline":
                             return self.Tenants_ContractDeadline(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "DisableAllUsersPermission":
                             return self.Tenants_DisableAllUsersPermission(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "DisableStartGuide":
                             return self.Tenants_DisableStartGuide(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "LogoType":
                             return self.Tenants_LogoType(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "HtmlTitleTop":
                             return self.Tenants_HtmlTitleTop(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "HtmlTitleSite":
                             return self.Tenants_HtmlTitleSite(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "HtmlTitleRecord":
                             return self.Tenants_HtmlTitleRecord(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "TopStyle":
                             return self.Tenants_TopStyle(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "TopScript":
                             return self.Tenants_TopScript(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Comments":
                             return self.Tenants_Comments(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Creator":
                             return self.Tenants_Creator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Updator":
                             return self.Tenants_Updator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "CreatedTime":
                             return self.Tenants_CreatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UpdatedTime":
                             return self.Tenants_UpdatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         default:
                             return Def.ExtendedColumnTypes.ContainsKey(column.Name)
@@ -1589,7 +1610,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
-                                    isNullValue: column.IsNullValue(),
+                                    isNullValue: isNullValue,
                                     function: function)
                                 : self;
                     }
@@ -1600,66 +1621,79 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             return self.Demos_DemoId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Ver":
                             return self.Demos_Ver(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "TenantId":
                             return self.Demos_TenantId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Title":
                             return self.Demos_Title(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "LoginId":
                             return self.Demos_LoginId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Passphrase":
                             return self.Demos_Passphrase(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "MailAddress":
                             return self.Demos_MailAddress(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Initialized":
                             return self.Demos_Initialized(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Comments":
                             return self.Demos_Comments(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Creator":
                             return self.Demos_Creator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Updator":
                             return self.Demos_Updator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "CreatedTime":
                             return self.Demos_CreatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UpdatedTime":
                             return self.Demos_UpdatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         default:
                             return Def.ExtendedColumnTypes.ContainsKey(column.Name)
@@ -1667,7 +1701,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
-                                    isNullValue: column.IsNullValue(),
+                                    isNullValue: isNullValue,
                                     function: function)
                                 : self;
                     }
@@ -1678,66 +1712,79 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             return self.Extensions_ExtensionId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Ver":
                             return self.Extensions_Ver(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ExtensionType":
                             return self.Extensions_ExtensionType(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ExtensionName":
                             return self.Extensions_ExtensionName(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ExtensionSettings":
                             return self.Extensions_ExtensionSettings(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Body":
                             return self.Extensions_Body(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Description":
                             return self.Extensions_Description(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Disabled":
                             return self.Extensions_Disabled(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Comments":
                             return self.Extensions_Comments(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Creator":
                             return self.Extensions_Creator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Updator":
                             return self.Extensions_Updator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "CreatedTime":
                             return self.Extensions_CreatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UpdatedTime":
                             return self.Extensions_UpdatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         default:
                             return Def.ExtendedColumnTypes.ContainsKey(column.Name)
@@ -1745,7 +1792,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
-                                    isNullValue: column.IsNullValue(),
+                                    isNullValue: isNullValue,
                                     function: function)
                                 : self;
                     }
@@ -1756,61 +1803,73 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             return self.Sessions_SessionGuid(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Key":
                             return self.Sessions_Key(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Page":
                             return self.Sessions_Page(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Value":
                             return self.Sessions_Value(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ReadOnce":
                             return self.Sessions_ReadOnce(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UserArea":
                             return self.Sessions_UserArea(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Ver":
                             return self.Sessions_Ver(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Comments":
                             return self.Sessions_Comments(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Creator":
                             return self.Sessions_Creator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Updator":
                             return self.Sessions_Updator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "CreatedTime":
                             return self.Sessions_CreatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UpdatedTime":
                             return self.Sessions_UpdatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         default:
                             return Def.ExtendedColumnTypes.ContainsKey(column.Name)
@@ -1818,7 +1877,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
-                                    isNullValue: column.IsNullValue(),
+                                    isNullValue: isNullValue,
                                     function: function)
                                 : self;
                     }
@@ -1829,201 +1888,241 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             return self.SysLogs_CreatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "SysLogId":
                             return self.SysLogs_SysLogId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Ver":
                             return self.SysLogs_Ver(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "SysLogType":
                             return self.SysLogs_SysLogType(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "OnAzure":
                             return self.SysLogs_OnAzure(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "MachineName":
                             return self.SysLogs_MachineName(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ServiceName":
                             return self.SysLogs_ServiceName(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "TenantName":
                             return self.SysLogs_TenantName(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Application":
                             return self.SysLogs_Application(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Class":
                             return self.SysLogs_Class(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Method":
                             return self.SysLogs_Method(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "RequestData":
                             return self.SysLogs_RequestData(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "HttpMethod":
                             return self.SysLogs_HttpMethod(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "RequestSize":
                             return self.SysLogs_RequestSize(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ResponseSize":
                             return self.SysLogs_ResponseSize(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Elapsed":
                             return self.SysLogs_Elapsed(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ApplicationAge":
                             return self.SysLogs_ApplicationAge(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ApplicationRequestInterval":
                             return self.SysLogs_ApplicationRequestInterval(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "SessionAge":
                             return self.SysLogs_SessionAge(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "SessionRequestInterval":
                             return self.SysLogs_SessionRequestInterval(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "WorkingSet64":
                             return self.SysLogs_WorkingSet64(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "VirtualMemorySize64":
                             return self.SysLogs_VirtualMemorySize64(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ProcessId":
                             return self.SysLogs_ProcessId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ProcessName":
                             return self.SysLogs_ProcessName(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "BasePriority":
                             return self.SysLogs_BasePriority(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Url":
                             return self.SysLogs_Url(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UrlReferer":
                             return self.SysLogs_UrlReferer(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UserHostName":
                             return self.SysLogs_UserHostName(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UserHostAddress":
                             return self.SysLogs_UserHostAddress(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UserLanguage":
                             return self.SysLogs_UserLanguage(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UserAgent":
                             return self.SysLogs_UserAgent(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "SessionGuid":
                             return self.SysLogs_SessionGuid(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ErrMessage":
                             return self.SysLogs_ErrMessage(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ErrStackTrace":
                             return self.SysLogs_ErrStackTrace(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "InDebug":
                             return self.SysLogs_InDebug(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "AssemblyVersion":
                             return self.SysLogs_AssemblyVersion(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Comments":
                             return self.SysLogs_Comments(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Creator":
                             return self.SysLogs_Creator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Updator":
                             return self.SysLogs_Updator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UpdatedTime":
                             return self.SysLogs_UpdatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         default:
                             return Def.ExtendedColumnTypes.ContainsKey(column.Name)
@@ -2031,7 +2130,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
-                                    isNullValue: column.IsNullValue(),
+                                    isNullValue: isNullValue,
                                     function: function)
                                 : self;
                     }
@@ -2042,46 +2141,55 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             return self.Statuses_TenantId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "StatusId":
                             return self.Statuses_StatusId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Ver":
                             return self.Statuses_Ver(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Value":
                             return self.Statuses_Value(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Comments":
                             return self.Statuses_Comments(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Creator":
                             return self.Statuses_Creator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Updator":
                             return self.Statuses_Updator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "CreatedTime":
                             return self.Statuses_CreatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UpdatedTime":
                             return self.Statuses_UpdatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         default:
                             return Def.ExtendedColumnTypes.ContainsKey(column.Name)
@@ -2089,7 +2197,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
-                                    isNullValue: column.IsNullValue(),
+                                    isNullValue: isNullValue,
                                     function: function)
                                 : self;
                     }
@@ -2100,46 +2208,55 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             return self.ReminderSchedules_SiteId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Id":
                             return self.ReminderSchedules_Id(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Ver":
                             return self.ReminderSchedules_Ver(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ScheduledTime":
                             return self.ReminderSchedules_ScheduledTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Comments":
                             return self.ReminderSchedules_Comments(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Creator":
                             return self.ReminderSchedules_Creator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Updator":
                             return self.ReminderSchedules_Updator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "CreatedTime":
                             return self.ReminderSchedules_CreatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UpdatedTime":
                             return self.ReminderSchedules_UpdatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         default:
                             return Def.ExtendedColumnTypes.ContainsKey(column.Name)
@@ -2147,7 +2264,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
-                                    isNullValue: column.IsNullValue(),
+                                    isNullValue: isNullValue,
                                     function: function)
                                 : self;
                     }
@@ -2158,66 +2275,79 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             return self.Depts_TenantId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "DeptId":
                             return self.Depts_DeptId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Ver":
                             return self.Depts_Ver(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "DeptCode":
                             return self.Depts_DeptCode(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Dept":
                             return self.Depts_Dept(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "DeptName":
                             return self.Depts_DeptName(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Body":
                             return self.Depts_Body(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Disabled":
                             return self.Depts_Disabled(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Comments":
                             return self.Depts_Comments(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Creator":
                             return self.Depts_Creator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Updator":
                             return self.Depts_Updator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "CreatedTime":
                             return self.Depts_CreatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UpdatedTime":
                             return self.Depts_UpdatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         default:
                             return Def.ExtendedColumnTypes.ContainsKey(column.Name)
@@ -2225,7 +2355,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
-                                    isNullValue: column.IsNullValue(),
+                                    isNullValue: isNullValue,
                                     function: function)
                                 : self;
                     }
@@ -2236,56 +2366,67 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             return self.Groups_TenantId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "GroupId":
                             return self.Groups_GroupId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Ver":
                             return self.Groups_Ver(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "GroupName":
                             return self.Groups_GroupName(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Body":
                             return self.Groups_Body(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Disabled":
                             return self.Groups_Disabled(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Comments":
                             return self.Groups_Comments(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Creator":
                             return self.Groups_Creator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Updator":
                             return self.Groups_Updator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "CreatedTime":
                             return self.Groups_CreatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UpdatedTime":
                             return self.Groups_UpdatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         default:
                             return Def.ExtendedColumnTypes.ContainsKey(column.Name)
@@ -2293,7 +2434,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
-                                    isNullValue: column.IsNullValue(),
+                                    isNullValue: isNullValue,
                                     function: function)
                                 : self;
                     }
@@ -2304,51 +2445,61 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             return self.GroupMembers_GroupId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "DeptId":
                             return self.GroupMembers_DeptId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UserId":
                             return self.GroupMembers_UserId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Ver":
                             return self.GroupMembers_Ver(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Admin":
                             return self.GroupMembers_Admin(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Comments":
                             return self.GroupMembers_Comments(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Creator":
                             return self.GroupMembers_Creator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Updator":
                             return self.GroupMembers_Updator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "CreatedTime":
                             return self.GroupMembers_CreatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UpdatedTime":
                             return self.GroupMembers_UpdatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         default:
                             return Def.ExtendedColumnTypes.ContainsKey(column.Name)
@@ -2356,7 +2507,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
-                                    isNullValue: column.IsNullValue(),
+                                    isNullValue: isNullValue,
                                     function: function)
                                 : self;
                     }
@@ -2367,101 +2518,121 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             return self.Registrations_TenantId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "RegistrationId":
                             return self.Registrations_RegistrationId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Ver":
                             return self.Registrations_Ver(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "MailAddress":
                             return self.Registrations_MailAddress(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Invitee":
                             return self.Registrations_Invitee(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "InviteeName":
                             return self.Registrations_InviteeName(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "LoginId":
                             return self.Registrations_LoginId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Name":
                             return self.Registrations_Name(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Password":
                             return self.Registrations_Password(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Language":
                             return self.Registrations_Language(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Passphrase":
                             return self.Registrations_Passphrase(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Invitingflg":
                             return self.Registrations_Invitingflg(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UserId":
                             return self.Registrations_UserId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "DeptId":
                             return self.Registrations_DeptId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "GroupId":
                             return self.Registrations_GroupId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Comments":
                             return self.Registrations_Comments(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Creator":
                             return self.Registrations_Creator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Updator":
                             return self.Registrations_Updator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "CreatedTime":
                             return self.Registrations_CreatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UpdatedTime":
                             return self.Registrations_UpdatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         default:
                             return Def.ExtendedColumnTypes.ContainsKey(column.Name)
@@ -2469,7 +2640,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
-                                    isNullValue: column.IsNullValue(),
+                                    isNullValue: isNullValue,
                                     function: function)
                                 : self;
                     }
@@ -2480,226 +2651,271 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             return self.Users_TenantId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UserId":
                             return self.Users_UserId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Ver":
                             return self.Users_Ver(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "LoginId":
                             return self.Users_LoginId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "GlobalId":
                             return self.Users_GlobalId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Name":
                             return self.Users_Name(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UserCode":
                             return self.Users_UserCode(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Password":
                             return self.Users_Password(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "LastName":
                             return self.Users_LastName(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "FirstName":
                             return self.Users_FirstName(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Birthday":
                             return self.Users_Birthday(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Gender":
                             return self.Users_Gender(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Language":
                             return self.Users_Language(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "TimeZone":
                             return self.Users_TimeZone(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "TimeZoneInfo":
                             return self.Users_TimeZoneInfo(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "DeptCode":
                             return self.Users_DeptCode(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "DeptId":
                             return self.Users_DeptId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Dept":
                             return self.Users_Dept(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Theme":
                             return self.Users_Theme(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "FirstAndLastNameOrder":
                             return self.Users_FirstAndLastNameOrder(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Body":
                             return self.Users_Body(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "LastLoginTime":
                             return self.Users_LastLoginTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "PasswordExpirationTime":
                             return self.Users_PasswordExpirationTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "PasswordChangeTime":
                             return self.Users_PasswordChangeTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "NumberOfLogins":
                             return self.Users_NumberOfLogins(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "NumberOfDenial":
                             return self.Users_NumberOfDenial(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "TenantManager":
                             return self.Users_TenantManager(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ServiceManager":
                             return self.Users_ServiceManager(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "AllowCreationAtTopSite":
                             return self.Users_AllowCreationAtTopSite(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "AllowGroupAdministration":
                             return self.Users_AllowGroupAdministration(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Disabled":
                             return self.Users_Disabled(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Lockout":
                             return self.Users_Lockout(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "LockoutCounter":
                             return self.Users_LockoutCounter(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Developer":
                             return self.Users_Developer(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UserSettings":
                             return self.Users_UserSettings(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ApiKey":
                             return self.Users_ApiKey(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "SecondaryAuthenticationCode":
                             return self.Users_SecondaryAuthenticationCode(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "SecondaryAuthenticationCodeExpirationTime":
                             return self.Users_SecondaryAuthenticationCodeExpirationTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "LdapSearchRoot":
                             return self.Users_LdapSearchRoot(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "SynchronizedTime":
                             return self.Users_SynchronizedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Comments":
                             return self.Users_Comments(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Creator":
                             return self.Users_Creator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Updator":
                             return self.Users_Updator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "CreatedTime":
                             return self.Users_CreatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UpdatedTime":
                             return self.Users_UpdatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         default:
                             return Def.ExtendedColumnTypes.ContainsKey(column.Name)
@@ -2707,7 +2923,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
-                                    isNullValue: column.IsNullValue(),
+                                    isNullValue: isNullValue,
                                     function: function)
                                 : self;
                     }
@@ -2718,56 +2934,67 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             return self.LoginKeys_LoginId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Key":
                             return self.LoginKeys_Key(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Ver":
                             return self.LoginKeys_Ver(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "TenantNames":
                             return self.LoginKeys_TenantNames(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "TenantId":
                             return self.LoginKeys_TenantId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UserId":
                             return self.LoginKeys_UserId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Comments":
                             return self.LoginKeys_Comments(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Creator":
                             return self.LoginKeys_Creator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Updator":
                             return self.LoginKeys_Updator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "CreatedTime":
                             return self.LoginKeys_CreatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UpdatedTime":
                             return self.LoginKeys_UpdatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         default:
                             return Def.ExtendedColumnTypes.ContainsKey(column.Name)
@@ -2775,7 +3002,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
-                                    isNullValue: column.IsNullValue(),
+                                    isNullValue: isNullValue,
                                     function: function)
                                 : self;
                     }
@@ -2786,51 +3013,61 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             return self.MailAddresses_OwnerId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "OwnerType":
                             return self.MailAddresses_OwnerType(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "MailAddressId":
                             return self.MailAddresses_MailAddressId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Ver":
                             return self.MailAddresses_Ver(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "MailAddress":
                             return self.MailAddresses_MailAddress(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Comments":
                             return self.MailAddresses_Comments(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Creator":
                             return self.MailAddresses_Creator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Updator":
                             return self.MailAddresses_Updator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "CreatedTime":
                             return self.MailAddresses_CreatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UpdatedTime":
                             return self.MailAddresses_UpdatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         default:
                             return Def.ExtendedColumnTypes.ContainsKey(column.Name)
@@ -2838,7 +3075,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
-                                    isNullValue: column.IsNullValue(),
+                                    isNullValue: isNullValue,
                                     function: function)
                                 : self;
                     }
@@ -2849,96 +3086,115 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             return self.OutgoingMails_ReferenceType(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ReferenceId":
                             return self.OutgoingMails_ReferenceId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ReferenceVer":
                             return self.OutgoingMails_ReferenceVer(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "OutgoingMailId":
                             return self.OutgoingMails_OutgoingMailId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Ver":
                             return self.OutgoingMails_Ver(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Host":
                             return self.OutgoingMails_Host(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Port":
                             return self.OutgoingMails_Port(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "From":
                             return self.OutgoingMails_From(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "To":
                             return self.OutgoingMails_To(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Cc":
                             return self.OutgoingMails_Cc(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Bcc":
                             return self.OutgoingMails_Bcc(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Title":
                             return self.OutgoingMails_Title(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Body":
                             return self.OutgoingMails_Body(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "SentTime":
                             return self.OutgoingMails_SentTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Comments":
                             return self.OutgoingMails_Comments(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Creator":
                             return self.OutgoingMails_Creator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Updator":
                             return self.OutgoingMails_Updator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "CreatedTime":
                             return self.OutgoingMails_CreatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UpdatedTime":
                             return self.OutgoingMails_UpdatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         default:
                             return Def.ExtendedColumnTypes.ContainsKey(column.Name)
@@ -2946,7 +3202,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
-                                    isNullValue: column.IsNullValue(),
+                                    isNullValue: isNullValue,
                                     function: function)
                                 : self;
                     }
@@ -2957,61 +3213,73 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             return self.Items_ReferenceId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Ver":
                             return self.Items_Ver(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ReferenceType":
                             return self.Items_ReferenceType(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "SiteId":
                             return self.Items_SiteId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Title":
                             return self.Items_Title(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "FullText":
                             return self.Items_FullText(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "SearchIndexCreatedTime":
                             return self.Items_SearchIndexCreatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Comments":
                             return self.Items_Comments(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Creator":
                             return self.Items_Creator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Updator":
                             return self.Items_Updator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "CreatedTime":
                             return self.Items_CreatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UpdatedTime":
                             return self.Items_UpdatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         default:
                             return Def.ExtendedColumnTypes.ContainsKey(column.Name)
@@ -3019,7 +3287,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
-                                    isNullValue: column.IsNullValue(),
+                                    isNullValue: isNullValue,
                                     function: function)
                                 : self;
                     }
@@ -3030,116 +3298,139 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             return self.Sites_TenantId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "SiteId":
                             return self.Sites_SiteId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UpdatedTime":
                             return self.Sites_UpdatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Ver":
                             return self.Sites_Ver(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Title":
                             return self.Sites_Title(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Body":
                             return self.Sites_Body(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "TitleBody":
                             return self.Sites_TitleBody(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "GridGuide":
                             return self.Sites_GridGuide(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "EditorGuide":
                             return self.Sites_EditorGuide(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ReferenceType":
                             return self.Sites_ReferenceType(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ParentId":
                             return self.Sites_ParentId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "InheritPermission":
                             return self.Sites_InheritPermission(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "SiteSettings":
                             return self.Sites_SiteSettings(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Publish":
                             return self.Sites_Publish(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "DisableCrossSearch":
                             return self.Sites_DisableCrossSearch(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "LockedTime":
                             return self.Sites_LockedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "LockedUser":
                             return self.Sites_LockedUser(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ApiCountDate":
                             return self.Sites_ApiCountDate(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ApiCount":
                             return self.Sites_ApiCount(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Comments":
                             return self.Sites_Comments(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Creator":
                             return self.Sites_Creator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Updator":
                             return self.Sites_Updator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "CreatedTime":
                             return self.Sites_CreatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         default:
                             return Def.ExtendedColumnTypes.ContainsKey(column.Name)
@@ -3147,7 +3438,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
-                                    isNullValue: column.IsNullValue(),
+                                    isNullValue: isNullValue,
                                     function: function)
                                 : self;
                     }
@@ -3158,51 +3449,61 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             return self.Orders_ReferenceId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ReferenceType":
                             return self.Orders_ReferenceType(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "OwnerId":
                             return self.Orders_OwnerId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Ver":
                             return self.Orders_Ver(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Data":
                             return self.Orders_Data(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Comments":
                             return self.Orders_Comments(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Creator":
                             return self.Orders_Creator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Updator":
                             return self.Orders_Updator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "CreatedTime":
                             return self.Orders_CreatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UpdatedTime":
                             return self.Orders_UpdatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         default:
                             return Def.ExtendedColumnTypes.ContainsKey(column.Name)
@@ -3210,7 +3511,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
-                                    isNullValue: column.IsNullValue(),
+                                    isNullValue: isNullValue,
                                     function: function)
                                 : self;
                     }
@@ -3221,61 +3522,73 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             return self.ExportSettings_ReferenceType(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ReferenceId":
                             return self.ExportSettings_ReferenceId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Title":
                             return self.ExportSettings_Title(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ExportSettingId":
                             return self.ExportSettings_ExportSettingId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Ver":
                             return self.ExportSettings_Ver(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "AddHeader":
                             return self.ExportSettings_AddHeader(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ExportColumns":
                             return self.ExportSettings_ExportColumns(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Comments":
                             return self.ExportSettings_Comments(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Creator":
                             return self.ExportSettings_Creator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Updator":
                             return self.ExportSettings_Updator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "CreatedTime":
                             return self.ExportSettings_CreatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UpdatedTime":
                             return self.ExportSettings_UpdatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         default:
                             return Def.ExtendedColumnTypes.ContainsKey(column.Name)
@@ -3283,7 +3596,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
-                                    isNullValue: column.IsNullValue(),
+                                    isNullValue: isNullValue,
                                     function: function)
                                 : self;
                     }
@@ -3294,66 +3607,79 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             return self.Links_DestinationId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "SourceId":
                             return self.Links_SourceId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Ver":
                             return self.Links_Ver(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ReferenceType":
                             return self.Links_ReferenceType(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "SiteId":
                             return self.Links_SiteId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Title":
                             return self.Links_Title(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Subset":
                             return self.Links_Subset(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "SiteTitle":
                             return self.Links_SiteTitle(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Comments":
                             return self.Links_Comments(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Creator":
                             return self.Links_Creator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Updator":
                             return self.Links_Updator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "CreatedTime":
                             return self.Links_CreatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UpdatedTime":
                             return self.Links_UpdatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         default:
                             return Def.ExtendedColumnTypes.ContainsKey(column.Name)
@@ -3361,7 +3687,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
-                                    isNullValue: column.IsNullValue(),
+                                    isNullValue: isNullValue,
                                     function: function)
                                 : self;
                     }
@@ -3372,106 +3698,127 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             return self.Binaries_BinaryId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "TenantId":
                             return self.Binaries_TenantId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ReferenceId":
                             return self.Binaries_ReferenceId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Guid":
                             return self.Binaries_Guid(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Ver":
                             return self.Binaries_Ver(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "BinaryType":
                             return self.Binaries_BinaryType(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Title":
                             return self.Binaries_Title(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Body":
                             return self.Binaries_Body(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Bin":
                             return self.Binaries_Bin(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Thumbnail":
                             return self.Binaries_Thumbnail(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Icon":
                             return self.Binaries_Icon(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "FileName":
                             return self.Binaries_FileName(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Extension":
                             return self.Binaries_Extension(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Size":
                             return self.Binaries_Size(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ContentType":
                             return self.Binaries_ContentType(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "BinarySettings":
                             return self.Binaries_BinarySettings(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Comments":
                             return self.Binaries_Comments(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Creator":
                             return self.Binaries_Creator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Updator":
                             return self.Binaries_Updator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "CreatedTime":
                             return self.Binaries_CreatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UpdatedTime":
                             return self.Binaries_UpdatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         default:
                             return Def.ExtendedColumnTypes.ContainsKey(column.Name)
@@ -3479,7 +3826,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
-                                    isNullValue: column.IsNullValue(),
+                                    isNullValue: isNullValue,
                                     function: function)
                                 : self;
                     }
@@ -3490,71 +3837,85 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             return self.Permissions_ReferenceId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "DeptId":
                             return self.Permissions_DeptId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "GroupId":
                             return self.Permissions_GroupId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UserId":
                             return self.Permissions_UserId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Ver":
                             return self.Permissions_Ver(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "DeptName":
                             return self.Permissions_DeptName(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "GroupName":
                             return self.Permissions_GroupName(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Name":
                             return self.Permissions_Name(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "PermissionType":
                             return self.Permissions_PermissionType(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Comments":
                             return self.Permissions_Comments(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Creator":
                             return self.Permissions_Creator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Updator":
                             return self.Permissions_Updator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "CreatedTime":
                             return self.Permissions_CreatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UpdatedTime":
                             return self.Permissions_UpdatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         default:
                             return Def.ExtendedColumnTypes.ContainsKey(column.Name)
@@ -3562,7 +3923,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
-                                    isNullValue: column.IsNullValue(),
+                                    isNullValue: isNullValue,
                                     function: function)
                                 : self;
                     }
@@ -3573,106 +3934,127 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             return self.Issues_SiteId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UpdatedTime":
                             return self.Issues_UpdatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "IssueId":
                             return self.Issues_IssueId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Ver":
                             return self.Issues_Ver(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Title":
                             return self.Issues_Title(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Body":
                             return self.Issues_Body(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "TitleBody":
                             return self.Issues_TitleBody(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "StartTime":
                             return self.Issues_StartTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "CompletionTime":
                             return self.Issues_CompletionTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "WorkValue":
                             return self.Issues_WorkValue(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ProgressRate":
                             return self.Issues_ProgressRate(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "RemainingWorkValue":
                             return self.Issues_RemainingWorkValue(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Status":
                             return self.Issues_Status(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Manager":
                             return self.Issues_Manager(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Owner":
                             return self.Issues_Owner(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Locked":
                             return self.Issues_Locked(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "SiteTitle":
                             return self.Issues_SiteTitle(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Comments":
                             return self.Issues_Comments(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Creator":
                             return self.Issues_Creator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Updator":
                             return self.Issues_Updator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "CreatedTime":
                             return self.Issues_CreatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         default:
                             return Def.ExtendedColumnTypes.ContainsKey(column.Name)
@@ -3680,7 +4062,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
-                                    isNullValue: column.IsNullValue(),
+                                    isNullValue: isNullValue,
                                     function: function)
                                 : self;
                     }
@@ -3691,81 +4073,97 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             return self.Results_SiteId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UpdatedTime":
                             return self.Results_UpdatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "ResultId":
                             return self.Results_ResultId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Ver":
                             return self.Results_Ver(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Title":
                             return self.Results_Title(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Body":
                             return self.Results_Body(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "TitleBody":
                             return self.Results_TitleBody(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Status":
                             return self.Results_Status(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Manager":
                             return self.Results_Manager(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Owner":
                             return self.Results_Owner(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Locked":
                             return self.Results_Locked(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "SiteTitle":
                             return self.Results_SiteTitle(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Comments":
                             return self.Results_Comments(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Creator":
                             return self.Results_Creator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Updator":
                             return self.Results_Updator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "CreatedTime":
                             return self.Results_CreatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         default:
                             return Def.ExtendedColumnTypes.ContainsKey(column.Name)
@@ -3773,7 +4171,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
-                                    isNullValue: column.IsNullValue(),
+                                    isNullValue: isNullValue,
                                     function: function)
                                 : self;
                     }
@@ -3784,61 +4182,73 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             return self.Wikis_SiteId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "UpdatedTime":
                             return self.Wikis_UpdatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "WikiId":
                             return self.Wikis_WikiId(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Ver":
                             return self.Wikis_Ver(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Title":
                             return self.Wikis_Title(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Body":
                             return self.Wikis_Body(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "TitleBody":
                             return self.Wikis_TitleBody(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Locked":
                             return self.Wikis_Locked(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Comments":
                             return self.Wikis_Comments(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Creator":
                             return self.Wikis_Creator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "Updator":
                             return self.Wikis_Updator(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         case "CreatedTime":
                             return self.Wikis_CreatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
+                                isNullValue: isNullValue,
                                 function: function);
                         default:
                             return Def.ExtendedColumnTypes.ContainsKey(column.Name)
@@ -3846,7 +4256,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     columnBracket: $"\"{column.Name}\"",
                                     orderType: orderType,
                                     tableName: column.TableName(),
-                                    isNullValue: column.IsNullValue(),
+                                    isNullValue: isNullValue,
                                     function: function)
                                 : self;
                     }
@@ -18016,6 +18426,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this TenantsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TenantId\"" }.ForEach(columnBracket =>
@@ -18023,6 +18434,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18031,6 +18443,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this TenantsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -18038,6 +18451,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18046,6 +18460,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this TenantsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TenantName\"" }.ForEach(columnBracket =>
@@ -18053,6 +18468,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18061,6 +18477,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this TenantsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"" }.ForEach(columnBracket =>
@@ -18068,6 +18485,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18076,6 +18494,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this TenantsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Body\"" }.ForEach(columnBracket =>
@@ -18083,6 +18502,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18091,6 +18511,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this TenantsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ContractSettings\"" }.ForEach(columnBracket =>
@@ -18098,6 +18519,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18106,6 +18528,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this TenantsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ContractDeadline\"" }.ForEach(columnBracket =>
@@ -18113,6 +18536,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18121,6 +18545,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this TenantsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DisableAllUsersPermission\"" }.ForEach(columnBracket =>
@@ -18128,6 +18553,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18136,6 +18562,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this TenantsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DisableStartGuide\"" }.ForEach(columnBracket =>
@@ -18143,6 +18570,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18151,6 +18579,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this TenantsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"LogoType\"" }.ForEach(columnBracket =>
@@ -18158,6 +18587,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18166,6 +18596,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this TenantsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"HtmlTitleTop\"" }.ForEach(columnBracket =>
@@ -18173,6 +18604,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18181,6 +18613,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this TenantsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"HtmlTitleSite\"" }.ForEach(columnBracket =>
@@ -18188,6 +18621,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18196,6 +18630,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this TenantsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"HtmlTitleRecord\"" }.ForEach(columnBracket =>
@@ -18203,6 +18638,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18211,6 +18647,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this TenantsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TopStyle\"" }.ForEach(columnBracket =>
@@ -18218,6 +18655,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18226,6 +18664,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this TenantsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TopScript\"" }.ForEach(columnBracket =>
@@ -18233,6 +18672,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18241,6 +18681,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this TenantsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -18248,6 +18689,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18256,6 +18698,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this TenantsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -18263,6 +18706,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18271,6 +18715,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this TenantsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -18278,6 +18723,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18286,6 +18732,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this TenantsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -18293,6 +18740,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18301,6 +18749,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this TenantsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -18308,6 +18757,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18316,6 +18766,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TenantId\"" }.ForEach(columnBracket =>
@@ -18323,6 +18774,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18331,6 +18783,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -18338,6 +18791,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18346,6 +18800,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TenantName\"" }.ForEach(columnBracket =>
@@ -18353,6 +18808,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18361,6 +18817,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"" }.ForEach(columnBracket =>
@@ -18368,6 +18825,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18376,6 +18834,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Body\"" }.ForEach(columnBracket =>
@@ -18383,6 +18842,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18391,6 +18851,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ContractSettings\"" }.ForEach(columnBracket =>
@@ -18398,6 +18859,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18406,6 +18868,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ContractDeadline\"" }.ForEach(columnBracket =>
@@ -18413,6 +18876,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18421,6 +18885,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DisableAllUsersPermission\"" }.ForEach(columnBracket =>
@@ -18428,6 +18893,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18436,6 +18902,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DisableStartGuide\"" }.ForEach(columnBracket =>
@@ -18443,6 +18910,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18451,6 +18919,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"LogoType\"" }.ForEach(columnBracket =>
@@ -18458,6 +18927,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18466,6 +18936,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"HtmlTitleTop\"" }.ForEach(columnBracket =>
@@ -18473,6 +18944,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18481,6 +18953,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"HtmlTitleSite\"" }.ForEach(columnBracket =>
@@ -18488,6 +18961,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18496,6 +18970,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"HtmlTitleRecord\"" }.ForEach(columnBracket =>
@@ -18503,6 +18978,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18511,6 +18987,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TopStyle\"" }.ForEach(columnBracket =>
@@ -18518,6 +18995,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18526,6 +19004,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TopScript\"" }.ForEach(columnBracket =>
@@ -18533,6 +19012,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18541,6 +19021,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -18548,6 +19029,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18556,6 +19038,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -18563,6 +19046,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18571,6 +19055,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -18578,6 +19063,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18586,6 +19072,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -18593,6 +19080,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -18601,6 +19089,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Tenants",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -18608,6 +19097,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -21415,6 +21905,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this DemosOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Demos",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DemoId\"" }.ForEach(columnBracket =>
@@ -21422,6 +21913,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -21430,6 +21922,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this DemosOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Demos",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -21437,6 +21930,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -21445,6 +21939,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this DemosOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Demos",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TenantId\"" }.ForEach(columnBracket =>
@@ -21452,6 +21947,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -21460,6 +21956,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this DemosOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Demos",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"" }.ForEach(columnBracket =>
@@ -21467,6 +21964,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -21475,6 +21973,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this DemosOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Demos",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"LoginId\"" }.ForEach(columnBracket =>
@@ -21482,6 +21981,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -21490,6 +21990,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this DemosOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Demos",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Passphrase\"" }.ForEach(columnBracket =>
@@ -21497,6 +21998,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -21505,6 +22007,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this DemosOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Demos",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"MailAddress\"" }.ForEach(columnBracket =>
@@ -21512,6 +22015,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -21520,6 +22024,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this DemosOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Demos",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Initialized\"" }.ForEach(columnBracket =>
@@ -21527,6 +22032,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -21535,6 +22041,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this DemosOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Demos",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -21542,6 +22049,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -21550,6 +22058,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this DemosOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Demos",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -21557,6 +22066,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -21565,6 +22075,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this DemosOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Demos",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -21572,6 +22083,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -21580,6 +22092,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this DemosOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Demos",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -21587,6 +22100,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -21595,6 +22109,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this DemosOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Demos",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -21602,6 +22117,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -21610,6 +22126,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Demos",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DemoId\"" }.ForEach(columnBracket =>
@@ -21617,6 +22134,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -21625,6 +22143,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Demos",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -21632,6 +22151,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -21640,6 +22160,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Demos",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TenantId\"" }.ForEach(columnBracket =>
@@ -21647,6 +22168,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -21655,6 +22177,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Demos",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"" }.ForEach(columnBracket =>
@@ -21662,6 +22185,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -21670,6 +22194,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Demos",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"LoginId\"" }.ForEach(columnBracket =>
@@ -21677,6 +22202,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -21685,6 +22211,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Demos",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Passphrase\"" }.ForEach(columnBracket =>
@@ -21692,6 +22219,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -21700,6 +22228,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Demos",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"MailAddress\"" }.ForEach(columnBracket =>
@@ -21707,6 +22236,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -21715,6 +22245,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Demos",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Initialized\"" }.ForEach(columnBracket =>
@@ -21722,6 +22253,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -21730,6 +22262,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Demos",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -21737,6 +22270,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -21745,6 +22279,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Demos",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -21752,6 +22287,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -21760,6 +22296,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Demos",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -21767,6 +22304,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -21775,6 +22313,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Demos",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -21782,6 +22321,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -21790,6 +22330,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Demos",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -21797,6 +22338,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -24281,6 +24823,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ExtensionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Extensions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ExtensionId\"" }.ForEach(columnBracket =>
@@ -24288,6 +24831,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -24296,6 +24840,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ExtensionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Extensions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -24303,6 +24848,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -24311,6 +24857,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ExtensionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Extensions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ExtensionType\"" }.ForEach(columnBracket =>
@@ -24318,6 +24865,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -24326,6 +24874,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ExtensionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Extensions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ExtensionName\"" }.ForEach(columnBracket =>
@@ -24333,6 +24882,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -24341,6 +24891,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ExtensionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Extensions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ExtensionSettings\"" }.ForEach(columnBracket =>
@@ -24348,6 +24899,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -24356,6 +24908,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ExtensionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Extensions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Body\"" }.ForEach(columnBracket =>
@@ -24363,6 +24916,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -24371,6 +24925,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ExtensionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Extensions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Description\"" }.ForEach(columnBracket =>
@@ -24378,6 +24933,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -24386,6 +24942,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ExtensionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Extensions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Disabled\"" }.ForEach(columnBracket =>
@@ -24393,6 +24950,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -24401,6 +24959,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ExtensionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Extensions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -24408,6 +24967,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -24416,6 +24976,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ExtensionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Extensions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -24423,6 +24984,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -24431,6 +24993,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ExtensionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Extensions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -24438,6 +25001,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -24446,6 +25010,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ExtensionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Extensions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -24453,6 +25018,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -24461,6 +25027,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ExtensionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Extensions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -24468,6 +25035,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -24476,6 +25044,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Extensions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ExtensionId\"" }.ForEach(columnBracket =>
@@ -24483,6 +25052,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -24491,6 +25061,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Extensions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -24498,6 +25069,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -24506,6 +25078,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Extensions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ExtensionType\"" }.ForEach(columnBracket =>
@@ -24513,6 +25086,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -24521,6 +25095,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Extensions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ExtensionName\"" }.ForEach(columnBracket =>
@@ -24528,6 +25103,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -24536,6 +25112,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Extensions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ExtensionSettings\"" }.ForEach(columnBracket =>
@@ -24543,6 +25120,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -24551,6 +25129,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Extensions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Body\"" }.ForEach(columnBracket =>
@@ -24558,6 +25137,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -24566,6 +25146,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Extensions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Description\"" }.ForEach(columnBracket =>
@@ -24573,6 +25154,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -24581,6 +25163,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Extensions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Disabled\"" }.ForEach(columnBracket =>
@@ -24588,6 +25171,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -24596,6 +25180,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Extensions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -24603,6 +25188,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -24611,6 +25197,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Extensions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -24618,6 +25205,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -24626,6 +25214,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Extensions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -24633,6 +25222,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -24641,6 +25231,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Extensions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -24648,6 +25239,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -24656,6 +25248,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Extensions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -24663,6 +25256,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -26968,6 +27562,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SessionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sessions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SessionGuid\"" }.ForEach(columnBracket =>
@@ -26975,6 +27570,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -26983,6 +27579,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SessionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sessions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Key\"" }.ForEach(columnBracket =>
@@ -26990,6 +27587,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -26998,6 +27596,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SessionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sessions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Page\"" }.ForEach(columnBracket =>
@@ -27005,6 +27604,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -27013,6 +27613,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SessionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sessions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Value\"" }.ForEach(columnBracket =>
@@ -27020,6 +27621,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -27028,6 +27630,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SessionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sessions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ReadOnce\"" }.ForEach(columnBracket =>
@@ -27035,6 +27638,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -27043,6 +27647,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SessionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sessions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UserArea\"" }.ForEach(columnBracket =>
@@ -27050,6 +27655,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -27058,6 +27664,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SessionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sessions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -27065,6 +27672,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -27073,6 +27681,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SessionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sessions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -27080,6 +27689,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -27088,6 +27698,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SessionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sessions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -27095,6 +27706,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -27103,6 +27715,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SessionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sessions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -27110,6 +27723,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -27118,6 +27732,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SessionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sessions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -27125,6 +27740,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -27133,6 +27749,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SessionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sessions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -27140,6 +27757,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -27148,6 +27766,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sessions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SessionGuid\"" }.ForEach(columnBracket =>
@@ -27155,6 +27774,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -27163,6 +27783,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sessions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Key\"" }.ForEach(columnBracket =>
@@ -27170,6 +27791,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -27178,6 +27800,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sessions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Page\"" }.ForEach(columnBracket =>
@@ -27185,6 +27808,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -27193,6 +27817,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sessions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Value\"" }.ForEach(columnBracket =>
@@ -27200,6 +27825,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -27208,6 +27834,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sessions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ReadOnce\"" }.ForEach(columnBracket =>
@@ -27215,6 +27842,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -27223,6 +27851,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sessions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UserArea\"" }.ForEach(columnBracket =>
@@ -27230,6 +27859,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -27238,6 +27868,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sessions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -27245,6 +27876,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -27253,6 +27885,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sessions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -27260,6 +27893,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -27268,6 +27902,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sessions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -27275,6 +27910,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -27283,6 +27919,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sessions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -27290,6 +27927,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -27298,6 +27936,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sessions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -27305,6 +27944,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -27313,6 +27953,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sessions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -27320,6 +27961,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33148,6 +33790,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -33155,6 +33798,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33163,6 +33807,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SysLogId\"" }.ForEach(columnBracket =>
@@ -33170,6 +33815,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33178,6 +33824,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -33185,6 +33832,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33193,6 +33841,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SysLogType\"" }.ForEach(columnBracket =>
@@ -33200,6 +33849,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33208,6 +33858,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"OnAzure\"" }.ForEach(columnBracket =>
@@ -33215,6 +33866,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33223,6 +33875,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"MachineName\"" }.ForEach(columnBracket =>
@@ -33230,6 +33883,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33238,6 +33892,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ServiceName\"" }.ForEach(columnBracket =>
@@ -33245,6 +33900,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33253,6 +33909,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TenantName\"" }.ForEach(columnBracket =>
@@ -33260,6 +33917,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33268,6 +33926,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Application\"" }.ForEach(columnBracket =>
@@ -33275,6 +33934,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33283,6 +33943,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Class\"" }.ForEach(columnBracket =>
@@ -33290,6 +33951,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33298,6 +33960,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Method\"" }.ForEach(columnBracket =>
@@ -33305,6 +33968,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33313,6 +33977,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"RequestData\"" }.ForEach(columnBracket =>
@@ -33320,6 +33985,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33328,6 +33994,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"HttpMethod\"" }.ForEach(columnBracket =>
@@ -33335,6 +34002,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33343,6 +34011,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"RequestSize\"" }.ForEach(columnBracket =>
@@ -33350,6 +34019,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33358,6 +34028,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ResponseSize\"" }.ForEach(columnBracket =>
@@ -33365,6 +34036,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33373,6 +34045,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Elapsed\"" }.ForEach(columnBracket =>
@@ -33380,6 +34053,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33388,6 +34062,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ApplicationAge\"" }.ForEach(columnBracket =>
@@ -33395,6 +34070,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33403,6 +34079,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ApplicationRequestInterval\"" }.ForEach(columnBracket =>
@@ -33410,6 +34087,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33418,6 +34096,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SessionAge\"" }.ForEach(columnBracket =>
@@ -33425,6 +34104,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33433,6 +34113,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SessionRequestInterval\"" }.ForEach(columnBracket =>
@@ -33440,6 +34121,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33448,6 +34130,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"WorkingSet64\"" }.ForEach(columnBracket =>
@@ -33455,6 +34138,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33463,6 +34147,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"VirtualMemorySize64\"" }.ForEach(columnBracket =>
@@ -33470,6 +34155,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33478,6 +34164,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ProcessId\"" }.ForEach(columnBracket =>
@@ -33485,6 +34172,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33493,6 +34181,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ProcessName\"" }.ForEach(columnBracket =>
@@ -33500,6 +34189,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33508,6 +34198,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"BasePriority\"" }.ForEach(columnBracket =>
@@ -33515,6 +34206,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33523,6 +34215,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Url\"" }.ForEach(columnBracket =>
@@ -33530,6 +34223,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33538,6 +34232,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UrlReferer\"" }.ForEach(columnBracket =>
@@ -33545,6 +34240,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33553,6 +34249,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UserHostName\"" }.ForEach(columnBracket =>
@@ -33560,6 +34257,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33568,6 +34266,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UserHostAddress\"" }.ForEach(columnBracket =>
@@ -33575,6 +34274,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33583,6 +34283,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UserLanguage\"" }.ForEach(columnBracket =>
@@ -33590,6 +34291,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33598,6 +34300,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UserAgent\"" }.ForEach(columnBracket =>
@@ -33605,6 +34308,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33613,6 +34317,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SessionGuid\"" }.ForEach(columnBracket =>
@@ -33620,6 +34325,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33628,6 +34334,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ErrMessage\"" }.ForEach(columnBracket =>
@@ -33635,6 +34342,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33643,6 +34351,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ErrStackTrace\"" }.ForEach(columnBracket =>
@@ -33650,6 +34359,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33658,6 +34368,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"InDebug\"" }.ForEach(columnBracket =>
@@ -33665,6 +34376,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33673,6 +34385,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"AssemblyVersion\"" }.ForEach(columnBracket =>
@@ -33680,6 +34393,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33688,6 +34402,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -33695,6 +34410,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33703,6 +34419,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -33710,6 +34427,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33718,6 +34436,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -33725,6 +34444,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33733,6 +34453,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SysLogsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -33740,6 +34461,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33748,6 +34470,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -33755,6 +34478,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33763,6 +34487,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SysLogId\"" }.ForEach(columnBracket =>
@@ -33770,6 +34495,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33778,6 +34504,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -33785,6 +34512,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33793,6 +34521,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SysLogType\"" }.ForEach(columnBracket =>
@@ -33800,6 +34529,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33808,6 +34538,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"OnAzure\"" }.ForEach(columnBracket =>
@@ -33815,6 +34546,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33823,6 +34555,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"MachineName\"" }.ForEach(columnBracket =>
@@ -33830,6 +34563,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33838,6 +34572,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ServiceName\"" }.ForEach(columnBracket =>
@@ -33845,6 +34580,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33853,6 +34589,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TenantName\"" }.ForEach(columnBracket =>
@@ -33860,6 +34597,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33868,6 +34606,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Application\"" }.ForEach(columnBracket =>
@@ -33875,6 +34614,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33883,6 +34623,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Class\"" }.ForEach(columnBracket =>
@@ -33890,6 +34631,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33898,6 +34640,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Method\"" }.ForEach(columnBracket =>
@@ -33905,6 +34648,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33913,6 +34657,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"RequestData\"" }.ForEach(columnBracket =>
@@ -33920,6 +34665,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33928,6 +34674,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"HttpMethod\"" }.ForEach(columnBracket =>
@@ -33935,6 +34682,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33943,6 +34691,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"RequestSize\"" }.ForEach(columnBracket =>
@@ -33950,6 +34699,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33958,6 +34708,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ResponseSize\"" }.ForEach(columnBracket =>
@@ -33965,6 +34716,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33973,6 +34725,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Elapsed\"" }.ForEach(columnBracket =>
@@ -33980,6 +34733,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -33988,6 +34742,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ApplicationAge\"" }.ForEach(columnBracket =>
@@ -33995,6 +34750,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -34003,6 +34759,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ApplicationRequestInterval\"" }.ForEach(columnBracket =>
@@ -34010,6 +34767,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -34018,6 +34776,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SessionAge\"" }.ForEach(columnBracket =>
@@ -34025,6 +34784,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -34033,6 +34793,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SessionRequestInterval\"" }.ForEach(columnBracket =>
@@ -34040,6 +34801,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -34048,6 +34810,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"WorkingSet64\"" }.ForEach(columnBracket =>
@@ -34055,6 +34818,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -34063,6 +34827,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"VirtualMemorySize64\"" }.ForEach(columnBracket =>
@@ -34070,6 +34835,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -34078,6 +34844,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ProcessId\"" }.ForEach(columnBracket =>
@@ -34085,6 +34852,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -34093,6 +34861,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ProcessName\"" }.ForEach(columnBracket =>
@@ -34100,6 +34869,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -34108,6 +34878,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"BasePriority\"" }.ForEach(columnBracket =>
@@ -34115,6 +34886,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -34123,6 +34895,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Url\"" }.ForEach(columnBracket =>
@@ -34130,6 +34903,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -34138,6 +34912,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UrlReferer\"" }.ForEach(columnBracket =>
@@ -34145,6 +34920,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -34153,6 +34929,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UserHostName\"" }.ForEach(columnBracket =>
@@ -34160,6 +34937,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -34168,6 +34946,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UserHostAddress\"" }.ForEach(columnBracket =>
@@ -34175,6 +34954,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -34183,6 +34963,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UserLanguage\"" }.ForEach(columnBracket =>
@@ -34190,6 +34971,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -34198,6 +34980,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UserAgent\"" }.ForEach(columnBracket =>
@@ -34205,6 +34988,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -34213,6 +34997,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SessionGuid\"" }.ForEach(columnBracket =>
@@ -34220,6 +35005,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -34228,6 +35014,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ErrMessage\"" }.ForEach(columnBracket =>
@@ -34235,6 +35022,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -34243,6 +35031,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ErrStackTrace\"" }.ForEach(columnBracket =>
@@ -34250,6 +35039,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -34258,6 +35048,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"InDebug\"" }.ForEach(columnBracket =>
@@ -34265,6 +35056,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -34273,6 +35065,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"AssemblyVersion\"" }.ForEach(columnBracket =>
@@ -34280,6 +35073,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -34288,6 +35082,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -34295,6 +35090,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -34303,6 +35099,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -34310,6 +35107,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -34318,6 +35116,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -34325,6 +35124,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -34333,6 +35133,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "SysLogs",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -34340,6 +35141,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -37386,6 +38188,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this StatusesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Statuses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TenantId\"" }.ForEach(columnBracket =>
@@ -37393,6 +38196,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -37401,6 +38205,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this StatusesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Statuses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"StatusId\"" }.ForEach(columnBracket =>
@@ -37408,6 +38213,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -37416,6 +38222,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this StatusesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Statuses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -37423,6 +38230,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -37431,6 +38239,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this StatusesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Statuses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Value\"" }.ForEach(columnBracket =>
@@ -37438,6 +38247,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -37446,6 +38256,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this StatusesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Statuses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -37453,6 +38264,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -37461,6 +38273,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this StatusesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Statuses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -37468,6 +38281,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -37476,6 +38290,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this StatusesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Statuses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -37483,6 +38298,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -37491,6 +38307,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this StatusesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Statuses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -37498,6 +38315,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -37506,6 +38324,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this StatusesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Statuses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -37513,6 +38332,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -37521,6 +38341,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Statuses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TenantId\"" }.ForEach(columnBracket =>
@@ -37528,6 +38349,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -37536,6 +38358,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Statuses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"StatusId\"" }.ForEach(columnBracket =>
@@ -37543,6 +38366,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -37551,6 +38375,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Statuses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -37558,6 +38383,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -37566,6 +38392,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Statuses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Value\"" }.ForEach(columnBracket =>
@@ -37573,6 +38400,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -37581,6 +38409,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Statuses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -37588,6 +38417,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -37596,6 +38426,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Statuses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -37603,6 +38434,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -37611,6 +38443,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Statuses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -37618,6 +38451,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -37626,6 +38460,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Statuses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -37633,6 +38468,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -37641,6 +38477,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Statuses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -37648,6 +38485,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -39674,6 +40512,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ReminderSchedulesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ReminderSchedules",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SiteId\"" }.ForEach(columnBracket =>
@@ -39681,6 +40520,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -39689,6 +40529,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ReminderSchedulesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ReminderSchedules",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Id\"" }.ForEach(columnBracket =>
@@ -39696,6 +40537,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -39704,6 +40546,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ReminderSchedulesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ReminderSchedules",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -39711,6 +40554,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -39719,6 +40563,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ReminderSchedulesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ReminderSchedules",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ScheduledTime\"" }.ForEach(columnBracket =>
@@ -39726,6 +40571,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -39734,6 +40580,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ReminderSchedulesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ReminderSchedules",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -39741,6 +40588,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -39749,6 +40597,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ReminderSchedulesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ReminderSchedules",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -39756,6 +40605,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -39764,6 +40614,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ReminderSchedulesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ReminderSchedules",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -39771,6 +40622,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -39779,6 +40631,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ReminderSchedulesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ReminderSchedules",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -39786,6 +40639,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -39794,6 +40648,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ReminderSchedulesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ReminderSchedules",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -39801,6 +40656,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -39809,6 +40665,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ReminderSchedules",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SiteId\"" }.ForEach(columnBracket =>
@@ -39816,6 +40673,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -39824,6 +40682,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ReminderSchedules",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Id\"" }.ForEach(columnBracket =>
@@ -39831,6 +40690,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -39839,6 +40699,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ReminderSchedules",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -39846,6 +40707,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -39854,6 +40716,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ReminderSchedules",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ScheduledTime\"" }.ForEach(columnBracket =>
@@ -39861,6 +40724,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -39869,6 +40733,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ReminderSchedules",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -39876,6 +40741,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -39884,6 +40750,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ReminderSchedules",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -39891,6 +40758,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -39899,6 +40767,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ReminderSchedules",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -39906,6 +40775,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -39914,6 +40784,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ReminderSchedules",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -39921,6 +40792,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -39929,6 +40801,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ReminderSchedules",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -39936,6 +40809,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -42404,6 +43278,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this DeptsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Depts",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TenantId\"" }.ForEach(columnBracket =>
@@ -42411,6 +43286,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -42419,6 +43295,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this DeptsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Depts",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DeptId\"" }.ForEach(columnBracket =>
@@ -42426,6 +43303,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -42434,6 +43312,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this DeptsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Depts",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -42441,6 +43320,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -42449,6 +43329,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this DeptsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Depts",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DeptCode\"" }.ForEach(columnBracket =>
@@ -42456,6 +43337,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -42464,6 +43346,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this DeptsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Depts",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DeptId\"" }.ForEach(columnBracket =>
@@ -42471,6 +43354,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -42479,6 +43363,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this DeptsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Depts",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DeptName\"" }.ForEach(columnBracket =>
@@ -42486,6 +43371,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -42494,6 +43380,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this DeptsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Depts",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Body\"" }.ForEach(columnBracket =>
@@ -42501,6 +43388,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -42509,6 +43397,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this DeptsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Depts",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Disabled\"" }.ForEach(columnBracket =>
@@ -42516,6 +43405,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -42524,6 +43414,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this DeptsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Depts",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -42531,6 +43422,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -42539,6 +43431,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this DeptsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Depts",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -42546,6 +43439,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -42554,6 +43448,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this DeptsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Depts",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -42561,6 +43456,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -42569,6 +43465,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this DeptsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Depts",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -42576,6 +43473,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -42584,6 +43482,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this DeptsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Depts",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -42591,6 +43490,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -42599,6 +43499,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Depts",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TenantId\"" }.ForEach(columnBracket =>
@@ -42606,6 +43507,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -42614,6 +43516,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Depts",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DeptId\"" }.ForEach(columnBracket =>
@@ -42621,6 +43524,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -42629,6 +43533,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Depts",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -42636,6 +43541,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -42644,6 +43550,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Depts",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DeptCode\"" }.ForEach(columnBracket =>
@@ -42651,6 +43558,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -42659,6 +43567,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Depts",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DeptId\"" }.ForEach(columnBracket =>
@@ -42666,6 +43575,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -42674,6 +43584,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Depts",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DeptName\"" }.ForEach(columnBracket =>
@@ -42681,6 +43592,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -42689,6 +43601,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Depts",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Body\"" }.ForEach(columnBracket =>
@@ -42696,6 +43609,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -42704,6 +43618,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Depts",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Disabled\"" }.ForEach(columnBracket =>
@@ -42711,6 +43626,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -42719,6 +43635,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Depts",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -42726,6 +43643,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -42734,6 +43652,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Depts",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -42741,6 +43660,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -42749,6 +43669,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Depts",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -42756,6 +43677,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -42764,6 +43686,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Depts",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -42771,6 +43694,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -42779,6 +43703,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Depts",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -42786,6 +43711,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -45146,6 +46072,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this GroupsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Groups",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TenantId\"" }.ForEach(columnBracket =>
@@ -45153,6 +46080,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -45161,6 +46089,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this GroupsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Groups",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"GroupId\"" }.ForEach(columnBracket =>
@@ -45168,6 +46097,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -45176,6 +46106,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this GroupsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Groups",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -45183,6 +46114,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -45191,6 +46123,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this GroupsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Groups",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"GroupName\"" }.ForEach(columnBracket =>
@@ -45198,6 +46131,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -45206,6 +46140,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this GroupsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Groups",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Body\"" }.ForEach(columnBracket =>
@@ -45213,6 +46148,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -45221,6 +46157,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this GroupsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Groups",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Disabled\"" }.ForEach(columnBracket =>
@@ -45228,6 +46165,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -45236,6 +46174,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this GroupsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Groups",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -45243,6 +46182,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -45251,6 +46191,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this GroupsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Groups",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -45258,6 +46199,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -45266,6 +46208,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this GroupsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Groups",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -45273,6 +46216,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -45281,6 +46225,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this GroupsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Groups",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -45288,6 +46233,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -45296,6 +46242,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this GroupsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Groups",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -45303,6 +46250,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -45311,6 +46259,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Groups",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TenantId\"" }.ForEach(columnBracket =>
@@ -45318,6 +46267,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -45326,6 +46276,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Groups",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"GroupId\"" }.ForEach(columnBracket =>
@@ -45333,6 +46284,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -45341,6 +46293,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Groups",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -45348,6 +46301,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -45356,6 +46310,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Groups",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"GroupName\"" }.ForEach(columnBracket =>
@@ -45363,6 +46318,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -45371,6 +46327,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Groups",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Body\"" }.ForEach(columnBracket =>
@@ -45378,6 +46335,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -45386,6 +46344,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Groups",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Disabled\"" }.ForEach(columnBracket =>
@@ -45393,6 +46352,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -45401,6 +46361,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Groups",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -45408,6 +46369,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -45416,6 +46378,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Groups",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -45423,6 +46386,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -45431,6 +46395,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Groups",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -45438,6 +46403,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -45446,6 +46412,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Groups",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -45453,6 +46420,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -45461,6 +46429,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Groups",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -45468,6 +46437,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -47707,6 +48677,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this GroupMembersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "GroupMembers",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"GroupId\"" }.ForEach(columnBracket =>
@@ -47714,6 +48685,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -47722,6 +48694,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this GroupMembersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "GroupMembers",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DeptId\"" }.ForEach(columnBracket =>
@@ -47729,6 +48702,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -47737,6 +48711,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this GroupMembersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "GroupMembers",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UserId\"" }.ForEach(columnBracket =>
@@ -47744,6 +48719,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -47752,6 +48728,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this GroupMembersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "GroupMembers",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -47759,6 +48736,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -47767,6 +48745,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this GroupMembersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "GroupMembers",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Admin\"" }.ForEach(columnBracket =>
@@ -47774,6 +48753,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -47782,6 +48762,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this GroupMembersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "GroupMembers",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -47789,6 +48770,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -47797,6 +48779,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this GroupMembersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "GroupMembers",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -47804,6 +48787,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -47812,6 +48796,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this GroupMembersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "GroupMembers",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -47819,6 +48804,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -47827,6 +48813,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this GroupMembersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "GroupMembers",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -47834,6 +48821,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -47842,6 +48830,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this GroupMembersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "GroupMembers",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -47849,6 +48838,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -47857,6 +48847,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "GroupMembers",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"GroupId\"" }.ForEach(columnBracket =>
@@ -47864,6 +48855,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -47872,6 +48864,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "GroupMembers",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DeptId\"" }.ForEach(columnBracket =>
@@ -47879,6 +48872,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -47887,6 +48881,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "GroupMembers",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UserId\"" }.ForEach(columnBracket =>
@@ -47894,6 +48889,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -47902,6 +48898,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "GroupMembers",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -47909,6 +48906,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -47917,6 +48915,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "GroupMembers",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Admin\"" }.ForEach(columnBracket =>
@@ -47924,6 +48923,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -47932,6 +48932,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "GroupMembers",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -47939,6 +48940,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -47947,6 +48949,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "GroupMembers",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -47954,6 +48957,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -47962,6 +48966,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "GroupMembers",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -47969,6 +48974,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -47977,6 +48983,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "GroupMembers",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -47984,6 +48991,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -47992,6 +49000,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "GroupMembers",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -47999,6 +49008,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51516,6 +52526,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this RegistrationsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TenantId\"" }.ForEach(columnBracket =>
@@ -51523,6 +52534,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51531,6 +52543,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this RegistrationsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"RegistrationId\"" }.ForEach(columnBracket =>
@@ -51538,6 +52551,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51546,6 +52560,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this RegistrationsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -51553,6 +52568,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51561,6 +52577,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this RegistrationsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"MailAddress\"" }.ForEach(columnBracket =>
@@ -51568,6 +52585,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51576,6 +52594,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this RegistrationsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Invitee\"" }.ForEach(columnBracket =>
@@ -51583,6 +52602,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51591,6 +52611,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this RegistrationsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"InviteeName\"" }.ForEach(columnBracket =>
@@ -51598,6 +52619,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51606,6 +52628,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this RegistrationsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"LoginId\"" }.ForEach(columnBracket =>
@@ -51613,6 +52636,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51621,6 +52645,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this RegistrationsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Name\"" }.ForEach(columnBracket =>
@@ -51628,6 +52653,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51636,6 +52662,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this RegistrationsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Password\"" }.ForEach(columnBracket =>
@@ -51643,6 +52670,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51651,6 +52679,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this RegistrationsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Language\"" }.ForEach(columnBracket =>
@@ -51658,6 +52687,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51666,6 +52696,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this RegistrationsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Passphrase\"" }.ForEach(columnBracket =>
@@ -51673,6 +52704,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51681,6 +52713,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this RegistrationsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Invitingflg\"" }.ForEach(columnBracket =>
@@ -51688,6 +52721,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51696,6 +52730,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this RegistrationsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UserId\"" }.ForEach(columnBracket =>
@@ -51703,6 +52738,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51711,6 +52747,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this RegistrationsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DeptId\"" }.ForEach(columnBracket =>
@@ -51718,6 +52755,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51726,6 +52764,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this RegistrationsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"GroupId\"" }.ForEach(columnBracket =>
@@ -51733,6 +52772,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51741,6 +52781,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this RegistrationsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -51748,6 +52789,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51756,6 +52798,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this RegistrationsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -51763,6 +52806,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51771,6 +52815,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this RegistrationsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -51778,6 +52823,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51786,6 +52832,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this RegistrationsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -51793,6 +52840,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51801,6 +52849,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this RegistrationsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -51808,6 +52857,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51816,6 +52866,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TenantId\"" }.ForEach(columnBracket =>
@@ -51823,6 +52874,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51831,6 +52883,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"RegistrationId\"" }.ForEach(columnBracket =>
@@ -51838,6 +52891,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51846,6 +52900,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -51853,6 +52908,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51861,6 +52917,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"MailAddress\"" }.ForEach(columnBracket =>
@@ -51868,6 +52925,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51876,6 +52934,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Invitee\"" }.ForEach(columnBracket =>
@@ -51883,6 +52942,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51891,6 +52951,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"InviteeName\"" }.ForEach(columnBracket =>
@@ -51898,6 +52959,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51906,6 +52968,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"LoginId\"" }.ForEach(columnBracket =>
@@ -51913,6 +52976,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51921,6 +52985,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Name\"" }.ForEach(columnBracket =>
@@ -51928,6 +52993,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51936,6 +53002,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Password\"" }.ForEach(columnBracket =>
@@ -51943,6 +53010,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51951,6 +53019,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Language\"" }.ForEach(columnBracket =>
@@ -51958,6 +53027,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51966,6 +53036,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Passphrase\"" }.ForEach(columnBracket =>
@@ -51973,6 +53044,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51981,6 +53053,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Invitingflg\"" }.ForEach(columnBracket =>
@@ -51988,6 +53061,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -51996,6 +53070,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UserId\"" }.ForEach(columnBracket =>
@@ -52003,6 +53078,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -52011,6 +53087,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DeptId\"" }.ForEach(columnBracket =>
@@ -52018,6 +53095,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -52026,6 +53104,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"GroupId\"" }.ForEach(columnBracket =>
@@ -52033,6 +53112,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -52041,6 +53121,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -52048,6 +53129,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -52056,6 +53138,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -52063,6 +53146,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -52071,6 +53155,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -52078,6 +53163,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -52086,6 +53172,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -52093,6 +53180,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -52101,6 +53189,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Registrations",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -52108,6 +53197,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -58934,6 +60024,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TenantId\"" }.ForEach(columnBracket =>
@@ -58941,6 +60032,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -58949,6 +60041,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UserId\"" }.ForEach(columnBracket =>
@@ -58956,6 +60049,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -58964,6 +60058,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -58971,6 +60066,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -58979,6 +60075,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"LoginId\"" }.ForEach(columnBracket =>
@@ -58986,6 +60083,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -58994,6 +60092,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"GlobalId\"" }.ForEach(columnBracket =>
@@ -59001,6 +60100,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59009,6 +60109,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Name\"" }.ForEach(columnBracket =>
@@ -59016,6 +60117,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59024,6 +60126,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UserCode\"" }.ForEach(columnBracket =>
@@ -59031,6 +60134,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59039,6 +60143,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Password\"" }.ForEach(columnBracket =>
@@ -59046,6 +60151,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59054,6 +60160,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"LastName\"" }.ForEach(columnBracket =>
@@ -59061,6 +60168,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59069,6 +60177,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"FirstName\"" }.ForEach(columnBracket =>
@@ -59076,6 +60185,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59084,6 +60194,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Birthday\"" }.ForEach(columnBracket =>
@@ -59091,6 +60202,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59099,6 +60211,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Gender\"" }.ForEach(columnBracket =>
@@ -59106,6 +60219,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59114,6 +60228,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Language\"" }.ForEach(columnBracket =>
@@ -59121,6 +60236,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59129,6 +60245,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TimeZone\"" }.ForEach(columnBracket =>
@@ -59136,6 +60253,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59144,6 +60262,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TimeZone\"" }.ForEach(columnBracket =>
@@ -59151,6 +60270,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59159,6 +60279,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Depts",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DeptCode\"" }.ForEach(columnBracket =>
@@ -59166,6 +60287,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59174,6 +60296,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DeptId\"" }.ForEach(columnBracket =>
@@ -59181,6 +60304,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59189,6 +60313,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DeptId\"" }.ForEach(columnBracket =>
@@ -59196,6 +60321,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59204,6 +60330,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Theme\"" }.ForEach(columnBracket =>
@@ -59211,6 +60338,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59219,6 +60347,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"FirstAndLastNameOrder\"" }.ForEach(columnBracket =>
@@ -59226,6 +60355,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59234,6 +60364,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Body\"" }.ForEach(columnBracket =>
@@ -59241,6 +60372,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59249,6 +60381,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"LastLoginTime\"" }.ForEach(columnBracket =>
@@ -59256,6 +60389,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59264,6 +60398,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"PasswordExpirationTime\"" }.ForEach(columnBracket =>
@@ -59271,6 +60406,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59279,6 +60415,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"PasswordChangeTime\"" }.ForEach(columnBracket =>
@@ -59286,6 +60423,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59294,6 +60432,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"NumberOfLogins\"" }.ForEach(columnBracket =>
@@ -59301,6 +60440,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59309,6 +60449,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"NumberOfDenial\"" }.ForEach(columnBracket =>
@@ -59316,6 +60457,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59324,6 +60466,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TenantManager\"" }.ForEach(columnBracket =>
@@ -59331,6 +60474,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59339,6 +60483,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ServiceManager\"" }.ForEach(columnBracket =>
@@ -59346,6 +60491,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59354,6 +60500,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"AllowCreationAtTopSite\"" }.ForEach(columnBracket =>
@@ -59361,6 +60508,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59369,6 +60517,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"AllowGroupAdministration\"" }.ForEach(columnBracket =>
@@ -59376,6 +60525,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59384,6 +60534,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Disabled\"" }.ForEach(columnBracket =>
@@ -59391,6 +60542,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59399,6 +60551,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Lockout\"" }.ForEach(columnBracket =>
@@ -59406,6 +60559,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59414,6 +60568,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"LockoutCounter\"" }.ForEach(columnBracket =>
@@ -59421,6 +60576,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59429,6 +60585,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Developer\"" }.ForEach(columnBracket =>
@@ -59436,6 +60593,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59444,6 +60602,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UserSettings\"" }.ForEach(columnBracket =>
@@ -59451,6 +60610,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59459,6 +60619,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ApiKey\"" }.ForEach(columnBracket =>
@@ -59466,6 +60627,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59474,6 +60636,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SecondaryAuthenticationCode\"" }.ForEach(columnBracket =>
@@ -59481,6 +60644,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59489,6 +60653,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SecondaryAuthenticationCodeExpirationTime\"" }.ForEach(columnBracket =>
@@ -59496,6 +60661,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59504,6 +60670,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"LdapSearchRoot\"" }.ForEach(columnBracket =>
@@ -59511,6 +60678,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59519,6 +60687,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SynchronizedTime\"" }.ForEach(columnBracket =>
@@ -59526,6 +60695,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59534,6 +60704,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -59541,6 +60712,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59549,6 +60721,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -59556,6 +60729,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59564,6 +60738,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -59571,6 +60746,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59579,6 +60755,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -59586,6 +60763,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59594,6 +60772,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -59601,6 +60780,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59609,6 +60789,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TenantId\"" }.ForEach(columnBracket =>
@@ -59616,6 +60797,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59624,6 +60806,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UserId\"" }.ForEach(columnBracket =>
@@ -59631,6 +60814,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59639,6 +60823,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -59646,6 +60831,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59654,6 +60840,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"LoginId\"" }.ForEach(columnBracket =>
@@ -59661,6 +60848,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59669,6 +60857,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"GlobalId\"" }.ForEach(columnBracket =>
@@ -59676,6 +60865,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59684,6 +60874,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Name\"" }.ForEach(columnBracket =>
@@ -59691,6 +60882,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59699,6 +60891,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UserCode\"" }.ForEach(columnBracket =>
@@ -59706,6 +60899,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59714,6 +60908,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Password\"" }.ForEach(columnBracket =>
@@ -59721,6 +60916,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59729,6 +60925,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"LastName\"" }.ForEach(columnBracket =>
@@ -59736,6 +60933,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59744,6 +60942,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"FirstName\"" }.ForEach(columnBracket =>
@@ -59751,6 +60950,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59759,6 +60959,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Birthday\"" }.ForEach(columnBracket =>
@@ -59766,6 +60967,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59774,6 +60976,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Gender\"" }.ForEach(columnBracket =>
@@ -59781,6 +60984,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59789,6 +60993,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Language\"" }.ForEach(columnBracket =>
@@ -59796,6 +61001,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59804,6 +61010,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TimeZone\"" }.ForEach(columnBracket =>
@@ -59811,6 +61018,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59819,6 +61027,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TimeZone\"" }.ForEach(columnBracket =>
@@ -59826,6 +61035,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59834,6 +61044,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Depts",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DeptCode\"" }.ForEach(columnBracket =>
@@ -59841,6 +61052,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59849,6 +61061,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DeptId\"" }.ForEach(columnBracket =>
@@ -59856,6 +61069,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59864,6 +61078,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DeptId\"" }.ForEach(columnBracket =>
@@ -59871,6 +61086,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59879,6 +61095,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Theme\"" }.ForEach(columnBracket =>
@@ -59886,6 +61103,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59894,6 +61112,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"FirstAndLastNameOrder\"" }.ForEach(columnBracket =>
@@ -59901,6 +61120,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59909,6 +61129,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Body\"" }.ForEach(columnBracket =>
@@ -59916,6 +61137,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59924,6 +61146,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"LastLoginTime\"" }.ForEach(columnBracket =>
@@ -59931,6 +61154,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59939,6 +61163,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"PasswordExpirationTime\"" }.ForEach(columnBracket =>
@@ -59946,6 +61171,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59954,6 +61180,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"PasswordChangeTime\"" }.ForEach(columnBracket =>
@@ -59961,6 +61188,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59969,6 +61197,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"NumberOfLogins\"" }.ForEach(columnBracket =>
@@ -59976,6 +61205,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59984,6 +61214,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"NumberOfDenial\"" }.ForEach(columnBracket =>
@@ -59991,6 +61222,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -59999,6 +61231,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TenantManager\"" }.ForEach(columnBracket =>
@@ -60006,6 +61239,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -60014,6 +61248,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ServiceManager\"" }.ForEach(columnBracket =>
@@ -60021,6 +61256,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -60029,6 +61265,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"AllowCreationAtTopSite\"" }.ForEach(columnBracket =>
@@ -60036,6 +61273,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -60044,6 +61282,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"AllowGroupAdministration\"" }.ForEach(columnBracket =>
@@ -60051,6 +61290,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -60059,6 +61299,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Disabled\"" }.ForEach(columnBracket =>
@@ -60066,6 +61307,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -60074,6 +61316,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Lockout\"" }.ForEach(columnBracket =>
@@ -60081,6 +61324,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -60089,6 +61333,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"LockoutCounter\"" }.ForEach(columnBracket =>
@@ -60096,6 +61341,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -60104,6 +61350,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Developer\"" }.ForEach(columnBracket =>
@@ -60111,6 +61358,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -60119,6 +61367,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UserSettings\"" }.ForEach(columnBracket =>
@@ -60126,6 +61375,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -60134,6 +61384,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ApiKey\"" }.ForEach(columnBracket =>
@@ -60141,6 +61392,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -60149,6 +61401,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SecondaryAuthenticationCode\"" }.ForEach(columnBracket =>
@@ -60156,6 +61409,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -60164,6 +61418,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SecondaryAuthenticationCodeExpirationTime\"" }.ForEach(columnBracket =>
@@ -60171,6 +61426,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -60179,6 +61435,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"LdapSearchRoot\"" }.ForEach(columnBracket =>
@@ -60186,6 +61443,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -60194,6 +61452,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SynchronizedTime\"" }.ForEach(columnBracket =>
@@ -60201,6 +61460,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -60209,6 +61469,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -60216,6 +61477,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -60224,6 +61486,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -60231,6 +61494,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -60239,6 +61503,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -60246,6 +61511,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -60254,6 +61520,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -60261,6 +61528,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -60269,6 +61537,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -60276,6 +61545,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -63604,6 +64874,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this LoginKeysOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "LoginKeys",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"LoginId\"" }.ForEach(columnBracket =>
@@ -63611,6 +64882,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -63619,6 +64891,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this LoginKeysOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "LoginKeys",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Key\"" }.ForEach(columnBracket =>
@@ -63626,6 +64899,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -63634,6 +64908,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this LoginKeysOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "LoginKeys",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -63641,6 +64916,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -63649,6 +64925,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this LoginKeysOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "LoginKeys",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TenantNames\"" }.ForEach(columnBracket =>
@@ -63656,6 +64933,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -63664,6 +64942,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this LoginKeysOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "LoginKeys",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TenantId\"" }.ForEach(columnBracket =>
@@ -63671,6 +64950,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -63679,6 +64959,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this LoginKeysOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "LoginKeys",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UserId\"" }.ForEach(columnBracket =>
@@ -63686,6 +64967,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -63694,6 +64976,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this LoginKeysOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "LoginKeys",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -63701,6 +64984,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -63709,6 +64993,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this LoginKeysOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "LoginKeys",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -63716,6 +65001,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -63724,6 +65010,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this LoginKeysOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "LoginKeys",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -63731,6 +65018,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -63739,6 +65027,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this LoginKeysOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "LoginKeys",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -63746,6 +65035,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -63754,6 +65044,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this LoginKeysOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "LoginKeys",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -63761,6 +65052,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -63769,6 +65061,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "LoginKeys",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"LoginId\"" }.ForEach(columnBracket =>
@@ -63776,6 +65069,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -63784,6 +65078,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "LoginKeys",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Key\"" }.ForEach(columnBracket =>
@@ -63791,6 +65086,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -63799,6 +65095,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "LoginKeys",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -63806,6 +65103,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -63814,6 +65112,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "LoginKeys",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TenantNames\"" }.ForEach(columnBracket =>
@@ -63821,6 +65120,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -63829,6 +65129,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "LoginKeys",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TenantId\"" }.ForEach(columnBracket =>
@@ -63836,6 +65137,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -63844,6 +65146,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "LoginKeys",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UserId\"" }.ForEach(columnBracket =>
@@ -63851,6 +65154,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -63859,6 +65163,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "LoginKeys",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -63866,6 +65171,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -63874,6 +65180,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "LoginKeys",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -63881,6 +65188,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -63889,6 +65197,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "LoginKeys",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -63896,6 +65205,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -63904,6 +65214,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "LoginKeys",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -63911,6 +65222,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -63919,6 +65231,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "LoginKeys",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -63926,6 +65239,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -66106,6 +67420,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this MailAddressesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "MailAddresses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"OwnerId\"" }.ForEach(columnBracket =>
@@ -66113,6 +67428,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -66121,6 +67437,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this MailAddressesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "MailAddresses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"OwnerType\"" }.ForEach(columnBracket =>
@@ -66128,6 +67445,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -66136,6 +67454,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this MailAddressesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "MailAddresses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"MailAddressId\"" }.ForEach(columnBracket =>
@@ -66143,6 +67462,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -66151,6 +67471,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this MailAddressesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "MailAddresses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -66158,6 +67479,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -66166,6 +67488,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this MailAddressesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "MailAddresses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"MailAddress\"" }.ForEach(columnBracket =>
@@ -66173,6 +67496,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -66181,6 +67505,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this MailAddressesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "MailAddresses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -66188,6 +67513,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -66196,6 +67522,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this MailAddressesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "MailAddresses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -66203,6 +67530,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -66211,6 +67539,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this MailAddressesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "MailAddresses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -66218,6 +67547,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -66226,6 +67556,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this MailAddressesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "MailAddresses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -66233,6 +67564,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -66241,6 +67573,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this MailAddressesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "MailAddresses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -66248,6 +67581,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -66256,6 +67590,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "MailAddresses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"OwnerId\"" }.ForEach(columnBracket =>
@@ -66263,6 +67598,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -66271,6 +67607,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "MailAddresses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"OwnerType\"" }.ForEach(columnBracket =>
@@ -66278,6 +67615,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -66286,6 +67624,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "MailAddresses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"MailAddressId\"" }.ForEach(columnBracket =>
@@ -66293,6 +67632,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -66301,6 +67641,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "MailAddresses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -66308,6 +67649,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -66316,6 +67658,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "MailAddresses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"MailAddress\"" }.ForEach(columnBracket =>
@@ -66323,6 +67666,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -66331,6 +67675,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "MailAddresses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -66338,6 +67683,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -66346,6 +67692,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "MailAddresses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -66353,6 +67700,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -66361,6 +67709,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "MailAddresses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -66368,6 +67717,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -66376,6 +67726,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "MailAddresses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -66383,6 +67734,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -66391,6 +67743,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "MailAddresses",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -66398,6 +67751,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -69672,6 +71026,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this OutgoingMailsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ReferenceType\"" }.ForEach(columnBracket =>
@@ -69679,6 +71034,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -69687,6 +71043,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this OutgoingMailsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ReferenceId\"" }.ForEach(columnBracket =>
@@ -69694,6 +71051,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -69702,6 +71060,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this OutgoingMailsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ReferenceVer\"" }.ForEach(columnBracket =>
@@ -69709,6 +71068,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -69717,6 +71077,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this OutgoingMailsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"OutgoingMailId\"" }.ForEach(columnBracket =>
@@ -69724,6 +71085,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -69732,6 +71094,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this OutgoingMailsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -69739,6 +71102,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -69747,6 +71111,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this OutgoingMailsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Host\"" }.ForEach(columnBracket =>
@@ -69754,6 +71119,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -69762,6 +71128,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this OutgoingMailsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Port\"" }.ForEach(columnBracket =>
@@ -69769,6 +71136,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -69777,6 +71145,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this OutgoingMailsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"From\"" }.ForEach(columnBracket =>
@@ -69784,6 +71153,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -69792,6 +71162,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this OutgoingMailsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"To\"" }.ForEach(columnBracket =>
@@ -69799,6 +71170,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -69807,6 +71179,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this OutgoingMailsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Cc\"" }.ForEach(columnBracket =>
@@ -69814,6 +71187,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -69822,6 +71196,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this OutgoingMailsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Bcc\"" }.ForEach(columnBracket =>
@@ -69829,6 +71204,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -69837,6 +71213,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this OutgoingMailsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"" }.ForEach(columnBracket =>
@@ -69844,6 +71221,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -69852,6 +71230,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this OutgoingMailsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Body\"" }.ForEach(columnBracket =>
@@ -69859,6 +71238,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -69867,6 +71247,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this OutgoingMailsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SentTime\"" }.ForEach(columnBracket =>
@@ -69874,6 +71255,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -69882,6 +71264,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this OutgoingMailsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -69889,6 +71272,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -69897,6 +71281,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this OutgoingMailsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -69904,6 +71289,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -69912,6 +71298,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this OutgoingMailsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -69919,6 +71306,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -69927,6 +71315,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this OutgoingMailsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -69934,6 +71323,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -69942,6 +71332,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this OutgoingMailsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -69949,6 +71340,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -69957,6 +71349,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ReferenceType\"" }.ForEach(columnBracket =>
@@ -69964,6 +71357,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -69972,6 +71366,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ReferenceId\"" }.ForEach(columnBracket =>
@@ -69979,6 +71374,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -69987,6 +71383,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ReferenceVer\"" }.ForEach(columnBracket =>
@@ -69994,6 +71391,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -70002,6 +71400,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"OutgoingMailId\"" }.ForEach(columnBracket =>
@@ -70009,6 +71408,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -70017,6 +71417,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -70024,6 +71425,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -70032,6 +71434,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Host\"" }.ForEach(columnBracket =>
@@ -70039,6 +71442,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -70047,6 +71451,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Port\"" }.ForEach(columnBracket =>
@@ -70054,6 +71459,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -70062,6 +71468,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"From\"" }.ForEach(columnBracket =>
@@ -70069,6 +71476,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -70077,6 +71485,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"To\"" }.ForEach(columnBracket =>
@@ -70084,6 +71493,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -70092,6 +71502,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Cc\"" }.ForEach(columnBracket =>
@@ -70099,6 +71510,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -70107,6 +71519,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Bcc\"" }.ForEach(columnBracket =>
@@ -70114,6 +71527,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -70122,6 +71536,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"" }.ForEach(columnBracket =>
@@ -70129,6 +71544,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -70137,6 +71553,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Body\"" }.ForEach(columnBracket =>
@@ -70144,6 +71561,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -70152,6 +71570,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SentTime\"" }.ForEach(columnBracket =>
@@ -70159,6 +71578,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -70167,6 +71587,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -70174,6 +71595,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -70182,6 +71604,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -70189,6 +71612,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -70197,6 +71621,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -70204,6 +71629,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -70212,6 +71638,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -70219,6 +71646,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -70227,6 +71655,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "OutgoingMails",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -70234,6 +71663,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -72947,6 +74377,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ItemsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Items",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ReferenceId\"" }.ForEach(columnBracket =>
@@ -72954,6 +74385,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -72962,6 +74394,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ItemsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Items",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -72969,6 +74402,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -72977,6 +74411,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ItemsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Items",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ReferenceType\"" }.ForEach(columnBracket =>
@@ -72984,6 +74419,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -72992,6 +74428,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ItemsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Items",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SiteId\"" }.ForEach(columnBracket =>
@@ -72999,6 +74436,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -73007,6 +74445,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ItemsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Items",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"" }.ForEach(columnBracket =>
@@ -73014,6 +74453,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -73022,6 +74462,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ItemsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Items",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"FullText\"" }.ForEach(columnBracket =>
@@ -73029,6 +74470,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -73037,6 +74479,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ItemsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Items",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SearchIndexCreatedTime\"" }.ForEach(columnBracket =>
@@ -73044,6 +74487,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -73052,6 +74496,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ItemsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Items",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -73059,6 +74504,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -73067,6 +74513,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ItemsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Items",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -73074,6 +74521,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -73082,6 +74530,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ItemsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Items",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -73089,6 +74538,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -73097,6 +74547,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ItemsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Items",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -73104,6 +74555,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -73112,6 +74564,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ItemsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Items",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -73119,6 +74572,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -73127,6 +74581,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Items",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ReferenceId\"" }.ForEach(columnBracket =>
@@ -73134,6 +74589,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -73142,6 +74598,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Items",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -73149,6 +74606,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -73157,6 +74615,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Items",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ReferenceType\"" }.ForEach(columnBracket =>
@@ -73164,6 +74623,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -73172,6 +74632,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Items",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SiteId\"" }.ForEach(columnBracket =>
@@ -73179,6 +74640,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -73187,6 +74649,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Items",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"" }.ForEach(columnBracket =>
@@ -73194,6 +74657,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -73202,6 +74666,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Items",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"FullText\"" }.ForEach(columnBracket =>
@@ -73209,6 +74674,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -73217,6 +74683,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Items",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SearchIndexCreatedTime\"" }.ForEach(columnBracket =>
@@ -73224,6 +74691,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -73232,6 +74700,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Items",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -73239,6 +74708,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -73247,6 +74717,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Items",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -73254,6 +74725,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -73262,6 +74734,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Items",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -73269,6 +74742,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -73277,6 +74751,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Items",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -73284,6 +74759,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -73292,6 +74768,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Items",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -73299,6 +74776,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77264,6 +78742,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SitesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TenantId\"" }.ForEach(columnBracket =>
@@ -77271,6 +78750,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77279,6 +78759,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SitesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SiteId\"" }.ForEach(columnBracket =>
@@ -77286,6 +78767,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77294,6 +78776,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SitesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -77301,6 +78784,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77309,6 +78793,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SitesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -77316,6 +78801,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77324,6 +78810,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SitesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"" }.ForEach(columnBracket =>
@@ -77331,6 +78818,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77339,6 +78827,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SitesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Body\"" }.ForEach(columnBracket =>
@@ -77346,6 +78835,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77354,6 +78844,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SitesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"", "\"Body\"" }.ForEach(columnBracket =>
@@ -77361,6 +78852,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77369,6 +78861,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SitesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"GridGuide\"" }.ForEach(columnBracket =>
@@ -77376,6 +78869,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77384,6 +78878,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SitesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"EditorGuide\"" }.ForEach(columnBracket =>
@@ -77391,6 +78886,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77399,6 +78895,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SitesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ReferenceType\"" }.ForEach(columnBracket =>
@@ -77406,6 +78903,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77414,6 +78912,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SitesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ParentId\"" }.ForEach(columnBracket =>
@@ -77421,6 +78920,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77429,6 +78929,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SitesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"InheritPermission\"" }.ForEach(columnBracket =>
@@ -77436,6 +78937,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77444,6 +78946,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SitesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SiteSettings\"" }.ForEach(columnBracket =>
@@ -77451,6 +78954,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77459,6 +78963,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SitesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Publish\"" }.ForEach(columnBracket =>
@@ -77466,6 +78971,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77474,6 +78980,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SitesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DisableCrossSearch\"" }.ForEach(columnBracket =>
@@ -77481,6 +78988,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77489,6 +78997,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SitesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"LockedTime\"" }.ForEach(columnBracket =>
@@ -77496,6 +79005,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77504,6 +79014,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SitesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"LockedUser\"" }.ForEach(columnBracket =>
@@ -77511,6 +79022,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77519,6 +79031,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SitesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ApiCountDate\"" }.ForEach(columnBracket =>
@@ -77526,6 +79039,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77534,6 +79048,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SitesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ApiCount\"" }.ForEach(columnBracket =>
@@ -77541,6 +79056,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77549,6 +79065,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SitesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -77556,6 +79073,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77564,6 +79082,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SitesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -77571,6 +79090,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77579,6 +79099,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SitesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -77586,6 +79107,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77594,6 +79116,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SitesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -77601,6 +79124,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77609,6 +79133,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TenantId\"" }.ForEach(columnBracket =>
@@ -77616,6 +79141,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77624,6 +79150,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SiteId\"" }.ForEach(columnBracket =>
@@ -77631,6 +79158,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77639,6 +79167,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -77646,6 +79175,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77654,6 +79184,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -77661,6 +79192,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77669,6 +79201,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"" }.ForEach(columnBracket =>
@@ -77676,6 +79209,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77684,6 +79218,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Body\"" }.ForEach(columnBracket =>
@@ -77691,6 +79226,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77699,6 +79235,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"", "\"Body\"" }.ForEach(columnBracket =>
@@ -77706,6 +79243,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77714,6 +79252,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"GridGuide\"" }.ForEach(columnBracket =>
@@ -77721,6 +79260,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77729,6 +79269,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"EditorGuide\"" }.ForEach(columnBracket =>
@@ -77736,6 +79277,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77744,6 +79286,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ReferenceType\"" }.ForEach(columnBracket =>
@@ -77751,6 +79294,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77759,6 +79303,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ParentId\"" }.ForEach(columnBracket =>
@@ -77766,6 +79311,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77774,6 +79320,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"InheritPermission\"" }.ForEach(columnBracket =>
@@ -77781,6 +79328,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77789,6 +79337,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SiteSettings\"" }.ForEach(columnBracket =>
@@ -77796,6 +79345,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77804,6 +79354,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Publish\"" }.ForEach(columnBracket =>
@@ -77811,6 +79362,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77819,6 +79371,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DisableCrossSearch\"" }.ForEach(columnBracket =>
@@ -77826,6 +79379,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77834,6 +79388,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"LockedTime\"" }.ForEach(columnBracket =>
@@ -77841,6 +79396,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77849,6 +79405,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"LockedUser\"" }.ForEach(columnBracket =>
@@ -77856,6 +79413,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77864,6 +79422,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ApiCountDate\"" }.ForEach(columnBracket =>
@@ -77871,6 +79430,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77879,6 +79439,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ApiCount\"" }.ForEach(columnBracket =>
@@ -77886,6 +79447,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77894,6 +79456,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -77901,6 +79464,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77909,6 +79473,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -77916,6 +79481,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77924,6 +79490,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -77931,6 +79498,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -77939,6 +79507,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -77946,6 +79515,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -80499,6 +82069,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this OrdersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Orders",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ReferenceId\"" }.ForEach(columnBracket =>
@@ -80506,6 +82077,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -80514,6 +82086,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this OrdersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Orders",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ReferenceType\"" }.ForEach(columnBracket =>
@@ -80521,6 +82094,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -80529,6 +82103,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this OrdersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Orders",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"OwnerId\"" }.ForEach(columnBracket =>
@@ -80536,6 +82111,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -80544,6 +82120,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this OrdersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Orders",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -80551,6 +82128,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -80559,6 +82137,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this OrdersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Orders",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Data\"" }.ForEach(columnBracket =>
@@ -80566,6 +82145,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -80574,6 +82154,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this OrdersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Orders",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -80581,6 +82162,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -80589,6 +82171,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this OrdersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Orders",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -80596,6 +82179,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -80604,6 +82188,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this OrdersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Orders",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -80611,6 +82196,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -80619,6 +82205,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this OrdersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Orders",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -80626,6 +82213,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -80634,6 +82222,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this OrdersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Orders",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -80641,6 +82230,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -80649,6 +82239,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Orders",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ReferenceId\"" }.ForEach(columnBracket =>
@@ -80656,6 +82247,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -80664,6 +82256,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Orders",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ReferenceType\"" }.ForEach(columnBracket =>
@@ -80671,6 +82264,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -80679,6 +82273,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Orders",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"OwnerId\"" }.ForEach(columnBracket =>
@@ -80686,6 +82281,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -80694,6 +82290,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Orders",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -80701,6 +82298,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -80709,6 +82307,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Orders",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Data\"" }.ForEach(columnBracket =>
@@ -80716,6 +82315,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -80724,6 +82324,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Orders",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -80731,6 +82332,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -80739,6 +82341,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Orders",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -80746,6 +82349,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -80754,6 +82358,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Orders",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -80761,6 +82366,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -80769,6 +82375,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Orders",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -80776,6 +82383,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -80784,6 +82392,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Orders",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -80791,6 +82400,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -83138,6 +84748,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ExportSettingsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ExportSettings",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ReferenceType\"" }.ForEach(columnBracket =>
@@ -83145,6 +84756,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -83153,6 +84765,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ExportSettingsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ExportSettings",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ReferenceId\"" }.ForEach(columnBracket =>
@@ -83160,6 +84773,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -83168,6 +84782,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ExportSettingsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ExportSettings",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"" }.ForEach(columnBracket =>
@@ -83175,6 +84790,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -83183,6 +84799,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ExportSettingsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ExportSettings",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ExportSettingId\"" }.ForEach(columnBracket =>
@@ -83190,6 +84807,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -83198,6 +84816,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ExportSettingsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ExportSettings",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -83205,6 +84824,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -83213,6 +84833,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ExportSettingsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ExportSettings",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"AddHeader\"" }.ForEach(columnBracket =>
@@ -83220,6 +84841,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -83228,6 +84850,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ExportSettingsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ExportSettings",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ExportColumns\"" }.ForEach(columnBracket =>
@@ -83235,6 +84858,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -83243,6 +84867,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ExportSettingsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ExportSettings",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -83250,6 +84875,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -83258,6 +84884,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ExportSettingsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ExportSettings",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -83265,6 +84892,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -83273,6 +84901,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ExportSettingsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ExportSettings",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -83280,6 +84909,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -83288,6 +84918,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ExportSettingsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ExportSettings",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -83295,6 +84926,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -83303,6 +84935,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ExportSettingsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ExportSettings",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -83310,6 +84943,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -83318,6 +84952,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ExportSettings",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ReferenceType\"" }.ForEach(columnBracket =>
@@ -83325,6 +84960,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -83333,6 +84969,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ExportSettings",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ReferenceId\"" }.ForEach(columnBracket =>
@@ -83340,6 +84977,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -83348,6 +84986,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ExportSettings",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"" }.ForEach(columnBracket =>
@@ -83355,6 +84994,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -83363,6 +85003,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ExportSettings",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ExportSettingId\"" }.ForEach(columnBracket =>
@@ -83370,6 +85011,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -83378,6 +85020,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ExportSettings",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -83385,6 +85028,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -83393,6 +85037,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ExportSettings",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"AddHeader\"" }.ForEach(columnBracket =>
@@ -83400,6 +85045,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -83408,6 +85054,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ExportSettings",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ExportColumns\"" }.ForEach(columnBracket =>
@@ -83415,6 +85062,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -83423,6 +85071,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ExportSettings",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -83430,6 +85079,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -83438,6 +85088,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ExportSettings",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -83445,6 +85096,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -83453,6 +85105,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ExportSettings",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -83460,6 +85113,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -83468,6 +85122,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ExportSettings",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -83475,6 +85130,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -83483,6 +85139,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "ExportSettings",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -83490,6 +85147,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -86080,6 +87738,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this LinksOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Links",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DestinationId\"" }.ForEach(columnBracket =>
@@ -86087,6 +87746,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -86095,6 +87755,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this LinksOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Links",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SourceId\"" }.ForEach(columnBracket =>
@@ -86102,6 +87763,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -86110,6 +87772,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this LinksOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Links",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -86117,6 +87780,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -86125,6 +87789,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this LinksOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Items",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ReferenceType\"" }.ForEach(columnBracket =>
@@ -86132,6 +87797,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -86140,6 +87806,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this LinksOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SiteId\"" }.ForEach(columnBracket =>
@@ -86147,6 +87814,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -86155,6 +87823,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this LinksOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Items",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"" }.ForEach(columnBracket =>
@@ -86162,6 +87831,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -86170,6 +87840,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this LinksOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Items",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Subset\"" }.ForEach(columnBracket =>
@@ -86177,6 +87848,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -86185,6 +87857,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this LinksOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"" }.ForEach(columnBracket =>
@@ -86192,6 +87865,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -86200,6 +87874,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this LinksOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Links",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -86207,6 +87882,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -86215,6 +87891,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this LinksOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Links",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -86222,6 +87899,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -86230,6 +87908,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this LinksOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Links",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -86237,6 +87916,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -86245,6 +87925,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this LinksOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Links",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -86252,6 +87933,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -86260,6 +87942,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this LinksOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Links",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -86267,6 +87950,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -86275,6 +87959,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Links",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DestinationId\"" }.ForEach(columnBracket =>
@@ -86282,6 +87967,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -86290,6 +87976,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Links",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SourceId\"" }.ForEach(columnBracket =>
@@ -86297,6 +87984,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -86305,6 +87993,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Links",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -86312,6 +88001,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -86320,6 +88010,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Items",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ReferenceType\"" }.ForEach(columnBracket =>
@@ -86327,6 +88018,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -86335,6 +88027,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SiteId\"" }.ForEach(columnBracket =>
@@ -86342,6 +88035,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -86350,6 +88044,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Items",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"" }.ForEach(columnBracket =>
@@ -86357,6 +88052,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -86365,6 +88061,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Items",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Subset\"" }.ForEach(columnBracket =>
@@ -86372,6 +88069,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -86380,6 +88078,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Sites",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"" }.ForEach(columnBracket =>
@@ -86387,6 +88086,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -86395,6 +88095,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Links",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -86402,6 +88103,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -86410,6 +88112,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Links",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -86417,6 +88120,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -86425,6 +88129,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Links",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -86432,6 +88137,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -86440,6 +88146,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Links",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -86447,6 +88154,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -86455,6 +88163,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Links",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -86462,6 +88171,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -89861,6 +91571,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this BinariesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"BinaryId\"" }.ForEach(columnBracket =>
@@ -89868,6 +91579,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -89876,6 +91588,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this BinariesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TenantId\"" }.ForEach(columnBracket =>
@@ -89883,6 +91596,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -89891,6 +91605,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this BinariesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ReferenceId\"" }.ForEach(columnBracket =>
@@ -89898,6 +91613,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -89906,6 +91622,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this BinariesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Guid\"" }.ForEach(columnBracket =>
@@ -89913,6 +91630,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -89921,6 +91639,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this BinariesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -89928,6 +91647,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -89936,6 +91656,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this BinariesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"BinaryType\"" }.ForEach(columnBracket =>
@@ -89943,6 +91664,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -89951,6 +91673,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this BinariesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"" }.ForEach(columnBracket =>
@@ -89958,6 +91681,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -89966,6 +91690,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this BinariesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Body\"" }.ForEach(columnBracket =>
@@ -89973,6 +91698,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -89981,6 +91707,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this BinariesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Bin\"" }.ForEach(columnBracket =>
@@ -89988,6 +91715,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -89996,6 +91724,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this BinariesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Thumbnail\"" }.ForEach(columnBracket =>
@@ -90003,6 +91732,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -90011,6 +91741,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this BinariesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Icon\"" }.ForEach(columnBracket =>
@@ -90018,6 +91749,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -90026,6 +91758,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this BinariesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"FileName\"" }.ForEach(columnBracket =>
@@ -90033,6 +91766,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -90041,6 +91775,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this BinariesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Extension\"" }.ForEach(columnBracket =>
@@ -90048,6 +91783,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -90056,6 +91792,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this BinariesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Size\"" }.ForEach(columnBracket =>
@@ -90063,6 +91800,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -90071,6 +91809,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this BinariesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ContentType\"" }.ForEach(columnBracket =>
@@ -90078,6 +91817,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -90086,6 +91826,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this BinariesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"BinarySettings\"" }.ForEach(columnBracket =>
@@ -90093,6 +91834,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -90101,6 +91843,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this BinariesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -90108,6 +91851,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -90116,6 +91860,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this BinariesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -90123,6 +91868,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -90131,6 +91877,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this BinariesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -90138,6 +91885,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -90146,6 +91894,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this BinariesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -90153,6 +91902,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -90161,6 +91911,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this BinariesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -90168,6 +91919,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -90176,6 +91928,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"BinaryId\"" }.ForEach(columnBracket =>
@@ -90183,6 +91936,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -90191,6 +91945,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"TenantId\"" }.ForEach(columnBracket =>
@@ -90198,6 +91953,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -90206,6 +91962,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ReferenceId\"" }.ForEach(columnBracket =>
@@ -90213,6 +91970,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -90221,6 +91979,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Guid\"" }.ForEach(columnBracket =>
@@ -90228,6 +91987,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -90236,6 +91996,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -90243,6 +92004,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -90251,6 +92013,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"BinaryType\"" }.ForEach(columnBracket =>
@@ -90258,6 +92021,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -90266,6 +92030,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"" }.ForEach(columnBracket =>
@@ -90273,6 +92038,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -90281,6 +92047,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Body\"" }.ForEach(columnBracket =>
@@ -90288,6 +92055,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -90296,6 +92064,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Bin\"" }.ForEach(columnBracket =>
@@ -90303,6 +92072,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -90311,6 +92081,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Thumbnail\"" }.ForEach(columnBracket =>
@@ -90318,6 +92089,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -90326,6 +92098,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Icon\"" }.ForEach(columnBracket =>
@@ -90333,6 +92106,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -90341,6 +92115,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"FileName\"" }.ForEach(columnBracket =>
@@ -90348,6 +92123,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -90356,6 +92132,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Extension\"" }.ForEach(columnBracket =>
@@ -90363,6 +92140,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -90371,6 +92149,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Size\"" }.ForEach(columnBracket =>
@@ -90378,6 +92157,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -90386,6 +92166,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ContentType\"" }.ForEach(columnBracket =>
@@ -90393,6 +92174,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -90401,6 +92183,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"BinarySettings\"" }.ForEach(columnBracket =>
@@ -90408,6 +92191,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -90416,6 +92200,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -90423,6 +92208,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -90431,6 +92217,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -90438,6 +92225,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -90446,6 +92234,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -90453,6 +92242,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -90461,6 +92251,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -90468,6 +92259,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -90476,6 +92268,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Binaries",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -90483,6 +92276,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -93649,6 +95443,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this PermissionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Permissions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ReferenceId\"" }.ForEach(columnBracket =>
@@ -93656,6 +95451,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -93664,6 +95460,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this PermissionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Permissions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DeptId\"" }.ForEach(columnBracket =>
@@ -93671,6 +95468,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -93679,6 +95477,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this PermissionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Permissions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"GroupId\"" }.ForEach(columnBracket =>
@@ -93686,6 +95485,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -93694,6 +95494,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this PermissionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Permissions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UserId\"" }.ForEach(columnBracket =>
@@ -93701,6 +95502,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -93709,6 +95511,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this PermissionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Permissions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -93716,6 +95519,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -93724,6 +95528,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this PermissionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Depts",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DeptName\"" }.ForEach(columnBracket =>
@@ -93731,6 +95536,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -93739,6 +95545,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this PermissionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Groups",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"GroupName\"" }.ForEach(columnBracket =>
@@ -93746,6 +95553,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -93754,6 +95562,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this PermissionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Name\"" }.ForEach(columnBracket =>
@@ -93761,6 +95570,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -93769,6 +95579,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this PermissionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Permissions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"PermissionType\"" }.ForEach(columnBracket =>
@@ -93776,6 +95587,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -93784,6 +95596,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this PermissionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Permissions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -93791,6 +95604,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -93799,6 +95613,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this PermissionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Permissions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -93806,6 +95621,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -93814,6 +95630,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this PermissionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Permissions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -93821,6 +95638,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -93829,6 +95647,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this PermissionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Permissions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -93836,6 +95655,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -93844,6 +95664,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this PermissionsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Permissions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -93851,6 +95672,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -93859,6 +95681,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Permissions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ReferenceId\"" }.ForEach(columnBracket =>
@@ -93866,6 +95689,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -93874,6 +95698,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Permissions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DeptId\"" }.ForEach(columnBracket =>
@@ -93881,6 +95706,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -93889,6 +95715,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Permissions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"GroupId\"" }.ForEach(columnBracket =>
@@ -93896,6 +95723,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -93904,6 +95732,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Permissions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UserId\"" }.ForEach(columnBracket =>
@@ -93911,6 +95740,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -93919,6 +95749,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Permissions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -93926,6 +95757,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -93934,6 +95766,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Depts",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DeptName\"" }.ForEach(columnBracket =>
@@ -93941,6 +95774,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -93949,6 +95783,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Groups",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"GroupName\"" }.ForEach(columnBracket =>
@@ -93956,6 +95791,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -93964,6 +95800,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Name\"" }.ForEach(columnBracket =>
@@ -93971,6 +95808,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -93979,6 +95817,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Permissions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"PermissionType\"" }.ForEach(columnBracket =>
@@ -93986,6 +95825,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -93994,6 +95834,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Permissions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -94001,6 +95842,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -94009,6 +95851,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Permissions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -94016,6 +95859,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -94024,6 +95868,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Permissions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -94031,6 +95876,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -94039,6 +95885,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Permissions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -94046,6 +95893,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -94054,6 +95902,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Permissions",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -94061,6 +95910,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98034,6 +99884,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this IssuesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SiteId\"" }.ForEach(columnBracket =>
@@ -98041,6 +99892,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98049,6 +99901,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this IssuesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -98056,6 +99909,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98064,6 +99918,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this IssuesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"IssueId\"" }.ForEach(columnBracket =>
@@ -98071,6 +99926,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98079,6 +99935,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this IssuesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -98086,6 +99943,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98094,6 +99952,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this IssuesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"" }.ForEach(columnBracket =>
@@ -98101,6 +99960,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98109,6 +99969,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this IssuesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Body\"" }.ForEach(columnBracket =>
@@ -98116,6 +99977,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98124,6 +99986,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this IssuesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"", "\"Body\"" }.ForEach(columnBracket =>
@@ -98131,6 +99994,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98139,6 +100003,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this IssuesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"StartTime\"" }.ForEach(columnBracket =>
@@ -98146,6 +100011,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98154,6 +100020,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this IssuesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CompletionTime\"" }.ForEach(columnBracket =>
@@ -98161,6 +100028,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98169,6 +100037,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this IssuesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"WorkValue\"" }.ForEach(columnBracket =>
@@ -98176,6 +100045,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98184,6 +100054,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this IssuesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ProgressRate\"" }.ForEach(columnBracket =>
@@ -98191,6 +100062,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98199,6 +100071,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this IssuesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "(#TableBracket#.\"WorkValue\" - (#TableBracket#.\"WorkValue\" * #TableBracket#.\"ProgressRate\" * 0.01))" }.ForEach(columnBracket =>
@@ -98206,6 +100079,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98214,6 +100088,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this IssuesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Status\"" }.ForEach(columnBracket =>
@@ -98221,6 +100096,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98229,6 +100105,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this IssuesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Manager\"" }.ForEach(columnBracket =>
@@ -98236,6 +100113,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98244,6 +100122,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this IssuesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Owner\"" }.ForEach(columnBracket =>
@@ -98251,6 +100130,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98259,6 +100139,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this IssuesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Locked\"" }.ForEach(columnBracket =>
@@ -98266,6 +100147,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98274,6 +100156,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this IssuesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SiteId\"" }.ForEach(columnBracket =>
@@ -98281,6 +100164,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98289,6 +100173,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this IssuesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -98296,6 +100181,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98304,6 +100190,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this IssuesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -98311,6 +100198,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98319,6 +100207,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this IssuesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -98326,6 +100215,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98334,6 +100224,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this IssuesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -98341,6 +100232,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98349,6 +100241,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SiteId\"" }.ForEach(columnBracket =>
@@ -98356,6 +100249,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98364,6 +100258,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -98371,6 +100266,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98379,6 +100275,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"IssueId\"" }.ForEach(columnBracket =>
@@ -98386,6 +100283,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98394,6 +100292,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -98401,6 +100300,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98409,6 +100309,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"" }.ForEach(columnBracket =>
@@ -98416,6 +100317,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98424,6 +100326,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Body\"" }.ForEach(columnBracket =>
@@ -98431,6 +100334,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98439,6 +100343,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"", "\"Body\"" }.ForEach(columnBracket =>
@@ -98446,6 +100351,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98454,6 +100360,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"StartTime\"" }.ForEach(columnBracket =>
@@ -98461,6 +100368,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98469,6 +100377,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CompletionTime\"" }.ForEach(columnBracket =>
@@ -98476,6 +100385,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98484,6 +100394,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"WorkValue\"" }.ForEach(columnBracket =>
@@ -98491,6 +100402,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98499,6 +100411,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ProgressRate\"" }.ForEach(columnBracket =>
@@ -98506,6 +100419,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98514,6 +100428,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "(#TableBracket#.\"WorkValue\" - (#TableBracket#.\"WorkValue\" * #TableBracket#.\"ProgressRate\" * 0.01))" }.ForEach(columnBracket =>
@@ -98521,6 +100436,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98529,6 +100445,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Status\"" }.ForEach(columnBracket =>
@@ -98536,6 +100453,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98544,6 +100462,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Manager\"" }.ForEach(columnBracket =>
@@ -98551,6 +100470,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98559,6 +100479,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Owner\"" }.ForEach(columnBracket =>
@@ -98566,6 +100487,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98574,6 +100496,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Locked\"" }.ForEach(columnBracket =>
@@ -98581,6 +100504,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98589,6 +100513,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SiteId\"" }.ForEach(columnBracket =>
@@ -98596,6 +100521,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98604,6 +100530,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -98611,6 +100538,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98619,6 +100547,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -98626,6 +100555,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98634,6 +100564,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -98641,6 +100572,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -98649,6 +100581,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Issues",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -98656,6 +100589,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -102016,6 +103950,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ResultsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Results",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SiteId\"" }.ForEach(columnBracket =>
@@ -102023,6 +103958,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -102031,6 +103967,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ResultsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Results",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -102038,6 +103975,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -102046,6 +103984,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ResultsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Results",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ResultId\"" }.ForEach(columnBracket =>
@@ -102053,6 +103992,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -102061,6 +104001,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ResultsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Results",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -102068,6 +104009,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -102076,6 +104018,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ResultsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Results",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"" }.ForEach(columnBracket =>
@@ -102083,6 +104026,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -102091,6 +104035,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ResultsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Results",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Body\"" }.ForEach(columnBracket =>
@@ -102098,6 +104043,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -102106,6 +104052,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ResultsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Results",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"", "\"Body\"" }.ForEach(columnBracket =>
@@ -102113,6 +104060,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -102121,6 +104069,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ResultsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Results",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Status\"" }.ForEach(columnBracket =>
@@ -102128,6 +104077,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -102136,6 +104086,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ResultsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Results",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Manager\"" }.ForEach(columnBracket =>
@@ -102143,6 +104094,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -102151,6 +104103,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ResultsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Results",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Owner\"" }.ForEach(columnBracket =>
@@ -102158,6 +104111,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -102166,6 +104120,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ResultsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Results",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Locked\"" }.ForEach(columnBracket =>
@@ -102173,6 +104128,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -102181,6 +104137,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ResultsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Results",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SiteId\"" }.ForEach(columnBracket =>
@@ -102188,6 +104145,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -102196,6 +104154,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ResultsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Results",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -102203,6 +104162,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -102211,6 +104171,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ResultsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Results",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -102218,6 +104179,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -102226,6 +104188,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ResultsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Results",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -102233,6 +104196,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -102241,6 +104205,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this ResultsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Results",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -102248,6 +104213,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -102256,6 +104222,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Results",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SiteId\"" }.ForEach(columnBracket =>
@@ -102263,6 +104230,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -102271,6 +104239,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Results",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -102278,6 +104247,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -102286,6 +104256,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Results",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ResultId\"" }.ForEach(columnBracket =>
@@ -102293,6 +104264,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -102301,6 +104273,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Results",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -102308,6 +104281,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -102316,6 +104290,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Results",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"" }.ForEach(columnBracket =>
@@ -102323,6 +104298,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -102331,6 +104307,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Results",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Body\"" }.ForEach(columnBracket =>
@@ -102338,6 +104315,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -102346,6 +104324,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Results",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"", "\"Body\"" }.ForEach(columnBracket =>
@@ -102353,6 +104332,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -102361,6 +104341,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Results",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Status\"" }.ForEach(columnBracket =>
@@ -102368,6 +104349,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -102376,6 +104358,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Results",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Manager\"" }.ForEach(columnBracket =>
@@ -102383,6 +104366,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -102391,6 +104375,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Results",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Owner\"" }.ForEach(columnBracket =>
@@ -102398,6 +104383,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -102406,6 +104392,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Results",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Locked\"" }.ForEach(columnBracket =>
@@ -102413,6 +104400,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -102421,6 +104409,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Results",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SiteId\"" }.ForEach(columnBracket =>
@@ -102428,6 +104417,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -102436,6 +104426,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Results",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -102443,6 +104434,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -102451,6 +104443,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Results",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -102458,6 +104451,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -102466,6 +104460,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Results",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -102473,6 +104468,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -102481,6 +104477,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Results",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -102488,6 +104485,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -105000,6 +106998,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this WikisOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Wikis",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SiteId\"" }.ForEach(columnBracket =>
@@ -105007,6 +107006,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -105015,6 +107015,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this WikisOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Wikis",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -105022,6 +107023,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -105030,6 +107032,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this WikisOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Wikis",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"WikiId\"" }.ForEach(columnBracket =>
@@ -105037,6 +107040,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -105045,6 +107049,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this WikisOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Wikis",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -105052,6 +107057,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -105060,6 +107066,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this WikisOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Wikis",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"" }.ForEach(columnBracket =>
@@ -105067,6 +107074,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -105075,6 +107083,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this WikisOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Wikis",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Body\"" }.ForEach(columnBracket =>
@@ -105082,6 +107091,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -105090,6 +107100,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this WikisOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Wikis",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"", "\"Body\"" }.ForEach(columnBracket =>
@@ -105097,6 +107108,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -105105,6 +107117,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this WikisOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Wikis",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Locked\"" }.ForEach(columnBracket =>
@@ -105112,6 +107125,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -105120,6 +107134,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this WikisOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Wikis",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -105127,6 +107142,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -105135,6 +107151,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this WikisOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Wikis",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -105142,6 +107159,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -105150,6 +107168,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this WikisOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Wikis",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -105157,6 +107176,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -105165,6 +107185,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this WikisOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Wikis",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -105172,6 +107193,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -105180,6 +107202,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Wikis",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"SiteId\"" }.ForEach(columnBracket =>
@@ -105187,6 +107210,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -105195,6 +107219,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Wikis",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
@@ -105202,6 +107227,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -105210,6 +107236,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Wikis",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"WikiId\"" }.ForEach(columnBracket =>
@@ -105217,6 +107244,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -105225,6 +107253,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Wikis",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
@@ -105232,6 +107261,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -105240,6 +107270,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Wikis",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"" }.ForEach(columnBracket =>
@@ -105247,6 +107278,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -105255,6 +107287,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Wikis",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Body\"" }.ForEach(columnBracket =>
@@ -105262,6 +107295,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -105270,6 +107304,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Wikis",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"", "\"Body\"" }.ForEach(columnBracket =>
@@ -105277,6 +107312,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -105285,6 +107321,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Wikis",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Locked\"" }.ForEach(columnBracket =>
@@ -105292,6 +107329,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -105300,6 +107338,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Wikis",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
@@ -105307,6 +107346,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -105315,6 +107355,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Wikis",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
@@ -105322,6 +107363,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -105330,6 +107372,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Wikis",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
@@ -105337,6 +107380,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }
@@ -105345,6 +107389,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Wikis",
+            string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
@@ -105352,6 +107397,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBracket: columnBracket,
                     orderType: orderType,
                     tableName: tableName,
+                    isNullValue: isNullValue,
                     function: function));
             return self;
         }

@@ -153,7 +153,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     context: context,
                     ss: ss,
                     columnName: element.Key,
-                    value: element.Value.Value,
+                    value: element.Value.Value
+                        ?? (ss?.GetColumn(
+                            context: context,
+                            columnName: element.Key)
+                                ?.Nullable == true
+                                    ? (decimal?)null
+                                    : 0),
                     mine: mine)));
             values.AddRange(model
                 .DateHash

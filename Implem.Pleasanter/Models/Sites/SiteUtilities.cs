@@ -4038,6 +4038,12 @@ namespace Implem.Pleasanter.Models
                     selectedValue: ss.GridView?.ToString(),
                     insertBlank: true,
                     _using: ss.Views?.Any() == true)
+                .FieldCheckBox(
+                    controlId: "AllowViewReset",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.AllowViewReset(context: context),
+                    _checked: ss.AllowViewReset == true,
+                    _using: ss.Views?.Any() == true)
                 .FieldDropDown(
                     context: context,
                     controlId: "GridEditorType",
