@@ -2326,6 +2326,7 @@
     <Content Include="App_Data\Displays\TimeSeriesSettings.json" />
     <Content Include="App_Data\Displays\KambanSettings.json" />
     <Content Include="App_Data\Displays\CalendarSettings.json" />
+    <Content Include="App_Data\Displays\AllowViewReset.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />
