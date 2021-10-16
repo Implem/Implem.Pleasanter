@@ -73,7 +73,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 id: muenuId,
                 css: $"{css} {cssUiWidget}".Trim(),
                 action: () => menus
-                    .Where(menu => !menu.Disabled)
+                    .ExtensionWhere<NavigationMenu>(context)
                     .ForEach(menu =>
                     {
                         var id = menu.ContainerId ?? menu.MenuId;

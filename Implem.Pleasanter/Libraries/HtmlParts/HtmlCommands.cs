@@ -212,7 +212,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             icon: "ui-icon-disk",
                                             action: "UpdateByGrid",
                                             method: "post",
-                                            _using: context.CanRead(ss: ss))
+                                            _using: context.CanUpdate(ss: ss))
                                         .Button(
                                             serverScriptModelRow: serverScriptModelRow,
                                             commandDisplayTypes: view?.EditOnGridCommand,
@@ -222,8 +222,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             onClick: "$p.editOnGrid($(this),0);",
                                             icon: "ui-icon-arrowreturnthick-1-w",
                                             action: "Index",
-                                            method: "post",
-                                            _using: context.CanRead(ss: ss));
+                                            method: "post");
                                 }
                                 else if (ss.ReferenceType != "Sites")
                                 {

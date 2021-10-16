@@ -22,7 +22,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 selectedValue: ss.Views?.FirstOrDefault(o =>
                     o.ToJson() == view.ToJson())?.Id.ToString(),
                 addSelectedValue: false,
-                insertBlank: true,
+                insertBlank: ss.AllowViewReset != false,
                 method: "post",
                 _using: ss.Views?.Any() == true);
         }
