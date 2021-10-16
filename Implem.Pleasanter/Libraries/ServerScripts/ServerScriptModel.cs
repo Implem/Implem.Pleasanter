@@ -216,6 +216,16 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 _choiceHashChanged = true;
             }
 
+            public void ClearChoiceHash()
+            {
+                if (ChoiceHash == null)
+                {
+                    ChoiceHash = new Dictionary<object, object>();
+                }
+                ChoiceHash.Clear();
+                _choiceHashChanged = true;
+            }
+
             public bool Changed()
             {
                 return _labelTextChanged
