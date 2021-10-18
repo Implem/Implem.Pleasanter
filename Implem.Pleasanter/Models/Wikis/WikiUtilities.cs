@@ -697,7 +697,8 @@ namespace Implem.Pleasanter.Models
                                 copyButton: false,
                                 moveButton: false,
                                 mailButton: true,
-                                deleteButton: true))
+                                deleteButton: true,
+                                serverScriptModelRow: serverScriptModelRow))
                         .Hidden(
                             controlId: "BaseUrl",
                             value: Locations.BaseUrl(context: context))

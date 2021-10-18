@@ -8,6 +8,8 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -32,6 +34,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Disabled = 3
         }
 
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum SearchTypes : int
         {
             PartialMatch = 1,
@@ -1083,14 +1086,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             { IfDuplicated = true };
         }
 
-        public string IsNullValue()
+        public string IsNullValue(Context context)
         {
             switch (TypeName.CsTypeSummary())
             {
+                case Implem.Libraries.Utilities.Types.CsBool:
+                    return context.Sqls.FalseString;
                 case Implem.Libraries.Utilities.Types.CsNumeric:
                     return Nullable == true
                         ? null
                         : "0";
+                case Implem.Libraries.Utilities.Types.CsString:
+                    return "''";
                 default:
                     return null;
             }

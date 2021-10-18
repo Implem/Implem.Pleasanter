@@ -60,6 +60,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public CommandDisplayTypes? DeleteCommand;
         public CommandDisplayTypes? OpenDeleteSiteDialogCommand;
         public Dictionary<string, string> ColumnFilterHash;
+        public Dictionary<string, Column.SearchTypes> ColumnFilterSearchTypes;
         public string Search;
         public Dictionary<string, SqlOrderBy.Types> ColumnSorterHash;
         public string CalendarTimePeriod;
@@ -1721,7 +1722,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 }
                 else
                 {
-                    switch (column.SearchType)
+                    var searchType = ColumnFilterSearchTypes?.ContainsKey(column.ColumnName) == true
+                        ? ColumnFilterSearchTypes.Get(column.ColumnName)
+                        : column.SearchType;
+                    switch (searchType)
                     {
                         case Column.SearchTypes.ExactMatch:
                             var param = value.ToSingleList();
@@ -1897,20 +1901,23 @@ namespace Implem.Pleasanter.Libraries.Settings
                     orderBy.Add(new SqlOrderBy(
                         columnBracket: "\"Title\"",
                         orderType: data.Value,
-                        tableName: $"{tableName}_Items"));
+                        tableName: $"{tableName}_Items",
+                        isNullValue: "''"));
                     break;
                 case "TitleBody":
                     orderBy.Add(new SqlOrderBy(
                         columnBracket: "\"Title\"",
                         orderType: data.Value,
-                        tableName: $"{tableName}_Items"));
+                        tableName: $"{tableName}_Items",
+                        isNullValue: "''"));
                     orderBy.Add(
                         column: ss.GetColumn(
                             context: context,
                             columnName: column.Joined
                                 ? $"{tableName},Body"
                                 : "Body"),
-                        orderType: data.Value);
+                        orderType: data.Value,
+                        isNullValue: column.IsNullValue(context: context));
                     break;
                 default:
                     if (column.Linked(withoutWiki: true))
@@ -1930,7 +1937,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         orderBy.Add(
                             column: column,
-                            orderType: data.Value);
+                            orderType: data.Value,
+                            isNullValue: column.IsNullValue(context: context));
                     }
                     break;
             }
