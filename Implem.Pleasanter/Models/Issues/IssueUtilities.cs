@@ -1764,6 +1764,7 @@ namespace Implem.Pleasanter.Models
             Column column,
             bool controlOnly = false,
             bool alwaysSend = false,
+            bool disableAutoPostBack = false,
             string idSuffix = null,
             bool preview = false,
             bool disableSection = false)
@@ -1790,6 +1791,7 @@ namespace Implem.Pleasanter.Models
                         baseModel: issueModel),
                     controlOnly: controlOnly,
                     alwaysSend: alwaysSend,
+                    disableAutoPostBack: disableAutoPostBack,
                     idSuffix: idSuffix,
                     preview: preview,
                     disableSection: disableSection);
@@ -3196,6 +3198,7 @@ namespace Implem.Pleasanter.Models
                                         context: context,
                                         columnName: column.ColumnName),
                                     alwaysSend: true,
+                                    disableAutoPostBack: true,
                                     disableSection: true))));
             return hb;
         }
