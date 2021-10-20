@@ -180,7 +180,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         public static Dictionary<string, ControlData> EditChoices(
-            Context context, SiteSettings ss, Column column, string value, bool multiple = false, bool addNotSet = false)
+            Context context,
+            SiteSettings ss,
+            Column column,
+            string value,
+            bool multiple = false,
+            bool addNotSet = false)
         {
             var editChoices = column.EditChoices(
                 context: context,
@@ -212,8 +217,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 switch (column.Type)
                 {
                     case Column.Types.Dept:
-                        (column.MultipleSelections == true
-                            || multiple
+                        (column.MultipleSelections == true || multiple
                             ? value.Deserialize<List<string>>()
                                 ?.Select(deptId => deptId.ToInt())
                                 .ToList()
@@ -228,8 +232,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         new ControlData(dept.Name)));
                         break;
                     case Column.Types.Group:
-                        (column.MultipleSelections == true
-                            || multiple
+                        (column.MultipleSelections == true || multiple
                             ? value.Deserialize<List<string>>()
                                 ?.Select(groupId => groupId.ToInt())
                                 .ToList()
@@ -244,8 +247,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         new ControlData(group.Name)));
                         break;
                     case Column.Types.User:
-                        (column.MultipleSelections == true
-                            || multiple
+                        (column.MultipleSelections == true || multiple
                             ? value.Deserialize<List<string>>()
                                 ?.Select(userId => userId.ToInt())
                                 .ToList()
