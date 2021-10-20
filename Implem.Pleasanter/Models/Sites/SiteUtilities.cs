@@ -7645,12 +7645,18 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             controlId: controlId,
                             fieldCss: "field-auto-thin",
-                            controlCss: " auto-postback",
+                            controlCss: " auto-postback" + (column.UseSearch == true
+                                ? " search"
+                                : string.Empty),
                             labelText: column.LabelText,
                             labelTitle: labelTitle,
                             optionCollection: column.HasChoices()
-                                ? column.EditChoices(
+                                ? HtmlFields.EditChoices(
                                     context: context,
+                                    ss: ss,
+                                    column: column,
+                                    value: value,
+                                    multiple: true,
                                     addNotSet: true)
                                 : column.NumFilterOptions(context: context),
                             selectedValue: value,
@@ -7682,8 +7688,12 @@ namespace Implem.Pleasanter.Models
                                 : string.Empty),
                             labelText: column.LabelText,
                             labelTitle: labelTitle,
-                            optionCollection: column.EditChoices(
+                            optionCollection: HtmlFields.EditChoices(
                                 context: context,
+                                ss: ss,
+                                column: column,
+                                value: value,
+                                multiple: true,
                                 addNotSet: true),
                             selectedValue: value,
                             multiple: true,
