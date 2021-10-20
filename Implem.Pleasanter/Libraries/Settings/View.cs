@@ -1849,7 +1849,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss: ss,
                     itemModel: null,
                     view: this,
-                    where: script => script.WhenViewProcessing == true);
+                    where: script => script.WhenViewProcessing == true,
+                    condition: "WhenViewProcessing");
                 WhenViewProcessingServerScriptExecuted = true;
             }
         }

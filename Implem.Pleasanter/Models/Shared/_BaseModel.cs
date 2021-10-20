@@ -690,7 +690,8 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 itemModel: null,
                 view: null,
-                where: script => script.WhenloadingSiteSettings == true);
+                where: script => script.WhenloadingSiteSettings == true,
+                condition: "WhenloadingSiteSettings");
             SetServerScriptModelColumns(context: context,
                 ss: ss,
                 scriptValues: scriptValues);
@@ -723,7 +724,8 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 itemModel: null,
                 view: null,
-                where: script => script.BeforeOpeningPage == true);
+                where: script => script.BeforeOpeningPage == true,
+                condition: "BeforeOpeningPage");
             if (scriptValues != null)
             {
                 SetServerScriptModelColumns(context: context,
@@ -814,7 +816,8 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 itemModel: this,
                 view: null,
-                where: script => script.WhenloadingRecord == true);
+                where: script => script.WhenloadingRecord == true,
+                condition: "WhenloadingRecord");
             if (scriptValues != null)
             {
                 ServerScriptModelRow = scriptValues;
@@ -829,7 +832,8 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 itemModel: this,
                 view: null,
-                where: script => script.BeforeFormula == true);
+                where: script => script.BeforeFormula == true,
+                condition: "BeforeFormula");
         }
 
         public override void SetByAfterFormulaServerScript(Context context, SiteSettings ss)
@@ -839,7 +843,8 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 itemModel: this,
                 view: null,
-                where: script => script.AfterFormula == true);
+                where: script => script.AfterFormula == true,
+                condition: "AfterFormula");
         }
 
         public void SetByAfterUpdateServerScript(
@@ -851,7 +856,8 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 itemModel: this,
                 view: null,
-                where: script => script.AfterUpdate == true);
+                where: script => script.AfterUpdate == true,
+                condition: "AfterUpdate");
         }
 
         public void SetByBeforeUpdateServerScript(
@@ -863,7 +869,8 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 itemModel: this,
                 view: null,
-                where: script => script.BeforeUpdate == true);
+                where: script => script.BeforeUpdate == true,
+                condition: "BeforeUpdate");
         }
 
         public void SetByAfterCreateServerScript(
@@ -875,7 +882,8 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 itemModel: this,
                 view: null,
-                where: script => script.AfterCreate == true);
+                where: script => script.AfterCreate == true,
+                condition: "AfterCreate");
         }
 
         public void SetByBeforeCreateServerScript(
@@ -887,7 +895,8 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 itemModel: this,
                 view: null,
-                where: script => script.BeforeCreate == true);
+                where: script => script.BeforeCreate == true,
+                condition: "BeforeCreate");
         }
 
         public void SetByAfterDeleteServerScript(
@@ -899,7 +908,8 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 itemModel: this,
                 view: null,
-                where: script => script.AfterDelete == true);
+                where: script => script.AfterDelete == true,
+                condition: "AfterDelete");
         }
 
         public void SetByBeforeDeleteServerScript(
@@ -911,7 +921,8 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 itemModel: this,
                 view: null,
-                where: script => script.BeforeDelete == true);
+                where: script => script.BeforeDelete == true,
+                condition: "BeforeDelete");
         }
 
         public override ServerScriptModelRow SetByBeforeOpeningRowServerScript(
@@ -923,7 +934,8 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 itemModel: this,
                 view: null,
-                where: script => script.BeforeOpeningRow == true);
+                where: script => script.BeforeOpeningRow == true,
+                condition: "BeforeOpeningRow");
             if (scriptValues != null)
             {
                 SetServerScriptModelColumns(context: context,
@@ -943,7 +955,8 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 itemModel: this,
                 view: null,
-                where: script => script.BeforeOpeningPage == true);
+                where: script => script.BeforeOpeningPage == true,
+                condition: "BeforeOpeningPage");
             if (scriptValues != null)
             {
                 SetServerScriptModelColumns(context: context,
