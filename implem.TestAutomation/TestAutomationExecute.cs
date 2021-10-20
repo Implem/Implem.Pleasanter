@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using OpenQA.Selenium;
 using Implem.ParameterAccessor.Parts;
 using Implem.DefinitionAccessor;
@@ -77,8 +76,6 @@ namespace Implem.TestAutomation
                             break;
                     }
                     Thread.Sleep(testPart.WaitTime ?? 500);
-
-                    //スクリーンショットとるメソッドが動かないので調査
                     if (testSettings.ScreenShot)
                     {
                         TestAutomationOperate.GetScreenShot(

@@ -9,12 +9,10 @@ using Implem.DefinitionAccessor;
 using Implem.ParameterAccessor.Parts;
 using Implem.Libraries.Classes;
 using Implem.Pleasanter.Libraries.Responses;
-using Implem.Pleasanter.NetCore.Libraries.Requests;
 using Implem.TestAutomation.Parts;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.IE;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Implem.TestAutomation
 {
