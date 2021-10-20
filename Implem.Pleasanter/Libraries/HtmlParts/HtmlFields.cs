@@ -180,9 +180,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         public static Dictionary<string, ControlData> EditChoices(
-            Context context, SiteSettings ss, Column column, string value)
+            Context context, SiteSettings ss, Column column, string value, bool multiple = false, bool addNotSet = false)
         {
-            var editChoices = column.EditChoices(context: context);
+            var editChoices = column.EditChoices(
+                context: context,
+                addNotSet: addNotSet);
             if (column.Linked(withoutWiki: true))
             {
                 SelectedValues(
@@ -211,6 +213,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 {
                     case Column.Types.Dept:
                         (column.MultipleSelections == true
+                            || multiple
                             ? value.Deserialize<List<string>>()
                                 ?.Select(deptId => deptId.ToInt())
                                 .ToList()
@@ -226,6 +229,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         break;
                     case Column.Types.Group:
                         (column.MultipleSelections == true
+                            || multiple
                             ? value.Deserialize<List<string>>()
                                 ?.Select(groupId => groupId.ToInt())
                                 .ToList()
@@ -241,6 +245,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         break;
                     case Column.Types.User:
                         (column.MultipleSelections == true
+                            || multiple
                             ? value.Deserialize<List<string>>()
                                 ?.Select(userId => userId.ToInt())
                                 .ToList()
