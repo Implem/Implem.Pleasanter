@@ -1,6 +1,6 @@
 ﻿{
     "CasesDescription": "汎用テストケース　ファイルアップロードの確認",
-    "ResultFileName": "GeneralCase1.csv",
+    "ResultFileName": "GeneralCase0.csv",
     "TestCases": [
         {
             "TestPartsPath": "\\Users",

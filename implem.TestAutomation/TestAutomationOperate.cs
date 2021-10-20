@@ -14,9 +14,6 @@ using Implem.TestAutomation.Parts;
 using Implem.Pleasanter.Libraries.Responses;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using WDSE;
-using WDSE.Decorators;
-using WDSE.ScreenshotMaker;
 using OpenQA.Selenium.Remote;
 using System.Globalization;
 
@@ -623,11 +620,6 @@ namespace Implem.TestAutomation
                 VisibleItem(driver, "Message");
                 Screenshot screenshot = (driver as ITakesScreenshot).GetScreenshot();
                 screenshot.SaveAsFile(file, ScreenshotImageFormat.Png);
-                //driver.Manage().Window.FullScreen();
-                //VerticalCombineDecorator vcd = new VerticalCombineDecorator(new ScreenshotMaker());
-                //driver.TakeScreenshot(vcd).ToMagickImage().ToBitmap().Save(file);
-                //var ss = driver.TakeScreenshot(vcd);
-                //ss.SaveAsFile((string.Format("{0}\\{1}", createdFolderLocation, testName + ".Jpeg")), System.Drawing.Imaging.ImageFormat.Jpeg);
                 VisibleItem(driver, "MainCommandsContainer");
                 VisibleItem(driver, "Footer");
                 VisibleItem(driver, "Message");

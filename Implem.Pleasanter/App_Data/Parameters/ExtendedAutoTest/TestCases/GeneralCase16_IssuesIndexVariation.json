@@ -1,5 +1,5 @@
 ﻿{
-    "CasesDescription": "期限付きテーブルの一覧表示バリエーションを確認(Case8～15をまとめて実施)",
+    "CasesDescription": "期限付きテーブルの一覧表示バリエーションを確認",
     "ResultFileName": "ToIssuesCrosstab.csv",
     "TestCases": [
         {
@@ -55,6 +55,11 @@
             "TestPartsPath": "\\Items\\Issues\\Transition",
             "TestPartsName": "ToIssuesImageLib.json",
             "CaseDescription": "Issuesテーブルの表示メニューから画像ライブラリを表示する。"
+        },
+        {
+            "TestPartsPath": "\\Items\\Issues\\Transition",
+            "TestPartsName": "ToIssuesCalendar.json",
+            "CaseDescription": "Issuesテーブルの表示メニューからカレンダーを表示する。"
         },
         {
             "TestPartsPath": "\\Items\\Issues\\Transition",
