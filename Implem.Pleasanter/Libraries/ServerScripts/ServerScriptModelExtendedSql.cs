@@ -30,7 +30,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             dynamic dataSet = ExecuteDataSet(
                 name: name,
                 _params: _params);
-            return dataSet?.Table;
+            if (((IDictionary<string, object>)dataSet).ContainsKey("Table")) {
+                return dataSet?.Table;
+            }
+            return null;
         }
 
         public dynamic ExecuteRow(string name, object _params = null)
@@ -47,6 +50,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 name: name,
                 _params: _params);
             return ((IDictionary<string, object>)dataRow)?.FirstOrDefault().Value;
+        }
+
+        public void ExecuteNonQuery(string name, object _params = null)
+        {
+            _ = ExecuteTable(
+                name: name,
+                _params: _params);
         }
     }
 }
