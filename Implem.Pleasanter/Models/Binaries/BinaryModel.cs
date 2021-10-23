@@ -324,19 +324,18 @@ namespace Implem.Pleasanter.Models
             bool otherInitValue = false)
         {
             var statements = new List<SqlStatement>();
-            param = param ?? Rds.BinariesParamDefault(
-                context: context,
-                ss: ss,
-                binaryModel: this,
-                setDefault: true,
-                otherInitValue: otherInitValue);
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.InsertBinaries(
                     dataTableName: dataTableName,
                     tableType: tableType,
                     selectIdentity: true,
-                    param: param)
+                    param: param ?? Rds.BinariesParamDefault(
+                        context: context,
+                        ss: ss,
+                        binaryModel: this,
+                        setDefault: true,
+                        otherInitValue: otherInitValue))
             });
             return statements;
         }

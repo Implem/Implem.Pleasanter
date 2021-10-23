@@ -1638,19 +1638,18 @@ namespace Implem.Pleasanter.Models
             bool otherInitValue = false)
         {
             var statements = new List<SqlStatement>();
-            param = param ?? Rds.UsersParamDefault(
-                context: context,
-                ss: ss,
-                userModel: this,
-                setDefault: true,
-                otherInitValue: otherInitValue);
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.InsertUsers(
                     dataTableName: dataTableName,
                     tableType: tableType,
                     selectIdentity: true,
-                    param: param),
+                    param: param ?? Rds.UsersParamDefault(
+                        context: context,
+                        ss: ss,
+                        userModel: this,
+                        setDefault: true,
+                        otherInitValue: otherInitValue)),
                 StatusUtilities.UpdateStatus(
                     tenantId: context.TenantId,
                     type: StatusUtilities.Types.UsersUpdated),
