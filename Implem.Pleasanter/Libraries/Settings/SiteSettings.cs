@@ -1634,6 +1634,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.LocalFolderLimitSize = column.LocalFolderLimitSize ?? Parameters.BinaryStorage.LocalFolderLimitSize;
                 column.LocalFolderTotalLimitSize = column.LocalFolderTotalLimitSize ?? Parameters.BinaryStorage.LocalFolderLimitTotalSize;
                 column.Size = columnDefinition.Size;
+                column.DefaultNotNull = columnDefinition.DefaultNotNull;
                 column.Required = columnDefinition.Required;
                 column.RecordedTime = columnDefinition.Default == "now";
                 column.NotSelect = columnDefinition.NotSelect;

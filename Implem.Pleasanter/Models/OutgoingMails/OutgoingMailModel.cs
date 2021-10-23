@@ -295,18 +295,19 @@ namespace Implem.Pleasanter.Models
             bool otherInitValue = false)
         {
             var statements = new List<SqlStatement>();
+            param = param ?? Rds.OutgoingMailsParamDefault(
+                context: context,
+                ss: ss,
+                outgoingMailModel: this,
+                setDefault: true,
+                otherInitValue: otherInitValue);
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.InsertOutgoingMails(
                     dataTableName: dataTableName,
                     tableType: tableType,
                     selectIdentity: true,
-                    param: param ?? Rds.OutgoingMailsParamDefault(
-                        context: context,
-                        ss: ss,
-                        outgoingMailModel: this,
-                        setDefault: true,
-                        otherInitValue: otherInitValue))
+                    param: param)
             });
             return statements;
         }
