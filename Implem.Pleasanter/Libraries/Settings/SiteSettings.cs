@@ -4435,6 +4435,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(column => column.ColumnName != "Comments"
                     && column.ControlType != "Attachments"
                     && !column.Id_Ver
+                    && !column.NotUpdate
                     && !column.OtherColumn())
                 .Select(o => o.ColumnName)
                 .ToList();
@@ -4470,6 +4471,28 @@ namespace Implem.Pleasanter.Libraries.Settings
                     columnName: columnName))
                 .ToList();
             return columns;
+        }
+
+        public void SetBulkUpdateColumnDetail(
+            List<Column> columns,
+            string target)
+        {
+            var bulkUpdateColumns = target.StartsWith("BulkUpdate_")
+                ? BulkUpdateColumns.Get(target.Split_2nd('_').ToInt())
+                : null;
+            if (bulkUpdateColumns != null)
+            {
+                columns.ForEach(column =>
+                {
+                    var detail = bulkUpdateColumns.Details.Get(column.ColumnName);
+                    column.DefaultInput = detail?.DefaultInput
+                        ?? string.Empty;
+                    column.ValidateRequired = detail?.ValidateRequired
+                        ?? column.ValidateRequired;
+                    column.EditorReadOnly = detail?.EditorReadOnly
+                        ?? column.EditorReadOnly;
+                });
+            }
         }
 
         public RelatingColumn GetRelatingColumn(int id)

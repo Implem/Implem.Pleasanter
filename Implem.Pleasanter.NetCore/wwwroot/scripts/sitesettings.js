@@ -175,6 +175,16 @@ $p.setBulkUpdateColumn = function ($control) {
     $p.send($control);
 }
 
+$p.openBulkUpdateColumnDetailDialog = function ($control) {
+    $p.data.BulkUpdateColumnDetailForm = {};
+    $p.openSiteSettingsDialog($control, '#BulkUpdateColumnDetailDialog', '840px');
+}
+
+$p.setBulkUpdateColumnDetail = function ($control) {
+    $p.setData($('#EditBulkUpdateColumnDetails'), $p.getData($control));
+    $p.send($control);
+}
+
 $p.openRelatingColumnDialog = function ($control) {
     $p.data.RelatingColumnForm = {};
     $p.openSiteSettingsDialog($control, '#RelatingColumnDialog');

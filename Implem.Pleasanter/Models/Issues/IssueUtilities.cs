@@ -3182,24 +3182,31 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             string target)
         {
+            var columns = ss.GetBulkUpdateColumns(
+                context: context,
+                target: target);
+            ss.SetBulkUpdateColumnDetail(
+                columns: columns,
+                target: target);
+            var issueModel = new IssueModel();
             hb.FieldSet(id: "BulkUpdateEditor", css: "both", action: () => hb
                 .FieldSet(
                     css: " enclosed",
                     legendText: Displays.Editor(context: context),
-                    action: () => ss.GetBulkUpdateColumns(
-                        context: context,
-                        target: target)
-                            .ForEach(column =>
-                                hb.Field(
-                                    context: context,
-                                    ss: ss,
-                                    issueModel: new IssueModel(),
-                                    column: ss.GetColumn(
-                                        context: context,
-                                        columnName: column.ColumnName),
-                                    alwaysSend: true,
-                                    disableAutoPostBack: true,
-                                    disableSection: true))));
+                    action: () => columns.ForEach(column =>
+                    {
+                        issueModel.SetDefault(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                        hb.Field(
+                            context: context,
+                            ss: ss,
+                            issueModel: issueModel,
+                            column: column,
+                            disableAutoPostBack: true,
+                            disableSection: true);
+                    })));
             return hb;
         }
 
