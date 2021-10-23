@@ -401,18 +401,19 @@ namespace Implem.Pleasanter.Models
             bool otherInitValue = false)
         {
             var statements = new List<SqlStatement>();
+            param = param ?? Rds.DeptsParamDefault(
+                context: context,
+                ss: ss,
+                deptModel: this,
+                setDefault: true,
+                otherInitValue: otherInitValue);
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.InsertDepts(
                     dataTableName: dataTableName,
                     tableType: tableType,
                     selectIdentity: true,
-                    param: param ?? Rds.DeptsParamDefault(
-                        context: context,
-                        ss: ss,
-                        deptModel: this,
-                        setDefault: true,
-                        otherInitValue: otherInitValue)),
+                    param: param),
                 StatusUtilities.UpdateStatus(
                     tenantId: context.TenantId,
                     type: StatusUtilities.Types.DeptsUpdated),

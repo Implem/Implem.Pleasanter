@@ -134,6 +134,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public string Size;
         [NonSerialized]
+        public bool DefaultNotNull;
+        [NonSerialized]
         public bool Required;
         [NonSerialized]
         public bool RecordedTime;
@@ -1098,6 +1100,27 @@ namespace Implem.Pleasanter.Libraries.Settings
                         : "0";
                 case Implem.Libraries.Utilities.Types.CsString:
                     return "''";
+                default:
+                    return null;
+            }
+        }
+
+        public object DefaultNotNullValue()
+        {
+            switch (TypeName)
+            {
+                case "bit":
+                    return false;
+                case "int":
+                case "long":
+                case "decimal":
+                case "float":
+                    return 0;
+                case "datetime":
+                    return null;
+                case "nchar":
+                case "nvarchar":
+                    return string.Empty;
                 default:
                     return null;
             }

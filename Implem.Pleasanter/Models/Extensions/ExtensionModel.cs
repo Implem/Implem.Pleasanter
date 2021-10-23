@@ -231,18 +231,19 @@ namespace Implem.Pleasanter.Models
             bool otherInitValue = false)
         {
             var statements = new List<SqlStatement>();
+            param = param ?? Rds.ExtensionsParamDefault(
+                context: context,
+                ss: ss,
+                extensionModel: this,
+                setDefault: true,
+                otherInitValue: otherInitValue);
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.InsertExtensions(
                     dataTableName: dataTableName,
                     tableType: tableType,
                     selectIdentity: true,
-                    param: param ?? Rds.ExtensionsParamDefault(
-                        context: context,
-                        ss: ss,
-                        extensionModel: this,
-                        setDefault: true,
-                        otherInitValue: otherInitValue))
+                    param: param)
             });
             return statements;
         }
