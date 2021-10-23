@@ -1044,7 +1044,7 @@ namespace Implem.Pleasanter.Models
             SetSite(
                 context: context,
                 initSiteSettings: true);
-            if (context.CanRead(Site.SiteSettings))
+            if (context.HasPermission(ss: Site.SiteSettings))
             {
                 var columnName = context.Forms.ControlId()
                     .Replace("ViewFilters__", string.Empty)
@@ -1074,7 +1074,7 @@ namespace Implem.Pleasanter.Models
             SetSite(
                 context: context,
                 initSiteSettings: true);
-            if (context.CanRead(Site.SiteSettings))
+            if (context.HasPermission(ss: Site.SiteSettings))
             {
                 var columnName = context.Forms.ControlId()
                     .Replace("ViewFilters__", string.Empty)
