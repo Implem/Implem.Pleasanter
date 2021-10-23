@@ -1839,11 +1839,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             var columnDefinition = ss?.ColumnDefinitionHash.Get(columnNameInfo.Name);
             if (columnDefinition != null)
             {
-                var column = ss.ColumnHash
-                    .Get(columnNameInfo.Name)?
-                    .Copy();
+                var column = ss.ColumnHash.Get(columnNameInfo.Name);
                 if (column != null)
                 {
+                    var type = column.Type;
+                    column = column.Copy();
                     column.ColumnName = columnName;
                     UpdateColumn(
                         context: context,
@@ -1855,6 +1855,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Get(columnNameInfo.Name)
                         .ChoiceHash
                         ?.ToDictionary(o => o.Key, o => o.Value);
+                    column.Type = type;
                     Columns.Add(column);
                     ColumnHash.Add(columnName, column);
                 }
