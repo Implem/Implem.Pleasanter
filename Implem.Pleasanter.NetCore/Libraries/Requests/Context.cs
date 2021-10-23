@@ -576,7 +576,9 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
             {
                 try
                 {
-                    SiteInfo.TenantCaches.Add(TenantId, new TenantCache(context: this));
+                    var temp = SiteInfo.TenantCaches.ToDictionary(o => o.Key, o => o.Value);
+                    temp.Add(TenantId, new TenantCache(context: this));
+                    SiteInfo.TenantCaches = temp;
                     SiteInfo.Reflesh(context: this);
                 }
                 catch (Exception)
