@@ -2706,6 +2706,12 @@ namespace Implem.Pleasanter.Models
                                 .Li(
                                     action: () => hb
                                         .A(
+                                            href: "#ImportsSettingsEditor",
+                                            text: Displays.Import(context: context)),
+                                    _using: context.ContractSettings.Import != false)
+                                .Li(
+                                    action: () => hb
+                                        .A(
                                             href: "#ExportsSettingsEditor",
                                             text: Displays.Export(context: context)),
                                     _using: context.ContractSettings.Export != false)
@@ -3912,6 +3918,7 @@ namespace Implem.Pleasanter.Models
                             .ViewsSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .NotificationsSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .RemindersSettingsEditor(context: context, ss: siteModel.SiteSettings)
+                            .ImportsSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .ExportsSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .CalendarSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .CrosstabSettingsEditor(context: context, ss: siteModel.SiteSettings)
@@ -8862,6 +8869,32 @@ namespace Implem.Pleasanter.Models
                             controlCss: "button-icon",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ImportsSettingsEditor(
+            this HtmlBuilder hb, Context context, SiteSettings ss)
+        {
+            if (context.ContractSettings.Export == false) return hb;
+            return hb.FieldSet(id: "ImportsSettingsEditor", action: () => hb
+                .FieldDropDown(
+                    context: context,
+                    controlId: "ImportEncoding",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.CharacterCode(context: context),
+                    optionCollection: new Dictionary<string, ControlData>
+                    {
+                        { "Shift-JIS", new ControlData("Shift-JIS") },
+                        { "UTF-8", new ControlData("UTF-8") },
+                    },
+                    selectedValue: ss.ImportEncoding)
+                .FieldCheckBox(
+                    controlId: "UpdatableImport",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.UpdatableImport(context: context),
+                    _checked: ss.UpdatableImport == true));
         }
 
         /// <summary>

@@ -161,6 +161,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<View> Views;
         public SettingList<Notification> Notifications;
         public SettingList<Reminder> Reminders;
+        public string ImportEncoding;
+        public bool? UpdatableImport;
         public SettingList<Export> Exports;
         public SettingList<Style> Styles;
         public bool? Responsive;
@@ -295,6 +297,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             ViewLatestId = ViewLatestId ?? 0;
             if (Notifications == null) Notifications = new SettingList<Notification>();
             if (Reminders == null) Reminders = new SettingList<Reminder>();
+            ImportEncoding = ImportEncoding ?? Parameters.General.ImportEncoding;
+            UpdatableImport = UpdatableImport ?? Parameters.General.UpdatableImport;
             if (Exports == null) Exports = new SettingList<Export>();
             if (Styles == null) Styles = new SettingList<Style>();
             if (Responsive == null) Responsive = Parameters.Mobile.SiteSettingsResponsive;
@@ -860,6 +864,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                 }
                 ss.Reminders.Add(reminder.GetRecordingData(context: context));
             });
+            if (ImportEncoding != Parameters.General.ImportEncoding)
+            {
+                ss.ImportEncoding = ImportEncoding;
+            }
+            if (UpdatableImport != Parameters.General.UpdatableImport)
+            {
+                ss.UpdatableImport = UpdatableImport;
+            }
             Exports?.ForEach(exportSetting =>
             {
                 if (ss.Exports == null)
@@ -3099,6 +3111,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "AllowLockTable": AllowLockTable = value.ToBool(); break;
                 case "HideLink": HideLink = value.ToBool(); break;
                 case "SwitchRecordWithAjax": SwitchRecordWithAjax = value.ToBool(); break;
+                case "ImportEncoding": ImportEncoding = value; break;
+                case "UpdatableImport": UpdatableImport = value.ToBool(); break;
                 case "EnableCalendar": EnableCalendar = value.ToBool(); break;
                 case "EnableCrosstab": EnableCrosstab = value.ToBool(); break;
                 case "EnableGantt": EnableGantt = value.ToBool(); break;
