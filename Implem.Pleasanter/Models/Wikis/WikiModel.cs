@@ -543,29 +543,6 @@ namespace Implem.Pleasanter.Models
             bool otherInitValue = false)
         {
             var statements = new List<SqlStatement>();
-            param = param ?? Rds.WikisParamDefault(
-                context: context,
-                ss: ss,
-                wikiModel: this,
-                setDefault: true,
-                otherInitValue: otherInitValue);
-            ss.Columns
-                .Where(column => column.DefaultNotNull)
-                .Where(column => !column.Required)
-                .Where(column => !param.Any(p => p.Name == column.ColumnName))
-                .ForEach(column =>
-            {
-                var value = column.DefaultNotNullValue();
-                if (value != null)
-                {
-                    param.Add(
-                        columnBracket: $"\"{column.ColumnName}\"",
-                        name: column.ColumnName,
-                        value: value,
-                        sub: null,
-                        raw: null);
-                }
-            });
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.InsertItems(
@@ -577,7 +554,12 @@ namespace Implem.Pleasanter.Models
                 Rds.InsertWikis(
                     dataTableName: dataTableName,
                     tableType: tableType,
-                    param: param),
+                    param: param ?? Rds.WikisParamDefault(
+                        context: context,
+                        ss: ss,
+                        wikiModel: this,
+                        setDefault: true,
+                        otherInitValue: otherInitValue)),
             });
             return statements;
         }

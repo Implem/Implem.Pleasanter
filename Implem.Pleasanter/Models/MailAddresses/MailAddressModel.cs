@@ -210,19 +210,18 @@ namespace Implem.Pleasanter.Models
             bool otherInitValue = false)
         {
             var statements = new List<SqlStatement>();
-            param = param ?? Rds.MailAddressesParamDefault(
-                context: context,
-                ss: ss,
-                mailAddressModel: this,
-                setDefault: true,
-                otherInitValue: otherInitValue);
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.InsertMailAddresses(
                     dataTableName: dataTableName,
                     tableType: tableType,
                     selectIdentity: true,
-                    param: param)
+                    param: param ?? Rds.MailAddressesParamDefault(
+                        context: context,
+                        ss: ss,
+                        mailAddressModel: this,
+                        setDefault: true,
+                        otherInitValue: otherInitValue))
             });
             return statements;
         }

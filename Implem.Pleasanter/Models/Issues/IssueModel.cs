@@ -1258,29 +1258,6 @@ namespace Implem.Pleasanter.Models
             bool otherInitValue = false)
         {
             var statements = new List<SqlStatement>();
-            param = param ?? Rds.IssuesParamDefault(
-                context: context,
-                ss: ss,
-                issueModel: this,
-                setDefault: true,
-                otherInitValue: otherInitValue);
-            ss.Columns
-                .Where(column => column.DefaultNotNull)
-                .Where(column => !column.Required)
-                .Where(column => !param.Any(p => p.Name == column.ColumnName))
-                .ForEach(column =>
-            {
-                var value = column.DefaultNotNullValue();
-                if (value != null)
-                {
-                    param.Add(
-                        columnBracket: $"\"{column.ColumnName}\"",
-                        name: column.ColumnName,
-                        value: value,
-                        sub: null,
-                        raw: null);
-                }
-            });
             statements.AddRange(IfDuplicatedStatements(ss: ss));
             statements.AddRange(new List<SqlStatement>
             {
@@ -1293,7 +1270,12 @@ namespace Implem.Pleasanter.Models
                 Rds.InsertIssues(
                     dataTableName: dataTableName,
                     tableType: tableType,
-                    param: param),
+                    param: param ?? Rds.IssuesParamDefault(
+                        context: context,
+                        ss: ss,
+                        issueModel: this,
+                        setDefault: true,
+                        otherInitValue: otherInitValue)),
                 InsertLinks(
                     context: context,
                     ss: ss,

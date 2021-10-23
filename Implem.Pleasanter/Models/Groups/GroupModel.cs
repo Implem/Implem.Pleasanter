@@ -377,25 +377,24 @@ namespace Implem.Pleasanter.Models
             bool otherInitValue = false)
         {
             var statements = new List<SqlStatement>();
-            param = param ?? Rds.GroupsParamDefault(
-                context: context,
-                ss: ss,
-                groupModel: this,
-                setDefault: true,
-                otherInitValue: otherInitValue);
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.InsertGroups(
                     dataTableName: dataTableName,
                     tableType: tableType,
                     selectIdentity: true,
-                    param: param),
-                    Rds.InsertGroupMembers(
-                        tableType: tableType,
-                        param: param ?? Rds.GroupMembersParam()
-                            .GroupId(raw: Def.Sql.Identity)
-                            .UserId(context.UserId)
-                            .Admin(true)),
+                    param: param ?? Rds.GroupsParamDefault(
+                        context: context,
+                        ss: ss,
+                        groupModel: this,
+                        setDefault: true,
+                        otherInitValue: otherInitValue)),
+                Rds.InsertGroupMembers(
+                    tableType: tableType,
+                    param: param ?? Rds.GroupMembersParam()
+                        .GroupId(raw: Def.Sql.Identity)
+                        .UserId(context.UserId)
+                        .Admin(true)),
                 StatusUtilities.UpdateStatus(
                     tenantId: context.TenantId,
                     type: StatusUtilities.Types.GroupsUpdated),

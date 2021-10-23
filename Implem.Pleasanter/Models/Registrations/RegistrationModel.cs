@@ -514,19 +514,18 @@ namespace Implem.Pleasanter.Models
             bool otherInitValue = false)
         {
             var statements = new List<SqlStatement>();
-            param = param ?? Rds.RegistrationsParamDefault(
-                context: context,
-                ss: ss,
-                registrationModel: this,
-                setDefault: true,
-                otherInitValue: otherInitValue);
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.InsertRegistrations(
                     dataTableName: dataTableName,
                     tableType: tableType,
                     selectIdentity: true,
-                    param: param),
+                    param: param ?? Rds.RegistrationsParamDefault(
+                        context: context,
+                        ss: ss,
+                        registrationModel: this,
+                        setDefault: true,
+                        otherInitValue: otherInitValue)),
             });
             return statements;
         }
