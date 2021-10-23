@@ -1,13 +1,16 @@
 ﻿using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Settings;
 using System.Collections.Generic;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlImports
     {
         public static HtmlBuilder ImportSettingsDialog(
-            this HtmlBuilder hb, Context context)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss)
         {
             return hb.Div(
                 attributes: new HtmlAttributes()
@@ -29,12 +32,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         {
                             { "Shift-JIS", new ControlData("Shift-JIS") },
                             { "UTF-8", new ControlData("UTF-8") },
-                        })
+                        },
+                        selectedValue: ss.ImportEncoding)
                     .FieldCheckBox(
                         controlId: "UpdatableImport",
                         fieldCss: "field-wide",
                         labelText: Displays.UpdatableImport(context: context),
-                        _checked: false,
+                        _checked: ss.UpdatableImport == true,
                         controlCss: " always-send",
                         _using: context.Controller == "items")
                     .P(css: "message-dialog")
