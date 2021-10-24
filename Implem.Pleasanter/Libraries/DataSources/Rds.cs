@@ -108868,6 +108868,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value?.RecordingJson() ?? string.Empty));
+            if (setDefault)
+            {
+                ss?.Columns
+                    ?.Where(column => column.DefaultNotNull)
+                    .Where(column => !column.Required)
+                    .Where(column => !param.Any(p => p.Name == column.ColumnName))
+                    .ForEach(column =>
+                    {
+                        var value = column.DefaultNotNullValue();
+                        if (value != null)
+                        {
+                            param.Add(
+                                columnBracket: $"\"{column.ColumnName}\"",
+                                name: column.ColumnName,
+                                value: value,
+                                sub: null,
+                                raw: null);
+                        }
+                    });
+            }
             return param;
         }
 
@@ -108992,6 +109012,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value?.RecordingJson() ?? string.Empty));
+            if (setDefault)
+            {
+                ss?.Columns
+                    ?.Where(column => column.DefaultNotNull)
+                    .Where(column => !column.Required)
+                    .Where(column => !param.Any(p => p.Name == column.ColumnName))
+                    .ForEach(column =>
+                    {
+                        var value = column.DefaultNotNullValue();
+                        if (value != null)
+                        {
+                            param.Add(
+                                columnBracket: $"\"{column.ColumnName}\"",
+                                name: column.ColumnName,
+                                value: value,
+                                sub: null,
+                                raw: null);
+                        }
+                    });
+            }
             return param;
         }
 
@@ -109256,6 +109296,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value?.RecordingJson() ?? string.Empty));
+            if (setDefault)
+            {
+                ss?.Columns
+                    ?.Where(column => column.DefaultNotNull)
+                    .Where(column => !column.Required)
+                    .Where(column => !param.Any(p => p.Name == column.ColumnName))
+                    .ForEach(column =>
+                    {
+                        var value = column.DefaultNotNullValue();
+                        if (value != null)
+                        {
+                            param.Add(
+                                columnBracket: $"\"{column.ColumnName}\"",
+                                name: column.ColumnName,
+                                value: value,
+                                sub: null,
+                                raw: null);
+                        }
+                    });
+            }
             return param;
         }
 
@@ -109449,6 +109509,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value?.RecordingJson() ?? string.Empty));
+            if (setDefault)
+            {
+                ss?.Columns
+                    ?.Where(column => column.DefaultNotNull)
+                    .Where(column => !column.Required)
+                    .Where(column => !param.Any(p => p.Name == column.ColumnName))
+                    .ForEach(column =>
+                    {
+                        var value = column.DefaultNotNullValue();
+                        if (value != null)
+                        {
+                            param.Add(
+                                columnBracket: $"\"{column.ColumnName}\"",
+                                name: column.ColumnName,
+                                value: value,
+                                sub: null,
+                                raw: null);
+                        }
+                    });
+            }
             return param;
         }
 
@@ -110937,6 +111017,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value?.RecordingJson() ?? string.Empty));
+            if (setDefault)
+            {
+                ss?.Columns
+                    ?.Where(column => column.DefaultNotNull)
+                    .Where(column => !column.Required)
+                    .Where(column => !param.Any(p => p.Name == column.ColumnName))
+                    .ForEach(column =>
+                    {
+                        var value = column.DefaultNotNullValue();
+                        if (value != null)
+                        {
+                            param.Add(
+                                columnBracket: $"\"{column.ColumnName}\"",
+                                name: column.ColumnName,
+                                value: value,
+                                sub: null,
+                                raw: null);
+                        }
+                    });
+            }
             return param;
         }
 
@@ -111088,6 +111188,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value?.RecordingJson() ?? string.Empty));
+            if (setDefault)
+            {
+                ss?.Columns
+                    ?.Where(column => column.DefaultNotNull)
+                    .Where(column => !column.Required)
+                    .Where(column => !param.Any(p => p.Name == column.ColumnName))
+                    .ForEach(column =>
+                    {
+                        var value = column.DefaultNotNullValue();
+                        if (value != null)
+                        {
+                            param.Add(
+                                columnBracket: $"\"{column.ColumnName}\"",
+                                name: column.ColumnName,
+                                value: value,
+                                sub: null,
+                                raw: null);
+                        }
+                    });
+            }
             return param;
         }
 
@@ -111232,6 +111352,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value?.RecordingJson() ?? string.Empty));
+            if (setDefault)
+            {
+                ss?.Columns
+                    ?.Where(column => column.DefaultNotNull)
+                    .Where(column => !column.Required)
+                    .Where(column => !param.Any(p => p.Name == column.ColumnName))
+                    .ForEach(column =>
+                    {
+                        var value = column.DefaultNotNullValue();
+                        if (value != null)
+                        {
+                            param.Add(
+                                columnBracket: $"\"{column.ColumnName}\"",
+                                name: column.ColumnName,
+                                value: value,
+                                sub: null,
+                                raw: null);
+                        }
+                    });
+            }
             return param;
         }
 

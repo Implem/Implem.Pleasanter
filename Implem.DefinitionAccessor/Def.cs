@@ -2206,6 +2206,11 @@ namespace Implem.DefinitionAccessor
                                 data.ToString();
                             newColumnDefinition.SavedDefaultCs = newColumnDefinition.DefaultCs;
                             break;
+                        case "DefaultNotNull":
+                            newColumnDefinition.DefaultNotNull = customDefinitionRow.Get("DefaultNotNull")?.ToBool() ??
+                                data.ToBool();
+                            newColumnDefinition.SavedDefaultNotNull = newColumnDefinition.DefaultNotNull;
+                            break;
                         case "Identity":
                             newColumnDefinition.Identity = customDefinitionRow.Get("Identity")?.ToBool() ??
                                 data.ToBool();
@@ -2664,6 +2669,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("Nullable")) { definition.Nullable = definitionRow["Nullable"].ToBool(); definition.SavedNullable = definition.Nullable; }
             if (definitionRow.ContainsKey("Default")) { definition.Default = definitionRow["Default"].ToString(); definition.SavedDefault = definition.Default; }
             if (definitionRow.ContainsKey("DefaultCs")) { definition.DefaultCs = definitionRow["DefaultCs"].ToString(); definition.SavedDefaultCs = definition.DefaultCs; }
+            if (definitionRow.ContainsKey("DefaultNotNull")) { definition.DefaultNotNull = definitionRow["DefaultNotNull"].ToBool(); definition.SavedDefaultNotNull = definition.DefaultNotNull; }
             if (definitionRow.ContainsKey("Identity")) { definition.Identity = definitionRow["Identity"].ToBool(); definition.SavedIdentity = definition.Identity; }
             if (definitionRow.ContainsKey("Unique")) { definition.Unique = definitionRow["Unique"].ToBool(); definition.SavedUnique = definition.Unique; }
             if (definitionRow.ContainsKey("Seed")) { definition.Seed = definitionRow["Seed"].ToInt(); definition.SavedSeed = definition.Seed; }
@@ -6365,6 +6371,7 @@ namespace Implem.DefinitionAccessor
                         case "Nullable": columnDefinition.Nullable = optionValue.ToBool(); break;
                         case "Default": columnDefinition.Default = optionValue.ToString(); break;
                         case "DefaultCs": columnDefinition.DefaultCs = optionValue.ToString(); break;
+                        case "DefaultNotNull": columnDefinition.DefaultNotNull = optionValue.ToBool(); break;
                         case "Identity": columnDefinition.Identity = optionValue.ToBool(); break;
                         case "Unique": columnDefinition.Unique = optionValue.ToBool(); break;
                         case "Seed": columnDefinition.Seed = optionValue.ToInt(); break;
@@ -8690,6 +8697,7 @@ namespace Implem.DefinitionAccessor
         public bool Nullable; public bool SavedNullable;
         public string Default; public string SavedDefault;
         public string DefaultCs; public string SavedDefaultCs;
+        public bool DefaultNotNull; public bool SavedDefaultNotNull;
         public bool Identity; public bool SavedIdentity;
         public bool Unique; public bool SavedUnique;
         public int Seed; public int SavedSeed;
@@ -8822,6 +8830,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("Nullable")) Nullable = propertyCollection["Nullable"].ToBool(); else Nullable = false;
             if (propertyCollection.ContainsKey("Default")) Default = propertyCollection["Default"].ToString(); else Default = string.Empty;
             if (propertyCollection.ContainsKey("DefaultCs")) DefaultCs = propertyCollection["DefaultCs"].ToString(); else DefaultCs = string.Empty;
+            if (propertyCollection.ContainsKey("DefaultNotNull")) DefaultNotNull = propertyCollection["DefaultNotNull"].ToBool(); else DefaultNotNull = false;
             if (propertyCollection.ContainsKey("Identity")) Identity = propertyCollection["Identity"].ToBool(); else Identity = false;
             if (propertyCollection.ContainsKey("Unique")) Unique = propertyCollection["Unique"].ToBool(); else Unique = false;
             if (propertyCollection.ContainsKey("Seed")) Seed = propertyCollection["Seed"].ToInt(); else Seed = 0;
@@ -8954,6 +8963,7 @@ namespace Implem.DefinitionAccessor
                     case "Nullable": return Nullable;
                     case "Default": return Default;
                     case "DefaultCs": return DefaultCs;
+                    case "DefaultNotNull": return DefaultNotNull;
                     case "Identity": return Identity;
                     case "Unique": return Unique;
                     case "Seed": return Seed;
@@ -9086,6 +9096,7 @@ namespace Implem.DefinitionAccessor
             Nullable = SavedNullable;
             Default = SavedDefault;
             DefaultCs = SavedDefaultCs;
+            DefaultNotNull = SavedDefaultNotNull;
             Identity = SavedIdentity;
             Unique = SavedUnique;
             Seed = SavedSeed;

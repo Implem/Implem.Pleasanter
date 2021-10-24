@@ -709,6 +709,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             BaseItemModel itemModel,
             View view,
             ServerScript[] scripts,
+            string condition,
             bool onTesting = false)
         {
             if (!(Parameters.Script.ServerScript != false
@@ -735,6 +736,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     model: itemModel),
                 columnFilterHash: view?.ColumnFilterHash,
                 columnSorterHash: view?.ColumnSorterHash,
+                condition: condition,
                 onTesting: onTesting))
             {
                 using (var engine = new Microsoft.ClearScript.V8.V8ScriptEngine(
@@ -782,18 +784,19 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             SiteSettings ss,
             BaseItemModel itemModel,
             View view,
-            Func<ServerScript, bool> where)
+            Func<ServerScript, bool> where,
+            string condition)
         {
             if (!(Parameters.Script.ServerScript != false
                 && context.ContractSettings.ServerScript != false))
             {
                 return null;
             }
-            var serverScripts = ss
+            var scripts = ss
                 ?.GetServerScripts(context: context)
                 ?.Where(where)
                 .ToArray();
-            if (serverScripts?.Any() != true)
+            if (scripts?.Any() != true)
             {
                 return null;
             }
@@ -802,7 +805,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 ss: ss,
                 itemModel: itemModel,
                 view: view,
-                scripts: serverScripts);
+                scripts: scripts,
+                condition: condition);
             return scriptValues;
         }
 

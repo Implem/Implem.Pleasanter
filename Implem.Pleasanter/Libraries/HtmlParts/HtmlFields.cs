@@ -7,7 +7,6 @@ using Implem.Pleasanter.Libraries.Resources;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
-using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
@@ -49,6 +48,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlCss = null,
             bool controlOnly = false,
             bool alwaysSend = false,
+            bool disableAutoPostBack = false,
             string idSuffix = null,
             bool preview = false,
             bool disableSection = false,
@@ -95,6 +95,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlCss: ControlCss(
                             column: column,
                             serverScriptModelColumn: serverScriptModelColumn,
+                            disableAutoPostBack: disableAutoPostBack,
                             controlCss: controlCss),
                         controlType: ControlType(column),
                         labelText: Strings.CoalesceEmpty(
@@ -160,13 +161,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static string ControlCss(
             Column column,
             ServerScriptModelColumn serverScriptModelColumn,
+            bool disableAutoPostBack,
             string controlCss)
         {
             var extendedControlCss = Strings.CoalesceEmpty(
                 serverScriptModelColumn?.ExtendedControlCss,
                 column.ExtendedControlCss);
             return Strings.CoalesceEmpty(controlCss, column.ControlCss)
-                + (column.AutoPostBack == true
+                + (!disableAutoPostBack && column.AutoPostBack == true
                     ? " control-auto-postback"
                     : string.Empty)
                 + (column.TextAlign == SiteSettings.TextAlignTypes.Right
@@ -178,9 +180,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         public static Dictionary<string, ControlData> EditChoices(
-            Context context, SiteSettings ss, Column column, string value)
+            Context context,
+            SiteSettings ss,
+            Column column,
+            string value,
+            bool multiple = false,
+            bool addNotSet = false)
         {
-            var editChoices = column.EditChoices(context: context);
+            var editChoices = column.EditChoices(
+                context: context,
+                addNotSet: addNotSet);
             if (column.Linked(withoutWiki: true))
             {
                 SelectedValues(
@@ -208,7 +217,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 switch (column.Type)
                 {
                     case Column.Types.Dept:
-                        (column.MultipleSelections == true
+                        (column.MultipleSelections == true || multiple
                             ? value.Deserialize<List<string>>()
                                 ?.Select(deptId => deptId.ToInt())
                                 .ToList()
@@ -223,7 +232,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         new ControlData(dept.Name)));
                         break;
                     case Column.Types.Group:
-                        (column.MultipleSelections == true
+                        (column.MultipleSelections == true || multiple
                             ? value.Deserialize<List<string>>()
                                 ?.Select(groupId => groupId.ToInt())
                                 .ToList()
@@ -238,7 +247,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         new ControlData(group.Name)));
                         break;
                     case Column.Types.User:
-                        (column.MultipleSelections == true
+                        (column.MultipleSelections == true || multiple
                             ? value.Deserialize<List<string>>()
                                 ?.Select(userId => userId.ToInt())
                                 .ToList()

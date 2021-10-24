@@ -141,6 +141,10 @@ $p.setMustData = function ($form, action) {
         $form.find('[class*="control-"]:not(span)').each(function () {
             $p.setData($(this));
         });
+    } else if (action !== undefined && action.toLowerCase() === 'bulkupdate') {
+        $form.find('[class*="control-"]').each(function () {
+            $p.setData($(this));
+        });
     } else {
         $form.find('.always-send,[data-always-send="1"]').each(function () {
             var $control = $(this);

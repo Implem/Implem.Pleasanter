@@ -36,6 +36,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             IEnumerable<(string Name, ServerScriptModelColumn Value)> columns,
             IEnumerable<KeyValuePair<string, string>> columnFilterHash,
             IEnumerable<KeyValuePair<string, SqlOrderBy.Types>> columnSorterHash,
+            string condition,
             bool onTesting)
         {
             data?.ForEach(datam => ((IDictionary<string, object>)Model)[datam.Name] = datam.Value);
@@ -88,7 +89,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 contentType: context.ContentType,
                 onTesting: onTesting,
                 scriptDepth: context.ServerScriptDepth,
-                controlId: context.Forms.ControlId());
+                controlId: context.Forms.ControlId(),
+                condition: condition);
             SiteSettings = new ServerScriptModelSiteSettings(
                 context: context,
                 ss: ss);

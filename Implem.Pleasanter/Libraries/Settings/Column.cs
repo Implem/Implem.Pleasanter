@@ -134,6 +134,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public string Size;
         [NonSerialized]
+        public bool DefaultNotNull;
+        [NonSerialized]
         public bool Required;
         [NonSerialized]
         public bool RecordedTime;
@@ -558,18 +560,18 @@ namespace Implem.Pleasanter.Libraries.Settings
         public void AddToChoiceHash(Context context, string value)
         {
             if (!value.IsNullOrEmpty()
-                && !ChoiceHash.ContainsKey(value))
+                && ChoiceHash?.ContainsKey(value) == false)
             {
                 switch (Type)
                 {
                     case Types.Normal:
                         if (Linked()
-                            && SiteSettings.Links
+                            && SiteSettings?.Links
                                 .Where(o => o.SiteId > 0)
                                 .Where(o => o.ColumnName == ColumnName)
                                 .All(o => Permissions.CanRead(
 	                                context: context,
-	                                siteId: o.SiteId)))
+	                                siteId: o.SiteId)) == true)
                         {
                             var title = SiteSettings.LinkedItemTitle(
                                 context: context,
@@ -1092,6 +1094,27 @@ namespace Implem.Pleasanter.Libraries.Settings
                         : "0";
                 case Implem.Libraries.Utilities.Types.CsString:
                     return "''";
+                default:
+                    return null;
+            }
+        }
+
+        public object DefaultNotNullValue()
+        {
+            switch (TypeName)
+            {
+                case "bit":
+                    return false;
+                case "int":
+                case "long":
+                case "decimal":
+                case "float":
+                    return 0;
+                case "datetime":
+                    return null;
+                case "nchar":
+                case "nvarchar":
+                    return string.Empty;
                 default:
                     return null;
             }
