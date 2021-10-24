@@ -1,0 +1,25 @@
+﻿{
+    "TestParts": [
+        {
+            "TestPartId": "UserRecord1",
+            "Action": "Click"
+        },
+        {
+            "Action": "Delete"
+        },
+        {
+            "Action": "AlertAccept",
+            "Results": [
+                {
+                    "ElementId": "Message",
+                    "Description": "レコードが削除されること。",
+                    "ExpectedValue": "\" ユーザ \" を削除しました。"
+                }
+            ]
+        },
+        {
+            "ElementId": "GoBack",
+            "Action": "Click"
+        }
+    ]
+}

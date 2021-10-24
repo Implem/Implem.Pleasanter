@@ -31,6 +31,8 @@
     "GridPageSizeMax": 200,
     "AllowViewReset": true,
     "ExportOutputColumnMax": 100,
+    "ImportEncoding": "Shift-JIS",
+    "UpdatableImport": false,
     "ImportMax": 0,
     "ViewerSwitchingType": 1,
     "AllowCopy": true,

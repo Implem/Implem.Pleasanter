@@ -1,0 +1,19 @@
+﻿{
+    "TestParts":
+    [
+        {
+            "ElementId": "Users_LoginId",
+            "Action": "Input",
+            "Value": "Administrator"
+        },
+        {
+            "ElementId": "Users_Password",
+            "Action": "Input",
+            "Value": "password"
+        },
+        {
+            "ElementId": "Login",
+            "Action": "Click"
+        }
+    ]
+}

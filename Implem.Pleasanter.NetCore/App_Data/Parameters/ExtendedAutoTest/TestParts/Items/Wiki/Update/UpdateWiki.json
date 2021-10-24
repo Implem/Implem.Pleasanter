@@ -1,0 +1,27 @@
+﻿{
+    "TestParts": [
+        {
+            "Action": "Inputs",
+            "Inputs": [
+                {
+                    "InputTarget": "Body",
+                    "InputValue": "内容更新"
+                }
+            ]
+        },
+        {
+            "Action": "Update",
+            "Results": [
+                {
+                    "ItemId": "Body",
+                    "ExpectedValue": "内容更新",
+                    "Description": "更新内容が登録されていること。"
+                }
+            ]
+        },
+        {
+            "ElementId": "GoBack",
+            "Action": "Click"
+        }
+    ]
+}

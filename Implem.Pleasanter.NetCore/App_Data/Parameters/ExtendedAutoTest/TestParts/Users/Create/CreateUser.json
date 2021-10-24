@@ -1,0 +1,98 @@
+﻿{
+    "TestParts": [
+        {
+            "ElementId": "NewMenuContainer",
+            "Action": "Click"
+        },
+        {
+            "ElementId": "Users_LoginId",
+            "Action": "input",
+            "Value": "loginId"
+        },
+        {
+            "ElementId": "Users_Name",
+            "Action": "input",
+            "Value": "ユーザ"
+        },
+        {
+            "ElementId": "Users_UserCode",
+            "Action": "input",
+            "Value": "ユーザコード"
+        },
+        {
+            "ElementId": "Users_Password",
+            "Action": "input",
+            "Value": "password"
+        },
+        {
+            "ElementId": "Users_PasswordValidate",
+            "Action": "input",
+            "Value": "password"
+        },
+        {
+            "ElementId": "Users_Birthday",
+            "Action": "input",
+            "Value": "2021/05/16"
+        },
+        {
+            "ElementId": "Users_Gender",
+            "Action": "Select",
+            "Value": "女性"
+        },
+        {
+            "ElementId": "Users_Language",
+            "Action": "Select",
+            "Value": "Japanese"
+        },
+        {
+            "ElementId": "Users_TimeZone",
+            "Action": "Select",
+            "Value": "東京 (標準時)"
+        },
+        {
+            "TargetTestPartId": "UserRecord1",
+            "Action": "Create",
+            "Results": [
+                {
+                    "ElementId": "Users_LoginId",
+                    "ExpectedValue": "loginId",
+                    "Description": "入力内容が登録されていること。"
+                },
+                {
+                    "ElementId": "Users_Name",
+                    "ExpectedValue": "ユーザ",
+                    "Description": "入力内容が登録されていること。"
+                },
+                {
+                    "ElementId": "Users_UserCode",
+                    "ExpectedValue": "ユーザコード",
+                    "Description": "入力内容が登録されていること。"
+                },
+                {
+                    "ElementId": "Users_Birthday",
+                    "ExpectedValue": "2021/05/16",
+                    "Description": "入力内容が登録されていること。"
+                },
+                {
+                    "ElementId": "Users_Gender",
+                    "ExpectedValue": "女性",
+                    "Description": "入力内容が登録されていること。"
+                },
+                {
+                    "ElementId": "Users_Language",
+                    "ExpectedValue": "Japanese",
+                    "Description": "入力内容が登録されていること。"
+                },
+                {
+                    "ElementId": "Users_TimeZone",
+                    "ExpectedValue": "東京 (標準時)",
+                    "Description": "入力内容が登録されていること。"
+                }
+            ]
+        },
+        {
+            "ElementId": "GoBack",
+            "Action": "Click"
+        }
+    ]
+}

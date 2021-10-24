@@ -1,0 +1,12 @@
+{
+    "TestParts": [
+        {
+            "ElementId": "ViewModeMenuContainer",
+            "Action": "Hover"
+        },
+        {
+            "ElementId": "ViewModelMenu_ImageLib",
+            "Action": "Click"
+        }
+    ]
+}

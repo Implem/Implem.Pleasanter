@@ -2100,6 +2100,11 @@ namespace Implem.Pleasanter.Models
                         res: res,
                         controlId: controlId);
                     break;
+                case "OpenBulkUpdateColumnDetailDialog":
+                    OpenBulkUpdateColumnDetailDialog(
+                        context: context,
+                        res: res);
+                    break;
                 case "AddBulkUpdateColumn":
                     AddBulkUpdateColumn(
                         context: context,
@@ -2114,6 +2119,11 @@ namespace Implem.Pleasanter.Models
                     break;
                 case "DeleteBulkUpdateColumns":
                     DeleteBulkUpdateColumns(
+                        context: context,
+                        res: res);
+                    break;
+                case "UpdateBulkUpdateColumnDetail":
+                    UpdateBulkUpdateColumnDetail(
                         context: context,
                         res: res);
                     break;
@@ -4815,7 +4825,8 @@ namespace Implem.Pleasanter.Models
             SiteSettings.BulkUpdateColumns.Add(new BulkUpdateColumn(
                 id: SiteSettings.BulkUpdateColumns.MaxOrDefault(o => o.Id) + 1,
                 title: context.Forms.Data("BulkUpdateColumnTitle"),
-                columns: context.Forms.List("BulkUpdateColumnColumnsAll")));
+                columns: context.Forms.List("BulkUpdateColumnColumnsAll"),
+                details: context.Forms.Data("BulkUpdateColumnDetails")?.Deserialize<Dictionary<string, BulkUpdateColumnDetail>>()));
             res
                 .ReplaceAll("#EditBulkUpdateColumns", new HtmlBuilder()
                     .EditBulkUpdateColumns(
@@ -4834,7 +4845,8 @@ namespace Implem.Pleasanter.Models
                 .FirstOrDefault(o => o.Id == context.Forms.Int("BulkUpdateColumnId"))?
                 .Update(
                     title: context.Forms.Data("BulkUpdateColumnTitle"),
-                    columns: context.Forms.List("BulkUpdateColumnColumnsAll"));
+                    columns: context.Forms.List("BulkUpdateColumnColumnsAll"),
+                    details: context.Forms.Data("BulkUpdateColumnDetails")?.Deserialize<Dictionary<string, BulkUpdateColumnDetail>>());
             res
                 .Html("#EditBulkUpdateColumns", new HtmlBuilder()
                     .EditBulkUpdateColumns(
@@ -4861,6 +4873,63 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: SiteSettings));
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenBulkUpdateColumnDetailDialog(
+            Context context,
+            ResponseCollection res)
+        {
+            var selected = context.Forms.List("BulkUpdateColumnColumns");
+            if (selected.Count() != 1)
+            {
+                res.Message(Messages.SelectOne(context: context));
+            }
+            else
+            {
+                var columnName = selected.FirstOrDefault();
+                SiteSettings.SetChoiceHash(context: context);
+                var column = SiteSettings.GetColumn(
+                    context: context,
+                    columnName: columnName);
+                if (column == null)
+                {
+                    res.Message(Messages.NotFound(context: context));
+                }
+                var detail = context.Forms.Data("BulkUpdateColumnDetails")
+                    ?.Deserialize<Dictionary<string, BulkUpdateColumnDetail>>()
+                    ?.Get(columnName)
+                        ?? new BulkUpdateColumnDetail();
+                res.Html("#BulkUpdateColumnDetailDialog", SiteUtilities.BulkUpdateColumnDetailDialog(
+                    context: context,
+                    ss: SiteSettings,
+                    column: column,
+                    detail: detail));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateBulkUpdateColumnDetail(Context context, ResponseCollection res)
+        {
+            var columnName = context.Forms.Data("BulkUpdateColumnDetailColumnName");
+            var details = context.Forms.Data("BulkUpdateColumnDetailsTemp")?.Deserialize<Dictionary<string, BulkUpdateColumnDetail>>()
+                ?? new Dictionary<string, BulkUpdateColumnDetail>();
+            var defaultInput = context.Forms.Data("BulkUpdateColumnDetailDefaultInput");
+            var validateRequired = context.Forms.Bool("BulkUpdateColumnDetailValidateRequired");
+            var editorReadOnly = context.Forms.Bool("BulkUpdateColumnDetailEditorReadOnly");
+            details.AddOrUpdate(columnName, new BulkUpdateColumnDetail()
+            {
+                DefaultInput = defaultInput,
+                ValidateRequired = validateRequired,
+                EditorReadOnly = editorReadOnly
+            });
+            res
+                .Val("#BulkUpdateColumnDetails", details.ToJson())
+                .CloseDialog("#BulkUpdateColumnDetailDialog");
         }
 
         /// <summary>

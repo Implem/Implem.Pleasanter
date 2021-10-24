@@ -1,0 +1,53 @@
+﻿{
+    "TestParts": [
+        {
+            "ElementId": "NewMenuContainer",
+            "Action": "Click"
+        },
+        {
+            "Action": "Inputs",
+            "Inputs": [
+                {
+                    "InputTarget": "Title",
+                    "InputValue": "タイトル入力"
+                },
+                {
+                    "InputTarget": "Status",
+                    "InputValue": "300"
+                },
+                {
+                    "InputTarget": "Body",
+                    "InputValue": "内容入力"
+                }
+            ]
+        },
+        {
+            "ElementId": "AttachmentsA.input",
+            "Action": "UploadFile",
+            "Value": "TestFile01.zip",
+            "WaitTime": 5000,
+            "Description": "添付ファイルを選択する"
+        },
+        {
+            "Action": "Create",
+            "Results": [
+                {
+                    "ItemId": "Title",
+                    "ExpectedValue": "タイトル入力",
+                    "Description": "入力内容が登録されていること。"
+                },
+                {
+                    "ItemId": "Body",
+                    "ExpectedValue": "内容入力",
+                    "Description": "入力内容が登録されていること。"
+                },
+                {
+                    "ElementCss": ".control-attachments-item a:nth-child(2)",
+                    "ExpectedValue": "TestFile01.zip　(136 B)",
+                    "Description": "添付ファイル名が表示されること"
+                }
+            ],
+            "Description": "添付ファイルが登録されていることを確認する"
+        }
+    ]
+}

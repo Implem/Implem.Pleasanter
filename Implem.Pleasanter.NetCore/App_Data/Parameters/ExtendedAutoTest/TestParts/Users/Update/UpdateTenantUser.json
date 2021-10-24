@@ -1,0 +1,33 @@
+﻿{
+    "TestParts": [
+        {
+            "TestPartId": "UserRecord1",
+            "Action": "Click"
+        },
+        {
+            "ElementId": "Users_TenantManager",
+            "Action": "Click"
+        },
+        {
+            "TargetTestPartId": "UserRecord1",
+            "Action": "Update",
+            "Results": [
+                {
+                    "ElementId": "Users_TenantManager",
+                    "ExpectedValue": "on",
+                    "Description": "入力内容が登録されていること。"
+                },
+                {
+                    "CheckType": "SelectOptions",
+                    "ElementId": "Users_Language",
+                    "ExpectedValue": "English,Japanese,Chinese,German,Korean,Spanish,Vietnamese",
+                    "Description": "Optionの選択肢が想定どおりであること。"
+                }
+            ]
+        },
+        {
+            "ElementId": "GoBack",
+            "Action": "Click"
+        }
+    ]
+}

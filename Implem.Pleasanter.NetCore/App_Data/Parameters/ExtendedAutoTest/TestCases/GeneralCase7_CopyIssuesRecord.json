@@ -1,0 +1,49 @@
+﻿{
+    "CasesDescription": "期限付きテーブルのレコードをコピー",
+    "ResultFileName": "CopyIssuesRecord.csv",
+    "TestCases": [
+        {
+            "TestPartsPath": "\\Users",
+            "TestPartsName": "LoginLocal.json"
+        },
+        {
+            "TestPartsPath": "\\Items\\Issues\\Create",
+            "TestPartsName": "CreateIssuesTable.json",
+            "CaseDescription": "Issuesテーブルを作成する。"
+        },
+        {
+            "TestPartsPath": "\\Items\\Issues\\Transition",
+            "TestPartsName": "ToIssuesTable.json",
+            "CaseDescription": "作成したIssuesテーブルへ遷移する。"
+        },
+        {
+            "TestPartsPath": "\\Items\\Issues\\Create",
+            "TestPartsName": "CreateIssueRecord.json",
+            "CaseDescription": "Issuesテーブルのレコードを作成する。"
+        },
+        {
+            "TestPartsPath": "\\Items\\Issues\\Copy",
+            "TestPartsName": "CopyIssueRecord.json",
+            "CaseDescription": "Issuesテーブルのレコードをコピーする。"
+        },
+        {
+            "TestPartsPath": "\\Items\\Issues\\Transition",
+            "TestPartsName": "ToIssuesTable.json",
+            "CaseDescription": "作成したIssuesテーブルへ遷移する。"
+        },
+        {
+            "TestPartsPath": "\\Items\\Issues\\Delete",
+            "TestPartsName": "DeleteIssuesTable.json",
+            "CaseDescription": "Issuesテーブルを削除する。"
+        },
+        {
+            "TestPartsPath": "\\Other",
+            "TestPartsName": "ToTop.json"
+        },
+        {
+            "TestPartsPath": "\\Users",
+            "TestPartsName": "Logout.json"
+        }
+    ]
+
+}

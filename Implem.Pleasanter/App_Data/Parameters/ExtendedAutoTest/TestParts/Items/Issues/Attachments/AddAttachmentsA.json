@@ -1,0 +1,32 @@
+﻿{
+    "TestParts": [
+        {
+            "ElementId": "SettingsMenuContainer",
+            "Action": "Hover"
+        },
+        {
+            "ElementId": "SettingsMenu_SiteSettings",
+            "Action": "Click"
+        },
+        {
+            "ElementLinkText": "エディタ",
+            "Action": "Click"
+        },
+        {
+            "ElementCss": "#EditorSourceColumns li[data-value=\"AttachmentsA\"]",
+            "Action": "Click"
+        },
+        {
+            "ElementId": "ToEnableEditorColumns",
+            "Action": "Click"
+        },
+        {
+            "ElementId": "UpdateCommand",
+            "Action": "Click"
+        },
+        {
+            "ElementId": "GoBack",
+            "Action": "Click"
+        }
+    ]
+}

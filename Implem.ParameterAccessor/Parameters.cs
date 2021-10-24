@@ -48,6 +48,9 @@ namespace Implem.DefinitionAccessor
         public static User User;
         public static Locations Locations;
         public static Validation Validation;
+        public static AutoTestSettings ExtendedAutoTestSettings;
+        public static List<AutoTestScenario> ExtendedAutoTestScenarios;
+        public static List<AutoTestOperation> ExtendedAutoTestOperations;
 
         public static bool CommercialLicense()
         {

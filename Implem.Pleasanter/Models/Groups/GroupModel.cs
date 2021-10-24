@@ -389,12 +389,12 @@ namespace Implem.Pleasanter.Models
                         groupModel: this,
                         setDefault: true,
                         otherInitValue: otherInitValue)),
-                    Rds.InsertGroupMembers(
-                        tableType: tableType,
-                        param: param ?? Rds.GroupMembersParam()
-                            .GroupId(raw: Def.Sql.Identity)
-                            .UserId(context.UserId)
-                            .Admin(true)),
+                Rds.InsertGroupMembers(
+                    tableType: tableType,
+                    param: param ?? Rds.GroupMembersParam()
+                        .GroupId(raw: Def.Sql.Identity)
+                        .UserId(context.UserId)
+                        .Admin(true)),
                 StatusUtilities.UpdateStatus(
                     tenantId: context.TenantId,
                     type: StatusUtilities.Types.GroupsUpdated),

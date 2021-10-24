@@ -1,5 +1,4 @@
-﻿using Implem.DefinitionAccessor;
-using Implem.Libraries.DataSources.SqlServer;
+﻿using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
@@ -175,24 +174,11 @@ namespace Implem.Pleasanter.Libraries.Server
                 return;
             }
             var tenantCache = TenantCaches.Get(context.TenantId);
-            if (!tenantCache.SiteDeptHash.ContainsKey(siteId))
-            {
-                try
-                {
-                    tenantCache.SiteDeptHash.Add(siteId, GetSiteDeptHash(
-                        context: context,
-                        siteId: siteId));
-                }
-                catch (Exception)
-                {
-                }
-            }
-            else if (reload)
-            {
-                tenantCache.SiteDeptHash[siteId] = GetSiteDeptHash(
-                    context: context,
-                    siteId: siteId);
-            }
+            var temp = tenantCache.SiteDeptHash.ToDictionary(o => o.Key, o => o.Value);
+            temp.AddOrUpdate(siteId, GetSiteDeptHash(
+                context: context,
+                siteId: siteId));
+            tenantCache.SiteDeptHash = temp;
         }
 
         public static void SetSiteGroupHash(Context context, long siteId, bool reload = false)
@@ -202,24 +188,11 @@ namespace Implem.Pleasanter.Libraries.Server
                 return;
             }
             var tenantCache = TenantCaches.Get(context.TenantId);
-            if (!tenantCache.SiteGroupHash.ContainsKey(siteId))
-            {
-                try
-                {
-                    tenantCache.SiteGroupHash.Add(siteId, GetSiteGroupHash(
-                        context: context,
-                        siteId: siteId));
-                }
-                catch (Exception)
-                {
-                }
-            }
-            else if (reload)
-            {
-                tenantCache.SiteGroupHash[siteId] = GetSiteGroupHash(
-                    context: context,
-                    siteId: siteId);
-            }
+            var temp = tenantCache.SiteGroupHash.ToDictionary(o => o.Key, o => o.Value);
+            temp.AddOrUpdate(siteId, GetSiteGroupHash(
+                context: context,
+                siteId: siteId));
+            tenantCache.SiteGroupHash = temp;
         }
 
         public static void SetSiteUserHash(Context context, long siteId, bool reload = false)
@@ -229,24 +202,11 @@ namespace Implem.Pleasanter.Libraries.Server
                 return;
             }
             var tenantCache = TenantCaches.Get(context.TenantId);
-            if (!tenantCache.SiteUserHash.ContainsKey(siteId))
-            {
-                try
-                {
-                    tenantCache.SiteUserHash.Add(siteId, GetSiteUserHash(
-                        context: context,
-                        siteId: siteId));
-                }
-                catch (Exception)
-                {
-                }
-            }
-            else if (reload)
-            {
-                tenantCache.SiteUserHash[siteId] = GetSiteUserHash(
-                    context: context,
-                    siteId: siteId);
-            }
+            var temp = tenantCache.SiteUserHash.ToDictionary(o => o.Key, o => o.Value);
+            temp.AddOrUpdate(siteId, GetSiteUserHash(
+                context: context,
+                siteId: siteId));
+            tenantCache.SiteUserHash = temp;
         }
 
         private static List<int> GetSiteDeptHash(Context context, long siteId)

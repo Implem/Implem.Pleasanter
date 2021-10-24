@@ -2706,6 +2706,12 @@ namespace Implem.Pleasanter.Models
                                 .Li(
                                     action: () => hb
                                         .A(
+                                            href: "#ImportsSettingsEditor",
+                                            text: Displays.Import(context: context)),
+                                    _using: context.ContractSettings.Import != false)
+                                .Li(
+                                    action: () => hb
+                                        .A(
                                             href: "#ExportsSettingsEditor",
                                             text: Displays.Export(context: context)),
                                     _using: context.ContractSettings.Export != false)
@@ -3757,6 +3763,11 @@ namespace Implem.Pleasanter.Models
                         .Title(Displays.BulkUpdateColumnSettings(context: context)))
                 .Div(
                     attributes: new HtmlAttributes()
+                        .Id("BulkUpdateColumnDetailDialog")
+                        .Class("dialog")
+                        .Title(Displays.AdvancedSetting(context: context)))
+                .Div(
+                    attributes: new HtmlAttributes()
                         .Id("RelatingColumnDialog")
                         .Class("dialog")
                         .Title(Displays.RelatingColumnSettings(context: context)))
@@ -3907,6 +3918,7 @@ namespace Implem.Pleasanter.Models
                             .ViewsSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .NotificationsSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .RemindersSettingsEditor(context: context, ss: siteModel.SiteSettings)
+                            .ImportsSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .ExportsSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .CalendarSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .CrosstabSettingsEditor(context: context, ss: siteModel.SiteSettings)
@@ -7645,12 +7657,18 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             controlId: controlId,
                             fieldCss: "field-auto-thin",
-                            controlCss: " auto-postback",
+                            controlCss: " auto-postback" + (column.UseSearch == true
+                                ? " search"
+                                : string.Empty),
                             labelText: column.LabelText,
                             labelTitle: labelTitle,
                             optionCollection: column.HasChoices()
-                                ? column.EditChoices(
+                                ? HtmlFields.EditChoices(
                                     context: context,
+                                    ss: ss,
+                                    column: column,
+                                    value: value,
+                                    multiple: true,
                                     addNotSet: true)
                                 : column.NumFilterOptions(context: context),
                             selectedValue: value,
@@ -7682,8 +7700,12 @@ namespace Implem.Pleasanter.Models
                                 : string.Empty),
                             labelText: column.LabelText,
                             labelTitle: labelTitle,
-                            optionCollection: column.EditChoices(
+                            optionCollection: HtmlFields.EditChoices(
                                 context: context,
+                                ss: ss,
+                                column: column,
+                                value: value,
+                                multiple: true,
                                 addNotSet: true),
                             selectedValue: value,
                             multiple: true,
@@ -8847,6 +8869,32 @@ namespace Implem.Pleasanter.Models
                             controlCss: "button-icon",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ImportsSettingsEditor(
+            this HtmlBuilder hb, Context context, SiteSettings ss)
+        {
+            if (context.ContractSettings.Export == false) return hb;
+            return hb.FieldSet(id: "ImportsSettingsEditor", action: () => hb
+                .FieldDropDown(
+                    context: context,
+                    controlId: "ImportEncoding",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.CharacterCode(context: context),
+                    optionCollection: new Dictionary<string, ControlData>
+                    {
+                        { "Shift-JIS", new ControlData("Shift-JIS") },
+                        { "UTF-8", new ControlData("UTF-8") },
+                    },
+                    selectedValue: ss.ImportEncoding)
+                .FieldCheckBox(
+                    controlId: "UpdatableImport",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.UpdatableImport(context: context),
+                    _checked: ss.UpdatableImport == true));
         }
 
         /// <summary>
@@ -10763,60 +10811,72 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Title(context: context),
                         text: bulkUpdateColumn.Title,
                         validateRequired: true)
-                .FieldSet(
-                    css: " enclosed",
-                    legendText: Displays.BulkUpdateColumnSettings(context: context),
-                    action: () => hb
-                        .FieldSelectable(
-                            controlId: "BulkUpdateColumnColumns",
-                            fieldCss: "field-vertical",
-                            controlContainerCss: "container-selectable",
-                            controlWrapperCss: " h350",
-                            controlCss: " always-send send-all",
-                            labelText: Displays.CurrentSettings(context: context),
-                            listItemCollection: ss.BulkUpdateColumnSelectableOptions(
-                                context: context,
-                                id: bulkUpdateColumn.Id),
-                            commandOptionPositionIsTop: true,
-                            commandOptionAction: () => hb
-                                .Div(css: "command-center", action: () => hb
-                                    .Button(
-                                        controlId: "MoveUpBulkUpdateColumnColumnsLocal",
-                                        text: Displays.MoveUp(context: context),
-                                        controlCss: "button-icon",
-                                        onClick: "$p.moveColumns($(this),'BulkUpdateColumn');",
-                                        icon: "ui-icon-circle-triangle-n")
-                                    .Button(
-                                        controlId: "MoveDownBulkUpdateColumnColumnsLocal",
-                                        text: Displays.MoveDown(context: context),
-                                        controlCss: "button-icon",
-                                        onClick: "$p.moveColumns($(this),'BulkUpdateColumn');",
-                                        icon: "ui-icon-circle-triangle-s")
-                                    .Button(
-                                        controlId: "ToDisableBulkUpdateColumnColumnsLocal",
-                                        text: Displays.ToDisable(context: context),
-                                        controlCss: "button-icon",
-                                        onClick: "$p.moveColumns($(this),'BulkUpdateColumn');",
-                                        icon: "ui-icon-circle-triangle-e")))
-                        .FieldSelectable(
-                            controlId: "BulkUpdateColumnSourceColumns",
-                            fieldCss: "field-vertical",
-                            controlContainerCss: "container-selectable",
-                            controlWrapperCss: " h350",
-                            labelText: Displays.OptionList(context: context),
-                            listItemCollection: ss.BulkUpdateColumnSelectableOptions(
-                                context: context,
-                                id: bulkUpdateColumn.Id,
-                                enabled: false),
-                            commandOptionPositionIsTop: true,
-                            commandOptionAction: () => hb
-                                .Div(css: "command-center", action: () => hb
-                                    .Button(
-                                        controlId: "ToEnableBulkUpdateColumnColumnsLocal",
-                                        text: Displays.ToEnable(context: context),
-                                        controlCss: "button-icon",
-                                        onClick: "$p.moveColumns($(this),'BulkUpdateColumn');",
-                                        icon: "ui-icon-circle-triangle-w"))))
+                    .FieldSet(
+                        css: " enclosed",
+                        legendText: Displays.BulkUpdateColumnSettings(context: context),
+                        action: () => hb
+                            .FieldSelectable(
+                                controlId: "BulkUpdateColumnColumns",
+                                fieldCss: "field-vertical",
+                                controlContainerCss: "container-selectable",
+                                controlWrapperCss: " h350",
+                                controlCss: " always-send send-all",
+                                labelText: Displays.CurrentSettings(context: context),
+                                listItemCollection: ss.BulkUpdateColumnSelectableOptions(
+                                    context: context,
+                                    id: bulkUpdateColumn.Id),
+                                commandOptionPositionIsTop: true,
+                                commandOptionAction: () => hb
+                                    .Div(css: "command-center", action: () => hb
+                                        .Button(
+                                            controlId: "MoveUpBulkUpdateColumnColumnsLocal",
+                                            text: Displays.MoveUp(context: context),
+                                            controlCss: "button-icon",
+                                            onClick: "$p.moveColumns($(this),'BulkUpdateColumn');",
+                                            icon: "ui-icon-circle-triangle-n")
+                                        .Button(
+                                            controlId: "MoveDownBulkUpdateColumnColumnsLocal",
+                                            text: Displays.MoveDown(context: context),
+                                            controlCss: "button-icon",
+                                            onClick: "$p.moveColumns($(this),'BulkUpdateColumn');",
+                                            icon: "ui-icon-circle-triangle-s")
+                                        .Button(
+                                            controlId: "OpenBulkUpdateColumnDetailDialog",
+                                            text: Displays.AdvancedSetting(context: context),
+                                            controlCss: "button-icon",
+                                            onClick: "$p.openBulkUpdateColumnDetailDialog($(this));",
+                                            icon: "ui-icon-circle-triangle-s",
+                                            action: "SetSiteSettings",
+                                            method: "post")
+                                        .Button(
+                                            controlId: "ToDisableBulkUpdateColumnColumnsLocal",
+                                            text: Displays.ToDisable(context: context),
+                                            controlCss: "button-icon",
+                                            onClick: "$p.moveColumns($(this),'BulkUpdateColumn');",
+                                            icon: "ui-icon-circle-triangle-e")))
+                            .FieldSelectable(
+                                controlId: "BulkUpdateColumnSourceColumns",
+                                fieldCss: "field-vertical",
+                                controlContainerCss: "container-selectable",
+                                controlWrapperCss: " h350",
+                                labelText: Displays.OptionList(context: context),
+                                listItemCollection: ss.BulkUpdateColumnSelectableOptions(
+                                    context: context,
+                                    id: bulkUpdateColumn.Id,
+                                    enabled: false),
+                                commandOptionPositionIsTop: true,
+                                commandOptionAction: () => hb
+                                    .Div(css: "command-center", action: () => hb
+                                        .Button(
+                                            controlId: "ToEnableBulkUpdateColumnColumnsLocal",
+                                            text: Displays.ToEnable(context: context),
+                                            controlCss: "button-icon",
+                                            onClick: "$p.moveColumns($(this),'BulkUpdateColumn');",
+                                            icon: "ui-icon-circle-triangle-w"))))
+                    .Hidden(
+                        controlId: "BulkUpdateColumnDetails",
+                        css: " always-send",
+                        value: bulkUpdateColumn.Details.ToJson())
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
@@ -10842,6 +10902,142 @@ namespace Implem.Pleasanter.Models
                             controlCss: "button-icon",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder BulkUpdateColumnDetailDialog(
+            Context context,
+            SiteSettings ss,
+            Column column,
+            BulkUpdateColumnDetail detail)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("BulkUpdateColumnDetailForm")
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
+                action: () => hb
+                    .FieldCheckBox(
+                        controlId: "BulkUpdateColumnDetailValidateRequired",
+                        controlCss: " always-send",
+                        labelText: Displays.Required(context: context),
+                        _checked: detail.ValidateRequired ?? column.ValidateRequired ?? false,
+                        disabled: column.Required,
+                        _using: !column.Id_Ver
+                            && !column.NotUpdate
+                            && column.TypeName != "bit")
+                    .FieldCheckBox(
+                        controlId: "BulkUpdateColumnDetailEditorReadOnly",
+                        labelText: Displays.ReadOnly(context: context),
+                        _checked: detail.EditorReadOnly ?? column.EditorReadOnly ?? false)
+                    .BulkUpdateColumnDetailDefaultInput(
+                        context: context,
+                        column: column,
+                        detail: detail)
+                    .Hidden(
+                        controlId: "BulkUpdateColumnDetailColumnName",
+                        css: " always-send",
+                        value: column.ColumnName)
+                    .Hidden(
+                        controlId: "BulkUpdateColumnDetailsTemp",
+                        css: " always-send",
+                        value: context.Forms.Data("BulkUpdateColumnDetails"))
+                    .P(id: "BulkUpdateColumnDetailMessage", css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "UpdateBulkUpdateColumnDetail",
+                            text: Displays.Change(context: context),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.setBulkUpdateColumnDetail($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post")
+                        .Button(
+                            text: Displays.Cancel(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder BulkUpdateColumnDetailDefaultInput(
+            this HtmlBuilder hb,
+            Context context,
+            Column column,
+            BulkUpdateColumnDetail detail)
+        {
+            var type = column.TypeName.CsTypeSummary();
+            var controlId = "BulkUpdateColumnDetailDefaultInput";
+            switch (type)
+            {
+                case Types.CsBool:
+                    hb.FieldCheckBox(
+                        controlId: controlId,
+                        controlCss: " always-send",
+                        labelText: Displays.DefaultInput(context: context),
+                        _checked: detail.DefaultInput.ToBool(),
+                        _using: !column.NotUpdate);
+                    break;
+                case Types.CsNumeric:
+                    if (column.ControlType == "ChoicesText")
+                    {
+                        hb.FieldTextBox(
+                            controlId: controlId,
+                            controlCss: " always-send",
+                            labelText: Displays.DefaultInput(context: context),
+                            text: detail.DefaultInput,
+                            _using: !column.Id_Ver);
+                    }
+                    else
+                    {
+                        hb.FieldTextBox(
+                            controlId: controlId,
+                            controlCss: " always-send",
+                            labelText: Displays.DefaultInput(context: context),
+                            text: !detail.DefaultInput.IsNullOrEmpty()
+                                ? detail.DefaultInput.ToLong().ToString()
+                                : string.Empty,
+                            validateNumber: true,
+                            _using: !column.Id_Ver
+                                && !column.NotUpdate);
+                    }
+                    break;
+                case Types.CsString:
+                    hb.FieldTextBox(
+                        textType: column.ControlType == "MarkDown"
+                            ? HtmlTypes.TextTypes.MultiLine
+                            : HtmlTypes.TextTypes.Normal,
+                        controlId: controlId,
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.DefaultInput(context: context),
+                        text: detail.DefaultInput,
+                        _using: column.ColumnName != "Comments"
+                            && column.ControlType != "Attachments"
+                            && !column.NotUpdate);
+                    break;
+                case Types.CsDateTime:
+                    hb.FieldSpinner(
+                        controlId: controlId,
+                        controlCss: " allow-blank always-send",
+                        labelText: Displays.DefaultInput(context: context),
+                        value: !detail.DefaultInput.IsNullOrEmpty()
+                            ? detail.DefaultInput.ToDecimal()
+                            : (decimal?)null,
+                        min: column.Min.ToInt(),
+                        max: column.Max.ToInt(),
+                        step: column.Step.ToInt(),
+                        width: column.Width,
+                        _using: !column.NotUpdate);
+                    break;
+            }
+            return hb;
         }
 
         /// <summary>

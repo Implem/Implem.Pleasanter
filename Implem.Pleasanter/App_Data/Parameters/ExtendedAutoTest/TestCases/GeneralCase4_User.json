@@ -1,0 +1,48 @@
+﻿{
+    "CasesDescription": "汎用テストケース　ユーザの管理の確認",
+    "ResultFileName": "GeneralCase4.csv",
+    "TestCases": [
+        {
+            "TestPartsPath": "\\Users",
+            "TestPartsName": "LoginLocal.json"
+        },
+        {
+            "TestPartsPath": "\\Users\\Transition",
+            "TestPartsName": "ToUsersTable.json",
+            "CaseDescription": "ユーザの管理画面に遷移する。"
+        },
+        {
+            "TestPartsPath": "\\Users\\Create",
+            "TestPartsName": "CreateUser.json",
+            "CaseDescription": "ユーザを作成する。"
+        },
+        {
+            "TestPartsPath": "\\Users\\Update",
+            "TestPartsName": "UpdateTenantUser.json",
+            "CaseDescription": "テナント管理者の設定をする。"
+        },
+        {
+            "TestPartsPath": "\\Users\\Update",
+            "TestPartsName": "UpdateMailAddress.json",
+            "CaseDescription": "メールアドレスを追加する。"
+        },
+        {
+            "TestPartsPath": "\\Users\\Update",
+            "TestPartsName": "ResetPassword.json",
+            "CaseDescription": "パスワードをリセットする。"
+        },
+        {
+            "TestPartsPath": "\\Users\\Delete",
+            "TestPartsName": "DeleteUser.json",
+            "CaseDescription": "ユーザを削除する。"
+        },
+        {
+            "TestPartsPath": "\\Other",
+            "TestPartsName": "ToTop.json"
+        },
+        {
+            "TestPartsPath": "\\Users",
+            "TestPartsName": "Logout.json"
+        }
+    ]
+}

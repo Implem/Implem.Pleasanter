@@ -143,7 +143,9 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         id: ss.SiteId)
                     .MoveDialog(context: context, bulk: true)
-                    .ImportSettingsDialog(context: context)
+                    .ImportSettingsDialog(
+                        context: context,
+                        ss: ss)
                     .Div(attributes: new HtmlAttributes()
                         .Id("SetNumericRangeDialog")
                         .Class("dialog")
@@ -1764,6 +1766,7 @@ namespace Implem.Pleasanter.Models
             Column column,
             bool controlOnly = false,
             bool alwaysSend = false,
+            bool disableAutoPostBack = false,
             string idSuffix = null,
             bool preview = false,
             bool disableSection = false)
@@ -1790,6 +1793,7 @@ namespace Implem.Pleasanter.Models
                         baseModel: issueModel),
                     controlOnly: controlOnly,
                     alwaysSend: alwaysSend,
+                    disableAutoPostBack: disableAutoPostBack,
                     idSuffix: idSuffix,
                     preview: preview,
                     disableSection: disableSection);
@@ -3180,23 +3184,31 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             string target)
         {
+            var columns = ss.GetBulkUpdateColumns(
+                context: context,
+                target: target);
+            ss.SetBulkUpdateColumnDetail(
+                columns: columns,
+                target: target);
+            var issueModel = new IssueModel();
             hb.FieldSet(id: "BulkUpdateEditor", css: "both", action: () => hb
                 .FieldSet(
                     css: " enclosed",
                     legendText: Displays.Editor(context: context),
-                    action: () => ss.GetBulkUpdateColumns(
-                        context: context,
-                        target: target)
-                            .ForEach(column =>
-                                hb.Field(
-                                    context: context,
-                                    ss: ss,
-                                    issueModel: new IssueModel(),
-                                    column: ss.GetColumn(
-                                        context: context,
-                                        columnName: column.ColumnName),
-                                    alwaysSend: true,
-                                    disableSection: true))));
+                    action: () => columns.ForEach(column =>
+                    {
+                        issueModel.SetDefault(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                        hb.Field(
+                            context: context,
+                            ss: ss,
+                            issueModel: issueModel,
+                            column: column,
+                            disableAutoPostBack: true,
+                            disableSection: true);
+                    })));
             return hb;
         }
 

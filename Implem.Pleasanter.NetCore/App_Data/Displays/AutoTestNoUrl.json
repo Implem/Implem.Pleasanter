@@ -1,0 +1,9 @@
+﻿{
+    "Id": "AutoTestNoUrl",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "No URL is specified. Please enter."
+        }
+    ]
+}

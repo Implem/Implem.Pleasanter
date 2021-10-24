@@ -1,0 +1,36 @@
+﻿{
+    "TestParts": [
+        {
+            "TestPartId": "UserRecord1",
+            "Action": "Click"
+        },
+        {
+            "ElementXpath": "//li[@aria-controls='FieldSetMailAddresses']",
+            "Action": "Click"
+        },
+        {
+            "ElementId": "MailAddress",
+            "Action": "input",
+            "Value": "test@test.jp"
+        },
+        {
+            "ElementXpath": "//button[@data-action='AddMailAddress']",
+            "Action": "Click"
+        },
+        {
+            "TargetTestPartId": "UserRecord1",
+            "Action": "Update",
+            "Results": [
+                {
+                    "ElementId": "MailAddresses",
+                    "ExpectedValue": "test@test.jp",
+                    "Description": "入力内容が登録されていること。"
+                }
+            ]
+        },
+        {
+            "ElementId": "GoBack",
+            "Action": "Click"
+        }
+    ]
+}
