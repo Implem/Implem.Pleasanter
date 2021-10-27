@@ -12,6 +12,10 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         public static void Set(Context context, long siteId)
         {
+            context.Forms.RemoveAll((key, value) =>
+                key == "GridCheckAll"
+                || key == "GridUnCheckedItems"
+                || key == "GridCheckedItems");
             var data = SessionData(context: context);
             if (data.ContainsKey(siteId))
             {

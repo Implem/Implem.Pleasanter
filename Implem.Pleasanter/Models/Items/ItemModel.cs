@@ -985,6 +985,35 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string SelectedIds(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true);
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    if (SiteId == ReferenceId)
+                    {
+                        return IssueUtilities.SelectedIds(
+                            context: context,
+                            ss: Site.SiteSettings);
+                    }
+                    break;
+                case "Results":
+                    if (SiteId == ReferenceId)
+                    {
+                        return ResultUtilities.SelectedIds(
+                            context: context,
+                            ss: Site.SiteSettings);
+                    }
+                    break;
+                default:
+                    return Messages.ResponseNotFound(context: context).ToJson();
+            }
+            return Messages.ResponseNotFound(context: context).ToJson();
+        }
+
         public string LinkTable(Context context)
         {
             var dataTableName = context.Forms.Data("TableId");
