@@ -16,9 +16,16 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public ScriptEngine()
+        public ScriptEngine(bool debug)
         {
-            v8ScriptEngine = new V8ScriptEngine(V8ScriptEngineFlags.EnableDateTimeConversion);
+            var flags = V8ScriptEngineFlags.EnableDateTimeConversion;
+            if (debug)
+            {
+                flags |= V8ScriptEngineFlags.EnableDebugging
+                | V8ScriptEngineFlags.AwaitDebuggerAndPauseOnStart
+                | V8ScriptEngineFlags.EnableRemoteDebugging;
+            }
+            v8ScriptEngine = new V8ScriptEngine(flags);
         }
 
         public void AddHostObject(string itemName, object target)
