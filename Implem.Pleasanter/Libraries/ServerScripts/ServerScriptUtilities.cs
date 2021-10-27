@@ -739,7 +739,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 condition: condition,
                 onTesting: onTesting))
             {
-                using (var engine = context.CreateScriptEngin())
+                model.Debug = scripts.Any(o => o.Body.StartsWith("//debug//"));
+                using (var engine = context.CreateScriptEngin(debug: model.Debug))
                 {
                     try
                     {
@@ -758,10 +759,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         engine.AddHostObject("extendedSql", model.ExtendedSql);
                         engine.AddHostObject("notifications", model.Notification);
                         engine.AddHostObject("utilities", model.Utilities);
-                        foreach (var script in scripts)
-                        {
-                            engine.Execute(script.Body);
-                        }
+                        engine.Execute(scripts.Select(o => o.Body).Join("\n"));
+
                     }
                     finally
                     {

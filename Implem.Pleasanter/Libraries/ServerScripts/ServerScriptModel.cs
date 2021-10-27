@@ -26,6 +26,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public ServerScriptModelExtendedSql ExtendedSql;
         public ServerScriptModelNotification Notification;
         public readonly ServerScriptModelUtilities Utilities;
+        public bool Debug;
         private readonly List<string> ChangeItemNames = new List<string>();
         private DateTime TimeOut;
 
@@ -130,7 +131,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public bool ContinuationCallback()
         {
-            return TimeOut > DateTime.Now;
+            return Debug
+                ? true
+                : TimeOut > DateTime.Now;
         }
 
         public class ServerScriptModelColumn
