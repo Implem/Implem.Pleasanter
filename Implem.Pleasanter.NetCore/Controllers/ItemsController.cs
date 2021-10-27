@@ -242,6 +242,17 @@ namespace Implem.Pleasanter.NetCore.Controllers
         }
 
         [HttpPost]
+        public string SelectedIds(long id)
+        {
+            var context = new ContextImplement();
+            var controller = new Pleasanter.Controllers.ItemsController();
+            var json = controller.SelectedIds(
+                context: context,
+                id: id);
+            return json;
+        }
+
+        [HttpPost]
         public string LinkTable(long id)
         {
             var context = new ContextImplement();

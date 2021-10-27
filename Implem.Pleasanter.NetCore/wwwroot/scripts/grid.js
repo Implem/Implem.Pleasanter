@@ -39,6 +39,27 @@ $p.cancelNewRow = function ($control) {
     $p.send($control);
 }
 
+$p.selectedIds = function () {
+    var $form = $('#MainForm');
+    var url = $form.attr('action').replace('_action_', 'SelectedIds');
+    var ret;
+    $.ajax({
+        url: url,
+        type: 'post',
+        async: false,
+        cache: false,
+        data: $p.data.MainForm,
+        dataType: 'json'
+    })
+        .done(function (json, textStatus, jqXHR) {
+            ret = json;
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            ret = -1;
+        });
+    return ret;
+}
+
 $(function () {
     if ($("#Grid").length == 0) return;
     var TBLHD = TBLHD || {};

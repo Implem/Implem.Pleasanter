@@ -2633,6 +2633,39 @@ namespace Implem.Pleasanter.Models
             return res.ToJson();
         }
 
+        public static string SelectedIds(
+            Context context, SiteSettings ss)
+        {
+            var invalid = IssueValidators.OnEntry(
+                context: context,
+                ss: ss);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson(context: context);
+            }
+            var where = SelectedWhere(
+                context: context,
+                ss: ss);
+            if (where == null)
+            {
+                return "[]";
+            }
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
+            var ids = new GridData(
+                context: context,
+                ss: ss,
+                view: view,
+                column: Rds.IssuesColumn().IssueId(),
+                where: where)
+                    .DataRows
+                    .Select(dataRow => dataRow.Long("IssueId"))
+                    .ToList();
+            return ids.ToJson();
+        }
+
         public static System.Web.Mvc.ContentResult GetByApi(Context context, SiteSettings ss, bool internalRequest)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
