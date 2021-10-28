@@ -1,8 +1,8 @@
 ﻿using Microsoft.ClearScript.V8;
 using System;
-namespace Implem.Pleasanter.Models
+namespace Implem.Pleasanter.Libraries.ServerScripts
 {
-    public class ScriptEngine : IScriptEngine
+    public class ScriptEngine : IDisposable
     {
         private V8ScriptEngine v8ScriptEngine;
 

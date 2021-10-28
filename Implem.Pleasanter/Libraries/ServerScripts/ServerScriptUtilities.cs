@@ -710,6 +710,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             View view,
             ServerScript[] scripts,
             string condition,
+            bool debug,
             bool onTesting = false)
         {
             if (!(Parameters.Script.ServerScript != false
@@ -737,10 +738,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 columnFilterHash: view?.ColumnFilterHash,
                 columnSorterHash: view?.ColumnSorterHash,
                 condition: condition,
+                debug: debug,
                 onTesting: onTesting))
             {
-                model.Debug = scripts.Any(o => o.Body.StartsWith("//debug//"));
-                using (var engine = context.CreateScriptEngin(debug: model.Debug))
+                using (var engine = new ScriptEngine(debug: debug))
                 {
                     try
                     {
@@ -760,7 +761,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         engine.AddHostObject("notifications", model.Notification);
                         engine.AddHostObject("utilities", model.Utilities);
                         engine.Execute(scripts.Select(o => o.Body).Join("\n"));
-
                     }
                     finally
                     {
@@ -804,7 +804,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 itemModel: itemModel,
                 view: view,
                 scripts: scripts,
-                condition: condition);
+                condition: condition,
+                debug: scripts.Any(o => o.Debug));
             return scriptValues;
         }
 
