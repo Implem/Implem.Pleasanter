@@ -290,13 +290,14 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             var mine = model.Mine(context: context);
             var columns = Def
                 .ColumnDefinitionCollection
+                .Where(definition => definition.TableName == ss?.ReferenceType)
                 .Select(definition =>
                 {
                     Column column = null;
                     ss?.ColumnHash?.TryGetValue(definition.ColumnName, out column);
                     return (
                         definition.ColumnName,
-                        model.ServerScriptModelRow.Columns?.Get(column.ColumnName)
+                        model.ServerScriptModelRow.Columns?.Get(column?.ColumnName)
                             ?? new ServerScriptModelColumn(
                                 labelText: column?.LabelText,
                                 labelRaw: string.Empty,
