@@ -67,6 +67,7 @@ namespace Implem.Pleasanter.Models
         public string ChangedPasswordValidator = string.Empty;
         public string AfterResetPassword = string.Empty;
         public string AfterResetPasswordValidator = string.Empty;
+        public List<PasswordHistory> PasswordHistries = new List<PasswordHistory>();
         public List<string> MailAddresses = new List<string>();
         public string DemoMailAddress = string.Empty;
         public string SessionGuid = string.Empty;
@@ -140,6 +141,7 @@ namespace Implem.Pleasanter.Models
         public string SavedChangedPasswordValidator = string.Empty;
         public string SavedAfterResetPassword = string.Empty;
         public string SavedAfterResetPasswordValidator = string.Empty;
+        public string SavedPasswordHistries = "{}";
         public string SavedMailAddresses = string.Empty;
         public string SavedDemoMailAddress = string.Empty;
         public string SavedSessionGuid = string.Empty;
@@ -370,6 +372,14 @@ namespace Implem.Pleasanter.Models
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.GetDefaultInput(context: context).ToString() != ApiKey);
+        }
+
+        public bool PasswordHistries_Updated(Context context, Column column = null)
+        {
+            return PasswordHistries.ToJson() != SavedPasswordHistries && PasswordHistries.ToJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToString() != PasswordHistries.ToJson());
         }
 
         public bool SecondaryAuthenticationCode_Updated(Context context, Column column = null)
@@ -1294,6 +1304,7 @@ namespace Implem.Pleasanter.Models
                     case "LockoutCounter": data.LockoutCounter = LockoutCounter; break;
                     case "Developer": data.Developer = Developer; break;
                     case "UserSettings": data.UserSettings = UserSettings.RecordingJson(); break;
+                    case "PasswordHistries": data.PasswordHistries = PasswordHistries.ToJson(); break;
                     case "SecondaryAuthenticationCode": data.SecondaryAuthenticationCode = SecondaryAuthenticationCode; break;
                     case "SecondaryAuthenticationCodeExpirationTime": data.SecondaryAuthenticationCodeExpirationTime = SecondaryAuthenticationCodeExpirationTime.Value.ToLocal(context: context); break;
                     case "LdapSearchRoot": data.LdapSearchRoot = LdapSearchRoot; break;
@@ -1597,6 +1608,12 @@ namespace Implem.Pleasanter.Models
             bool get = true)
         {
             TenantId = context.TenantId;
+            if (Parameters.Security.EnforcePasswordHistories > 0)
+            {
+                SetPasswordHistories(
+                    context: context,
+                    password: Password);
+            }
             PasswordExpirationPeriod(context: context);
             var statements = new List<SqlStatement>();
             statements.AddRange(CreateStatements(
@@ -2010,6 +2027,7 @@ namespace Implem.Pleasanter.Models
             ChangedPasswordValidator = userModel.ChangedPasswordValidator;
             AfterResetPassword = userModel.AfterResetPassword;
             AfterResetPasswordValidator = userModel.AfterResetPasswordValidator;
+            PasswordHistries = userModel.PasswordHistries;
             MailAddresses = userModel.MailAddresses;
             DemoMailAddress = userModel.DemoMailAddress;
             SessionGuid = userModel.SessionGuid;
@@ -2316,6 +2334,10 @@ namespace Implem.Pleasanter.Models
                             ApiKey = dataRow[column.ColumnName].ToString();
                             SavedApiKey = ApiKey;
                             break;
+                        case "PasswordHistries":
+                            PasswordHistries = dataRow[column.ColumnName].ToString().Deserialize<List<PasswordHistory>>() ?? new List<PasswordHistory>();
+                            SavedPasswordHistries = PasswordHistries.ToJson();
+                            break;
                         case "SecondaryAuthenticationCode":
                             SecondaryAuthenticationCode = dataRow[column.ColumnName].ToString();
                             SavedSecondaryAuthenticationCode = SecondaryAuthenticationCode;
@@ -2453,6 +2475,7 @@ namespace Implem.Pleasanter.Models
                 || Developer_Updated(context: context)
                 || UserSettings_Updated(context: context)
                 || ApiKey_Updated(context: context)
+                || PasswordHistries_Updated(context: context)
                 || SecondaryAuthenticationCode_Updated(context: context)
                 || SecondaryAuthenticationCodeExpirationTime_Updated(context: context)
                 || LdapSearchRoot_Updated(context: context)
@@ -3237,6 +3260,16 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public Error.Types ChangePassword(Context context)
         {
+            if (Parameters.Security.EnforcePasswordHistories > 0)
+            {
+                if (PasswordHistries?.Any(o => o.Password == ChangedPassword) == true)
+                {
+                    return Error.Types.PasswordHasBeenUsed;
+                }
+                SetPasswordHistories(
+                    context: context,
+                    password: ChangedPassword);
+            }
             Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateUsers(
@@ -3257,6 +3290,16 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public Error.Types ChangePasswordAtLogin(Context context)
         {
+            if (Parameters.Security.EnforcePasswordHistories > 0)
+            {
+                if (PasswordHistries?.Any(o => o.Password == ChangedPassword) == true)
+                {
+                    return Error.Types.PasswordHasBeenUsed;
+                }
+                SetPasswordHistories(
+                    context: context,
+                    password: ChangedPassword);
+            }
             Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateUsers(
@@ -3275,6 +3318,16 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public Error.Types ResetPassword(Context context)
         {
+            if (Parameters.Security.EnforcePasswordHistories > 0)
+            {
+                if (PasswordHistries?.Any(o => o.Password == AfterResetPassword) == true)
+                {
+                    return Error.Types.PasswordHasBeenUsed;
+                }
+                SetPasswordHistories(
+                    context: context,
+                    password: AfterResetPassword);
+            }
             Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateUsers(
@@ -3293,13 +3346,34 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void SetPasswordHistories(Context context, string password)
+        {
+            if (PasswordHistries == null)
+            {
+                PasswordHistries = new List<PasswordHistory>();
+            }
+            PasswordHistries.Insert(0, new PasswordHistory()
+            {
+                Password = password,
+                Creator = context.UserId,
+                CreatedTime = DateTime.Now
+            });
+            PasswordHistries = PasswordHistries
+                .Take(Parameters.Security.EnforcePasswordHistories)
+                .ToList();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public SqlParamCollection ChangePasswordParam(
             Context context, string password, bool changeAtLogin = false)
         {
             PasswordExpirationPeriod(context: context);
             var param = Rds.UsersParam()
                 .Password(password)
-                .PasswordChangeTime(raw: $"{context.Sqls.CurrentDateTime}");
+                .PasswordChangeTime(raw: $"{context.Sqls.CurrentDateTime}")
+                .PasswordHistries(PasswordHistries.ToJson());
             return Parameters.Security.PasswordExpirationPeriod > 0 || !changeAtLogin
                 ? param.PasswordExpirationTime(PasswordExpirationTime.Value)
                 : param.PasswordExpirationTime(raw: "null");

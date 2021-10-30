@@ -38,6 +38,7 @@ namespace Implem.Pleasanter.Models
         public int? LockoutCounter { get; set; }
         public bool? Developer { get; set; }
         public string UserSettings { get; set; }
+        public string PasswordHistries { get; set; }
         public string SecondaryAuthenticationCode { get; set; }
         public DateTime? SecondaryAuthenticationCodeExpirationTime { get; set; }
         public string LdapSearchRoot { get; set; }
