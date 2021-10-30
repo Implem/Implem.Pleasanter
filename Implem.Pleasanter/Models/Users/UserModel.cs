@@ -3090,11 +3090,12 @@ namespace Implem.Pleasanter.Models
             IncrementsNumberOfLogins(context: context);
             SetFormsAuthentication(
                 context: context,
-                returnUrl: returnUrl,
                 createPersistentCookie: createPersistentCookie);
             return new UsersResponseCollection(this)
                 .CloseDialog(_using: atLogin)
-                .Message(Messages.LoginIn(context: context))
+                .Message(
+                    message: Messages.LoginIn(context: context),
+                    target: "#LoginMessage")
                 .Href(returnUrl.IsNullOrEmpty()
                     ? Locations.Top(context: context)
                     : returnUrl).ToJson();
@@ -3140,11 +3141,53 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void LoginSuccessLog(Context context)
+        {
+            if (Parameters.SysLog.LoginSuccess )
+            {
+                new SysLogModel(
+                    context: context,
+                    method: nameof(Authenticate),
+                    message: new
+                    {
+                        LoginId = LoginId,
+                        Success = true
+                    }.ToJson());
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void LoginFailureLog(Context context, string description)
+        {
+            if (Parameters.SysLog.LoginFailure)
+            {
+                new SysLogModel(
+                    context: context,
+                    method: nameof(Authenticate),
+                    message: new
+                    {
+                        LoginId = LoginId,
+                        Success = false
+                    }.ToJson(),
+                    sysLogType: SysLogModel.SysLogTypes.UserError);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private string Deny(Context context)
         {
+            LoginFailureLog(
+                context: context,
+                description: nameof(Deny));
             IncrementsNumberOfDenial(context: context);
-            return Messages.ResponseAuthentication(context: context)
-                .Focus("#Password").ToJson();
+            return Messages.ResponseAuthentication(
+                context: context,
+                target: "#LoginMessage")
+                    .Focus("#Password").ToJson();
         }
 
         /// <summary>
@@ -3152,8 +3195,13 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private string InvalidIpAddress(Context context)
         {
-            return Messages.ResponseInvalidIpAddress(context: context)
-                .Focus("#Password").ToJson();
+            LoginFailureLog(
+                context: context,
+                description: nameof(InvalidIpAddress));
+            return Messages.ResponseInvalidIpAddress(
+                context: context,
+                target: "#LoginMessage")
+                    .Focus("#Password").ToJson();
         }
 
         /// <summary>
@@ -3161,9 +3209,14 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private string UserDisabled(Context context)
         {
+            LoginFailureLog(
+                context: context,
+                description: nameof(UserDisabled));
             IncrementsNumberOfDenial(context: context);
-            return Messages.ResponseUserDisabled(context: context)
-                .Focus("#Password").ToJson();
+            return Messages.ResponseUserDisabled(
+                context: context,
+                target: "#LoginMessage")
+                    .Focus("#Password").ToJson();
         }
 
         /// <summary>
@@ -3171,8 +3224,13 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private string UserLockout(Context context)
         {
-            return Messages.ResponseUserLockout(context: context)
-                .Focus("#Password").ToJson();
+            LoginFailureLog(
+                context: context,
+                description: nameof(UserLockout));
+            return Messages.ResponseUserLockout(
+                context: context,
+                target: "#LoginMessage")
+                    .Focus("#Password").ToJson();
         }
 
         /// <summary>
@@ -3243,9 +3301,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public void SetFormsAuthentication(
-            Context context, string returnUrl, bool createPersistentCookie)
+        public void SetFormsAuthentication(Context context, bool createPersistentCookie)
         {
+            LoginSuccessLog(context: context);
             context.FormsAuthenticationSignIn(
                 userName: LoginId,
                 createPersistentCookie: createPersistentCookie);
@@ -3428,17 +3486,17 @@ namespace Implem.Pleasanter.Models
             Context context,
             Column column,
             int? tabIndex,
-            ServerScriptModelColumn serverScriptValues)
+            ServerScriptModelColumn serverScriptModelColumn)
         {
             return UserId != 0
                 ? hb.Td(
-                    css: column.CellCss(serverScriptValues?.ExtendedCellCss),
+                    css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
                     action: () => hb
                         .HtmlUser(
                             context: context,
                             text: column.ChoiceHash.Get(UserId.ToString())?.Text))
                 : hb.Td(
-                    css: column.CellCss(serverScriptValues?.ExtendedCellCss),
+                    css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
                     action: () => { });
         }
 
