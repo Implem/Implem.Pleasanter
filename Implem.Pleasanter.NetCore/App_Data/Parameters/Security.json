@@ -9,6 +9,7 @@
     "TokenCheck": false,
     "SecureCookies": false,
     "AccessControlAllowOrigin": null,
+    "EnforcePasswordHistories": 0,
     "PasswordPolicies": [
         {
             "Enabled": true,

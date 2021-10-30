@@ -5979,6 +5979,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string PasswordHasBeenUsed(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "PasswordHasBeenUsed",
+                data: data);
+        }
+
         public static string PasswordNotChanged(
             Context context,
             params string[] data)
@@ -10196,6 +10206,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Users_AfterResetPasswordValidator",
+                data: data);
+        }
+
+        public static string Users_PasswordHistries(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_PasswordHistries",
                 data: data);
         }
 

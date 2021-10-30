@@ -1627,6 +1627,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "ApiKey":
                             sql.Users_ApiKey(tableName: path, _as: _as);
                             break;
+                        case "PasswordHistries":
+                            sql.Users_PasswordHistries(tableName: path, _as: _as);
+                            break;
                         case "SecondaryAuthenticationCode":
                             sql.Users_SecondaryAuthenticationCode(tableName: path, _as: _as);
                             break;
