@@ -1,4 +1,7 @@
 ﻿{
     "RetentionPeriod": 90,
-    "NotLoggingIp": null
+    "NotLoggingIp": null,
+    "LoginSuccess": false,
+    "LoginFailure": false,
+    "SignOut": false
 }
