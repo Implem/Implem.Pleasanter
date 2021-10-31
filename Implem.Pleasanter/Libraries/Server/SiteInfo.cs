@@ -70,6 +70,7 @@ namespace Implem.Pleasanter.Libraries.Server
                                 .ServiceManager()
                                 .AllowCreationAtTopSite()
                                 .AllowGroupAdministration()
+                                .AllowGroupCreation()
                                 .Disabled(),
                             where: Rds.UsersWhere().TenantId(context.TenantId),
                             _using: monitor.UsersUpdated || force)

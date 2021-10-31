@@ -4516,6 +4516,50 @@ namespace Implem.Pleasanter.Libraries.Responses
             return res.ValAndFormData("#Users_AllowGroupAdministration", value);
         }
 
+        public static UsersResponseCollection AllowGroupCreation(
+            this UsersResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Users_AllowGroupCreation",
+                res.UserModel.AllowGroupCreation.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "AllowGroupCreation")));
+        }
+
+        public static UsersResponseCollection AllowGroupCreation(
+            this UsersResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Users_AllowGroupCreation", value);
+        }
+
+        public static UsersResponseCollection AllowGroupCreation_FormData(
+            this UsersResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Users_AllowGroupCreation",
+                res.UserModel.AllowGroupCreation.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "AllowGroupCreation")));
+        }
+
+        public static UsersResponseCollection AllowGroupCreation_FormData(
+            this UsersResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Users_AllowGroupCreation", value);
+        }
+
         public static UsersResponseCollection Disabled(
             this UsersResponseCollection res,
             Context context,
