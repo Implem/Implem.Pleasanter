@@ -3123,27 +3123,29 @@ namespace Implem.Pleasanter.Models
                 ss.Title,
                 count.ToString()
             };
-            ss.Notifications.ForEach(notification =>
-            {
-                var body = new System.Text.StringBuilder();
-                body.Append(Locations.ItemIndexAbsoluteUri(
-                    context: context,
-                    ss.SiteId) + "\n");
-                body.Append(
-                    $"{Displays.Results_Updator(context: context)}: ",
-                    $"{context.User.Name}\n");
-                columns.ForEach(column =>
-                    body.Append(
-                        $"{column.LabelText} : ",
-                        $"{resultModel.ToDisplay(context: context, ss: ss, column: column, mine: null)}\n"));
-                notification.Send(
-                    context: context,
-                    ss: ss,
-                    title: Displays.BulkUpdated(
+            ss.Notifications
+                .Where(o => o.MonitorChangesColumns.Any(columnName => columns.Any(q => q.ColumnName == columnName)))
+                .ForEach(notification =>
+                {
+                    var body = new System.Text.StringBuilder();
+                    body.Append(Locations.ItemIndexAbsoluteUri(
                         context: context,
-                        data: data),
-                    body: body.ToString());
-            });
+                        ss.SiteId) + "\n");
+                    body.Append(
+                        $"{Displays.Results_Updator(context: context)}: ",
+                        $"{context.User.Name}\n");
+                    columns.ForEach(column =>
+                        body.Append(
+                            $"{column.LabelText} : ",
+                            $"{resultModel.ToDisplay(context: context, ss: ss, column: column, mine: null)}\n"));
+                    notification.Send(
+                        context: context,
+                        ss: ss,
+                        title: Displays.BulkUpdated(
+                            context: context,
+                            data: data),
+                        body: body.ToString());
+                });
             var res = GridRows(
                 context: context,
                 ss: ss,
