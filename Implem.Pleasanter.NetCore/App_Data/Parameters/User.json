@@ -1,6 +1,7 @@
 ﻿{
     "DisableTopSiteCreation": false,
     "DisableGroupAdmin": false,
+    "DisableGroupCreation": false,
     "SelectorToolTip": "LoginId",
     "Theme": "sunny"
 }

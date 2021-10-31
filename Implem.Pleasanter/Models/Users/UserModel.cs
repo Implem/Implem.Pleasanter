@@ -56,6 +56,7 @@ namespace Implem.Pleasanter.Models
         public bool ServiceManager = false;
         public bool AllowCreationAtTopSite = false;
         public bool AllowGroupAdministration = false;
+        public bool AllowGroupCreation = false;
         public bool Disabled = false;
         public bool Lockout = false;
         public int LockoutCounter = 0;
@@ -130,6 +131,7 @@ namespace Implem.Pleasanter.Models
         public bool SavedServiceManager = false;
         public bool SavedAllowCreationAtTopSite = false;
         public bool SavedAllowGroupAdministration = false;
+        public bool SavedAllowGroupCreation = false;
         public bool SavedDisabled = false;
         public bool SavedLockout = false;
         public int SavedLockoutCounter = 0;
@@ -324,6 +326,14 @@ namespace Implem.Pleasanter.Models
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.GetDefaultInput(context: context).ToBool() != AllowGroupAdministration);
+        }
+
+        public bool AllowGroupCreation_Updated(Context context, Column column = null)
+        {
+            return AllowGroupCreation != SavedAllowGroupCreation &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToBool() != AllowGroupCreation);
         }
 
         public bool Disabled_Updated(Context context, Column column = null)
@@ -848,6 +858,18 @@ namespace Implem.Pleasanter.Models
                                 exportColumn: exportColumn)
                             : string.Empty;
                     break;
+                case "AllowGroupCreation":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? AllowGroupCreation.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
                 case "Disabled":
                     value = ss.ReadColumnAccessControls.Allowed(
                         context: context,
@@ -1299,6 +1321,7 @@ namespace Implem.Pleasanter.Models
                     case "ServiceManager": data.ServiceManager = ServiceManager; break;
                     case "AllowCreationAtTopSite": data.AllowCreationAtTopSite = AllowCreationAtTopSite; break;
                     case "AllowGroupAdministration": data.AllowGroupAdministration = AllowGroupAdministration; break;
+                    case "AllowGroupCreation": data.AllowGroupCreation = AllowGroupCreation; break;
                     case "Disabled": data.Disabled = Disabled; break;
                     case "Lockout": data.Lockout = Lockout; break;
                     case "LockoutCounter": data.LockoutCounter = LockoutCounter; break;
@@ -1472,6 +1495,11 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "AllowGroupAdministration":
                     return AllowGroupAdministration.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "AllowGroupCreation":
+                    return AllowGroupCreation.ToDisplay(
                         context: context,
                         ss: ss,
                         column: column);
@@ -1896,6 +1924,7 @@ namespace Implem.Pleasanter.Models
                     case "Users_TenantManager": TenantManager = value.ToBool(); break;
                     case "Users_AllowCreationAtTopSite": AllowCreationAtTopSite = value.ToBool(); break;
                     case "Users_AllowGroupAdministration": AllowGroupAdministration = value.ToBool(); break;
+                    case "Users_AllowGroupCreation": AllowGroupCreation = value.ToBool(); break;
                     case "Users_Disabled": Disabled = value.ToBool(); break;
                     case "Users_Lockout": Lockout = value.ToBool(); if (Lockout_Updated(context: context) && !Lockout) LockoutCounter = 0; break;
                     case "Users_LockoutCounter": LockoutCounter = value.ToInt(); break;
@@ -2016,6 +2045,7 @@ namespace Implem.Pleasanter.Models
             ServiceManager = userModel.ServiceManager;
             AllowCreationAtTopSite = userModel.AllowCreationAtTopSite;
             AllowGroupAdministration = userModel.AllowGroupAdministration;
+            AllowGroupCreation = userModel.AllowGroupCreation;
             Disabled = userModel.Disabled;
             Lockout = userModel.Lockout;
             LockoutCounter = userModel.LockoutCounter;
@@ -2082,6 +2112,7 @@ namespace Implem.Pleasanter.Models
             if (data.TenantManager != null) TenantManager = data.TenantManager.ToBool().ToBool();
             if (data.AllowCreationAtTopSite != null) AllowCreationAtTopSite = data.AllowCreationAtTopSite.ToBool().ToBool();
             if (data.AllowGroupAdministration != null) AllowGroupAdministration = data.AllowGroupAdministration.ToBool().ToBool();
+            if (data.AllowGroupCreation != null) AllowGroupCreation = data.AllowGroupCreation.ToBool().ToBool();
             if (data.Disabled != null) Disabled = data.Disabled.ToBool().ToBool();
             if (data.Lockout != null) Lockout = data.Lockout.ToBool().ToBool();
             if (data.LockoutCounter != null) LockoutCounter = data.LockoutCounter.ToInt().ToInt();
@@ -2310,6 +2341,10 @@ namespace Implem.Pleasanter.Models
                             AllowGroupAdministration = dataRow[column.ColumnName].ToBool();
                             SavedAllowGroupAdministration = AllowGroupAdministration;
                             break;
+                        case "AllowGroupCreation":
+                            AllowGroupCreation = dataRow[column.ColumnName].ToBool();
+                            SavedAllowGroupCreation = AllowGroupCreation;
+                            break;
                         case "Disabled":
                             Disabled = dataRow[column.ColumnName].ToBool();
                             SavedDisabled = Disabled;
@@ -2469,6 +2504,7 @@ namespace Implem.Pleasanter.Models
                 || ServiceManager_Updated(context: context)
                 || AllowCreationAtTopSite_Updated(context: context)
                 || AllowGroupAdministration_Updated(context: context)
+                || AllowGroupCreation_Updated(context: context)
                 || Disabled_Updated(context: context)
                 || Lockout_Updated(context: context)
                 || LockoutCounter_Updated(context: context)

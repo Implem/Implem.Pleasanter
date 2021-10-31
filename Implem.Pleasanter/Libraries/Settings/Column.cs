@@ -1609,6 +1609,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "AllowGroupAdministration":
                             sql.Users_AllowGroupAdministration(tableName: path, _as: _as);
                             break;
+                        case "AllowGroupCreation":
+                            sql.Users_AllowGroupCreation(tableName: path, _as: _as);
+                            break;
                         case "Disabled":
                             sql.Users_Disabled(tableName: path, _as: _as);
                             break;
