@@ -772,15 +772,20 @@ namespace Implem.Pleasanter.Models
         public SysLogModel(
             Context context,
             Exception e,
+            string extendedErrorMessage = null,
             Logs logs = null,
             SysLogTypes sysLogType = SysLogTypes.Execption)
         {
             SysLogType = sysLogType;
             Class = context.Controller;
             Method = context.Action;
-            ErrMessage = e.Message + (logs?.Any() == true
-                ? "\n" + logs.Select(o => o.Name + ": " + o.Value).Join("\n")
-                : string.Empty);
+            ErrMessage = e.Message
+                + (extendedErrorMessage != null
+                    ? "\n" + extendedErrorMessage
+                    : string.Empty)
+                + (logs?.Any() == true
+                    ? "\n" + logs.Select(o => o.Name + ": " + o.Value).Join("\n")
+                    : string.Empty);
             ErrStackTrace = e.StackTrace;
             WriteSysLog(context: context);
         }
@@ -801,17 +806,14 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public SysLogModel(
             Context context,
-            string _class,
             string method,
             string message,
             SysLogTypes sysLogType = SysLogTypes.Info)
         {
-            SysLogType = sysLogType;
-            Class = _class;
+            Class = context.Controller;
             Method = method;
             switch (sysLogType)
             {
-                case SysLogTypes.UserError:
                 case SysLogTypes.SystemError:
                 case SysLogTypes.Execption:
                     ErrMessage = message;
@@ -826,7 +828,9 @@ namespace Implem.Pleasanter.Models
                     };
                     break;
             }
-            WriteSysLog(context: context);
+            WriteSysLog(
+                context: context,
+                sysLogType: sysLogType);
         }
 
         /// <summary>
@@ -858,10 +862,14 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public void WriteSysLog(Context context)
+        public void WriteSysLog(
+            Context context,
+            SysLogTypes sysLogType = SysLogTypes.Info)
         {
             StartTime = DateTime.Now;
-            SetProperties(context: context);
+            SetProperties(
+                context: context,
+                sysLogType: sysLogType);
             if (Parameters.SysLog.NotLoggingIp?.Contains(UserHostAddress) != true)
             {
                 SysLogId = Repository.ExecuteScalar_response(
@@ -896,9 +904,11 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void SetProperties(Context context)
+        private void SetProperties(
+            Context context,
+            SysLogTypes sysLogType = SysLogTypes.Info)
         {
-            SysLogType = SysLogTypes.Info;
+            SysLogType = sysLogType;
             OnAzure = Environments.RdsProvider == "Azure";
             MachineName = Environments.MachineName;
             ServiceName = Environments.ServiceName;

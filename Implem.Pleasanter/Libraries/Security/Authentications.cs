@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
@@ -35,10 +36,24 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static void SignOut(Context context)
         {
+            SignOutLog(context: context);
             context.FormsAuthenticationSignOut();
             context.FederatedAuthenticationSessionAuthenticationModuleDeleteSessionTokenCookie();
             SessionUtilities.Abandon(context: context);
+        }
 
+        private static void SignOutLog(Context context)
+        {
+            if (Parameters.SysLog.SignOut)
+            {
+                new SysLogModel(
+                    context: context,
+                    method: nameof(SignOut),
+                    message: new
+                    {
+                        LoginId = context.LoginId
+                    }.ToJson());
+            }
         }
 
         public static bool Windows(Context context)

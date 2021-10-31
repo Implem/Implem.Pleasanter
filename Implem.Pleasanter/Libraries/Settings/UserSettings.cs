@@ -10,6 +10,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? EnableManageTenant;
         public bool? DisableTopSiteCreation;
         public bool? DisableGroupAdmin;
+        public bool? DisableGroupCreation;
         public bool? DisableStartGuide;
 
         public string RecordingJson()
@@ -72,6 +73,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             return (!Parameters.User.DisableGroupAdmin
                 || context.User.AllowGroupAdministration)
                     && DisableGroupAdmin != true;
+        }
+
+        public bool AllowGroupCreation(Context context)
+        {
+            return (!Parameters.User.DisableGroupCreation
+                || context.User.AllowGroupCreation)
+                    && DisableGroupCreation != true;
         }
     }
 }

@@ -4737,6 +4737,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         || serverScript.BeforeOpeningRow == true)
                     .ForEach(serverScript =>
                 {
+                    serverScript.SetDebug();
                     var body = serverScript.Body;
                     var sharedServerScripts = SharedServerScripts(serverScripts: ServerScriptsAndExtended);
                     if (!sharedServerScripts.IsNullOrEmpty())

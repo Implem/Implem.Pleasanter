@@ -1,4 +1,5 @@
 ﻿using Implem.Pleasanter.Interfaces;
+using System;
 namespace Implem.Pleasanter.Libraries.Settings
 {
     public class ServerScript : ISettingListItem
@@ -21,6 +22,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? BeforeOpeningRow;
         public bool? Shared;
         public string Body;
+        [NonSerialized]
+        public bool Debug;
 
         public ServerScript()
         {
@@ -126,6 +129,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Shared == true) script.Shared = true;
             script.Body = Body;
             return script;
+        }
+
+        public void SetDebug()
+        {
+            Debug = Body?.StartsWith("//debug//") == true;
         }
     }
 }

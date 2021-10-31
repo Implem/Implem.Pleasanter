@@ -290,13 +290,14 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             var mine = model.Mine(context: context);
             var columns = Def
                 .ColumnDefinitionCollection
+                .Where(definition => definition.TableName == ss?.ReferenceType)
                 .Select(definition =>
                 {
                     Column column = null;
                     ss?.ColumnHash?.TryGetValue(definition.ColumnName, out column);
                     return (
                         definition.ColumnName,
-                        model.ServerScriptModelRow.Columns?.Get(column.ColumnName)
+                        model.ServerScriptModelRow.Columns?.Get(column?.ColumnName)
                             ?? new ServerScriptModelColumn(
                                 labelText: column?.LabelText,
                                 labelRaw: string.Empty,
@@ -710,6 +711,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             View view,
             ServerScript[] scripts,
             string condition,
+            bool debug,
             bool onTesting = false)
         {
             if (!(Parameters.Script.ServerScript != false
@@ -737,9 +739,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 columnFilterHash: view?.ColumnFilterHash,
                 columnSorterHash: view?.ColumnSorterHash,
                 condition: condition,
+                debug: debug,
                 onTesting: onTesting))
             {
-                using (var engine = context.CreateScriptEngin())
+                using (var engine = new ScriptEngine(debug: debug))
                 {
                     try
                     {
@@ -758,10 +761,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         engine.AddHostObject("extendedSql", model.ExtendedSql);
                         engine.AddHostObject("notifications", model.Notification);
                         engine.AddHostObject("utilities", model.Utilities);
-                        foreach (var script in scripts)
-                        {
-                            engine.Execute(script.Body);
-                        }
+                        engine.Execute(scripts.Select(o => o.Body).Join("\n"));
                     }
                     finally
                     {
@@ -805,7 +805,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 itemModel: itemModel,
                 view: view,
                 scripts: scripts,
-                condition: condition);
+                condition: condition,
+                debug: scripts.Any(o => o.Debug));
             return scriptValues;
         }
 

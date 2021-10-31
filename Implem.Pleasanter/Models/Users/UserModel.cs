@@ -56,6 +56,7 @@ namespace Implem.Pleasanter.Models
         public bool ServiceManager = false;
         public bool AllowCreationAtTopSite = false;
         public bool AllowGroupAdministration = false;
+        public bool AllowGroupCreation = false;
         public bool Disabled = false;
         public bool Lockout = false;
         public int LockoutCounter = 0;
@@ -67,6 +68,7 @@ namespace Implem.Pleasanter.Models
         public string ChangedPasswordValidator = string.Empty;
         public string AfterResetPassword = string.Empty;
         public string AfterResetPasswordValidator = string.Empty;
+        public List<PasswordHistory> PasswordHistries = new List<PasswordHistory>();
         public List<string> MailAddresses = new List<string>();
         public string DemoMailAddress = string.Empty;
         public string SessionGuid = string.Empty;
@@ -129,6 +131,7 @@ namespace Implem.Pleasanter.Models
         public bool SavedServiceManager = false;
         public bool SavedAllowCreationAtTopSite = false;
         public bool SavedAllowGroupAdministration = false;
+        public bool SavedAllowGroupCreation = false;
         public bool SavedDisabled = false;
         public bool SavedLockout = false;
         public int SavedLockoutCounter = 0;
@@ -140,6 +143,7 @@ namespace Implem.Pleasanter.Models
         public string SavedChangedPasswordValidator = string.Empty;
         public string SavedAfterResetPassword = string.Empty;
         public string SavedAfterResetPasswordValidator = string.Empty;
+        public string SavedPasswordHistries = "{}";
         public string SavedMailAddresses = string.Empty;
         public string SavedDemoMailAddress = string.Empty;
         public string SavedSessionGuid = string.Empty;
@@ -324,6 +328,14 @@ namespace Implem.Pleasanter.Models
                 column.GetDefaultInput(context: context).ToBool() != AllowGroupAdministration);
         }
 
+        public bool AllowGroupCreation_Updated(Context context, Column column = null)
+        {
+            return AllowGroupCreation != SavedAllowGroupCreation &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToBool() != AllowGroupCreation);
+        }
+
         public bool Disabled_Updated(Context context, Column column = null)
         {
             return Disabled != SavedDisabled &&
@@ -370,6 +382,14 @@ namespace Implem.Pleasanter.Models
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.GetDefaultInput(context: context).ToString() != ApiKey);
+        }
+
+        public bool PasswordHistries_Updated(Context context, Column column = null)
+        {
+            return PasswordHistries.ToJson() != SavedPasswordHistries && PasswordHistries.ToJson() != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToString() != PasswordHistries.ToJson());
         }
 
         public bool SecondaryAuthenticationCode_Updated(Context context, Column column = null)
@@ -838,6 +858,18 @@ namespace Implem.Pleasanter.Models
                                 exportColumn: exportColumn)
                             : string.Empty;
                     break;
+                case "AllowGroupCreation":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? AllowGroupCreation.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
                 case "Disabled":
                     value = ss.ReadColumnAccessControls.Allowed(
                         context: context,
@@ -1289,11 +1321,13 @@ namespace Implem.Pleasanter.Models
                     case "ServiceManager": data.ServiceManager = ServiceManager; break;
                     case "AllowCreationAtTopSite": data.AllowCreationAtTopSite = AllowCreationAtTopSite; break;
                     case "AllowGroupAdministration": data.AllowGroupAdministration = AllowGroupAdministration; break;
+                    case "AllowGroupCreation": data.AllowGroupCreation = AllowGroupCreation; break;
                     case "Disabled": data.Disabled = Disabled; break;
                     case "Lockout": data.Lockout = Lockout; break;
                     case "LockoutCounter": data.LockoutCounter = LockoutCounter; break;
                     case "Developer": data.Developer = Developer; break;
                     case "UserSettings": data.UserSettings = UserSettings.RecordingJson(); break;
+                    case "PasswordHistries": data.PasswordHistries = PasswordHistries.ToJson(); break;
                     case "SecondaryAuthenticationCode": data.SecondaryAuthenticationCode = SecondaryAuthenticationCode; break;
                     case "SecondaryAuthenticationCodeExpirationTime": data.SecondaryAuthenticationCodeExpirationTime = SecondaryAuthenticationCodeExpirationTime.Value.ToLocal(context: context); break;
                     case "LdapSearchRoot": data.LdapSearchRoot = LdapSearchRoot; break;
@@ -1464,6 +1498,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
+                case "AllowGroupCreation":
+                    return AllowGroupCreation.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
                 case "Disabled":
                     return Disabled.ToDisplay(
                         context: context,
@@ -1597,6 +1636,12 @@ namespace Implem.Pleasanter.Models
             bool get = true)
         {
             TenantId = context.TenantId;
+            if (Parameters.Security.EnforcePasswordHistories > 0)
+            {
+                SetPasswordHistories(
+                    context: context,
+                    password: Password);
+            }
             PasswordExpirationPeriod(context: context);
             var statements = new List<SqlStatement>();
             statements.AddRange(CreateStatements(
@@ -1879,6 +1924,7 @@ namespace Implem.Pleasanter.Models
                     case "Users_TenantManager": TenantManager = value.ToBool(); break;
                     case "Users_AllowCreationAtTopSite": AllowCreationAtTopSite = value.ToBool(); break;
                     case "Users_AllowGroupAdministration": AllowGroupAdministration = value.ToBool(); break;
+                    case "Users_AllowGroupCreation": AllowGroupCreation = value.ToBool(); break;
                     case "Users_Disabled": Disabled = value.ToBool(); break;
                     case "Users_Lockout": Lockout = value.ToBool(); if (Lockout_Updated(context: context) && !Lockout) LockoutCounter = 0; break;
                     case "Users_LockoutCounter": LockoutCounter = value.ToInt(); break;
@@ -1999,6 +2045,7 @@ namespace Implem.Pleasanter.Models
             ServiceManager = userModel.ServiceManager;
             AllowCreationAtTopSite = userModel.AllowCreationAtTopSite;
             AllowGroupAdministration = userModel.AllowGroupAdministration;
+            AllowGroupCreation = userModel.AllowGroupCreation;
             Disabled = userModel.Disabled;
             Lockout = userModel.Lockout;
             LockoutCounter = userModel.LockoutCounter;
@@ -2010,6 +2057,7 @@ namespace Implem.Pleasanter.Models
             ChangedPasswordValidator = userModel.ChangedPasswordValidator;
             AfterResetPassword = userModel.AfterResetPassword;
             AfterResetPasswordValidator = userModel.AfterResetPasswordValidator;
+            PasswordHistries = userModel.PasswordHistries;
             MailAddresses = userModel.MailAddresses;
             DemoMailAddress = userModel.DemoMailAddress;
             SessionGuid = userModel.SessionGuid;
@@ -2064,6 +2112,7 @@ namespace Implem.Pleasanter.Models
             if (data.TenantManager != null) TenantManager = data.TenantManager.ToBool().ToBool();
             if (data.AllowCreationAtTopSite != null) AllowCreationAtTopSite = data.AllowCreationAtTopSite.ToBool().ToBool();
             if (data.AllowGroupAdministration != null) AllowGroupAdministration = data.AllowGroupAdministration.ToBool().ToBool();
+            if (data.AllowGroupCreation != null) AllowGroupCreation = data.AllowGroupCreation.ToBool().ToBool();
             if (data.Disabled != null) Disabled = data.Disabled.ToBool().ToBool();
             if (data.Lockout != null) Lockout = data.Lockout.ToBool().ToBool();
             if (data.LockoutCounter != null) LockoutCounter = data.LockoutCounter.ToInt().ToInt();
@@ -2292,6 +2341,10 @@ namespace Implem.Pleasanter.Models
                             AllowGroupAdministration = dataRow[column.ColumnName].ToBool();
                             SavedAllowGroupAdministration = AllowGroupAdministration;
                             break;
+                        case "AllowGroupCreation":
+                            AllowGroupCreation = dataRow[column.ColumnName].ToBool();
+                            SavedAllowGroupCreation = AllowGroupCreation;
+                            break;
                         case "Disabled":
                             Disabled = dataRow[column.ColumnName].ToBool();
                             SavedDisabled = Disabled;
@@ -2315,6 +2368,10 @@ namespace Implem.Pleasanter.Models
                         case "ApiKey":
                             ApiKey = dataRow[column.ColumnName].ToString();
                             SavedApiKey = ApiKey;
+                            break;
+                        case "PasswordHistries":
+                            PasswordHistries = dataRow[column.ColumnName].ToString().Deserialize<List<PasswordHistory>>() ?? new List<PasswordHistory>();
+                            SavedPasswordHistries = PasswordHistries.ToJson();
                             break;
                         case "SecondaryAuthenticationCode":
                             SecondaryAuthenticationCode = dataRow[column.ColumnName].ToString();
@@ -2447,12 +2504,14 @@ namespace Implem.Pleasanter.Models
                 || ServiceManager_Updated(context: context)
                 || AllowCreationAtTopSite_Updated(context: context)
                 || AllowGroupAdministration_Updated(context: context)
+                || AllowGroupCreation_Updated(context: context)
                 || Disabled_Updated(context: context)
                 || Lockout_Updated(context: context)
                 || LockoutCounter_Updated(context: context)
                 || Developer_Updated(context: context)
                 || UserSettings_Updated(context: context)
                 || ApiKey_Updated(context: context)
+                || PasswordHistries_Updated(context: context)
                 || SecondaryAuthenticationCode_Updated(context: context)
                 || SecondaryAuthenticationCodeExpirationTime_Updated(context: context)
                 || LdapSearchRoot_Updated(context: context)
@@ -3067,11 +3126,12 @@ namespace Implem.Pleasanter.Models
             IncrementsNumberOfLogins(context: context);
             SetFormsAuthentication(
                 context: context,
-                returnUrl: returnUrl,
                 createPersistentCookie: createPersistentCookie);
             return new UsersResponseCollection(this)
                 .CloseDialog(_using: atLogin)
-                .Message(Messages.LoginIn(context: context))
+                .Message(
+                    message: Messages.LoginIn(context: context),
+                    target: "#LoginMessage")
                 .Href(returnUrl.IsNullOrEmpty()
                     ? Locations.Top(context: context)
                     : returnUrl).ToJson();
@@ -3117,11 +3177,53 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void LoginSuccessLog(Context context)
+        {
+            if (Parameters.SysLog.LoginSuccess )
+            {
+                new SysLogModel(
+                    context: context,
+                    method: nameof(Authenticate),
+                    message: new
+                    {
+                        LoginId = LoginId,
+                        Success = true
+                    }.ToJson());
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void LoginFailureLog(Context context, string description)
+        {
+            if (Parameters.SysLog.LoginFailure)
+            {
+                new SysLogModel(
+                    context: context,
+                    method: nameof(Authenticate),
+                    message: new
+                    {
+                        LoginId = LoginId,
+                        Success = false
+                    }.ToJson(),
+                    sysLogType: SysLogModel.SysLogTypes.UserError);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private string Deny(Context context)
         {
+            LoginFailureLog(
+                context: context,
+                description: nameof(Deny));
             IncrementsNumberOfDenial(context: context);
-            return Messages.ResponseAuthentication(context: context)
-                .Focus("#Password").ToJson();
+            return Messages.ResponseAuthentication(
+                context: context,
+                target: "#LoginMessage")
+                    .Focus("#Password").ToJson();
         }
 
         /// <summary>
@@ -3129,8 +3231,13 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private string InvalidIpAddress(Context context)
         {
-            return Messages.ResponseInvalidIpAddress(context: context)
-                .Focus("#Password").ToJson();
+            LoginFailureLog(
+                context: context,
+                description: nameof(InvalidIpAddress));
+            return Messages.ResponseInvalidIpAddress(
+                context: context,
+                target: "#LoginMessage")
+                    .Focus("#Password").ToJson();
         }
 
         /// <summary>
@@ -3138,9 +3245,14 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private string UserDisabled(Context context)
         {
+            LoginFailureLog(
+                context: context,
+                description: nameof(UserDisabled));
             IncrementsNumberOfDenial(context: context);
-            return Messages.ResponseUserDisabled(context: context)
-                .Focus("#Password").ToJson();
+            return Messages.ResponseUserDisabled(
+                context: context,
+                target: "#LoginMessage")
+                    .Focus("#Password").ToJson();
         }
 
         /// <summary>
@@ -3148,8 +3260,13 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private string UserLockout(Context context)
         {
-            return Messages.ResponseUserLockout(context: context)
-                .Focus("#Password").ToJson();
+            LoginFailureLog(
+                context: context,
+                description: nameof(UserLockout));
+            return Messages.ResponseUserLockout(
+                context: context,
+                target: "#LoginMessage")
+                    .Focus("#Password").ToJson();
         }
 
         /// <summary>
@@ -3220,9 +3337,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public void SetFormsAuthentication(
-            Context context, string returnUrl, bool createPersistentCookie)
+        public void SetFormsAuthentication(Context context, bool createPersistentCookie)
         {
+            LoginSuccessLog(context: context);
             context.FormsAuthenticationSignIn(
                 userName: LoginId,
                 createPersistentCookie: createPersistentCookie);
@@ -3237,6 +3354,16 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public Error.Types ChangePassword(Context context)
         {
+            if (Parameters.Security.EnforcePasswordHistories > 0)
+            {
+                if (PasswordHistries?.Any(o => o.Password == ChangedPassword) == true)
+                {
+                    return Error.Types.PasswordHasBeenUsed;
+                }
+                SetPasswordHistories(
+                    context: context,
+                    password: ChangedPassword);
+            }
             Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateUsers(
@@ -3257,6 +3384,16 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public Error.Types ChangePasswordAtLogin(Context context)
         {
+            if (Parameters.Security.EnforcePasswordHistories > 0)
+            {
+                if (PasswordHistries?.Any(o => o.Password == ChangedPassword) == true)
+                {
+                    return Error.Types.PasswordHasBeenUsed;
+                }
+                SetPasswordHistories(
+                    context: context,
+                    password: ChangedPassword);
+            }
             Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateUsers(
@@ -3275,6 +3412,16 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public Error.Types ResetPassword(Context context)
         {
+            if (Parameters.Security.EnforcePasswordHistories > 0)
+            {
+                if (PasswordHistries?.Any(o => o.Password == AfterResetPassword) == true)
+                {
+                    return Error.Types.PasswordHasBeenUsed;
+                }
+                SetPasswordHistories(
+                    context: context,
+                    password: AfterResetPassword);
+            }
             Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateUsers(
@@ -3293,13 +3440,34 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void SetPasswordHistories(Context context, string password)
+        {
+            if (PasswordHistries == null)
+            {
+                PasswordHistries = new List<PasswordHistory>();
+            }
+            PasswordHistries.Insert(0, new PasswordHistory()
+            {
+                Password = password,
+                Creator = context.UserId,
+                CreatedTime = DateTime.Now
+            });
+            PasswordHistries = PasswordHistries
+                .Take(Parameters.Security.EnforcePasswordHistories)
+                .ToList();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public SqlParamCollection ChangePasswordParam(
             Context context, string password, bool changeAtLogin = false)
         {
             PasswordExpirationPeriod(context: context);
             var param = Rds.UsersParam()
                 .Password(password)
-                .PasswordChangeTime(raw: $"{context.Sqls.CurrentDateTime}");
+                .PasswordChangeTime(raw: $"{context.Sqls.CurrentDateTime}")
+                .PasswordHistries(PasswordHistries.ToJson());
             return Parameters.Security.PasswordExpirationPeriod > 0 || !changeAtLogin
                 ? param.PasswordExpirationTime(PasswordExpirationTime.Value)
                 : param.PasswordExpirationTime(raw: "null");
@@ -3354,17 +3522,17 @@ namespace Implem.Pleasanter.Models
             Context context,
             Column column,
             int? tabIndex,
-            ServerScriptModelColumn serverScriptValues)
+            ServerScriptModelColumn serverScriptModelColumn)
         {
             return UserId != 0
                 ? hb.Td(
-                    css: column.CellCss(serverScriptValues?.ExtendedCellCss),
+                    css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
                     action: () => hb
                         .HtmlUser(
                             context: context,
                             text: column.ChoiceHash.Get(UserId.ToString())?.Text))
                 : hb.Td(
-                    css: column.CellCss(serverScriptValues?.ExtendedCellCss),
+                    css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
                     action: () => { });
         }
 

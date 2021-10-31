@@ -47,8 +47,13 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 }
                 catch (LdapException e)
                 {
-                    var logs = new Logs() { new Log("LdapErrorMessage", e.LdapErrorMessage?.TrimEnd('\0')) };
-                    new SysLogModel(context: context, e: e, logs: logs);
+                    if (e.LdapErrorMessage?.Contains("data 52e") != true)
+                    {
+                        new SysLogModel(
+                            context: context,
+                            e: e,
+                            extendedErrorMessage: e.LdapErrorMessage?.TrimEnd('\0'));
+                    }
                 }
                 catch (Exception e)
                 {
@@ -77,6 +82,13 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         entry: entry,
                         ldap: ldap,
                         synchronizedTime: DateTime.Now);
+                }
+                catch (LdapException e)
+                {
+                    new SysLogModel(
+                        context: context,
+                        e: e,
+                        extendedErrorMessage: e.LdapErrorMessage?.TrimEnd('\0'));
                 }
                 catch (Exception e)
                 {
@@ -403,6 +415,13 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             : entry.Properties[name].Value.ToString().RegexFirst(pattern)
                         : string.Empty;
                 }
+                catch (LdapException e)
+                {
+                    new SysLogModel(
+                        context: context,
+                        e: e,
+                        extendedErrorMessage: e.LdapErrorMessage?.TrimEnd('\0'));
+                }
                 catch (Exception e)
                 {
                     new SysLogModel(context: context, e: e, logs: logs);
@@ -467,6 +486,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             ? entry.GetAttribute(name).StringValue
                             : entry.GetAttribute(name).StringValue.RegexFirst(pattern)
                         : string.Empty;
+                }
+                catch (KeyNotFoundException e)
+                {
                 }
                 catch (Exception e)
                 {

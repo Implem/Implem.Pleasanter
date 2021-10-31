@@ -810,11 +810,6 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
             return _sqlObjectFactory.Value;
         }
 
-        public override IScriptEngine CreateScriptEngin()
-        {
-            return new ScriptEngine();
-        }
-
         public override bool SiteTop()
         {
             return SiteId == 0 && Id == 0 && Controller == "items" && Action == "index";

@@ -1609,6 +1609,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "AllowGroupAdministration":
                             sql.Users_AllowGroupAdministration(tableName: path, _as: _as);
                             break;
+                        case "AllowGroupCreation":
+                            sql.Users_AllowGroupCreation(tableName: path, _as: _as);
+                            break;
                         case "Disabled":
                             sql.Users_Disabled(tableName: path, _as: _as);
                             break;
@@ -1626,6 +1629,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                             break;
                         case "ApiKey":
                             sql.Users_ApiKey(tableName: path, _as: _as);
+                            break;
+                        case "PasswordHistries":
+                            sql.Users_PasswordHistries(tableName: path, _as: _as);
                             break;
                         case "SecondaryAuthenticationCode":
                             sql.Users_SecondaryAuthenticationCode(tableName: path, _as: _as);

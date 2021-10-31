@@ -5180,7 +5180,6 @@ namespace Implem.Pleasanter.Models
         {
             new SysLogModel(
                 context: context,
-                _class: nameof(SiteModel),
                 method: nameof(LogApiCountReset),
                 message: Displays.ApiCountReset(
                     context: context,

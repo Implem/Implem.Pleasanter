@@ -241,8 +241,6 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
         }
 
-        public abstract IScriptEngine CreateScriptEngin();
-
         public abstract bool SiteTop();
 
         public abstract string GetLog();

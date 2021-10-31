@@ -134,11 +134,6 @@ namespace Implem.TestAutomation
             throw new NotImplementedException();
         }
 
-        public override Pleasanter.Models.IScriptEngine CreateScriptEngin()
-        {
-            throw new NotImplementedException();
-        }
-
         public override CultureInfo CultureInfo()
         {
             throw new NotImplementedException();

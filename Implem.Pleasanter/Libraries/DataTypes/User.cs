@@ -34,6 +34,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public bool ServiceManager;
         public bool AllowCreationAtTopSite;
         public bool AllowGroupAdministration;
+        public bool AllowGroupCreation;
         public bool Disabled;
 
         public User()
@@ -60,6 +61,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                             .ServiceManager()
                             .AllowCreationAtTopSite()
                             .AllowGroupAdministration()
+                            .AllowGroupCreation()
                             .Disabled(),
                         where: Rds.UsersWhere()
                             .UserId(userId)));
@@ -100,6 +102,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             ServiceManager = dataRow.Bool("ServiceManager");
             AllowCreationAtTopSite = dataRow.Bool("AllowCreationAtTopSite");
             AllowGroupAdministration = dataRow.Bool("AllowGroupAdministration");
+            AllowGroupCreation = dataRow.Bool("AllowGroupCreation");
             Disabled = dataRow.Bool("Disabled");
         }
 
