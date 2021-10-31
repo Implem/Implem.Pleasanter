@@ -8,6 +8,7 @@
     "JoeAccountCheck": true,
     "TokenCheck": false,
     "SecureCookies": false,
+    "EnforcePasswordHistories": 0,
     "PasswordPolicies": [
         {
             "Enabled": true,

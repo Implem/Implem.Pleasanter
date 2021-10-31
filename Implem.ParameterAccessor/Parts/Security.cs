@@ -14,6 +14,7 @@ namespace Implem.ParameterAccessor.Parts
         public bool SecureCookies;
         public bool DisableMvcResponseHeader;
         public List<PasswordPolicy> PasswordPolicies;
+        public int EnforcePasswordHistories;
         public SecondaryAuthentication SecondaryAuthentication;
     }
 }

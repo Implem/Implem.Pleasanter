@@ -454,7 +454,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "registrations":
                     return CanManageRegistrations(context: context);
                 case "groups":
-                    return CanEditGroup(context: context);
+                    return CanCreateGroup(context: context);
                 case "versions":
                     return false;
                 default:
@@ -655,6 +655,12 @@ namespace Implem.Pleasanter.Libraries.Security
                     || CanManageTenant(context: context)
                     || Groups(context: context).Any()
                     || context.HasPrivilege);
+        }
+
+        public static bool CanCreateGroup(Context context)
+        {
+            return context.UserSettings?.AllowGroupCreation(context: context) == true
+                || context.HasPrivilege;
         }
 
         public static bool CanEditGroup(Context context)

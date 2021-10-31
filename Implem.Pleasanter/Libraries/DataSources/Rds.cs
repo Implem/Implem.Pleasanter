@@ -1103,6 +1103,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "ServiceManager": return "\"ServiceManager\"";
                         case "AllowCreationAtTopSite": return "\"AllowCreationAtTopSite\"";
                         case "AllowGroupAdministration": return "\"AllowGroupAdministration\"";
+                        case "AllowGroupCreation": return "\"AllowGroupCreation\"";
                         case "Disabled": return "\"Disabled\"";
                         case "Lockout": return "\"Lockout\"";
                         case "LockoutCounter": return "\"LockoutCounter\"";
@@ -1114,6 +1115,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "ChangedPasswordValidator": return "\"ChangedPasswordValidator\"";
                         case "AfterResetPassword": return "\"AfterResetPassword\"";
                         case "AfterResetPasswordValidator": return "\"AfterResetPasswordValidator\"";
+                        case "PasswordHistries": return "\"PasswordHistries\"";
                         case "MailAddresses": return "\"MailAddresses\"";
                         case "DemoMailAddress": return "\"DemoMailAddress\"";
                         case "SessionGuid": return "\"SessionGuid\"";
@@ -2827,6 +2829,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 orderType: orderType,
                                 isNullValue: isNullValue,
                                 function: function);
+                        case "AllowGroupCreation":
+                            return self.Users_AllowGroupCreation(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                isNullValue: isNullValue,
+                                function: function);
                         case "Disabled":
                             return self.Users_Disabled(
                                 tableName: column.TableName(),
@@ -2859,6 +2867,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 function: function);
                         case "ApiKey":
                             return self.Users_ApiKey(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                isNullValue: isNullValue,
+                                function: function);
+                        case "PasswordHistries":
+                            return self.Users_PasswordHistries(
                                 tableName: column.TableName(),
                                 orderType: orderType,
                                 isNullValue: isNullValue,
@@ -10674,12 +10688,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
             column.ServiceManager(function: Sqls.Functions.SingleColumn); param.ServiceManager();
             column.AllowCreationAtTopSite(function: Sqls.Functions.SingleColumn); param.AllowCreationAtTopSite();
             column.AllowGroupAdministration(function: Sqls.Functions.SingleColumn); param.AllowGroupAdministration();
+            column.AllowGroupCreation(function: Sqls.Functions.SingleColumn); param.AllowGroupCreation();
             column.Disabled(function: Sqls.Functions.SingleColumn); param.Disabled();
             column.Lockout(function: Sqls.Functions.SingleColumn); param.Lockout();
             column.LockoutCounter(function: Sqls.Functions.SingleColumn); param.LockoutCounter();
             column.Developer(function: Sqls.Functions.SingleColumn); param.Developer();
             column.UserSettings(function: Sqls.Functions.SingleColumn); param.UserSettings();
             column.ApiKey(function: Sqls.Functions.SingleColumn); param.ApiKey();
+            column.PasswordHistries(function: Sqls.Functions.SingleColumn); param.PasswordHistries();
             column.SecondaryAuthenticationCode(function: Sqls.Functions.SingleColumn); param.SecondaryAuthenticationCode();
             column.SecondaryAuthenticationCodeExpirationTime(function: Sqls.Functions.SingleColumn); param.SecondaryAuthenticationCodeExpirationTime();
             column.LdapSearchRoot(function: Sqls.Functions.SingleColumn); param.LdapSearchRoot();
@@ -13532,12 +13548,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""ServiceManager"",
                     ""AllowCreationAtTopSite"",
                     ""AllowGroupAdministration"",
+                    ""AllowGroupCreation"",
                     ""Disabled"",
                     ""Lockout"",
                     ""LockoutCounter"",
                     ""Developer"",
                     ""UserSettings"",
                     ""ApiKey"",
+                    ""PasswordHistries"",
                     ""SecondaryAuthenticationCode"",
                     ""SecondaryAuthenticationCodeExpirationTime"",
                     ""LdapSearchRoot"",
@@ -13578,12 +13596,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Users"".""ServiceManager"",
                     ""Users"".""AllowCreationAtTopSite"",
                     ""Users"".""AllowGroupAdministration"",
+                    ""Users"".""AllowGroupCreation"",
                     ""Users"".""Disabled"",
                     ""Users"".""Lockout"",
                     ""Users"".""LockoutCounter"",
                     ""Users"".""Developer"",
                     ""Users"".""UserSettings"",
                     ""Users"".""ApiKey"",
+                    ""Users"".""PasswordHistries"",
                     ""Users"".""SecondaryAuthenticationCode"",
                     ""Users"".""SecondaryAuthenticationCodeExpirationTime"",
                     ""Users"".""LdapSearchRoot"",
@@ -14796,12 +14816,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""ServiceManager"",
                     ""AllowCreationAtTopSite"",
                     ""AllowGroupAdministration"",
+                    ""AllowGroupCreation"",
                     ""Disabled"",
                     ""Lockout"",
                     ""LockoutCounter"",
                     ""Developer"",
                     ""UserSettings"",
                     ""ApiKey"",
+                    ""PasswordHistries"",
                     ""SecondaryAuthenticationCode"",
                     ""SecondaryAuthenticationCodeExpirationTime"",
                     ""LdapSearchRoot"",
@@ -14842,12 +14864,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Users_deleted"".""ServiceManager"",
                     ""Users_deleted"".""AllowCreationAtTopSite"",
                     ""Users_deleted"".""AllowGroupAdministration"",
+                    ""Users_deleted"".""AllowGroupCreation"",
                     ""Users_deleted"".""Disabled"",
                     ""Users_deleted"".""Lockout"",
                     ""Users_deleted"".""LockoutCounter"",
                     ""Users_deleted"".""Developer"",
                     ""Users_deleted"".""UserSettings"",
                     ""Users_deleted"".""ApiKey"",
+                    ""Users_deleted"".""PasswordHistries"",
                     ""Users_deleted"".""SecondaryAuthenticationCode"",
                     ""Users_deleted"".""SecondaryAuthenticationCodeExpirationTime"",
                     ""Users_deleted"".""LdapSearchRoot"",
@@ -54183,6 +54207,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     return self.AllowCreationAtTopSite(_as: _as, function: function);
                 case "AllowGroupAdministration":
                     return self.AllowGroupAdministration(_as: _as, function: function);
+                case "AllowGroupCreation":
+                    return self.AllowGroupCreation(_as: _as, function: function);
                 case "Disabled":
                     return self.Disabled(_as: _as, function: function);
                 case "Lockout":
@@ -54195,6 +54221,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     return self.UserSettings(_as: _as, function: function);
                 case "ApiKey":
                     return self.ApiKey(_as: _as, function: function);
+                case "PasswordHistries":
+                    return self.PasswordHistries(_as: _as, function: function);
                 case "SecondaryAuthenticationCode":
                     return self.SecondaryAuthenticationCode(_as: _as, function: function);
                 case "SecondaryAuthenticationCodeExpirationTime":
@@ -55176,6 +55204,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 sub: sub);
         }
 
+        public static UsersColumnCollection AllowGroupCreation(
+            this UsersColumnCollection self,
+            string tableName = "Users",
+            string columnName = "AllowGroupCreation",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"AllowGroupCreation\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Users_AllowGroupCreation(
+            this SqlColumnCollection self,
+            string tableName = "Users",
+            string columnName = "AllowGroupCreation",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"AllowGroupCreation\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
         public static UsersColumnCollection Disabled(
             this UsersColumnCollection self,
             string tableName = "Users",
@@ -55373,6 +55435,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return self.Add(
                 columnBracket: "\"ApiKey\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static UsersColumnCollection PasswordHistries(
+            this UsersColumnCollection self,
+            string tableName = "Users",
+            string columnName = "PasswordHistries",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"PasswordHistries\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Users_PasswordHistries(
+            this SqlColumnCollection self,
+            string tableName = "Users",
+            string columnName = "PasswordHistries",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"PasswordHistries\"",
                 tableName: tableName,
                 columnName: columnName,
                 _as: _as,
@@ -57389,6 +57485,64 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
+        public static UsersWhereCollection AllowGroupCreation(
+            this UsersWhereCollection self,
+            object value = null,
+            string tableName = "Users",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"AllowGroupCreation\"" },
+                    tableName: tableName,
+                    name: "AllowGroupCreation",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Users_AllowGroupCreation(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Users",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"AllowGroupCreation\"" },
+                    tableName: tableName,
+                    name: "AllowGroupCreation",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
         public static UsersWhereCollection Disabled(
             this UsersWhereCollection self,
             object value = null,
@@ -57726,6 +57880,64 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBrackets: new string[] { "\"ApiKey\"" },
                     tableName: tableName,
                     name: "ApiKey",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static UsersWhereCollection PasswordHistries(
+            this UsersWhereCollection self,
+            object value = null,
+            string tableName = "Users",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"PasswordHistries\"" },
+                    tableName: tableName,
+                    name: "PasswordHistries",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Users_PasswordHistries(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Users",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"PasswordHistries\"" },
+                    tableName: tableName,
+                    name: "PasswordHistries",
                     value: value,
                     _operator: _operator,
                     multiColumnOperator: multiColumnOperator,
@@ -59409,12 +59621,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     case "ServiceManager": return self.ServiceManager();
                     case "AllowCreationAtTopSite": return self.AllowCreationAtTopSite();
                     case "AllowGroupAdministration": return self.AllowGroupAdministration();
+                    case "AllowGroupCreation": return self.AllowGroupCreation();
                     case "Disabled": return self.Disabled();
                     case "Lockout": return self.Lockout();
                     case "LockoutCounter": return self.LockoutCounter();
                     case "Developer": return self.Developer();
                     case "UserSettings": return self.UserSettings();
                     case "ApiKey": return self.ApiKey();
+                    case "PasswordHistries": return self.PasswordHistries();
                     case "SecondaryAuthenticationCode": return self.SecondaryAuthenticationCode();
                     case "SecondaryAuthenticationCodeExpirationTime": return self.SecondaryAuthenticationCodeExpirationTime();
                     case "LdapSearchRoot": return self.LdapSearchRoot();
@@ -59796,6 +60010,18 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return self.Add(columnBracket: "\"AllowGroupAdministration\"", tableName: tableName);
         }
 
+        public static UsersGroupByCollection AllowGroupCreation(
+            this UsersGroupByCollection self, string tableName = "Users")
+        {
+            return self.Add(columnBracket: "\"AllowGroupCreation\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Users_AllowGroupCreation(
+            this SqlGroupByCollection self, string tableName = "Users")
+        {
+            return self.Add(columnBracket: "\"AllowGroupCreation\"", tableName: tableName);
+        }
+
         public static UsersGroupByCollection Disabled(
             this UsersGroupByCollection self, string tableName = "Users")
         {
@@ -59866,6 +60092,18 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlGroupByCollection self, string tableName = "Users")
         {
             return self.Add(columnBracket: "\"ApiKey\"", tableName: tableName);
+        }
+
+        public static UsersGroupByCollection PasswordHistries(
+            this UsersGroupByCollection self, string tableName = "Users")
+        {
+            return self.Add(columnBracket: "\"PasswordHistries\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Users_PasswordHistries(
+            this SqlGroupByCollection self, string tableName = "Users")
+        {
+            return self.Add(columnBracket: "\"PasswordHistries\"", tableName: tableName);
         }
 
         public static UsersGroupByCollection SecondaryAuthenticationCode(
@@ -60530,6 +60768,23 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return self;
         }
 
+        public static UsersOrderByCollection AllowGroupCreation(
+            this UsersOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Users",
+            string isNullValue = null,
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"AllowGroupCreation\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    isNullValue: isNullValue,
+                    function: function));
+            return self;
+        }
+
         public static UsersOrderByCollection Disabled(
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
@@ -60623,6 +60878,23 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ApiKey\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    isNullValue: isNullValue,
+                    function: function));
+            return self;
+        }
+
+        public static UsersOrderByCollection PasswordHistries(
+            this UsersOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Users",
+            string isNullValue = null,
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"PasswordHistries\"" }.ForEach(columnBracket =>
                 self.Add(
                     columnBracket: columnBracket,
                     orderType: orderType,
@@ -61295,6 +61567,23 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return self;
         }
 
+        public static SqlOrderByCollection Users_AllowGroupCreation(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Users",
+            string isNullValue = null,
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"AllowGroupCreation\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    isNullValue: isNullValue,
+                    function: function));
+            return self;
+        }
+
         public static SqlOrderByCollection Users_Disabled(
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
@@ -61388,6 +61677,23 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"ApiKey\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    isNullValue: isNullValue,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Users_PasswordHistries(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Users",
+            string isNullValue = null,
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"PasswordHistries\"" }.ForEach(columnBracket =>
                 self.Add(
                     columnBracket: columnBracket,
                     orderType: orderType,
@@ -62478,6 +62784,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
+        public static UsersParamCollection AllowGroupCreation(
+            this UsersParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"AllowGroupCreation\"",
+                    name: "AllowGroupCreation",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Users_AllowGroupCreation(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"AllowGroupCreation\"",
+                    name: "AllowGroupCreation",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
         public static UsersParamCollection Disabled(
             this UsersParamCollection self,
             object value = null,
@@ -62676,6 +63016,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 ? self.Add(
                     columnBracket: "\"ApiKey\"",
                     name: "ApiKey",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static UsersParamCollection PasswordHistries(
+            this UsersParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"PasswordHistries\"",
+                    name: "PasswordHistries",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Users_PasswordHistries(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"PasswordHistries\"",
+                    name: "PasswordHistries",
                     value: value,
                     sub: sub,
                     raw: raw)
@@ -109352,12 +109726,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .ServiceManager()
                 .AllowCreationAtTopSite()
                 .AllowGroupAdministration()
+                .AllowGroupCreation()
                 .Disabled()
                 .Lockout()
                 .LockoutCounter()
                 .Developer()
                 .UserSettings()
                 .ApiKey()
+                .PasswordHistries()
                 .SecondaryAuthenticationCode()
                 .SecondaryAuthenticationCodeExpirationTime()
                 .LdapSearchRoot()
@@ -109427,12 +109803,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .ServiceManager(userModel.ServiceManager, _using: userModel.ServiceManager_Updated(context) || setDefault || (otherInitValue && !userModel.ServiceManager.InitialValue(context)))
                 .AllowCreationAtTopSite(userModel.AllowCreationAtTopSite, _using: userModel.AllowCreationAtTopSite_Updated(context) || setDefault || (otherInitValue && !userModel.AllowCreationAtTopSite.InitialValue(context)))
                 .AllowGroupAdministration(userModel.AllowGroupAdministration, _using: userModel.AllowGroupAdministration_Updated(context) || setDefault || (otherInitValue && !userModel.AllowGroupAdministration.InitialValue(context)))
+                .AllowGroupCreation(userModel.AllowGroupCreation, _using: userModel.AllowGroupCreation_Updated(context) || setDefault || (otherInitValue && !userModel.AllowGroupCreation.InitialValue(context)))
                 .Disabled(userModel.Disabled, _using: userModel.Disabled_Updated(context) || setDefault || (otherInitValue && !userModel.Disabled.InitialValue(context)))
                 .Lockout(userModel.Lockout, _using: userModel.Lockout_Updated(context) || setDefault || (otherInitValue && !userModel.Lockout.InitialValue(context)))
                 .LockoutCounter(userModel.LockoutCounter, _using: userModel.LockoutCounter_Updated(context) || setDefault || (otherInitValue && !userModel.LockoutCounter.InitialValue(context)))
                 .Developer(userModel.Developer, _using: userModel.Developer_Updated(context) || setDefault || (otherInitValue && !userModel.Developer.InitialValue(context)))
                 .UserSettings(userModel.UserSettings.RecordingJson(), _using: userModel.UserSettings_Updated(context) || (otherInitValue && !userModel.UserSettings.InitialValue(context)))
                 .ApiKey(userModel.ApiKey.MaxLength(128), _using: userModel.ApiKey_Updated(context) || (otherInitValue && !userModel.ApiKey.InitialValue(context)))
+                .PasswordHistries(userModel.PasswordHistries.ToJson(), _using: userModel.PasswordHistries_Updated(context) || (otherInitValue && !userModel.PasswordHistries.InitialValue(context)))
                 .SecondaryAuthenticationCode(userModel.SecondaryAuthenticationCode.MaxLength(128), _using: userModel.SecondaryAuthenticationCode_Updated(context) || (otherInitValue && !userModel.SecondaryAuthenticationCode.InitialValue(context)))
                 .SecondaryAuthenticationCodeExpirationTime(userModel.SecondaryAuthenticationCodeExpirationTime.Value, _using: userModel.SecondaryAuthenticationCodeExpirationTime_Updated(context) || (otherInitValue && !userModel.SecondaryAuthenticationCodeExpirationTime.InitialValue(context)))
                 .LdapSearchRoot(userModel.LdapSearchRoot.MaxLength(2048), _using: userModel.LdapSearchRoot_Updated(context) || (otherInitValue && !userModel.LdapSearchRoot.InitialValue(context)))

@@ -515,6 +515,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                             ss: ss,
                             column: column,
                             type: Type);
+                    case "AllowGroupCreation":
+                        return userModel.AllowGroupCreation.ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
                     case "Disabled":
                         return userModel.Disabled.ToLookup(
                             context: context,

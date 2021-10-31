@@ -16,11 +16,18 @@
 
         public string Like { get; } = " like ";
 
+        public string Escape { get; } = " escape '|'";
+
+        public string EscapeValue(string value)
+        {
+            return value?.Replace("[", "|[");
+        }
+
         public string IsNull { get; } = "isnull";
 
         public string WhereLikeTemplateForward { get; } = "'%' + ";
 
-        public string WhereLikeTemplate { get; } = "#ParamCount#_#CommandCount# + '%')";
+        public string WhereLikeTemplate { get; } = "#ParamCount#_#CommandCount# + '%'";
 
         public string GenerateIdentity { get; } = " identity({0}, 1)";
 

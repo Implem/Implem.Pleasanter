@@ -27,6 +27,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         password: password,
                         ldap: ldap);
                 }
+                catch (DirectoryServicesCOMException e)
+                {
+                    new SysLogModel(
+                        context: context,
+                        extendedErrorMessage: e.ExtendedErrorMessage,
+                        e: e);
+                    return false;
+                }
                 catch (Exception e)
                 {
                     new SysLogModel(context: context, e: e);
@@ -39,6 +47,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 try
                 {
                     result = searcher.FindOne();
+                }
+                catch (DirectoryServicesCOMException e)
+                {
+                    if (e.ExtendedErrorMessage?.Contains("data 52e") != true)
+                    {
+                        new SysLogModel(
+                            context: context,
+                            extendedErrorMessage: e.ExtendedErrorMessage,
+                            e: e);
+                    }
+                    return false;
                 }
                 catch (Exception e)
                 {
@@ -75,6 +94,13 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         result: result,
                         ldap: ldap,
                         synchronizedTime: DateTime.Now);
+                }
+                catch (DirectoryServicesCOMException e)
+                {
+                    new SysLogModel(
+                        context: context,
+                        extendedErrorMessage: e.ExtendedErrorMessage,
+                        e: e);
                 }
                 catch (Exception e)
                 {
@@ -261,6 +287,13 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             synchronizedTime: synchronizedTime);
                     }
                 }
+            }
+            catch (DirectoryServicesCOMException e)
+            {
+                new SysLogModel(
+                    context: context,
+                    extendedErrorMessage: e.ExtendedErrorMessage,
+                    e: e);
             }
             catch (Exception e)
             {

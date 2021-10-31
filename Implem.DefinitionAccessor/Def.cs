@@ -499,6 +499,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_NewOnGridCases": Code.Model_NewOnGridCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_NewOnGridCases, definitionRow, CodeXls); break;
                     case "Model_CancelNewRowCases": Code.Model_CancelNewRowCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CancelNewRowCases, definitionRow, CodeXls); break;
                     case "Model_EditorCases": Code.Model_EditorCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_EditorCases, definitionRow, CodeXls); break;
+                    case "Model_SelectedIds": Code.Model_SelectedIds = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SelectedIds, definitionRow, CodeXls); break;
                     case "Model_ImportCases": Code.Model_ImportCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ImportCases, definitionRow, CodeXls); break;
                     case "Model_OpenExportSelectorDialogCases": Code.Model_OpenExportSelectorDialogCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OpenExportSelectorDialogCases, definitionRow, CodeXls); break;
                     case "Model_ExportCases": Code.Model_ExportCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportCases, definitionRow, CodeXls); break;
@@ -638,6 +639,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_TableDisplayNameCases": Code.Model_Utilities_TableDisplayNameCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TableDisplayNameCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_NewOnGrid": Code.Model_Utilities_NewOnGrid = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_NewOnGrid, definitionRow, CodeXls); break;
                     case "Model_Utilities_CancelNewRow": Code.Model_Utilities_CancelNewRow = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CancelNewRow, definitionRow, CodeXls); break;
+                    case "Model_Utilities_SelectedIds": Code.Model_Utilities_SelectedIds = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SelectedIds, definitionRow, CodeXls); break;
                     case "Model_Utilities_GetByApi": Code.Model_Utilities_GetByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GetByApi, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create": Code.Model_Utilities_Create = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreateParams": Code.Model_Utilities_CreateParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateParams, definitionRow, CodeXls); break;
@@ -832,6 +834,7 @@ namespace Implem.DefinitionAccessor
                     case "Rds_ItemEditorColumns": Code.Rds_ItemEditorColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_ItemEditorColumns, definitionRow, CodeXls); break;
                     case "Rds_ColumnDefaultPk": Code.Rds_ColumnDefaultPk = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_ColumnDefaultPk, definitionRow, CodeXls); break;
                     case "Rds_JoinDefault": Code.Rds_JoinDefault = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_JoinDefault, definitionRow, CodeXls); break;
+                    case "Rds_ParamDefaultNotNull": Code.Rds_ParamDefaultNotNull = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_ParamDefaultNotNull, definitionRow, CodeXls); break;
                     case "Rds_Where_TenantId": Code.Rds_Where_TenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Where_TenantId, definitionRow, CodeXls); break;
                     case "Rds_WherePk": Code.Rds_WherePk = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_WherePk, definitionRow, CodeXls); break;
                     case "Rds_WherePkSemicolon": Code.Rds_WherePkSemicolon = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_WherePkSemicolon, definitionRow, CodeXls); break;
@@ -1624,6 +1627,7 @@ namespace Implem.DefinitionAccessor
                     case "Users_ServiceManager": Column.Users_ServiceManager = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_ServiceManager, definitionRow, ColumnXls); break;
                     case "Users_AllowCreationAtTopSite": Column.Users_AllowCreationAtTopSite = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AllowCreationAtTopSite, definitionRow, ColumnXls); break;
                     case "Users_AllowGroupAdministration": Column.Users_AllowGroupAdministration = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AllowGroupAdministration, definitionRow, ColumnXls); break;
+                    case "Users_AllowGroupCreation": Column.Users_AllowGroupCreation = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AllowGroupCreation, definitionRow, ColumnXls); break;
                     case "Users_Disabled": Column.Users_Disabled = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Disabled, definitionRow, ColumnXls); break;
                     case "Users_Lockout": Column.Users_Lockout = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Lockout, definitionRow, ColumnXls); break;
                     case "Users_LockoutCounter": Column.Users_LockoutCounter = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_LockoutCounter, definitionRow, ColumnXls); break;
@@ -1635,6 +1639,7 @@ namespace Implem.DefinitionAccessor
                     case "Users_ChangedPasswordValidator": Column.Users_ChangedPasswordValidator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_ChangedPasswordValidator, definitionRow, ColumnXls); break;
                     case "Users_AfterResetPassword": Column.Users_AfterResetPassword = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AfterResetPassword, definitionRow, ColumnXls); break;
                     case "Users_AfterResetPasswordValidator": Column.Users_AfterResetPasswordValidator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AfterResetPasswordValidator, definitionRow, ColumnXls); break;
+                    case "Users_PasswordHistries": Column.Users_PasswordHistries = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_PasswordHistries, definitionRow, ColumnXls); break;
                     case "Users_MailAddresses": Column.Users_MailAddresses = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_MailAddresses, definitionRow, ColumnXls); break;
                     case "Users_DemoMailAddress": Column.Users_DemoMailAddress = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_DemoMailAddress, definitionRow, ColumnXls); break;
                     case "Users_SessionGuid": Column.Users_SessionGuid = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_SessionGuid, definitionRow, ColumnXls); break;
@@ -7529,6 +7534,7 @@ namespace Implem.DefinitionAccessor
         public string Model_NewOnGridCases;
         public string Model_CancelNewRowCases;
         public string Model_EditorCases;
+        public string Model_SelectedIds;
         public string Model_ImportCases;
         public string Model_OpenExportSelectorDialogCases;
         public string Model_ExportCases;
@@ -7668,6 +7674,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_TableDisplayNameCases;
         public string Model_Utilities_NewOnGrid;
         public string Model_Utilities_CancelNewRow;
+        public string Model_Utilities_SelectedIds;
         public string Model_Utilities_GetByApi;
         public string Model_Utilities_Create;
         public string Model_Utilities_CreateParams;
@@ -7862,6 +7869,7 @@ namespace Implem.DefinitionAccessor
         public string Rds_ItemEditorColumns;
         public string Rds_ColumnDefaultPk;
         public string Rds_JoinDefault;
+        public string Rds_ParamDefaultNotNull;
         public string Rds_Where_TenantId;
         public string Rds_WherePk;
         public string Rds_WherePkSemicolon;
@@ -8215,6 +8223,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_NewOnGridCases = new CodeDefinition();
         public CodeDefinition Model_CancelNewRowCases = new CodeDefinition();
         public CodeDefinition Model_EditorCases = new CodeDefinition();
+        public CodeDefinition Model_SelectedIds = new CodeDefinition();
         public CodeDefinition Model_ImportCases = new CodeDefinition();
         public CodeDefinition Model_OpenExportSelectorDialogCases = new CodeDefinition();
         public CodeDefinition Model_ExportCases = new CodeDefinition();
@@ -8354,6 +8363,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_TableDisplayNameCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_NewOnGrid = new CodeDefinition();
         public CodeDefinition Model_Utilities_CancelNewRow = new CodeDefinition();
+        public CodeDefinition Model_Utilities_SelectedIds = new CodeDefinition();
         public CodeDefinition Model_Utilities_GetByApi = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreateParams = new CodeDefinition();
@@ -8548,6 +8558,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Rds_ItemEditorColumns = new CodeDefinition();
         public CodeDefinition Rds_ColumnDefaultPk = new CodeDefinition();
         public CodeDefinition Rds_JoinDefault = new CodeDefinition();
+        public CodeDefinition Rds_ParamDefaultNotNull = new CodeDefinition();
         public CodeDefinition Rds_Where_TenantId = new CodeDefinition();
         public CodeDefinition Rds_WherePk = new CodeDefinition();
         public CodeDefinition Rds_WherePkSemicolon = new CodeDefinition();
@@ -9341,6 +9352,7 @@ namespace Implem.DefinitionAccessor
         public string Users_ServiceManager;
         public string Users_AllowCreationAtTopSite;
         public string Users_AllowGroupAdministration;
+        public string Users_AllowGroupCreation;
         public string Users_Disabled;
         public string Users_Lockout;
         public string Users_LockoutCounter;
@@ -9352,6 +9364,7 @@ namespace Implem.DefinitionAccessor
         public string Users_ChangedPasswordValidator;
         public string Users_AfterResetPassword;
         public string Users_AfterResetPasswordValidator;
+        public string Users_PasswordHistries;
         public string Users_MailAddresses;
         public string Users_DemoMailAddress;
         public string Users_SessionGuid;
@@ -9845,6 +9858,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Users_ServiceManager = new ColumnDefinition();
         public ColumnDefinition Users_AllowCreationAtTopSite = new ColumnDefinition();
         public ColumnDefinition Users_AllowGroupAdministration = new ColumnDefinition();
+        public ColumnDefinition Users_AllowGroupCreation = new ColumnDefinition();
         public ColumnDefinition Users_Disabled = new ColumnDefinition();
         public ColumnDefinition Users_Lockout = new ColumnDefinition();
         public ColumnDefinition Users_LockoutCounter = new ColumnDefinition();
@@ -9856,6 +9870,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Users_ChangedPasswordValidator = new ColumnDefinition();
         public ColumnDefinition Users_AfterResetPassword = new ColumnDefinition();
         public ColumnDefinition Users_AfterResetPasswordValidator = new ColumnDefinition();
+        public ColumnDefinition Users_PasswordHistries = new ColumnDefinition();
         public ColumnDefinition Users_MailAddresses = new ColumnDefinition();
         public ColumnDefinition Users_DemoMailAddress = new ColumnDefinition();
         public ColumnDefinition Users_SessionGuid = new ColumnDefinition();

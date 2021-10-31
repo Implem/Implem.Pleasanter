@@ -2633,6 +2633,39 @@ namespace Implem.Pleasanter.Models
             return res.ToJson();
         }
 
+        public static string SelectedIds(
+            Context context, SiteSettings ss)
+        {
+            var invalid = IssueValidators.OnEntry(
+                context: context,
+                ss: ss);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson(context: context);
+            }
+            var where = SelectedWhere(
+                context: context,
+                ss: ss);
+            if (where == null)
+            {
+                return "[]";
+            }
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
+            var ids = new GridData(
+                context: context,
+                ss: ss,
+                view: view,
+                column: Rds.IssuesColumn().IssueId(),
+                where: where)
+                    .DataRows
+                    .Select(dataRow => dataRow.Long("IssueId"))
+                    .ToList();
+            return ids.ToJson();
+        }
+
         public static System.Web.Mvc.ContentResult GetByApi(Context context, SiteSettings ss, bool internalRequest)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
@@ -3278,27 +3311,29 @@ namespace Implem.Pleasanter.Models
                 ss.Title,
                 count.ToString()
             };
-            ss.Notifications.ForEach(notification =>
-            {
-                var body = new System.Text.StringBuilder();
-                body.Append(Locations.ItemIndexAbsoluteUri(
-                    context: context,
-                    ss.SiteId) + "\n");
-                body.Append(
-                    $"{Displays.Issues_Updator(context: context)}: ",
-                    $"{context.User.Name}\n");
-                columns.ForEach(column =>
-                    body.Append(
-                        $"{column.LabelText} : ",
-                        $"{issueModel.ToDisplay(context: context, ss: ss, column: column, mine: null)}\n"));
-                notification.Send(
-                    context: context,
-                    ss: ss,
-                    title: Displays.BulkUpdated(
+            ss.Notifications
+                .Where(o => o.MonitorChangesColumns.Any(columnName => columns.Any(q => q.ColumnName == columnName)))
+                .ForEach(notification =>
+                {
+                    var body = new System.Text.StringBuilder();
+                    body.Append(Locations.ItemIndexAbsoluteUri(
                         context: context,
-                        data: data),
-                    body: body.ToString());
-            });
+                        ss.SiteId) + "\n");
+                    body.Append(
+                        $"{Displays.Issues_Updator(context: context)}: ",
+                        $"{context.User.Name}\n");
+                    columns.ForEach(column =>
+                        body.Append(
+                            $"{column.LabelText} : ",
+                            $"{issueModel.ToDisplay(context: context, ss: ss, column: column, mine: null)}\n"));
+                    notification.Send(
+                        context: context,
+                        ss: ss,
+                        title: Displays.BulkUpdated(
+                            context: context,
+                            data: data),
+                        body: body.ToString());
+                });
             var res = GridRows(
                 context: context,
                 ss: ss,

@@ -41,9 +41,24 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static void SignOut(Context context)
         {
+            SignOutLog(context: context);
             FormsAuthentication.SignOut();
             FederatedAuthentication.SessionAuthenticationModule?.DeleteSessionTokenCookie();
             SessionUtilities.Abandon(context: context);
+        }
+
+        private static void SignOutLog(Context context)
+        {
+            if (Parameters.SysLog.SignOut)
+            {
+                new SysLogModel(
+                    context: context,
+                    method: nameof(SignOut),
+                    message: new
+                    {
+                        LoginId = context.LoginId
+                    }.ToJson());
+            }
         }
 
         public static bool Windows()

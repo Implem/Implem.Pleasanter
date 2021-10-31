@@ -975,6 +975,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                     })
                     .ForEach(o => view.ColumnFilterHash.Add(o.Key, o.Value));
             }
+            if (ColumnFilterSearchTypes?.Any() == true)
+            {
+                view.ColumnFilterSearchTypes = new Dictionary<string, Column.SearchTypes>();
+                ColumnFilterSearchTypes.ForEach(o => view.ColumnFilterSearchTypes.Add(o.Key, o.Value));
+            }
             if (ColumnSorterHash?.Any() == true)
             {
                 view.ColumnSorterHash = new Dictionary<string, SqlOrderBy.Types>();
@@ -1703,28 +1708,53 @@ namespace Implem.Pleasanter.Libraries.Settings
             string value,
             SqlWhereCollection where)
         {
+            if (value.IsNullOrEmpty())
+            {
+                return;
+            }
             var searchType = ColumnFilterSearchTypes?.ContainsKey(column.ColumnName) == true
                 ? ColumnFilterSearchTypes.Get(column.ColumnName)
                 : column.SearchType;
             if (column.HasChoices() || column.ColumnName == "DeptCode")
             {
                 var param = value.Deserialize<List<string>>();
-                if (param?.Any() == true)
+                var json = param?.ToJson();
+                if (column.MultipleSelections == true)
                 {
-                    if (column.MultipleSelections == true)
+                    switch (searchType)
                     {
-                        switch (searchType)
-                        {
-                            case Column.SearchTypes.ExactMatch:
+                        case Column.SearchTypes.ExactMatch:
+                            if (param?.Any() == true)
+                            {
                                 CreateCsStringSqlWhereCollection(
                                     context: context,
                                     column: column,
                                     where: where,
-                                    param: param.ToJson().ToSingleList(),
+                                    param: json?.ToSingleList(),
                                     nullable: param.All(o => o == "\t"),
                                     _operator: "=");
-                                break;
-                            default:
+                            }
+                            break;
+                        case Column.SearchTypes.ForwardMatch:
+                            if (param?.Count() == 1 && param.FirstOrDefault() == "\t")
+                            {
+                                where.Add(CsStringColumnsWhereNull(column: column));
+                            }
+                            else
+                            {
+                                CreateCsStringSqlWhereLike(
+                                    context: context,
+                                    column: column,
+                                    value: context.Sqls.EscapeValue(!json.IsNullOrEmpty()
+                                        ? json.Substring(0, json.Length - 1)
+                                        : value),
+                                    where: where,
+                                    query: "(\"{0}\".\"{1}\"" + context.Sqls.Like + "@{3}{4}" + context.Sqls.Escape + ")");
+                            }
+                            break;
+                        default:
+                            if (param?.Any() == true)
+                            {
                                 CreateCsStringSqlWhereCollection(
                                     context: context,
                                     column: column,
@@ -1734,22 +1764,22 @@ namespace Implem.Pleasanter.Libraries.Settings
                                         .Select(o => StringInJson(value: o)),
                                     nullable: param.Any(o => o == "\t"),
                                     _operator: context.Sqls.Like);
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        CreateCsStringSqlWhereCollection(
-                            context: context,
-                            column: column,
-                            where: where,
-                            param: param.Where(o => o != "\t"),
-                            nullable: param.Any(o => o == "\t"),
-                            _operator: "=");
+                            }
+                            break;
                     }
                 }
+                else
+                {
+                    CreateCsStringSqlWhereCollection(
+                        context: context,
+                        column: column,
+                        where: where,
+                        param: param.Where(o => o != "\t"),
+                        nullable: param.Any(o => o == "\t"),
+                        _operator: "=");
+                }
             }
-            else if (!value.IsNullOrEmpty())
+            else
             {
                 if (value == " " || value == "　")
                 {
@@ -1760,17 +1790,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                     switch (searchType)
                     {
                         case Column.SearchTypes.ExactMatch:
-                            var param = value.ToSingleList();
-                            if (param?.Any() == true)
-                            {
-                                CreateCsStringSqlWhereCollection(
-                                    context: context,
-                                    column: column,
-                                    where: where,
-                                    param: param,
-                                    nullable: false,
-                                    _operator: context.Sqls.Like);
-                            }
+                            CreateCsStringSqlWhereCollection(
+                                context: context,
+                                column: column,
+                                where: where,
+                                param: value.ToSingleList(),
+                                nullable: false,
+                                _operator: context.Sqls.Like);
                             break;
                         case Column.SearchTypes.ForwardMatch:
                             CreateCsStringSqlWhereLike(
@@ -1778,7 +1804,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 column: column,
                                 value: value,
                                 where: where,
-                                query: "(\"{0}\".\"{1}\"" + context.Sqls.Like + "@{3}{4}");
+                                query: "(\"{0}\".\"{1}\"" + context.Sqls.Like + "@{3}{4})");
                             break;
                         default:
                             CreateCsStringSqlWhereLike(
@@ -1786,7 +1812,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 column: column,
                                 value: value,
                                 where: where,
-                                query: "(\"{0}\".\"{1}\"" + context.Sqls.Like + "{2}@{3}{4}");
+                                query: "(\"{0}\".\"{1}\"" + context.Sqls.Like + "{2}@{3}{4})");
                             break;
                     }
                 }
@@ -1859,7 +1885,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                     _using: column.MultipleSelections == true)));
         }
 
-        private void CreateCsStringSqlWhereLike(Context context, Column column, string value, SqlWhereCollection where, string query)
+        private void CreateCsStringSqlWhereLike(
+            Context context,
+            Column column,
+            string value,
+            SqlWhereCollection where,
+            string query)
         {
             var tableName = column.TableItemTitleCases();
             var name = Strings.NewGuid();

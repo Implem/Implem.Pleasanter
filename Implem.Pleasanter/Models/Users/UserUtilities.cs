@@ -828,6 +828,24 @@ namespace Implem.Pleasanter.Models
                                     value: string.Empty,
                                     tabIndex: tabIndex,
                                     serverScriptModelColumn: serverScriptModelColumn);
+                    case "AllowGroupCreation":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: userModel.AllowGroupCreation,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn);
                     case "Disabled":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -1199,6 +1217,9 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         column: column); break;
                     case "AllowGroupAdministration": value = userModel.AllowGroupAdministration.GridText(
+                        context: context,
+                        column: column); break;
+                    case "AllowGroupCreation": value = userModel.AllowGroupCreation.GridText(
                         context: context,
                         column: column); break;
                     case "Disabled": value = userModel.Disabled.GridText(
@@ -1695,6 +1716,12 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column);
+                case "AllowGroupCreation":
+                    return userModel.AllowGroupCreation
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
                 case "Disabled":
                     return userModel.Disabled
                         .ToControl(
@@ -2140,6 +2167,12 @@ namespace Implem.Pleasanter.Models
                                 res.Val(
                                     target: "#Users_AllowGroupAdministration" + idSuffix,
                                     value: userModel.AllowGroupAdministration,
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "AllowGroupCreation":
+                                res.Val(
+                                    target: "#Users_AllowGroupCreation" + idSuffix,
+                                    value: userModel.AllowGroupCreation,
                                     options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                 break;
                             case "Disabled":

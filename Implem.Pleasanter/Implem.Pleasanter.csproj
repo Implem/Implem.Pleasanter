@@ -398,6 +398,7 @@
     <Compile Include="Libraries\Responses\ResponseViewModes.cs" />
     <Compile Include="Libraries\Security\Defenses.cs" />
     <Compile Include="Libraries\Security\Permission.cs" />
+    <Compile Include="Libraries\ServerScripts\ScriptEngine.cs" />
     <Compile Include="Libraries\ServerScripts\ServerScriptElements.cs" />
     <Compile Include="Libraries\ServerScripts\ServerScriptModelApiItems.cs" />
     <Compile Include="Libraries\ServerScripts\ServerScriptModel.cs" />
@@ -435,6 +436,7 @@
     <Compile Include="Libraries\Settings\Lookup.cs" />
     <Compile Include="Libraries\Settings\Lookups.cs" />
     <Compile Include="Libraries\Settings\BulkUpdateColumn.cs" />
+    <Compile Include="Libraries\Settings\PasswordHistory.cs" />
     <Compile Include="Libraries\Settings\ServerScript.cs" />
     <Compile Include="Libraries\Settings\Section.cs" />
     <Compile Include="Libraries\Settings\JoinStack.cs" />
@@ -2328,6 +2330,7 @@
     <Content Include="App_Data\Displays\KambanSettings.json" />
     <Content Include="App_Data\Displays\CalendarSettings.json" />
     <Content Include="App_Data\Displays\AllowViewReset.json" />
+    <Content Include="App_Data\Displays\PasswordHasBeenUsed.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

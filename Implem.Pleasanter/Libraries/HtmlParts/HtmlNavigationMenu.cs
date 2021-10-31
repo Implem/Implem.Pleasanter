@@ -326,6 +326,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             NavigationMenu menu)
         {
             var canManageGroups = context.UserSettings?.AllowGroupAdministration(context: context) == true;
+            var canCreateGroups = context.UserSettings?.AllowGroupCreation(context: context) == true;
             var canManageSite = siteId != 0 && context.CanManageSite(
                 ss: ss,
                 site: true);
@@ -342,9 +343,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case "NewMenu":
                     return ss.ReferenceType == "Sites" && context.Action == "index"
                         ? context.CanManageSite(ss: ss)
-                        : context.CanCreate(ss: ss)
-                            && ss.ReferenceType != "Wikis"
-                            && context.Action != "trashbox";
+                        : ss.ReferenceType == "Groups"
+                            ? canCreateGroups
+                            : context.CanCreate(ss: ss)
+                                && ss.ReferenceType != "Wikis"
+                                && context.Action != "trashbox";
                 case "ViewModeMenu":
                     return Def.ViewModeDefinitionCollection
                         .Any(o => o.ReferenceType == referenceType);

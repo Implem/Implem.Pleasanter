@@ -26,8 +26,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public ServerScriptModelExtendedSql ExtendedSql;
         public ServerScriptModelNotification Notification;
         public readonly ServerScriptModelUtilities Utilities;
-        private readonly List<string> ChangeItemNames = new List<string>();
+        public bool Debug;
         private DateTime TimeOut;
+        private readonly List<string> ChangeItemNames = new List<string>();
 
         public ServerScriptModel(
             Context context,
@@ -37,6 +38,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             IEnumerable<KeyValuePair<string, string>> columnFilterHash,
             IEnumerable<KeyValuePair<string, SqlOrderBy.Types>> columnSorterHash,
             string condition,
+            bool debug,
             bool onTesting)
         {
             data?.ForEach(datam => ((IDictionary<string, object>)Model)[datam.Name] = datam.Value);
@@ -108,6 +110,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             Utilities = new ServerScriptModelUtilities(
                 context: context,
                 ss: ss);
+            Debug = debug;
             TimeOut = Parameters.Script.ServerScriptTimeOut == 0
                 ? DateTime.MaxValue
                 : DateTime.Now.AddMilliseconds(Parameters.Script.ServerScriptTimeOut);
@@ -130,7 +133,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public bool ContinuationCallback()
         {
-            return TimeOut > DateTime.Now;
+            return Debug
+                ? true
+                : TimeOut > DateTime.Now;
         }
 
         public class ServerScriptModelColumn

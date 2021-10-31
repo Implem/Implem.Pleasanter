@@ -70,6 +70,7 @@ namespace Implem.Pleasanter.Libraries.General
             OverTenantStorageSize,
             OverTotalLimitSize,
             ParameterSyntaxError,
+            PasswordHasBeenUsed,
             PasswordNotChanged,
             PasswordPolicyViolation,
             PermissionNotSelfChange,
@@ -352,6 +353,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.ParameterSyntaxError:
                     return Messages.ParameterSyntaxError(
+                        context: context,
+                        data: data);
+                case Types.PasswordHasBeenUsed:
+                    return Messages.PasswordHasBeenUsed(
                         context: context,
                         data: data);
                 case Types.PasswordNotChanged:

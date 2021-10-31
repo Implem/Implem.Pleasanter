@@ -271,6 +271,16 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        public string SelectedIds(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(context: context, referenceId: id).SelectedIds(context: context);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
         public string LinkTable(long id)
         {
             var context = new Context();
