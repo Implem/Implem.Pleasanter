@@ -511,6 +511,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 getter: column => Bool(
                     data: data,
                     name: column.Name));
+            resultModel.SetTitle(
+                context: context,
+                ss: ss);
             if (Bool(data: data, name: "UpdateOnExit"))
             {
                 resultModel.Update(
@@ -606,6 +609,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 getter: column => Bool(
                     data: data,
                     name: column.Name));
+            issueModel.SetTitle(
+                context: context,
+                ss: ss);
             if (Bool(data: data, name: "UpdateOnExit"))
             {
                 issueModel.Update(
