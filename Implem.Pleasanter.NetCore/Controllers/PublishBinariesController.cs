@@ -77,7 +77,6 @@ namespace Implem.Pleasanter.NetCore.Controllers
                 var pathResult = file as System.Web.Mvc.FilePathResult;
                 var filestream = new System.IO.FileStream(pathResult.FileName, System.IO.FileMode.Open);
                 return new FileStreamResult(filestream, pathResult.ContentType) { FileDownloadName = pathResult.FileDownloadName };
-
             }
         }
     }
