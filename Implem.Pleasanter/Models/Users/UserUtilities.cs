@@ -1826,6 +1826,7 @@ namespace Implem.Pleasanter.Models
                 if (userModel.Self(context: context))
                 {
                     hb.Button(
+                        controlId: "ChangePassword",
                         text: Displays.ChangePassword(context: context),
                         controlCss: "button-icon",
                         onClick: "$p.openDialog($(this));",
