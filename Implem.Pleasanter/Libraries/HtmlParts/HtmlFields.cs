@@ -303,7 +303,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string extendedHtmlBetweenLabelAndControl,
             string extendedHtmlAfterControl)
         {
-            var required = column.Required || (column.ValidateRequired ?? false);
+            var required = column.Required || column.GetValidateRequired();
             if (preview)
             {
                 required = false;
@@ -503,7 +503,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 allowImage: column.AllowImage == true,
                                 mobile: mobile,
                                 alwaysSend: alwaysSend,
-                                validateRequired: required,
+                                validateRequired: column.GetValidateRequired(),
                                 viewerSwitchingTypes: (Column.ViewerSwitchingTypes)column.ViewerSwitchingType,
                                 preview: preview,
                                 validateMaxLength: column.MaxLength.ToInt(),

@@ -896,6 +896,16 @@ namespace Implem.Pleasanter.Libraries.Settings
             return Hide == true;
         }
 
+        public bool GetValidateRequired()
+        {
+            var validateRequired = ServerScriptModelColumn?.GetValidateRequired();
+            if (validateRequired != null)
+            {
+                return validateRequired == true;
+            }
+            return ValidateRequired == true;
+        }
+
         public decimal Round(decimal value)
         {
             switch (RoundingType)
