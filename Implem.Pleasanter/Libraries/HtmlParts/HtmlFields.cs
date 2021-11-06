@@ -503,7 +503,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 allowImage: column.AllowImage == true,
                                 mobile: mobile,
                                 alwaysSend: alwaysSend,
-                                validateRequired: column.GetValidateRequired(),
+                                validateRequired: required,
                                 viewerSwitchingTypes: (Column.ViewerSwitchingTypes)column.ViewerSwitchingType,
                                 preview: preview,
                                 validateMaxLength: column.MaxLength.ToInt(),
