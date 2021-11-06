@@ -29,7 +29,7 @@ namespace Implem.Pleasanter.Models
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
-            if (ss.GetNoDisplayIfReadOnly())
+            if (!api && ss.GetNoDisplayIfReadOnly())
             {
                 return new ErrorData(type: Error.Types.NotFound);
             }
