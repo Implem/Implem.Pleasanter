@@ -119,6 +119,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             SiteSettings ss,
             Column column,
             string searchText,
+            IEnumerable<string> selectedValues,
             Column parentColumn,
             List<long> parentIds,
             int offset,
@@ -200,7 +201,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         if (SiteId > 0)
                         {
-                            if (column.UseSearch != true || search || setAllChoices)
+                            if (column.UseSearch != true
+                                || search
+                                || setAllChoices
+                                || selectedValues?.Any() == true)
                             {
                                 var currentSs = ss.Destinations?.Get(SiteId);
                                 if (currentSs != null)
@@ -213,6 +217,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                             context: context,
                                             ss: currentSs,
                                             searchText: searchText,
+                                            selectedValues: selectedValues,
                                             column: column,
                                             parentColumn: parentColumn,
                                             parentIds: parentIds,
@@ -528,6 +533,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Context context,
             SiteSettings ss,
             string searchText,
+            IEnumerable<string> selectedValues,
             Column column,
             Column parentColumn,
             List<long> parentIds,
@@ -547,17 +553,22 @@ namespace Implem.Pleasanter.Libraries.Settings
             var where = view.Where(
                 context: context,
                 ss: ss,
-                where: Rds.ItemsWhere().ReferenceId_In(
-                    tableName: tableName,
-                    sub: new SqlStatement(ss.LinkHashRelatingColumnsSubQuery(
-                        context: context,
-                        referenceType: ss.ReferenceType,
-                        parentColumn: parentColumn,
-                        parentIds: parentIds)),
-                    _using: (ss.ReferenceType == "Results"
-                        || ss.ReferenceType == "Issues")
-                        && (parentIds?.Any() ?? false)
-                        && parentColumn != null));
+                where: Rds.ItemsWhere()
+                    .ReferenceId_In(
+                        tableName: tableName,
+                        value: selectedValues?.Select(o => o.ToLong()),
+                        _using: selectedValues?.Any() == true)
+                    .ReferenceId_In(
+                        tableName: tableName,
+                        sub: new SqlStatement(ss.LinkHashRelatingColumnsSubQuery(
+                            context: context,
+                            referenceType: ss.ReferenceType,
+                            parentColumn: parentColumn,
+                            parentIds: parentIds)),
+                        _using: (ss.ReferenceType == "Results"
+                            || ss.ReferenceType == "Issues")
+                            && (parentIds?.Any() ?? false)
+                            && parentColumn != null));
             var orderBy = view.OrderBy(
                 context: context,
                 ss: ss,
