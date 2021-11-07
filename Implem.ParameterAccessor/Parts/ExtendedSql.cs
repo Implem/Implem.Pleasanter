@@ -27,6 +27,8 @@ namespace Implem.ParameterAccessor.Parts
         public bool OnSelectingWherePermissionsGroups;
         public bool OnSelectingWherePermissionsUsers;
         public List<string> OnSelectingWhereParams;
+        public bool OnSelectingOrderBy;
+        public List<string> OnSelectingOrderByParams;
         public bool OnUseSecondaryAuthentication;
         public string CommandText;
 

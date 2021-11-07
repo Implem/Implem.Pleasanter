@@ -96,6 +96,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public string OnSelectingWhere;
         [NonSerialized]
+        public string OnSelectingOrderBy;
+        [NonSerialized]
         public Dictionary<string, string> ColumnPlaceholders;
         // compatibility Version 1.008
         public string KambanGroupBy;
@@ -1931,6 +1933,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             SqlOrderByCollection orderBy = null)
         {
             orderBy = orderBy ?? new SqlOrderByCollection();
+            orderBy.OnSelectingOrderByExtendedSqls(
+                context: context,
+                ss: ss,
+                extendedSqls: Parameters.ExtendedSqls?.Where(o => o.OnSelectingOrderBy),
+                name: OnSelectingOrderBy,
+                columnFilterHash: ColumnFilterHash,
+                columnPlaceholders: ColumnPlaceholders);
             if (ColumnSorterHash?.Any() == true)
             {
                 ColumnSorterHash?.ForEach(data =>
