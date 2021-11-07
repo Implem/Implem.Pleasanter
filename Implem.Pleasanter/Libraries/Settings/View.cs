@@ -1981,7 +1981,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ss: ss,
                 extendedSqls: Parameters.ExtendedSqls?.Where(o => o.OnSelectingOrderBy),
                 name: OnSelectingOrderBy,
-                columnFilterHash: ColumnFilterHash,
+                columnSorterHash: ColumnSorterHash,
                 columnPlaceholders: ColumnPlaceholders);
             if (ColumnSorterHash?.Any() == true)
             {
