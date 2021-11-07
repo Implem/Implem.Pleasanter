@@ -31,6 +31,8 @@
     "OnSelectingWherePermissionsGroups": false,
     "OnSelectingWherePermissionsUsers": false,
     "OnSelectingWhereParams": null,
+    "OnSelectingOrderBy": false,
+    "OnSelectingOrderByParams": null,
     "OnUseSecondaryAuthentication": false,
     "CommandText": "-- Write an arbitrary SQL statement."
 }

@@ -12,6 +12,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         public string IsNullValue;
         public Sqls.Functions Function;
         public SqlStatement Sub;
+        public string Raw;
 
         [JsonConverter(typeof(StringEnumConverter))]
         public enum Types
@@ -27,7 +28,8 @@ namespace Implem.Libraries.DataSources.SqlServer
             string tableName = null,
             string isNullValue = null,
             Sqls.Functions function = Sqls.Functions.None,
-            SqlStatement sub = null)
+            SqlStatement sub = null,
+            string raw = null)
         {
             ColumnBracket = columnBracket;
             OrderType = orderType;
@@ -35,6 +37,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             IsNullValue = isNullValue;
             Function = function;
             Sub = sub;
+            Raw = raw;
         }
 
         public string Sql(
@@ -45,7 +48,11 @@ namespace Implem.Libraries.DataSources.SqlServer
             Sqls.TableTypes tableType)
         {
             var orderType = " " + OrderType.ToString().ToLower();
-            if (Sub != null)
+            if (!Raw.IsNullOrEmpty())
+            {
+                return Raw;
+            }
+            else if (Sub != null)
             {
                 return Sql_Sub(
                     factory: factory,
