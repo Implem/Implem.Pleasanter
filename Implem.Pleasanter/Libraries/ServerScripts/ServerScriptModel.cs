@@ -150,6 +150,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             private bool _readOnlyChanged;
             private bool _hide;
             private bool _hideChanged;
+            private bool _validateRequired;
+            private bool _validateRequiredChanged;
             private string _extendedFieldCss;
             private bool _extendedFieldCssChanged;
             private string _extendedControlCss;
@@ -173,6 +175,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             public string RawText { get { return _rawText; } set { _rawText = value; _rawTextChanged = true; } }
             public bool ReadOnly { get { return _readOnly; } set { _readOnly = value; _readOnlyChanged = true; } }
             public bool Hide { get { return _hide; } set { _hide = value; _hideChanged = true; } }
+            public bool ValidateRequired { get { return _validateRequired; } set { _validateRequired = value; _validateRequiredChanged = true; } }
             public string ExtendedFieldCss { get { return _extendedFieldCss; } set { _extendedFieldCss = value; _extendedFieldCssChanged = true; } }
             public string ExtendedControlCss { get { return _extendedControlCss; } set { _extendedControlCss = value; _extendedControlCssChanged = true; } }
             public string ExtendedCellCss { get { return _extendedCellCss; } set { _extendedCellCss = value; _extendedCellCssChanged = true; } }
@@ -189,6 +192,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 string rawText,
                 bool readOnly,
                 bool hide,
+                bool validateRequired,
                 string extendedFieldCss,
                 string extendedControlCss,
                 string extendedCellCss,
@@ -203,6 +207,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 _rawText = rawText;
                 _readOnly = readOnly;
                 _hide = hide;
+                _validateRequired = validateRequired;
                 _extendedFieldCss = extendedFieldCss;
                 _extendedControlCss = extendedControlCss;
                 _extendedCellCss = extendedCellCss;
@@ -240,6 +245,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     || _rawTextChanged
                     || _readOnlyChanged
                     || _hideChanged
+                    || _validateRequiredChanged
                     || _extendedFieldCssChanged
                     || _extendedControlCssChanged
                     || _extendedCellCssChanged
@@ -255,6 +261,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             {
                 return _readOnlyChanged
                     ? (bool?)ReadOnly
+                    : null;
+            }
+
+            public bool? GetValidateRequired()
+            {
+                return _validateRequiredChanged
+                    ? (bool?)ValidateRequired
                     : null;
             }
 

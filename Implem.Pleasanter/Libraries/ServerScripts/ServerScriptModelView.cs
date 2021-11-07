@@ -7,6 +7,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
     {
         public List<string> AlwaysGetColumns = new List<string>();
         public string OnSelectingWhere;
+        public string OnSelectingOrderBy;
         public Dictionary<string, string> ColumnPlaceholders;
         public readonly ExpandoObject Filters = new ExpandoObject();
         public readonly ExpandoObject Sorters = new ExpandoObject();

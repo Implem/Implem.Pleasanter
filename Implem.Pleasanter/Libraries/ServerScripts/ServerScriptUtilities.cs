@@ -304,6 +304,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                                 rawText: string.Empty,
                                 readOnly: column?.EditorReadOnly == true,
                                 hide: column?.Hide == true,
+                                validateRequired: column?.ValidateRequired == true,
                                 extendedFieldCss: column?.ExtendedFieldCss,
                                 extendedControlCss: column?.ExtendedControlCss,
                                 extendedCellCss: column?.ExtendedCellCss,
@@ -511,6 +512,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 getter: column => Bool(
                     data: data,
                     name: column.Name));
+            resultModel.SetTitle(
+                context: context,
+                ss: ss);
             if (Bool(data: data, name: "UpdateOnExit"))
             {
                 resultModel.Update(
@@ -606,6 +610,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 getter: column => Bool(
                     data: data,
                     name: column.Name));
+            issueModel.SetTitle(
+                context: context,
+                ss: ss);
             if (Bool(data: data, name: "UpdateOnExit"))
             {
                 issueModel.Update(
@@ -660,6 +667,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             {
                 view.AlwaysGetColumns = data.View.AlwaysGetColumns;
                 view.OnSelectingWhere = data.View.OnSelectingWhere;
+                view.OnSelectingOrderBy = data.View.OnSelectingOrderBy;
                 view.ColumnPlaceholders = data.View.ColumnPlaceholders;
             }
             SetColumnFilterHashValues(
