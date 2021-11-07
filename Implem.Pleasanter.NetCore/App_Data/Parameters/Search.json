@@ -3,6 +3,7 @@
     "CreateIndexes": true,
     "PageSize": 20,
     "DisableCrossSearch": false,
+    "DisableCrossSearchSites": false,
     "FullTextIncludeBreadcrumb": false,
     "FullTextIncludeSiteId": false,
     "FullTextIncludeSiteTitle": true,

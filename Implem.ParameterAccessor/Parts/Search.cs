@@ -6,6 +6,7 @@
         public bool CreateIndexes;
         public int PageSize;
         public bool DisableCrossSearch;
+        public bool DisableCrossSearchSites;
         public bool FullTextIncludeBreadcrumb;
         public bool FullTextIncludeSiteId;
         public bool FullTextIncludeSiteTitle;
