@@ -1796,23 +1796,23 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 where: where,
                                 param: value.ToSingleList(),
                                 nullable: false,
-                                _operator: context.Sqls.Like);
+                                _operator: "=");
                             break;
                         case Column.SearchTypes.ForwardMatch:
                             CreateCsStringSqlWhereLike(
                                 context: context,
                                 column: column,
-                                value: value,
+                                value: context.Sqls.EscapeValue(value),
                                 where: where,
-                                query: "(\"{0}\".\"{1}\"" + context.Sqls.Like + "@{3}{4})");
+                                query: "(\"{0}\".\"{1}\"" + context.Sqls.Like + "@{3}{4}" + context.Sqls.Escape + ")");
                             break;
                         default:
                             CreateCsStringSqlWhereLike(
                                 context: context,
                                 column: column,
-                                value: value,
+                                value: context.Sqls.EscapeValue(value),
                                 where: where,
-                                query: "(\"{0}\".\"{1}\"" + context.Sqls.Like + "{2}@{3}{4})");
+                                query: "(\"{0}\".\"{1}\"" + context.Sqls.Like + "{2}@{3}{4}" + context.Sqls.Escape + ")");
                             break;
                     }
                 }
