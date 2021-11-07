@@ -39,7 +39,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             PartialMatch = 1,
             ExactMatch = 2,
-            ForwardMatch = 3
+            ForwardMatch = 3,
+            PartialMatchMultiple = 11,
+            ExactMatchMultiple = 12,
+            ForwardMatchMultiple = 13
         }
 
         public enum FullTextTypes : int
