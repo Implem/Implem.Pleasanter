@@ -39,7 +39,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             PartialMatch = 1,
             ExactMatch = 2,
-            ForwardMatch = 3
+            ForwardMatch = 3,
+            PartialMatchMultiple = 11,
+            ExactMatchMultiple = 12,
+            ForwardMatchMultiple = 13
         }
 
         public enum FullTextTypes : int
@@ -262,6 +265,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             SiteSettings ss,
             Link link,
             string searchText = null,
+            IEnumerable<string> selectedValues = null,
             Column parentColumn = null,
             List<long> parentIds = null,
             int offset = 0,
@@ -276,6 +280,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ss: ss,
                 column: this,
                 searchText: searchText,
+                selectedValues: selectedValues,
                 parentColumn: parentColumn,
                 parentIds: parentIds,
                 offset: offset,
@@ -888,6 +893,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                 return hide == true;
             }
             return Hide == true;
+        }
+
+        public bool GetValidateRequired()
+        {
+            var validateRequired = ServerScriptModelColumn?.GetValidateRequired();
+            if (validateRequired != null)
+            {
+                return validateRequired == true;
+            }
+            return ValidateRequired == true;
         }
 
         public decimal Round(decimal value)

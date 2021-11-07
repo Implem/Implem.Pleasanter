@@ -17,11 +17,13 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         public SqlOrderByCollection Add(
-            string columnBracket,
-            SqlOrderBy.Types orderType,
-            string tableName,
+            string columnBracket = null,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = null,
             string isNullValue = null,
-            Sqls.Functions function = Sqls.Functions.None)
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null,
+            string raw = null)
         {
             if (orderType != SqlOrderBy.Types.release)
             {
@@ -30,7 +32,9 @@ namespace Implem.Libraries.DataSources.SqlServer
                     orderType: orderType,
                     tableName: tableName,
                     isNullValue: isNullValue,
-                    function: function));
+                    function: function,
+                    sub: sub,
+                    raw: raw));
             }
             return this;
         }

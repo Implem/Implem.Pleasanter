@@ -20,7 +20,9 @@
 
         public string EscapeValue(string value)
         {
-            return value?.Replace("[", "|[");
+            return value?
+                .Replace("|", "||")
+                .Replace("[", "|[");
         }
 
         public string IsNull { get; } = "isnull";

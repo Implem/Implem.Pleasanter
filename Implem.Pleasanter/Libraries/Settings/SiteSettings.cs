@@ -3588,6 +3588,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     context: context,
                     columnName: null,
                     searchIndexes: null,
+                    selectedValues: null,
                     linkHash: null);
             }
             else
@@ -3610,6 +3611,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     context: context,
                     columnName: null,
                     searchIndexes: null,
+                    selectedValues: null,
                     linkHash: linkHash));
             }
         }
@@ -3626,6 +3628,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 context: context,
                 columnName: columnName,
                 searchIndexes: searchIndexes,
+                selectedValues: selectedValues,
                 linkHash: LinkHash(
                     context: context,
                     columnName: columnName,
@@ -3639,6 +3642,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Context context,
             string columnName,
             List<string> searchIndexes,
+            IEnumerable<string> selectedValues,
             Dictionary<string, List<string>> linkHash)
         {
             var columns = new List<Column>();
@@ -3668,6 +3672,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             ss: this,
                             link: link,
                             searchText: searchIndexes?.Join(" "),
+                            selectedValues: selectedValues,
                             setAllChoices: SetAllChoices,
                             setChoices: same == null);
                     }

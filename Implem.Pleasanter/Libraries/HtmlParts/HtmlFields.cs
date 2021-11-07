@@ -303,7 +303,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string extendedHtmlBetweenLabelAndControl,
             string extendedHtmlAfterControl)
         {
-            var required = column.Required || (column.ValidateRequired ?? false);
+            var required = column.Required || column.GetValidateRequired();
             if (preview)
             {
                 required = false;

@@ -4553,6 +4553,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return where;
         }
 
+        public static SqlOrderByCollection OnSelectingOrderByExtendedSqls(
+            this SqlOrderByCollection orderBy,
+            Context context,
+            SiteSettings ss,
+            IEnumerable<ExtendedSql> extendedSqls,
+            long? siteId = null,
+            long? id = null,
+            DateTime? timestamp = null,
+            string name = null,
+            Dictionary<string, string> columnFilterHash = null,
+            Dictionary<string, string> columnPlaceholders = null)
+        {
+            extendedSqls
+                ?.Where(o => o.OnSelectingOrderByParams?.Any() != true
+                    || o.OnSelectingOrderByParams?.All(p => columnFilterHash?.ContainsKey(p) == true) == true)
+                .ExtensionWhere<ExtendedSql>(
+                    context: context,
+                    siteId: ss.SiteId,
+                    name: name)
+                .ForEach(o => orderBy.Add(raw: o.ReplacedCommandText(
+                    siteId: siteId ?? ss?.SiteId ?? context.SiteId,
+                    id: id ?? context.Id,
+                    timestamp: timestamp,
+                    columnPlaceholders: columnPlaceholders?
+                        .ToDictionary(p => p.Key, p => ss.GetColumn(
+                            context: context,
+                            columnName: p.Value))
+                        .Where(p => p.Value != null)
+                        .ToDictionary(
+                            p => p.Key,
+                            p => $"\"{p.Value.TableName()}\".{ColumnBracket(p.Value)}"))));
+            return orderBy;
+        }
+
         public static List<SqlStatement> OnUseSecondaryAuthentication(
             this List<SqlStatement> statements,
             Context context)

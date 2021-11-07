@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 namespace Implem.ParameterAccessor.Parts
 {
@@ -27,6 +26,8 @@ namespace Implem.ParameterAccessor.Parts
         public bool OnSelectingWherePermissionsGroups;
         public bool OnSelectingWherePermissionsUsers;
         public List<string> OnSelectingWhereParams;
+        public bool OnSelectingOrderBy;
+        public List<string> OnSelectingOrderByParams;
         public bool OnUseSecondaryAuthentication;
         public string CommandText;
 
