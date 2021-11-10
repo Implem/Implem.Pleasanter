@@ -1,13 +1,11 @@
 ﻿using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using Implem.Pleasanter.NetCore.Libraries.Requests;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace Implem.Pleasanter.NetCore.Filters
 {
     public class HandleErrorExAttribute : ActionFilterAttribute, IExceptionFilter
@@ -24,14 +22,38 @@ namespace Implem.Pleasanter.NetCore.Filters
                 new SysLogModel(
                     context: context,
                     e: filterContext.Exception);
+                var siteId = CanManageSiteId(context: context);
+                SessionUtilities.Set(
+                    context: context,
+                    key: "ExceptionSiteId",
+                    value: siteId.ToString());
             }
             catch
             {
-                throw;
             }
             filterContext.ExceptionHandled = true;
             filterContext.Result = new RedirectResult(
                 Locations.ApplicationError(context: context));
+        }
+
+        private static long CanManageSiteId(ContextImplement context)
+        {
+            if (context.SiteId == 0)
+            {
+                return 0;
+            }
+            else
+            {
+                var ss = SiteSettingsUtilities.Get(
+                    context: context,
+                    siteId: context.SiteId);
+                var siteId = context.CanManageSite(
+                    ss: ss,
+                    site: true)
+                        ? context.SiteId
+                        : 0;
+                return siteId;
+            }
         }
     }
 }
