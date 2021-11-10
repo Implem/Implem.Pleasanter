@@ -308,6 +308,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     var message = errorType.Message(
                         context: context,
                         data: messageData);
+                    var exceptionSiteId = context.SessionData.Get("ExceptionSiteId")?.ToLong() ?? 0;
                     hb
                         .Message(
                             message: message,
@@ -315,7 +316,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .MainCommands(
                             context: context,
                             ss: ss,
-                            verType: Versions.VerTypes.Latest);
+                            verType: Versions.VerTypes.Latest,
+                            extensions: () => hb.Button(
+                                controlId: "ManageTableCommand",
+                                text: Displays.ManageTable(context: context),
+                                controlCss: "button-icon",
+                                href: Locations.ItemEdit(
+                                    context: context,
+                                    id: exceptionSiteId),
+                                icon: "ui-icon-gear",
+                                _using: exceptionSiteId > 0));
                 }
             });
         }
