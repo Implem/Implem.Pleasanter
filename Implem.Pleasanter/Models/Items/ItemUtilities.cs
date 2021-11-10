@@ -67,7 +67,7 @@ namespace Implem.Pleasanter.Models
                     return join.Add(
                         tableName: $"\"Items{tableTypeName}\"",
                         joinType: SqlJoin.JoinTypes.Inner,
-                        joinExpression: $"\"{tableName}\".\"{Rds.IdColumn(tableName)}\"=\"{tableName}_Items\".\"ReferenceId\"",
+                        joinExpression: $"\"{tableName}\".\"{Rds.IdColumn(tableName)}\"=\"{tableName}_Items\".\"ReferenceId\" and \"{tableName}\".\"SiteId\"=\"{tableName}_Items\".\"SiteId\"",
                         _as: tableName + "_Items");
                 default:
                     return join;
