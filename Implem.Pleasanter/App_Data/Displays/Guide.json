@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Guide",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Guide"
+        },
+        {
+            "Language": "zh",
+            "Body": "指导"
+        },
+        {
+            "Language": "ja",
+            "Body": "ガイド"
+        },
+        {
+            "Language": "de",
+            "Body": "Handbuch"
+        },
+        {
+            "Language": "ko",
+            "Body": "가이드"
+        },
+        {
+            "Language": "es",
+            "Body": "Guía"
+        },
+        {
+            "Language": "vn",
+            "Body": "Hướng dẫn"
+        }
+    ]
+}

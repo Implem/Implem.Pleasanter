@@ -95,6 +95,20 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public string EditorGuide;
         [NonSerialized]
+        public string CalendarGuide;
+        [NonSerialized]
+        public string CrosstabGuide;
+        [NonSerialized]
+        public string GanttGuide;
+        [NonSerialized]
+        public string BurnDownGuide;
+        [NonSerialized]
+        public string TimeSeriesGuide;
+        [NonSerialized]
+        public string KambanGuide;
+        [NonSerialized]
+        public string ImageLibGuide;
+        [NonSerialized]
         public long ParentId;
         [NonSerialized]
         public Sqls.TableTypes TableType = Sqls.TableTypes.Normal;
@@ -204,7 +218,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string MailToDefault;
         public string MailCcDefault;
         public string MailBccDefault;
-        public List<long> IntegratedSites;
+        public List<string> IntegratedSites;
         public bool NoDisplayIfReadOnly;
         public Dictionary<string, Permissions.Types> PermissionForCreating;
         public List<ColumnAccessControl> CreateColumnAccessControls;
@@ -413,6 +427,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss.Body = dataRow.String("Body");
                     ss.GridGuide = dataRow.String("GridGuide");
                     ss.EditorGuide = dataRow.String("EditorGuide");
+                    ss.CalendarGuide = dataRow.String("CalendarGuide");
+                    ss.CrosstabGuide = dataRow.String("CrosstabGuide");
+                    ss.GanttGuide = dataRow.String("GanttGuide");
+                    ss.BurnDownGuide = dataRow.String("BurnDownGuide");
+                    ss.TimeSeriesGuide = dataRow.String("TimeSeriesGuide");
+                    ss.KambanGuide = dataRow.String("KambanGuide");
+                    ss.ImageLibGuide = dataRow.String("ImageLibGuide");
                     ss.ReferenceType = dataRow.String("ReferenceType");
                     ss.ParentId = dataRow.Long("ParentId");
                     ss.InheritPermission = dataRow.Long("InheritPermission");
@@ -4109,11 +4130,36 @@ namespace Implem.Pleasanter.Libraries.Settings
         private void SetAllowedIntegratedSites(Context context)
         {
             AllowedIntegratedSites = new List<long> { SiteId };
+            var sites = GetIntegratedSites(context: context);
             var allows = Permissions.AllowSites(
                 context: context,
-                sites: IntegratedSites,
+                sites: sites,
                 referenceType: ReferenceType);
-            AllowedIntegratedSites.AddRange(IntegratedSites.Where(o => allows.Contains(o)));
+            AllowedIntegratedSites.AddRange(allows);
+        }
+
+        public List<long> GetIntegratedSites(Context context)
+        {
+            var sites = new List<long>();
+            IntegratedSites?.ForEach(site =>
+            {
+                var isName = false;
+                var dataRows = SiteInfo.Sites(context: context).Values;
+                dataRows
+                    .Where(dataRow =>
+                        dataRow.String("SiteName") == site
+                        || dataRow.String("SiteGroupName") == site)
+                    .ForEach(dataRow =>
+                    {
+                        sites.Add(dataRow.Long("SiteId"));
+                        isName = true;
+                    });
+                if (!isName && site.ToLong() > 0)
+                {
+                    sites.Add(site.ToLong());
+                }
+            });
+            return sites;
         }
 
         private void SetSiteTitleChoicesText(Context context)
@@ -4174,8 +4220,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             IntegratedSites = value
                 .Split(',')
-                .Select(o => o.ToLong())
-                .Where(o => o != 0)
+                .Select(o => o.Trim())
+                .Where(o => !o.IsNullOrEmpty())
                 .Distinct()
                 .ToList();
         }

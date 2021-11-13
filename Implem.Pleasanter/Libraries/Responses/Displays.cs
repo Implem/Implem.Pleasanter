@@ -3559,6 +3559,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Guide(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Guide",
+                data: data);
+        }
+
         public static string Half1(
             Context context,
             params string[] data)
@@ -8629,6 +8639,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string YmdhmsDatePickerFormat(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "YmdhmsDatePickerFormat",
+                data: data);
+        }
+
         public static string YmdhmsFormat(
             Context context,
             params string[] data)
@@ -10739,6 +10759,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Sites_SiteName(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sites_SiteName",
+                data: data);
+        }
+
+        public static string Sites_SiteGroupName(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sites_SiteGroupName",
+                data: data);
+        }
+
         public static string Sites_GridGuide(
             Context context,
             params string[] data)
@@ -10756,6 +10796,76 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Sites_EditorGuide",
+                data: data);
+        }
+
+        public static string Sites_CalendarGuide(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sites_CalendarGuide",
+                data: data);
+        }
+
+        public static string Sites_CrosstabGuide(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sites_CrosstabGuide",
+                data: data);
+        }
+
+        public static string Sites_GanttGuide(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sites_GanttGuide",
+                data: data);
+        }
+
+        public static string Sites_BurnDownGuide(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sites_BurnDownGuide",
+                data: data);
+        }
+
+        public static string Sites_TimeSeriesGuide(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sites_TimeSeriesGuide",
+                data: data);
+        }
+
+        public static string Sites_KambanGuide(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sites_KambanGuide",
+                data: data);
+        }
+
+        public static string Sites_ImageLibGuide(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sites_ImageLibGuide",
                 data: data);
         }
 
