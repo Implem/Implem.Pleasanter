@@ -1724,6 +1724,27 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "EditorGuide":
                             sql.Sites_EditorGuide(tableName: path, _as: _as);
                             break;
+                        case "CalendarGuide":
+                            sql.Sites_CalendarGuide(tableName: path, _as: _as);
+                            break;
+                        case "CrosstabGuide":
+                            sql.Sites_CrosstabGuide(tableName: path, _as: _as);
+                            break;
+                        case "GanttGuide":
+                            sql.Sites_GanttGuide(tableName: path, _as: _as);
+                            break;
+                        case "BurnDownGuide":
+                            sql.Sites_BurnDownGuide(tableName: path, _as: _as);
+                            break;
+                        case "TimeSeriesGuide":
+                            sql.Sites_TimeSeriesGuide(tableName: path, _as: _as);
+                            break;
+                        case "KambanGuide":
+                            sql.Sites_KambanGuide(tableName: path, _as: _as);
+                            break;
+                        case "ImageLibGuide":
+                            sql.Sites_ImageLibGuide(tableName: path, _as: _as);
+                            break;
                         case "ReferenceType":
                             sql.Sites_ReferenceType(tableName: path, _as: _as);
                             break;

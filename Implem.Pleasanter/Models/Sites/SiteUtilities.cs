@@ -2591,10 +2591,15 @@ namespace Implem.Pleasanter.Models
             var ss = siteModel.SiteSettings;
             return hb.Ul(id: "EditorTabs", action: () =>
             {
-                hb.Li(action: () => hb
-                    .A(
-                        href: "#FieldSetGeneral",
-                        text: Displays.General(context: context)));
+                hb
+                    .Li(action: () => hb
+                        .A(
+                            href: "#FieldSetGeneral",
+                            text: Displays.General(context: context)))
+                    .Li(action: () => hb
+                        .A(
+                            href: "#GuideEditor",
+                            text: Displays.Guide(context: context)));
                 if (siteModel.MethodType != BaseModel.MethodTypes.New)
                 {
                     hb.Li(action: () => hb
@@ -3867,26 +3872,6 @@ namespace Implem.Pleasanter.Models
                         text: siteModel.Body,
                         mobile: context.Mobile,
                         _using: siteModel.ReferenceType != "Wikis")
-                    .FieldMarkDown(
-                        context: context,
-                        ss: ss,
-                        controlId: "Sites_GridGuide",
-                        fieldCss: "field-wide",
-                        labelText: ss.ReferenceType == "Sites"
-                            ? Displays.MenuGuide(context: context)
-                            : Displays.Sites_GridGuide(context: context),
-                        text: siteModel.GridGuide,
-                        mobile: context.Mobile,
-                        _using: siteModel.ReferenceType != "Wikis")
-                    .FieldMarkDown(
-                        context: context,
-                        ss: ss,
-                        controlId: "Sites_EditorGuide",
-                        fieldCss: "field-wide",
-                        labelText: Displays.Sites_EditorGuide(context: context),
-                        text: siteModel.EditorGuide,
-                        mobile: context.Mobile,
-                        _using: ss.ReferenceType != "Sites")
                     .Field(
                         fieldCss: "field-normal",
                         labelText: Displays.Sites_ReferenceType(context: context),
@@ -3900,6 +3885,10 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         baseModel: siteModel);
             });
+            hb.GuideEditor(
+                context: context,
+                ss: ss,
+                siteModel: siteModel);
             if (siteModel.MethodType != BaseModel.MethodTypes.New)
             {
                 hb.SiteImageSettingsEditor(
@@ -3960,6 +3949,110 @@ namespace Implem.Pleasanter.Models
                 }
             }
             return hb;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder GuideEditor(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            SiteModel siteModel)
+        {
+            return hb.FieldSet(id: "GuideEditor", action: () => hb
+                .FieldSet(
+                    css: " enclosed",
+                    legendText: Displays.Guide(context: context),
+                    action: () => hb
+                    .FieldMarkDown(
+                        context: context,
+                        ss: ss,
+                        controlId: "Sites_GridGuide",
+                        fieldCss: "field-wide",
+                        labelText: ss.ReferenceType == "Sites"
+                            ? Displays.MenuGuide(context: context)
+                            : Displays.Sites_GridGuide(context: context),
+                        text: siteModel.GridGuide,
+                        mobile: context.Mobile,
+                        _using: siteModel.ReferenceType != "Wikis")
+                    .FieldMarkDown(
+                        context: context,
+                        ss: ss,
+                        controlId: "Sites_EditorGuide",
+                        fieldCss: "field-wide",
+                        labelText: Displays.Sites_EditorGuide(context: context),
+                        text: siteModel.EditorGuide,
+                        mobile: context.Mobile,
+                        _using: ss.ReferenceType != "Sites")
+                    .FieldMarkDown(
+                        context: context,
+                        ss: ss,
+                        controlId: "Sites_CalendarGuide",
+                        fieldCss: "field-wide",
+                        labelText: Displays.Sites_CalendarGuide(context: context),
+                        text: siteModel.CalendarGuide,
+                        mobile: context.Mobile,
+                        _using: ss.ReferenceType != "Sites"
+                            && ss.ReferenceType != "Wikis")
+                    .FieldMarkDown(
+                        context: context,
+                        ss: ss,
+                        controlId: "Sites_CrosstabGuide",
+                        fieldCss: "field-wide",
+                        labelText: Displays.Sites_CrosstabGuide(context: context),
+                        text: siteModel.CrosstabGuide,
+                        mobile: context.Mobile,
+                        _using: ss.ReferenceType != "Sites"
+                            && ss.ReferenceType != "Wikis")
+                    .FieldMarkDown(
+                        context: context,
+                        ss: ss,
+                        controlId: "Sites_GanttGuide",
+                        fieldCss: "field-wide",
+                        labelText: Displays.Sites_GanttGuide(context: context),
+                        text: siteModel.GanttGuide,
+                        mobile: context.Mobile,
+                        _using: ss.ReferenceType == "Issues")
+                    .FieldMarkDown(
+                        context: context,
+                        ss: ss,
+                        controlId: "Sites_BurnDownGuide",
+                        fieldCss: "field-wide",
+                        labelText: Displays.Sites_BurnDownGuide(context: context),
+                        text: siteModel.BurnDownGuide,
+                        mobile: context.Mobile,
+                        _using: ss.ReferenceType == "Issues")
+                    .FieldMarkDown(
+                        context: context,
+                        ss: ss,
+                        controlId: "Sites_TimeSeriesGuide",
+                        fieldCss: "field-wide",
+                        labelText: Displays.Sites_TimeSeriesGuide(context: context),
+                        text: siteModel.TimeSeriesGuide,
+                        mobile: context.Mobile,
+                        _using: ss.ReferenceType != "Sites"
+                            && ss.ReferenceType != "Wikis")
+                    .FieldMarkDown(
+                        context: context,
+                        ss: ss,
+                        controlId: "Sites_KambanGuide",
+                        fieldCss: "field-wide",
+                        labelText: Displays.Sites_KambanGuide(context: context),
+                        text: siteModel.KambanGuide,
+                        mobile: context.Mobile,
+                        _using: ss.ReferenceType != "Sites"
+                            && ss.ReferenceType != "Wikis")
+                    .FieldMarkDown(
+                        context: context,
+                        ss: ss,
+                        controlId: "Sites_ImageLibGuide",
+                        fieldCss: "field-wide",
+                        labelText: Displays.Sites_ImageLibGuide(context: context),
+                        text: siteModel.ImageLibGuide,
+                        mobile: context.Mobile,
+                        _using: ss.ReferenceType != "Sites"
+                            && ss.ReferenceType != "Wikis")));
         }
 
         /// <summary>

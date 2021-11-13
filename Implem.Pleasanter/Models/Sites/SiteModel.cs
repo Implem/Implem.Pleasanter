@@ -32,6 +32,13 @@ namespace Implem.Pleasanter.Models
         public string SiteGroupName = string.Empty;
         public string GridGuide = string.Empty;
         public string EditorGuide = string.Empty;
+        public string CalendarGuide = string.Empty;
+        public string CrosstabGuide = string.Empty;
+        public string GanttGuide = string.Empty;
+        public string BurnDownGuide = string.Empty;
+        public string TimeSeriesGuide = string.Empty;
+        public string KambanGuide = string.Empty;
+        public string ImageLibGuide = string.Empty;
         public string ReferenceType = "Sites";
         public long ParentId = 0;
         public long InheritPermission = 0;
@@ -60,6 +67,13 @@ namespace Implem.Pleasanter.Models
         public string SavedSiteGroupName = string.Empty;
         public string SavedGridGuide = string.Empty;
         public string SavedEditorGuide = string.Empty;
+        public string SavedCalendarGuide = string.Empty;
+        public string SavedCrosstabGuide = string.Empty;
+        public string SavedGanttGuide = string.Empty;
+        public string SavedBurnDownGuide = string.Empty;
+        public string SavedTimeSeriesGuide = string.Empty;
+        public string SavedKambanGuide = string.Empty;
+        public string SavedImageLibGuide = string.Empty;
         public string SavedReferenceType = "Sites";
         public long SavedParentId = 0;
         public long SavedInheritPermission = 0;
@@ -114,6 +128,62 @@ namespace Implem.Pleasanter.Models
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.GetDefaultInput(context: context).ToString() != EditorGuide);
+        }
+
+        public bool CalendarGuide_Updated(Context context, Column column = null)
+        {
+            return CalendarGuide != SavedCalendarGuide && CalendarGuide != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToString() != CalendarGuide);
+        }
+
+        public bool CrosstabGuide_Updated(Context context, Column column = null)
+        {
+            return CrosstabGuide != SavedCrosstabGuide && CrosstabGuide != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToString() != CrosstabGuide);
+        }
+
+        public bool GanttGuide_Updated(Context context, Column column = null)
+        {
+            return GanttGuide != SavedGanttGuide && GanttGuide != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToString() != GanttGuide);
+        }
+
+        public bool BurnDownGuide_Updated(Context context, Column column = null)
+        {
+            return BurnDownGuide != SavedBurnDownGuide && BurnDownGuide != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToString() != BurnDownGuide);
+        }
+
+        public bool TimeSeriesGuide_Updated(Context context, Column column = null)
+        {
+            return TimeSeriesGuide != SavedTimeSeriesGuide && TimeSeriesGuide != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToString() != TimeSeriesGuide);
+        }
+
+        public bool KambanGuide_Updated(Context context, Column column = null)
+        {
+            return KambanGuide != SavedKambanGuide && KambanGuide != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToString() != KambanGuide);
+        }
+
+        public bool ImageLibGuide_Updated(Context context, Column column = null)
+        {
+            return ImageLibGuide != SavedImageLibGuide && ImageLibGuide != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToString() != ImageLibGuide);
         }
 
         public bool ReferenceType_Updated(Context context, Column column = null)
@@ -275,6 +345,13 @@ namespace Implem.Pleasanter.Models
                 case "SiteGroupName": return SiteGroupName;
                 case "GridGuide": return GridGuide;
                 case "EditorGuide": return EditorGuide;
+                case "CalendarGuide": return CalendarGuide;
+                case "CrosstabGuide": return CrosstabGuide;
+                case "GanttGuide": return GanttGuide;
+                case "BurnDownGuide": return BurnDownGuide;
+                case "TimeSeriesGuide": return TimeSeriesGuide;
+                case "KambanGuide": return KambanGuide;
+                case "ImageLibGuide": return ImageLibGuide;
                 case "ReferenceType": return ReferenceType;
                 case "ParentId": return ParentId.ToString();
                 case "InheritPermission": return InheritPermission.ToString();
@@ -343,6 +420,27 @@ namespace Implem.Pleasanter.Models
                             break;
                         case "EditorGuide":
                             hash.Add("EditorGuide", EditorGuide);
+                            break;
+                        case "CalendarGuide":
+                            hash.Add("CalendarGuide", CalendarGuide);
+                            break;
+                        case "CrosstabGuide":
+                            hash.Add("CrosstabGuide", CrosstabGuide);
+                            break;
+                        case "GanttGuide":
+                            hash.Add("GanttGuide", GanttGuide);
+                            break;
+                        case "BurnDownGuide":
+                            hash.Add("BurnDownGuide", BurnDownGuide);
+                            break;
+                        case "TimeSeriesGuide":
+                            hash.Add("TimeSeriesGuide", TimeSeriesGuide);
+                            break;
+                        case "KambanGuide":
+                            hash.Add("KambanGuide", KambanGuide);
+                            break;
+                        case "ImageLibGuide":
+                            hash.Add("ImageLibGuide", ImageLibGuide);
                             break;
                         case "ReferenceType":
                             hash.Add("ReferenceType", ReferenceType);
@@ -429,6 +527,13 @@ namespace Implem.Pleasanter.Models
                 case "SiteGroupName": return SiteGroupName_Updated(context: context);
                 case "GridGuide": return GridGuide_Updated(context: context);
                 case "EditorGuide": return EditorGuide_Updated(context: context);
+                case "CalendarGuide": return CalendarGuide_Updated(context: context);
+                case "CrosstabGuide": return CrosstabGuide_Updated(context: context);
+                case "GanttGuide": return GanttGuide_Updated(context: context);
+                case "BurnDownGuide": return BurnDownGuide_Updated(context: context);
+                case "TimeSeriesGuide": return TimeSeriesGuide_Updated(context: context);
+                case "KambanGuide": return KambanGuide_Updated(context: context);
+                case "ImageLibGuide": return ImageLibGuide_Updated(context: context);
                 case "ReferenceType": return ReferenceType_Updated(context: context);
                 case "ParentId": return ParentId_Updated(context: context);
                 case "InheritPermission": return InheritPermission_Updated(context: context);
@@ -1019,6 +1124,13 @@ namespace Implem.Pleasanter.Models
                     case "Sites_SiteGroupName": SiteGroupName = value.ToString(); break;
                     case "Sites_GridGuide": GridGuide = value.ToString(); break;
                     case "Sites_EditorGuide": EditorGuide = value.ToString(); break;
+                    case "Sites_CalendarGuide": CalendarGuide = value.ToString(); break;
+                    case "Sites_CrosstabGuide": CrosstabGuide = value.ToString(); break;
+                    case "Sites_GanttGuide": GanttGuide = value.ToString(); break;
+                    case "Sites_BurnDownGuide": BurnDownGuide = value.ToString(); break;
+                    case "Sites_TimeSeriesGuide": TimeSeriesGuide = value.ToString(); break;
+                    case "Sites_KambanGuide": KambanGuide = value.ToString(); break;
+                    case "Sites_ImageLibGuide": ImageLibGuide = value.ToString(); break;
                     case "Sites_ReferenceType": ReferenceType = value.ToString(); break;
                     case "Sites_InheritPermission": InheritPermission = value.ToLong(); break;
                     case "Sites_Publish": Publish = value.ToBool(); break;
@@ -1114,6 +1226,13 @@ namespace Implem.Pleasanter.Models
             SiteGroupName = siteModel.SiteGroupName;
             GridGuide = siteModel.GridGuide;
             EditorGuide = siteModel.EditorGuide;
+            CalendarGuide = siteModel.CalendarGuide;
+            CrosstabGuide = siteModel.CrosstabGuide;
+            GanttGuide = siteModel.GanttGuide;
+            BurnDownGuide = siteModel.BurnDownGuide;
+            TimeSeriesGuide = siteModel.TimeSeriesGuide;
+            KambanGuide = siteModel.KambanGuide;
+            ImageLibGuide = siteModel.ImageLibGuide;
             ReferenceType = siteModel.ReferenceType;
             ParentId = siteModel.ParentId;
             InheritPermission = siteModel.InheritPermission;
@@ -1157,6 +1276,13 @@ namespace Implem.Pleasanter.Models
             if (data.SiteGroupName != null) SiteGroupName = data.SiteGroupName.ToString().ToString();
             if (data.GridGuide != null) GridGuide = data.GridGuide.ToString().ToString();
             if (data.EditorGuide != null) EditorGuide = data.EditorGuide.ToString().ToString();
+            if (data.CalendarGuide != null) CalendarGuide = data.CalendarGuide.ToString().ToString();
+            if (data.CrosstabGuide != null) CrosstabGuide = data.CrosstabGuide.ToString().ToString();
+            if (data.GanttGuide != null) GanttGuide = data.GanttGuide.ToString().ToString();
+            if (data.BurnDownGuide != null) BurnDownGuide = data.BurnDownGuide.ToString().ToString();
+            if (data.TimeSeriesGuide != null) TimeSeriesGuide = data.TimeSeriesGuide.ToString().ToString();
+            if (data.KambanGuide != null) KambanGuide = data.KambanGuide.ToString().ToString();
+            if (data.ImageLibGuide != null) ImageLibGuide = data.ImageLibGuide.ToString().ToString();
             if (data.ReferenceType != null) ReferenceType = data.ReferenceType.ToString().ToString();
             if (data.InheritPermission != null) InheritPermission = data.InheritPermission.ToLong().ToLong();
             if (data.Publish != null) Publish = data.Publish.ToBool().ToBool();
@@ -1393,6 +1519,34 @@ namespace Implem.Pleasanter.Models
                             EditorGuide = dataRow[column.ColumnName].ToString();
                             SavedEditorGuide = EditorGuide;
                             break;
+                        case "CalendarGuide":
+                            CalendarGuide = dataRow[column.ColumnName].ToString();
+                            SavedCalendarGuide = CalendarGuide;
+                            break;
+                        case "CrosstabGuide":
+                            CrosstabGuide = dataRow[column.ColumnName].ToString();
+                            SavedCrosstabGuide = CrosstabGuide;
+                            break;
+                        case "GanttGuide":
+                            GanttGuide = dataRow[column.ColumnName].ToString();
+                            SavedGanttGuide = GanttGuide;
+                            break;
+                        case "BurnDownGuide":
+                            BurnDownGuide = dataRow[column.ColumnName].ToString();
+                            SavedBurnDownGuide = BurnDownGuide;
+                            break;
+                        case "TimeSeriesGuide":
+                            TimeSeriesGuide = dataRow[column.ColumnName].ToString();
+                            SavedTimeSeriesGuide = TimeSeriesGuide;
+                            break;
+                        case "KambanGuide":
+                            KambanGuide = dataRow[column.ColumnName].ToString();
+                            SavedKambanGuide = KambanGuide;
+                            break;
+                        case "ImageLibGuide":
+                            ImageLibGuide = dataRow[column.ColumnName].ToString();
+                            SavedImageLibGuide = ImageLibGuide;
+                            break;
                         case "ReferenceType":
                             ReferenceType = dataRow[column.ColumnName].ToString();
                             SavedReferenceType = ReferenceType;
@@ -1525,6 +1679,13 @@ namespace Implem.Pleasanter.Models
                 || SiteGroupName_Updated(context: context)
                 || GridGuide_Updated(context: context)
                 || EditorGuide_Updated(context: context)
+                || CalendarGuide_Updated(context: context)
+                || CrosstabGuide_Updated(context: context)
+                || GanttGuide_Updated(context: context)
+                || BurnDownGuide_Updated(context: context)
+                || TimeSeriesGuide_Updated(context: context)
+                || KambanGuide_Updated(context: context)
+                || ImageLibGuide_Updated(context: context)
                 || ReferenceType_Updated(context: context)
                 || ParentId_Updated(context: context)
                 || InheritPermission_Updated(context: context)
