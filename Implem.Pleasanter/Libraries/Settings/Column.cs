@@ -940,8 +940,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             switch (EditorFormat)
             {
                 case "Ymdhm":
-                case "Ymdhms":
                     return Displays.YmdhmDatePickerFormat(context: context);
+                case "Ymdhms":
+                    return Displays.YmdhmsDatePickerFormat(context: context);
                 default:
                     return Displays.YmdDatePickerFormat(context: context);
             }

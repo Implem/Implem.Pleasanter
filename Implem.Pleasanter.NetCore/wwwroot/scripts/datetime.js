@@ -11,6 +11,12 @@
                     += ' ' + ('0' + date.getHours()).slice(-2)
                     + ':' + ('0' + date.getMinutes()).slice(-2);
                 break;
+            case 'Y/m/d H:i:s':
+                dateTime
+                    += ' ' + ('0' + date.getHours()).slice(-2)
+                    + ':' + ('0' + date.getMinutes()).slice(-2)
+                    + ':' + ('0' + date.getSeconds()).slice(-2);
+                break;
         }
         $p.set($control, dateTime);
     });
