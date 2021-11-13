@@ -6804,6 +6804,94 @@ namespace Implem.Pleasanter.Libraries.Responses
             return res.ValAndFormData("#Sites_Body", value);
         }
 
+        public static SitesResponseCollection SiteName(
+            this SitesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Sites_SiteName",
+                res.SiteModel.SiteName.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "SiteName")));
+        }
+
+        public static SitesResponseCollection SiteName(
+            this SitesResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Sites_SiteName", value);
+        }
+
+        public static SitesResponseCollection SiteName_FormData(
+            this SitesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Sites_SiteName",
+                res.SiteModel.SiteName.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "SiteName")));
+        }
+
+        public static SitesResponseCollection SiteName_FormData(
+            this SitesResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Sites_SiteName", value);
+        }
+
+        public static SitesResponseCollection SiteGroupName(
+            this SitesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Sites_SiteGroupName",
+                res.SiteModel.SiteGroupName.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "SiteGroupName")));
+        }
+
+        public static SitesResponseCollection SiteGroupName(
+            this SitesResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Sites_SiteGroupName", value);
+        }
+
+        public static SitesResponseCollection SiteGroupName_FormData(
+            this SitesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Sites_SiteGroupName",
+                res.SiteModel.SiteGroupName.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "SiteGroupName")));
+        }
+
+        public static SitesResponseCollection SiteGroupName_FormData(
+            this SitesResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Sites_SiteGroupName", value);
+        }
+
         public static SitesResponseCollection GridGuide(
             this SitesResponseCollection res,
             Context context,

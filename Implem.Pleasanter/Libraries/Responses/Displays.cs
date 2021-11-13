@@ -10739,6 +10739,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Sites_SiteName(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sites_SiteName",
+                data: data);
+        }
+
+        public static string Sites_SiteGroupName(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sites_SiteGroupName",
+                data: data);
+        }
+
         public static string Sites_GridGuide(
             Context context,
             params string[] data)

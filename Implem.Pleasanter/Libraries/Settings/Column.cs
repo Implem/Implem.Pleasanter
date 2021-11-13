@@ -1712,6 +1712,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "Body":
                             sql.Sites_Body(tableName: path, _as: _as);
                             break;
+                        case "SiteName":
+                            sql.Sites_SiteName(tableName: path, _as: _as);
+                            break;
+                        case "SiteGroupName":
+                            sql.Sites_SiteGroupName(tableName: path, _as: _as);
+                            break;
                         case "GridGuide":
                             sql.Sites_GridGuide(tableName: path, _as: _as);
                             break;

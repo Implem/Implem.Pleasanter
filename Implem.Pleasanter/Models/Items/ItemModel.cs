@@ -185,6 +185,8 @@ namespace Implem.Pleasanter.Models
                             .SiteId()
                             .Title()
                             .Body()
+                            .SiteName()
+                            .SiteGroupName()
                             .GridGuide()
                             .EditorGuide()
                             .ReferenceType()

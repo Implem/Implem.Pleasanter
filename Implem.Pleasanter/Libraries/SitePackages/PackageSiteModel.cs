@@ -105,9 +105,19 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 summary.SiteId = header.GetConvertedId(summary.SiteId));
             if (ss.IntegratedSites?.Any() == true)
             {
-                var integratedSites = new List<long>();
-                ss.IntegratedSites?.ForEach(id =>
-                    integratedSites.Add(header.GetConvertedId(id)));
+                var integratedSites = new List<string>();
+                ss.IntegratedSites?.ForEach(site =>
+                {
+                    var convertedId = header.GetConvertedId(site.ToLong());
+                    if (convertedId > 0)
+                    {
+                        integratedSites.Add(convertedId.ToString());
+                    }
+                    else if (!site.IsNullOrEmpty())
+                    {
+                        integratedSites.Add(site);
+                    }
+                });
                 ss.IntegratedSites = integratedSites;
             }
             ss.Columns?

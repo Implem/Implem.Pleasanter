@@ -28,6 +28,8 @@ namespace Implem.Pleasanter.Models
     {
         public SiteSettings SiteSettings;
         public int TenantId = 0;
+        public string SiteName = string.Empty;
+        public string SiteGroupName = string.Empty;
         public string GridGuide = string.Empty;
         public string EditorGuide = string.Empty;
         public string ReferenceType = "Sites";
@@ -54,6 +56,8 @@ namespace Implem.Pleasanter.Models
         }
 
         public int SavedTenantId = 0;
+        public string SavedSiteName = string.Empty;
+        public string SavedSiteGroupName = string.Empty;
         public string SavedGridGuide = string.Empty;
         public string SavedEditorGuide = string.Empty;
         public string SavedReferenceType = "Sites";
@@ -78,6 +82,22 @@ namespace Implem.Pleasanter.Models
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.GetDefaultInput(context: context).ToInt() != TenantId);
+        }
+
+        public bool SiteName_Updated(Context context, Column column = null)
+        {
+            return SiteName != SavedSiteName && SiteName != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToString() != SiteName);
+        }
+
+        public bool SiteGroupName_Updated(Context context, Column column = null)
+        {
+            return SiteGroupName != SavedSiteGroupName && SiteGroupName != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToString() != SiteGroupName);
         }
 
         public bool GridGuide_Updated(Context context, Column column = null)
@@ -251,6 +271,8 @@ namespace Implem.Pleasanter.Models
                 case "Title": return Title.Value;
                 case "Body": return Body;
                 case "TitleBody": return TitleBody.ToString();
+                case "SiteName": return SiteName;
+                case "SiteGroupName": return SiteGroupName;
                 case "GridGuide": return GridGuide;
                 case "EditorGuide": return EditorGuide;
                 case "ReferenceType": return ReferenceType;
@@ -309,6 +331,12 @@ namespace Implem.Pleasanter.Models
                             break;
                         case "TitleBody":
                             hash.Add("TitleBody", TitleBody.ToString());
+                            break;
+                        case "SiteName":
+                            hash.Add("SiteName", SiteName);
+                            break;
+                        case "SiteGroupName":
+                            hash.Add("SiteGroupName", SiteGroupName);
                             break;
                         case "GridGuide":
                             hash.Add("GridGuide", GridGuide);
@@ -397,6 +425,8 @@ namespace Implem.Pleasanter.Models
                 case "Ver": return Ver_Updated(context: context);
                 case "Title": return Title_Updated(context: context);
                 case "Body": return Body_Updated(context: context);
+                case "SiteName": return SiteName_Updated(context: context);
+                case "SiteGroupName": return SiteGroupName_Updated(context: context);
                 case "GridGuide": return GridGuide_Updated(context: context);
                 case "EditorGuide": return EditorGuide_Updated(context: context);
                 case "ReferenceType": return ReferenceType_Updated(context: context);
@@ -985,6 +1015,8 @@ namespace Implem.Pleasanter.Models
                 {
                     case "Sites_Title": Title = new Title(SiteId, value); break;
                     case "Sites_Body": Body = value.ToString(); break;
+                    case "Sites_SiteName": SiteName = value.ToString(); break;
+                    case "Sites_SiteGroupName": SiteGroupName = value.ToString(); break;
                     case "Sites_GridGuide": GridGuide = value.ToString(); break;
                     case "Sites_EditorGuide": EditorGuide = value.ToString(); break;
                     case "Sites_ReferenceType": ReferenceType = value.ToString(); break;
@@ -1078,6 +1110,8 @@ namespace Implem.Pleasanter.Models
             UpdatedTime = siteModel.UpdatedTime;
             Title = siteModel.Title;
             Body = siteModel.Body;
+            SiteName = siteModel.SiteName;
+            SiteGroupName = siteModel.SiteGroupName;
             GridGuide = siteModel.GridGuide;
             EditorGuide = siteModel.EditorGuide;
             ReferenceType = siteModel.ReferenceType;
@@ -1119,6 +1153,8 @@ namespace Implem.Pleasanter.Models
             }
             if (data.Title != null) Title = new Title(SiteId, data.Title);
             if (data.Body != null) Body = data.Body.ToString().ToString();
+            if (data.SiteName != null) SiteName = data.SiteName.ToString().ToString();
+            if (data.SiteGroupName != null) SiteGroupName = data.SiteGroupName.ToString().ToString();
             if (data.GridGuide != null) GridGuide = data.GridGuide.ToString().ToString();
             if (data.EditorGuide != null) EditorGuide = data.EditorGuide.ToString().ToString();
             if (data.ReferenceType != null) ReferenceType = data.ReferenceType.ToString().ToString();
@@ -1341,6 +1377,14 @@ namespace Implem.Pleasanter.Models
                             Body = dataRow[column.ColumnName].ToString();
                             SavedBody = Body;
                             break;
+                        case "SiteName":
+                            SiteName = dataRow[column.ColumnName].ToString();
+                            SavedSiteName = SiteName;
+                            break;
+                        case "SiteGroupName":
+                            SiteGroupName = dataRow[column.ColumnName].ToString();
+                            SavedSiteGroupName = SiteGroupName;
+                            break;
                         case "GridGuide":
                             GridGuide = dataRow[column.ColumnName].ToString();
                             SavedGridGuide = GridGuide;
@@ -1477,6 +1521,8 @@ namespace Implem.Pleasanter.Models
                 || Ver_Updated(context: context)
                 || Title_Updated(context: context)
                 || Body_Updated(context: context)
+                || SiteName_Updated(context: context)
+                || SiteGroupName_Updated(context: context)
                 || GridGuide_Updated(context: context)
                 || EditorGuide_Updated(context: context)
                 || ReferenceType_Updated(context: context)
