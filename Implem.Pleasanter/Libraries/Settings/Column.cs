@@ -934,8 +934,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             switch (EditorFormat)
             {
                 case "Ymdhm":
-                case "Ymdhms":
                     return Displays.YmdhmDatePickerFormat(context: context);
+                case "Ymdhms":
+                    return Displays.YmdhmsDatePickerFormat(context: context);
                 default:
                     return Displays.YmdDatePickerFormat(context: context);
             }
@@ -1706,11 +1707,38 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "Body":
                             sql.Sites_Body(tableName: path, _as: _as);
                             break;
+                        case "SiteName":
+                            sql.Sites_SiteName(tableName: path, _as: _as);
+                            break;
+                        case "SiteGroupName":
+                            sql.Sites_SiteGroupName(tableName: path, _as: _as);
+                            break;
                         case "GridGuide":
                             sql.Sites_GridGuide(tableName: path, _as: _as);
                             break;
                         case "EditorGuide":
                             sql.Sites_EditorGuide(tableName: path, _as: _as);
+                            break;
+                        case "CalendarGuide":
+                            sql.Sites_CalendarGuide(tableName: path, _as: _as);
+                            break;
+                        case "CrosstabGuide":
+                            sql.Sites_CrosstabGuide(tableName: path, _as: _as);
+                            break;
+                        case "GanttGuide":
+                            sql.Sites_GanttGuide(tableName: path, _as: _as);
+                            break;
+                        case "BurnDownGuide":
+                            sql.Sites_BurnDownGuide(tableName: path, _as: _as);
+                            break;
+                        case "TimeSeriesGuide":
+                            sql.Sites_TimeSeriesGuide(tableName: path, _as: _as);
+                            break;
+                        case "KambanGuide":
+                            sql.Sites_KambanGuide(tableName: path, _as: _as);
+                            break;
+                        case "ImageLibGuide":
+                            sql.Sites_ImageLibGuide(tableName: path, _as: _as);
                             break;
                         case "ReferenceType":
                             sql.Sites_ReferenceType(tableName: path, _as: _as);

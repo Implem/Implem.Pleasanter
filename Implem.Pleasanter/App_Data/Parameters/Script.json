@@ -1,5 +1,6 @@
 ﻿{
     "ServerScript": true,
+    "DisableServerScriptHttpClient": false,
     "ServerScriptTimeOut": 10000,
     "ServerScriptIncludeDepthLimit": 10
 }

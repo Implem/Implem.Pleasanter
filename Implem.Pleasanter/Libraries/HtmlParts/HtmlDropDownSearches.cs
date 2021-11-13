@@ -67,6 +67,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             switch (context.Controller)
             {
                 case "items":
+                case "publishes":
                     return Locations.ItemAction(
                         context: context,
                         id: id);

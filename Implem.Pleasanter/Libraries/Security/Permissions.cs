@@ -159,7 +159,8 @@ namespace Implem.Pleasanter.Libraries.Security
                     }
                     else
                     {
-                        var denySites = ss.IntegratedSites
+                        var integratedSites = ss.GetIntegratedSites(context: context);
+                        var denySites = integratedSites
                            .Where(siteId => !ss.AllowedIntegratedSites.Contains(siteId))
                            .ToList();
                         denySites = denySites.Any()
@@ -193,7 +194,7 @@ namespace Implem.Pleasanter.Libraries.Security
                                     .CheckRecordPermission(
                                         context: context,
                                         ss: ss,
-                                        siteIdList: ss.IntegratedSites)));
+                                        siteIdList: integratedSites)));
                         }
                     }
                 }

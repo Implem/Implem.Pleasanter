@@ -768,6 +768,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         engine.AddHostObject("elements", model.Elements);
                         engine.AddHostObject("extendedSql", model.ExtendedSql);
                         engine.AddHostObject("notifications", model.Notification);
+                        if (!Parameters.Script.DisableServerScriptHttpClient)
+                        {
+                            engine.AddHostObject("httpClient", model.HttpClient);
+                        }
                         engine.AddHostObject("utilities", model.Utilities);
                         engine.Execute(scripts.Select(o => o.Body).Join("\n"));
                     }

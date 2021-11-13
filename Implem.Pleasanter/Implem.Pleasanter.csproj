@@ -421,6 +421,7 @@
     <Compile Include="Libraries\ServerScripts\ServerScriptModelGroups.cs" />
     <Compile Include="Libraries\ServerScripts\ServerScriptUtilities.cs" />
     <Compile Include="Libraries\ServerScripts\ServerScriptValidators.cs" />
+    <Compile Include="Libraries\ServerScripts\ServerScriptModelHttpClient.cs" />
     <Compile Include="Libraries\Server\IpAddress.cs" />
     <Compile Include="Libraries\Server\IpRange.cs" />
     <Compile Include="Libraries\Server\LinkKeyValues.cs" />
@@ -2331,6 +2332,8 @@
     <Content Include="App_Data\Displays\CalendarSettings.json" />
     <Content Include="App_Data\Displays\AllowViewReset.json" />
     <Content Include="App_Data\Displays\PasswordHasBeenUsed.json" />
+    <Content Include="App_Data\Displays\Guide.json" />
+    <Content Include="App_Data\Displays\YmdhmsDatePickerFormat.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />
