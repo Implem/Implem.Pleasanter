@@ -11,6 +11,8 @@ namespace Implem.Pleasanter.Models
         public int? Ver { get; set; }
         public string Title { get; set; }
         public string Body { get; set; }
+        public string SiteName { get; set; }
+        public string SiteGroupName { get; set; }
         public string GridGuide { get; set; }
         public string EditorGuide { get; set; }
         public string ReferenceType { get; set; }

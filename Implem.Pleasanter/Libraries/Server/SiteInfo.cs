@@ -409,6 +409,8 @@ namespace Implem.Pleasanter.Libraries.Server
                         .SiteId()
                         .Title()
                         .Body()
+                        .SiteName()
+                        .SiteGroupName()
                         .GridGuide()
                         .EditorGuide()
                         .ReferenceType()

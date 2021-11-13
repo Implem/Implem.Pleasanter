@@ -3839,6 +3839,25 @@ namespace Implem.Pleasanter.Models
                         validateRequired: titleColumn.ValidateRequired ?? false,
                         validateMaxLength: titleColumn.ValidateMaxLength ?? 0,
                         _using: siteModel.ReferenceType != "Wikis")
+                    .FieldTextBox(
+                        controlId: "Sites_SiteName",
+                        fieldCss: "field-normal",
+                        labelText: Displays.Sites_SiteName(context: context),
+                        text: siteModel.SiteName,
+                        validateMaxLength: ss.GetColumn(
+                            context: context,
+                            columnName: "SiteName")
+                                ?.ValidateMaxLength ?? 0)
+                    .FieldTextBox(
+                        controlId: "Sites_SiteGroupName",
+                        fieldCss: "field-normal",
+                        labelText: Displays.Sites_SiteGroupName(context: context),
+                        text: siteModel.SiteGroupName,
+                        validateMaxLength: ss.GetColumn(
+                            context: context,
+                            columnName: "SiteGroupName")
+                                ?.ValidateMaxLength ?? 0,
+                        _using: siteModel.ReferenceType != "Wikis")
                     .FieldMarkDown(
                         context: context,
                         ss: ss,
