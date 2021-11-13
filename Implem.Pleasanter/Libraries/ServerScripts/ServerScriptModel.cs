@@ -25,6 +25,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public ServerScriptElements Elements;
         public ServerScriptModelExtendedSql ExtendedSql;
         public ServerScriptModelNotification Notification;
+        public ServerScriptModelHttpClient HttpClient;
         public readonly ServerScriptModelUtilities Utilities;
         public bool Debug;
         private DateTime TimeOut;
@@ -107,6 +108,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             Notification = new ServerScriptModelNotification(
                 context: context,
                 ss: ss);
+            HttpClient = new ServerScriptModelHttpClient();
             Utilities = new ServerScriptModelUtilities(
                 context: context,
                 ss: ss);
