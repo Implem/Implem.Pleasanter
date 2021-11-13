@@ -15,6 +15,13 @@ namespace Implem.Pleasanter.Models
         public string SiteGroupName { get; set; }
         public string GridGuide { get; set; }
         public string EditorGuide { get; set; }
+        public string CalendarGuide { get; set; }
+        public string CrosstabGuide { get; set; }
+        public string GanttGuide { get; set; }
+        public string BurnDownGuide { get; set; }
+        public string TimeSeriesGuide { get; set; }
+        public string KambanGuide { get; set; }
+        public string ImageLibGuide { get; set; }
         public string ReferenceType { get; set; }
         public long? ParentId { get; set; }
         public long? InheritPermission { get; set; }

@@ -95,6 +95,20 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public string EditorGuide;
         [NonSerialized]
+        public string CalendarGuide;
+        [NonSerialized]
+        public string CrosstabGuide;
+        [NonSerialized]
+        public string GanttGuide;
+        [NonSerialized]
+        public string BurnDownGuide;
+        [NonSerialized]
+        public string TimeSeriesGuide;
+        [NonSerialized]
+        public string KambanGuide;
+        [NonSerialized]
+        public string ImageLibGuide;
+        [NonSerialized]
         public long ParentId;
         [NonSerialized]
         public Sqls.TableTypes TableType = Sqls.TableTypes.Normal;
@@ -413,6 +427,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss.Body = dataRow.String("Body");
                     ss.GridGuide = dataRow.String("GridGuide");
                     ss.EditorGuide = dataRow.String("EditorGuide");
+                    ss.CalendarGuide = dataRow.String("CalendarGuide");
+                    ss.CrosstabGuide = dataRow.String("CrosstabGuide");
+                    ss.GanttGuide = dataRow.String("GanttGuide");
+                    ss.BurnDownGuide = dataRow.String("BurnDownGuide");
+                    ss.TimeSeriesGuide = dataRow.String("TimeSeriesGuide");
+                    ss.KambanGuide = dataRow.String("KambanGuide");
+                    ss.ImageLibGuide = dataRow.String("ImageLibGuide");
                     ss.ReferenceType = dataRow.String("ReferenceType");
                     ss.ParentId = dataRow.Long("ParentId");
                     ss.InheritPermission = dataRow.Long("InheritPermission");

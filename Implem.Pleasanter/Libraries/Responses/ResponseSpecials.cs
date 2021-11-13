@@ -6980,6 +6980,314 @@ namespace Implem.Pleasanter.Libraries.Responses
             return res.ValAndFormData("#Sites_EditorGuide", value);
         }
 
+        public static SitesResponseCollection CalendarGuide(
+            this SitesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Sites_CalendarGuide",
+                res.SiteModel.CalendarGuide.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "CalendarGuide")));
+        }
+
+        public static SitesResponseCollection CalendarGuide(
+            this SitesResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Sites_CalendarGuide", value);
+        }
+
+        public static SitesResponseCollection CalendarGuide_FormData(
+            this SitesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Sites_CalendarGuide",
+                res.SiteModel.CalendarGuide.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "CalendarGuide")));
+        }
+
+        public static SitesResponseCollection CalendarGuide_FormData(
+            this SitesResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Sites_CalendarGuide", value);
+        }
+
+        public static SitesResponseCollection CrosstabGuide(
+            this SitesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Sites_CrosstabGuide",
+                res.SiteModel.CrosstabGuide.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "CrosstabGuide")));
+        }
+
+        public static SitesResponseCollection CrosstabGuide(
+            this SitesResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Sites_CrosstabGuide", value);
+        }
+
+        public static SitesResponseCollection CrosstabGuide_FormData(
+            this SitesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Sites_CrosstabGuide",
+                res.SiteModel.CrosstabGuide.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "CrosstabGuide")));
+        }
+
+        public static SitesResponseCollection CrosstabGuide_FormData(
+            this SitesResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Sites_CrosstabGuide", value);
+        }
+
+        public static SitesResponseCollection GanttGuide(
+            this SitesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Sites_GanttGuide",
+                res.SiteModel.GanttGuide.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "GanttGuide")));
+        }
+
+        public static SitesResponseCollection GanttGuide(
+            this SitesResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Sites_GanttGuide", value);
+        }
+
+        public static SitesResponseCollection GanttGuide_FormData(
+            this SitesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Sites_GanttGuide",
+                res.SiteModel.GanttGuide.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "GanttGuide")));
+        }
+
+        public static SitesResponseCollection GanttGuide_FormData(
+            this SitesResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Sites_GanttGuide", value);
+        }
+
+        public static SitesResponseCollection BurnDownGuide(
+            this SitesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Sites_BurnDownGuide",
+                res.SiteModel.BurnDownGuide.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "BurnDownGuide")));
+        }
+
+        public static SitesResponseCollection BurnDownGuide(
+            this SitesResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Sites_BurnDownGuide", value);
+        }
+
+        public static SitesResponseCollection BurnDownGuide_FormData(
+            this SitesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Sites_BurnDownGuide",
+                res.SiteModel.BurnDownGuide.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "BurnDownGuide")));
+        }
+
+        public static SitesResponseCollection BurnDownGuide_FormData(
+            this SitesResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Sites_BurnDownGuide", value);
+        }
+
+        public static SitesResponseCollection TimeSeriesGuide(
+            this SitesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Sites_TimeSeriesGuide",
+                res.SiteModel.TimeSeriesGuide.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "TimeSeriesGuide")));
+        }
+
+        public static SitesResponseCollection TimeSeriesGuide(
+            this SitesResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Sites_TimeSeriesGuide", value);
+        }
+
+        public static SitesResponseCollection TimeSeriesGuide_FormData(
+            this SitesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Sites_TimeSeriesGuide",
+                res.SiteModel.TimeSeriesGuide.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "TimeSeriesGuide")));
+        }
+
+        public static SitesResponseCollection TimeSeriesGuide_FormData(
+            this SitesResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Sites_TimeSeriesGuide", value);
+        }
+
+        public static SitesResponseCollection KambanGuide(
+            this SitesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Sites_KambanGuide",
+                res.SiteModel.KambanGuide.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "KambanGuide")));
+        }
+
+        public static SitesResponseCollection KambanGuide(
+            this SitesResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Sites_KambanGuide", value);
+        }
+
+        public static SitesResponseCollection KambanGuide_FormData(
+            this SitesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Sites_KambanGuide",
+                res.SiteModel.KambanGuide.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "KambanGuide")));
+        }
+
+        public static SitesResponseCollection KambanGuide_FormData(
+            this SitesResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Sites_KambanGuide", value);
+        }
+
+        public static SitesResponseCollection ImageLibGuide(
+            this SitesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Sites_ImageLibGuide",
+                res.SiteModel.ImageLibGuide.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "ImageLibGuide")));
+        }
+
+        public static SitesResponseCollection ImageLibGuide(
+            this SitesResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Sites_ImageLibGuide", value);
+        }
+
+        public static SitesResponseCollection ImageLibGuide_FormData(
+            this SitesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Sites_ImageLibGuide",
+                res.SiteModel.ImageLibGuide.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "ImageLibGuide")));
+        }
+
+        public static SitesResponseCollection ImageLibGuide_FormData(
+            this SitesResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Sites_ImageLibGuide", value);
+        }
+
         public static SitesResponseCollection ReferenceType(
             this SitesResponseCollection res,
             Context context,
