@@ -6079,7 +6079,7 @@ namespace Implem.Pleasanter.Models
         {
             return editorFormat
                 ? DisplayAccessor.Displays.DisplayHash
-                    .Where(o => new string[] { "Ymd", "Ymdhm" }.Contains(o.Key))
+                    .Where(o => new string[] { "Ymd", "Ymdhm", "Ymdhms" }.Contains(o.Key))
                     .ToDictionary(o => o.Key, o => Displays.Get(
                         context: context,
                         id: o.Key))
