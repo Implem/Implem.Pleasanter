@@ -272,7 +272,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .DataVer(dataVersion)
                     .DataLatest(1, _using: !isHistory)
                     .Add(name: "data-history", value: "1", _using: isHistory)
-                    .Add(name: "data-locked", value: "1", _using: dataRow.Bool("Locked")),
+                    .Add(name: "data-locked", value: "1", _using: dataRow.Bool("Locked"))
+                    .Add(name: "data-extension", value: serverScriptModelRow?.ExtendedRowData),
                 action: () =>
                 {
                     if (editRow)

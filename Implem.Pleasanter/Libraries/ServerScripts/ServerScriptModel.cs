@@ -284,6 +284,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public class ServerScriptModelRow
         {
             public string ExtendedRowCss { get; set; }
+            public string ExtendedRowData { get; set; }
             public Dictionary<string, ServerScriptModelColumn> Columns { get; set; }
             public Dictionary<string, string> Hidden { get; set; }
             public ServerScriptElements Elements { get; set; }
