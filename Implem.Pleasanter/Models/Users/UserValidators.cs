@@ -787,7 +787,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static ErrorData OnPasswordChange(Context context)
         {
-            if (Parameters.Service.ShowProfiles || !Parameters.Service.ShowChangePassword)
+            if (!Parameters.Service.ShowChangePassword)
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }

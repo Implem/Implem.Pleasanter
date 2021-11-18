@@ -3179,8 +3179,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string OpenChangePasswordDialog(Context context, SiteSettings ss)
         {
-            var invalid = UserValidators.OnPasswordChange(
-                context: context);
+            var invalid = UserValidators.OnPasswordChange(context: context);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
