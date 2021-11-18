@@ -387,8 +387,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case "AccountMenu_EditProfile":
                     return Parameters.Service.ShowProfiles;
                 case "AccountMenu_ChangePassword":
-                    return !Parameters.Service.ShowProfiles
-                        && Parameters.Service.ShowChangePassword;
+                    return Parameters.Service.ShowChangePassword;
                 case "AccountMenu_ApiSettings":
                     return context.ContractSettings.Api != false
                         && Parameters.Api.Enabled;
