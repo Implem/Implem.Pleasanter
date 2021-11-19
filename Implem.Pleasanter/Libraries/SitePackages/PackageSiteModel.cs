@@ -120,8 +120,13 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 });
                 ss.IntegratedSites = integratedSites;
             }
-            ss.Columns?
-                .Where(e => e.ChoicesText != null)
+            ss.EditorColumnHash = ss.EditorColumnHash?.ToDictionary(
+                data => data.Key,
+                data => ReplaceLinkedColumnName(
+                    header: header,
+                    columns: data.Value));
+            ss.Columns
+                ?.Where(e => e.ChoicesText != null)
                 .ForEach(column =>
                     column.ChoicesText = ReplaceChoicesText(
                         header: header,
@@ -238,6 +243,23 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     permissionIdList: permissionIdList);
             }
             return ss;
+        }
+
+        internal static List<string> ReplaceLinkedColumnName(
+            SitePackage.Header header,
+            List<string> columns)
+        {
+            var replaced = new List<string>();
+            columns.ForEach(columnName =>
+            {
+                if (columnName.StartsWith("_Links-"))
+                {
+                    var siteId = columnName.Split_2nd('-').ToLong();
+                    columnName = $"_Links-{header.GetConvertedId(siteId)}";
+                }
+                replaced.Add(columnName);
+            });
+            return replaced;
         }
 
         internal static string ReplaceChoicesText(
