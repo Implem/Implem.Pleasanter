@@ -1,8 +1,15 @@
 ﻿$(function () {
     $.validator.addMethod(
+        'c_attachments_required',
+        function (value, element) {
+            var $control = $('[id="' + $(element).data('name') + '.items"]');
+            return $control.find('.control-attachments-item:not(.preparation-delete)').length > 0;
+        }
+    );
+    $.validator.addMethod(
         'c_num',
         function (value, element) {
-           return this.optional(element) || /^(-)?(¥|\\|\$)?[\d,.]+$/.test(value);
+            return this.optional(element) || /^(-)?(¥|\\|\$)?[\d,.]+$/.test(value);
         }
     );
     $.validator.addMethod(
@@ -68,6 +75,7 @@
     $p.applyValidator = function () {
         $.extend($.validator.messages, {
             required: $p.display('ValidateRequired'),
+            c_attachments_required: $p.display('ValidateRequired'),
             c_num: $p.display('ValidateNumber'),
             c_min_num: $p.display('ValidateMinNumber'),
             c_max_num: $p.display('ValidateMaxNumber'),
@@ -81,6 +89,9 @@
         });
         $('[data-validate-required="1"]').each(function () {
             $(this).rules('add', { required: true });
+        });
+        $('[data-validate-attachments-required="1"]').each(function () {
+            $(this).rules('add', { c_attachments_required: true });
         });
         $('[data-validate-number="1"]').each(function () {
             $(this).rules('add', { c_num: true });

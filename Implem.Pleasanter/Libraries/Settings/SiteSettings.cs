@@ -203,6 +203,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? EnableKamban;
         public bool? EnableImageLib;
         public int? ImageLibPageSize;
+        public bool? UseFilterButton;
         public bool? UseFiltersArea;
         public bool? UseGridHeaderFilters;
         public bool? UseRelatingColumnsOnFilter;
@@ -339,6 +340,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             EnableImageLib = EnableImageLib ?? true;
             ImageLibPageSize = ImageLibPageSize ?? Parameters.General.ImageLibPageSize;
             TitleSeparator = TitleSeparator ?? ")";
+            UseFilterButton = UseFilterButton ?? false;
             UseFiltersArea = UseFiltersArea ?? true;
             UseGridHeaderFilters = UseGridHeaderFilters ?? false;
             UseRelatingColumnsOnFilter = UseRelatingColumnsOnFilter ?? false;
@@ -758,6 +760,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (EnableImageLib == false)
             {
                 ss.EnableImageLib = EnableImageLib;
+            }
+            if (UseFilterButton == true)
+            {
+                ss.UseFilterButton = UseFilterButton;
             }
             if (UseFiltersArea == false)
             {
@@ -3142,6 +3148,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "EnableTimeSeries": EnableTimeSeries = value.ToBool(); break;
                 case "EnableKamban": EnableKamban = value.ToBool(); break;
                 case "EnableImageLib": EnableImageLib = value.ToBool(); break;
+                case "UseFilterButton":UseFilterButton = value.ToBool(); break;
                 case "UseFiltersArea": UseFiltersArea = value.ToBool(); break;
                 case "UseGridHeaderFilters": UseGridHeaderFilters = value.ToBool(); break;
                 case "UseRelatingColumnsOnFilter": UseRelatingColumnsOnFilter = value.ToBool(); break;

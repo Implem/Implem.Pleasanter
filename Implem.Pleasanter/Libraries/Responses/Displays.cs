@@ -3209,6 +3209,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Filter(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Filter",
+                data: data);
+        }
+
         public static string FilterAndAggregationSettings(
             Context context,
             params string[] data)
@@ -8046,6 +8056,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "UsedStorageCapacity",
+                data: data);
+        }
+
+        public static string UseFilterButton(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UseFilterButton",
                 data: data);
         }
 

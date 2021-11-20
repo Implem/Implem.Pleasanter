@@ -563,7 +563,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 ss: ss,
                                 content: false)),
                         _using: useNavigationMenu
-                            && !Parameters.Service.ShowProfiles
                             && Parameters.Service.ShowChangePassword))
                 : hb;
         }

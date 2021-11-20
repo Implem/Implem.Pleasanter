@@ -5,7 +5,6 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
-using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
@@ -57,7 +56,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     view: view)
                                 .Search(
                                     context: context,
+                                    ss: ss,
                                     view: view)
+                                .FilterButton(
+                                    context: context,
+                                    ss: ss)
                                 .Hidden(
                                     controlId: "TriggerRelatingColumns_Filter",
                                     value: Jsons.ToJson(ss?.RelatingColumns),
@@ -113,12 +116,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder Incomplete(
-            this HtmlBuilder hb, Context context, SiteSettings ss, View view)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            View view)
         {
             return hb.FieldCheckBox(
                 controlId: "ViewFilters_Incomplete",
                 fieldCss: "field-auto-thin",
-                controlCss: " auto-postback",
+                controlCss: ss.UseFilterButton != true
+                    ? " auto-postback"
+                    : string.Empty,
                 labelText: Displays.Incomplete(context: context),
                 _checked: view.Incomplete == true,
                 method: "post",
@@ -133,7 +141,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.FieldCheckBox(
                 controlId: "ViewFilters_Own",
                 fieldCss: "field-auto-thin",
-                controlCss: " auto-postback",
+                controlCss: ss.UseFilterButton != true
+                    ? " auto-postback"
+                    : string.Empty,
                 labelText: Displays.Own(context: context),
                 _checked: view.Own == true,
                 method: "post",
@@ -148,7 +158,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.FieldCheckBox(
                 controlId: "ViewFilters_NearCompletionTime",
                 fieldCss: "field-auto-thin",
-                controlCss: " auto-postback",
+                controlCss: ss.UseFilterButton != true
+                    ? " auto-postback"
+                    : string.Empty,
                 labelText: Displays.NearCompletionTime(context: context),
                 _checked: view.NearCompletionTime == true,
                 method: "post",
@@ -163,7 +175,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.FieldCheckBox(
                 controlId: "ViewFilters_Delay",
                 fieldCss: "field-auto-thin",
-                controlCss: " auto-postback",
+                controlCss: ss.UseFilterButton != true
+                    ? " auto-postback"
+                    : string.Empty,
                 labelText: Displays.Delay(context: context),
                 _checked: view.Delay == true,
                 method: "post",
@@ -178,7 +192,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.FieldCheckBox(
                 controlId: "ViewFilters_Overdue",
                 fieldCss: "field-auto-thin",
-                controlCss: " auto-postback",
+                controlCss: ss.UseFilterButton != true
+                    ? " auto-postback"
+                    : string.Empty,
                 labelText: Displays.Overdue(context: context),
                 _checked: view.Overdue == true,
                 method: "post",
@@ -287,7 +303,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         hb.FieldTextBox(
                             controlId: idPrefix + column.ColumnName,
                             fieldCss: "field-auto-thin",
-                            controlCss: " auto-postback",
+                            controlCss: ss.UseFilterButton != true
+                                ? " auto-postback"
+                                : string.Empty,
                             labelText: Displays.Get(
                                 context: context,
                                 id: column.GridLabelText),
@@ -412,7 +430,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         hb.FieldTextBox(
                             controlId: idPrefix + column.ColumnName,
                             fieldCss: "field-auto-thin",
-                            controlCss: " auto-postback",
+                            controlCss: ss.UseFilterButton != true
+                                ? " auto-postback"
+                                : string.Empty,
                             labelText: Displays.Get(
                                 context: context,
                                 id: column.GridLabelText),
@@ -445,7 +465,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         context: context,
                         controlId: idPrefix + column.ColumnName,
                         fieldCss: "field-auto-thin",
-                        controlCss: " auto-postback",
+                        controlCss: ss.UseFilterButton != true
+                            ? " auto-postback"
+                            : string.Empty,
                         labelText: Displays.Get(
                             context: context,
                             id: column.GridLabelText),
@@ -462,7 +484,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     return hb.FieldCheckBox(
                         controlId: idPrefix + column.ColumnName,
                         fieldCss: "field-auto-thin",
-                        controlCss: " auto-postback",
+                        controlCss: ss.UseFilterButton != true
+                            ? " auto-postback"
+                            : string.Empty,
                         labelText: Displays.Get(
                             context: context,
                             id: column.GridLabelText),
@@ -521,9 +545,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 context: context,
                 controlId: idPrefix + column.ColumnName,
                 fieldCss: "field-auto-thin",
-                controlCss: " auto-postback" + (column.UseSearch == true
-                    ? " search"
-                    : string.Empty),
+                controlCss: ss.UseFilterButton != true
+                    ? " auto-postback"
+                    : string.Empty
+                        + (column.UseSearch == true
+                            ? " search"
+                            : string.Empty),
                 labelText: Displays.Get(
                     context: context,
                     id: column.GridLabelText),
@@ -538,17 +565,43 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 column: column);
         }
 
-        private static HtmlBuilder Search(this HtmlBuilder hb, Context context, View view)
+        private static HtmlBuilder Search(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            View view)
         {
             return hb.FieldTextBox(
                 controlId: "ViewFilters_Search",
                 fieldCss: "field-auto-thin",
-                controlCss: " auto-postback",
+                controlCss: ss.UseFilterButton != true
+                    ? " auto-postback"
+                    : string.Empty,
                 labelText: Displays.Search(context: context),
                 text: view.Search,
                 method: "post",
                 _using: context.Controller == "items"
                     || context.Controller == "publishes");
+        }
+
+        private static HtmlBuilder FilterButton(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss)
+        {
+            return ss.UseFilterButton == true
+                ? hb
+                    .Button(
+                        controlId: "FilterButton",
+                        controlCss: "button-icon",
+                        text: Displays.Filters(context: context),
+                        onClick: "$p.send($(this));",
+                        icon: "ui-icon-search",
+                        method: "post")
+                    .Hidden(
+                        controlId: "UseFilterButton",
+                        value: "1")
+                : hb;
         }
     }
 }

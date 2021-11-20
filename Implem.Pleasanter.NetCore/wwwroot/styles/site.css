@@ -570,6 +570,11 @@ pre{
     cursor:pointer;
 }
 
+#FilterButton{
+    display:block;
+    float:left;
+}
+
 #Aggregations{
     width:100%;
     float:left;
@@ -1904,11 +1909,17 @@ td > .field-normal,td > .field-wide{
     border-radius:5px;
 }
 
+.control-attachments+label.error{
+    height:22px;
+    position:absolute;
+    top:50px;
+}
+
 .control-attachments-upload{
     width:100%;
     display:block;
     float:left;
-    padding:25px;
+    padding:25px 0px;
     text-align:center;
     border:dotted 2px #d19405;
     border-radius:3px;
