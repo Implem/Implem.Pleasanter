@@ -844,6 +844,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool readOnly = false,
             bool preview = false,
             bool _using = true,
+            bool validateRequired = false,
             int validateMaxLength = 0)
         {
             if (preview) controlId = Strings.NewGuid();
@@ -867,7 +868,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Id(columnName + ".input")
                                 .Class("hidden")
                                 .Type("file")
-                                .Multiple(true)),
+                                .Multiple(true)
+                                .DataValidateAttachmentsRequired(validateRequired)),
                         _using: !readOnly && !preview)
                     .Div(
                         id: columnName + ".items",

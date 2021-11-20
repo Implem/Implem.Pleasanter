@@ -551,6 +551,16 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
+        public HtmlAttributes DataValidateAttachmentsRequired(bool value, bool _using = true)
+        {
+            if (value && _using)
+            {
+                Add("data-validate-attachments-required");
+                Add("1");
+            }
+            return this;
+        }
+
         public HtmlAttributes DataValidateNumber(bool value, bool _using = true)
         {
             if (value && _using)

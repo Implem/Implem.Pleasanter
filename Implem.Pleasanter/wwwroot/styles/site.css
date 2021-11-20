@@ -1908,10 +1908,16 @@ td > .field-normal,td > .field-wide{
     width:100%;
     display:block;
     float:left;
-    padding:25px;
+    padding:25px 0px;
     text-align:center;
     border:dotted 2px #d19405;
     border-radius:3px;
+}
+
+.control-attachments-upload .error{
+    height:22px;
+    position:absolute;
+    top:50px;
 }
 
 .control-attachments-items{
