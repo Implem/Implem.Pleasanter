@@ -1904,6 +1904,12 @@ td > .field-normal,td > .field-wide{
     border-radius:5px;
 }
 
+.control-attachments+label.error{
+    height:22px;
+    position:absolute;
+    top:50px;
+}
+
 .control-attachments-upload{
     width:100%;
     display:block;
@@ -1912,12 +1918,6 @@ td > .field-normal,td > .field-wide{
     text-align:center;
     border:dotted 2px #d19405;
     border-radius:3px;
-}
-
-.control-attachments-upload .error{
-    height:22px;
-    position:absolute;
-    top:50px;
 }
 
 .control-attachments-items{
