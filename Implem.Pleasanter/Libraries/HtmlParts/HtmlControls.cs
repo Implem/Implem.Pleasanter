@@ -851,10 +851,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var attachments = value.Deserialize<Attachments>();
             return _using
                 ? hb
-                    .Hidden(
-                        controlId: controlId,
-                        css: "control-attachments",
-                        value: value)
+                    .Hidden(attributes: new HtmlAttributes()
+                        .Id(controlId)
+                        .Name(controlId)
+                        .DataName(columnName)
+                        .Class("control-attachments")
+                        .Value(value)
+                        .DataValidateAttachmentsRequired(validateRequired))
                     .Div(
                         id: columnName + ".upload",
                         css: "control-attachments-upload",
@@ -868,8 +871,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Id(columnName + ".input")
                                 .Class("hidden")
                                 .Type("file")
-                                .Multiple(true)
-                                .DataValidateAttachmentsRequired(validateRequired)),
+                                .Multiple(true)),
                         _using: !readOnly && !preview)
                     .Div(
                         id: columnName + ".items",

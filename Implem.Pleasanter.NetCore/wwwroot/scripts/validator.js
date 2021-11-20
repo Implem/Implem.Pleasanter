@@ -2,13 +2,8 @@
     $.validator.addMethod(
         'c_attachments_required',
         function (value, element) {
-            var controlId = $(element).attr('id').split('.')[0];
-            if (controlId.indexOf('Attachments') !== -1) {
-                var $control = $('[id="' + controlId + '.items"]');
-                return $control.find('.control-attachments-item:not(.preparation-delete)').length > 0;
-            } else {
-                return true;
-            }
+            var $control = $('[id="' + $(element).data('name') + '.items"]');
+            return $control.find('.control-attachments-item:not(.preparation-delete)').length > 0;
         }
     );
     $.validator.addMethod(
