@@ -1568,7 +1568,7 @@ namespace Implem.Pleasanter.Models
                         context: apiContext,
                         ss: issueSs);
                 case "Results":
-                    var resultSs = Site.IssuesSiteSettings(
+                    var resultSs = Site.ResultsSiteSettings(
                         context: apiContext,
                         referenceId: ReferenceId);
                     if (model is string resultRequestString)

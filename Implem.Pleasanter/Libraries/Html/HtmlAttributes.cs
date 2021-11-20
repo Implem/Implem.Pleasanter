@@ -15,7 +15,7 @@ namespace Implem.Pleasanter.Libraries.Html
             if (value != null && _using)
             {
                 Add(name);
-                Add(value);
+                Add(HttpUtility.HtmlAttributeEncode(value));
             }
             return this;
         }
@@ -27,7 +27,7 @@ namespace Implem.Pleasanter.Libraries.Html
                 attributes.ForEach(attribute =>
                 {
                     Add(attribute.Key);
-                    Add(attribute.Value);
+                    Add(HttpUtility.HtmlAttributeEncode(attribute.Value));
                 });
             }
             return this;
@@ -546,6 +546,16 @@ namespace Implem.Pleasanter.Libraries.Html
             if (value && _using)
             {
                 Add("data-validate-required");
+                Add("1");
+            }
+            return this;
+        }
+
+        public HtmlAttributes DataValidateAttachmentsRequired(bool value, bool _using = true)
+        {
+            if (value && _using)
+            {
+                Add("data-validate-attachments-required");
                 Add("1");
             }
             return this;

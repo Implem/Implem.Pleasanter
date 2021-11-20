@@ -2334,6 +2334,8 @@
     <Content Include="App_Data\Displays\PasswordHasBeenUsed.json" />
     <Content Include="App_Data\Displays\Guide.json" />
     <Content Include="App_Data\Displays\YmdhmsDatePickerFormat.json" />
+    <Content Include="App_Data\Displays\UseFilterButton.json" />
+    <Content Include="App_Data\Displays\Filter.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

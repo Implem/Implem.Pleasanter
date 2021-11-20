@@ -1774,13 +1774,42 @@ namespace Implem.Pleasanter.Libraries.Settings
                 }
                 else if (param?.Any() == true)
                 {
-                    CreateCsStringSqlWhereCollection(
-                        context: context,
-                        column: column,
-                        where: where,
-                        param: param.Where(o => o != "\t"),
-                        nullable: param.Any(o => o == "\t"),
-                        _operator: "=");
+                    switch (searchType)
+                    {
+                        case Column.SearchTypes.ExactMatch:
+                        case Column.SearchTypes.ExactMatchMultiple:
+                            CreateCsStringSqlWhereCollection(
+                                context: context,
+                                column: column,
+                                where: where,
+                                param: param.Where(o => o != "\t"),
+                                nullable: param.Any(o => o == "\t"),
+                                _operator: "=");
+                            break;
+                        case Column.SearchTypes.ForwardMatch:
+                        case Column.SearchTypes.ForwardMatchMultiple:
+                            CreateCsStringSqlWhereCollection(
+                                context: context,
+                                column: column,
+                                where: where,
+                                param: param
+                                    .Where(o => o != "\t")
+                                    .Select(o => $"{o}%"),
+                                nullable: param.Any(o => o == "\t"),
+                                _operator: context.Sqls.Like);
+                            break;
+                        default:
+                            CreateCsStringSqlWhereCollection(
+                                context: context,
+                                column: column,
+                                where: where,
+                                param: param
+                                    .Where(o => o != "\t")
+                                    .Select(o => $"%{o}%"),
+                                nullable: param.Any(o => o == "\t"),
+                                _operator: context.Sqls.Like);
+                            break;
+                    }
                 }
             }
             else
