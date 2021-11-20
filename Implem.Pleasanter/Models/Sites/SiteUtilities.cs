@@ -5480,8 +5480,7 @@ namespace Implem.Pleasanter.Models
                                             width: 50);
                                 }
                                 if (column.ColumnName != "Comments"
-                                    && column.TypeName != "bit"
-                                    && column.ControlType != "Attachments")
+                                    && column.TypeName != "bit")
                                 {
                                     var optionCollection = FieldCssOptions(
                                         context: context,
@@ -5493,7 +5492,8 @@ namespace Implem.Pleasanter.Models
                                             labelText: Displays.Style(context: context),
                                             optionCollection: optionCollection,
                                             selectedValue: column.FieldCss,
-                                            _using: optionCollection?.Any() == true)
+                                            _using: optionCollection?.Any() == true
+                                                && column.ControlType != "Attachments")
                                         .FieldDropDown(
                                             context: context,
                                             controlId: "ViewerSwitchingType",
@@ -5527,7 +5527,8 @@ namespace Implem.Pleasanter.Models
                                             labelText: Displays.AllowBulkUpdate(context: context),
                                             _checked: column.AllowBulkUpdate == true,
                                             _using: !column.Id_Ver
-                                                && !column.NotUpdate);
+                                                && !column.NotUpdate
+                                                && column.ControlType != "Attachments");
                                 }
                                 switch (type)
                                 {
