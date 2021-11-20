@@ -58,7 +58,9 @@ $p.openSetNumericRangeOK = function ($controlID) {
     $control.val(dispval);
     $p.set($target, setval);
     $p.closeSiteSetNumericRangeDialog($controlID);
-    $p.send($target);
+    if ($('#UseFilterButton').length === 0) {
+        $p.send($target);
+    }
 }
 $p.closeSiteSetNumericRangeDialog = function ($controlID) {
     $p.clearMessage();

@@ -4528,8 +4528,13 @@ namespace Implem.Pleasanter.Models
                     step: 1,
                     width: 25)
                 .FieldCheckBox(
-                    controlId: "UseFiltersArea",
+                    controlId: "UseFilterButton",
                     fieldCss: "field-auto-thin both",
+                    labelText: Displays.UseFilterButton(context: context),
+                    _checked: ss.UseFilterButton == true)
+                .FieldCheckBox(
+                    controlId: "UseFiltersArea",
+                    fieldCss: "field-auto-thin",
                     labelText: Displays.UseFiltersArea(context: context),
                     _checked: ss.UseFiltersArea == true)
                 .FieldCheckBox(
