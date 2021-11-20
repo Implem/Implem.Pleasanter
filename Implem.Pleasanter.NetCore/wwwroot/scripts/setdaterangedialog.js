@@ -66,7 +66,9 @@ $p.openSetDateRangeOK = function ($controlID, type) {
     $control.val(dispval);
     $p.set($target, setval);
     $p.closeSiteSetDateRangeDialog($controlID);
-    $p.send($target);
+    if ($('#UseFilterButton').length === 0) {
+        $p.send($target);
+    }
 }
 $p.closeSiteSetDateRangeDialog = function ($controlID) {
     $p.clearMessage();

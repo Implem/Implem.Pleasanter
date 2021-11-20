@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Filter",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Filter"
+        },
+        {
+            "Language": "zh",
+            "Body": "筛选"
+        },
+        {
+            "Language": "ja",
+            "Body": "フィルタ"
+        },
+        {
+            "Language": "de",
+            "Body": "Filter"
+        },
+        {
+            "Language": "ko",
+            "Body": "필터"
+        },
+        {
+            "Language": "es",
+            "Body": "Filtrar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Lọc"
+        }
+    ]
+}

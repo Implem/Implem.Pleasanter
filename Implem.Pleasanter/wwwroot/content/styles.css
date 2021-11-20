@@ -570,6 +570,11 @@ pre{
     cursor:pointer;
 }
 
+#FilterButton{
+    display:block;
+    float:left;
+}
+
 #Aggregations{
     width:100%;
     float:left;
