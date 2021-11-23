@@ -1,5 +1,18 @@
 ﻿{
     "Import": true,
     "Export": true,
-    "ExportLimit": 0
+    "ExportLimit": 0,
+    "IncludeDataOnImport": "On",
+    "IncludeSitePermissionOnImport": "On",
+    "IncludeRecordPermissionOnImport": "On",
+    "IncludeColumnPermissionOnImport": "On",
+    "IncludeNotificationsOnImport": "On",
+    "IncludeRemindersOnImport": "On",
+    "IncludeDataOnExport": "Off",
+    "UseIndentOptionOnExport": "On",
+    "IncludeSitePermissionOnExport": "On",
+    "IncludeRecordPermissionOnExport": "On",
+    "IncludeColumnPermissionOnExport": "On",
+    "IncludeNotificationsOnExport": "On",
+    "IncludeRemindersOnExport": "On"
 }

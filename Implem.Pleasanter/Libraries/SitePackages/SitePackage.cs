@@ -28,13 +28,17 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             List<SelectedSite> siteList,
             bool includeSitePermission,
             bool includeRecordPermission,
-            bool includeColumnPermission)
+            bool includeColumnPermission,
+            bool includeNotifications,
+            bool includeReminders)
         {
             HeaderInfo = new Header(
                 context: context,
                 includeSitePermission: includeSitePermission,
                 includeRecordPermission: includeRecordPermission,
-                includeColumnPermission: includeColumnPermission);
+                includeColumnPermission: includeColumnPermission,
+                includeNotifications: includeNotifications,
+                includeReminders: includeReminders);
             Sites = new List<PackageSiteModel>();
             Data = new List<JsonExport>();
             Permissions = new List<PackagePermissionModel>();
@@ -42,7 +46,9 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 context: context,
                 siteList: siteList,
                 includeRecordPermission: includeRecordPermission,
-                includeColumnPermission: includeColumnPermission);
+                includeColumnPermission: includeColumnPermission,
+                includeNotifications: includeNotifications,
+                includeReminders: includeReminders);
             if (includeSitePermission)
             {
                 PermissionIdList = new PermissionIdList(
@@ -56,7 +62,9 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             Context context,
             List<SelectedSite> siteList,
             bool includeRecordPermission,
-            bool includeColumnPermission)
+            bool includeColumnPermission,
+            bool includeNotifications,
+            bool includeReminders)
         {
             var recordIdList = new List<long>();
             if ((siteList != null) && (siteList.Count > 0))
@@ -89,6 +97,14 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         packageSiteModel.SiteSettings.CreateColumnAccessControls?.Clear();
                         packageSiteModel.SiteSettings.ReadColumnAccessControls?.Clear();
                         packageSiteModel.SiteSettings.UpdateColumnAccessControls?.Clear();
+                    }
+                    if (includeNotifications == false)
+                    {
+                        packageSiteModel.SiteSettings.Notifications?.Clear();
+                    }
+                    if (includeReminders == false)
+                    {
+                        packageSiteModel.SiteSettings.Reminders?.Clear();
                     }
                     Sites.Add(packageSiteModel);
                     string order = null;
@@ -163,6 +179,8 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             public bool IncludeSitePermission;
             public bool IncludeRecordPermission;
             public bool IncludeColumnPermission;
+            public bool IncludeNotifications;
+            public bool IncludeReminders;
             [NonSerialized]
             public long? SavedBaseSiteId;
             [NonSerialized]
@@ -176,7 +194,9 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 Context context,
                 bool includeSitePermission,
                 bool includeRecordPermission,
-                bool includeColumnPermission)
+                bool includeColumnPermission,
+                bool includeNotifications,
+                bool includeReminders)
             {
                 BaseSiteId = context.SiteId;
                 Server = context.Server;
@@ -186,6 +206,8 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 IncludeSitePermission = includeSitePermission;
                 IncludeRecordPermission = includeRecordPermission;
                 IncludeColumnPermission = includeColumnPermission;
+                IncludeNotifications = includeNotifications;
+                IncludeReminders = includeReminders;
             }
 
             public class Convertor

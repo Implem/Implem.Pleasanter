@@ -18,6 +18,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using static Implem.ParameterAccessor.Parts.SitePackage;
 namespace Implem.Pleasanter.Libraries.SitePackages
 {
     public class Utilities
@@ -45,10 +46,24 @@ namespace Implem.Pleasanter.Libraries.SitePackages
 
         public static string ImportSitePackage(Context context, SiteSettings ss)
         {
-            var includeData = context.Forms.Bool("IncludeData");
-            var includeSitePermission = context.Forms.Bool("IncludeSitePermission");
-            var includeRecordPermission = context.Forms.Bool("IncludeRecordPermission");
-            var includeColumnPermission = context.Forms.Bool("IncludeColumnPermission");
+            var includeData = Parameters.SitePackage.IncludeDataOnImport != OptionTypes.Disabled
+                ? context.Forms.Bool("IncludeData")
+                : false;
+            var includeSitePermission = Parameters.SitePackage.IncludeSitePermissionOnImport != OptionTypes.Disabled
+                ? context.Forms.Bool("IncludeSitePermission")
+                : false;
+            var includeRecordPermission = Parameters.SitePackage.IncludeRecordPermissionOnImport != OptionTypes.Disabled
+                ? context.Forms.Bool("IncludeRecordPermission")
+                : false;
+            var includeColumnPermission = Parameters.SitePackage.IncludeColumnPermissionOnImport != OptionTypes.Disabled
+                ? context.Forms.Bool("IncludeColumnPermission")
+                : false;
+            var includeNotifications = Parameters.SitePackage.IncludeNotificationsOnImport != OptionTypes.Disabled
+                ? context.Forms.Bool("IncludeNotifications")
+                : false;
+            var includeReminders = Parameters.SitePackage.IncludeRemindersOnImport != OptionTypes.Disabled
+                ? context.Forms.Bool("IncludeReminders")
+                : false;
             if (ss.SiteId == 0)
             {
                 ss.PermissionType = context.SiteTopPermission();
@@ -138,7 +153,9 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         context: context,
                         header: sitePackage.HeaderInfo,
                         includeColumnPermission: includeColumnPermission,
-                        permissionIdList: sitePackage.PermissionIdList);
+                        permissionIdList: sitePackage.PermissionIdList,
+                        includeNotifications: includeNotifications,
+                        includeReminders: includeReminders);
                     Repository.ExecuteScalar_response(
                         context: context,
                         transactional: true,
@@ -583,7 +600,9 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             {
                 listItemCollection = new Dictionary<string, ControlData>();
                 listItemCollection.Add(
-                    siteId.ToString() + "-false",
+                    siteId.ToString() + (Parameters.SitePackage.IncludeDataOnExport == OptionTypes.On
+                        ? "-true"
+                        : "-false"),
                     new ControlData(
                         text: $"[ {context.SiteTitle} ]",
                         order: listItemCollection.Count + 1));
@@ -607,7 +626,9 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             {
                 var name = new string('-', (depts + 1) * 2) + "> " + $"[ {dataRow.String("Title")} ]";
                 listItemCollection.Add(
-                    dataRow.String("SiteId") + "-false",
+                    dataRow.String("SiteId") + (Parameters.SitePackage.IncludeDataOnExport == OptionTypes.On
+                        ? "-true"
+                        : "-false"),
                     new ControlData(name, title: dataRow.String("ReferenceType"),
                         css: " ui-icon ui-icon-folder-open",
                         style: " ui-icon ui-icon-folder-collapsed",
@@ -632,10 +653,24 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             {
                 return null;
             }
-            var useIndentOption = context.QueryStrings.Bool("UseIndentOption");
-            var includeSitePermission = context.QueryStrings.Bool("IncludeSitePermission");
-            var includeRecordPermission = context.QueryStrings.Bool("IncludeRecordPermission");
-            var includeColumnPermission = context.QueryStrings.Bool("IncludeColumnPermission");
+            var useIndentOption = Parameters.SitePackage.UseIndentOptionOnExport != OptionTypes.Disabled
+                ? context.QueryStrings.Bool("UseIndentOption")
+                : false;
+            var includeSitePermission = Parameters.SitePackage.IncludeSitePermissionOnExport != OptionTypes.Disabled
+                ? context.QueryStrings.Bool("IncludeSitePermission")
+                : false;
+            var includeRecordPermission = Parameters.SitePackage.IncludeRecordPermissionOnExport != OptionTypes.Disabled
+                ? context.QueryStrings.Bool("IncludeRecordPermission")
+                : false;
+            var includeColumnPermission = Parameters.SitePackage.IncludeColumnPermissionOnExport != OptionTypes.Disabled
+                ? context.QueryStrings.Bool("IncludeColumnPermission")
+                : false;
+            var includeNotifications = Parameters.SitePackage.IncludeNotificationsOnExport != OptionTypes.Disabled
+                ? context.QueryStrings.Bool("IncludeNotifications")
+                : false;
+            var includeReminders = Parameters.SitePackage.IncludeRemindersOnExport != OptionTypes.Disabled
+                ? context.QueryStrings.Bool("IncludeReminders")
+                : false;
             string sitePackagesSelectableAll = Regex.Replace(
                 context.QueryStrings.Data("SitePackagesSelectableAll"),
                 @"[^0-9-,(true|false)]", "");
@@ -672,7 +707,9 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 siteList: sites,
                 includeSitePermission: includeSitePermission,
                 includeRecordPermission: includeRecordPermission,
-                includeColumnPermission: includeColumnPermission);
+                includeColumnPermission: includeColumnPermission,
+                includeNotifications: includeNotifications,
+                includeReminders: includeReminders);
             var file = new ResponseFile(
                 fileContent: sitePackage.RecordingJson(
                     context: context,

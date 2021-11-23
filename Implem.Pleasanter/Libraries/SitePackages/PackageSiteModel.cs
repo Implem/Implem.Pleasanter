@@ -93,6 +93,8 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             Context context,
             SitePackage.Header header,
             bool includeColumnPermission,
+            bool includeNotifications,
+            bool includeReminders,
             PermissionIdList permissionIdList)
         {
             var ss = SiteSettings;
@@ -226,6 +228,14 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 ss.CreateColumnAccessControls?.Clear();
                 ss.ReadColumnAccessControls?.Clear();
                 ss.UpdateColumnAccessControls?.Clear();
+            }
+            if (!includeNotifications)
+            {
+                ss.Notifications?.Clear();
+            }
+            if (!includeReminders)
+            {
+                ss.Reminders?.Clear();
             }
             else
             {
