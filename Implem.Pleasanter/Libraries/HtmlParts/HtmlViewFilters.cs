@@ -545,9 +545,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 context: context,
                 controlId: idPrefix + column.ColumnName,
                 fieldCss: "field-auto-thin",
-                controlCss: ss.UseFilterButton != true
+                controlCss: (ss.UseFilterButton != true
                     ? " auto-postback"
-                    : string.Empty
+                    : string.Empty)
                         + (column.UseSearch == true
                             ? " search"
                             : string.Empty),
