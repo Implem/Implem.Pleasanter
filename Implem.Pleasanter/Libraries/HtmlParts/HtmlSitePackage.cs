@@ -1,9 +1,11 @@
-﻿using Implem.Pleasanter.Libraries.Html;
+﻿using Implem.DefinitionAccessor;
+using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.SitePackages;
 using System.Collections.Generic;
+using static Implem.ParameterAccessor.Parts.SitePackage;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlSitePackage
@@ -28,26 +30,44 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         fieldCss: "field-wide",
                         controlCss: " always-send",
                         labelText: Displays.IncludeData(context: context),
-                        _checked: true,
-                        _using: context.ContractSettings.Import != false)
+                        _checked: Parameters.SitePackage.IncludeDataOnImport == OptionTypes.On,
+                        _using: context.ContractSettings.Import != false
+                            && Parameters.SitePackage.IncludeDataOnImport != OptionTypes.Disabled)
                     .FieldCheckBox(
                         controlId: "IncludeSitePermission",
                         fieldCss: "field-wide",
                         controlCss: " always-send",
                         labelText: Displays.IncludeSitePermission(context: context),
-                        _checked: true)
+                        _checked: Parameters.SitePackage.IncludeSitePermissionOnImport == OptionTypes.On,
+                        _using: Parameters.SitePackage.IncludeSitePermissionOnImport != OptionTypes.Disabled)
                     .FieldCheckBox(
                         controlId: "IncludeRecordPermission",
                         fieldCss: "field-wide",
                         controlCss: " always-send",
                         labelText: Displays.IncludeRecordPermission(context: context),
-                        _checked: true)
+                        _checked: Parameters.SitePackage.IncludeRecordPermissionOnImport == OptionTypes.On,
+                        _using: Parameters.SitePackage.IncludeRecordPermissionOnImport != OptionTypes.Disabled)
                     .FieldCheckBox(
                         controlId: "IncludeColumnPermission",
                         fieldCss: "field-wide",
                         controlCss: " always-send",
                         labelText: Displays.IncludeColumnPermission(context: context),
-                        _checked: true)
+                        _checked: Parameters.SitePackage.IncludeColumnPermissionOnImport == OptionTypes.On,
+                        _using: Parameters.SitePackage.IncludeColumnPermissionOnImport != OptionTypes.Disabled)
+                    .FieldCheckBox(
+                        controlId: "IncludeNotifications",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.IncludeNotifications(context: context),
+                        _checked: Parameters.SitePackage.IncludeNotificationsOnImport == OptionTypes.On,
+                        _using: Parameters.SitePackage.IncludeNotificationsOnImport != OptionTypes.Disabled)
+                    .FieldCheckBox(
+                        controlId: "IncludeReminders",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.IncludeReminders(context: context),
+                        _checked: Parameters.SitePackage.IncludeRemindersOnImport == OptionTypes.On,
+                        _using: Parameters.SitePackage.IncludeRemindersOnImport != OptionTypes.Disabled)
                     .P(css: "message-dialog")
                     .Div(
                         css: "command-center",
@@ -101,14 +121,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             text: Displays.IncludeData(context: context),
                                             onClick: "$p.setIncludeExportData($(this));",
                                             icon: "ui-icon-check",
-                                            _using: context.ContractSettings.Export != false)
+                                            _using: context.ContractSettings.Export != false
+                                                && Parameters.SitePackage.IncludeDataOnExport != OptionTypes.Disabled)
                                         .Button(
                                             controlId: "ExcludeData",
                                             controlCss: "button-icon post",
                                             text: Displays.ExcludeData(context: context),
                                             onClick: "$p.setIncludeExportData($(this));",
                                             icon: "ui-icon-cancel",
-                                            _using: context.ContractSettings.Export != false)
+                                            _using: context.ContractSettings.Export != false
+                                                && Parameters.SitePackage.IncludeDataOnExport != OptionTypes.Disabled)
                                         .Button(
                                             controlId: "ToDisableExportSites",
                                             controlCss: "button-icon",
@@ -136,25 +158,43 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             fieldCss: "field-wide",
                             controlCss: " always-send",
                             labelText: Displays.UseIndentOption(context: context),
-                            _checked: true)
+                            _checked: Parameters.SitePackage.UseIndentOptionOnExport == OptionTypes.On,
+                            _using: Parameters.SitePackage.UseIndentOptionOnExport != OptionTypes.Disabled)
                         .FieldCheckBox(
                             controlId: "IncludeSitePermission",
                             fieldCss: "field-wide",
                             controlCss: " always-send",
                             labelText: Displays.IncludeSitePermission(context: context),
-                            _checked: true)
+                            _checked: Parameters.SitePackage.IncludeSitePermissionOnExport == OptionTypes.On,
+                            _using: Parameters.SitePackage.IncludeSitePermissionOnExport != OptionTypes.Disabled)
                         .FieldCheckBox(
                             controlId: "IncludeRecordPermission",
                             fieldCss: "field-wide",
                             controlCss: " always-send",
                             labelText: Displays.IncludeRecordPermission(context: context),
-                            _checked: true)
+                            _checked: Parameters.SitePackage.IncludeRecordPermissionOnExport == OptionTypes.On,
+                            _using: Parameters.SitePackage.IncludeRecordPermissionOnExport != OptionTypes.Disabled)
                         .FieldCheckBox(
                             controlId: "IncludeColumnPermission",
                             fieldCss: "field-wide",
                             controlCss: " always-send",
                             labelText: Displays.IncludeColumnPermission(context: context),
-                            _checked: true)
+                            _checked: Parameters.SitePackage.IncludeColumnPermissionOnExport == OptionTypes.On,
+                            _using: Parameters.SitePackage.IncludeColumnPermissionOnExport != OptionTypes.Disabled)
+                        .FieldCheckBox(
+                            controlId: "IncludeNotifications",
+                            fieldCss: "field-wide",
+                            controlCss: " always-send",
+                            labelText: Displays.IncludeNotifications(context: context),
+                            _checked: Parameters.SitePackage.IncludeNotificationsOnExport == OptionTypes.On,
+                            _using: Parameters.SitePackage.IncludeNotificationsOnExport != OptionTypes.Disabled)
+                        .FieldCheckBox(
+                            controlId: "IncludeReminders",
+                            fieldCss: "field-wide",
+                            controlCss: " always-send",
+                            labelText: Displays.IncludeReminders(context: context),
+                            _checked: Parameters.SitePackage.IncludeRemindersOnExport == OptionTypes.On,
+                            _using: Parameters.SitePackage.IncludeRemindersOnExport != OptionTypes.Disabled)
                         .P(css: "message-dialog")
                         .Div(css: "command-center", action: () => hb
                             .Button(

@@ -856,6 +856,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Name(controlId)
                         .DataName(columnName)
                         .Class("control-attachments")
+                        .DataReadOnly(readOnly)
                         .Value(value)
                         .DataValidateAttachmentsRequired(validateRequired))
                     .Div(
