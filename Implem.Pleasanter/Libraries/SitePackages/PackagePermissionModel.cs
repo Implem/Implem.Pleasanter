@@ -5,7 +5,6 @@ using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 namespace Implem.Pleasanter.Libraries.SitePackages
 {
     public class PackagePermissionModel

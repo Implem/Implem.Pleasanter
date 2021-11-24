@@ -374,6 +374,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             var row = new ServerScriptModelRow
             {
                 ExtendedRowCss = String(model, nameof(ServerScriptModelRow.ExtendedRowCss)),
+                ExtendedRowData = String(model, nameof(ServerScriptModelRow.ExtendedRowData)),
                 Columns = SetColumns(
                     context: context,
                     ss: ss,

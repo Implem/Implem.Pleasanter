@@ -3889,6 +3889,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string IncludeNotifications(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "IncludeNotifications",
+                data: data);
+        }
+
         public static string IncludePermission(
             Context context,
             params string[] data)
@@ -3906,6 +3916,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "IncludeRecordPermission",
+                data: data);
+        }
+
+        public static string IncludeReminders(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "IncludeReminders",
                 data: data);
         }
 

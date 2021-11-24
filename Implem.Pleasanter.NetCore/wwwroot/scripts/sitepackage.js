@@ -13,12 +13,16 @@ $p.importSitePackage = function ($control) {
     $p.setData($('#IncludeSitePermission'));
     $p.setData($('#IncludeRecordPermission'));
     $p.setData($('#IncludeColumnPermission'));
+    $p.setData($('#IncludeNotifications'));
+    $p.setData($('#IncludeReminders'));
     var data = new FormData();
     data.append('file', $('#Import').prop('files')[0]);
     data.append('IncludeData', $('#IncludeData').prop('checked'));
     data.append('IncludeSitePermission', $('#IncludeSitePermission').prop('checked'));
     data.append('IncludeRecordPermission', $('#IncludeRecordPermission').prop('checked'));
     data.append('IncludeColumnPermission', $('#IncludeColumnPermission').prop('checked'));
+    data.append('IncludeNotifications', $('#IncludeNotifications').prop('checked'));
+    data.append('IncludeReminders', $('#IncludeReminders').prop('checked'));
     $p.multiUpload(
         $('.main-form').attr('action').replace('_action_', $control.attr('data-action')),
         data,
@@ -32,6 +36,13 @@ $p.openExportSitePackageDialog = function ($control) {
             modal: true,
             width: '720px'
         });
+        $('#SitePackagesSelectable li').each(function () {
+            var $li = $(this);
+            var data = $li.attr('data-value').split('-');
+            if (data[1] === 'true') {
+                $li.append('<span class="include-data">(' + $p.display('IncludeData') + ')</span>');
+            }
+        });
     }
 }
 
@@ -43,13 +54,17 @@ $p.exportSitePackage = function () {
     $p.setData($('#IncludeSitePermission'));
     $p.setData($('#IncludeRecordPermission'));
     $p.setData($('#IncludeColumnPermission'));
+    $p.setData($('#IncludeNotifications'));
+    $p.setData($('#IncludeReminders'));
     var data = $p.getData($('#SitePackageForm'));
     $p.transition($('.main-form').attr('action').replace('_action_', 'ExportSitePackage')
         + '?SitePackagesSelectableAll=' + data.SitePackagesSelectableAll
         + '&UseIndentOption=' + data.UseIndentOption
         + '&IncludeSitePermission=' + data.IncludeSitePermission
         + '&IncludeRecordPermission=' + data.IncludeRecordPermission
-        + '&IncludeColumnPermission=' + data.IncludeColumnPermission);
+        + '&IncludeColumnPermission=' + data.IncludeColumnPermission
+        + '&IncludeNotifications=' + data.IncludeNotifications
+        + '&IncludeReminders=' + data.IncludeReminders);
     $p.closeDialog($('#ExportSitePackageDialog'));
     $('#ExportSitePackageDialog').html('');
 }
