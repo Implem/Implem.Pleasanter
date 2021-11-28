@@ -257,11 +257,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string aggregateType,
             Column value,
             bool daily,
-            IEnumerable<CrosstabElement> data,
+            Dictionary<string, CrosstabElement> data,
             IEnumerable<Column> columns = null)
         {
             var max = data.Any() && columns == null
-                ? data.Select(o => o.Value).Max()
+                ? data.Select(o => o.Value.Value).Max()
                 : 0;
             return hb.Table(
                 id: "Grid",
@@ -278,11 +278,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Th(action: () => hb
                                     .HeaderText(
                                         context: context,
-                                        ss: ss,
                                         aggregateType: aggregateType,
                                         value: value,
                                         showValue: columns?.Any() != true,
-                                        data: data.Where(o => o.GroupByX == choiceX.Key),
+                                        data: data
+                                            .Values
+                                            .Where(o => o.GroupByX == choiceX.Key),
                                         choice: choiceX)));
                         }))
                     .TBody(action: () =>
@@ -296,11 +297,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     columnName: choiceY.Key);
                             hb.Tr(css: "crosstab-row", action: () =>
                             {
-                                var row = data.Where(o => o.GroupByY == choiceY.Key).ToList();
+                                var row = data
+                                    .Values
+                                    .Where(o => o.GroupByY == choiceY.Key)
+                                    .ToList();
                                 hb.Th(action: () => hb
                                     .HeaderText(
                                         context: context,
-                                        ss: ss,
                                         aggregateType: aggregateType,
                                         value: column,
                                         showValue: true,
@@ -324,8 +327,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         data: CrosstabUtilities
                                             .CellValue(
                                                 data: data,
-                                                choiceX: choiceX,
-                                                choiceY: choiceY)));
+                                                choiceX: choiceX.Key,
+                                                choiceY: choiceY.Key)));
                             });
                         });
                     }));
@@ -389,7 +392,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder HeaderText(
             this HtmlBuilder hb,
             Context context,
-            SiteSettings ss,
             string aggregateType,
             Column value,
             bool showValue,
