@@ -10,7 +10,6 @@ using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 namespace Implem.Pleasanter.Libraries.ViewModes
@@ -208,7 +207,6 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 csv.Body(
                     context: context,
                     ss: ss,
-                    view: view,
                     choicesX: ChoicesX(
                         context: context,
                         groupByX: groupByX,
@@ -222,8 +220,6 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     aggregateType: aggregateType,
                     value: value,
                     firstHeaderText: $"{groupByY.LabelText} | {groupByX.LabelText}",
-                    timePeriod: timePeriod,
-                    month: month,
                     data: Elements(
                         groupByX: groupByX,
                         groupByY: groupByY,
@@ -238,7 +234,6 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 csv.Body(
                     context: context,
                     ss: ss,
-                    view: view,
                     choicesX: ChoicesX(
                         context: context,
                         groupByX: groupByX,
@@ -249,8 +244,6 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     aggregateType: aggregateType,
                     value: value,
                     firstHeaderText: groupByX.LabelText,
-                    timePeriod: timePeriod,
-                    month: month,
                     data: ColumnsElements(
                         groupByX: groupByX,
                         dataRows: dataRows,
@@ -264,15 +257,12 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             this StringBuilder csv,
             Context context,
             SiteSettings ss,
-            View view,
             Dictionary<string, ControlData> choicesX,
             Dictionary<string, ControlData> choicesY,
             string aggregateType,
             Column value,
             string firstHeaderText,
-            string timePeriod,
-            DateTime month,
-            List<CrosstabElement> data,
+            Dictionary<string, CrosstabElement> data,
             IEnumerable<Column> columnList = null)
         {
             var headers = new List<string>()
@@ -290,7 +280,6 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 var column = columnList?.Any() != true
                     ? value
                     : ss.GetColumn(context: context, columnName: choiceY.Key);
-                var row = data.Where(o => o.GroupByY == choiceY.Key).ToList();
                 cells.AddRange(choicesX
                     .Select(choiceX => CellText(
                         context: context,
@@ -298,24 +287,23 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                         aggregateType: aggregateType,
                         data: CellValue(
                             data: data,
-                            choiceX: choiceX,
-                            choiceY: choiceY))));
+                            choiceX: choiceX.Key,
+                            choiceY: choiceY.Key))));
                 csv.AppendRow(cells);
             });
         }
 
-        public static List<CrosstabElement> Elements(
+        public static Dictionary<string, CrosstabElement> Elements(
             Column groupByX, Column groupByY, EnumerableRowCollection<DataRow> dataRows)
         {
-            return dataRows
-                .Select(dataRow => new CrosstabElement(
-                    groupByX: dataRow.String(groupByX.ColumnName),
-                    groupByY: dataRow.String(groupByY.ColumnName),
-                    value: dataRow.Decimal("Value")))
-                .ToList();
+            var data = dataRows.Select(dataRow => new CrosstabElement(
+                groupByX: dataRow.String(groupByX.ColumnName),
+                groupByY: dataRow.String(groupByY.ColumnName),
+                value: dataRow.Decimal("Value")));
+            return ElementHash(data: data);
         }
 
-        public static List<CrosstabElement> ColumnsElements(
+        public static Dictionary<string, CrosstabElement> ColumnsElements(
             Column groupByX, EnumerableRowCollection<DataRow> dataRows, List<Column> columnList)
         {
             var data = new List<CrosstabElement>();
@@ -325,7 +313,22 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                         groupByX: dataRow.String(groupByX.ColumnName),
                         groupByY: column.ColumnName,
                         value: dataRow.Decimal(column.ColumnName)))));
-            return data;
+            return ElementHash(data: data);
+        }
+
+        public static Dictionary<string, CrosstabElement> ElementHash(IEnumerable<CrosstabElement> data)
+        {
+            return data
+                .Select(o => new
+                {
+                    Key = Key(
+                        choiceX: o.GroupByX,
+                        choiceY: o.GroupByY),
+                    Value = o
+                })
+                .GroupBy(o => o.Key)
+                .Select(o => o.First())
+                .ToDictionary(o => o.Key, o => o.Value);
         }
 
         public static Dictionary<string, ControlData> ChoicesX(
@@ -383,7 +386,10 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             for (var i = -77; i <= 0; i += 7)
             {
                 var day = end.AddDays(i);
-                var key = (ISOWeek.GetYear(day) * 100) + ISOWeek.GetWeekOfYear(day);
+                var append = (int)(new DateTime(day.Year, 1, 1).DayOfWeek) > 1
+                    ? 8 - (int)(new DateTime(day.Year, 1, 1).DayOfWeek)
+                    : 0;
+                var key = day.Year * 100 + ((day.DayOfYear + append) / 7) + 1;
                 hash.Add(key.ToString(), new ControlData(day.ToString("MM/dd")));
             }
             return hash;
@@ -419,13 +425,19 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         }
 
         public static decimal CellValue(
-            IEnumerable<CrosstabElement> data,
-            KeyValuePair<string, ControlData> choiceX,
-            KeyValuePair<string, ControlData> choiceY)
+            Dictionary<string, CrosstabElement> data,
+            string choiceX,
+            string choiceY)
         {
-            return data.FirstOrDefault(o =>
-                o.GroupByX == choiceX.Key &&
-                o.GroupByY == choiceY.Key)?.Value ?? 0;
+            return data.Get(Key(
+                choiceX: choiceX,
+                choiceY: choiceY))
+                    ?.Value ?? 0;
+        }
+
+        public static string Key(string choiceX, string choiceY)
+        {
+            return $"{choiceX}|{choiceY}";
         }
 
         public static string CellText(
