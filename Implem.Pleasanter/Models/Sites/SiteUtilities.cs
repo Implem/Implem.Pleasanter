@@ -2180,14 +2180,18 @@ namespace Implem.Pleasanter.Models
             var siteModel = new SiteModel(context: context, siteId: id);
             siteModel.SiteSettings.PermissionType = id == 0
                 ? context.SiteTopPermission()
-                : Permissions.Get(context: context, siteId: id);
+                : Permissions.Get(
+                    context: context,
+                    siteId: id);
             var sourceSiteModel = new SiteModel(
-                context: context, siteId: context.Forms.Long("SiteId"));
+                context: context,
+                siteId: context.Forms.Long("SiteId"));
             var destinationSiteModel = new SiteModel(
-                context: context, siteId: context.Forms.Long("DestinationId"));
-            if (siteModel.NotFound() ||
-                sourceSiteModel.NotFound() ||
-                destinationSiteModel.NotFound())
+                context: context,
+                siteId: context.Forms.Long("DestinationId"));
+            if (siteModel.NotFound()
+                || sourceSiteModel.NotFound()
+                || destinationSiteModel.NotFound())
             {
                 return SiteMenuError(
                     context: context,
