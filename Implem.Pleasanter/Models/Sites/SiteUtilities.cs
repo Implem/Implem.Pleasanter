@@ -9426,7 +9426,12 @@ namespace Implem.Pleasanter.Models
                             controlId: "EnableCrosstab",
                             fieldCss: "field-auto-thin",
                             labelText: Displays.Enabled(context: context),
-                            _checked: ss.EnableCrosstab == true))
+                            _checked: ss.EnableCrosstab == true)
+                        .FieldCheckBox(
+                            controlId: "NoDisplayCrosstabGraph",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.NoDisplayGraph(context: context),
+                            _checked: ss.NoDisplayCrosstabGraph == true))
                     : hb;
         }
 

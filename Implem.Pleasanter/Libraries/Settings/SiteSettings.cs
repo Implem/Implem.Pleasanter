@@ -196,6 +196,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? SwitchRecordWithAjax;
         public bool? EnableCalendar;
         public bool? EnableCrosstab;
+        public bool? NoDisplayCrosstabGraph;
         public bool? EnableGantt;
         public bool? ShowGanttProgressRate;
         public bool? EnableBurnDown;
@@ -332,6 +333,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             SwitchRecordWithAjax = SwitchRecordWithAjax ?? false;
             EnableCalendar = EnableCalendar ?? true;
             EnableCrosstab = EnableCrosstab ?? true;
+            NoDisplayCrosstabGraph = NoDisplayCrosstabGraph ?? false;
             EnableGantt = EnableGantt ?? true;
             ShowGanttProgressRate = ShowGanttProgressRate ?? true;
             EnableBurnDown = EnableBurnDown ?? true;
@@ -736,6 +738,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (EnableCrosstab == false)
             {
                 ss.EnableCrosstab = EnableCrosstab;
+            }
+            if (NoDisplayCrosstabGraph == true)
+            {
+                ss.NoDisplayCrosstabGraph = NoDisplayCrosstabGraph;
             }
             if (EnableGantt == false)
             {
@@ -3141,7 +3147,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ImportEncoding": ImportEncoding = value; break;
                 case "UpdatableImport": UpdatableImport = value.ToBool(); break;
                 case "EnableCalendar": EnableCalendar = value.ToBool(); break;
-                case "EnableCrosstab": EnableCrosstab = value.ToBool(); break;
+                case "NoDisplayCrosstabGraph": NoDisplayCrosstabGraph = value.ToBool(); break;
                 case "EnableGantt": EnableGantt = value.ToBool(); break;
                 case "ShowGanttProgressRate": ShowGanttProgressRate = value.ToBool(); break;
                 case "EnableBurnDown": EnableBurnDown = value.ToBool(); break;

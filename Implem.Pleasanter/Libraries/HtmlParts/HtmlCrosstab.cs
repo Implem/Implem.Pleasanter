@@ -349,14 +349,28 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     value: value,
                     aggregateType: aggregateType,
                     data: data))
-                .Svg(css: "svg-crosstab", action: () => hb
-                    .Rect(
-                        x: 0,
-                        y: 0,
-                        width: max > 0
-                            ? (data / max * 100).ToString("0.0") + "%"
-                            : "0",
-                        height: "20px")));
+                .Svg(
+                    ss: ss,
+                    max: max,
+                    data: data));
+        }
+
+        private static HtmlBuilder Svg(
+            this HtmlBuilder hb,
+            SiteSettings ss,
+            decimal max,
+            decimal data)
+        {
+            return ss.NoDisplayCrosstabGraph != true
+                ? hb.Svg(css: "svg-crosstab", action: () => hb
+                   .Rect(
+                       x: 0,
+                       y: 0,
+                       width: max > 0
+                           ? (data / max * 100).ToString("0.0") + "%"
+                           : "0",
+                       height: "20px"))
+                : hb;
         }
 
         private static string DayOfWeekCss(bool daily, string x)

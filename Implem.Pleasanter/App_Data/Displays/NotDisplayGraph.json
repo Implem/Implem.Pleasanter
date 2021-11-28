@@ -1,0 +1,33 @@
+﻿{
+    "Id": "NotDisplayGraph",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Do not display graph"
+        },
+        {
+            "Language": "zh",
+            "Body": "不显示图形"
+        },
+        {
+            "Language": "ja",
+            "Body": "グラフを表示しない"
+        },
+        {
+            "Language": "de",
+            "Body": "Grafik nicht anzeigen"
+        },
+        {
+            "Language": "ko",
+            "Body": "그래프를 표시하지 않음"
+        },
+        {
+            "Language": "es",
+            "Body": "No mostrar gráfico"
+        },
+        {
+            "Language": "vn",
+            "Body": "Không hiển thị đồ thị"
+        }
+    ]
+}
