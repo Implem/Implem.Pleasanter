@@ -1654,7 +1654,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
-            if (response.Event == "Duplicated")
+            if (response?.Event == "Duplicated")
             {
                 return new ErrorData(
                     type: Error.Types.Duplicated,
