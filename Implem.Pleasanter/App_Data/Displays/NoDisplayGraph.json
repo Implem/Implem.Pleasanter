@@ -1,33 +1,33 @@
 ﻿{
-    "Id": "UseFilterButton",
+    "Id": "NoDisplayGraph",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Use the filter button"
+            "Body": "Do not display graph"
         },
         {
             "Language": "zh",
-            "Body": "使用过滤器按钮"
+            "Body": "不显示图形"
         },
         {
             "Language": "ja",
-            "Body": "フィルタボタンを使用"
+            "Body": "グラフを表示しない"
         },
         {
             "Language": "de",
-            "Body": "Verwenden Sie die Filterschaltfläche"
+            "Body": "Grafik nicht anzeigen"
         },
         {
             "Language": "ko",
-            "Body": "필터 버튼 사용"
+            "Body": "그래프를 표시하지 않음"
         },
         {
             "Language": "es",
-            "Body": "Usa el botón de filtro"
+            "Body": "No mostrar gráfico"
         },
         {
             "Language": "vn",
-            "Body": "Sử dụng nút bộ lọc"
+            "Body": "Không hiển thị đồ thị"
         }
     ]
 }
