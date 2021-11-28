@@ -282,6 +282,11 @@ namespace Implem.Pleasanter.Models
             {
                 return new ErrorData(type: Error.Types.HasNotPermission);
             }
+            if (destinationId == 0
+                && context.UserSettings?.AllowCreationAtTopSite(context: context) != true)
+            {
+                return new ErrorData(type: Error.Types.HasNotPermission);
+            }
             return new ErrorData(type: Error.Types.None);
         }
 
