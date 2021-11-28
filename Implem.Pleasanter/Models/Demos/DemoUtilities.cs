@@ -452,6 +452,7 @@ namespace Implem.Pleasanter.Models
                                 selectIdentity: true,
                                 param: Rds.ItemsParam()
                                     .ReferenceType("Issues")
+                                    .SiteId(idHash.Get(demoDefinition.ParentId))
                                     .Creator(creator)
                                     .Updator(updator)
                                     .CreatedTime(demoDefinition.CreatedTime.DemoTime(
@@ -745,6 +746,7 @@ namespace Implem.Pleasanter.Models
                                 selectIdentity: true,
                                 param: Rds.ItemsParam()
                                     .ReferenceType("Results")
+                                    .SiteId(idHash.Get(demoDefinition.ParentId))
                                     .Creator(creator)
                                     .Updator(updator)
                                     .CreatedTime(demoDefinition.CreatedTime.DemoTime(

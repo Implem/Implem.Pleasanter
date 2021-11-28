@@ -310,9 +310,9 @@ namespace Implem.Pleasanter.Libraries.Models
                         : controlId.Substring("ViewFiltersOnGridHeader__".Length))
                     : controlId.Split_2nd('_'));
             var searchIndexes = searchText.SearchIndexes();
-            var link = ss.Links
+            var link = column?.SiteSettings?.Links
                 ?.Where(o => o.JsonFormat == true)
-                .FirstOrDefault(o => o.ColumnName == column.ColumnName);
+                .FirstOrDefault(o => o.ColumnName == column.Name);
             if (link != null)
             {
                 column.SetChoiceHash(

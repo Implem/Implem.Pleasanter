@@ -2338,6 +2338,7 @@
     <Content Include="App_Data\Displays\Filter.json" />
     <Content Include="App_Data\Displays\IncludeNotifications.json" />
     <Content Include="App_Data\Displays\IncludeReminders.json" />
+    <Content Include="App_Data\Displays\NoDisplayGraph.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />
