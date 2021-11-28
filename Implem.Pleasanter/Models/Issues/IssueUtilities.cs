@@ -3905,7 +3905,9 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             issueModel: issueModel,
-                            message: Messages.Moved(context: context),
+                            message: Messages.Moved(
+                                context: context,
+                                data: issueModel.Title.MessageDisplay(context: context)),
                             switchTargets: GetSwitchTargets(
                                 context: context,
                                 ss: ss,
