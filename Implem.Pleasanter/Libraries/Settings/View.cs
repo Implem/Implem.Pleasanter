@@ -63,6 +63,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, Column.SearchTypes> ColumnFilterSearchTypes;
         public string Search;
         public Dictionary<string, SqlOrderBy.Types> ColumnSorterHash;
+        public Dictionary<string, string> ViewExtensionsHash;
         public string CalendarTimePeriod;
         public string CalendarFromTo;
         public DateTime? CalendarDate;
@@ -347,6 +348,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var columnFilterPrefix = "ViewFilters__";
             var columnFilterOnGridPrefix = "ViewFiltersOnGridHeader__";
             var columnSorterPrefix = "ViewSorters__";
+            var columnViewExtensionPrefix = "ViewExtensions__";
             switch (context.Forms.ControlId())
             {
                 case "ReduceViewFilters":
@@ -664,6 +666,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                                         columnName: controlId.Substring(columnSorterPrefix.Length),
                                         value: OrderByType(context.Forms.Data(controlId)));
                                 }
+                                else if (controlId.StartsWith(columnViewExtensionPrefix))
+                                {
+                                    AddViewExtensionsHash(
+                                        context: context,
+                                        ss: ss,
+                                        columnName: controlId.Substring(columnViewExtensionPrefix.Length),
+                                        value: context.Forms.Data(controlId));
+                                }
                                 break;
                         }
                     }
@@ -730,11 +740,38 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : null;
         }
 
+        public string ViewExtension(string columnName)
+        {
+            return ViewExtensionsHash?.ContainsKey(columnName) == true
+                ? ViewExtensionsHash[columnName]
+                : null;
+        }
+
         public SqlOrderBy.Types ColumnSorter(string columnName)
         {
             return ColumnSorterHash?.ContainsKey(columnName) == true
                 ? ColumnSorterHash[columnName]
                 : SqlOrderBy.Types.release;
+        }
+
+        private void AddViewExtensionsHash(
+            Context context,
+            SiteSettings ss,
+            string columnName,
+            string value)
+        {
+            var column = context.ExtendedFieldColumn(
+                    ss: ss,
+                    columnName: columnName,
+                    extendedFieldType: "ViewExtensions");
+            if (ViewExtensionsHash == null)
+            {
+                ViewExtensionsHash = new Dictionary<string, string>();
+            }
+            if (column != null)
+            {
+                ViewExtensionsHash.AddOrUpdate(columnName, value);
+            }
         }
 
         private void AddColumnFilterHash(
@@ -976,6 +1013,39 @@ namespace Implem.Pleasanter.Libraries.Settings
                         }
                     })
                     .ForEach(o => view.ColumnFilterHash.Add(o.Key, o.Value));
+            }
+            if (ViewExtensionsHash?.Any() == true)
+            {
+                view.ViewExtensionsHash = new Dictionary<string, string>();
+                ViewExtensionsHash
+                    .Where(o =>
+                    {
+                        var column = context.ExtendedFieldColumn(
+                            ss: ss,
+                            columnName: o.Key,
+                            extendedFieldType: "ViewExtensions");
+                        if (column?.TypeName == null)
+                        {
+                            return false;
+                        }
+                        else if (column.TypeName.CsTypeSummary() == Types.CsString
+                            && column.HasChoices() != true)
+                        {
+                            return o.Value?.IsNullOrEmpty() != true;
+                        }
+                        else if (column.TypeName.CsTypeSummary() == Types.CsBool)
+                        {
+                            return o.Value?.IsNullOrEmpty() != true;
+                        }
+                        else
+                        {
+                            var data = o.Value?.Deserialize<List<object>>();
+                            return data != null
+                                ? data.Any()
+                                : o.Value?.IsNullOrEmpty() != true;
+                        }
+                    })
+                    .ForEach(o => view.ViewExtensionsHash.Add(o.Key, o.Value));
             }
             if (ColumnFilterSearchTypes?.Any() == true)
             {
@@ -2140,19 +2210,37 @@ namespace Implem.Pleasanter.Libraries.Settings
             SqlParamCollection param = null)
         {
             if (param == null) param = new SqlParamCollection();
+            AddExtendedFieldParam(
+                context: context,
+                param: param,
+                extendedFieldType: "Filter",
+                sourceHash: ColumnFilterHash);
+            AddExtendedFieldParam(
+                context: context,
+                param: param,
+                extendedFieldType: "ViewExtensions",
+                sourceHash: ViewExtensionsHash);
+            return param;
+        }
+
+        private void AddExtendedFieldParam(
+            Context context,
+            SqlParamCollection param,
+            string extendedFieldType,
+            Dictionary<string, string> sourceHash)
+        {
             context.ExtendedFields
                 ?.Where(extendedField =>
-                    extendedField.FieldType == "Filter"
+                    extendedField.FieldType == extendedFieldType
                     && extendedField.SqlParam
-                    && ColumnFilterHash?.ContainsKey(extendedField.Name) == true)
+                    && sourceHash?.ContainsKey(extendedField.Name) == true)
                 .Select(extendedField => new SqlParam()
                 {
                     VariableName = extendedField.Name,
-                    Value = ColumnFilterHash[extendedField.Name],
+                    Value = sourceHash[extendedField.Name],
                     NoCount = true
                 })
                 .ForEach(o => param.Add(o));
-            return param;
         }
 
         public bool GetFiltersReduced()

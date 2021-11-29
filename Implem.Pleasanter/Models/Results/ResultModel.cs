@@ -659,7 +659,7 @@ namespace Implem.Pleasanter.Models
                 siteId: SiteId,
                 id: ResultId,
                 timestamp: Timestamp.ToDateTime());
-            column = (column ?? Rds.ResultsEditorColumns(ss))?.SetExtendedSqlSelectingColumn(context: context, ss: ss);
+            column = (column ?? Rds.ResultsEditorColumns(ss))?.SetExtendedSqlSelectingColumn(context: context, ss: ss, view: view);
             join = join ??  Rds.ResultsJoinDefault();
             if (ss?.TableType == Sqls.TableTypes.Normal)
             {

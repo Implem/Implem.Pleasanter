@@ -785,7 +785,7 @@ namespace Implem.Pleasanter.Models
                 siteId: SiteId,
                 id: IssueId,
                 timestamp: Timestamp.ToDateTime());
-            column = (column ?? Rds.IssuesEditorColumns(ss))?.SetExtendedSqlSelectingColumn(context: context, ss: ss);
+            column = (column ?? Rds.IssuesEditorColumns(ss))?.SetExtendedSqlSelectingColumn(context: context, ss: ss, view: view);
             join = join ??  Rds.IssuesJoinDefault();
             if (ss?.TableType == Sqls.TableTypes.Normal)
             {
