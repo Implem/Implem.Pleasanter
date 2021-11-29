@@ -337,36 +337,19 @@ namespace Implem.Pleasanter.Libraries.Settings
                     .Select(o => o.First());
             return sqlColumns.SetExtendedSqlSelectingColumn(
                 context: context,
-                ss: ss);
+                ss: ss,
+                view:view);
         }
 
-        public static SqlColumnCollection SetExtendedSqlSelectingColumn(this IEnumerable<SqlColumn> source, Context context, SiteSettings ss)
+        public static SqlColumnCollection SetExtendedSqlSelectingColumn(
+            this IEnumerable<SqlColumn> source,
+            Context context,
+            SiteSettings ss,
+            View view)
         {
             var sqlColumns = source.Select(column =>
             {
-                if (column.ColumnName == null)
-                {
-                    return column;
-                }
-                var extendedSql = Parameters.ExtendedSqls
-                    ?.Where(o => o.OnSelectingColumn)
-                    .ExtensionWhere<ParameterAccessor.Parts.ExtendedSql>(
-                        context: context,
-                        siteId: ss.SiteId,
-                        columnName: column.ColumnName)
-                    .FirstOrDefault();
-                if (extendedSql?.CommandText.IsNullOrEmpty() == false)
-                {
-                    return new SqlColumn()
-                    {
-                        Sub = new SqlStatement(extendedSql.CommandText),
-                        As = column.ColumnName
-                    };
-                }
-                else
-                {
-                    return column;
-                }
+                return Rds.OnSelectingColumnSql(context, ss, view, column);
             });
             return new SqlColumnCollection(sqlColumns.ToArray());
         }

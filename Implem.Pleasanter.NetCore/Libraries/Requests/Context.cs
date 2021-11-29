@@ -863,11 +863,32 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
                 LabelText = viewFilter.LabelText,
                 GridLabelText = viewFilter.LabelText,
                 ChoicesText = viewFilter.ChoicesText,
+                DefaultInput = viewFilter.DefaultInput,
+                EditorFormat = viewFilter.EditorFormat,
                 ControlType = viewFilter.ControlType,
+                ValidateRequired = viewFilter.ValidateRequired,
+                ValidateNumber = viewFilter.ValidateNumber,
+                ValidateDate = viewFilter.ValidateDate,
+                ValidateEmail = viewFilter.ValidateEmail,
+                MaxLength = viewFilter.MaxLength,
+                ValidateEqualTo = viewFilter.ValidateEqualTo,
+                ValidateMaxLength = viewFilter.ValidateMaxLength,
+                DecimalPlaces = viewFilter.DecimalPlaces,
+                Nullable = viewFilter.Nullable,
+                Unit = viewFilter.Unit,
+                Min = viewFilter.Min,
+                Max = viewFilter.Max,
+                Step = viewFilter.Step,
+                AutoPostBack = viewFilter.AutoPostBack,
+                FieldCss = viewFilter.FieldCss ?? (viewFilter.FieldType == "ViewExtensions" ? "field-auto-thin" : null),
                 CheckFilterControlType = (ColumnUtilities.CheckFilterControlTypes)viewFilter.CheckFilterControlType,
+                DateTimeStep = viewFilter.DateTimeStep,
+                Size = ss.ColumnDefinitionHash.Get("NumA")?.Size ?? string.Empty,
+                ControlCss = viewFilter.ControlCss,
                 After = viewFilter.After,
                 SqlParam = viewFilter.SqlParam
             };
+
             if (column.HasChoices())
             {
                 column.SetChoiceHash(
