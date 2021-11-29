@@ -19,5 +19,6 @@
                 break;
         }
         $p.set($control, dateTime);
+        $control.change();
     });
 });
