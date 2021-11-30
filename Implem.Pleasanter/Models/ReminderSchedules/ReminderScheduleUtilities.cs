@@ -75,6 +75,7 @@ namespace Implem.Pleasanter.Models
                 tenantId: dataRow.Int("TenantId"),
                 userId: dataRow.Int("Updator"),
                 deptId: dataRow.Int("DeptId"));
+            context.ServerScriptDisabled = true;
             SiteSettingsUtilities.Get(
                 context: context,
                 siteId: dataRow.Long("SiteId"),
