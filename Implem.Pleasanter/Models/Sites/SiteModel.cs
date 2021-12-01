@@ -4056,6 +4056,7 @@ namespace Implem.Pleasanter.Models
                 }
                 else
                 {
+                    context.ServerScriptDisabled = true;
                     SiteSettings.Remind(context: context, idList: selected, test: true);
                     res.ReplaceAll("#EditReminder", new HtmlBuilder()
                         .EditReminder(context: context, ss: SiteSettings));
