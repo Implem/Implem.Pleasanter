@@ -176,11 +176,10 @@ namespace Implem.Libraries.DataSources.SqlServer
                     TableAndColumnBracket(
                         tableBracket: tableBracket,
                         columnBracket: columnBracket,
-                        select: select) +
-                    Operator +
-                    Variable(
-                        commandCount: commandCount,
-                        paramCount: i.ToString() + "_"))
+                        select: select)
+                        + OperatorAndVariable(
+                            commandCount: commandCount,
+                            paramCount: i.ToString() + "_"))
                 .Join(MultiParamOperator);
         }
 
@@ -194,16 +193,30 @@ namespace Implem.Libraries.DataSources.SqlServer
                 TableAndColumnBracket(
                     tableBracket: tableBracket,
                     columnBracket: columnBracket,
-                    select: select) +
-                Operator +
-                Variable(commandCount: commandCount);
+                    select: select)
+                    + OperatorAndVariable(commandCount: commandCount);
         }
 
-        private string Variable(int? commandCount, string paramCount = "")
+        private string OperatorAndVariable(
+            int? commandCount,
+            string paramCount = "")
         {
-            return Value != null && !Name.IsNullOrEmpty()
-                ? "@" + Name + paramCount + commandCount.ToString()
-                : string.Empty;
+            if (Value != null && !Name.IsNullOrEmpty())
+            {
+                var right = "@" + Name + paramCount + commandCount.ToString();
+                if (Operator?.Contains("{0}") == true)
+                {
+                    return Operator.Params(right);
+                }
+                else
+                {
+                    return Operator + right;
+                }
+            }
+            else
+            {
+                return Operator;
+            }
         }
 
         private string Sql_Sub(

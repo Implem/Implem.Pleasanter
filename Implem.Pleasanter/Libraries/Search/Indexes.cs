@@ -586,7 +586,7 @@ namespace Implem.Pleasanter.Libraries.Search
             return where.Add(or: Rds.ItemsWhere().SqlWhereLike(
                 tableName: "Items",
                 name: name,
-                searchText: searchText,
+                searchText: context.Sqls.EscapeValue(searchText),
                 clauseCollection: itemJoin
                     ? ItemWhereLike(
                         context: context,
@@ -643,13 +643,15 @@ namespace Implem.Pleasanter.Libraries.Search
                         factory: context,
                         tableName: tableName,
                         name: name,
-                        forward: forward);
+                        forward: forward,
+                        escape: true);
                 case "FullText":
                     return Rds.Items_FullText_WhereLike(
                         factory: context,
                         tableName: tableName,
                         name: name,
-                        forward: forward);
+                        forward: forward,
+                        escape: true);
                 default:
                     return null;
             }

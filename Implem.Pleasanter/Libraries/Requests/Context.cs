@@ -88,6 +88,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public abstract string ContentType{ get; set; }
         public abstract List<ParameterAccessor.Parts.ExtendedField> ExtendedFields { get; set; }
         public long ServerScriptDepth { get; set; } = 0;
+        public bool ServerScriptDisabled { get; set; }
         public abstract string AuthenticationType { get; }
         public abstract bool? IsAuthenticated { get; }
         public abstract IEnumerable<Claim> UserClaims { get; }

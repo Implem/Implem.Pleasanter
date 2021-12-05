@@ -1322,7 +1322,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.DateFilterSetMode = column.DateFilterSetMode;
                     }
-                    if (column.SearchType != Column.SearchTypes.PartialMatch)
+                    if (column.SearchType != column.SearchTypeDefault())
                     {
                         enabled = true;
                         newColumn.SearchType = column.SearchType;
@@ -1664,7 +1664,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.NumFilterMax = column.NumFilterMax ?? columnDefinition.NumFilterMax;
                 column.NumFilterStep = column.NumFilterStep ?? columnDefinition.NumFilterStep;
                 column.DateFilterSetMode = column.DateFilterSetMode ?? ColumnUtilities.DateFilterSetMode.Default;
-                column.SearchType = column.SearchType ?? Column.SearchTypes.PartialMatch;
+                column.SearchType = column.SearchType ?? column.SearchTypeDefault();
                 column.FullTextType = column.FullTextType ?? (Column.FullTextTypes)columnDefinition.FullTextType;
                 column.DateFilterMinSpan = column.DateFilterMinSpan ?? Parameters.General.DateFilterMinSpan;
                 column.DateFilterMaxSpan = column.DateFilterMaxSpan ?? Parameters.General.DateFilterMaxSpan;

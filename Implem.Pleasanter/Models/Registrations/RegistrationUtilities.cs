@@ -109,6 +109,10 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 view: view)
+                            .ViewExtensions(
+                                context: context,
+                                ss: ss,
+                                view: view)
                             .Div(id: "ViewModeContainer", action: () => viewModeBody())
                             .MainCommands(
                                 context: context,
@@ -2204,7 +2208,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.SelectUsers(
                 column: Rds.UsersColumn().UserId(),
-                where: Rds.UsersWhere().LoginId(registrationModel.LoginId, _operator: context.Sqls.Like)));
+                where: Rds.UsersWhere().LoginId(
+                    value: context.Sqls.EscapeValue(registrationModel.LoginId),
+                    _operator: context.Sqls.LikeWithEscape)));
             if (existsId != 0)
             {
                 return Messages.ResponseLoginIdAlreadyUse(context: context).ToJson();
