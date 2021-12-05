@@ -102,7 +102,9 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         statements: Rds.UpdateUsers(
                             param: Rds.UsersParam().Password(password),
-                            where: Rds.UsersWhere().LoginId(demoModel.LoginId, _operator: context.Sqls.Like)));
+                            where: Rds.UsersWhere().LoginId(
+                                value: context.Sqls.EscapeValue(demoModel.LoginId),
+                                _operator: context.Sqls.LikeWithEscape)));
                 }
                 new UserModel()
                 {

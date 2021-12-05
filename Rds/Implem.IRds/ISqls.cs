@@ -7,6 +7,7 @@
         string IsNotTrue { get; }
         string CurrentDateTime { get; }
         string Like { get; }
+        string LikeWithEscape { get; }
         string Escape { get; }
         string EscapeValue(string value);
         string IsNull { get; }

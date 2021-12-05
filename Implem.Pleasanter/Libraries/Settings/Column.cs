@@ -241,11 +241,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string BinaryStorageProvider;
         public bool? AddSource;
 
-        public bool HasChoices()
-        {
-            return ControlType == "ChoicesText" && !ChoicesText.IsNullOrEmpty();
-        }
-
         public Column()
         {
         }
@@ -253,6 +248,18 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Column(string columnName)
         {
             ColumnName = columnName;
+        }
+
+        public bool HasChoices()
+        {
+            return ControlType == "ChoicesText" && !ChoicesText.IsNullOrEmpty();
+        }
+
+        public SearchTypes SearchTypeDefault()
+        {
+            return HasChoices() && MultipleSelections != true
+                ? SearchTypes.ExactMatch
+                : SearchTypes.PartialMatch;
         }
 
         public string ChoiceHashKey()

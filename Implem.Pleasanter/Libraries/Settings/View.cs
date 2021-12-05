@@ -1804,8 +1804,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     column: column,
                                     where: where,
                                     param: json?.ToSingleList(),
-                                    nullable: param.All(o => o == "\t"),
-                                    _operator: "=");
+                                    nullable: param.All(o => o == "\t"));
                             }
                             break;
                         case Column.SearchTypes.ForwardMatch:
@@ -1837,7 +1836,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                                         .Where(o => o != "\t")
                                         .Select(o => StringInJson(value: o)),
                                     nullable: param.Any(o => o == "\t"),
-                                    _operator: context.Sqls.Like);
+                                    format: "%{0}%",
+                                    like: true);
                             }
                             break;
                     }
@@ -1853,8 +1853,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 column: column,
                                 where: where,
                                 param: param.Where(o => o != "\t"),
-                                nullable: param.Any(o => o == "\t"),
-                                _operator: "=");
+                                nullable: param.Any(o => o == "\t"));
                             break;
                         case Column.SearchTypes.ForwardMatch:
                         case Column.SearchTypes.ForwardMatchMultiple:
@@ -1862,22 +1861,20 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 context: context,
                                 column: column,
                                 where: where,
-                                param: param
-                                    .Where(o => o != "\t")
-                                    .Select(o => $"{o}%"),
+                                param: param.Where(o => o != "\t"),
                                 nullable: param.Any(o => o == "\t"),
-                                _operator: context.Sqls.Like);
+                                format: "{0}%",
+                                like: true);
                             break;
                         default:
                             CreateCsStringSqlWhereCollection(
                                 context: context,
                                 column: column,
                                 where: where,
-                                param: param
-                                    .Where(o => o != "\t")
-                                    .Select(o => $"%{o}%"),
+                                param: param.Where(o => o != "\t"),
                                 nullable: param.Any(o => o == "\t"),
-                                _operator: context.Sqls.Like);
+                                format: "%{0}%",
+                                like: true);
                             break;
                     }
                 }
@@ -1899,8 +1896,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 column: column,
                                 where: where,
                                 param: value.ToSingleList(),
-                                nullable: false,
-                                _operator: "=");
+                                nullable: false);
                             break;
                         case Column.SearchTypes.ForwardMatch:
                             CreateCsStringSqlWhereLike(
@@ -1926,8 +1922,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     column: column,
                                     where: where,
                                     param: param.Where(o => o != "\t"),
-                                    nullable: param.Any(o => o == "\t"),
-                                    _operator: "=");
+                                    nullable: param.Any(o => o == "\t"));
                             }
                             break;
                         case Column.SearchTypes.ForwardMatchMultiple:
@@ -1937,11 +1932,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     context: context,
                                     column: column,
                                     where: where,
-                                    param: param
-                                        .Where(o => o != "\t")
-                                        .Select(o => $"{o}%"),
+                                    param: param.Where(o => o != "\t"),
                                     nullable: param.Any(o => o == "\t"),
-                                    _operator: context.Sqls.Like);
+                                    format: "{0}%",
+                                    like: true);
                             }
                             break;
                         case Column.SearchTypes.PartialMatchMultiple:
@@ -1951,11 +1945,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     context: context,
                                     column: column,
                                     where: where,
-                                    param: param
-                                        .Where(o => o != "\t")
-                                        .Select(o => $"%{o}%"),
+                                    param: param.Where(o => o != "\t"),
                                     nullable: param.Any(o => o == "\t"),
-                                    _operator: context.Sqls.Like);
+                                    format: "%{0}%",
+                                    like: true);
                             }
                             break;
                     }
@@ -1969,15 +1962,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             SqlWhereCollection where,
             IEnumerable<string> param,
             bool nullable,
-            string _operator)
+            string format = null,
+            bool like = false)
         {
             var or = new SqlWhereCollection();
             if (param.Any())
             {
                 or.Add(CsStringColumnsWhere(
+                    context: context,
                     column: column,
                     param: param,
-                    _operator: _operator));
+                    format: format,
+                    like: like));
             }
             if (nullable)
             {
@@ -1991,16 +1987,27 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         private SqlWhere CsStringColumnsWhere(
+            Context context,
             Column column,
             IEnumerable<string> param,
-            string _operator)
+            string format,
+            bool like)
         {
             return new SqlWhere(
                 tableName: column.TableItemTitleCases(),
                 columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                 name: Strings.NewGuid(),
-                value: param,
-                _operator: _operator,
+                value: param
+                    ?.Select(o => like
+                        ? context.Sqls.EscapeValue(o)
+                        : o)
+                    ?.Select(o => !format.IsNullOrEmpty()
+                        ? format.Params(o)
+                        : o)
+                    .ToList(),
+                _operator: like
+                    ? context.Sqls.LikeWithEscape
+                    : "=",
                 multiParamOperator: " or ");
         }
 
@@ -2008,7 +2015,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             if (value.IsNullOrEmpty()) return string.Empty;
             var json = value.ToSingleList().ToJson();
-            return $"%{json.Substring(1, json.Length - 2)}%";
+            return $"{json.Substring(1, json.Length - 2)}";
         }
 
         private SqlWhere CsStringColumnsWhereNull(Column column)
