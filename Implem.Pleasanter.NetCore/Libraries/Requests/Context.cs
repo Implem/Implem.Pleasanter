@@ -296,13 +296,15 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
                 }
                 else if (!LoginId.IsNullOrEmpty())
                 {
-                    SetUser(userModel: GetUser(where: Rds.UsersWhere()
-                        .LoginId(Strings.CoalesceEmpty(
-                            Permissions.PrivilegedUsers(
-                                loginId: AspNetCoreHttpContext.Current?.User?.Identity.Name)
-                                    ? SessionData.Get("SwitchLoginId")
-                                    : null,
-                            LoginId), _operator: Sqls.Like)));
+                    var loginId = Strings.CoalesceEmpty(
+                        Permissions.PrivilegedUsers(
+                            loginId: AspNetCoreHttpContext.Current?.User?.Identity.Name)
+                                ? SessionData.Get("SwitchLoginId")
+                                : null,
+                        LoginId);
+                    SetUser(userModel: GetUser(where: Rds.UsersWhere().LoginId(
+                        value: Sqls.EscapeValue(loginId),
+                        _operator: Sqls.LikeWithEscape)));
                 }
                 else
                 {

@@ -14,11 +14,16 @@ namespace Implem.PostgreSql
 
         public string Like { get; } = " ilike ";
 
-        public string Escape { get; } = string.Empty;
+        public string LikeWithEscape { get; } = " ilike {0} escape '|'";
+
+        public string Escape { get; } = " escape '|'";
 
         public string EscapeValue(string value)
         {
-            return value;
+            return value?
+                .Replace("|", "||")
+                .Replace("_", "|_")
+                .Replace("%", "|%");
         }
 
         public string IsNull { get; } = "coalesce";

@@ -128,7 +128,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             .OwnerType("Users")
                             .OwnerId(sub: Rds.SelectUsers(
                                 column: Rds.UsersColumn().UserId(),
-                                where: Rds.UsersWhere().LoginId(loginId, _operator: context.Sqls.Like)))
+                                where: Rds.UsersWhere().LoginId(
+                                    value: context.Sqls.EscapeValue(loginId),
+                                    _operator: context.Sqls.LikeWithEscape)))
                             .MailAddress(mailAddress))
                     });
                 if (addressCount > 0)
@@ -188,7 +190,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     _using: attributes[nameof(UserModel.Body)] != null);
             statements.Add(Rds.UpdateOrInsertUsers(
                 param: param,
-                where: Rds.UsersWhere().TenantId(tenantId).LoginId(loginId, _operator: context.Sqls.Like),
+                where: Rds.UsersWhere()
+                    .TenantId(tenantId)
+                    .LoginId(
+                        value: context.Sqls.EscapeValue(loginId),
+                        _operator: context.Sqls.LikeWithEscape),
                 addUpdatorParam: true,
                 addUpdatedTimeParam: true));
             if (!mailAddress.IsNullOrEmpty())
@@ -198,12 +204,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .OwnerType("Users")
                         .OwnerId(sub: Rds.SelectUsers(
                             column: Rds.UsersColumn().UserId(),
-                            where: Rds.UsersWhere().LoginId(loginId, _operator: context.Sqls.Like)))));
+                            where: Rds.UsersWhere().LoginId(
+                                value: context.Sqls.EscapeValue(loginId),
+                                _operator: context.Sqls.LikeWithEscape)))));
                 statements.Add(Rds.InsertMailAddresses(
                     param: Rds.MailAddressesParam()
                         .OwnerId(sub: Rds.SelectUsers(
                             column: Rds.UsersColumn().UserId(),
-                            where: Rds.UsersWhere().LoginId(loginId, _operator: context.Sqls.Like)))
+                            where: Rds.UsersWhere().LoginId(
+                                value: context.Sqls.EscapeValue(loginId),
+                                _operator: context.Sqls.LikeWithEscape)))
                         .OwnerType("Users")
                         .MailAddress(mailAddress)));
             }
