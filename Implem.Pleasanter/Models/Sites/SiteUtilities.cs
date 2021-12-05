@@ -4584,6 +4584,13 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder FilterColumnDialog(
             this HtmlBuilder hb, Context context, SiteSettings ss, Column column)
         {
+            var type = column.TypeName.CsTypeSummary();
+            var noSettings = new string[]
+            {
+                "Owner",
+                "Manager",
+                "Status"
+            }.Contains(column.ColumnName);
             hb
                 .FieldSet(
                     css: " enclosed",
@@ -4596,7 +4603,9 @@ namespace Implem.Pleasanter.Models
                          selectedValue: (column.DateFilterSetMode == ColumnUtilities.DateFilterSetMode.Range)
                              ? ColumnUtilities.DateFilterSetMode.Range.ToInt().ToString()
                              : ColumnUtilities.DateFilterSetMode.Default.ToInt().ToString()),
-                    _using: column.TypeName.CsTypeSummary() == Types.CsDateTime || column.TypeName.CsTypeSummary() == Types.CsNumeric)
+                    _using: (type == Types.CsDateTime
+                        || type == Types.CsNumeric)
+                            && !noSettings)
                 .FieldSet(
                     id: "FilterColumnSettingField",
                     css: column.DateFilterSetMode == ColumnUtilities.DateFilterSetMode.Default
@@ -4605,7 +4614,7 @@ namespace Implem.Pleasanter.Models
                     legendText: column.LabelText,
                     action: () =>
                     {
-                        switch (column.TypeName.CsTypeSummary())
+                        switch (type)
                         {
                             case Types.CsBool:
                                 hb.FieldDropDown(
@@ -4618,28 +4627,31 @@ namespace Implem.Pleasanter.Models
                                     selectedValue: column.CheckFilterControlType.ToInt().ToString());
                                 break;
                             case Types.CsNumeric:
-                                hb
-                                    .FieldTextBox(
-                                        controlId: "NumFilterMin",
-                                        fieldCss: "field-auto-thin",
-                                        labelText: Displays.Min(context: context),
-                                        text: column.NumFilterMin.TrimEndZero(),
-                                        validateRequired: true,
-                                        validateNumber: true)
-                                    .FieldTextBox(
-                                        controlId: "NumFilterMax",
-                                        fieldCss: "field-auto-thin",
-                                        labelText: Displays.Max(context: context),
-                                        text: column.NumFilterMax.TrimEndZero(),
-                                        validateRequired: true,
-                                        validateNumber: true)
-                                    .FieldTextBox(
-                                        controlId: "NumFilterStep",
-                                        fieldCss: "field-auto-thin",
-                                        labelText: Displays.Step(context: context),
-                                        text: column.NumFilterStep.TrimEndZero(),
-                                        validateRequired: true,
-                                        validateNumber: true);
+                                if (!noSettings)
+                                {
+                                    hb
+                                        .FieldTextBox(
+                                            controlId: "NumFilterMin",
+                                            fieldCss: "field-auto-thin",
+                                            labelText: Displays.Min(context: context),
+                                            text: column.NumFilterMin.TrimEndZero(),
+                                            validateRequired: true,
+                                            validateNumber: true)
+                                        .FieldTextBox(
+                                            controlId: "NumFilterMax",
+                                            fieldCss: "field-auto-thin",
+                                            labelText: Displays.Max(context: context),
+                                            text: column.NumFilterMax.TrimEndZero(),
+                                            validateRequired: true,
+                                            validateNumber: true)
+                                        .FieldTextBox(
+                                            controlId: "NumFilterStep",
+                                            fieldCss: "field-auto-thin",
+                                            labelText: Displays.Step(context: context),
+                                            text: column.NumFilterStep.TrimEndZero(),
+                                            validateRequired: true,
+                                            validateNumber: true);
+                                }
                                 break;
                             case Types.CsDateTime:
                                 hb
