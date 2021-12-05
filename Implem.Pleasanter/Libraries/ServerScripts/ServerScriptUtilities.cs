@@ -724,7 +724,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             bool onTesting = false)
         {
             if (!(Parameters.Script.ServerScript != false
-                && context.ContractSettings.ServerScript != false))
+                && context.ContractSettings.ServerScript != false
+                && context.ServerScriptDisabled == false))
             {
                 return null;
             }

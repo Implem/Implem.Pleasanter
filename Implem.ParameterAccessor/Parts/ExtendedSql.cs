@@ -30,6 +30,7 @@ namespace Implem.ParameterAccessor.Parts
         public List<string> OnSelectingOrderByParams;
         public bool OnUseSecondaryAuthentication;
         public string CommandText;
+        public List<string> OnSelectingColumnParams;
 
         public string ReplacedCommandText(
             long siteId,

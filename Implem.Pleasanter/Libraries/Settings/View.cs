@@ -63,6 +63,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, Column.SearchTypes> ColumnFilterSearchTypes;
         public string Search;
         public Dictionary<string, SqlOrderBy.Types> ColumnSorterHash;
+        public Dictionary<string, string> ViewExtensionsHash;
         public string CalendarTimePeriod;
         public string CalendarFromTo;
         public DateTime? CalendarDate;
@@ -347,6 +348,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var columnFilterPrefix = "ViewFilters__";
             var columnFilterOnGridPrefix = "ViewFiltersOnGridHeader__";
             var columnSorterPrefix = "ViewSorters__";
+            var columnViewExtensionPrefix = "ViewExtensions__";
             switch (context.Forms.ControlId())
             {
                 case "ReduceViewFilters":
@@ -664,6 +666,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                                         columnName: controlId.Substring(columnSorterPrefix.Length),
                                         value: OrderByType(context.Forms.Data(controlId)));
                                 }
+                                else if (controlId.StartsWith(columnViewExtensionPrefix))
+                                {
+                                    AddViewExtensionsHash(
+                                        context: context,
+                                        ss: ss,
+                                        columnName: controlId.Substring(columnViewExtensionPrefix.Length),
+                                        value: context.Forms.Data(controlId));
+                                }
                                 break;
                         }
                     }
@@ -730,11 +740,38 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : null;
         }
 
+        public string ViewExtension(string columnName)
+        {
+            return ViewExtensionsHash?.ContainsKey(columnName) == true
+                ? ViewExtensionsHash[columnName]
+                : null;
+        }
+
         public SqlOrderBy.Types ColumnSorter(string columnName)
         {
             return ColumnSorterHash?.ContainsKey(columnName) == true
                 ? ColumnSorterHash[columnName]
                 : SqlOrderBy.Types.release;
+        }
+
+        private void AddViewExtensionsHash(
+            Context context,
+            SiteSettings ss,
+            string columnName,
+            string value)
+        {
+            var column = context.ExtendedFieldColumn(
+                    ss: ss,
+                    columnName: columnName,
+                    extendedFieldType: "ViewExtensions");
+            if (ViewExtensionsHash == null)
+            {
+                ViewExtensionsHash = new Dictionary<string, string>();
+            }
+            if (column != null)
+            {
+                ViewExtensionsHash.AddOrUpdate(columnName, value);
+            }
         }
 
         private void AddColumnFilterHash(
@@ -976,6 +1013,39 @@ namespace Implem.Pleasanter.Libraries.Settings
                         }
                     })
                     .ForEach(o => view.ColumnFilterHash.Add(o.Key, o.Value));
+            }
+            if (ViewExtensionsHash?.Any() == true)
+            {
+                view.ViewExtensionsHash = new Dictionary<string, string>();
+                ViewExtensionsHash
+                    .Where(o =>
+                    {
+                        var column = context.ExtendedFieldColumn(
+                            ss: ss,
+                            columnName: o.Key,
+                            extendedFieldType: "ViewExtensions");
+                        if (column?.TypeName == null)
+                        {
+                            return false;
+                        }
+                        else if (column.TypeName.CsTypeSummary() == Types.CsString
+                            && column.HasChoices() != true)
+                        {
+                            return o.Value?.IsNullOrEmpty() != true;
+                        }
+                        else if (column.TypeName.CsTypeSummary() == Types.CsBool)
+                        {
+                            return o.Value?.IsNullOrEmpty() != true;
+                        }
+                        else
+                        {
+                            var data = o.Value?.Deserialize<List<object>>();
+                            return data != null
+                                ? data.Any()
+                                : o.Value?.IsNullOrEmpty() != true;
+                        }
+                    })
+                    .ForEach(o => view.ViewExtensionsHash.Add(o.Key, o.Value));
             }
             if (ColumnFilterSearchTypes?.Any() == true)
             {
@@ -1734,8 +1804,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     column: column,
                                     where: where,
                                     param: json?.ToSingleList(),
-                                    nullable: param.All(o => o == "\t"),
-                                    _operator: "=");
+                                    nullable: param.All(o => o == "\t"));
                             }
                             break;
                         case Column.SearchTypes.ForwardMatch:
@@ -1767,7 +1836,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                                         .Where(o => o != "\t")
                                         .Select(o => StringInJson(value: o)),
                                     nullable: param.Any(o => o == "\t"),
-                                    _operator: context.Sqls.Like);
+                                    format: "%{0}%",
+                                    like: true);
                             }
                             break;
                     }
@@ -1783,8 +1853,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 column: column,
                                 where: where,
                                 param: param.Where(o => o != "\t"),
-                                nullable: param.Any(o => o == "\t"),
-                                _operator: "=");
+                                nullable: param.Any(o => o == "\t"));
                             break;
                         case Column.SearchTypes.ForwardMatch:
                         case Column.SearchTypes.ForwardMatchMultiple:
@@ -1792,22 +1861,20 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 context: context,
                                 column: column,
                                 where: where,
-                                param: param
-                                    .Where(o => o != "\t")
-                                    .Select(o => $"{o}%"),
+                                param: param.Where(o => o != "\t"),
                                 nullable: param.Any(o => o == "\t"),
-                                _operator: context.Sqls.Like);
+                                format: "{0}%",
+                                like: true);
                             break;
                         default:
                             CreateCsStringSqlWhereCollection(
                                 context: context,
                                 column: column,
                                 where: where,
-                                param: param
-                                    .Where(o => o != "\t")
-                                    .Select(o => $"%{o}%"),
+                                param: param.Where(o => o != "\t"),
                                 nullable: param.Any(o => o == "\t"),
-                                _operator: context.Sqls.Like);
+                                format: "%{0}%",
+                                like: true);
                             break;
                     }
                 }
@@ -1829,8 +1896,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 column: column,
                                 where: where,
                                 param: value.ToSingleList(),
-                                nullable: false,
-                                _operator: "=");
+                                nullable: false);
                             break;
                         case Column.SearchTypes.ForwardMatch:
                             CreateCsStringSqlWhereLike(
@@ -1856,8 +1922,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     column: column,
                                     where: where,
                                     param: param.Where(o => o != "\t"),
-                                    nullable: param.Any(o => o == "\t"),
-                                    _operator: "=");
+                                    nullable: param.Any(o => o == "\t"));
                             }
                             break;
                         case Column.SearchTypes.ForwardMatchMultiple:
@@ -1867,11 +1932,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     context: context,
                                     column: column,
                                     where: where,
-                                    param: param
-                                        .Where(o => o != "\t")
-                                        .Select(o => $"{o}%"),
+                                    param: param.Where(o => o != "\t"),
                                     nullable: param.Any(o => o == "\t"),
-                                    _operator: context.Sqls.Like);
+                                    format: "{0}%",
+                                    like: true);
                             }
                             break;
                         case Column.SearchTypes.PartialMatchMultiple:
@@ -1881,11 +1945,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     context: context,
                                     column: column,
                                     where: where,
-                                    param: param
-                                        .Where(o => o != "\t")
-                                        .Select(o => $"%{o}%"),
+                                    param: param.Where(o => o != "\t"),
                                     nullable: param.Any(o => o == "\t"),
-                                    _operator: context.Sqls.Like);
+                                    format: "%{0}%",
+                                    like: true);
                             }
                             break;
                     }
@@ -1899,15 +1962,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             SqlWhereCollection where,
             IEnumerable<string> param,
             bool nullable,
-            string _operator)
+            string format = null,
+            bool like = false)
         {
             var or = new SqlWhereCollection();
             if (param.Any())
             {
                 or.Add(CsStringColumnsWhere(
+                    context: context,
                     column: column,
                     param: param,
-                    _operator: _operator));
+                    format: format,
+                    like: like));
             }
             if (nullable)
             {
@@ -1921,16 +1987,27 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         private SqlWhere CsStringColumnsWhere(
+            Context context,
             Column column,
             IEnumerable<string> param,
-            string _operator)
+            string format,
+            bool like)
         {
             return new SqlWhere(
                 tableName: column.TableItemTitleCases(),
                 columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                 name: Strings.NewGuid(),
-                value: param,
-                _operator: _operator,
+                value: param
+                    ?.Select(o => like
+                        ? context.Sqls.EscapeValue(o)
+                        : o)
+                    ?.Select(o => !format.IsNullOrEmpty()
+                        ? format.Params(o)
+                        : o)
+                    .ToList(),
+                _operator: like
+                    ? context.Sqls.LikeWithEscape
+                    : "=",
                 multiParamOperator: " or ");
         }
 
@@ -1938,7 +2015,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             if (value.IsNullOrEmpty()) return string.Empty;
             var json = value.ToSingleList().ToJson();
-            return $"%{json.Substring(1, json.Length - 2)}%";
+            return $"{json.Substring(1, json.Length - 2)}";
         }
 
         private SqlWhere CsStringColumnsWhereNull(Column column)
@@ -2140,19 +2217,37 @@ namespace Implem.Pleasanter.Libraries.Settings
             SqlParamCollection param = null)
         {
             if (param == null) param = new SqlParamCollection();
+            AddExtendedFieldParam(
+                context: context,
+                param: param,
+                extendedFieldType: "Filter",
+                sourceHash: ColumnFilterHash);
+            AddExtendedFieldParam(
+                context: context,
+                param: param,
+                extendedFieldType: "ViewExtensions",
+                sourceHash: ViewExtensionsHash);
+            return param;
+        }
+
+        private void AddExtendedFieldParam(
+            Context context,
+            SqlParamCollection param,
+            string extendedFieldType,
+            Dictionary<string, string> sourceHash)
+        {
             context.ExtendedFields
                 ?.Where(extendedField =>
-                    extendedField.FieldType == "Filter"
+                    extendedField.FieldType == extendedFieldType
                     && extendedField.SqlParam
-                    && ColumnFilterHash?.ContainsKey(extendedField.Name) == true)
+                    && sourceHash?.ContainsKey(extendedField.Name) == true)
                 .Select(extendedField => new SqlParam()
                 {
                     VariableName = extendedField.Name,
-                    Value = ColumnFilterHash[extendedField.Name],
+                    Value = sourceHash[extendedField.Name],
                     NoCount = true
                 })
                 .ForEach(o => param.Add(o));
-            return param;
         }
 
         public bool GetFiltersReduced()

@@ -109,6 +109,10 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 view: view)
+                            .ViewExtensions(
+                                context: context,
+                                ss: ss,
+                                view: view)
                             .Div(id: "ViewModeContainer", action: () => viewModeBody())
                             .MainCommands(
                                 context: context,

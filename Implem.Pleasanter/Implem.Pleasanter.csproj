@@ -348,6 +348,7 @@
     <Compile Include="Libraries\HtmlParts\HtmlHistoryCommands.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlImageLib.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlSiteMenu.cs" />
+    <Compile Include="Libraries\HtmlParts\HtmlViewExtensions.cs" />
     <Compile Include="Libraries\Initializers\ExtensionInitializer.cs" />
     <Compile Include="Libraries\Initializers\NotificationInitializer.cs" />
     <Compile Include="Libraries\Initializers\ParametersInitializer.cs" />
@@ -1376,7 +1377,6 @@
     <Content Include="App_Data\Parameters\ExtendedNavigationMenus\Sample.json.txt" />
     <Content Include="App_Data\Parameters\ExtendedScripts\Sample.js.txt" />
     <Content Include="App_Data\Parameters\ExtendedServerScripts\Sample.json.txt" />
-    <Content Include="App_Data\Parameters\ExtendedSqls\Sample.json.txt" />
     <Content Include="App_Data\Parameters\ExtendedStyles\Sample.css.txt" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -1999,6 +1999,7 @@
   <ItemGroup>
     <Folder Include="App_Data\Parameters\ExtendedAutoTest\TestParts\Depts\" />
     <Folder Include="App_Data\Parameters\ExtendedAutoTest\TestParts\Groups\" />
+    <Folder Include="App_Data\Parameters\ExtendedSqls\" />
     <Folder Include="Views\AdminTasks\" />
     <Folder Include="Views\Mainte\" />
   </ItemGroup>

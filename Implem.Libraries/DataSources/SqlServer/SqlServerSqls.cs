@@ -16,12 +16,16 @@
 
         public string Like { get; } = " like ";
 
+        public string LikeWithEscape { get; } = " like {0} escape '|'";
+
         public string Escape { get; } = " escape '|'";
 
         public string EscapeValue(string value)
         {
             return value?
                 .Replace("|", "||")
+                .Replace("_", "|_")
+                .Replace("%", "|%")
                 .Replace("[", "|[");
         }
 

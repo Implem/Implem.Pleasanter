@@ -278,6 +278,67 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : value.ToLong().ToSingleList();
         }
 
+        public static HtmlBuilder ViewExtensionField(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            Column column,
+            View view)
+        {
+            var defaultValue = column.DefaultInput;
+            if (ControlType(column) == ControlTypes.TextBoxDateTime)
+            {
+                defaultValue = column
+                    .DefaultTime(context: context)
+                    .ToControl(
+                        context: context,
+                        ss: ss,
+                        column: column);
+            }
+            var value = view.ViewExtension(column.ColumnName) ?? defaultValue;
+            hb.SwitchField(
+                context: context,
+                ss: ss,
+                column: column,
+                columnPermissionType: Permissions.ColumnPermissionTypes.Update,
+                controlId: "ViewExtensions__" + column.ColumnName,
+                columnName: column.ColumnName,
+                fieldCss: FieldCss(
+                    column: column,
+                    serverScriptModelColumn: null,
+                    fieldCss: null),
+                labelCss: null,
+                controlContainerCss: null,
+                controlCss: ControlCss(
+                    column: column,
+                    serverScriptModelColumn: null,
+                    disableAutoPostBack: false,
+                    controlCss: null),
+                controlType: ControlType(column),
+                labelText: column.LabelText,
+                labelRaw: null,
+                value: value,
+                optionCollection: EditChoices(
+                    context: context,
+                    ss: ss,
+                    column: column,
+                    value: value),
+                mobile: context.Mobile,
+                controlOnly: false,
+                alwaysSend: false,
+                preview: false,
+                extendedHtmlBeforeLabel: Strings.CoalesceEmpty(
+                    null,
+                    column.ExtendedHtmlBeforeLabel),
+                extendedHtmlBetweenLabelAndControl: Strings.CoalesceEmpty(
+                    null,
+                    column.ExtendedHtmlBetweenLabelAndControl),
+                extendedHtmlAfterControl: Strings.CoalesceEmpty(
+                    null,
+                    column.ExtendedHtmlAfterControl));
+            return hb;
+        }
+
         private static HtmlBuilder SwitchField(
             this HtmlBuilder hb,
             Context context,
