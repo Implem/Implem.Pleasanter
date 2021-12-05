@@ -364,7 +364,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             decimal max,
             decimal data)
         {
-            return ss.NoDisplayCrosstabGraph != true
+            return ss.NoDisplayCrosstabGraph != true && data > 0
                 ? hb.Svg(css: "svg-crosstab", action: () => hb
                    .Rect(
                        x: 0,
