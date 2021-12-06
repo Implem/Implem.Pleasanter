@@ -61,6 +61,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 columnName
             };
             View.ColumnFilterHash.AddOrUpdate(columnName, $"[\"{from}\"]");
+            if (View.ColumnSorterHash == null)
+            {
+                View.ColumnSorterHash = new Dictionary<string, SqlOrderBy.Types>();
+            }
+            View.ColumnSorterHash.AddOrUpdate("CreatedTime", SqlOrderBy.Types.asc);
             var dataRows = new GridData(
                 context: context,
                 ss: ss,
