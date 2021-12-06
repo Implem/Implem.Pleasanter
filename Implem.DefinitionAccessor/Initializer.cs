@@ -114,6 +114,30 @@ namespace Implem.DefinitionAccessor
             Parameters.Parameter = Read<Parameter>();
             Parameters.Locations = Read<Locations>();
             Parameters.Validation = Read<Validation>();
+            Parameters.Rds.SaConnectionString = Strings.CoalesceEmpty(
+                Parameters.Rds.SaConnectionString,
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Rds_{Parameters.Rds.Dbms}_SaConnectionString"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Rds_{Parameters.Rds.Dbms}_ConnectionString"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Rds_SaConnectionString"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Rds_ConnectionString"));
+            Parameters.Rds.OwnerConnectionString = Strings.CoalesceEmpty(
+                Parameters.Rds.OwnerConnectionString,
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Rds_{Parameters.Rds.Dbms}_OwnerConnectionString"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Rds_{Parameters.Rds.Dbms}_ConnectionString"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Rds_OwnerConnectionString"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Rds_ConnectionString"));
+            Parameters.Rds.UserConnectionString = Strings.CoalesceEmpty(
+                Parameters.Rds.UserConnectionString,
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Rds_{Parameters.Rds.Dbms}_UserConnectionString"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Rds_{Parameters.Rds.Dbms}_ConnectionString"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Rds_UserConnectionString"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Rds_ConnectionString"));
+            Parameters.Mail.SmtpUserName = Strings.CoalesceEmpty(
+                Parameters.Mail.SmtpUserName,
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Mail_SmtpUserName"));
+            Parameters.Mail.SmtpPassword = Strings.CoalesceEmpty(
+                Parameters.Mail.SmtpPassword,
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Mail_SmtpPassword"));
         }
 
         public static void ReloadParameters()
