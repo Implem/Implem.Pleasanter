@@ -192,6 +192,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string CharToAddWhenCopying;
         public bool? AllowSeparate;
         public bool? AllowLockTable;
+        public bool? AllowRestoreHistories;
+        public bool? AllowPhysicalDeleteHistories;
         public bool? HideLink;
         public bool? SwitchRecordWithAjax;
         public bool? EnableCalendar;
@@ -329,6 +331,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             CharToAddWhenCopying = CharToAddWhenCopying ?? Parameters.General.CharToAddWhenCopying;
             AllowSeparate = AllowSeparate ?? false;
             AllowLockTable = AllowLockTable ?? false;
+            AllowRestoreHistories = AllowRestoreHistories ?? true;
+            AllowPhysicalDeleteHistories = AllowPhysicalDeleteHistories ?? true;
             HideLink = HideLink ?? false;
             SwitchRecordWithAjax = SwitchRecordWithAjax ?? false;
             EnableCalendar = EnableCalendar ?? true;
@@ -722,6 +726,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (AllowLockTable == true)
             {
                 ss.AllowLockTable = AllowLockTable;
+            }
+            if (AllowRestoreHistories == false)
+            {
+                ss.AllowRestoreHistories = AllowRestoreHistories;
+            }
+            if (AllowPhysicalDeleteHistories == false)
+            {
+                ss.AllowPhysicalDeleteHistories = AllowPhysicalDeleteHistories;
             }
             if (HideLink == true)
             {
@@ -3142,6 +3154,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "AllowEditingComments": AllowEditingComments = value.ToBool(); break;
                 case "AllowSeparate": AllowSeparate = value.ToBool(); break;
                 case "AllowLockTable": AllowLockTable = value.ToBool(); break;
+                case "AllowRestoreHistories": AllowRestoreHistories = value.ToBool(); break;
+                case "AllowPhysicalDeleteHistories": AllowPhysicalDeleteHistories = value.ToBool(); break;
                 case "HideLink": HideLink = value.ToBool(); break;
                 case "SwitchRecordWithAjax": SwitchRecordWithAjax = value.ToBool(); break;
                 case "ImportEncoding": ImportEncoding = value; break;

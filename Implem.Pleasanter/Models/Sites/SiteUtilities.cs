@@ -6503,7 +6503,17 @@ namespace Implem.Pleasanter.Models
                                         text: Displays.ToEnable(context: context),
                                         controlCss: "button-icon",
                                         onClick: "$p.moveColumns($(this),'History');",
-                                        icon: "ui-icon-circle-triangle-w")))));
+                                        icon: "ui-icon-circle-triangle-w"))))
+                .FieldCheckBox(
+                    controlId: "AllowRestoreHistories",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.AllowRestoreHistories(context: context),
+                    _checked: ss.AllowRestoreHistories == true)
+                .FieldCheckBox(
+                    controlId: "AllowPhysicalDeleteHistories",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.AllowPhysicalDeleteHistories(context: context),
+                    _checked: ss.AllowPhysicalDeleteHistories == true));
         }
 
         /// <summary>
