@@ -1710,6 +1710,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     id: columnDefinition.Id);
                 column.TypeName = columnDefinition.TypeName;
                 column.TypeCs = columnDefinition.TypeCs;
+                column.DbNullable = columnDefinition.Nullable;
                 column.JoinTableName = columnDefinition.JoinTableName;
                 column.Type = columnDefinition.UserColumn
                     ? Column.Types.User
