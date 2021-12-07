@@ -615,6 +615,7 @@ namespace Implem.DefinitionAccessor
             Def.SetDemoDefinition();
             Def.SetSqlDefinition();
             SetDisplayAccessor();
+            SetColumnDefinitionAccessControl();
         }
 
         public static XlsIo DefinitionFile(string fileName)
@@ -796,6 +797,25 @@ namespace Implem.DefinitionAccessor
                 hash.Add(data.Id, data);
             });
             return hash;
+        }
+
+                private static void SetColumnDefinitionAccessControl()
+        {
+            if (!Parameters.User.DisableTopSiteCreation)
+            {
+                Def.ColumnDefinitionCollection.FirstOrDefault(o =>
+                    o.Id == "Users_AllowCreationAtTopSite").ReadAccessControl = "ManageService";
+            }
+            if (!Parameters.User.DisableGroupAdmin)
+            {
+                Def.ColumnDefinitionCollection.FirstOrDefault(o =>
+                    o.Id == "Users_AllowGroupAdministration").ReadAccessControl = "ManageService";
+            }
+            if (!Parameters.User.DisableGroupCreation)
+            {
+                Def.ColumnDefinitionCollection.FirstOrDefault(o =>
+                    o.Id == "Users_AllowGroupCreation").ReadAccessControl = "ManageService";
+            }
         }
 
         private static void SetSqls()
