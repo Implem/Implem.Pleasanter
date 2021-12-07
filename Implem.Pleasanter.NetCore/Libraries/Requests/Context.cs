@@ -450,6 +450,18 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
             return new CultureInfo(Language);
         }
 
+        public override CultureInfo CultureInfoCurrency(string language)
+        {
+            var changedLanguage = string.Empty;
+            switch (language)
+            {
+                case "ja":
+                    changedLanguage = "ja-JP";
+                    break;
+            }
+            return new CultureInfo(changedLanguage);
+        }
+
         public override Message Message()
         {
             return SessionData.Get("Message")?.Deserialize<Message>();

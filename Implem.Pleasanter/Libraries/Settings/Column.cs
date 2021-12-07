@@ -823,7 +823,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ? value.ToDecimal().ToString(
                         Format + (Format == "C" || Format == "N"
                             ? DecimalPlaces.ToString()
-                            : string.Empty), context.CultureInfo())
+                            : string.Empty), context.CultureInfoCurrency(context.Language))
                     : DecimalPlaces.ToInt() == 0
                         ? value.ToDecimal().ToString("0", "0")
                         : DisplayValue(value.ToDecimal()))
