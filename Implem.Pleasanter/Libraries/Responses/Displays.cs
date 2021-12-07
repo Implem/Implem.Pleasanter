@@ -349,6 +349,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AllowPhysicalDeleteHistories(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AllowPhysicalDeleteHistories",
+                data: data);
+        }
+
         public static string AllowReferenceCopy(
             Context context,
             params string[] data)
@@ -356,6 +366,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "AllowReferenceCopy",
+                data: data);
+        }
+
+        public static string AllowRestoreHistories(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AllowRestoreHistories",
                 data: data);
         }
 
