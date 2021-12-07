@@ -452,14 +452,13 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
 
         public override CultureInfo CultureInfoCurrency(string language)
         {
-            var changedLanguage = string.Empty;
             switch (language)
             {
                 case "ja":
-                    changedLanguage = "ja-JP";
-                    break;
+                    return new CultureInfo("ja-JP");
+                default:
+                    return new CultureInfo(language);
             }
-            return new CultureInfo(changedLanguage);
         }
 
         public override Message Message()
