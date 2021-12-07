@@ -462,15 +462,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 ShowHistory = Bool(
                                     context: context,
                                     controlId: controlId);
-                                ColumnSorterHash = new Dictionary<string, SqlOrderBy.Types>();
                                 if (ShowHistory == true)
                                 {
-                                    ColumnSorterHash.Add(
-                                        Rds.IdColumn(ss.ReferenceType),
-                                        SqlOrderBy.Types.desc);
-                                    ColumnSorterHash.Add(
-                                        "Ver",
-                                        SqlOrderBy.Types.desc);
+                                    SetSorterHashOnShowHistory(ss);
                                 }
                                 break;
                             case "ViewFilters_Search":
@@ -2089,6 +2083,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 name: OnSelectingOrderBy,
                 columnSorterHash: ColumnSorterHash,
                 columnPlaceholders: ColumnPlaceholders);
+            if (ShowHistory == true)
+            {
+                SetSorterHashOnShowHistory(ss);
+            }
             if (ColumnSorterHash?.Any() == true)
             {
                 ColumnSorterHash?.ForEach(data =>
@@ -2113,6 +2111,17 @@ namespace Implem.Pleasanter.Libraries.Settings
                     columnBracket: "\"UpdatedTime\"",
                     orderType: SqlOrderBy.Types.desc)
                 : orderBy;
+        }
+
+        private void SetSorterHashOnShowHistory(SiteSettings ss)
+        {
+            ColumnSorterHash = new Dictionary<string, SqlOrderBy.Types>();
+            ColumnSorterHash.Add(
+                Rds.IdColumn(ss.ReferenceType),
+                SqlOrderBy.Types.desc);
+            ColumnSorterHash.Add(
+                "Ver",
+                SqlOrderBy.Types.desc);
         }
 
         private static void OrderBy(
