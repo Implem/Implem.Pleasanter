@@ -1168,6 +1168,11 @@ namespace Implem.Pleasanter.Models
         public static string Copy(Context context, SiteModel siteModel)
         {
             var ss = siteModel.SiteSettings;
+            if (siteModel.ParentId == 0
+                && Permissions.SiteTopPermission(context: context) != (Permissions.Types)Parameters.Permissions.Manager)
+            {
+                return Error.Types.HasNotPermission.MessageJson(context: context);
+            }
             if (context.ContractSettings.SitesLimit(context: context))
             {
                 return Error.Types.SitesLimit.MessageJson(context: context);
@@ -3669,7 +3674,8 @@ namespace Implem.Pleasanter.Models
                                 ss: siteModel.SiteSettings,
                                 verType: siteModel.VerType,
                                 updateButton: true,
-                                copyButton: true,
+                                copyButton: siteModel.ParentId > 0
+                                    || Permissions.SiteTopPermission(context: context) == (Permissions.Types)Parameters.Permissions.Manager,
                                 mailButton: true,
                                 deleteButton: true))
                         .Hidden(
