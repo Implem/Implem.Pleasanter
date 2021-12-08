@@ -139,6 +139,11 @@ namespace Implem.TestAutomation
             throw new NotImplementedException();
         }
 
+        public override CultureInfo CultureInfoCurrency(string language)
+        {
+            throw new NotImplementedException();
+        }
+
         public override Pleasanter.Libraries.Settings.Column ExtendedFieldColumn(Pleasanter.Libraries.Settings.SiteSettings ss, string columnName, string extendedFieldType)
         {
             throw new NotImplementedException();
