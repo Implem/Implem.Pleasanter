@@ -302,6 +302,28 @@ namespace Implem.TestAutomation
                     return Displays.AutoTestResultNg(context: context);
                 }
             }
+            else if (resultCheck.CheckType.Equals(CheckTypes.DataRequiredTrue))
+            {
+                if (DataRequired(driver, resultCheck))
+                {
+                    return Displays.AutoTestResultOk(context: context);
+                }
+                else
+                {
+                    return Displays.AutoTestResultNg(context: context);
+                }
+            }
+            else if (resultCheck.CheckType.Equals(CheckTypes.DataRequiredFalse))
+            {
+                if (!DataRequired(driver, resultCheck))
+                {
+                    return Displays.AutoTestResultOk(context: context);
+                }
+                else
+                {
+                    return Displays.AutoTestResultNg(context: context);
+                }
+            }
             else if (resultCheck.CheckType.Equals(CheckTypes.SelectOptions))
             {
                 if (SelectOptions(driver, resultCheck, resultCheck.ExecutionValue))
@@ -444,6 +466,28 @@ namespace Implem.TestAutomation
             }
         }
 
+        private static bool DataRequired(IWebDriver driver, ResultCheck resultCheck)
+        {
+            IJavaScriptExecutor jsDriver = driver as IJavaScriptExecutor;
+            if (!resultCheck.ItemId.IsNullOrEmpty())
+            {
+                return jsDriver.ExecuteScript($@"
+                if ($p.getControl('{resultCheck.ItemId}')) {{
+                    return $p.getControl('{resultCheck.ItemId}').attr('data-validate-required');
+                }} else {{
+                    return false;
+                }}").ToBool();
+            }
+            else
+            {
+                return jsDriver.ExecuteScript($@"
+                if ($('{resultCheck.ElementCss}')) {{
+                    return $('{resultCheck.ElementCss}').attr('data-validate-required');
+                }} else {{
+                    return false;
+                }}").ToBool();
+            }
+        }
         private static bool SelectOptions(IWebDriver driver, ResultCheck resultCheck, string executionValue)
         {
             var executionValueList = executionValue
@@ -657,7 +701,11 @@ namespace Implem.TestAutomation
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(60));
             IWebElement firstResult = wait.Until(e => e.FindElement(By.ClassName("alert-error")));
         }
-
+        public static void Script(IWebDriver driver, TestPart testPart)
+        {
+            IJavaScriptExecutor jsDriver = driver as IJavaScriptExecutor;
+            jsDriver.ExecuteScript(testPart.Value);
+        }
         private static bool AlertPresent(IWebDriver driver)
         {
             try

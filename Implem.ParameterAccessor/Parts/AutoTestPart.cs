@@ -50,6 +50,7 @@ namespace Implem.ParameterAccessor.Parts
         GoToUrl,
         UploadFile,
         WaitingAlertSuccess,
-        WaitingAlertError
+        WaitingAlertError,
+        Script
     }
 }
