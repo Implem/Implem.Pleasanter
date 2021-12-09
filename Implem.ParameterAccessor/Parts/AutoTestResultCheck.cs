@@ -20,6 +20,8 @@
         HasClass,
         HasNotClass,
         ReadOnly,
+        DataRequiredTrue,
+        DataRequiredFalse,
         Regex,
         SelectOptions,
         Label
