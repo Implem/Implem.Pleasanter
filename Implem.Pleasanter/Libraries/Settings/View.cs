@@ -879,7 +879,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var view = new View();
             view.Id = Id;
             view.Name = Name;
-            if (GridColumns != null && GridColumns.Join() != ss.GridColumns.Join())
+            if (GridColumns != null && GridColumns.Join() != ss.GridColumns?.Join())
             {
                 view.GridColumns = GridColumns;
             }
