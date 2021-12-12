@@ -4152,7 +4152,7 @@ namespace Implem.Pleasanter.Models
                             Format = exp.Format,
                             OutputClassColumn = exp.OutputClassColumn,
                             SiteTitle = exp.SiteTitle,
-                            Column = exp.Column
+                            Column = exp.Column,
                         });
                     });
                     Export.Columns = columns;
@@ -4160,6 +4160,7 @@ namespace Implem.Pleasanter.Models
                     Export.Name = context.Forms.Data("ExportName");
                     Export.Type = (Export.Types)context.Forms.Int("ExportType");
                     Export.Header = context.Forms.Bool("ExportHeader");
+                    Export.DelimiterType = (Export.DelimiterTypes)context.Forms.Int("DelimiterType");
                     SiteSettings.Exports.Add(Export);
                     SetExportsResponseCollection(context: context, res: res);
                 }
@@ -4213,6 +4214,7 @@ namespace Implem.Pleasanter.Models
                         type: (Export.Types)context.Forms.Int("ExportType"),
                         header: context.Forms.Bool("ExportHeader"),
                         columns: columns,
+                        delimiterType: (Export.DelimiterTypes)context.Forms.Int("DelimiterType"),
                         executionType: (Export.ExecutionTypes)context.Forms.Int("ExecutionType"));
                     SetExportsResponseCollection(context: context, res: res);
                 }

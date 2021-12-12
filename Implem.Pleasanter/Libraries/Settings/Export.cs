@@ -13,6 +13,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             Csv = 0,
             Json = 1
         }
+        public enum DelimiterTypes : int
+        {
+            Comma = 0,
+            Tab = 1
+        }
 
         public enum ExecutionTypes : int
         {
@@ -25,6 +30,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? Header;
         public List<ExportColumn> Columns;
         public Types Type;
+        public DelimiterTypes DelimiterType;
         public ExecutionTypes ExecutionType;
         // compatibility Version 1.014
         public Join Join;
@@ -39,6 +45,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Types type,
             bool header,
             List<ExportColumn> columns,
+            DelimiterTypes delimiterType,
             ExecutionTypes executionType)
         {
             Id = id;
@@ -51,6 +58,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.Id = NewColumnId();
                 Columns.Add(column);
             });
+            DelimiterType = delimiterType;
             ExecutionType = executionType;
         }
 
@@ -86,12 +94,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             Types type,
             bool header,
             List<ExportColumn> columns,
+            DelimiterTypes delimiterType,
             ExecutionTypes executionType)
         {
             Name = name;
             Type = type;
             Header = header;
             Columns = columns;
+            DelimiterType = delimiterType;
             ExecutionType = executionType;
         }
 
@@ -110,6 +120,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             export.Header = Header == true ? null : Header;
             export.Columns = new List<ExportColumn>();
             export.Type = Type;
+            if (DelimiterType != DelimiterTypes.Comma)
+            {
+                export.DelimiterType = DelimiterType;
+            }
             Columns?.ForEach(column => export.Columns.Add(column.GetRecordingData()));
             export.ExecutionType = ExecutionType;
             return export;
