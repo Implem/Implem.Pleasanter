@@ -1168,6 +1168,11 @@ namespace Implem.Pleasanter.Models
         public static string Copy(Context context, SiteModel siteModel)
         {
             var ss = siteModel.SiteSettings;
+            if (siteModel.ParentId == 0
+                && Permissions.SiteTopPermission(context: context) != (Permissions.Types)Parameters.Permissions.Manager)
+            {
+                return Error.Types.HasNotPermission.MessageJson(context: context);
+            }
             if (context.ContractSettings.SitesLimit(context: context))
             {
                 return Error.Types.SitesLimit.MessageJson(context: context);
@@ -3669,7 +3674,8 @@ namespace Implem.Pleasanter.Models
                                 ss: siteModel.SiteSettings,
                                 verType: siteModel.VerType,
                                 updateButton: true,
-                                copyButton: true,
+                                copyButton: siteModel.ParentId > 0
+                                    || Permissions.SiteTopPermission(context: context) == (Permissions.Types)Parameters.Permissions.Manager,
                                 mailButton: true,
                                 deleteButton: true))
                         .Hidden(
@@ -6503,7 +6509,17 @@ namespace Implem.Pleasanter.Models
                                         text: Displays.ToEnable(context: context),
                                         controlCss: "button-icon",
                                         onClick: "$p.moveColumns($(this),'History');",
-                                        icon: "ui-icon-circle-triangle-w")))));
+                                        icon: "ui-icon-circle-triangle-w"))))
+                .FieldCheckBox(
+                    controlId: "AllowRestoreHistories",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.AllowRestoreHistories(context: context),
+                    _checked: ss.AllowRestoreHistories == true)
+                .FieldCheckBox(
+                    controlId: "AllowPhysicalDeleteHistories",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.AllowPhysicalDeleteHistories(context: context),
+                    _checked: ss.AllowPhysicalDeleteHistories == true));
         }
 
         /// <summary>
@@ -9130,6 +9146,8 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.OutputHeader(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.DelimiterTypes(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.ExportExecutionType(context: context)))));
         }
 
@@ -9166,6 +9184,10 @@ namespace Implem.Pleasanter.Models
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
                                     _using: export.Header != false))
+                            .Td(action: () => hb
+                                 .Text(text: Displays.Get(
+                                     context: context,
+                                     id: export.DelimiterType.ToString())))
                             .Td(action: () => hb
                                  .Text(text: Displays.Get(
                                      context: context,
@@ -9218,6 +9240,23 @@ namespace Implem.Pleasanter.Models
                             },
                         },
                         selectedValue: export.Type.ToInt().ToString())
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "DelimiterType",
+                        controlCss: " always-send",
+                        labelText: Displays.DelimiterTypes(context: context),
+                        optionCollection: new Dictionary<string, string>
+                        {
+                            {
+                                Export.DelimiterTypes.Comma.ToInt().ToString(),
+                                Displays.Comma(context: context)
+                            },
+                            {
+                                Export.DelimiterTypes.Tab.ToInt().ToString(),
+                                Displays.Tab(context: context)
+                            },
+                        },
+                        selectedValue: export.DelimiterType.ToInt().ToString())
                     .FieldDropDown(
                         context: context,
                         controlId: "ExecutionType",

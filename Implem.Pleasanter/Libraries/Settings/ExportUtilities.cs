@@ -123,6 +123,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 text: user.Name)));
                 });
             var csv = new System.Text.StringBuilder();
+            var delimiter = Delimiter(delimiterType: export.DelimiterType);
             if (export.Header == true)
             {
                 csv.Append(export.Columns
@@ -130,7 +131,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         context: context,
                         ss: ss)
                     .Select(column =>
-                        $"\"{column.GetLabelText()}\"").Join(","), "\n");
+                        $"\"{column.GetLabelText()}\"").Join(delimiter: delimiter), "\n");
             }
             gridData.Csv(
                 context: context,
@@ -138,8 +139,20 @@ namespace Implem.Pleasanter.Libraries.Settings
                 csv: csv,
                 exportColumns: export.Columns.ExportColumns(
                     context: context,
-                    ss: ss));
+                    ss: ss),
+                delimiter: delimiter);
             return csv.ToString();
+        }
+
+        private static string Delimiter(Export.DelimiterTypes delimiterType)
+        {
+            switch (delimiterType)
+            {
+                case Settings.Export.DelimiterTypes.Tab:
+                    return "\t";
+                default:
+                    return ",";
+            }
         }
 
         private static IEnumerable<ExportColumn> ExportColumns(

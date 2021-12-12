@@ -741,13 +741,13 @@ namespace Implem.Pleasanter.Models
         public static System.Web.Mvc.ContentResult UploadFile(
             Context context,
             long id,
-            System.Web.HttpFileCollectionBase collectionBase)
+            HttpFileCollectionBase collectionBase)
         {
             var itemModel = new ItemModel(context, id);
             var ss = itemModel.GetSite(context, initSiteSettings: true).SiteSettings;
-            var column = ss.GetColumn(context, TrimIdSuffix(System.Web.HttpContext.Current.Request.Form["ColumnName"]));
-            var attachments = System.Web.HttpContext.Current.Request.Form["AttachmentsData"].Deserialize<Attachments>();
-            var fileHash = System.Web.HttpContext.Current.Request.Form["FileHash"];
+            var column = ss.GetColumn(context, TrimIdSuffix(HttpContext.Current.Request.Form["ColumnName"]));
+            var attachments = HttpContext.Current.Request.Form["AttachmentsData"].Deserialize<Attachments>();
+            var fileHash = HttpContext.Current.Request.Form["FileHash"];
             var files = ToArray(collectionBase);
             var contentRange = GetContentRange(files);
             {
@@ -790,20 +790,20 @@ namespace Implem.Pleasanter.Models
                     default: return ApiResults.Get(invalid.MessageJson(context));
                 }
             }
-            var controlId = System.Web.HttpContext.Current.Request.Form["ControlId"];
-            var fileUuid = System.Web.HttpContext.Current.Request.Form["Uuid"]?.Split(',');
-            var fileUuids = System.Web.HttpContext.Current.Request.Form["Uuids"]?.Split(',');
-            var fileNames = System.Web.HttpContext.Current.Request.Form["fileNames"]?.Deserialize<string[]>();
-            var fileSizes = System.Web.HttpContext.Current.Request.Form["fileSizes"]?.Deserialize<string[]>();
-            var fileTypes = System.Web.HttpContext.Current.Request.Form["fileTypes"]?.Deserialize<string[]>();
-            var resultFileNames = new List<KeyValuePair<System.Web.HttpPostedFileBase, System.IO.FileInfo>>();
+            var controlId = HttpContext.Current.Request.Form["ControlId"];
+            var fileUuid = HttpContext.Current.Request.Form["Uuid"]?.Split(',');
+            var fileUuids = HttpContext.Current.Request.Form["Uuids"]?.Split(',');
+            var fileNames = HttpContext.Current.Request.Form["fileNames"]?.Deserialize<string[]>();
+            var fileSizes = HttpContext.Current.Request.Form["fileSizes"]?.Deserialize<string[]>();
+            var fileTypes = HttpContext.Current.Request.Form["fileTypes"]?.Deserialize<string[]>();
+            var resultFileNames = new List<KeyValuePair<HttpPostedFileBase, System.IO.FileInfo>>();
             for (int filesIndex = 0; filesIndex < collectionBase.Count; ++filesIndex)
             {
                 var file = collectionBase[filesIndex];
                 var saveFile = GetTempFileInfo(fileUuid[filesIndex], file.FileName);
                 Save(file, saveFile);
                 resultFileNames.Add(
-                    new KeyValuePair<System.Web.HttpPostedFileBase, System.IO.FileInfo>(
+                    new KeyValuePair<HttpPostedFileBase, System.IO.FileInfo>(
                         file,
                         saveFile));
             }
@@ -860,10 +860,10 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static System.Web.HttpPostedFileBase[] ToArray(System.Web.HttpFileCollectionBase collectionBase)
+        private static HttpPostedFileBase[] ToArray(HttpFileCollectionBase collectionBase)
         {
-            var list = new List<System.Web.HttpPostedFileBase>();
-            for (int filesIndex = 0; filesIndex < System.Web.HttpContext.Current.Request.Files.Count; ++filesIndex)
+            var list = new List<HttpPostedFileBase>();
+            for (int filesIndex = 0; filesIndex < HttpContext.Current.Request.Files.Count; ++filesIndex)
                 list.Add(collectionBase[filesIndex]);
             return list.ToArray();
         }
@@ -872,19 +872,21 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static System.Net.Http.Headers.ContentRangeHeaderValue GetContentRange(
-            System.Web.HttpPostedFileBase[] files)
+            HttpPostedFileBase[] files)
         {
-            var contentRange = System.Web.HttpContext.Current.Request.Headers["Content-Range"];
+            var contentRange = HttpContext.Current.Request.Headers["Content-Range"];
             var matches = System.Text.RegularExpressions.Regex.Matches(contentRange ?? string.Empty, "\\d+");
             return matches.Count > 0
                 ? new System.Net.Http.Headers.ContentRangeHeaderValue(
-                long.Parse(matches[0].Value),
-                long.Parse(matches[1].Value),
-                long.Parse(matches[2].Value))
-                : new System.Net.Http.Headers.ContentRangeHeaderValue(
-                    0,
-                    files.Select(f => f.ContentLength - 1).FirstOrDefault(),
-                    files.Select(f => f.ContentLength).FirstOrDefault());
+                    long.Parse(matches[0].Value),
+                    long.Parse(matches[1].Value),
+                    long.Parse(matches[2].Value))
+                : files.Sum(f => f.ContentLength) > 0
+                    ? new System.Net.Http.Headers.ContentRangeHeaderValue(
+                        0,
+                        files.Select(f => f.ContentLength - 1).FirstOrDefault(),
+                        files.Select(f => f.ContentLength).FirstOrDefault())
+                    : new System.Net.Http.Headers.ContentRangeHeaderValue(0, 0, 0);
         }
 
         /// <summary>
@@ -908,7 +910,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static void Save(System.Web.HttpPostedFileBase file, System.IO.FileInfo saveFile)
+        private static void Save(HttpPostedFileBase file, System.IO.FileInfo saveFile)
         {
             System.IO.FileStream saveFileStream = null;
             var en = Enumerable.Range(0, 100).ToArray();
@@ -935,7 +937,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static System.Web.Mvc.ContentResult CreateResult(
-            List<KeyValuePair<System.Web.HttpPostedFileBase, System.IO.FileInfo>> resultFileNames,
+            List<KeyValuePair<HttpPostedFileBase, System.IO.FileInfo>> resultFileNames,
             string responseJson)
         {
             return new System.Web.Mvc.ContentResult

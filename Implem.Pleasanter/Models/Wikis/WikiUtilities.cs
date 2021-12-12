@@ -1746,7 +1746,8 @@ namespace Implem.Pleasanter.Models
         public static string RestoreFromHistory(
             Context context, SiteSettings ss, long wikiId)
         {
-            if (!Parameters.History.Restore)
+            if (!Parameters.History.Restore
+                || ss.AllowRestoreHistories == false)
             {
                 return Error.Types.InvalidRequest.MessageJson(context: context);
             }
@@ -1937,9 +1938,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return HtmlTemplates.Error(
-                    context: context,
-                    errorData: invalid);
+                default: return invalid.MessageJson(context: context);
             }
             var selector = new RecordSelector(context: context);
             var selected = selector

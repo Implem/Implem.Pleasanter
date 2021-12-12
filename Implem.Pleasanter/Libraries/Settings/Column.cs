@@ -171,6 +171,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public string TypeCs;
         [NonSerialized]
+        public bool DbNullable;
+        [NonSerialized]
         public string JoinTableName;
         [NonSerialized]
         public Types Type = Types.Normal;
@@ -1107,6 +1109,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public string IsNullValue(Context context)
         {
+            if (!DbNullable) return null;
             switch (TypeName.CsTypeSummary())
             {
                 case Implem.Libraries.Utilities.Types.CsBool:

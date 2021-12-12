@@ -113,7 +113,31 @@ namespace Implem.DefinitionAccessor
             Parameters.Parameter = Read<Parameter>();
             Parameters.Locations = Read<Locations>();
             Parameters.Validation = Read<Validation>();
-            Parameters.Validation = Read<ParameterAccessor.Parts.Validation>();
+            Parameters.Validation = Read<Validation>();
+            Parameters.Rds.SaConnectionString = Strings.CoalesceEmpty(
+                Parameters.Rds.SaConnectionString,
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Rds_{Parameters.Rds.Dbms}_SaConnectionString"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Rds_{Parameters.Rds.Dbms}_ConnectionString"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Rds_SaConnectionString"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Rds_ConnectionString"));
+            Parameters.Rds.OwnerConnectionString = Strings.CoalesceEmpty(
+                Parameters.Rds.OwnerConnectionString,
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Rds_{Parameters.Rds.Dbms}_OwnerConnectionString"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Rds_{Parameters.Rds.Dbms}_ConnectionString"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Rds_OwnerConnectionString"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Rds_ConnectionString"));
+            Parameters.Rds.UserConnectionString = Strings.CoalesceEmpty(
+                Parameters.Rds.UserConnectionString,
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Rds_{Parameters.Rds.Dbms}_UserConnectionString"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Rds_{Parameters.Rds.Dbms}_ConnectionString"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Rds_UserConnectionString"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Rds_ConnectionString"));
+            Parameters.Mail.SmtpUserName = Strings.CoalesceEmpty(
+                Parameters.Mail.SmtpUserName,
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Mail_SmtpUserName"));
+            Parameters.Mail.SmtpPassword = Strings.CoalesceEmpty(
+                Parameters.Mail.SmtpPassword,
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Mail_SmtpPassword"));
         }
 
         public static void ReloadParameters()
@@ -591,6 +615,7 @@ namespace Implem.DefinitionAccessor
             Def.SetDemoDefinition();
             Def.SetSqlDefinition();
             SetDisplayAccessor();
+            SetColumnDefinitionAccessControl();
         }
 
         public static XlsIo DefinitionFile(string fileName)
@@ -765,6 +790,25 @@ namespace Implem.DefinitionAccessor
                 hash.Add(data.Id, data);
             });
             return hash;
+        }
+
+        private static void SetColumnDefinitionAccessControl()
+        {
+            if (!Parameters.User.DisableTopSiteCreation)
+            {
+                Def.ColumnDefinitionCollection.FirstOrDefault(o =>
+                    o.Id == "Users_AllowCreationAtTopSite").ReadAccessControl = "ManageService";
+            }
+            if (!Parameters.User.DisableGroupAdmin)
+            {
+                Def.ColumnDefinitionCollection.FirstOrDefault(o =>
+                    o.Id == "Users_AllowGroupAdministration").ReadAccessControl = "ManageService";
+            }
+            if (!Parameters.User.DisableGroupCreation)
+            {
+                Def.ColumnDefinitionCollection.FirstOrDefault(o =>
+                    o.Id == "Users_AllowGroupCreation").ReadAccessControl = "ManageService";
+            }
         }
 
         private static void SetSqls()

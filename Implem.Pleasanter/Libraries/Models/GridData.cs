@@ -136,7 +136,8 @@ namespace Implem.Pleasanter.Libraries.Models
             Context context,
             SiteSettings ss,
             System.Text.StringBuilder csv,
-            IEnumerable<ExportColumn> exportColumns)
+            IEnumerable<ExportColumn> exportColumns,
+            string delimiter)
         {
             var idColumn = Rds.IdColumn(ss.ReferenceType);
             DataRows.ForEach(dataRow =>
@@ -208,7 +209,7 @@ namespace Implem.Pleasanter.Libraries.Models
                             break;
                     }
                 });
-                csv.Append(data.Join(","), "\n");
+                csv.Append(data.Join(delimiter), "\n");
             });
             return csv;
         }

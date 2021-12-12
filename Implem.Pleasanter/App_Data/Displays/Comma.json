@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Comma",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Comma"
+        },
+        {
+            "Language": "zh",
+            "Body": "逗号"
+        },
+        {
+            "Language": "ja",
+            "Body": "カンマ"
+        },
+        {
+            "Language": "de",
+            "Body": "Komma"
+        },
+        {
+            "Language": "ko",
+            "Body": "반점"
+        },
+        {
+            "Language": "es",
+            "Body": "coma"
+        },
+        {
+            "Language": "vn",
+            "Body": "dấu phẩy"
+        }
+    ]
+}

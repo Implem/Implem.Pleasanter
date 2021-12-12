@@ -9,7 +9,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     public static class HtmlHistoryCommands
     {
         public static HtmlBuilder HistoryCommands(
-            this HtmlBuilder hb, Context context, SiteSettings ss)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss)
         {
             return hb.Div(
                 css: "command-left",
@@ -23,7 +25,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         method: "post",
                         confirm: "ConfirmRestore",
                         _using: Parameters.History.Restore
-                            && context.CanUpdate(ss: ss))
+                            && context.CanUpdate(ss: ss)
+                            && ss.AllowRestoreHistories != false)
                     .Button(
                         text: Displays.DeleteHistory(context: context),
                         controlCss: "button-icon",
@@ -33,10 +36,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         method: "delete",
                         confirm: "ConfirmPhysicalDelete",
                         _using: Parameters.History.PhysicalDelete
-                            && context.CanManageSite(ss: ss)),
+                            && context.CanManageSite(ss: ss)
+                            && ss.AllowPhysicalDeleteHistories != false),
                 _using: (Parameters.History.Restore || Parameters.History.PhysicalDelete)
                     && context.Controller == "items"
                     && (context.CanUpdate(ss: ss) || context.CanManageSite(ss: ss))
+                    && (ss.AllowRestoreHistories != false || ss.AllowPhysicalDeleteHistories != false)
                     && !ss.Locked());
         }
     }

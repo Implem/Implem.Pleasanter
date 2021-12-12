@@ -75,6 +75,9 @@ namespace Implem.TestAutomation
                         case ActionTypes.WaitingAlertError:
                             TestAutomationOperate.WaitingAlertError(driver);
                             break;
+                        case ActionTypes.Script:
+                            TestAutomationOperate.Script(driver, testPart);
+                            break;
                     }
                     Thread.Sleep(testPart.WaitTime ?? 500);
                     if (testSettings.ScreenShot)
