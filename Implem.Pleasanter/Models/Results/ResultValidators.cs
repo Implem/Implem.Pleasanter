@@ -575,7 +575,8 @@ namespace Implem.Pleasanter.Models
             ResultModel resultModel,
             bool api = false)
         {
-            if (!Parameters.History.PhysicalDelete)
+            if (!Parameters.History.PhysicalDelete
+                || ss.AllowPhysicalDeleteHistories == false)
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }

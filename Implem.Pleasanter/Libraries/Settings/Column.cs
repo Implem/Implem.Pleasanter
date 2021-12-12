@@ -171,6 +171,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public string TypeCs;
         [NonSerialized]
+        public bool DbNullable;
+        [NonSerialized]
         public string JoinTableName;
         [NonSerialized]
         public Types Type = Types.Normal;
@@ -823,7 +825,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ? value.ToDecimal().ToString(
                         Format + (Format == "C" || Format == "N"
                             ? DecimalPlaces.ToString()
-                            : string.Empty))
+                            : string.Empty), context.CultureInfoCurrency(context.Language))
                     : DecimalPlaces.ToInt() == 0
                         ? value.ToDecimal().ToString("0", "0")
                         : DisplayValue(value.ToDecimal()))
@@ -1113,6 +1115,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public string IsNullValue(Context context)
         {
+            if (!DbNullable) return null;
             switch (TypeName.CsTypeSummary())
             {
                 case Implem.Libraries.Utilities.Types.CsBool:

@@ -1,0 +1,33 @@
+﻿{
+    "Id": "AllowPhysicalDeleteHistories",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "allow delete histories"
+        },
+        {
+            "Language": "zh",
+            "Body": "允许删除历史记录"
+        },
+        {
+            "Language": "ja",
+            "Body": "履歴の削除を許可"
+        },
+        {
+            "Language": "de",
+            "Body": "Löschen von Verläufen zulassen"
+        },
+        {
+            "Language": "ko",
+            "Body": "삭제 기록 허용"
+        },
+        {
+            "Language": "es",
+            "Body": "permitir borrar historiales"
+        },
+        {
+            "Language": "vn",
+            "Body": "cho phép xóa lịch sử"
+        }
+    ]
+}

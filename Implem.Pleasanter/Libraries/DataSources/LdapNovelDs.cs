@@ -353,8 +353,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         pattern,
                         null,
                         false,
-                        new LdapSearchConstraints() { MaxResults = 1000, ReferralFollowing=true });
-                    logs.Add("results",results.Count.ToString());
+                        new LdapSearchConstraints() { MaxResults = 0, ReferralFollowing = true });
+                    logs.Add("results", results.Count.ToString());
                     while (results.HasMore())
                     {
                         var entry = results.Next();
@@ -370,9 +370,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     }
                 }
             }
-            catch(LdapException le)
+            catch (LdapException le)
             {
-                logs.Add(new Log("LdapErrorMessage",le.LdapErrorMessage.TrimEnd('\0')));
+                logs.Add(new Log("LdapErrorMessage", le.LdapErrorMessage?.TrimEnd('\0')));
                 new SysLogModel(context: context, e: le, logs: logs);
             }
             catch (Exception e)
@@ -384,9 +384,18 @@ namespace Implem.Pleasanter.Libraries.DataSources
         private static bool Enabled(LdapEntry entry, ParameterAccessor.Parts.Ldap ldap)
         {
             var accountDisabled = 2;
-            return
-                !ldap.LdapExcludeAccountDisabled ||
-                (entry.GetAttribute("UserAccountControl")?.StringValue.ToLong() & accountDisabled) == 0;
+            if (!ldap.LdapExcludeAccountDisabled) return true;
+            if (entry.GetAttributeSet().Any(o => o.Key == "userAccountControl"))
+            {
+                var userAccountControl = entry.GetAttribute("userAccountControl")?.StringValue;
+                return userAccountControl.IsNullOrEmpty()
+                    ? true
+                    : (userAccountControl.ToLong() & accountDisabled) == 0;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         private static LdapConnection LdapConnection(

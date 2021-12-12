@@ -103,6 +103,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             string contentType = null);
         public abstract RdsUser RdsUser();
         public abstract CultureInfo CultureInfo();
+        public abstract CultureInfo CultureInfoCurrency(string language);
         public abstract Message Message();
         public abstract double SessionAge();
         public abstract double SessionRequestInterval();

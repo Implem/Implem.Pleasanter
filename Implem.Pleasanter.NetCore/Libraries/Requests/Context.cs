@@ -426,10 +426,12 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
                     Extension = new HttpPostedFile(file).Extension(),
                     Size = file.Length,
                     ContentType = file.ContentType,
-                    ContentRange = new System.Net.Http.Headers.ContentRangeHeaderValue(
-                        0,
-                        file.Length - 1,
-                        file.Length),
+                    ContentRange = file.Length > 0
+                        ? new System.Net.Http.Headers.ContentRangeHeaderValue(
+                            0,
+                            file.Length - 1,
+                            file.Length)
+                        : new System.Net.Http.Headers.ContentRangeHeaderValue(0, 0, 0),
                     InputStream = file.OpenReadStream()
                 });
             });
@@ -448,6 +450,17 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
         public override CultureInfo CultureInfo()
         {
             return new CultureInfo(Language);
+        }
+
+        public override CultureInfo CultureInfoCurrency(string language)
+        {
+            switch (language)
+            {
+                case "ja":
+                    return new CultureInfo("ja-JP");
+                default:
+                    return new CultureInfo(language);
+            }
         }
 
         public override Message Message()
