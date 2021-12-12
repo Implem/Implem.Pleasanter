@@ -1,0 +1,33 @@
+﻿{
+    "Id": "DelimiterTypes",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Delimiter types"
+        },
+        {
+            "Language": "zh",
+            "Body": "구분자 유형"
+        },
+        {
+            "Language": "ja",
+            "Body": "区切り文字"
+        },
+        {
+            "Language": "de",
+            "Body": "Trennzeichentyp"
+        },
+        {
+            "Language": "ko",
+            "Body": "구분자 유형"
+        },
+        {
+            "Language": "es",
+            "Body": "Tipo de delimitador"
+        },
+        {
+            "Language": "vn",
+            "Body": "Loại dấu phân cách"
+        }
+    ]
+}

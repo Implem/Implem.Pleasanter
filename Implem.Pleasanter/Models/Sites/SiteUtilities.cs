@@ -9146,6 +9146,8 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.OutputHeader(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.DelimiterTypes(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.ExportExecutionType(context: context)))));
         }
 
@@ -9182,6 +9184,10 @@ namespace Implem.Pleasanter.Models
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
                                     _using: export.Header != false))
+                            .Td(action: () => hb
+                                 .Text(text: Displays.Get(
+                                     context: context,
+                                     id: export.DelimiterType.ToString())))
                             .Td(action: () => hb
                                  .Text(text: Displays.Get(
                                      context: context,
@@ -9234,6 +9240,23 @@ namespace Implem.Pleasanter.Models
                             },
                         },
                         selectedValue: export.Type.ToInt().ToString())
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "DelimiterType",
+                        controlCss: " always-send",
+                        labelText: Displays.DelimiterTypes(context: context),
+                        optionCollection: new Dictionary<string, string>
+                        {
+                            {
+                                Export.DelimiterTypes.Comma.ToInt().ToString(),
+                                Displays.Comma(context: context)
+                            },
+                            {
+                                Export.DelimiterTypes.Tab.ToInt().ToString(),
+                                Displays.Tab(context: context)
+                            },
+                        },
+                        selectedValue: export.DelimiterType.ToInt().ToString())
                     .FieldDropDown(
                         context: context,
                         controlId: "ExecutionType",
