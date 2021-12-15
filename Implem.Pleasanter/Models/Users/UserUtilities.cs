@@ -2919,9 +2919,9 @@ namespace Implem.Pleasanter.Models
                                 break;
                             default:
                                 userModel.Value(
-                                context: context,
-                                column: column.Value,
-                                value: recordingData);
+                                    context: context,
+                                    column: column.Value,
+                                    value: recordingData);
                                 break;
                         }
                     });
