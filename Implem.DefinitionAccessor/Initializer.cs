@@ -783,7 +783,7 @@ namespace Implem.DefinitionAccessor
             return hash;
         }
 
-                private static void SetColumnDefinitionAccessControl()
+        private static void SetColumnDefinitionAccessControl()
         {
             if (!Parameters.User.DisableTopSiteCreation)
             {
