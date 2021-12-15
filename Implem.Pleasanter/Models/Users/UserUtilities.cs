@@ -2917,6 +2917,12 @@ namespace Implem.Pleasanter.Models
                                         body: data.Row[column.Key]);
                                 }
                                 break;
+                            default:
+                                userModel.Value(
+                                    context: context,
+                                    column: column.Value,
+                                    value: recordingData);
+                                break;
                         }
                     });
                     userHash.Add(data.Index, userModel);
