@@ -19,6 +19,7 @@ namespace Implem.Libraries.Utilities
 
         public static string Read(string path)
         {
+            if (!Exists(path)) return null;
             using (var reader = new StreamReader(path))
             {
                 return reader.ReadToEnd();
