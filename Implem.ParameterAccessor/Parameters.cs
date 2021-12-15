@@ -5,7 +5,6 @@ namespace Implem.DefinitionAccessor
 {
     public static class Parameters
     {
-        public static License.License License = new License.License();
         public static List<string> SyntaxErrors = new List<string>();
         public static Api Api;
         public static Authentication Authentication;
@@ -14,6 +13,10 @@ namespace Implem.DefinitionAccessor
         public static Dictionary<string, Dictionary<string, Dictionary<string, string>>> CustomDefinitions;
         public static Deleted Deleted;
         public static Dictionary<string, string> ExtendedColumnDefinitions;
+        public static Env Env;
+        public static AutoTestSettings ExtendedAutoTestSettings;
+        public static List<AutoTestScenario> ExtendedAutoTestScenarios;
+        public static List<AutoTestOperation> ExtendedAutoTestOperations;
         public static List<ExtendedColumns> ExtendedColumnsSet;
         public static List<ExtendedField> ExtendedFields;
         public static List<ExtendedHtml> ExtendedHtmls;
@@ -26,7 +29,8 @@ namespace Implem.DefinitionAccessor
         public static General General;
         public static GroupMembers GroupMembers;
         public static History History;
-        public static ParameterAccessor.Parts.Version Version;
+        public static License.License License = new License.License();
+        public static Locations Locations;
         public static Mail Mail;
         public static Mobile Mobile;
         public static List<NavigationMenu> NavigationMenus;
@@ -46,11 +50,8 @@ namespace Implem.DefinitionAccessor
         public static SitePackage SitePackage;
         public static SysLog SysLog;
         public static User User;
-        public static Locations Locations;
+        public static ParameterAccessor.Parts.Version Version;
         public static Validation Validation;
-        public static AutoTestSettings ExtendedAutoTestSettings;
-        public static List<AutoTestScenario> ExtendedAutoTestScenarios;
-        public static List<AutoTestOperation> ExtendedAutoTestOperations;
 
         public static bool CommercialLicense()
         {
