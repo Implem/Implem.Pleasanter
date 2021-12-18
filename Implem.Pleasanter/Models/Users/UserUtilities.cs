@@ -1462,8 +1462,7 @@ namespace Implem.Pleasanter.Models
                     id: ss.SiteId)
                 .CopyDialog(
                     context: context,
-                    referenceType: "Users",
-                    id: userModel.UserId)
+                    ss: ss)
                 .OutgoingMailDialog()
                 .EditorExtensions(
                     context: context,

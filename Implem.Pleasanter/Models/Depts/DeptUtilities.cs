@@ -1046,8 +1046,7 @@ namespace Implem.Pleasanter.Models
                     id: ss.SiteId)
                 .CopyDialog(
                     context: context,
-                    referenceType: "Depts",
-                    id: deptModel.DeptId)
+                    ss: ss)
                 .OutgoingMailDialog()
                 .EditorExtensions(
                     context: context,
