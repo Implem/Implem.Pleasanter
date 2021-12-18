@@ -6,5 +6,6 @@
     "Line": true,
     "Teams": true,
     "RocketChat": true,
-    "InCircle": true
+    "InCircle": true,
+    "CopyWithNotifications": "On"
 }

@@ -728,8 +728,7 @@ namespace Implem.Pleasanter.Models
                     referenceVer: wikiModel.Ver)
                 .CopyDialog(
                     context: context,
-                    referenceType: "items",
-                    id: wikiModel.WikiId)
+                    ss: ss)
                 .MoveDialog(context: context)
                 .OutgoingMailDialog());
         }

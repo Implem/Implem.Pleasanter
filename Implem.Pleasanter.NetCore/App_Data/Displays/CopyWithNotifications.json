@@ -1,0 +1,33 @@
+﻿{
+    "Id": "CopyWithNotifications",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Copy with notifications"
+        },
+        {
+            "Language": "zh",
+            "Body": "复制通知"
+        },
+        {
+            "Language": "ja",
+            "Body": "通知をコピーする"
+        },
+        {
+            "Language": "de",
+            "Body": "Mit Benachrichtigungen kopieren"
+        },
+        {
+            "Language": "ko",
+            "Body": "알림과 함께 복사"
+        },
+        {
+            "Language": "es",
+            "Body": "Copiar con notificaciones"
+        },
+        {
+            "Language": "vn",
+            "Body": "Sao chép bằng thông báo"
+        }
+    ]
+}

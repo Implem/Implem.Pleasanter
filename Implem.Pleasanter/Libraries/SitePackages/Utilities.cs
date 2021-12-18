@@ -18,7 +18,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using static Implem.ParameterAccessor.Parts.SitePackage;
+using static Implem.ParameterAccessor.Parts.Types;
 namespace Implem.Pleasanter.Libraries.SitePackages
 {
     public class Utilities

@@ -2009,6 +2009,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CopyWithNotifications(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CopyWithNotifications",
+                data: data);
+        }
+
+        public static string CopyWithReminders(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CopyWithReminders",
+                data: data);
+        }
+
         public static string CorporatePlanning(
             Context context,
             params string[] data)

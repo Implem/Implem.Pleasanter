@@ -1040,8 +1040,7 @@ namespace Implem.Pleasanter.Models
                     id: ss.SiteId)
                 .CopyDialog(
                     context: context,
-                    referenceType: "Groups",
-                    id: groupModel.GroupId)
+                    ss: ss)
                 .OutgoingMailDialog()
                 .EditorExtensions(
                     context: context,

@@ -1500,8 +1500,7 @@ namespace Implem.Pleasanter.Models
                     id: ss.SiteId)
                 .CopyDialog(
                     context: context,
-                    referenceType: "items",
-                    id: resultModel.ResultId)
+                    ss: ss)
                 .MoveDialog(context: context)
                 .OutgoingMailDialog()
                 .PermissionsDialog(context: context)

@@ -1182,6 +1182,16 @@ namespace Implem.Pleasanter.Models
             {
                 siteModel.Comments.Clear();
             }
+            if (!context.Forms.Bool("CopyWithNotifications")
+                || Parameters.Notification.CopyWithNotifications == ParameterAccessor.Parts.Types.OptionTypes.Disabled)
+            {
+                ss.Notifications.Clear();
+            }
+            if (!context.Forms.Bool("CopyWithReminders")
+                || Parameters.Reminder.CopyWithReminders == ParameterAccessor.Parts.Types.OptionTypes.Disabled)
+            {
+                ss.Reminders.Clear();
+            }
             var beforeSiteId = siteModel.SiteId;
             var beforeInheritPermission = siteModel.InheritPermission;
             var errorData = siteModel.Create(context: context, otherInitValue: true);
@@ -3696,8 +3706,7 @@ namespace Implem.Pleasanter.Models
                     id: ss.SiteId)
                 .CopyDialog(
                     context: context,
-                    referenceType: "items",
-                    id: siteModel.SiteId)
+                    ss: ss)
                 .OutgoingMailDialog()
                 .DeleteSiteDialog(context: context)
                 .Div(attributes: new HtmlAttributes()

@@ -6,5 +6,6 @@
     "DefaultLine": "[Title] --- [Owner] ([Status])",
     "MinRange": 1,
     "MaxRange": 1000,
-    "DefaultRange": 30
+    "DefaultRange": 30,
+    "CopyWithReminders": "On"
 }

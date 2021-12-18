@@ -1,4 +1,5 @@
-﻿namespace Implem.ParameterAccessor.Parts
+﻿using static Implem.ParameterAccessor.Parts.Types;
+namespace Implem.ParameterAccessor.Parts
 {
     public class Reminder
     {
@@ -10,5 +11,6 @@
         public int MinRange;
         public int MaxRange;
         public int DefaultRange;
+        public OptionTypes CopyWithReminders;
     }
 }
