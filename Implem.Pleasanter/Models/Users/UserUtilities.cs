@@ -2971,6 +2971,10 @@ namespace Implem.Pleasanter.Models
                         var mailAddressUpdated = UpdateMailAddresses(context, userModel);
                         if (userModel.Updated(context: context))
                         {
+                            userModel.VerUp = Versions.MustVerUp(
+                                context: context,
+                                ss: ss,
+                                baseModel: userModel);
                             var errorData = userModel.Update(
                                 context: context,
                                 ss: ss,
@@ -4289,6 +4293,10 @@ namespace Implem.Pleasanter.Models
                         data: column.ColumnName);
                 }
             }
+            userModel.VerUp = Versions.MustVerUp(
+                context: context,
+                ss: ss,
+                baseModel: userModel);
             var errorData = userModel.Update(
                 context: context,
                 ss: ss,

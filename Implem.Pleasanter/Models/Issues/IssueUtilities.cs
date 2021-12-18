@@ -3380,6 +3380,10 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         formData: context.Forms);
+                    issueModel.VerUp = Versions.MustVerUp(
+                        context: context,
+                        ss: ss,
+                        baseModel: issueModel);
                     issueModel.Update(
                         context: context,
                         ss: ss,
@@ -3459,6 +3463,10 @@ namespace Implem.Pleasanter.Models
                         case Error.Types.None: break;
                         default: return invalid.MessageJson(context: context);
                     }
+                    issueModel.VerUp = Versions.MustVerUp(
+                        context: context,
+                        ss: ss,
+                        baseModel: issueModel);
                     statements.AddRange(issueModel.UpdateStatements(
                         context: context,
                         ss: ss,
@@ -3714,6 +3722,10 @@ namespace Implem.Pleasanter.Models
             issueModel.SetTitle(
                 context: context,
                 ss: ss);
+            issueModel.VerUp = Versions.MustVerUp(
+                context: context,
+                ss: ss,
+                baseModel: issueModel);
             var errorData = issueModel.Update(
                 context: context,
                 ss: ss,
@@ -3773,6 +3785,10 @@ namespace Implem.Pleasanter.Models
             issueModel.SetTitle(
                 context: context,
                 ss: ss);
+            issueModel.VerUp = Versions.MustVerUp(
+                context: context,
+                ss: ss,
+                baseModel: issueModel);
             var errorData = issueModel.Update(
                 context: context,
                 ss: ss,
@@ -4556,6 +4572,10 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         body: addComment);
+                    issueModel.VerUp = Versions.MustVerUp(
+                        context: context,
+                        ss: ss,
+                        baseModel: issueModel);
                     issueModel.Update(
                         context: context,
                         ss: ss,
@@ -5507,6 +5527,10 @@ namespace Implem.Pleasanter.Models
                     {
                         if (issueModel.Updated(context: context))
                         {
+                            issueModel.VerUp = Versions.MustVerUp(
+                                context: context,
+                                ss: ss,
+                                baseModel: issueModel);
                             var errorData = issueModel.Update(
                                 context: context,
                                 ss: ss,
@@ -5975,6 +5999,10 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
+            issueModel.VerUp = Versions.MustVerUp(
+                context: context,
+                ss: ss,
+                baseModel: issueModel);
             issueModel.Update(
                 context: context,
                 ss: ss,
@@ -7408,6 +7436,10 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
+            issueModel.VerUp = Versions.MustVerUp(
+                context: context,
+                ss: ss,
+                baseModel: issueModel);
             issueModel.Update(
                 context: context,
                 ss: ss,
