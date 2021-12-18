@@ -3562,7 +3562,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                         column.ChoiceHash = new Dictionary<string, Choice>();
                     }
                     var links = column.SiteSettings.Links
-                        .Where(link => link.JsonFormat != true)
                         .Where(link => link.SiteId > 0)
                         .Where(link => column.Name == link.ColumnName)
                         .Select(link => link.LinkedTableName() + ",ItemTitle")
