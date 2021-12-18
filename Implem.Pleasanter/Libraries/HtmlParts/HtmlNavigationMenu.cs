@@ -509,6 +509,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 "new",
                 "create",
                 "edit",
+                "update",
                 "copy",
                 "move",
                 "separate",
