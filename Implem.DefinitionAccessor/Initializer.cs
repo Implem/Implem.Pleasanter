@@ -26,6 +26,10 @@ namespace Implem.DefinitionAccessor
             Environments.CurrentDirectoryPath = path != null
                 ? path
                 : GetSourcePath();
+            ParametersPath = Path.Combine(
+                Environments.CurrentDirectoryPath,
+                "App_Data",
+                "Parameters");
             SetRdsPassword(setSaPassword, setRandomPassword);
             SetParameters();
             Environments.ServiceName = Parameters.Service.Name;
@@ -72,10 +76,6 @@ namespace Implem.DefinitionAccessor
 
         public static void SetParameters()
         {
-            ParametersPath = Path.Combine(
-                Environments.CurrentDirectoryPath,
-                "App_Data",
-                "Parameters");
             Parameters.Env = Read<Env>();
             if (Parameters.Env?.ParametersPath.IsNullOrEmpty() == false)
             {
