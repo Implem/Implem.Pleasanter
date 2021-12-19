@@ -664,7 +664,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string dataTableName,
             int tabIndex = 0)
         {
-            if (dataRows != null) ss.SetChoiceHash(dataRows: dataRows);
+            if (dataRows != null)
+            {
+                ss.SetChoiceHash(
+                    context: context,
+                    dataRows: dataRows);
+            }
             return hb.Table(
                 id: dataTableName,
                 css: "grid" + (ss.GetNoDisplayIfReadOnly()
