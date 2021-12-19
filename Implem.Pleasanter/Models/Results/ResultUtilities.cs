@@ -6207,7 +6207,9 @@ namespace Implem.Pleasanter.Models
                         groupBy: groupBy))
                             .AsEnumerable();
             }
-            ss.SetChoiceHash(dataRows: dataRows);
+            ss.SetChoiceHash(
+                context: context,
+                dataRows: dataRows);
             return dataRows;
         }
 
@@ -6426,7 +6428,9 @@ namespace Implem.Pleasanter.Models
                                 where: where)),
                         param: param))
                             .AsEnumerable();
-                ss.SetChoiceHash(dataRows: dataRows);
+                ss.SetChoiceHash(
+                    context: context,
+                    dataRows: dataRows);
                 return dataRows;
             }
             else

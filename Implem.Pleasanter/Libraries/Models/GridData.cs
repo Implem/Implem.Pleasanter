@@ -129,7 +129,9 @@ namespace Implem.Pleasanter.Libraries.Models
             }
             DataRows = dataSet.Tables["Main"].AsEnumerable();
             TotalCount = Rds.Count(dataSet);
-            ss.SetChoiceHash(dataRows: DataRows);
+            ss.SetChoiceHash(
+                context: context,
+                dataRows: DataRows);
         }
 
         public System.Text.StringBuilder Csv(
