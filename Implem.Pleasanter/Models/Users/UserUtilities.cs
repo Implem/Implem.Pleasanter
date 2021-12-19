@@ -1462,8 +1462,7 @@ namespace Implem.Pleasanter.Models
                     id: ss.SiteId)
                 .CopyDialog(
                     context: context,
-                    referenceType: "Users",
-                    id: userModel.UserId)
+                    ss: ss)
                 .OutgoingMailDialog()
                 .EditorExtensions(
                     context: context,
@@ -2917,6 +2916,12 @@ namespace Implem.Pleasanter.Models
                                         body: data.Row[column.Key]);
                                 }
                                 break;
+                            default:
+                                userModel.Value(
+                                    context: context,
+                                    column: column.Value,
+                                    value: recordingData);
+                                break;
                         }
                     });
                     userHash.Add(data.Index, userModel);
@@ -2965,6 +2970,10 @@ namespace Implem.Pleasanter.Models
                         var mailAddressUpdated = UpdateMailAddresses(context, userModel);
                         if (userModel.Updated(context: context))
                         {
+                            userModel.VerUp = Versions.MustVerUp(
+                                context: context,
+                                ss: ss,
+                                baseModel: userModel);
                             var errorData = userModel.Update(
                                 context: context,
                                 ss: ss,
@@ -4283,6 +4292,10 @@ namespace Implem.Pleasanter.Models
                         data: column.ColumnName);
                 }
             }
+            userModel.VerUp = Versions.MustVerUp(
+                context: context,
+                ss: ss,
+                baseModel: userModel);
             var errorData = userModel.Update(
                 context: context,
                 ss: ss,

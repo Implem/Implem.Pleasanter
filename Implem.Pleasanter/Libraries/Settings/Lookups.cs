@@ -26,7 +26,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var canRead = false;
             if (currentSs == null)
             {
-                canRead = context.CanRead(ss: ss, id: id);
+                canRead = true;
                 switch (link?.TableName)
                 {
                     case "Depts":
@@ -38,11 +38,17 @@ namespace Implem.Pleasanter.Libraries.Settings
                     case "Groups":
                         currentSs = SiteSettingsUtilities.GroupsSiteSettings(context: context);
                         break;
+                    default:
+                        canRead = false;
+                        break;
                 }
             }
             else
             {
-                canRead = context.CanRead(ss: currentSs, id: id);
+                canRead = Permissions.CanRead(
+                    context: context,
+                    siteId: currentSs.SiteId,
+                    id: id);
             }
             var formData = link.Lookups.ToDictionary(
                 lookup => $"{currentSs.ReferenceType}_{lookup.To}",

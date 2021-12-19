@@ -26,9 +26,13 @@ namespace Implem.Pleasanter.Libraries.Models
                 && ss.AutoVerUpType == AutoVerUpTypes.Always);
         }
 
-        public static bool MustVerUp(Context context, SiteSettings ss, BaseModel baseModel)
+        public static bool MustVerUp(
+            Context context,
+            SiteSettings ss,
+            BaseModel baseModel,
+            bool isSite = false)
         {
-            if (ss.SiteId > 0 && !ss.IsSite(context: context))
+            if (!isSite)
             {
                 switch (ss.AutoVerUpType)
                 {

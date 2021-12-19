@@ -115,18 +115,18 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static Types GetById(Context context, long id)
         {
-            return (Types)Repository.ExecuteScalar_int(
+            var type = Repository.ExecuteScalar_int(
                 context: context,
                 statements: new SqlStatement[]
                 {
                     Rds.SelectPermissions(
                         column: Rds.PermissionsColumn()
-                            .ReferenceId()
                             .PermissionType(),
                         where: Rds.PermissionsWhere()
                             .ReferenceId(id)
                             .PermissionsWhere(context: context)),
                 });
+            return (Types)type;
         }
 
         public static SqlWhereCollection SetCanReadWhere(
@@ -334,8 +334,22 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool CanRead(Context context, long siteId)
         {
-            return (Get(context: context, siteId: siteId) & Types.Read) == Types.Read
-                || context.HasPrivilege;
+            var canRead = context.HasPrivilege
+                || (Get(
+                    context: context,
+                    siteId: siteId) & Types.Read) == Types.Read;
+            return canRead;
+        }
+
+        public static bool CanRead(Context context, long siteId, long id)
+        {
+            var canRead = CanRead(
+                context: context,
+                siteId: siteId)
+                    || (GetById(
+                        context: context,
+                        id: id) & Types.Read) == Types.Read;
+            return canRead;
         }
 
         public static IEnumerable<long> AllowSites(
@@ -411,8 +425,7 @@ namespace Implem.Pleasanter.Libraries.Security
         public static bool CanRead(
             this Context context,
             SiteSettings ss,
-            bool site = false,
-            long id = 0)
+            bool site = false)
         {
             switch (context.Controller)
             {
@@ -437,8 +450,7 @@ namespace Implem.Pleasanter.Libraries.Security
                         return context.Can(
                             ss: ss,
                             type: Types.Read,
-                            site: site,
-                            id: id);
+                            site: site);
                     }
             }
         }
@@ -676,8 +688,7 @@ namespace Implem.Pleasanter.Libraries.Security
         private static bool Can(
             this Context context,
             SiteSettings ss,
-            Types type, bool site,
-            long id = 0)
+            Types type, bool site)
         {
             if (ss.Locked())
             {
@@ -691,8 +702,7 @@ namespace Implem.Pleasanter.Libraries.Security
             }
             return (ss.GetPermissionType(
                 context: context,
-                site: site,
-                id: id) & type) == type
+                site: site) & type) == type
                     || context.HasPrivilege;
         }
 

@@ -63,6 +63,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public bool AllowCreationAtTopSite(Context context)
         {
+            if (context.HasPrivilege) return true;
             return (!Parameters.User.DisableTopSiteCreation
                 || context.User.AllowCreationAtTopSite)
                     && DisableTopSiteCreation != true;
@@ -70,6 +71,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public bool AllowGroupAdministration(Context context)
         {
+            if (context.HasPrivilege) return true;
             return (!Parameters.User.DisableGroupAdmin
                 || context.User.AllowGroupAdministration)
                     && DisableGroupAdmin != true;
@@ -77,6 +79,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public bool AllowGroupCreation(Context context)
         {
+            if (context.HasPrivilege) return true;
             return (!Parameters.User.DisableGroupCreation
                 || context.User.AllowGroupCreation)
                     && DisableGroupCreation != true;

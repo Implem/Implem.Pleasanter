@@ -1,0 +1,33 @@
+﻿{
+    "Id": "CopyWithReminders",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Copy with reminders"
+        },
+        {
+            "Language": "zh",
+            "Body": "复制提醒"
+        },
+        {
+            "Language": "ja",
+            "Body": "リマインダーをコピーする"
+        },
+        {
+            "Language": "de",
+            "Body": "Kopieren mit Erinnerungen"
+        },
+        {
+            "Language": "ko",
+            "Body": "미리 알림과 함께 복사"
+        },
+        {
+            "Language": "es",
+            "Body": "Copiar con recordatorios"
+        },
+        {
+            "Language": "vn",
+            "Body": "Sao chép với lời nhắc"
+        }
+    ]
+}

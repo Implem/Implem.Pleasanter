@@ -1,6 +1,7 @@
 ﻿using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
@@ -314,6 +315,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     columns.ForEach(column =>
                     {
                         var key = column.TableName();
+                        var serverScriptModelColumn = serverScriptModelRow
+                            ?.Columns
+                            ?.Get(column?.ColumnName);
                         switch (column.SiteSettings?.ReferenceType)
                         {
                             case "Depts":
@@ -450,6 +454,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             controlOnly: true,
                                             idSuffix: issueModel.IdSuffix()));
                                 }
+                                else if (column.ColumnName.Contains("~")
+                                    && !Permissions.CanRead(
+                                        context: context,
+                                        siteId: issueModel.SiteId,
+                                        id: issueModel.IssueId))
+                                {
+                                    hb.Td(
+                                        context: context,
+                                        column: column,
+                                        value: string.Empty,
+                                        tabIndex: null,
+                                        serverScriptModelColumn: serverScriptModelColumn);
+                                }
                                 else
                                 {
                                     hb.TdValue(
@@ -457,9 +474,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         ss: column.SiteSettings,
                                         column: column,
                                         issueModel: issueModel,
-                                        serverScriptModelColumn: serverScriptModelRow
-                                            ?.Columns
-                                            ?.Get(column?.ColumnName));
+                                        serverScriptModelColumn: serverScriptModelColumn);
                                 }
                                 break;
                             case "Results":
@@ -503,6 +518,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             controlOnly: true,
                                             idSuffix: resultModel.IdSuffix()));
                                 }
+                                else if (column.ColumnName.Contains("~")
+                                    && !Permissions.CanRead(
+                                        context: context,
+                                        siteId: resultModel.SiteId,
+                                        id: resultModel.ResultId))
+                                {
+                                    hb.Td(
+                                        context: context,
+                                        column: column,
+                                        value: string.Empty,
+                                        tabIndex: null,
+                                        serverScriptModelColumn: serverScriptModelColumn);
+                                }
                                 else
                                 {
                                     hb.TdValue(
@@ -510,9 +538,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         ss: column.SiteSettings,
                                         column: column,
                                         resultModel: resultModel,
-                                        serverScriptModelColumn: serverScriptModelRow
-                                            ?.Columns
-                                            ?.Get(column?.ColumnName));
+                                        serverScriptModelColumn: serverScriptModelColumn);
                                 }
                                 break;
                         }

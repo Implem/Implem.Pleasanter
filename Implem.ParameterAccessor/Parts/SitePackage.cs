@@ -1,14 +1,8 @@
-﻿namespace Implem.ParameterAccessor.Parts
+﻿using static Implem.ParameterAccessor.Parts.Types;
+namespace Implem.ParameterAccessor.Parts
 {
     public class SitePackage
     {
-        public enum OptionTypes : int
-        {
-            On = 0,
-            Off = 1,
-            Disabled = 2
-        }
-
         public bool Import;
         public bool Export;
         public int ExportLimit;

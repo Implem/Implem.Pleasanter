@@ -1,4 +1,5 @@
-﻿namespace Implem.ParameterAccessor.Parts
+﻿using static Implem.ParameterAccessor.Parts.Types;
+namespace Implem.ParameterAccessor.Parts
 {
     public class Notification
     {
@@ -10,5 +11,6 @@
         public bool Teams;
         public bool RocketChat;
         public bool InCircle;
+        public OptionTypes CopyWithNotifications;
     }
 }
