@@ -13,6 +13,8 @@ namespace Implem.DefinitionAccessor
 {
     public class Initializer
     {
+        private static string ParametersPath { get; set; }
+
         public static void Initialize(
             string path,
             string assemblyVersion,
@@ -24,6 +26,10 @@ namespace Implem.DefinitionAccessor
             Environments.CurrentDirectoryPath = path != null
                 ? path
                 : GetSourcePath();
+            ParametersPath = Path.Combine(
+                Environments.CurrentDirectoryPath,
+                "App_Data",
+                "Parameters");
             SetRdsPassword(setSaPassword, setRandomPassword);
             SetParameters();
             Environments.ServiceName = Parameters.Service.Name;
@@ -48,7 +54,7 @@ namespace Implem.DefinitionAccessor
             if (setRdsPassword)
             {
                 Console.WriteLine("Please enter the SA password.");
-                var rdsParameters = Files.Read(ParametersPath("Rds"));
+                var rdsParameters = Files.Read(JsonFilePath("Rds"));
                 rdsParameters = Regex.Replace(
                     rdsParameters,
                     "(?<=UID\\=sa;PWD\\=).*?(?=;)",
@@ -64,12 +70,17 @@ namespace Implem.DefinitionAccessor
                         "(?<=UID\\=#ServiceName#_User;PWD\\=).*?(?=;)",
                         Strings.NewGuid());
                 }
-                rdsParameters.Write(ParametersPath("Rds"));
+                rdsParameters.Write(JsonFilePath("Rds"));
             }
         }
 
         public static void SetParameters()
         {
+            Parameters.Env = Read<Env>();
+            if (Parameters.Env?.ParametersPath.IsNullOrEmpty() == false)
+            {
+                ParametersPath = Parameters.Env?.ParametersPath;
+            }
             Parameters.Api = Read<Api>();
             Parameters.Authentication = Read<Authentication>();
             Parameters.BackgroundTask = Read<BackgroundTask>();
@@ -113,7 +124,6 @@ namespace Implem.DefinitionAccessor
             Parameters.Parameter = Read<Parameter>();
             Parameters.Locations = Read<Locations>();
             Parameters.Validation = Read<Validation>();
-            Parameters.Validation = Read<Validation>();
             Parameters.Rds.SaConnectionString = Strings.CoalesceEmpty(
                 Parameters.Rds.SaConnectionString,
                 Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Rds_{Parameters.Rds.Dbms}_SaConnectionString"),
@@ -149,8 +159,9 @@ namespace Implem.DefinitionAccessor
         private static T Read<T>()
         {
             var name = typeof(T).Name;
-            var data = Files.Read(ParametersPath(name)).Deserialize<T>();
-            if (data == null)
+            var json = Files.Read(JsonFilePath(name));
+            var data = json.Deserialize<T>();
+            if (!json.IsNullOrEmpty() && data == null)
             {
                 Parameters.SyntaxErrors.Add(name + ".json");
             }
@@ -163,9 +174,7 @@ namespace Implem.DefinitionAccessor
         {
             hash = hash ?? new Dictionary<string, Dictionary<string, Dictionary<string, string>>>();
             path = path ?? Path.Combine(
-                Environments.CurrentDirectoryPath,
-                "App_Data",
-                "Parameters",
+                ParametersPath,
                 "CustomDefinitions");
             var dir = new DirectoryInfo(path);
             if (dir.Exists)
@@ -195,9 +204,7 @@ namespace Implem.DefinitionAccessor
         {
             var hash = new List<AutoTestScenario>();
             var path = Path.Combine(
-                Environments.CurrentDirectoryPath,
-                "App_Data",
-                "Parameters",
+                ParametersPath,
                 "ExtendedAutoTest",
                 "TestCases");
             var dir = new DirectoryInfo(path);
@@ -235,9 +242,7 @@ namespace Implem.DefinitionAccessor
         {
             var hash = new List<AutoTestOperation>();
             var path = Path.Combine(
-                Environments.CurrentDirectoryPath,
-                "App_Data",
-                "Parameters",
+                ParametersPath,
                 "ExtendedAutoTest",
                 "TestParts");
             var dir = new DirectoryInfo(path);
@@ -272,9 +277,7 @@ namespace Implem.DefinitionAccessor
         {
             var hash = new Dictionary<string, string>();
             var path = Path.Combine(
-                Environments.CurrentDirectoryPath,
-                "App_Data",
-                "Parameters",
+                ParametersPath,
                 "ExtendedColumnDefinitions");
             var dir = new DirectoryInfo(path);
             if (dir.Exists)
@@ -292,9 +295,7 @@ namespace Implem.DefinitionAccessor
         {
             list = list ?? new List<ExtendedColumns>();
             path = path ?? Path.Combine(
-                Environments.CurrentDirectoryPath,
-                "App_Data",
-                "Parameters",
+                ParametersPath,
                 "ExtendedColumns");
             var dir = new DirectoryInfo(path);
             if (dir.Exists)
@@ -325,9 +326,7 @@ namespace Implem.DefinitionAccessor
         {
             list = list ?? new List<ExtendedField>();
             path = path ?? Path.Combine(
-                Environments.CurrentDirectoryPath,
-                "App_Data",
-                "Parameters",
+                ParametersPath,
                 "ExtendedFields");
             foreach (var file in new DirectoryInfo(path).GetFiles("*.json"))
             {
@@ -356,9 +355,7 @@ namespace Implem.DefinitionAccessor
         {
             list = list ?? new List<ExtendedHtml>();
             path = path ?? Path.Combine(
-                Environments.CurrentDirectoryPath,
-                "App_Data",
-                "Parameters",
+                ParametersPath,
                 "ExtendedHtmls");
             foreach (var file in new DirectoryInfo(path).GetFiles("*.html"))
             {
@@ -402,9 +399,7 @@ namespace Implem.DefinitionAccessor
         {
             list = list ?? new List<ExtendedNavigationMenu>();
             path = path ?? Path.Combine(
-                Environments.CurrentDirectoryPath,
-                "App_Data",
-                "Parameters",
+                ParametersPath,
                 "ExtendedNavigationMenus");
             foreach (var file in new DirectoryInfo(path).GetFiles("*.json"))
             {
@@ -432,9 +427,7 @@ namespace Implem.DefinitionAccessor
         {
             list = list ?? new List<ExtendedScript>();
             path = path ?? Path.Combine(
-                Environments.CurrentDirectoryPath,
-                "App_Data",
-                "Parameters",
+                ParametersPath,
                 "ExtendedScripts");
             foreach (var file in new DirectoryInfo(path).GetFiles("*.js"))
             {
@@ -461,9 +454,7 @@ namespace Implem.DefinitionAccessor
         {
             list = list ?? new List<ExtendedServerScript>();
             path = path ?? Path.Combine(
-                Environments.CurrentDirectoryPath,
-                "App_Data",
-                "Parameters",
+                ParametersPath,
                 "ExtendedServerScripts");
             foreach (var file in new DirectoryInfo(path).GetFiles("*.json"))
             {
@@ -496,9 +487,7 @@ namespace Implem.DefinitionAccessor
         {
             list = list ?? new List<ExtendedSql>();
             path = path ?? Path.Combine(
-                Environments.CurrentDirectoryPath,
-                "App_Data",
-                "Parameters",
+                ParametersPath,
                 "ExtendedSqls");
             foreach (var file in new DirectoryInfo(path).GetFiles("*.json"))
             {
@@ -531,9 +520,7 @@ namespace Implem.DefinitionAccessor
         {
             list = list ?? new List<ExtendedStyle>();
             path = path ?? Path.Combine(
-                Environments.CurrentDirectoryPath,
-                "App_Data",
-                "Parameters",
+                ParametersPath,
                 "ExtendedStyles");
             foreach (var file in new DirectoryInfo(path).GetFiles("*.css"))
             {
@@ -559,9 +546,7 @@ namespace Implem.DefinitionAccessor
         {
             var hash = new Dictionary<string, string>();
             var path = Path.Combine(
-                Environments.CurrentDirectoryPath,
-                "App_Data",
-                "Parameters",
+                ParametersPath,
                 "ExtendedTags");
             var dir = new DirectoryInfo(path);
             if (dir.Exists)
@@ -577,7 +562,7 @@ namespace Implem.DefinitionAccessor
         private static List<NavigationMenu> NavigationMenus()
         {
             var name = "NavigationMenus";
-            var data = Files.Read(ParametersPath(name)).Deserialize<List<NavigationMenu>>();
+            var data = Files.Read(JsonFilePath(name)).Deserialize<List<NavigationMenu>>();
             if (data == null)
             {
                 Parameters.SyntaxErrors.Add($"{name}.json");
@@ -585,12 +570,10 @@ namespace Implem.DefinitionAccessor
             return data;
         }
 
-        private static string ParametersPath(string name)
+        private static string JsonFilePath(string name)
         {
             return Path.Combine(
-                Environments.CurrentDirectoryPath,
-                "App_Data",
-                "Parameters",
+                ParametersPath,
                 name + ".json");
         }
 

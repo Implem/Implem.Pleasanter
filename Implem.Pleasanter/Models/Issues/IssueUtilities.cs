@@ -1605,8 +1605,7 @@ namespace Implem.Pleasanter.Models
                     id: ss.SiteId)
                 .CopyDialog(
                     context: context,
-                    referenceType: "items",
-                    id: issueModel.IssueId)
+                    ss: ss)
                 .MoveDialog(context: context)
                 .OutgoingMailDialog()
                 .PermissionsDialog(context: context)
@@ -3380,6 +3379,10 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         formData: context.Forms);
+                    issueModel.VerUp = Versions.MustVerUp(
+                        context: context,
+                        ss: ss,
+                        baseModel: issueModel);
                     issueModel.Update(
                         context: context,
                         ss: ss,
@@ -3459,6 +3462,10 @@ namespace Implem.Pleasanter.Models
                         case Error.Types.None: break;
                         default: return invalid.MessageJson(context: context);
                     }
+                    issueModel.VerUp = Versions.MustVerUp(
+                        context: context,
+                        ss: ss,
+                        baseModel: issueModel);
                     statements.AddRange(issueModel.UpdateStatements(
                         context: context,
                         ss: ss,
@@ -3714,6 +3721,10 @@ namespace Implem.Pleasanter.Models
             issueModel.SetTitle(
                 context: context,
                 ss: ss);
+            issueModel.VerUp = Versions.MustVerUp(
+                context: context,
+                ss: ss,
+                baseModel: issueModel);
             var errorData = issueModel.Update(
                 context: context,
                 ss: ss,
@@ -3773,6 +3784,10 @@ namespace Implem.Pleasanter.Models
             issueModel.SetTitle(
                 context: context,
                 ss: ss);
+            issueModel.VerUp = Versions.MustVerUp(
+                context: context,
+                ss: ss,
+                baseModel: issueModel);
             var errorData = issueModel.Update(
                 context: context,
                 ss: ss,
@@ -4556,6 +4571,10 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         body: addComment);
+                    issueModel.VerUp = Versions.MustVerUp(
+                        context: context,
+                        ss: ss,
+                        baseModel: issueModel);
                     issueModel.Update(
                         context: context,
                         ss: ss,
@@ -5507,6 +5526,10 @@ namespace Implem.Pleasanter.Models
                     {
                         if (issueModel.Updated(context: context))
                         {
+                            issueModel.VerUp = Versions.MustVerUp(
+                                context: context,
+                                ss: ss,
+                                baseModel: issueModel);
                             var errorData = issueModel.Update(
                                 context: context,
                                 ss: ss,
@@ -5975,6 +5998,10 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
+            issueModel.VerUp = Versions.MustVerUp(
+                context: context,
+                ss: ss,
+                baseModel: issueModel);
             issueModel.Update(
                 context: context,
                 ss: ss,
@@ -6544,7 +6571,9 @@ namespace Implem.Pleasanter.Models
                         groupBy: groupBy))
                             .AsEnumerable();
             }
-            ss.SetChoiceHash(dataRows: dataRows);
+            ss.SetChoiceHash(
+                context: context,
+                dataRows: dataRows);
             return dataRows;
         }
 
@@ -7172,7 +7201,9 @@ namespace Implem.Pleasanter.Models
                                 where: where)),
                         param: param))
                             .AsEnumerable();
-                ss.SetChoiceHash(dataRows: dataRows);
+                ss.SetChoiceHash(
+                    context: context,
+                    dataRows: dataRows);
                 return dataRows;
             }
             else
@@ -7408,6 +7439,10 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
+            issueModel.VerUp = Versions.MustVerUp(
+                context: context,
+                ss: ss,
+                baseModel: issueModel);
             issueModel.Update(
                 context: context,
                 ss: ss,

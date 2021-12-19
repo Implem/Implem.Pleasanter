@@ -119,6 +119,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public Permissions.Types? PermissionType;
         [NonSerialized]
+        public Dictionary<long, Permissions.Types> PermissionTypeCache;
+        [NonSerialized]
         public Permissions.Types? ItemPermissionType;
         [NonSerialized]
         public bool Publish;
@@ -3548,11 +3550,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public void SetChoiceHash(EnumerableRowCollection<DataRow> dataRows)
+        public void SetChoiceHash(
+            Context context,
+            EnumerableRowCollection<DataRow> dataRows)
         {
-            var dataColumns = dataRows.Columns()
-                .Where(columnName => columnName.EndsWith(",ItemTitle"))
-                .ToList();
             Columns
                 .Where(column => column.Linked())
                 .ForEach(column =>
@@ -3561,37 +3562,51 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         column.ChoiceHash = new Dictionary<string, Choice>();
                     }
-                    var links = column.SiteSettings.Links
-                        .Where(link => link.JsonFormat != true)
-                        .Where(link => link.SiteId > 0)
-                        .Where(link => column.Name == link.ColumnName)
-                        .Select(link => link.LinkedTableName() + ",ItemTitle")
-                        .ToList();
-                    if (dataColumns.Any(o => links.Any(p => o.EndsWith(p))))
+                    var link = column.SiteSettings.Links
+                        .Where(o => o.SiteId > 0)
+                        .Where(o => column.Name == o.ColumnName)
+                        .FirstOrDefault(o => dataRows.Columns().Any(p =>
+                            p.EndsWith(o.LinkedTableName() + ",ItemTitle")));
+                    if (link != null)
                     {
                         dataRows
                             .GroupBy(o => o.Long(column.ColumnName))
                             .Select(o => o.First())
-                            .Select(dataRow => new
-                            {
-                                Value = dataRow.String(column.ColumnName),
-                                Text = dataColumns
-                                    .Where(columnName =>
-                                        links.Any(link =>
-                                            columnName.EndsWith(link)))
-                                    .Where(columnName => dataRow[columnName] != DBNull.Value)
-                                    .Select(columnName => dataRow[columnName].ToString())
-                                    .FirstOrDefault()
-                            })
-                            .Where(data => data.Text != null)
-                            .ForEach(data =>
+                            .Select(dataRow => LinkedChoice(
+                                context: context,
+                                column: column,
+                                dataRow: dataRow,
+                                link: link))
+                            .Where(choice => choice != null)
+                            .ForEach(choice =>
                                 column.ChoiceHash.AddOrUpdate(
-                                    data.Value,
-                                    new Choice(
-                                        value: data.Value,
-                                        text: data.Text)));
+                                    choice.Value,
+                                    choice));
                     }
                 });
+        }
+
+        private Choice LinkedChoice(
+            Context context,
+            Column column,
+            DataRow dataRow,
+            Link link)
+        {
+            var linkedColumnName = link.LinkedTableName() + ",ItemTitle";
+            if (dataRow[linkedColumnName] != DBNull.Value)
+            {
+                if (Permissions.CanRead(
+                    context: context,
+                    siteId: link.SiteId,
+                    id: dataRow.Long(column.ColumnName)))
+                {
+                    var choice = new Choice(
+                        value: dataRow.String(column.ColumnName),
+                        text: dataRow.String(linkedColumnName));
+                    return choice;
+                }
+            }
+            return null;
         }
 
         public string LinkedItemTitle(
@@ -4118,7 +4133,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public Permissions.Types GetPermissionType(Context context, bool site = false, long id = 0)
+        public Permissions.Types GetPermissionType(Context context, bool site = false)
         {
             var permission = Permissions.Types.NotSet;
             if (PermissionType != null)
@@ -4128,12 +4143,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (ItemPermissionType != null && !site)
             {
                 permission |= (Permissions.Types)ItemPermissionType;
-            }
-            if (id > 0 && context.Id != id)
-            {
-                permission |= Permissions.GetById(
-                    context: context,
-                    id: id);
             }
             return permission;
         }

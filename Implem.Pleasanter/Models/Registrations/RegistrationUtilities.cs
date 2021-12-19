@@ -1006,8 +1006,7 @@ namespace Implem.Pleasanter.Models
                     id: ss.SiteId)
                 .CopyDialog(
                     context: context,
-                    referenceType: "Registrations",
-                    id: registrationModel.RegistrationId)
+                    ss: ss)
                 .OutgoingMailDialog()
                 .EditorExtensions(
                     context: context,

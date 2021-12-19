@@ -523,8 +523,7 @@ namespace Implem.Pleasanter.Models
                     referenceVer: tenantModel.Ver)
                 .CopyDialog(
                     context: context,
-                    referenceType: "Tenants",
-                    id: tenantModel.TenantId)
+                    ss: ss)
                 .OutgoingMailDialog()
                 .EditorExtensions(
                     context: context,

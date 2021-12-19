@@ -442,29 +442,35 @@ namespace Implem.Pleasanter.Models
                     where: Rds.GroupMembersWhere()
                         .GroupId(GroupId))
             };
-            context.Forms.List("CurrentMembersAll").ForEach(data =>
-            {
-                if (data.StartsWith("Dept,"))
-                {
-                    statements.Add(Rds.InsertGroupMembers(
-                        param: Rds.GroupMembersParam()
-                            .GroupId(GroupId)
-                            .DeptId(data.Split_2nd().ToInt())
-                            .Admin(data.Split_3rd().ToBool())));
-                }
-                if (data.StartsWith("User,"))
-                {
-                    statements.Add(Rds.InsertGroupMembers(
-                        param: Rds.GroupMembersParam()
-                            .GroupId(GroupId)
-                            .UserId(data.Split_2nd().ToInt())
-                            .Admin(data.Split_3rd().ToBool())));
-                }
-            });
             Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
+            context.Forms.List("CurrentMembersAll").ForEach(data =>
+            {
+                if (data.StartsWith("Dept,"))
+                {
+                    Repository.ExecuteNonQuery(
+                        context: context,
+                        transactional: true,
+                        statements: Rds.InsertGroupMembers(
+                            param: Rds.GroupMembersParam()
+                                .GroupId(GroupId)
+                                .DeptId(data.Split_2nd().ToInt())
+                                .Admin(data.Split_3rd().ToBool())));
+                }
+                if (data.StartsWith("User,"))
+                {
+                    Repository.ExecuteNonQuery(
+                        context: context,
+                        transactional: true,
+                        statements: Rds.InsertGroupMembers(
+                            param: Rds.GroupMembersParam()
+                                .GroupId(GroupId)
+                                .UserId(data.Split_2nd().ToInt())
+                                .Admin(data.Split_3rd().ToBool())));
+                }
+            });
             return new ErrorData(type: Error.Types.None);
         }
 

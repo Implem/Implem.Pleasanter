@@ -15,7 +15,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var mustVerUp = Versions.MustVerUp(
                 context: context,
                 ss: ss,
-                baseModel: baseModel);
+                baseModel: baseModel,
+                isSite: ss.SiteId == 0 || ss.IsSite(context: context));
             return baseModel.VerType == Versions.VerTypes.Latest
                 && baseModel.MethodType != BaseModel.MethodTypes.New
                 && context.CanUpdate(ss: ss)

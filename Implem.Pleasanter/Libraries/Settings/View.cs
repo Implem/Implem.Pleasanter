@@ -2105,12 +2105,21 @@ namespace Implem.Pleasanter.Libraries.Settings
                     }
                 });
             }
-            return orderBy?.Any() != true
-                ? new SqlOrderByCollection().Add(
+            if (!orderBy.Any(o => o.ColumnBracket == "\"UpdatedTime\""))
+            {
+                orderBy.Add(
                     tableName: ss.ReferenceType,
                     columnBracket: "\"UpdatedTime\"",
-                    orderType: SqlOrderBy.Types.desc)
-                : orderBy;
+                    orderType: SqlOrderBy.Types.desc);
+            }
+            if (!orderBy.Any(o => o.ColumnBracket == $"\"{Rds.IdColumn(ss.ReferenceType)}\""))
+            {
+                orderBy.Add(
+                    tableName: ss.ReferenceType,
+                    columnBracket: $"\"{Rds.IdColumn(ss.ReferenceType)}\"",
+                    orderType: SqlOrderBy.Types.desc);
+            }
+            return orderBy;
         }
 
         private void SetSorterHashOnShowHistory(SiteSettings ss)

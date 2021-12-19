@@ -3,6 +3,7 @@ using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
@@ -185,39 +186,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     columnName: element.Key,
                     value: element.Value,
                     mine: mine)));
-            if (model is ResultModel resultModel)
-            {
-                values.Add(ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: nameof(ResultModel.ResultId),
-                    value: resultModel.ResultId,
-                    mine: mine));
-                values.Add(ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: nameof(ResultModel.Status),
-                    value: resultModel.Status?.Value,
-                    mine: mine));
-                values.Add(ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: nameof(ResultModel.Manager),
-                    value: resultModel.Manager.Id,
-                    mine: mine));
-                values.Add(ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: nameof(ResultModel.Owner),
-                    value: resultModel.Owner.Id,
-                    mine: mine));
-                values.Add(ReadNameValue(
-                    context: context,
-                    ss: ss,
-                    columnName: nameof(ResultModel.Locked),
-                    value: resultModel.Locked,
-                    mine: mine));
-            }
             if (model is IssueModel issueModel)
             {
                 values.Add(ReadNameValue(
@@ -279,6 +247,39 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ss: ss,
                     columnName: nameof(IssueModel.Locked),
                     value: issueModel.Locked,
+                    mine: mine));
+            }
+            if (model is ResultModel resultModel)
+            {
+                values.Add(ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(ResultModel.ResultId),
+                    value: resultModel.ResultId,
+                    mine: mine));
+                values.Add(ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(ResultModel.Status),
+                    value: resultModel.Status?.Value,
+                    mine: mine));
+                values.Add(ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(ResultModel.Manager),
+                    value: resultModel.Manager.Id,
+                    mine: mine));
+                values.Add(ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(ResultModel.Owner),
+                    value: resultModel.Owner.Id,
+                    mine: mine));
+                values.Add(ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(ResultModel.Locked),
+                    value: resultModel.Locked,
                     mine: mine));
             }
             return values.ToArray();
@@ -460,71 +461,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             setter(value);
         }
 
-        private static void SetResultModelValues(
-            Context context,
-            SiteSettings ss,
-            ResultModel resultModel,
-            ExpandoObject data,
-            Dictionary<string, Column> columns)
-        {
-            SetValue(
-                columnName: nameof(ResultModel.Title),
-                columns: columns,
-                setter: value => resultModel.Title.Value = value,
-                getter: column => String(
-                    data: data,
-                    columnName: column.ColumnName));
-            SetValue(
-                columnName: nameof(ResultModel.Body),
-                columns: columns,
-                setter: value => resultModel.Body = value,
-                getter: column => String(
-                    data: data,
-                    columnName: column.ColumnName));
-            SetValue(
-                columnName: nameof(ResultModel.Status),
-                columns: columns,
-                setter: value => resultModel.Status.Value = value,
-                getter: column => Int(
-                    data: data,
-                    name: column.ColumnName));
-            SetValue(
-                columnName: nameof(ResultModel.Manager),
-                columns: columns,
-                setter: value => resultModel.Manager = SiteInfo.User(
-                    context: context,
-                    userId: value),
-                getter: column => Int(
-                    data: data,
-                    name: column.ColumnName));
-            SetValue(
-                columnName: nameof(ResultModel.Owner),
-                columns: columns,
-                setter: value => resultModel.Owner = SiteInfo.User(
-                    context: context,
-                    userId: value),
-                getter: column => Int(
-                    data: data,
-                    name: column.ColumnName));
-            SetValue(
-                columnName: nameof(ResultModel.Locked),
-                columns: columns,
-                setter: value => resultModel.Locked = value,
-                getter: column => Bool(
-                    data: data,
-                    name: column.Name));
-            resultModel.SetTitle(
-                context: context,
-                ss: ss);
-            if (Bool(data: data, name: "UpdateOnExit"))
-            {
-                resultModel.Update(
-                    context: context,
-                    ss: ss,
-                    notice: true);
-            }
-        }
-
         private static void SetIssueModelValues(
             Context context,
             SiteSettings ss,
@@ -616,7 +552,80 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 ss: ss);
             if (Bool(data: data, name: "UpdateOnExit"))
             {
+                issueModel.VerUp = Versions.MustVerUp(
+                    context: context,
+                    ss: ss,
+                    baseModel: issueModel);
                 issueModel.Update(
+                    context: context,
+                    ss: ss,
+                    notice: true);
+            }
+        }
+
+        private static void SetResultModelValues(
+            Context context,
+            SiteSettings ss,
+            ResultModel resultModel,
+            ExpandoObject data,
+            Dictionary<string, Column> columns)
+        {
+            SetValue(
+                columnName: nameof(ResultModel.Title),
+                columns: columns,
+                setter: value => resultModel.Title.Value = value,
+                getter: column => String(
+                    data: data,
+                    columnName: column.ColumnName));
+            SetValue(
+                columnName: nameof(ResultModel.Body),
+                columns: columns,
+                setter: value => resultModel.Body = value,
+                getter: column => String(
+                    data: data,
+                    columnName: column.ColumnName));
+            SetValue(
+                columnName: nameof(ResultModel.Status),
+                columns: columns,
+                setter: value => resultModel.Status.Value = value,
+                getter: column => Int(
+                    data: data,
+                    name: column.ColumnName));
+            SetValue(
+                columnName: nameof(ResultModel.Manager),
+                columns: columns,
+                setter: value => resultModel.Manager = SiteInfo.User(
+                    context: context,
+                    userId: value),
+                getter: column => Int(
+                    data: data,
+                    name: column.ColumnName));
+            SetValue(
+                columnName: nameof(ResultModel.Owner),
+                columns: columns,
+                setter: value => resultModel.Owner = SiteInfo.User(
+                    context: context,
+                    userId: value),
+                getter: column => Int(
+                    data: data,
+                    name: column.ColumnName));
+            SetValue(
+                columnName: nameof(ResultModel.Locked),
+                columns: columns,
+                setter: value => resultModel.Locked = value,
+                getter: column => Bool(
+                    data: data,
+                    name: column.Name));
+            resultModel.SetTitle(
+                context: context,
+                ss: ss);
+            if (Bool(data: data, name: "UpdateOnExit"))
+            {
+                resultModel.VerUp = Versions.MustVerUp(
+                    context: context,
+                    ss: ss,
+                    baseModel: resultModel);
+                resultModel.Update(
                     context: context,
                     ss: ss,
                     notice: true);

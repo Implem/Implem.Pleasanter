@@ -5,7 +5,7 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.SitePackages;
 using System.Collections.Generic;
-using static Implem.ParameterAccessor.Parts.SitePackage;
+using static Implem.ParameterAccessor.Parts.Types;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlSitePackage
