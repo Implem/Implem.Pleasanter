@@ -3554,6 +3554,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             Context context,
             EnumerableRowCollection<DataRow> dataRows)
         {
+            var dataColumns = dataRows.Columns()
+                .Where(columnName => columnName.EndsWith(",ItemTitle"))
+                .ToList();
             Columns
                 .Where(column => column.Linked())
                 .ForEach(column =>
@@ -3565,7 +3568,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     var link = column.SiteSettings.Links
                         .Where(o => o.SiteId > 0)
                         .Where(o => column.Name == o.ColumnName)
-                        .FirstOrDefault(o => dataRows.Columns().Any(p =>
+                        .FirstOrDefault(o => dataColumns.Any(p =>
                             p.EndsWith(o.LinkedTableName() + ",ItemTitle")));
                     if (link != null)
                     {
@@ -3575,6 +3578,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             .Select(dataRow => LinkedChoice(
                                 context: context,
                                 column: column,
+                                dataColumns: dataColumns,
                                 dataRow: dataRow,
                                 link: link))
                             .Where(choice => choice != null)
@@ -3589,11 +3593,14 @@ namespace Implem.Pleasanter.Libraries.Settings
         private Choice LinkedChoice(
             Context context,
             Column column,
+            List<string> dataColumns,
             DataRow dataRow,
             Link link)
         {
-            var linkedColumnName = link.LinkedTableName() + ",ItemTitle";
-            if (dataRow[linkedColumnName] != DBNull.Value)
+            var linkedColumnName = dataColumns.FirstOrDefault(o =>
+                o.EndsWith(link.LinkedTableName() + ",ItemTitle"));
+            if (linkedColumnName != null
+                && dataRow[linkedColumnName] != DBNull.Value)
             {
                 if (Permissions.CanRead(
                     context: context,
