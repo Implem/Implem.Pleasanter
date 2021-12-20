@@ -221,7 +221,7 @@ namespace Implem.Pleasanter.NetCore
                     pattern: "{controller}/{guid}/{action}",
                     defaults: new
                     {
-                        Controller = "Binaries",
+                        Controller = "Binaries"
                     },
                     constraints: new
                     {
@@ -235,7 +235,7 @@ namespace Implem.Pleasanter.NetCore
                     defaults: new
                     {
                         Controller = "Binaries",
-                        Action = "Upload",
+                        Action = "Upload"
                     },
                     constraints: new
                     {
