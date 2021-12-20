@@ -36,7 +36,8 @@ namespace Implem.Pleasanter.NetCore.Controllers.Api
         }
 
         [HttpPost("{guid}/upload")]
-        public ContentResult Upload(string guid)
+        [HttpPost("upload")]
+        public ContentResult Upload(string guid = null)
         {
             var context = new ContextImplement(
                 files: Request.Form.Files.ToList(),
@@ -45,7 +46,9 @@ namespace Implem.Pleasanter.NetCore.Controllers.Api
                     ApiKey = AuthorizationHeaderValue()
                 }.ToJson());
             var controller = new Pleasanter.Controllers.Api.BinariesController();
-            var result = controller.Upload(context: context, guid);
+            var result = controller.Upload(
+                context: context,
+                guid: guid);
             return result.ToHttpResponse(request: Request);
         }
 

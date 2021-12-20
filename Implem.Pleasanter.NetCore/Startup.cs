@@ -221,7 +221,21 @@ namespace Implem.Pleasanter.NetCore
                     pattern: "{controller}/{guid}/{action}",
                     defaults: new
                     {
-                        Controller = "Binaries"
+                        Controller = "Binaries",
+                    },
+                    constraints: new
+                    {
+                        Guid = "[A-Za-z0-9]+",
+                        Action = "[A-Za-z][A-Za-z0-9_]*"
+                    }
+                );
+                endpoints.MapControllerRoute(
+                    name: "BinariesUpload",
+                    pattern: "binaries/upload",
+                    defaults: new
+                    {
+                        Controller = "Binaries",
+                        Action = "Upload",
                     },
                     constraints: new
                     {
