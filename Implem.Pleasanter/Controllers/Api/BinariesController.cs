@@ -10,6 +10,7 @@ using Implem.Libraries.Utilities;
 using System.Collections.Generic;
 using Implem.Pleasanter.Libraries.DataTypes;
 using System;
+using Implem.Pleasanter.Libraries.Web;
 
 namespace Implem.Pleasanter.Controllers.Api
 {
@@ -67,71 +68,120 @@ namespace Implem.Pleasanter.Controllers.Api
             {
                 return ApiResults.Unauthorized(context: context);
             }
-            guid = guid.ToUpper();
-            var referenceId = FileContentResults.GetReferenceId(context: context, guid: guid);
-            if (referenceId == 0)
-            {
-                return ApiResults.NotFound(context: context);
-            }
-            var newGuid = context.QueryStrings.Bool("overwrite")
-                ? guid
-                : Strings.NewGuid();
-
             if (context.PostedFiles == null || context.PostedFiles.Count == 0)
             {
                 return ApiResults.BadRequest(context: context);
             }
             var postedFile = context.PostedFiles[0];
-            SaveFileToTemp(newGuid, postedFile);
-
-            var verup = context.QueryStrings.ContainsKey("verup")
-                ? context.QueryStrings.Bool("verup")
-                : (bool?)null;
-            context.ApiRequestBody = CreateAttachmentsHashJson($"{guid},{newGuid}", context, postedFile, verup);
-            var response = new ItemModel(context: context, referenceId: referenceId)
-                .UpdateByApi(context: context);
-            log.Finish(
-                context: context,
-                responseSize: response?.Content?.Length ?? 0);
-            return response;
+            string filePath = string.Empty;
+            try
+            {
+                if (!guid.IsNullOrEmpty())
+                {
+                    guid = guid.ToUpper();
+                    var referenceId = FileContentResults.GetReferenceId(
+                        context: context,
+                        guid: guid);
+                    if (referenceId == 0)
+                    {
+                        return ApiResults.NotFound(context: context);
+                    }
+                    var targetGuid = context.QueryStrings.Bool("overwrite")
+                        ? guid
+                        : Strings.NewGuid();
+                    filePath = SaveFileToTemp(
+                        guid: targetGuid,
+                        file: postedFile);
+                    context.ApiRequestBody = CreateAttachmentsHashJson(
+                        context: context,
+                        guidParam: $"{guid},{targetGuid}",
+                        referenceId: referenceId,
+                        file: postedFile);
+                    var response = new ItemModel(
+                        context: context,
+                        referenceId: referenceId)
+                            .UpdateByApi(context: context);
+                    log.Finish(
+                        context: context,
+                        responseSize: response?.Content?.Length ?? 0);
+                    return response;
+                }
+                else
+                {
+                    if (context.QueryStrings.Long("id") == 0
+                        || !Mime.ValidateOnApi(contentType: context.ContentType))
+                    {
+                        return ApiResults.BadRequest(context: context);
+                    }
+                    var targetGuid = Strings.NewGuid();
+                    filePath = SaveFileToTemp(
+                        guid: targetGuid,
+                        file: postedFile);
+                    var attachment = Attachment(
+                        guidParam: targetGuid,
+                        referenceId: context.QueryStrings.Long("id"),
+                        file: postedFile);
+                    var response = attachment.Create(context: context);
+                    log.Finish(
+                        context: context,
+                        responseSize: response?.Content?.Length ?? 0);
+                    return response;
+                }
+            }
+            finally
+            {
+                Files.DeleteFile(filePath);
+            }
         }
 
-        private string CreateAttachmentsHashJson(string guid, Context context, PostedFile file, bool? verup)
+        private string CreateAttachmentsHashJson(Context context, string guidParam, long referenceId, PostedFile file)
         {
             return new
             {
-                VerUp = verup,
-
+                VerUp = context.QueryStrings.ContainsKey("verup")
+                    ? context.QueryStrings.Bool("verup")
+                    : (bool?)null,
                 AttachmentsHash = new Dictionary<string, Attachment[]>
                 {
                     ["Attachments#Uploading"] = new Attachment[]
                     {
-                        new Attachment
-                        {
-                            Guid=guid,
-                            Name = file.FileName,
-                            FileName =file.FileName,
-                            Size = file.Size,
-                            Extention = Path.GetExtension(file.FileName),
-                            ContentType = file.ContentType,
-                            Added = true
-                        }
+                        Attachment(
+                            guidParam: guidParam,
+                            referenceId: referenceId,
+                            file: file)
                     }
                 }
             }.ToJson();
         }
 
-        private void SaveFileToTemp(string guid, PostedFile file)
+        private static Attachment Attachment(string guidParam, long referenceId, PostedFile file)
+        {
+            return new Attachment
+            {
+                Guid = guidParam,
+                Name = file.FileName,
+                FileName = file.FileName,
+                ReferenceId = referenceId,
+                Size = file.Size,
+                Extention = Path.GetExtension(file.FileName),
+                ContentType = file.ContentType,
+                Added = true
+            };
+        }
+
+        private string SaveFileToTemp(string guid, PostedFile file)
         {
             var directory = Path.Combine(DefinitionAccessor.Directories.Temp(), guid);
             Directory.CreateDirectory(directory);
+            var tempFilePath = Path.Combine(directory, file.FileName);
             using (var fileStream = new FileStream(
-                Path.Combine(directory, file.FileName),
+                tempFilePath,
                 FileMode.Create,
                 FileAccess.Write))
             {
                 file.InputStream.CopyTo(fileStream);
             }
+            return tempFilePath;
         }
     }
 }

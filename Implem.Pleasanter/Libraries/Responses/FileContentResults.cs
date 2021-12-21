@@ -2,9 +2,11 @@
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Data;
 using System.IO;
@@ -82,6 +84,21 @@ namespace Implem.Pleasanter.Libraries.Responses
                             .Guid(guid))
                 });
             return referenceId;
+        }
+
+        public static Attachment LinkBinary(Context context, Attachment attachment, Column column)
+        {
+            DataRow dataRow = GetBinariesTable(
+                context: context,
+                guid: attachment.Guid);
+            if (dataRow != null)
+            {
+                attachment.ReferenceId = dataRow.Long("ReferenceId");
+                attachment.Name = dataRow.String("FileName");
+                attachment.Size = dataRow.Long("Size");
+                attachment.SetHashCode(column, dataRow.Bytes("Bin"));
+            }
+            return attachment;
         }
 
         private static DataRow GetBinariesTable(Context context, string guid)
