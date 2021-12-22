@@ -4820,8 +4820,17 @@ namespace Implem.Pleasanter.Models
                     .ResultId(tableName: "Results" + tableName),
                 where: where,
                 param: param);
+            var attachments = Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectBinaries(
+                    tableType: tableType,
+                    column: Rds.BinariesColumn().Guid(),
+                    where: Rds.BinariesWhere().ReferenceId_In(sub: sub)))
+                        .AsEnumerable()
+                        .Select(o => new Attachment() { Guid = o.String("Guid") })
+                        .ToList();
             var guid = Strings.NewGuid();
-            return Repository.ExecuteScalar_response(
+            var count = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: new SqlStatement[]
@@ -4835,7 +4844,7 @@ namespace Implem.Pleasanter.Models
                             .ReferenceType(guid)),
                     Rds.PhysicalDeleteBinaries(
                         tableType: tableType,
-                        where: Rds.ItemsWhere().ReferenceId_In(sub: sub)),
+                        where: Rds.BinariesWhere().ReferenceId_In(sub: sub)),
                     Rds.PhysicalDeleteResults(
                         tableType: tableType,
                         where: where),
@@ -4846,6 +4855,12 @@ namespace Implem.Pleasanter.Models
                             .SiteId(ss.SiteId)
                             .ReferenceType(guid)),
                 }).Count.ToInt();
+            if (tableType == Sqls.TableTypes.Deleted)
+            {
+                attachments.ForEach(attachment =>
+                    attachment.DeleteFromLocal(context: context));
+            }
+            return count;
         }
 
         public static System.Web.Mvc.ContentResult PhysicalBulkDeleteByApi(
