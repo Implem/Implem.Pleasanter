@@ -8757,8 +8757,10 @@ namespace Implem.Pleasanter.Models
                         .Text(text: Displays.Body(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.Row(context: context)))
-                    .Th(action: () => hb
-                        .Text(text: Displays.From(context: context)))
+                    .Th(
+                        action: () => hb
+                            .Text(text: Displays.From(context: context)),
+                        _using: Parameters.Mail.FixedFrom.IsNullOrEmpty())
                     .Th(action: () => hb
                         .Text(text: Displays.To(context: context)))
                     .Th(action: () => hb
@@ -8811,8 +8813,10 @@ namespace Implem.Pleasanter.Models
                                 .Text(text: ss.ColumnNameToLabelText(reminder.Body)))
                             .Td(action: () => hb
                                 .Text(text: ss.ColumnNameToLabelText(reminder.Line)))
-                            .Td(action: () => hb
-                                .Text(text: reminder.From))
+                            .Td(
+                                action: () => hb
+                                    .Text(text: reminder.From),
+                                _using: Parameters.Mail.FixedFrom.IsNullOrEmpty())
                             .Td(action: () => hb
                                 .Text(text: ss.ColumnNameToLabelText(reminder.To)))
                             .Td(action: () => hb
@@ -8902,7 +8906,8 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.From(context: context),
                         text: reminder.From,
-                        validateRequired: true)
+                        validateRequired: true,
+                        _using: Parameters.Mail.FixedFrom.IsNullOrEmpty())
                     .FieldTextBox(
                         controlId: "ReminderTo",
                         fieldCss: "field-wide",
