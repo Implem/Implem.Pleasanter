@@ -191,10 +191,14 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                         value = value.Replace(match.Value, Displays.Users(context: context));
                         break;
                     case "[UserId]":
-                        value = value.Replace(match.Value, Id.ToString());
+                        value = value.Replace(match.Value, Id > 0
+                            ? Id.ToString()
+                            : string.Empty);
                         break;
                     case "[DeptId]":
-                        value = value.Replace(match.Value, DeptId.ToString());
+                        value = value.Replace(match.Value, DeptId > 0
+                            ? DeptId.ToString()
+                            : string.Empty);
                         break;
                     case "[Dept]":
                     case "[DeptName]":
