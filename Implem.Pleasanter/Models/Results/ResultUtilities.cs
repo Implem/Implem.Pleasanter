@@ -1179,31 +1179,32 @@ namespace Implem.Pleasanter.Models
             }
             ResultModel resultModel = null;
             var copyFrom = context.QueryStrings.Long("CopyFrom");
-            if (copyFrom > 0)
+            if (ss.AllowReferenceCopy == true && copyFrom > 0)
             {
                 resultModel = new ResultModel(
                     context: context,
                     ss: ss,
                     resultId: copyFrom,
                     methodType: BaseModel.MethodTypes.New);
-                var invalid = ResultValidators.OnEditing(
-                    context: context,
-                    ss: ss,
-                    resultModel: resultModel);
-                switch (invalid.Type)
+                if (resultModel.AccessStatus == Databases.AccessStatuses.Selected
+                    && Permissions.CanRead(
+                        context: context,
+                        siteId: ss.SiteId,
+                        id: resultModel.ResultId))
                 {
-                    case Error.Types.None:
-                        resultModel.SetCopyDefault(
-                            context: context,
-                            ss: ss);
-                        resultModel.ResultId = 0;
-                        resultModel.Ver = 1;
-                        resultModel.Comments = new Comments();
-                        break;
-                    default:
-                        return HtmlTemplates.Error(
-                           context: context,
-                           errorData: invalid);
+                    resultModel.SetCopyDefault(
+                        context: context,
+                        ss: ss);
+                    resultModel.ResultId = 0;
+                    resultModel.Ver = 1;
+                    resultModel.Comments = new Comments();
+                    resultModel.AccessStatus = Databases.AccessStatuses.Initialized;
+                }
+                else
+                {
+                    return HtmlTemplates.Error(
+                       context: context,
+                       errorData: new ErrorData(type: Error.Types.NotFound));
                 }
             }
             return Editor(
@@ -1461,7 +1462,7 @@ namespace Implem.Pleasanter.Models
                             _using: context.QueryStrings.Long("FromSiteId") > 0)
                         .Hidden(
                             controlId: "CopyFrom",
-                            css: "control-hidden",
+                            css: "control-hidden always-send",
                             value: context.QueryStrings.Long("CopyFrom").ToString(),
                             _using: context.QueryStrings.Long("CopyFrom") > 0)
                         .Hidden(
@@ -2079,7 +2080,36 @@ namespace Implem.Pleasanter.Models
 
         public static string EditorJson(Context context, SiteSettings ss, long resultId)
         {
-            return EditorResponse(context, ss, new ResultModel(
+            ResultModel resultModel = null;
+            var copyFrom = context.Forms.Long("CopyFrom");
+            if (ss.AllowReferenceCopy == true && copyFrom > 0)
+            {
+                resultModel = new ResultModel(
+                    context: context,
+                    ss: ss,
+                    resultId: copyFrom,
+                    formData: context.Forms,
+                    methodType: BaseModel.MethodTypes.New);
+                if (resultModel.AccessStatus == Databases.AccessStatuses.Selected
+                    && Permissions.CanRead(
+                        context: context,
+                        siteId: ss.SiteId,
+                        id: resultModel.ResultId))
+                {
+                    resultModel.SetCopyDefault(
+                        context: context,
+                        ss: ss);
+                    resultModel.ResultId = 0;
+                    resultModel.Ver = 1;
+                    resultModel.Comments = new Comments();
+                    resultModel.AccessStatus = Databases.AccessStatuses.Initialized;
+                }
+                else
+                {
+                    return Messages.ResponseNotFound(context: context).ToJson();
+                }
+            }
+            return EditorResponse(context, ss, resultModel ?? new ResultModel(
                 context, ss, resultId,
                 formData: context.Forms)).ToJson();
         }
