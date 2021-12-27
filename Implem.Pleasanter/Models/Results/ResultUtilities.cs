@@ -40,16 +40,19 @@ namespace Implem.Pleasanter.Models
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
                 view: view,
                 viewMode: viewMode,
+                serverScriptModelRow: serverScriptModelRow,
                 viewModeBody: () => hb.Grid(
                    context: context,
                    gridData: gridData,
                    ss: ss,
-                   view: view));
+                   view: view,
+                   serverScriptModelRow: serverScriptModelRow));
         }
 
         private static string ViewModeTemplate(
@@ -58,6 +61,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             View view,
             string viewMode,
+            ServerScriptModelRow serverScriptModelRow,
             Action viewModeBody)
         {
             var invalid = ResultValidators.OnEntry(
@@ -70,7 +74,6 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: invalid);
             }
-            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
             return hb.Template(
                 context: context,
                 ss: ss,
@@ -175,8 +178,14 @@ namespace Implem.Pleasanter.Models
 
         public static string IndexJson(Context context, SiteSettings ss)
         {
-            var view = Views.GetBySession(context: context, ss: ss);
-            var gridData = GetGridData(context: context, ss: ss, view: view);
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
+            var gridData = GetGridData(
+                context: context,
+                ss: ss,
+                view: view);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
             return new ResponseCollection()
                 .ViewMode(
                     context: context,
@@ -184,12 +193,14 @@ namespace Implem.Pleasanter.Models
                     view: view,
                     invoke: "setGrid",
                     editOnGrid: context.Forms.Bool("EditOnGrid"),
+                    serverScriptModelRow: serverScriptModelRow,
                     body: new HtmlBuilder()
                         .Grid(
                             context: context,
                             ss: ss,
                             gridData: gridData,
-                            view: view))
+                            view: view,
+                            serverScriptModelRow: serverScriptModelRow))
                 .Events("on_grid_load")
                 .ToJson();
         }
@@ -211,7 +222,8 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             GridData gridData,
             View view,
-            string action = "GridRows")
+            string action = "GridRows",
+            ServerScriptModelRow serverScriptModelRow = null)
         {
             var columns = ss.GetGridColumns(
                 context: context,
@@ -232,7 +244,8 @@ namespace Implem.Pleasanter.Models
                             gridData: gridData,
                             columns: columns,
                             view: view,
-                        editRow: context.Forms.Bool("EditOnGrid"),
+                            editRow: context.Forms.Bool("EditOnGrid"),
+                            serverScriptModelRow: serverScriptModelRow,
                             action: action))
                 .GridHeaderMenus(
                     context: context,
@@ -390,7 +403,8 @@ namespace Implem.Pleasanter.Models
             long newRowId = 0,
             int offset = 0,
             bool clearCheck = false,
-            string action = "GridRows")
+            string action = "GridRows",
+            ServerScriptModelRow serverScriptModelRow = null)
         {
             var checkRow = ss.CheckRow(
                 context: context,
@@ -413,7 +427,8 @@ namespace Implem.Pleasanter.Models
                             editRow: editRow,
                             checkRow: checkRow,
                             checkAll: checkAll,
-                            action: action))
+                            action: action,
+                            serverScriptModelRow: serverScriptModelRow))
                 .TBody(action: () => hb
                     .GridNewRows(
                         context: context,
@@ -589,11 +604,13 @@ namespace Implem.Pleasanter.Models
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
                 view: view,
                 viewMode: viewMode,
+                serverScriptModelRow: serverScriptModelRow,
                 viewModeBody: () => hb
                     .TrashBoxCommands(context: context, ss: ss)
                     .Grid(
@@ -601,7 +618,8 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         gridData: gridData,
                         view: view,
-                        action: "TrashBoxGridRows"));
+                        action: "TrashBoxGridRows",
+                        serverScriptModelRow: serverScriptModelRow));
         }
 
         public static string TrashBoxJson(Context context, SiteSettings ss)
@@ -5639,11 +5657,13 @@ namespace Implem.Pleasanter.Models
                     .CalendarUtilities.InRange(
                         context: context,
                         dataRows: dataRows);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
                 view: view,
                 viewMode: viewMode,
+                serverScriptModelRow: serverScriptModelRow,
                 viewModeBody: () => hb
                     .Calendar(
                         context: context,
@@ -5995,11 +6015,13 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         data: Parameters.General.CrosstabYLimit.ToString()));
             }
+            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
                 view: view,
                 viewMode: viewMode,
+                serverScriptModelRow: serverScriptModelRow,
                 viewModeBody: () => hb
                     .Crosstab(
                         context: context,
@@ -6320,11 +6342,13 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         data: Parameters.General.TimeSeriesLimit.ToString()));
             }
+            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
                 view: view,
                 viewMode: viewMode,
+                serverScriptModelRow: serverScriptModelRow,
                 viewModeBody: () => hb
                     .TimeSeries(
                         context: context,
@@ -6511,11 +6535,13 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         data: Parameters.General.KambanLimit.ToString()));
             }
+            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
                 view: view,
                 viewMode: viewMode,
+                serverScriptModelRow: serverScriptModelRow,
                 viewModeBody: () => hb
                     .Kamban(
                         context: context,
@@ -6782,11 +6808,13 @@ namespace Implem.Pleasanter.Models
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
                 view: view,
                 viewMode: viewMode,
+                serverScriptModelRow: serverScriptModelRow,
                 viewModeBody: () => hb
                     .ImageLib(
                         context: context,

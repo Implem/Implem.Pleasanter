@@ -28,9 +28,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool editRow = false,
             bool checkRow = true,
             bool checkAll = false,
-            string action = "GridRows")
+            string action = "GridRows",
+            ServerScriptModelRow serverScriptModelRow = null)
         {
-            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
             return hb.Tr(
                 css: "ui-widget-header",
                 action: () =>
