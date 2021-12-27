@@ -842,6 +842,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string columnName = null,
             string value = null,
             bool readOnly = false,
+            bool allowDelete = true,
             bool preview = false,
             bool _using = true,
             bool validateRequired = false,
@@ -892,7 +893,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     displaySize: item.DisplaySize(),
                                     added: item.Added,
                                     deleted: item.Deleted,
-                                    readOnly: readOnly)))
+                                    readOnly: readOnly,
+                                    allowDelete: allowDelete)))
                     .Div(
                         id: columnName + ".status",
                         attributes: new HtmlAttributes()
@@ -923,6 +925,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool? added = null,
             bool? deleted = null,
             bool readOnly = false,
+            bool allowDelete = true,
             bool _using = true)
         {
             return _using
@@ -956,7 +959,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .DataAction("binaries/deletetemp")
                                 .DataId(guid)
                                 .OnClick($"$p.deleteAttachment($('#{controlId}'), $(this));"),
-                            _using: !readOnly))
+                            _using: !readOnly && (allowDelete || added == true)))
                  : hb;
         }
     }

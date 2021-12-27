@@ -5777,6 +5777,10 @@ namespace Implem.Pleasanter.Models
                                                     ? " hidden"
                                                     : string.Empty;
                                                 hb
+                                                    .FieldCheckBox(
+                                                        controlId: "AllowDeleteAttachments",
+                                                        labelText: Displays.AllowDeleteAttachments(context: context),
+                                                        _checked: column.AllowDeleteAttachments == true)
                                                     .FieldDropDown(
                                                         context: context,
                                                         controlId: "BinaryStorageProvider",

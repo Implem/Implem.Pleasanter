@@ -1232,7 +1232,9 @@ namespace Implem.Pleasanter.Models
             bool otherInitValue = false,
             List<SqlStatement> additionalStatements = null)
         {
-            SetAttachmentsHashCode(context: context, ss: ss);
+            ss.Columns
+                .Where(column => column.ColumnName.StartsWith("Attachments"))
+                .ForEach(column => Attachments(column.ColumnName).SetData(column: column));
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
             var where = Rds.ResultsWhereDefault(
@@ -1293,18 +1295,6 @@ namespace Implem.Pleasanter.Models
                     Id = ResultId
                 }
             };
-        }
-
-        private void SetAttachmentsHashCode(Context context, SiteSettings ss)
-        {
-            ColumnNames()
-                .Where(columnName => columnName.StartsWith("Attachments"))
-                .ForEach(columnName =>
-                {
-                    Attachments(columnName)
-                        .Where(attachment => attachment.Added == true)
-                        .ForEach(attachment => attachment.SetHashCode(ss.GetColumn(context: context, columnName: columnName)));
-                });
         }
 
         private List<SqlStatement> UpdateAttachmentsStatements(Context context, SiteSettings ss)
