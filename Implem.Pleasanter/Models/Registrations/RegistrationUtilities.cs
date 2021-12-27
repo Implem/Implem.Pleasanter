@@ -1656,7 +1656,8 @@ namespace Implem.Pleasanter.Models
                                                         ss: ss,
                                                         column: column,
                                                         baseModel: registrationModel)
-                                                            != Permissions.ColumnPermissionTypes.Update),
+                                                            != Permissions.ColumnPermissionTypes.Update,
+                                                    allowDelete: column.AllowDeleteAttachments != false),
                                             options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                         break;
                                 }
