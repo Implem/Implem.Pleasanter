@@ -57,6 +57,7 @@ namespace Implem.Pleasanter.Models
         public bool AllowCreationAtTopSite = false;
         public bool AllowGroupAdministration = false;
         public bool AllowGroupCreation = false;
+        public bool AllowApi = false;
         public bool Disabled = false;
         public bool Lockout = false;
         public int LockoutCounter = 0;
@@ -132,6 +133,7 @@ namespace Implem.Pleasanter.Models
         public bool SavedAllowCreationAtTopSite = false;
         public bool SavedAllowGroupAdministration = false;
         public bool SavedAllowGroupCreation = false;
+        public bool SavedAllowApi = false;
         public bool SavedDisabled = false;
         public bool SavedLockout = false;
         public int SavedLockoutCounter = 0;
@@ -334,6 +336,14 @@ namespace Implem.Pleasanter.Models
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.GetDefaultInput(context: context).ToBool() != AllowGroupCreation);
+        }
+
+        public bool AllowApi_Updated(Context context, Column column = null)
+        {
+            return AllowApi != SavedAllowApi &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToBool() != AllowApi);
         }
 
         public bool Disabled_Updated(Context context, Column column = null)
@@ -870,6 +880,18 @@ namespace Implem.Pleasanter.Models
                                 exportColumn: exportColumn)
                             : string.Empty;
                     break;
+                case "AllowApi":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? AllowApi.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
                 case "Disabled":
                     value = ss.ReadColumnAccessControls.Allowed(
                         context: context,
@@ -1322,6 +1344,7 @@ namespace Implem.Pleasanter.Models
                     case "AllowCreationAtTopSite": data.AllowCreationAtTopSite = AllowCreationAtTopSite; break;
                     case "AllowGroupAdministration": data.AllowGroupAdministration = AllowGroupAdministration; break;
                     case "AllowGroupCreation": data.AllowGroupCreation = AllowGroupCreation; break;
+                    case "AllowApi": data.AllowApi = AllowApi; break;
                     case "Disabled": data.Disabled = Disabled; break;
                     case "Lockout": data.Lockout = Lockout; break;
                     case "LockoutCounter": data.LockoutCounter = LockoutCounter; break;
@@ -1500,6 +1523,11 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "AllowGroupCreation":
                     return AllowGroupCreation.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "AllowApi":
+                    return AllowApi.ToDisplay(
                         context: context,
                         ss: ss,
                         column: column);
@@ -1925,6 +1953,7 @@ namespace Implem.Pleasanter.Models
                     case "Users_AllowCreationAtTopSite": AllowCreationAtTopSite = value.ToBool(); break;
                     case "Users_AllowGroupAdministration": AllowGroupAdministration = value.ToBool(); break;
                     case "Users_AllowGroupCreation": AllowGroupCreation = value.ToBool(); break;
+                    case "Users_AllowApi": AllowApi = value.ToBool(); break;
                     case "Users_Disabled": Disabled = value.ToBool(); break;
                     case "Users_Lockout": Lockout = value.ToBool(); if (Lockout_Updated(context: context) && !Lockout) LockoutCounter = 0; break;
                     case "Users_LockoutCounter": LockoutCounter = value.ToInt(); break;
@@ -2046,6 +2075,7 @@ namespace Implem.Pleasanter.Models
             AllowCreationAtTopSite = userModel.AllowCreationAtTopSite;
             AllowGroupAdministration = userModel.AllowGroupAdministration;
             AllowGroupCreation = userModel.AllowGroupCreation;
+            AllowApi = userModel.AllowApi;
             Disabled = userModel.Disabled;
             Lockout = userModel.Lockout;
             LockoutCounter = userModel.LockoutCounter;
@@ -2113,6 +2143,7 @@ namespace Implem.Pleasanter.Models
             if (data.AllowCreationAtTopSite != null) AllowCreationAtTopSite = data.AllowCreationAtTopSite.ToBool().ToBool();
             if (data.AllowGroupAdministration != null) AllowGroupAdministration = data.AllowGroupAdministration.ToBool().ToBool();
             if (data.AllowGroupCreation != null) AllowGroupCreation = data.AllowGroupCreation.ToBool().ToBool();
+            if (data.AllowApi != null) AllowApi = data.AllowApi.ToBool().ToBool();
             if (data.Disabled != null) Disabled = data.Disabled.ToBool().ToBool();
             if (data.Lockout != null) Lockout = data.Lockout.ToBool().ToBool();
             if (data.LockoutCounter != null) LockoutCounter = data.LockoutCounter.ToInt().ToInt();
@@ -2352,6 +2383,10 @@ namespace Implem.Pleasanter.Models
                             AllowGroupCreation = dataRow[column.ColumnName].ToBool();
                             SavedAllowGroupCreation = AllowGroupCreation;
                             break;
+                        case "AllowApi":
+                            AllowApi = dataRow[column.ColumnName].ToBool();
+                            SavedAllowApi = AllowApi;
+                            break;
                         case "Disabled":
                             Disabled = dataRow[column.ColumnName].ToBool();
                             SavedDisabled = Disabled;
@@ -2512,6 +2547,7 @@ namespace Implem.Pleasanter.Models
                 || AllowCreationAtTopSite_Updated(context: context)
                 || AllowGroupAdministration_Updated(context: context)
                 || AllowGroupCreation_Updated(context: context)
+                || AllowApi_Updated(context: context)
                 || Disabled_Updated(context: context)
                 || Lockout_Updated(context: context)
                 || LockoutCounter_Updated(context: context)

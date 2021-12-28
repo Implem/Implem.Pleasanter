@@ -11,6 +11,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? DisableTopSiteCreation;
         public bool? DisableGroupAdmin;
         public bool? DisableGroupCreation;
+        public bool? DisableApi;
         public bool? DisableStartGuide;
 
         public string RecordingJson()
@@ -83,6 +84,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             return (!Parameters.User.DisableGroupCreation
                 || context.User.AllowGroupCreation)
                     && DisableGroupCreation != true;
+        }
+
+        public bool AllowApi(Context context)
+        {
+            if (context.HasPrivilege) return true;
+            return (!Parameters.User.DisableApi
+                || context.User.AllowApi)
+                    && DisableApi != true;
         }
     }
 }

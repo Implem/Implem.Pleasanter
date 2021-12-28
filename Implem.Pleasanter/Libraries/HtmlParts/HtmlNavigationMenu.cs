@@ -338,6 +338,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var canManageTrashBox = CanManageTrashBox(
                 context: context,
                 ss: ss);
+            var canUseApi = context.UserSettings?.AllowApi(context: context) == true;
             switch (menu.MenuId)
             {
                 case "NewMenu":
@@ -389,8 +390,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case "AccountMenu_ChangePassword":
                     return Parameters.Service.ShowChangePassword;
                 case "AccountMenu_ApiSettings":
-                    return context.ContractSettings.Api != false
-                        && Parameters.Api.Enabled;
+                    return Parameters.Api.Enabled
+                        && context.ContractSettings.Api != false
+                        && canUseApi;
                 case "LockTableMenu_LockTable":
                 case "LockTableMenu_ForceUnlockTable":
                     return canManageSite

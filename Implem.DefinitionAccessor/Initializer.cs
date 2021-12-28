@@ -800,6 +800,11 @@ namespace Implem.DefinitionAccessor
                 Def.ColumnDefinitionCollection.FirstOrDefault(o =>
                     o.Id == "Users_AllowGroupCreation").ReadAccessControl = "ManageService";
             }
+            if (!Parameters.User.DisableApi)
+            {
+                Def.ColumnDefinitionCollection.FirstOrDefault(o =>
+                    o.Id == "Users_AllowApi").ReadAccessControl = "ManageService";
+            }
         }
 
         private static void SetSqls()
