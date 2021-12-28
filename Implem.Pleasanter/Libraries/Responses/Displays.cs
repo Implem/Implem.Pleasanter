@@ -10249,6 +10249,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Users_AllowApi(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_AllowApi",
+                data: data);
+        }
+
         public static string Users_Disabled(
             Context context,
             params string[] data)
