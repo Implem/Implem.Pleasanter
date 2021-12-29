@@ -1232,7 +1232,9 @@ namespace Implem.Pleasanter.Models
             bool otherInitValue = false,
             List<SqlStatement> additionalStatements = null)
         {
-            SetAttachmentsHashCode(context: context, ss: ss);
+            ss.Columns
+                .Where(column => column.ColumnName.StartsWith("Attachments"))
+                .ForEach(column => Attachments(column.ColumnName).SetData(column: column));
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
             var where = Rds.ResultsWhereDefault(
@@ -1293,18 +1295,6 @@ namespace Implem.Pleasanter.Models
                     Id = ResultId
                 }
             };
-        }
-
-        private void SetAttachmentsHashCode(Context context, SiteSettings ss)
-        {
-            ColumnNames()
-                .Where(columnName => columnName.StartsWith("Attachments"))
-                .ForEach(columnName =>
-                {
-                    Attachments(columnName)
-                        .Where(attachment => attachment.Added == true)
-                        .ForEach(attachment => attachment.SetHashCode(ss.GetColumn(context: context, columnName: columnName)));
-                });
         }
 
         private List<SqlStatement> UpdateAttachmentsStatements(Context context, SiteSettings ss)
@@ -2015,7 +2005,7 @@ namespace Implem.Pleasanter.Models
                     {
                         var oldAtt = oldAttachments
                             .FirstOrDefault(att => att.Guid == newAttachments.FirstOrDefault()?.Guid?.Split_1st());
-                        if(oldAtt != null)
+                        if (oldAtt != null)
                         {
                             oldAtt.Deleted = true;
                             oldAtt.Overwritten = true;
@@ -2034,6 +2024,13 @@ namespace Implem.Pleasanter.Models
                         columnName: columnName);
                     var newGuidSet = new HashSet<string>(newAttachments.Select(x => x.Guid).Distinct());
                     var newNameSet = new HashSet<string>(newAttachments.Select(x => x.Name).Distinct());
+                    newAttachments.ForEach(newAttachment =>
+                    {
+                        newAttachment.AttachmentAction(
+                            context: context,
+                            column: column,
+                            oldAttachments: oldAttachments);
+                    });
                     if (column.OverwriteSameFileName == true)
                     {
                         newAttachments.AddRange(oldAttachments.

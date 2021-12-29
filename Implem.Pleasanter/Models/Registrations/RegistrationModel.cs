@@ -895,7 +895,7 @@ namespace Implem.Pleasanter.Models
                     {
                         var oldAtt = oldAttachments
                             .FirstOrDefault(att => att.Guid == newAttachments.FirstOrDefault()?.Guid?.Split_1st());
-                        if(oldAtt != null)
+                        if (oldAtt != null)
                         {
                             oldAtt.Deleted = true;
                             oldAtt.Overwritten = true;
@@ -914,6 +914,13 @@ namespace Implem.Pleasanter.Models
                         columnName: columnName);
                     var newGuidSet = new HashSet<string>(newAttachments.Select(x => x.Guid).Distinct());
                     var newNameSet = new HashSet<string>(newAttachments.Select(x => x.Name).Distinct());
+                    newAttachments.ForEach(newAttachment =>
+                    {
+                        newAttachment.AttachmentAction(
+                            context: context,
+                            column: column,
+                            oldAttachments: oldAttachments);
+                    });
                     if (column.OverwriteSameFileName == true)
                     {
                         newAttachments.AddRange(oldAttachments.

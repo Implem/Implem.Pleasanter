@@ -103,6 +103,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? EditorReadOnly;
         public bool? AutoPostBack;
         public string ColumnsReturnedWhenAutomaticPostback;
+        public bool? AllowDeleteAttachments;
         public bool? AllowImage;
         public bool? AllowBulkUpdate;
         public string FieldCss;
@@ -1637,6 +1638,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                             break;
                         case "AllowGroupCreation":
                             sql.Users_AllowGroupCreation(tableName: path, _as: _as);
+                            break;
+                        case "AllowApi":
+                            sql.Users_AllowApi(tableName: path, _as: _as);
                             break;
                         case "Disabled":
                             sql.Users_Disabled(tableName: path, _as: _as);

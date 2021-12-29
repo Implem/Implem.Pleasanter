@@ -30,6 +30,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                     return Unauthorized(context: context);
                 case General.Error.Types.NotFound:
                     return NotFound(context: context);
+                case General.Error.Types.InvalidRequest:
                 case General.Error.Types.HasNotPermission:
                     return Forbidden(context: context);
                 case General.Error.Types.OverLimitQuantity:
