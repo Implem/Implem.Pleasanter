@@ -635,6 +635,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_Links": Code.Model_Utilities_Links = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Links, definitionRow, CodeXls); break;
                     case "Model_Utilities_EditorJson": Code.Model_Utilities_EditorJson = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_EditorJson, definitionRow, CodeXls); break;
                     case "Model_Utilities_EditorJson_Sites": Code.Model_Utilities_EditorJson_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_EditorJson_Sites, definitionRow, CodeXls); break;
+                    case "Model_Utilities_EditorJson_Items": Code.Model_Utilities_EditorJson_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_EditorJson_Items, definitionRow, CodeXls); break;
                     case "Model_Utilities_InitSiteSettings": Code.Model_Utilities_InitSiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_InitSiteSettings, definitionRow, CodeXls); break;
                     case "Model_Utilities_EditorResponse": Code.Model_Utilities_EditorResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_EditorResponse, definitionRow, CodeXls); break;
                     case "Model_Utilities_EditorResponse_Tables": Code.Model_Utilities_EditorResponse_Tables = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_EditorResponse_Tables, definitionRow, CodeXls); break;
@@ -1640,6 +1641,7 @@ namespace Implem.DefinitionAccessor
                     case "Users_AllowCreationAtTopSite": Column.Users_AllowCreationAtTopSite = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AllowCreationAtTopSite, definitionRow, ColumnXls); break;
                     case "Users_AllowGroupAdministration": Column.Users_AllowGroupAdministration = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AllowGroupAdministration, definitionRow, ColumnXls); break;
                     case "Users_AllowGroupCreation": Column.Users_AllowGroupCreation = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AllowGroupCreation, definitionRow, ColumnXls); break;
+                    case "Users_AllowApi": Column.Users_AllowApi = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AllowApi, definitionRow, ColumnXls); break;
                     case "Users_Disabled": Column.Users_Disabled = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Disabled, definitionRow, ColumnXls); break;
                     case "Users_Lockout": Column.Users_Lockout = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Lockout, definitionRow, ColumnXls); break;
                     case "Users_LockoutCounter": Column.Users_LockoutCounter = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_LockoutCounter, definitionRow, ColumnXls); break;
@@ -2874,6 +2876,7 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_ViewFilters_space___space__dot_field_auto_thin": Css._sharp_ViewFilters_space___space__dot_field_auto_thin = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ViewFilters_space___space__dot_field_auto_thin, definitionRow, CssXls); break;
                     case "_sharp_ViewFilters_Reset": Css._sharp_ViewFilters_Reset = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ViewFilters_Reset, definitionRow, CssXls); break;
                     case "_sharp_ViewFilters_space___space__dot_display_control": Css._sharp_ViewFilters_space___space__dot_display_control = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ViewFilters_space___space__dot_display_control, definitionRow, CssXls); break;
+                    case "_sharp_FilterButton": Css._sharp_FilterButton = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_FilterButton, definitionRow, CssXls); break;
                     case "_sharp_Aggregations": Css._sharp_Aggregations = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Aggregations, definitionRow, CssXls); break;
                     case "_sharp_Aggregations_dot_reduced": Css._sharp_Aggregations_dot_reduced = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Aggregations_dot_reduced, definitionRow, CssXls); break;
                     case "_sharp_Aggregations_space__dot_label": Css._sharp_Aggregations_space__dot_label = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Aggregations_space__dot_label, definitionRow, CssXls); break;
@@ -3102,6 +3105,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_control_textbox": Css._dot_control_textbox = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_textbox, definitionRow, CssXls); break;
                     case "_dot_control_textbox_dot_with_unit": Css._dot_control_textbox_dot_with_unit = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_textbox_dot_with_unit, definitionRow, CssXls); break;
                     case "_dot_control_textarea": Css._dot_control_textarea = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_textarea, definitionRow, CssXls); break;
+                    case "_dot_control_attachments_plus_label_dot_error": Css._dot_control_attachments_plus_label_dot_error = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_attachments_plus_label_dot_error, definitionRow, CssXls); break;
                     case "_dot_control_attachments_upload": Css._dot_control_attachments_upload = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_attachments_upload, definitionRow, CssXls); break;
                     case "_dot_control_attachments_items": Css._dot_control_attachments_items = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_attachments_items, definitionRow, CssXls); break;
                     case "_dot_control_attachments_item": Css._dot_control_attachments_item = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_attachments_item, definitionRow, CssXls); break;
@@ -7741,6 +7745,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_Links;
         public string Model_Utilities_EditorJson;
         public string Model_Utilities_EditorJson_Sites;
+        public string Model_Utilities_EditorJson_Items;
         public string Model_Utilities_InitSiteSettings;
         public string Model_Utilities_EditorResponse;
         public string Model_Utilities_EditorResponse_Tables;
@@ -8430,6 +8435,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_Links = new CodeDefinition();
         public CodeDefinition Model_Utilities_EditorJson = new CodeDefinition();
         public CodeDefinition Model_Utilities_EditorJson_Sites = new CodeDefinition();
+        public CodeDefinition Model_Utilities_EditorJson_Items = new CodeDefinition();
         public CodeDefinition Model_Utilities_InitSiteSettings = new CodeDefinition();
         public CodeDefinition Model_Utilities_EditorResponse = new CodeDefinition();
         public CodeDefinition Model_Utilities_EditorResponse_Tables = new CodeDefinition();
@@ -9436,6 +9442,7 @@ namespace Implem.DefinitionAccessor
         public string Users_AllowCreationAtTopSite;
         public string Users_AllowGroupAdministration;
         public string Users_AllowGroupCreation;
+        public string Users_AllowApi;
         public string Users_Disabled;
         public string Users_Lockout;
         public string Users_LockoutCounter;
@@ -9951,6 +9958,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Users_AllowCreationAtTopSite = new ColumnDefinition();
         public ColumnDefinition Users_AllowGroupAdministration = new ColumnDefinition();
         public ColumnDefinition Users_AllowGroupCreation = new ColumnDefinition();
+        public ColumnDefinition Users_AllowApi = new ColumnDefinition();
         public ColumnDefinition Users_Disabled = new ColumnDefinition();
         public ColumnDefinition Users_Lockout = new ColumnDefinition();
         public ColumnDefinition Users_LockoutCounter = new ColumnDefinition();
@@ -10647,6 +10655,7 @@ namespace Implem.DefinitionAccessor
         public string _sharp_ViewFilters_space___space__dot_field_auto_thin;
         public string _sharp_ViewFilters_Reset;
         public string _sharp_ViewFilters_space___space__dot_display_control;
+        public string _sharp_FilterButton;
         public string _sharp_Aggregations;
         public string _sharp_Aggregations_dot_reduced;
         public string _sharp_Aggregations_space__dot_label;
@@ -10875,6 +10884,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_control_textbox;
         public string _dot_control_textbox_dot_with_unit;
         public string _dot_control_textarea;
+        public string _dot_control_attachments_plus_label_dot_error;
         public string _dot_control_attachments_upload;
         public string _dot_control_attachments_items;
         public string _dot_control_attachments_item;
@@ -11176,6 +11186,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_ViewFilters_space___space__dot_field_auto_thin = new CssDefinition();
         public CssDefinition _sharp_ViewFilters_Reset = new CssDefinition();
         public CssDefinition _sharp_ViewFilters_space___space__dot_display_control = new CssDefinition();
+        public CssDefinition _sharp_FilterButton = new CssDefinition();
         public CssDefinition _sharp_Aggregations = new CssDefinition();
         public CssDefinition _sharp_Aggregations_dot_reduced = new CssDefinition();
         public CssDefinition _sharp_Aggregations_space__dot_label = new CssDefinition();
@@ -11404,6 +11415,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_control_textbox = new CssDefinition();
         public CssDefinition _dot_control_textbox_dot_with_unit = new CssDefinition();
         public CssDefinition _dot_control_textarea = new CssDefinition();
+        public CssDefinition _dot_control_attachments_plus_label_dot_error = new CssDefinition();
         public CssDefinition _dot_control_attachments_upload = new CssDefinition();
         public CssDefinition _dot_control_attachments_items = new CssDefinition();
         public CssDefinition _dot_control_attachments_item = new CssDefinition();

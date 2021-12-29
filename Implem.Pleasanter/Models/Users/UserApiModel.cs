@@ -34,6 +34,7 @@ namespace Implem.Pleasanter.Models
         public bool? AllowCreationAtTopSite { get; set; }
         public bool? AllowGroupAdministration { get; set; }
         public bool? AllowGroupCreation { get; set; }
+        public bool? AllowApi { get; set; }
         public bool? Disabled { get; set; }
         public bool? Lockout { get; set; }
         public int? LockoutCounter { get; set; }

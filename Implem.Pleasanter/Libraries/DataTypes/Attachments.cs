@@ -77,6 +77,24 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return this?.Any() != true;
         }
 
+        public void SetData(Column column)
+        {
+            ForEach(attachment =>
+            {
+                if (attachment.Added == true)
+                {
+                    attachment.SetHashCode(column: column);
+                }
+                if (attachment.Deleted == true)
+                {
+                    if (column?.AllowDeleteAttachments == false)
+                    {
+                        attachment.Deleted = false;
+                    }
+                }
+            });
+        }
+
         public string RecordingJson()
         {
             var attachments = new Attachments();

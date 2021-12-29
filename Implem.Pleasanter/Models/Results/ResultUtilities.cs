@@ -40,16 +40,19 @@ namespace Implem.Pleasanter.Models
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
                 view: view,
                 viewMode: viewMode,
+                serverScriptModelRow: serverScriptModelRow,
                 viewModeBody: () => hb.Grid(
                    context: context,
                    gridData: gridData,
                    ss: ss,
-                   view: view));
+                   view: view,
+                   serverScriptModelRow: serverScriptModelRow));
         }
 
         private static string ViewModeTemplate(
@@ -58,6 +61,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             View view,
             string viewMode,
+            ServerScriptModelRow serverScriptModelRow,
             Action viewModeBody)
         {
             var invalid = ResultValidators.OnEntry(
@@ -70,7 +74,6 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: invalid);
             }
-            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
             return hb.Template(
                 context: context,
                 ss: ss,
@@ -175,8 +178,14 @@ namespace Implem.Pleasanter.Models
 
         public static string IndexJson(Context context, SiteSettings ss)
         {
-            var view = Views.GetBySession(context: context, ss: ss);
-            var gridData = GetGridData(context: context, ss: ss, view: view);
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
+            var gridData = GetGridData(
+                context: context,
+                ss: ss,
+                view: view);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
             return new ResponseCollection()
                 .ViewMode(
                     context: context,
@@ -184,12 +193,14 @@ namespace Implem.Pleasanter.Models
                     view: view,
                     invoke: "setGrid",
                     editOnGrid: context.Forms.Bool("EditOnGrid"),
+                    serverScriptModelRow: serverScriptModelRow,
                     body: new HtmlBuilder()
                         .Grid(
                             context: context,
                             ss: ss,
                             gridData: gridData,
-                            view: view))
+                            view: view,
+                            serverScriptModelRow: serverScriptModelRow))
                 .Events("on_grid_load")
                 .ToJson();
         }
@@ -211,7 +222,8 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             GridData gridData,
             View view,
-            string action = "GridRows")
+            string action = "GridRows",
+            ServerScriptModelRow serverScriptModelRow = null)
         {
             var columns = ss.GetGridColumns(
                 context: context,
@@ -232,7 +244,8 @@ namespace Implem.Pleasanter.Models
                             gridData: gridData,
                             columns: columns,
                             view: view,
-                        editRow: context.Forms.Bool("EditOnGrid"),
+                            editRow: context.Forms.Bool("EditOnGrid"),
+                            serverScriptModelRow: serverScriptModelRow,
                             action: action))
                 .GridHeaderMenus(
                     context: context,
@@ -390,7 +403,8 @@ namespace Implem.Pleasanter.Models
             long newRowId = 0,
             int offset = 0,
             bool clearCheck = false,
-            string action = "GridRows")
+            string action = "GridRows",
+            ServerScriptModelRow serverScriptModelRow = null)
         {
             var checkRow = ss.CheckRow(
                 context: context,
@@ -413,7 +427,8 @@ namespace Implem.Pleasanter.Models
                             editRow: editRow,
                             checkRow: checkRow,
                             checkAll: checkAll,
-                            action: action))
+                            action: action,
+                            serverScriptModelRow: serverScriptModelRow))
                 .TBody(action: () => hb
                     .GridNewRows(
                         context: context,
@@ -589,11 +604,13 @@ namespace Implem.Pleasanter.Models
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
                 view: view,
                 viewMode: viewMode,
+                serverScriptModelRow: serverScriptModelRow,
                 viewModeBody: () => hb
                     .TrashBoxCommands(context: context, ss: ss)
                     .Grid(
@@ -601,7 +618,8 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         gridData: gridData,
                         view: view,
-                        action: "TrashBoxGridRows"));
+                        action: "TrashBoxGridRows",
+                        serverScriptModelRow: serverScriptModelRow));
         }
 
         public static string TrashBoxJson(Context context, SiteSettings ss)
@@ -1179,31 +1197,32 @@ namespace Implem.Pleasanter.Models
             }
             ResultModel resultModel = null;
             var copyFrom = context.QueryStrings.Long("CopyFrom");
-            if (copyFrom > 0)
+            if (ss.AllowReferenceCopy == true && copyFrom > 0)
             {
                 resultModel = new ResultModel(
                     context: context,
                     ss: ss,
                     resultId: copyFrom,
                     methodType: BaseModel.MethodTypes.New);
-                var invalid = ResultValidators.OnEditing(
-                    context: context,
-                    ss: ss,
-                    resultModel: resultModel);
-                switch (invalid.Type)
+                if (resultModel.AccessStatus == Databases.AccessStatuses.Selected
+                    && Permissions.CanRead(
+                        context: context,
+                        siteId: ss.SiteId,
+                        id: resultModel.ResultId))
                 {
-                    case Error.Types.None:
-                        resultModel.SetCopyDefault(
-                            context: context,
-                            ss: ss);
-                        resultModel.ResultId = 0;
-                        resultModel.Ver = 1;
-                        resultModel.Comments = new Comments();
-                        break;
-                    default:
-                        return HtmlTemplates.Error(
-                           context: context,
-                           errorData: invalid);
+                    resultModel.SetCopyDefault(
+                        context: context,
+                        ss: ss);
+                    resultModel.ResultId = 0;
+                    resultModel.Ver = 1;
+                    resultModel.Comments = new Comments();
+                    resultModel.AccessStatus = Databases.AccessStatuses.Initialized;
+                }
+                else
+                {
+                    return HtmlTemplates.Error(
+                       context: context,
+                       errorData: new ErrorData(type: Error.Types.NotFound));
                 }
             }
             return Editor(
@@ -1461,7 +1480,7 @@ namespace Implem.Pleasanter.Models
                             _using: context.QueryStrings.Long("FromSiteId") > 0)
                         .Hidden(
                             controlId: "CopyFrom",
-                            css: "control-hidden",
+                            css: "control-hidden always-send",
                             value: context.QueryStrings.Long("CopyFrom").ToString(),
                             _using: context.QueryStrings.Long("CopyFrom") > 0)
                         .Hidden(
@@ -2079,7 +2098,36 @@ namespace Implem.Pleasanter.Models
 
         public static string EditorJson(Context context, SiteSettings ss, long resultId)
         {
-            return EditorResponse(context, ss, new ResultModel(
+            ResultModel resultModel = null;
+            var copyFrom = context.Forms.Long("CopyFrom");
+            if (ss.AllowReferenceCopy == true && copyFrom > 0)
+            {
+                resultModel = new ResultModel(
+                    context: context,
+                    ss: ss,
+                    resultId: copyFrom,
+                    formData: context.Forms,
+                    methodType: BaseModel.MethodTypes.New);
+                if (resultModel.AccessStatus == Databases.AccessStatuses.Selected
+                    && Permissions.CanRead(
+                        context: context,
+                        siteId: ss.SiteId,
+                        id: resultModel.ResultId))
+                {
+                    resultModel.SetCopyDefault(
+                        context: context,
+                        ss: ss);
+                    resultModel.ResultId = 0;
+                    resultModel.Ver = 1;
+                    resultModel.Comments = new Comments();
+                    resultModel.AccessStatus = Databases.AccessStatuses.Initialized;
+                }
+                else
+                {
+                    return Messages.ResponseNotFound(context: context).ToJson();
+                }
+            }
+            return EditorResponse(context, ss, resultModel ?? new ResultModel(
                 context, ss, resultId,
                 formData: context.Forms)).ToJson();
         }
@@ -2361,7 +2409,8 @@ namespace Implem.Pleasanter.Models
                                                         ss: ss,
                                                         column: column,
                                                         baseModel: resultModel)
-                                                            != Permissions.ColumnPermissionTypes.Update),
+                                                            != Permissions.ColumnPermissionTypes.Update,
+                                                    allowDelete: column.AllowDeleteAttachments != false),
                                             options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                         break;
                                 }
@@ -5608,11 +5657,13 @@ namespace Implem.Pleasanter.Models
                     .CalendarUtilities.InRange(
                         context: context,
                         dataRows: dataRows);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
                 view: view,
                 viewMode: viewMode,
+                serverScriptModelRow: serverScriptModelRow,
                 viewModeBody: () => hb
                     .Calendar(
                         context: context,
@@ -5964,11 +6015,13 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         data: Parameters.General.CrosstabYLimit.ToString()));
             }
+            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
                 view: view,
                 viewMode: viewMode,
+                serverScriptModelRow: serverScriptModelRow,
                 viewModeBody: () => hb
                     .Crosstab(
                         context: context,
@@ -6289,11 +6342,13 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         data: Parameters.General.TimeSeriesLimit.ToString()));
             }
+            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
                 view: view,
                 viewMode: viewMode,
+                serverScriptModelRow: serverScriptModelRow,
                 viewModeBody: () => hb
                     .TimeSeries(
                         context: context,
@@ -6480,11 +6535,13 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         data: Parameters.General.KambanLimit.ToString()));
             }
+            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
                 view: view,
                 viewMode: viewMode,
+                serverScriptModelRow: serverScriptModelRow,
                 viewModeBody: () => hb
                     .Kamban(
                         context: context,
@@ -6751,11 +6808,13 @@ namespace Implem.Pleasanter.Models
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
                 view: view,
                 viewMode: viewMode,
+                serverScriptModelRow: serverScriptModelRow,
                 viewModeBody: () => hb
                     .ImageLib(
                         context: context,

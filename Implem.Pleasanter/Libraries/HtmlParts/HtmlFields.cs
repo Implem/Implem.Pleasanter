@@ -759,6 +759,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlOnly: controlOnly,
                                 value: value,
                                 readOnly: column.GetEditorReadOnly(),
+                                allowDelete: column.AllowDeleteAttachments != false,
                                 preview: preview,
                                 validateRequired: required,
                                 extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
@@ -1784,6 +1785,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool controlOnly = false,
             string value = null,
             bool readOnly = false,
+            bool allowDelete = true,
             bool preview = false,
             bool validateRequired = false,
             int validateMaxLength = 0,
@@ -1813,6 +1815,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             columnName: columnName,
                             value: value,
                             readOnly: readOnly,
+                            allowDelete: allowDelete,
                             preview: preview,
                             validateRequired: validateRequired,
                             validateMaxLength: validateMaxLength))

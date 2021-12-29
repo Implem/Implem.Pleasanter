@@ -5,6 +5,7 @@ using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Linq;
+using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.Responses
 {
     public static class ResponseViewModes
@@ -20,6 +21,7 @@ namespace Implem.Pleasanter.Libraries.Responses
             bool loadScroll = false,
             bool bodyOnly = false,
             string bodySelector = null,
+            ServerScriptModelRow serverScriptModelRow = null,
             HtmlBuilder body = null)
         {
             return res
@@ -51,7 +53,8 @@ namespace Implem.Pleasanter.Libraries.Responses
                         ss: ss,
                         view: view,
                         verType: Versions.VerTypes.Latest,
-                        backButton: !context.Publish && !editOnGrid))
+                        backButton: !context.Publish && !editOnGrid,
+                        serverScriptModelRow: serverScriptModelRow))
                 .SetMemory("formChanged", false, _using: !editOnGrid)
                 .Invoke(invoke)
                 .Message(message)
