@@ -2346,6 +2346,7 @@
     <Content Include="App_Data\Displays\Comma.json" />
     <Content Include="App_Data\Displays\CopyWithNotifications.json" />
     <Content Include="App_Data\Displays\CopyWithReminders.json" />
+    <Content Include="App_Data\Displays\AllowAttachments.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

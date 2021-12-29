@@ -6,7 +6,15 @@ namespace Implem.Pleasanter
         public static void Register(HttpConfiguration config)
         {
             config.MapHttpAttributeRoutes();
-
+            config.Routes.MapHttpRoute(
+                name: "BinariesUploadApi",
+                routeTemplate: "api/binaries/upload",
+                defaults: new
+                {
+                    Controller = "Binaries",
+                    Action = "Upload",
+                    Id = RouteParameter.Optional
+                });
             config.Routes.MapHttpRoute(
                 name: "BinariesApi",
                 routeTemplate: "api/binaries/{guid}/{action}",

@@ -89,7 +89,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                         value = value.Replace(match.Value, Displays.Groups(context: context));
                         break;
                     case "[GroupId]":
-                        value = value.Replace(match.Value, Id.ToString());
+                        value = value.Replace(match.Value, Id > 0
+                            ? Id.ToString()
+                            : string.Empty);
                         break;
                     case "[GroupName]":
                         value = value.Replace(match.Value, Name);

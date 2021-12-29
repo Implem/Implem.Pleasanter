@@ -35,6 +35,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public bool AllowCreationAtTopSite;
         public bool AllowGroupAdministration;
         public bool AllowGroupCreation;
+        public bool AllowApi;
         public bool Disabled;
 
         public User()
@@ -62,6 +63,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                             .AllowCreationAtTopSite()
                             .AllowGroupAdministration()
                             .AllowGroupCreation()
+                            .AllowApi()
                             .Disabled(),
                         where: Rds.UsersWhere()
                             .UserId(userId)));
@@ -103,6 +105,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             AllowCreationAtTopSite = dataRow.Bool("AllowCreationAtTopSite");
             AllowGroupAdministration = dataRow.Bool("AllowGroupAdministration");
             AllowGroupCreation = dataRow.Bool("AllowGroupCreation");
+            AllowApi = dataRow.Bool("AllowApi");
             Disabled = dataRow.Bool("Disabled");
         }
 
@@ -191,10 +194,14 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                         value = value.Replace(match.Value, Displays.Users(context: context));
                         break;
                     case "[UserId]":
-                        value = value.Replace(match.Value, Id.ToString());
+                        value = value.Replace(match.Value, Id > 0
+                            ? Id.ToString()
+                            : string.Empty);
                         break;
                     case "[DeptId]":
-                        value = value.Replace(match.Value, DeptId.ToString());
+                        value = value.Replace(match.Value, DeptId > 0
+                            ? DeptId.ToString()
+                            : string.Empty);
                         break;
                     case "[Dept]":
                     case "[DeptName]":

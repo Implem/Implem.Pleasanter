@@ -11,6 +11,7 @@ using Implem.Pleasanter.Libraries.DataTypes;
 using System.Collections.Generic;
 using System.Web;
 using System.Linq;
+using Implem.Pleasanter.Libraries.Web;
 
 namespace Implem.Pleasanter.Controllers.Api
 {
@@ -35,7 +36,7 @@ namespace Implem.Pleasanter.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<HttpResponseMessage> Upload(string guid)
+        public async Task<HttpResponseMessage> Upload(string guid = null)
         {
             var context = new Context(
                 apiRequestBody: new Libraries.Requests.Api()
@@ -46,47 +47,78 @@ namespace Implem.Pleasanter.Controllers.Api
             if (!Request.Content.IsMimeMultipartContent()
                 || Request.Headers.Authorization?.Scheme?.ToLower() != "bearer")
             {
-                return ToHttpResponseMessage(context, log, ApiResults.BadRequest(context: context));
+                return ToHttpResponseMessage(
+                    context: context,
+                    log: log,
+                    result: ApiResults.BadRequest(context: context));
             }
             if (!context.Authenticated)
             {
-                return ToHttpResponseMessage(context, log, ApiResults.Unauthorized(context: context));
-            }
-            guid = guid.ToUpper();
-            var referenceId = FileContentResults.GetReferenceId(context: context, guid: guid);
-            if (referenceId == 0)
-            {
-                return ToHttpResponseMessage(context, log, ApiResults.NotFound(context: context));
+                return ToHttpResponseMessage(
+                    context: context,
+                    log: log,
+                    result: ApiResults.Unauthorized(context: context));
             }
             string filePath = string.Empty;
             try
             {
-                var newGuid = context.QueryStrings.Bool("overwrite")
-                    ? guid
-                    : Strings.NewGuid();
-                var fileData = await SaveFileToTemp(newGuid);
-                var fileName = fileData.Headers.ContentDisposition.FileName.Replace("\"", "");
-                filePath = Path.Combine(Path.GetDirectoryName(fileData.LocalFileName), fileName);
-                var size = new FileInfo(fileData.LocalFileName).Length;
-                if (File.Exists(filePath))
+                if (!guid.IsNullOrEmpty())
                 {
-                    File.Delete(filePath);
+                    guid = guid.ToUpper();
+                    var referenceId = FileContentResults.GetReferenceId(
+                        context: context,
+                        guid: guid);
+                    if (referenceId == 0)
+                    {
+                        return ToHttpResponseMessage(
+                            context: context,
+                            log: log,
+                            result: ApiResults.NotFound(context: context));
+                    }
+                    var targetGuid = context.QueryStrings.Bool("overwrite")
+                        ? guid
+                        : Strings.NewGuid();
+                    filePath = await SaveFileToTemp(guid: targetGuid);
+                    context.ApiRequestBody = CreateAttachmentsHashJson(
+                        context: context,
+                        guidParam: $"{guid},{targetGuid}",
+                        referenceId: referenceId,
+                        filePath: filePath);
+                    var response = new ItemModel(
+                        context: context,
+                        referenceId: referenceId)
+                            .UpdateByApi(context: context);
+                    return ToHttpResponseMessage(
+                        context: context,
+                        log: log,
+                        result: response);
                 }
-                File.Move(fileData.LocalFileName, filePath);
-                var verup = context.QueryStrings.ContainsKey("verup")
-                    ? context.QueryStrings.Bool("verup")
-                    : (bool?)null;
-                context.ApiRequestBody = CreateAttachmentsHashJson($"{guid},{newGuid}", context, fileName, size, verup);
-                var response = new ItemModel(context: context, referenceId: referenceId)
-                    .UpdateByApi(context: context);
-                return ToHttpResponseMessage(context, log, response);
+                else
+                {
+                    if (context.QueryStrings.Long("id") == 0
+                        || !Mime.ValidateOnApi(contentType: context.ContentType))
+                    {
+                        return ToHttpResponseMessage(
+                            context: context,
+                            log: log,
+                            result: ApiResults.BadRequest(context: context));
+                    }
+                    var targetGuid = Strings.NewGuid();
+                    filePath = await SaveFileToTemp(guid: targetGuid);
+                    var attachment = Attachment(
+                        guidParam: targetGuid,
+                        referenceId: context.QueryStrings.Long("id"),
+                        filePath: filePath);
+                    var response = attachment.Create(context: context);
+                    return ToHttpResponseMessage(
+                        context: context,
+                        log: log,
+                        result: response);
+                }
             }
             finally
             {
-                if (File.Exists(filePath))
-                {
-                    File.Delete(filePath);
-                }
+                Files.DeleteFile(filePath);
             }
         }
 
@@ -98,16 +130,22 @@ namespace Implem.Pleasanter.Controllers.Api
             var log = new SysLogModel(context: context);
             if (!context.Authenticated)
             {
-                return ToHttpResponseMessage(context, log, ApiResults.Unauthorized(context: context));
+                return ToHttpResponseMessage(
+                    context: context,
+                    log: log,
+                    result: ApiResults.Unauthorized(context: context));
             }
             var file = BinaryUtilities.Donwload(
                 context: context,
                 guid: guid.ToUpper());
             if (file == null)
             {
-                return ToHttpResponseMessage(context, log, ApiResults.NotFound(context: context));
+                return ToHttpResponseMessage(
+                    context: context,
+                    log: log,
+                    result: ApiResults.NotFound(context: context));
             }
-            HttpResponseMessage response = CreateStreamContentResponse(file);
+            HttpResponseMessage response = CreateStreamContentResponse(file: file);
             log.Finish(
                 context: context,
                 responseSize: file?.Length ?? 0);
@@ -133,38 +171,54 @@ namespace Implem.Pleasanter.Controllers.Api
             return response;
         }
 
-        private string CreateAttachmentsHashJson(string guid, Context context, string fileName, long size, bool? verup)
+        private string CreateAttachmentsHashJson(Context context, string guidParam, string filePath, long referenceId)
         {
             return new
             {
-                VerUp = verup,
+                VerUp = context.QueryStrings.ContainsKey("verup")
+                    ? context.QueryStrings.Bool("verup")
+                    : (bool?)null,
                 AttachmentsHash = new Dictionary<string, Attachment[]>
                 {
                     ["Attachments#Uploading"] = new Attachment[]
                     {
-                        new Attachment
-                        {
-                            Guid=guid,
-                            Name = fileName,
-                            FileName =fileName,
-                            Size = size,
-                            Extention = Path.GetExtension(fileName),
-                            ContentType = MimeMapping.GetMimeMapping(fileName),
-                            Added = true
-                        }
+                        Attachment(
+                            guidParam: guidParam,
+                            filePath: filePath,
+                            referenceId: referenceId)
                     }
-                }
-            }.ToJson();
+                }}.ToJson();
         }
 
-        private async Task<MultipartFileData> SaveFileToTemp(string guid)
+        private static Attachment Attachment(string guidParam, string filePath, long referenceId)
+        {
+            var fileName = Path.GetFileName(filePath);
+            return new Attachment
+            {
+                Guid = guidParam,
+                Name = fileName,
+                FileName = fileName,
+                ReferenceId = referenceId,
+                Size = new FileInfo(filePath).Length,
+                Extention = Path.GetExtension(fileName),
+                ContentType = MimeMapping.GetMimeMapping(fileName),
+                Added = true
+            };
+        }
+
+        private async Task<string> SaveFileToTemp(string guid)
         {
             var directory = Path.Combine(DefinitionAccessor.Directories.Temp(), guid);
             Directory.CreateDirectory(directory);
             var provider = new MultipartFormDataStreamProvider(directory);
             await Request.Content.ReadAsMultipartAsync(provider);
             var fileData = provider.FileData[0];
-            return fileData;
+            var fileName = fileData.Headers.ContentDisposition.FileName.Replace("\"", "");
+            var tempFilePath = Path.Combine(
+                Path.GetDirectoryName(fileData.LocalFileName), fileName);
+            Files.DeleteFile(tempFilePath);
+            File.Move(fileData.LocalFileName, tempFilePath);
+            return tempFilePath;
         }
 
         private HttpResponseMessage ToHttpResponseMessage(Context context, SysLogModel log, System.Web.Mvc.ContentResult result)

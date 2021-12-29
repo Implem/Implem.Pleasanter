@@ -16,7 +16,9 @@ namespace Implem.Pleasanter.Models
         {
             if (api)
             {
-                if ((context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+                if ((!Parameters.Api.Enabled
+                    || context.ContractSettings.Api == false
+                    || context.UserSettings?.AllowApi(context: context) == false))
                 {
                     return new ErrorData(type: Error.Types.InvalidRequest);
                 }
@@ -45,7 +47,9 @@ namespace Implem.Pleasanter.Models
         {
             if (api)
             {
-                if ((context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+                if ((!Parameters.Api.Enabled
+                    || context.ContractSettings.Api == false
+                    || context.UserSettings?.AllowApi(context: context) == false))
                 {
                     return new ErrorData(type: Error.Types.InvalidRequest);
                 }
@@ -86,7 +90,9 @@ namespace Implem.Pleasanter.Models
         {
             if (api)
             {
-                if ((context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+                if ((!Parameters.Api.Enabled
+                    || context.ContractSettings.Api == false
+                    || context.UserSettings?.AllowApi(context: context) == false))
                 {
                     return new ErrorData(type: Error.Types.InvalidRequest);
                 }
@@ -231,6 +237,12 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "AllowGroupCreation":
                         if (userModel.AllowGroupCreation_Updated(context: context, column: column))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "AllowApi":
+                        if (userModel.AllowApi_Updated(context: context, column: column))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
@@ -382,7 +394,9 @@ namespace Implem.Pleasanter.Models
         {
             if (api)
             {
-                if ((context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+                if ((!Parameters.Api.Enabled
+                    || context.ContractSettings.Api == false
+                    || context.UserSettings?.AllowApi(context: context) == false))
                 {
                     return new ErrorData(type: Error.Types.InvalidRequest);
                 }
@@ -559,6 +573,12 @@ namespace Implem.Pleasanter.Models
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
+                    case "AllowApi":
+                        if (userModel.AllowApi_Updated(context: context))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
                     case "Disabled":
                         if (userModel.Disabled_Updated(context: context))
                         {
@@ -682,7 +702,9 @@ namespace Implem.Pleasanter.Models
         {
             if (api)
             {
-                if ((context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+                if ((!Parameters.Api.Enabled
+                    || context.ContractSettings.Api == false
+                    || context.UserSettings?.AllowApi(context: context) == false))
                 {
                     return new ErrorData(type: Error.Types.InvalidRequest);
                 }
@@ -706,7 +728,9 @@ namespace Implem.Pleasanter.Models
         {
             if (api)
             {
-                if ((context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+                if ((!Parameters.Api.Enabled
+                    || context.ContractSettings.Api == false
+                    || context.UserSettings?.AllowApi(context: context) == false))
                 {
                     return new ErrorData(type: Error.Types.InvalidRequest);
                 }
@@ -728,7 +752,9 @@ namespace Implem.Pleasanter.Models
         {
             if (api)
             {
-                if ((context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+                if ((!Parameters.Api.Enabled
+                    || context.ContractSettings.Api == false
+                    || context.UserSettings?.AllowApi(context: context) == false))
                 {
                     return new ErrorData(type: Error.Types.InvalidRequest);
                 }
@@ -752,7 +778,9 @@ namespace Implem.Pleasanter.Models
         {
             if (api)
             {
-                if ((context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+                if ((!Parameters.Api.Enabled
+                    || context.ContractSettings.Api == false
+                    || context.UserSettings?.AllowApi(context: context) == false))
                 {
                     return new ErrorData(type: Error.Types.InvalidRequest);
                 }
@@ -901,7 +929,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static ErrorData OnApiEditing(Context context, UserModel userModel)
         {
-            if (context.ContractSettings.Api == false || !Parameters.Api.Enabled)
+            if ((!Parameters.Api.Enabled
+                || context.ContractSettings.Api == false
+                || context.UserSettings?.AllowApi(context: context) == false))
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
@@ -917,7 +947,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static ErrorData OnApiCreating(Context context, UserModel userModel)
         {
-            if (context.ContractSettings.Api == false || !Parameters.Api.Enabled)
+            if ((!Parameters.Api.Enabled
+                || context.ContractSettings.Api == false
+                || context.UserSettings?.AllowApi(context: context) == false))
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
@@ -933,7 +965,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static ErrorData OnApiDeleting(Context context, UserModel userModel)
         {
-            if (context.ContractSettings.Api == false || !Parameters.Api.Enabled)
+            if ((!Parameters.Api.Enabled
+                || context.ContractSettings.Api == false
+                || context.UserSettings?.AllowApi(context: context) == false))
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
