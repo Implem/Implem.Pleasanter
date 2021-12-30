@@ -39,8 +39,7 @@ namespace Implem.DefinitionAccessor
                 Assembly.GetExecutingAssembly().ManifestModule.Name.FileNameOnly();
             Environments.AssemblyVersion = assemblyVersion;
             SetDefinitions();
-            Environments.TimeZoneInfoDefault = TimeZoneInfo.GetSystemTimeZones()
-                .FirstOrDefault(o => o.Id == Parameters.Service.TimeZoneDefault);
+            SetTimeZone();
             SetSqls();
             DateTimes.FirstDayOfWeek = Parameters.General.FirstDayOfWeek;
             DateTimes.FirstMonth = Parameters.General.FirstMonth;
@@ -642,8 +641,6 @@ namespace Implem.DefinitionAccessor
                     Environments.RdsProvider = "Local";
                     break;
             }
-            Environments.RdsTimeZoneInfo = TimeZoneInfo.GetSystemTimeZones()
-                .FirstOrDefault(o => o.Id == Parameters.Rds.TimeZoneInfo);
             Environments.DeadlockRetryCount = Parameters.Rds.DeadlockRetryCount;
             Environments.DeadlockRetryInterval = Parameters.Rds.DeadlockRetryInterval;
         }
@@ -805,6 +802,15 @@ namespace Implem.DefinitionAccessor
                 Def.ColumnDefinitionCollection.FirstOrDefault(o =>
                     o.Id == "Users_AllowApi").ReadAccessControl = "ManageService";
             }
+        }
+
+        private static void SetTimeZone()
+        {
+            Environments.TimeZoneInfoDefault = TimeZoneInfo.GetSystemTimeZones()
+                .FirstOrDefault(o => o.Id == Parameters.Service.TimeZoneDefault)
+                    ?? TimeZoneInfo.Local;
+            Def.ColumnDefinitionCollection
+                .FirstOrDefault(o => o.Id == "Users_TimeZone").Default = Environments.TimeZoneInfoDefault.Id;
         }
 
         private static void SetSqls()
