@@ -32,7 +32,7 @@ namespace Implem.TestAutomation
             {
                 using (IWebDriver driver = SelectBrowser(Parameters.ExtendedAutoTestSettings.BrowserType))
                 {
-                    driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(60);
+                    driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Parameters.ExtendedAutoTestSettings.TimeoutSeconds);
                     TestAutomationOperate.LaunchBrowser(driver, Parameters.ExtendedAutoTestSettings);
                     Thread.Sleep(500);
                     Parameters.ExtendedAutoTestScenarios

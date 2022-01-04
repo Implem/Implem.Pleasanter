@@ -1,7 +1,7 @@
-﻿using System.Threading;
-using OpenQA.Selenium;
+﻿using Implem.DefinitionAccessor;
 using Implem.ParameterAccessor.Parts;
-using Implem.DefinitionAccessor;
+using OpenQA.Selenium;
+using System.Threading;
 namespace Implem.TestAutomation
 {
     public static class TestAutomationExecute
@@ -37,6 +37,9 @@ namespace Implem.TestAutomation
                             break;
                         case ActionTypes.Click:
                             TestAutomationOperate.ClickOpe(driver, testPart);
+                            break;
+                        case ActionTypes.Enter:
+                            TestAutomationOperate.EnterOpe(driver, testPart);
                             break;
                         case ActionTypes.Hover:
                             TestAutomationOperate.HoverOpe(driver, testPart);
@@ -76,6 +79,8 @@ namespace Implem.TestAutomation
                             break;
                         case ActionTypes.Script:
                             TestAutomationOperate.Script(driver, testPart);
+                            break;
+                        case ActionTypes.ResultCheck:
                             break;
                     }
                     Thread.Sleep(testPart.WaitTime ?? 500);
