@@ -10,6 +10,7 @@
         public string ScreenShotPath;
         public string ResultsPath;
         public string LogFileName;
+        public int TimeoutSeconds;
     }
 
     public enum BrowserTypes

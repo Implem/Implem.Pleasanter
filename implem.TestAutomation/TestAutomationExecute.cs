@@ -38,6 +38,9 @@ namespace Implem.TestAutomation
                         case ActionTypes.Click:
                             TestAutomationOperate.ClickOpe(driver, testPart);
                             break;
+                        case ActionTypes.Enter:
+                            TestAutomationOperate.EnterOpe(driver, testPart);
+                            break;
                         case ActionTypes.Hover:
                             TestAutomationOperate.HoverOpe(driver, testPart);
                             break;
@@ -76,6 +79,8 @@ namespace Implem.TestAutomation
                             break;
                         case ActionTypes.Script:
                             TestAutomationOperate.Script(driver, testPart);
+                            break;
+                        case ActionTypes.ResultCheck:
                             break;
                     }
                     Thread.Sleep(testPart.WaitTime ?? 500);
