@@ -7683,13 +7683,6 @@ namespace Implem.Pleasanter.Models
                         labelPositionIsRight: true,
                         _using: view.HasIncompleteColumns(context: context, ss: ss))
                     .FieldCheckBox(
-                        controlId: "ViewFilters_Incomplete",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.Incomplete(context: context),
-                        _checked: view.Incomplete == true,
-                        labelPositionIsRight: true,
-                        _using: view.HasIncompleteColumns(context: context, ss: ss))
-                    .FieldCheckBox(
                         controlId: "ViewFilters_Own",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.Own(context: context),
