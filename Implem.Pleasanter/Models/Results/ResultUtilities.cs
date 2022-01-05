@@ -2537,7 +2537,11 @@ namespace Implem.Pleasanter.Models
             return ids.ToJson();
         }
 
-        public static System.Web.Mvc.ContentResult GetByApi(Context context, SiteSettings ss, bool internalRequest)
+        public static System.Web.Mvc.ContentResult GetByApi(
+            Context context,
+            SiteSettings ss,
+            long resultId,
+            bool internalRequest)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
@@ -2564,74 +2568,70 @@ namespace Implem.Pleasanter.Models
             var view = api?.View ?? new View();
             var pageSize = Parameters.Api.PageSize;
             var tableType = (api?.TableType) ?? Sqls.TableTypes.Normal;
-            var resultCollection = new ResultCollection(
-                context: context,
-                ss: ss,
-                join: Rds.ItemsJoin().Add(new SqlJoin(
-                    tableBracket: "\"Items\"",
-                    joinType: SqlJoin.JoinTypes.Inner,
-                    joinExpression: "\"Results\".\"ResultId\"=\"Results_Items\".\"ReferenceId\"",
-                    _as: "Results_Items")),
-                where: view.Where(context: context, ss: ss),
-                orderBy: view.OrderBy(
-                    context: context,
-                    ss: ss),
-                offset: api?.Offset ?? 0,
-                pageSize: pageSize,
-                tableType: tableType);
-            return ApiResults.Get(
-                statusCode: 200,
-                limitPerDate: context.ContractSettings.ApiLimit(),
-                limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
-                response: new
+            if (resultId > 0)
+            {
+                if (view.ColumnFilterHash == null)
                 {
-                    Offset = api?.Offset ?? 0,
-                    PageSize = pageSize,
-                    resultCollection.TotalCount,
-                    Data = resultCollection.Select(o => o.GetByApi(
+                    view.ColumnFilterHash = new Dictionary<string, string>();
+                }
+                view.ColumnFilterHash.Add("ResultId", resultId.ToString());
+            }
+            switch (view.ApiDataType)
+            {
+                case View.ApiDataTypes.KeyValues:
+                    var gridData = new GridData(
                         context: context,
-                        ss: ss))
-                });
-        }
-
-        public static System.Web.Mvc.ContentResult GetByApi(
-            Context context, SiteSettings ss, long resultId, bool internalRequest)
-        {
-            if (!Mime.ValidateOnApi(contentType: context.ContentType))
-            {
-                return ApiResults.BadRequest(context: context);
-            }
-            var resultModel = new ResultModel(
-                context: context,
-                ss: ss,
-                resultId: resultId,
-                methodType: BaseModel.MethodTypes.Edit);
-            if (resultModel.AccessStatus != Databases.AccessStatuses.Selected)
-            {
-                return ApiResults.Get(ApiResponses.NotFound(context: context));
-            }
-            var invalid = ResultValidators.OnEditing(
-                context: context,
-                ss: ss,
-                resultModel: resultModel,
-                api: !internalRequest);
-            switch (invalid.Type)
-            {
-                case Error.Types.None: break;
-                default: return ApiResults.Error(
-                    context: context,
-                    errorData: invalid);
-            }
-            return ApiResults.Get(
-                statusCode: 200,
-                limitPerDate: context.ContractSettings.ApiLimit(),
-                limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
-                response: new
-                {
-                    Data = resultModel.GetByApi(
+                        ss: ss,
+                        view: view,
+                        tableType: tableType,
+                        offset: api?.Offset ?? 0,
+                        pageSize: pageSize);
+                    return ApiResults.Get(
+                        statusCode: 200,
+                        limitPerDate: context.ContractSettings.ApiLimit(),
+                        limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                        response: new
+                        {
+                            Offset = api?.Offset ?? 0,
+                            PageSize = pageSize,
+                            TotalCount = gridData.TotalCount,
+                            Data = gridData.KeyValues(
+                                context: context,
+                                ss: ss,
+                                view: view)
+                        });
+                default:
+                    var resultCollection = new ResultCollection(
                         context: context,
-                        ss: ss).ToSingleList()
-                });
+                        ss: ss,
+                        join: Rds.ItemsJoin().Add(new SqlJoin(
+                            tableBracket: "\"Items\"",
+                            joinType: SqlJoin.JoinTypes.Inner,
+                            joinExpression: "\"Results\".\"ResultId\"=\"Results_Items\".\"ReferenceId\"",
+                            _as: "Results_Items")),
+                        where: view.Where(
+                            context: context,
+                            ss: ss),
+                        orderBy: view.OrderBy(
+                            context: context,
+                            ss: ss),
+                        offset: api?.Offset ?? 0,
+                        pageSize: pageSize,
+                        tableType: tableType);
+                    return ApiResults.Get(
+                        statusCode: 200,
+                        limitPerDate: context.ContractSettings.ApiLimit(),
+                        limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                        response: new
+                        {
+                            Offset = api?.Offset ?? 0,
+                            PageSize = pageSize,
+                            resultCollection.TotalCount,
+                            Data = resultCollection.Select(o => o.GetByApi(
+                                context: context,
+                                ss: ss))
+                        });
+            }
         }
 
         public static ResultModel[] GetByServerScript(

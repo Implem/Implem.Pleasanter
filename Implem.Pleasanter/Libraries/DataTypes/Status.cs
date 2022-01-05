@@ -86,6 +86,16 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                                 : choice.TextMini)));
         }
 
+        public object ToApiDisplayValue(Context context, SiteSettings ss, Column column)
+        {
+            return column.Choice(ToString()).Text;
+        }
+
+        public object ToApiValue(Context context, SiteSettings ss, Column column)
+        {
+            return Value;
+        }
+
         public string ToExport(Context context, Column column, ExportColumn exportColumn = null)
         {
             return Value == 0 && !column.ChoiceHash.ContainsKey(ToString())

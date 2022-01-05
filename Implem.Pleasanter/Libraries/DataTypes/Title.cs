@@ -333,6 +333,16 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return DisplayValue;
         }
 
+        public virtual object ToApiDisplayValue(Context context, SiteSettings ss, Column column)
+        {
+            return DisplayValue;
+        }
+
+        public virtual object ToApiValue(Context context, SiteSettings ss, Column column)
+        {
+            return Value;
+        }
+
         public virtual string ToExport(Context context, Column column, ExportColumn exportColumn = null)
         {
             switch (exportColumn.Type)

@@ -33,6 +33,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             Hidden = 3,
         }
 
+        public enum ApiDataTypes : int
+        {
+            Default = 0,
+            KeyValues = 1
+        }
+
         public int Id;
         public string Name;
         public List<string> GridColumns;
@@ -64,6 +70,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Search;
         public Dictionary<string, SqlOrderBy.Types> ColumnSorterHash;
         public Dictionary<string, string> ViewExtensionsHash;
+        public Dictionary<string, ApiColumn> ApiColumnHash;
+        public ApiColumn.KeyDisplayTypes ApiColumnKeyDisplayType;
+        public ApiColumn.ValueDisplayTypes ApiColumnValueDisplayType;
         public string CalendarTimePeriod;
         public string CalendarFromTo;
         public DateTime? CalendarDate;
@@ -88,6 +97,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string KambanValue;
         public int? KambanColumns;
         public bool? KambanAggregationView;
+        public ApiDataTypes ApiDataType;
         [NonSerialized]
         public SqlWhereCollection AdditionalWhere;
         [NonSerialized]
