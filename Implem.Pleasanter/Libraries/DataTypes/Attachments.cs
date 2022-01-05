@@ -67,7 +67,21 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                                     .Text(text: item.Name))))));
         }
 
-        public string ToExport(Context context, Column column, ExportColumn exportColumn)
+        public object ToApiDisplayValue(Context context, SiteSettings ss, Column column)
+        {
+            return this.Any()
+                ? this.ToJson()
+                : null;
+        }
+
+        public object ToApiValue(Context context, SiteSettings ss, Column column)
+        {
+            return this.Any()
+                ? this.ToJson()
+                : null;
+        }
+
+        public string ToExport(Context context, Column column, ExportColumn exportColumn = null)
         {
             return string.Empty;
         }

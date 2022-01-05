@@ -5,6 +5,7 @@ using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using Newtonsoft.Json;
@@ -132,6 +133,260 @@ namespace Implem.Pleasanter.Libraries.Models
             ss.SetChoiceHash(
                 context: context,
                 dataRows: DataRows);
+        }
+
+        public List<Dictionary<string, object>> KeyValues(
+            Context context,
+            SiteSettings ss,
+            View view)
+        {
+            var data = new List<Dictionary<string, object>>();
+            var columns = ss.GetGridColumns(
+                context: context,
+                view: view,
+                checkPermission: true);
+            foreach (var dataRow in DataRows)
+            {
+                var rowData = new Dictionary<string, object>();
+                var tenants = new Dictionary<string, TenantModel>();
+                var depts = new Dictionary<string, DeptModel>();
+                var groups = new Dictionary<string, GroupModel>();
+                var registrations = new Dictionary<string, RegistrationModel>();
+                var users = new Dictionary<string, UserModel>();
+                var sites = new Dictionary<string, SiteModel>();
+                var issues = new Dictionary<string, IssueModel>();
+                var results = new Dictionary<string, ResultModel>();
+                var wikis = new Dictionary<string, WikiModel>();
+                foreach (var column in columns)
+                {
+                    var key = column.TableName();
+                    var apiColumn = view.ApiColumnHash.Get(column.ColumnName);
+                    var keyDisplayType = apiColumn?.KeyDisplayType ?? view.ApiColumnKeyDisplayType;
+                    var valueDisplayType = apiColumn?.ValueDisplayType ?? view.ApiColumnValueDisplayType;
+                    string columnKey = string.Empty;
+                    switch (keyDisplayType)
+                    {
+                        case ApiColumn.KeyDisplayTypes.LabelText:
+                            columnKey = column.LabelText;
+                            break;
+                        case ApiColumn.KeyDisplayTypes.ColumnName:
+                            columnKey = column.ColumnName;
+                            break;
+                    }
+                    switch (column.SiteSettings?.ReferenceType)
+                    {
+                        case "Depts":
+                            var deptModel = depts.Get(key);
+                            if (deptModel == null)
+                            {
+                                deptModel = new DeptModel(
+                                    context: context,
+                                    ss: column.SiteSettings,
+                                    dataRow: dataRow,
+                                    tableAlias: column.TableAlias);
+                                depts.Add(key, deptModel);
+                                ss.ClearColumnAccessControlCaches(baseModel: deptModel);
+                            }
+                            switch (valueDisplayType)
+                            {
+                                case ApiColumn.ValueDisplayTypes.Value:
+                                    rowData.AddIfNotConainsKey(columnKey, deptModel.ToApiValue(
+                                        context: context,
+                                        ss: ss,
+                                        column: column,
+                                        mine: deptModel.Mine(context: context)));
+                                    break;
+                                case ApiColumn.ValueDisplayTypes.Text:
+                                    rowData.AddIfNotConainsKey(columnKey, deptModel.ToDisplay(
+                                        context: context,
+                                        ss: ss,
+                                        column: column,
+                                        mine: deptModel.Mine(context: context)));
+                                    break;
+                                default:
+                                    rowData.AddIfNotConainsKey(columnKey, deptModel.ToApiDisplayValue(
+                                        context: context,
+                                        ss: ss,
+                                        column: column,
+                                        mine: deptModel.Mine(context: context)));
+                                    break;
+                            }
+                            break;
+                        case "Groups":
+                            var groupModel = groups.Get(key);
+                            if (groupModel == null)
+                            {
+                                groupModel = new GroupModel(
+                                    context: context,
+                                    ss: column.SiteSettings,
+                                    dataRow: dataRow,
+                                    tableAlias: column.TableAlias);
+                                groups.Add(key, groupModel);
+                                ss.ClearColumnAccessControlCaches(baseModel: groupModel);
+                            }
+                            switch (valueDisplayType)
+                            {
+                                case ApiColumn.ValueDisplayTypes.Value:
+                                    rowData.AddIfNotConainsKey(columnKey, groupModel.ToApiValue(
+                                        context: context,
+                                        ss: ss,
+                                        column: column,
+                                        mine: groupModel.Mine(context: context)));
+                                    break;
+                                case ApiColumn.ValueDisplayTypes.Text:
+                                    rowData.AddIfNotConainsKey(columnKey, groupModel.ToDisplay(
+                                        context: context,
+                                        ss: ss,
+                                        column: column,
+                                        mine: groupModel.Mine(context: context)));
+                                    break;
+                                default:
+                                    rowData.AddIfNotConainsKey(columnKey, groupModel.ToApiDisplayValue(
+                                        context: context,
+                                        ss: ss,
+                                        column: column,
+                                        mine: groupModel.Mine(context: context)));
+                                    break;
+                            }
+                            break;
+                        case "Users":
+                            var userModel = users.Get(key);
+                            if (userModel == null)
+                            {
+                                userModel = new UserModel(
+                                    context: context,
+                                    ss: column.SiteSettings,
+                                    dataRow: dataRow,
+                                    tableAlias: column.TableAlias);
+                                users.Add(key, userModel);
+                                ss.ClearColumnAccessControlCaches(baseModel: userModel);
+                            }
+                            switch (valueDisplayType)
+                            {
+                                case ApiColumn.ValueDisplayTypes.Value:
+                                    rowData.AddIfNotConainsKey(columnKey, userModel.ToApiValue(
+                                        context: context,
+                                        ss: ss,
+                                        column: column,
+                                        mine: userModel.Mine(context: context)));
+                                    break;
+                                case ApiColumn.ValueDisplayTypes.Text:
+                                    rowData.AddIfNotConainsKey(columnKey, userModel.ToDisplay(
+                                        context: context,
+                                        ss: ss,
+                                        column: column,
+                                        mine: userModel.Mine(context: context)));
+                                    break;
+                                default:
+                                    rowData.AddIfNotConainsKey(columnKey, userModel.ToApiDisplayValue(
+                                        context: context,
+                                        ss: ss,
+                                        column: column,
+                                        mine: userModel.Mine(context: context)));
+                                    break;
+                            }
+                            break;
+                        case "Issues":
+                            var issueModel = issues.Get(key);
+                            if (issueModel == null)
+                            {
+                                issueModel = new IssueModel(
+                                    context: context,
+                                    ss: column.SiteSettings,
+                                    dataRow: dataRow,
+                                    tableAlias: column.TableAlias);
+                                issues.Add(key, issueModel);
+                                ss.ClearColumnAccessControlCaches(baseModel: issueModel);
+                            }
+                            if (column.ColumnName.Contains("~")
+                                && !Permissions.CanRead(
+                                    context: context,
+                                    siteId: issueModel.SiteId,
+                                    id: issueModel.IssueId))
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                switch (valueDisplayType)
+                                {
+                                    case ApiColumn.ValueDisplayTypes.Value:
+                                        rowData.AddIfNotConainsKey(columnKey, issueModel.ToApiValue(
+                                            context: context,
+                                            ss: ss,
+                                            column: column,
+                                            mine: issueModel.Mine(context: context)));
+                                        break;
+                                    case ApiColumn.ValueDisplayTypes.Text:
+                                        rowData.AddIfNotConainsKey(columnKey, issueModel.ToDisplay(
+                                            context: context,
+                                            ss: ss,
+                                            column: column,
+                                            mine: issueModel.Mine(context: context)));
+                                        break;
+                                    default:
+                                        rowData.AddIfNotConainsKey(columnKey, issueModel.ToApiDisplayValue(
+                                            context: context,
+                                            ss: ss,
+                                            column: column,
+                                            mine: issueModel.Mine(context: context)));
+                                        break;
+                                }
+                            }
+                            break;
+                        case "Results":
+                            var resultModel = results.Get(key);
+                            if (resultModel == null)
+                            {
+                                resultModel = new ResultModel(
+                                    context: context,
+                                    ss: column.SiteSettings,
+                                    dataRow: dataRow,
+                                    tableAlias: column.TableAlias);
+                                results.Add(key, resultModel);
+                                ss.ClearColumnAccessControlCaches(baseModel: resultModel);
+                            }
+                            if (column.ColumnName.Contains("~")
+                                && !Permissions.CanRead(
+                                    context: context,
+                                    siteId: resultModel.SiteId,
+                                    id: resultModel.ResultId))
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                switch (valueDisplayType)
+                                {
+                                    case ApiColumn.ValueDisplayTypes.Value:
+                                        rowData.AddIfNotConainsKey(columnKey, resultModel.ToApiValue(
+                                            context: context,
+                                            ss: ss,
+                                            column: column,
+                                            mine: resultModel.Mine(context: context)));
+                                        break;
+                                    case ApiColumn.ValueDisplayTypes.Text:
+                                        rowData.AddIfNotConainsKey(columnKey, resultModel.ToDisplay(
+                                            context: context,
+                                            ss: ss,
+                                            column: column,
+                                            mine: resultModel.Mine(context: context)));
+                                        break;
+                                    default:
+                                        rowData.AddIfNotConainsKey(columnKey, resultModel.ToApiDisplayValue(
+                                            context: context,
+                                            ss: ss,
+                                            column: column,
+                                            mine: resultModel.Mine(context: context)));
+                                        break;
+                                }
+                            }
+                            break;
+                    }
+                }
+                data.Add(rowData);
+            }
+            return data;
         }
 
         public System.Text.StringBuilder Csv(

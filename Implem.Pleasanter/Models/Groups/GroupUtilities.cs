@@ -2228,7 +2228,10 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static System.Web.Mvc.ContentResult GetByApi(Context context, SiteSettings ss)
+        public static System.Web.Mvc.ContentResult GetByApi(
+            Context context,
+            SiteSettings ss,
+            int groupId)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
@@ -2272,52 +2275,90 @@ namespace Implem.Pleasanter.Models
                 .Where(o => !SiteInfo.User(context, o).Disabled).ToArray()
                 : null;
             var pageSize = Parameters.Api.PageSize;
-            var groupCollection = new GroupCollection(
-                context: context,
-                ss: ss,
-                where: view.Where(context: context, ss: ss)
-                .Groups_TenantId(context.TenantId)
-                .SqlWhereLike(
-                    tableName: "Groups",
-                    name: "SearchText",
-                    searchText: view.ColumnFilterHash
-                    ?.Where(f => f.Key == "SearchText")
-                    ?.Select(f => f.Value)
-                    ?.FirstOrDefault(),
-                    clauseCollection: new List<string>()
-                    {
-                        Rds.Groups_GroupId_WhereLike(factory: context),
-                        Rds.Groups_GroupName_WhereLike(factory: context),
-                        Rds.Groups_Body_WhereLike(factory: context)
-                    })
-                .Add(
-                    tableName: "Groups",
-                    subLeft: Rds.SelectGroupMembers(
-                    column: Rds.GroupMembersColumn().GroupMembersCount(),
-                    where: Rds.GroupMembersWhere().UserId(userId).GroupId(raw: "\"Groups\".\"GroupId\"").Add(raw: "\"Groups\".\"GroupId\">0")),
-                    _operator: ">0",
-                    _using: userId.HasValue),
-                orderBy: view.OrderBy(
-                    context: context,
-                    ss: ss),
-                offset: api.Offset,
-                pageSize: pageSize);
-            var groups = siteGroups == null
-                ? groupCollection
-                : groupCollection.Join(siteGroups, c => c.GroupId, s => s, (c, s) => c);
-            return ApiResults.Get(new
+            var tableType = (api?.TableType) ?? Sqls.TableTypes.Normal;
+            if (groupId > 0)
             {
-                StatusCode = 200,
-                Response = new
+                if (view.ColumnFilterHash == null)
                 {
-                    Offset = api.Offset,
-                    PageSize = pageSize,
-                    TotalCount = groups.Count(),
-                    Data = groups.Select(o => o.GetByApi(
-                        context: context,
-                        ss: ss))
+                    view.ColumnFilterHash = new Dictionary<string, string>();
                 }
-            }.ToJson());
+                view.ColumnFilterHash.Add("GroupId", groupId.ToString());
+            }
+            switch (view.ApiDataType)
+            {
+                case View.ApiDataTypes.KeyValues:
+                    var gridData = new GridData(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        tableType: tableType,
+                        offset: api?.Offset ?? 0,
+                        pageSize: pageSize);
+                    return ApiResults.Get(new
+                    {
+                        statusCode = 200,
+                        response = new
+                        {
+                            Offset = api?.Offset ?? 0,
+                            PageSize = pageSize,
+                            TotalCount = gridData.TotalCount,
+                            Data = gridData.KeyValues(
+                                context: context,
+                                ss: ss,
+                                view: view)
+                        }
+                    }.ToJson());
+                default:
+                    var groupCollection = new GroupCollection(
+                        context: context,
+                        ss: ss,
+                        where: view.Where(
+                            context: context,
+                            ss: ss)
+                                .Groups_TenantId(context.TenantId)
+                                .SqlWhereLike(
+                                    tableName: "Groups",
+                                    name: "SearchText",
+                                    searchText: view.ColumnFilterHash
+                                    ?.Where(f => f.Key == "SearchText")
+                                    ?.Select(f => f.Value)
+                                    ?.FirstOrDefault(),
+                                    clauseCollection: new List<string>()
+                                    {
+                                        Rds.Groups_GroupId_WhereLike(factory: context),
+                                        Rds.Groups_GroupName_WhereLike(factory: context),
+                                        Rds.Groups_Body_WhereLike(factory: context)
+                                    })
+                                .Add(
+                                    tableName: "Groups",
+                                    subLeft: Rds.SelectGroupMembers(
+                                    column: Rds.GroupMembersColumn().GroupMembersCount(),
+                                    where: Rds.GroupMembersWhere().UserId(userId).GroupId(raw: "\"Groups\".\"GroupId\"").Add(raw: "\"Groups\".\"GroupId\">0")),
+                                    _operator: ">0",
+                                    _using: userId.HasValue),
+                        orderBy: view.OrderBy(
+                            context: context,
+                            ss: ss),
+                        offset: api.Offset,
+                        pageSize: pageSize,
+                        tableType: tableType);
+                    var groups = siteGroups == null
+                        ? groupCollection
+                        : groupCollection.Join(siteGroups, c => c.GroupId, s => s, (c, s) => c);
+                    return ApiResults.Get(new
+                    {
+                        StatusCode = 200,
+                        Response = new
+                        {
+                            Offset = api.Offset,
+                            PageSize = pageSize,
+                            TotalCount = groups.Count(),
+                            Data = groups.Select(o => o.GetByApi(
+                                context: context,
+                                ss: ss))
+                        }
+                    }.ToJson());
+            }
         }
 
         /// <summary>
