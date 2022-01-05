@@ -2051,7 +2051,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(column =>
                     GridColumns.Contains(column.ColumnName)
                     || GetEditorColumnNames().Contains(column.ColumnName)
-                    || column.ColumnName.Contains("~"))
+                    || column.ColumnName.Contains("~")
+                    || column.ColumnName == "Creator"
+                    || column.ColumnName == "Updator")
                 .AllowedColumns(
                     context: context,
                     ss: this,
