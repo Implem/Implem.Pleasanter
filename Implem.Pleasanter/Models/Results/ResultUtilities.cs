@@ -2265,12 +2265,12 @@ namespace Implem.Pleasanter.Models
             ResultModel resultModel,
             string idSuffix = null)
         {
-            var needReplaceHtml = resultModel.ServerScriptModelRow?.NeedReplaceHtml(
+            var replaceFieldColumns = ss.ReplaceFieldColumns(
                 context: context,
-                ss: ss);
+                serverScriptModelRow: resultModel.ServerScriptModelRow);
             res.Val(
-                target: "#NeedReplaceHtml",
-                value: needReplaceHtml?.ToJson());
+                target: "#ReplaceFieldColumns",
+                value: replaceFieldColumns?.ToJson());
             var columnNames = ss.GetEditorColumnNames(context.QueryStrings.Bool("control-auto-postback")
                 ? ss.GetColumn(
                     context: context,
@@ -2286,7 +2286,7 @@ namespace Implem.Pleasanter.Models
                     var serverScriptModelColumn = resultModel
                         ?.ServerScriptModelRow
                         ?.Columns.Get(column.ColumnName);
-                    if (needReplaceHtml?.Contains(column.ColumnName) == true)
+                    if (replaceFieldColumns?.Contains(column.ColumnName) == true)
                     {
                         res.ReplaceAll(
                             target: $"#Results_{column.Name}Field" + idSuffix,
