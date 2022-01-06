@@ -19,6 +19,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text.RegularExpressions;
+using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
+
 namespace Implem.Pleasanter.Libraries.Settings
 {
     [Serializable()]
@@ -4787,6 +4789,18 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return ColumnDefinitionHash.FilterDefinitions(enableOnly: false)
                 .Any(o => o.ColumnName == column.Name);
+        }
+
+        public List<string> ReplaceFieldColumns(
+            Context context,
+            ServerScriptModelRow serverScriptModelRow)
+        {
+            var columns = serverScriptModelRow?.ReplaceFieldColumns(context: context)
+                ?? new List<string>();
+            columns.AddRange(Links?
+                .Where(o => $"{ReferenceType}_{o.ColumnName}" == context.Forms.ControlId())
+                .SelectMany(o => o.Lookups.Select(p => p.To)));
+            return columns;
         }
 
         public List<ServerScript> GetServerScripts(Context context)

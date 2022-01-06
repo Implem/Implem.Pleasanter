@@ -44,7 +44,7 @@
         var data = $p.getData($mainForm);
         $p.setMustData($mainForm);
         data.ControlId = $(this).attr('id');
-        data.NeedReplaceHtml = $('#NeedReplaceHtml').val();
+        data.ReplaceFieldColumns = $('#ReplaceFieldColumns').val();
         return $p.ajax(
             $('#BaseUrl').val()
                 + $p.id()
