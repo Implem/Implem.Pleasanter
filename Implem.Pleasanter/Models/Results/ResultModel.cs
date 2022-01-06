@@ -1276,6 +1276,9 @@ namespace Implem.Pleasanter.Models
                     id: ResultId,
                     columnName: response.ColumnName);
             }
+            WriteAttachments(
+                context: context,
+                ss: ss);
             ResultId = (response.Id ?? ResultId).ToLong();
             if (synchronizeSummary)
             {
@@ -1466,6 +1469,9 @@ namespace Implem.Pleasanter.Models
                     type: Error.Types.UpdateConflicts,
                     id: ResultId);
             }
+            WriteAttachments(
+                context: context,
+                ss: ss);
             if (synchronizeSummary)
             {
                 SynchronizeSummary(
@@ -1586,14 +1592,27 @@ namespace Implem.Pleasanter.Models
                 .Where(columnName => columnName.StartsWith("Attachments"))
                 .Where(columnName => Attachments_Updated(columnName: columnName))
                 .ForEach(columnName =>
-                    Attachments(columnName: columnName).Write(
+                    Attachments(columnName: columnName).Statements(
                         context: context,
                         statements: statements,
                         referenceId: ResultId,
-                            column: ss.GetColumn(
-                                context: context,
-                                columnName: columnName)));
+                        column: ss.GetColumn(
+                            context: context,
+                            columnName: columnName)));
             return statements;
+        }
+
+        private void WriteAttachments(Context context, SiteSettings ss)
+        {
+            ColumnNames()
+                .Where(columnName => columnName.StartsWith("Attachments"))
+                .Where(columnName => Attachments_Updated(columnName: columnName))
+                .ForEach(columnName =>
+                    Attachments(columnName: columnName).Write(
+                        context: context,
+                        column: ss.GetColumn(
+                            context: context,
+                            columnName: columnName)));
         }
 
         public void UpdateRelatedRecords(
@@ -1819,7 +1838,7 @@ namespace Implem.Pleasanter.Models
                         var attachments = Attachments(columnName: columnName);
                         attachments.ForEach(attachment =>
                             attachment.Deleted = true);
-                        attachments.Write(
+                        attachments.Statements(
                             context: context,
                             statements: statements,
                             referenceId: ResultId,
@@ -1836,6 +1855,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
+            WriteAttachments(
+                context: context,
+                ss: ss);
             SynchronizeSummary(context, ss);
             if (context.ContractSettings.Notice != false && notice)
             {
