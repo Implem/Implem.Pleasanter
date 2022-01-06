@@ -2106,7 +2106,6 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     resultId: copyFrom,
-                    formData: context.Forms,
                     methodType: BaseModel.MethodTypes.New);
                 if (resultModel.AccessStatus == Databases.AccessStatuses.Selected
                     && Permissions.CanRead(
@@ -2117,6 +2116,10 @@ namespace Implem.Pleasanter.Models
                     resultModel.SetCopyDefault(
                         context: context,
                         ss: ss);
+                    resultModel.SetByForm(
+                        context: context,
+                        ss: ss,
+                        formData: context.Forms);
                     resultModel.ResultId = 0;
                     resultModel.Ver = 1;
                     resultModel.Comments = new Comments();
