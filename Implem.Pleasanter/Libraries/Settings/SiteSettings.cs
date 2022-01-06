@@ -3172,6 +3172,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ImportEncoding": ImportEncoding = value; break;
                 case "UpdatableImport": UpdatableImport = value.ToBool(); break;
                 case "EnableCalendar": EnableCalendar = value.ToBool(); break;
+                case "EnableCrosstab": EnableCrosstab = value.ToBool(); break;
                 case "NoDisplayCrosstabGraph": NoDisplayCrosstabGraph = value.ToBool(); break;
                 case "EnableGantt": EnableGantt = value.ToBool(); break;
                 case "ShowGanttProgressRate": ShowGanttProgressRate = value.ToBool(); break;
