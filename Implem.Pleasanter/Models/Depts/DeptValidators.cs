@@ -414,15 +414,5 @@ namespace Implem.Pleasanter.Models
                     ? new ErrorData(type: Error.Types.NotFound)
                     : new ErrorData(type: Error.Types.HasNotPermission);
         }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static ErrorData OnEntry(Context context, SiteSettings ss)
-        {
-            return Permissions.CanManageTenant(context: context)
-                ? new ErrorData(type: Error.Types.None)
-                : new ErrorData(type: Error.Types.HasNotPermission);
-        }
     }
 }
