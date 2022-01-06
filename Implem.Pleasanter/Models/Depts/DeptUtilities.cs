@@ -1821,6 +1821,18 @@ namespace Implem.Pleasanter.Models
             {
                 return ApiResults.BadRequest(context: context);
             }
+            var invalid = DeptValidators.OnEntry(
+                context: context,
+                ss: ss,
+                api: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                       context: context,
+                       errorData: invalid);
+            }
             var api = context.RequestDataString.Deserialize<Api>();
             if (api == null)
             {
@@ -1842,16 +1854,16 @@ namespace Implem.Pleasanter.Models
                 {
                     return ApiResults.Get(ApiResponses.NotFound(context: context));
                 }
-                var invalid = SiteValidators.OnReading(
+                var invalidOnReading = SiteValidators.OnReading(
                     context,
                     siteModel.SitesSiteSettings(context, siteId.Value),
                     siteModel);
-                switch (invalid.Type)
+                switch (invalidOnReading.Type)
                 {
                     case Error.Types.None: break;
                     default: return ApiResults.Error(
                         context: context,
-                        errorData: invalid);
+                        errorData: invalidOnReading);
                 }
             }
             var siteDepts = siteModel != null

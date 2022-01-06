@@ -27,7 +27,7 @@ namespace Implem.Pleasanter.Models
                     return new ErrorData(type: Error.Types.InvalidJsonData);
                 }
             }
-            if (!Parameters.Service.ShowProfiles)
+            else if (!Parameters.Service.ShowProfiles)
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
@@ -798,16 +798,6 @@ namespace Implem.Pleasanter.Models
                 : !context.CanRead(ss: ss)
                     ? new ErrorData(type: Error.Types.NotFound)
                     : new ErrorData(type: Error.Types.HasNotPermission);
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static ErrorData OnEntry(Context context, SiteSettings ss)
-        {
-            return Permissions.CanManageTenant(context: context)
-                ? new ErrorData(type: Error.Types.None)
-                : new ErrorData(type: Error.Types.HasNotPermission);
         }
 
         /// <summary>
