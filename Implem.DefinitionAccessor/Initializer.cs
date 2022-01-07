@@ -785,22 +785,38 @@ namespace Implem.DefinitionAccessor
             if (!Parameters.User.DisableTopSiteCreation)
             {
                 Def.ColumnDefinitionCollection.FirstOrDefault(o =>
+                    o.Id == "Users_AllowCreationAtTopSite").CreateAccessControl = "ManageService";
+                Def.ColumnDefinitionCollection.FirstOrDefault(o =>
                     o.Id == "Users_AllowCreationAtTopSite").ReadAccessControl = "ManageService";
+                Def.ColumnDefinitionCollection.FirstOrDefault(o =>
+                    o.Id == "Users_AllowCreationAtTopSite").UpdateAccessControl = "ManageService";
             }
             if (!Parameters.User.DisableGroupAdmin)
             {
                 Def.ColumnDefinitionCollection.FirstOrDefault(o =>
+                    o.Id == "Users_AllowGroupAdministration").CreateAccessControl = "ManageService";
+                Def.ColumnDefinitionCollection.FirstOrDefault(o =>
                     o.Id == "Users_AllowGroupAdministration").ReadAccessControl = "ManageService";
+                Def.ColumnDefinitionCollection.FirstOrDefault(o =>
+                    o.Id == "Users_AllowGroupAdministration").UpdateAccessControl = "ManageService";
             }
             if (!Parameters.User.DisableGroupCreation)
             {
                 Def.ColumnDefinitionCollection.FirstOrDefault(o =>
+                    o.Id == "Users_AllowGroupCreation").CreateAccessControl = "ManageService";
+                Def.ColumnDefinitionCollection.FirstOrDefault(o =>
                     o.Id == "Users_AllowGroupCreation").ReadAccessControl = "ManageService";
+                Def.ColumnDefinitionCollection.FirstOrDefault(o =>
+                    o.Id == "Users_AllowGroupCreation").UpdateAccessControl = "ManageService";
             }
             if (!Parameters.User.DisableApi)
             {
                 Def.ColumnDefinitionCollection.FirstOrDefault(o =>
+                    o.Id == "Users_AllowApi").CreateAccessControl = "ManageService";
+                Def.ColumnDefinitionCollection.FirstOrDefault(o =>
                     o.Id == "Users_AllowApi").ReadAccessControl = "ManageService";
+                Def.ColumnDefinitionCollection.FirstOrDefault(o =>
+                    o.Id == "Users_AllowApi").UpdateAccessControl = "ManageService";
             }
         }
 
