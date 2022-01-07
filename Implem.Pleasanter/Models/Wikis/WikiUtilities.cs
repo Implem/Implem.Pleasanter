@@ -760,7 +760,8 @@ namespace Implem.Pleasanter.Models
                     _using: context.CanManagePermission(ss: ss)
                         && !ss.Locked()
                         && wikiModel.MethodType != BaseModel.MethodTypes.New
-                        && !editInDialog,
+                        && !editInDialog
+                        && ss.ReferenceType != "Wikis",
                     action: () => hb
                         .A(
                             href: "#FieldSetRecordAccessControl",
