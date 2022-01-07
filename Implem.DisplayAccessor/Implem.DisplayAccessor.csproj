@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <Copyright>Copyright © Implem Inc 2014 - 2021</Copyright>
+    <Copyright>Copyright © Implem Inc 2014 - 2022</Copyright>
   </PropertyGroup>
 
 </Project>
