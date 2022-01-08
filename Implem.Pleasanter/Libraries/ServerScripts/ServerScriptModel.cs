@@ -288,27 +288,27 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             public Dictionary<string, ServerScriptModelColumn> Columns { get; set; }
             public Dictionary<string, string> Hidden { get; set; }
             public ServerScriptElements Elements { get; set; }
-            private List<string> NeedReplaceHtmlCache { get; set; }
+            private List<string> ReplaceFieldColumnsCache { get; set; }
 
-            public List<string> NeedReplaceHtml(Context context, SiteSettings ss)
+            public List<string> ReplaceFieldColumns(Context context)
             {
-                if (NeedReplaceHtmlCache == null)
+                if (ReplaceFieldColumnsCache == null)
                 {
                     var targetColumns = Columns
                         ?.Where(o => o.Value.Changed())
                         .Select(o => o.Key)
                         .ToList();
-                    NeedReplaceHtmlCache = context.Forms.List("NeedReplaceHtml")
+                    ReplaceFieldColumnsCache = context.Forms.List("ReplaceFieldColumns")
                         .ToList();
                     if (targetColumns != null)
                     {
-                        NeedReplaceHtmlCache = NeedReplaceHtmlCache
+                        ReplaceFieldColumnsCache = ReplaceFieldColumnsCache
                             ?.Concat(targetColumns)
                             .Distinct()
                             .ToList();
                     }
                 }
-                return NeedReplaceHtmlCache;
+                return ReplaceFieldColumnsCache;
             }
         }
     }

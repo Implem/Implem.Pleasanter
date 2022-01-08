@@ -1661,7 +1661,8 @@ namespace Implem.Pleasanter.Models
                     _using: context.CanManagePermission(ss: ss)
                         && !ss.Locked()
                         && issueModel.MethodType != BaseModel.MethodTypes.New
-                        && !editInDialog,
+                        && !editInDialog
+                        && ss.ReferenceType != "Wikis",
                     action: () => hb
                         .A(
                             href: "#FieldSetRecordAccessControl",
@@ -2263,7 +2264,6 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     issueId: copyFrom,
-                    formData: context.Forms,
                     methodType: BaseModel.MethodTypes.New);
                 if (issueModel.AccessStatus == Databases.AccessStatuses.Selected
                     && Permissions.CanRead(
@@ -2274,6 +2274,10 @@ namespace Implem.Pleasanter.Models
                     issueModel.SetCopyDefault(
                         context: context,
                         ss: ss);
+                    issueModel.SetByForm(
+                        context: context,
+                        ss: ss,
+                        formData: context.Forms);
                     issueModel.IssueId = 0;
                     issueModel.Ver = 1;
                     issueModel.Comments = new Comments();
@@ -2422,12 +2426,12 @@ namespace Implem.Pleasanter.Models
             IssueModel issueModel,
             string idSuffix = null)
         {
-            var needReplaceHtml = issueModel.ServerScriptModelRow?.NeedReplaceHtml(
+            var replaceFieldColumns = ss.ReplaceFieldColumns(
                 context: context,
-                ss: ss);
+                serverScriptModelRow: issueModel.ServerScriptModelRow);
             res.Val(
-                target: "#NeedReplaceHtml",
-                value: needReplaceHtml?.ToJson());
+                target: "#ReplaceFieldColumns",
+                value: replaceFieldColumns?.ToJson());
             var columnNames = ss.GetEditorColumnNames(context.QueryStrings.Bool("control-auto-postback")
                 ? ss.GetColumn(
                     context: context,
@@ -2443,7 +2447,7 @@ namespace Implem.Pleasanter.Models
                     var serverScriptModelColumn = issueModel
                         ?.ServerScriptModelRow
                         ?.Columns.Get(column.ColumnName);
-                    if (needReplaceHtml?.Contains(column.ColumnName) == true)
+                    if (replaceFieldColumns?.Contains(column.ColumnName) == true)
                     {
                         res.ReplaceAll(
                             target: $"#Issues_{column.Name}Field" + idSuffix,
@@ -2718,7 +2722,11 @@ namespace Implem.Pleasanter.Models
             return ids.ToJson();
         }
 
-        public static System.Web.Mvc.ContentResult GetByApi(Context context, SiteSettings ss, bool internalRequest)
+        public static System.Web.Mvc.ContentResult GetByApi(
+            Context context,
+            SiteSettings ss,
+            long issueId,
+            bool internalRequest)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
@@ -2745,74 +2753,70 @@ namespace Implem.Pleasanter.Models
             var view = api?.View ?? new View();
             var pageSize = Parameters.Api.PageSize;
             var tableType = (api?.TableType) ?? Sqls.TableTypes.Normal;
-            var issueCollection = new IssueCollection(
-                context: context,
-                ss: ss,
-                join: Rds.ItemsJoin().Add(new SqlJoin(
-                    tableBracket: "\"Items\"",
-                    joinType: SqlJoin.JoinTypes.Inner,
-                    joinExpression: "\"Issues\".\"IssueId\"=\"Issues_Items\".\"ReferenceId\"",
-                    _as: "Issues_Items")),
-                where: view.Where(context: context, ss: ss),
-                orderBy: view.OrderBy(
-                    context: context,
-                    ss: ss),
-                offset: api?.Offset ?? 0,
-                pageSize: pageSize,
-                tableType: tableType);
-            return ApiResults.Get(
-                statusCode: 200,
-                limitPerDate: context.ContractSettings.ApiLimit(),
-                limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
-                response: new
+            if (issueId > 0)
+            {
+                if (view.ColumnFilterHash == null)
                 {
-                    Offset = api?.Offset ?? 0,
-                    PageSize = pageSize,
-                    issueCollection.TotalCount,
-                    Data = issueCollection.Select(o => o.GetByApi(
+                    view.ColumnFilterHash = new Dictionary<string, string>();
+                }
+                view.ColumnFilterHash.Add("IssueId", issueId.ToString());
+            }
+            switch (view.ApiDataType)
+            {
+                case View.ApiDataTypes.KeyValues:
+                    var gridData = new GridData(
                         context: context,
-                        ss: ss))
-                });
-        }
-
-        public static System.Web.Mvc.ContentResult GetByApi(
-            Context context, SiteSettings ss, long issueId, bool internalRequest)
-        {
-            if (!Mime.ValidateOnApi(contentType: context.ContentType))
-            {
-                return ApiResults.BadRequest(context: context);
-            }
-            var issueModel = new IssueModel(
-                context: context,
-                ss: ss,
-                issueId: issueId,
-                methodType: BaseModel.MethodTypes.Edit);
-            if (issueModel.AccessStatus != Databases.AccessStatuses.Selected)
-            {
-                return ApiResults.Get(ApiResponses.NotFound(context: context));
-            }
-            var invalid = IssueValidators.OnEditing(
-                context: context,
-                ss: ss,
-                issueModel: issueModel,
-                api: !internalRequest);
-            switch (invalid.Type)
-            {
-                case Error.Types.None: break;
-                default: return ApiResults.Error(
-                    context: context,
-                    errorData: invalid);
-            }
-            return ApiResults.Get(
-                statusCode: 200,
-                limitPerDate: context.ContractSettings.ApiLimit(),
-                limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
-                response: new
-                {
-                    Data = issueModel.GetByApi(
+                        ss: ss,
+                        view: view,
+                        tableType: tableType,
+                        offset: api?.Offset ?? 0,
+                        pageSize: pageSize);
+                    return ApiResults.Get(
+                        statusCode: 200,
+                        limitPerDate: context.ContractSettings.ApiLimit(),
+                        limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                        response: new
+                        {
+                            Offset = api?.Offset ?? 0,
+                            PageSize = pageSize,
+                            TotalCount = gridData.TotalCount,
+                            Data = gridData.KeyValues(
+                                context: context,
+                                ss: ss,
+                                view: view)
+                        });
+                default:
+                    var issueCollection = new IssueCollection(
                         context: context,
-                        ss: ss).ToSingleList()
-                });
+                        ss: ss,
+                        join: Rds.ItemsJoin().Add(new SqlJoin(
+                            tableBracket: "\"Items\"",
+                            joinType: SqlJoin.JoinTypes.Inner,
+                            joinExpression: "\"Issues\".\"IssueId\"=\"Issues_Items\".\"ReferenceId\"",
+                            _as: "Issues_Items")),
+                        where: view.Where(
+                            context: context,
+                            ss: ss),
+                        orderBy: view.OrderBy(
+                            context: context,
+                            ss: ss),
+                        offset: api?.Offset ?? 0,
+                        pageSize: pageSize,
+                        tableType: tableType);
+                    return ApiResults.Get(
+                        statusCode: 200,
+                        limitPerDate: context.ContractSettings.ApiLimit(),
+                        limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                        response: new
+                        {
+                            Offset = api?.Offset ?? 0,
+                            PageSize = pageSize,
+                            issueCollection.TotalCount,
+                            Data = issueCollection.Select(o => o.GetByApi(
+                                context: context,
+                                ss: ss))
+                        });
+            }
         }
 
         public static IssueModel[] GetByServerScript(

@@ -67,7 +67,21 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                                     .Text(text: item.Name))))));
         }
 
-        public string ToExport(Context context, Column column, ExportColumn exportColumn)
+        public object ToApiDisplayValue(Context context, SiteSettings ss, Column column)
+        {
+            return this.Any()
+                ? this.ToJson()
+                : null;
+        }
+
+        public object ToApiValue(Context context, SiteSettings ss, Column column)
+        {
+            return this.Any()
+                ? this.ToJson()
+                : null;
+        }
+
+        public string ToExport(Context context, Column column, ExportColumn exportColumn = null)
         {
             return string.Empty;
         }
@@ -110,7 +124,25 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return attachments.ToJson();
         }
 
-        public void Write(Context context, List<SqlStatement> statements, long referenceId, Column column)
+        public void Statements(
+            Context context,
+            List<SqlStatement> statements,
+            long referenceId,
+            Column column)
+        {
+            this
+                .Where(o => !o.Guid.IsNullOrEmpty())
+                .ForEach(attachment =>
+                {
+                    attachment.SqlStatement(
+                        context: context,
+                        statements: statements,
+                        referenceId: referenceId,
+                        column: column);
+                });
+        }
+
+        public void Write(Context context, Column column)
         {
             this
                 .Where(o => !o.Guid.IsNullOrEmpty())
@@ -122,16 +154,12 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                         {
                             attachment.WriteToLocal(context: context);
                         }
+                        DataSources.File.DeleteTemp(attachment.Guid);
                     }
-                    else if(attachment.Deleted == true && !attachment.Overwritten.HasValue)
+                    else if (attachment.Deleted == true && !attachment.Overwritten.HasValue)
                     {
                         attachment.DeleteFromLocal(context: context);
                     }
-                    attachment.SqlStatement(
-                        context: context,
-                        statements: statements,
-                        referenceId: referenceId,
-                        column: column);
                 });
         }
     }

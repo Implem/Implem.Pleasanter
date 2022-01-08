@@ -16,6 +16,8 @@ namespace Implem.Pleasanter.Interfaces
             Column column,
             int? tabIndex,
             ServerScriptModelColumn serverScriptModelColumn);
+        object ToApiDisplayValue(Context context, SiteSettings ss, Column column);
+        object ToApiValue(Context context, SiteSettings ss, Column column);
         string ToExport(Context context, Column column, ExportColumn exportColumn = null);
         bool InitialValue(Context context);
     }

@@ -13,7 +13,8 @@ namespace Implem.Pleasanter.NetCore.Controllers.Api
     public class GroupsController : ControllerBase
     {
         [HttpPost("Get")]
-        public ContentResult Get()
+        [HttpPost("{id}/Get")]
+        public ContentResult Get(int id = 0)
         {
             var body = default(string);
             using (var reader = new StreamReader(Request.Body)) body = reader.ReadToEnd();
@@ -23,7 +24,58 @@ namespace Implem.Pleasanter.NetCore.Controllers.Api
                 apiRequestBody: body,
                 contentType: Request.ContentType);
             var controller = new Pleasanter.Controllers.Api.GroupsController();
-            var result = controller.Get(context: context);
+            var result = controller.Get(
+                context: context,
+                id: id);
+            return result.ToHttpResponse(request: Request);
+        }
+
+        [HttpPost("Create")]
+        public ContentResult Create()
+        {
+            var body = default(string);
+            using (var reader = new StreamReader(Request.Body)) body = reader.ReadToEnd();
+            var context = new ContextImplement(
+                sessionStatus: User?.Identity?.IsAuthenticated == true,
+                sessionData: User?.Identity?.IsAuthenticated == true,
+                apiRequestBody: body,
+                contentType: Request.ContentType);
+            var controller = new Pleasanter.Controllers.Api.GroupsController();
+            var result = controller.Create(context: context);
+            return result.ToHttpResponse(request: Request);
+        }
+
+        [HttpPost("{id}/Update")]
+        public ContentResult Update(int id)
+        {
+            var body = default(string);
+            using (var reader = new StreamReader(Request.Body)) body = reader.ReadToEnd();
+            var context = new ContextImplement(
+                sessionStatus: User?.Identity?.IsAuthenticated == true,
+                sessionData: User?.Identity?.IsAuthenticated == true,
+                apiRequestBody: body,
+                contentType: Request.ContentType);
+            var controller = new Pleasanter.Controllers.Api.GroupsController();
+            var result = controller.Update(
+                context: context,
+                id: id);
+            return result.ToHttpResponse(request: Request);
+        }
+
+        [HttpPost("{id}/Delete")]
+        public ContentResult Delete(int id)
+        {
+            var body = default(string);
+            using (var reader = new StreamReader(Request.Body)) body = reader.ReadToEnd();
+            var context = new ContextImplement(
+                sessionStatus: User?.Identity?.IsAuthenticated == true,
+                sessionData: User?.Identity?.IsAuthenticated == true,
+                apiRequestBody: body,
+                contentType: Request.ContentType);
+            var controller = new Pleasanter.Controllers.Api.GroupsController();
+            var result = controller.Delete(
+                context: context,
+                id: id);
             return result.ToHttpResponse(request: Request);
         }
     }

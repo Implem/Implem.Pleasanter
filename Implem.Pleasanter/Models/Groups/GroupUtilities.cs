@@ -1345,12 +1345,12 @@ namespace Implem.Pleasanter.Models
             GroupModel groupModel,
             string idSuffix = null)
         {
-            var needReplaceHtml = groupModel.ServerScriptModelRow?.NeedReplaceHtml(
+            var replaceFieldColumns = ss.ReplaceFieldColumns(
                 context: context,
-                ss: ss);
+                serverScriptModelRow: groupModel.ServerScriptModelRow);
             res.Val(
-                target: "#NeedReplaceHtml",
-                value: needReplaceHtml?.ToJson());
+                target: "#ReplaceFieldColumns",
+                value: replaceFieldColumns?.ToJson());
             var columnNames = ss.GetEditorColumnNames(context.QueryStrings.Bool("control-auto-postback")
                 ? ss.GetColumn(
                     context: context,
@@ -1366,7 +1366,7 @@ namespace Implem.Pleasanter.Models
                     var serverScriptModelColumn = groupModel
                         ?.ServerScriptModelRow
                         ?.Columns.Get(column.ColumnName);
-                    if (needReplaceHtml?.Contains(column.ColumnName) == true)
+                    if (replaceFieldColumns?.Contains(column.ColumnName) == true)
                     {
                         res.ReplaceAll(
                             target: $"#Groups_{column.Name}Field" + idSuffix,
@@ -2228,11 +2228,26 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static System.Web.Mvc.ContentResult GetByApi(Context context, SiteSettings ss)
+        public static System.Web.Mvc.ContentResult GetByApi(
+            Context context,
+            SiteSettings ss,
+            int groupId)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
                 return ApiResults.BadRequest(context: context);
+            }
+            var invalid = GroupValidators.OnEntry(
+                context: context,
+                ss: ss,
+                api: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                       context: context,
+                       errorData: invalid);
             }
             var api = context.RequestDataString.Deserialize<Api>();
             if (api == null)
@@ -2255,16 +2270,16 @@ namespace Implem.Pleasanter.Models
                 {
                     return ApiResults.Get(ApiResponses.NotFound(context: context));
                 }
-                var invalid = SiteValidators.OnReading(
+                var invalidOnReading = SiteValidators.OnReading(
                     context,
                     siteModel.SitesSiteSettings(context, siteId.Value),
                     siteModel);
-                switch (invalid.Type)
+                switch (invalidOnReading.Type)
                 {
                     case Error.Types.None: break;
                     default: return ApiResults.Error(
                         context: context,
-                        errorData: invalid);
+                        errorData: invalidOnReading);
                 }
             }
             var siteGroups = siteModel != null
@@ -2272,52 +2287,90 @@ namespace Implem.Pleasanter.Models
                 .Where(o => !SiteInfo.User(context, o).Disabled).ToArray()
                 : null;
             var pageSize = Parameters.Api.PageSize;
-            var groupCollection = new GroupCollection(
-                context: context,
-                ss: ss,
-                where: view.Where(context: context, ss: ss)
-                .Groups_TenantId(context.TenantId)
-                .SqlWhereLike(
-                    tableName: "Groups",
-                    name: "SearchText",
-                    searchText: view.ColumnFilterHash
-                    ?.Where(f => f.Key == "SearchText")
-                    ?.Select(f => f.Value)
-                    ?.FirstOrDefault(),
-                    clauseCollection: new List<string>()
-                    {
-                        Rds.Groups_GroupId_WhereLike(factory: context),
-                        Rds.Groups_GroupName_WhereLike(factory: context),
-                        Rds.Groups_Body_WhereLike(factory: context)
-                    })
-                .Add(
-                    tableName: "Groups",
-                    subLeft: Rds.SelectGroupMembers(
-                    column: Rds.GroupMembersColumn().GroupMembersCount(),
-                    where: Rds.GroupMembersWhere().UserId(userId).GroupId(raw: "\"Groups\".\"GroupId\"").Add(raw: "\"Groups\".\"GroupId\">0")),
-                    _operator: ">0",
-                    _using: userId.HasValue),
-                orderBy: view.OrderBy(
-                    context: context,
-                    ss: ss),
-                offset: api.Offset,
-                pageSize: pageSize);
-            var groups = siteGroups == null
-                ? groupCollection
-                : groupCollection.Join(siteGroups, c => c.GroupId, s => s, (c, s) => c);
-            return ApiResults.Get(new
+            var tableType = (api?.TableType) ?? Sqls.TableTypes.Normal;
+            if (groupId > 0)
             {
-                StatusCode = 200,
-                Response = new
+                if (view.ColumnFilterHash == null)
                 {
-                    Offset = api.Offset,
-                    PageSize = pageSize,
-                    TotalCount = groups.Count(),
-                    Data = groups.Select(o => o.GetByApi(
-                        context: context,
-                        ss: ss))
+                    view.ColumnFilterHash = new Dictionary<string, string>();
                 }
-            }.ToJson());
+                view.ColumnFilterHash.Add("GroupId", groupId.ToString());
+            }
+            switch (view.ApiDataType)
+            {
+                case View.ApiDataTypes.KeyValues:
+                    var gridData = new GridData(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        tableType: tableType,
+                        offset: api?.Offset ?? 0,
+                        pageSize: pageSize);
+                    return ApiResults.Get(new
+                    {
+                        statusCode = 200,
+                        response = new
+                        {
+                            Offset = api?.Offset ?? 0,
+                            PageSize = pageSize,
+                            TotalCount = gridData.TotalCount,
+                            Data = gridData.KeyValues(
+                                context: context,
+                                ss: ss,
+                                view: view)
+                        }
+                    }.ToJson());
+                default:
+                    var groupCollection = new GroupCollection(
+                        context: context,
+                        ss: ss,
+                        where: view.Where(
+                            context: context,
+                            ss: ss)
+                                .Groups_TenantId(context.TenantId)
+                                .SqlWhereLike(
+                                    tableName: "Groups",
+                                    name: "SearchText",
+                                    searchText: view.ColumnFilterHash
+                                    ?.Where(f => f.Key == "SearchText")
+                                    ?.Select(f => f.Value)
+                                    ?.FirstOrDefault(),
+                                    clauseCollection: new List<string>()
+                                    {
+                                        Rds.Groups_GroupId_WhereLike(factory: context),
+                                        Rds.Groups_GroupName_WhereLike(factory: context),
+                                        Rds.Groups_Body_WhereLike(factory: context)
+                                    })
+                                .Add(
+                                    tableName: "Groups",
+                                    subLeft: Rds.SelectGroupMembers(
+                                    column: Rds.GroupMembersColumn().GroupMembersCount(),
+                                    where: Rds.GroupMembersWhere().UserId(userId).GroupId(raw: "\"Groups\".\"GroupId\"").Add(raw: "\"Groups\".\"GroupId\">0")),
+                                    _operator: ">0",
+                                    _using: userId.HasValue),
+                        orderBy: view.OrderBy(
+                            context: context,
+                            ss: ss),
+                        offset: api.Offset,
+                        pageSize: pageSize,
+                        tableType: tableType);
+                    var groups = siteGroups == null
+                        ? groupCollection
+                        : groupCollection.Join(siteGroups, c => c.GroupId, s => s, (c, s) => c);
+                    return ApiResults.Get(new
+                    {
+                        StatusCode = 200,
+                        Response = new
+                        {
+                            Offset = api.Offset,
+                            PageSize = pageSize,
+                            TotalCount = groups.Count(),
+                            Data = groups.Select(o => o.GetByApi(
+                                context: context,
+                                ss: ss))
+                        }
+                    }.ToJson());
+            }
         }
 
         /// <summary>

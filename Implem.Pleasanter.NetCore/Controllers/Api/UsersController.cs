@@ -13,7 +13,8 @@ namespace Implem.Pleasanter.NetCore.Controllers.Api
     public class UsersController : ControllerBase
     {
         [HttpPost("Get")]
-        public ContentResult Get()
+        [HttpPost("{id}/Get")]
+        public ContentResult Get(int id = 0)
         {
             var body = default(string);
             using (var reader = new StreamReader(Request.Body)) body = reader.ReadToEnd();
@@ -23,7 +24,9 @@ namespace Implem.Pleasanter.NetCore.Controllers.Api
                 apiRequestBody: body,
                 contentType: Request.ContentType);
             var controller = new Pleasanter.Controllers.Api.UsersController();
-            var result = controller.Get(context: context);
+            var result = controller.Get(
+                context: context,
+                id: id);
             return result.ToHttpResponse(request: Request);
         }
 
@@ -53,7 +56,9 @@ namespace Implem.Pleasanter.NetCore.Controllers.Api
                 apiRequestBody: body,
                 contentType: Request.ContentType);
             var controller = new Pleasanter.Controllers.Api.UsersController();
-            var result = controller.Update(context: context, id: id);
+            var result = controller.Update(
+                context: context,
+                id: id);
             return result.ToHttpResponse(Request);
         }
 
@@ -68,7 +73,9 @@ namespace Implem.Pleasanter.NetCore.Controllers.Api
                 apiRequestBody: body,
                 contentType: Request.ContentType);
             var controller = new Pleasanter.Controllers.Api.UsersController();
-            var result = controller.Delete(context: context, id: id);
+            var result = controller.Delete(
+                context: context,
+                id: id);
             return result.ToHttpResponse(Request);
         }
     }

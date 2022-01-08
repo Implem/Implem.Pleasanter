@@ -1387,37 +1387,21 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Issues":
-                    if (SiteId == ReferenceId)
-                    {
-                        return IssueUtilities.GetByApi(
-                            context: context,
-                            ss: Site.SiteSettings,
-                            internalRequest: internalRequest);
-                    }
-                    else
-                    {
-                        return IssueUtilities.GetByApi(
-                            context: context,
-                            ss: Site.SiteSettings,
-                            issueId: ReferenceId,
-                            internalRequest: internalRequest);
-                    }
+                    return IssueUtilities.GetByApi(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        issueId: SiteId != ReferenceId
+                            ? ReferenceId
+                            : 0,
+                        internalRequest: internalRequest);
                 case "Results":
-                    if (SiteId == ReferenceId)
-                    {
-                        return ResultUtilities.GetByApi(
-                            context: context,
-                            ss: Site.SiteSettings,
-                            internalRequest: internalRequest);
-                    }
-                    else
-                    {
-                        return ResultUtilities.GetByApi(
-                            context: context,
-                            ss: Site.SiteSettings,
-                            resultId: ReferenceId,
-                            internalRequest: internalRequest);
-                    }
+                    return ResultUtilities.GetByApi(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        resultId: SiteId != ReferenceId
+                            ? ReferenceId
+                            : 0,
+                        internalRequest: internalRequest);
                 default:
                     return ApiResults.Get(ApiResponses.NotFound(context: context));
             }

@@ -77,6 +77,16 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return Title(context: context);
         }
 
+        public object ToApiDisplayValue(Context context, SiteSettings ss, Column column)
+        {
+            return Title(context: context);
+        }
+
+        public object ToApiValue(Context context, SiteSettings ss, Column column)
+        {
+            return Title(context: context);
+        }
+
         public virtual string ToExport(
             Context context, Column column, ExportColumn exportColumn = null)
         {

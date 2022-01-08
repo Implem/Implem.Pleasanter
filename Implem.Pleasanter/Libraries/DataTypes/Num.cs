@@ -116,6 +116,16 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                         unit: true)));
         }
 
+        public object ToApiDisplayValue(Context context, SiteSettings ss, Column column)
+        {
+            return Value;
+        }
+
+        public object ToApiValue(Context context, SiteSettings ss, Column column)
+        {
+            return Value;
+        }
+
         public string ToExport(
             Context context,
             Column column,

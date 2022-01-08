@@ -8,11 +8,13 @@ namespace Implem.Pleasanter.NetCore.Controllers
     public class Api_GroupsController : Controller
     {
         [HttpPost]
-        public ContentResult Get()
+        public ContentResult Get(int id = 0)
         {
             var context = new ContextImplement();
             var controller = new Pleasanter.Controllers.Api_GroupsController();
-            var result = controller.Get(context: context);
+            var result = controller.Get(
+                context: context,
+                id: id);
             return result.ToHttpResponse(request: Request);
         }
     }

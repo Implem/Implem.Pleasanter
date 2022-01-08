@@ -68,6 +68,16 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return hb.ToString();
         }
 
+        public override object ToApiDisplayValue(Context context, SiteSettings ss, Column column)
+        {
+            return $"{DisplayValue}\n{Body}";
+        }
+
+        public override object ToApiValue(Context context, SiteSettings ss, Column column)
+        {
+            return $"{Value}\n{Body}";
+        }
+
         public override string ToExport(Context context, Column column, ExportColumn exportColumn = null)
         {
             return ToString();

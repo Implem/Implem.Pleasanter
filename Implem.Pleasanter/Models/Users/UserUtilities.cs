@@ -2035,12 +2035,12 @@ namespace Implem.Pleasanter.Models
             UserModel userModel,
             string idSuffix = null)
         {
-            var needReplaceHtml = userModel.ServerScriptModelRow?.NeedReplaceHtml(
+            var replaceFieldColumns = ss.ReplaceFieldColumns(
                 context: context,
-                ss: ss);
+                serverScriptModelRow: userModel.ServerScriptModelRow);
             res.Val(
-                target: "#NeedReplaceHtml",
-                value: needReplaceHtml?.ToJson());
+                target: "#ReplaceFieldColumns",
+                value: replaceFieldColumns?.ToJson());
             var columnNames = ss.GetEditorColumnNames(context.QueryStrings.Bool("control-auto-postback")
                 ? ss.GetColumn(
                     context: context,
@@ -2056,7 +2056,7 @@ namespace Implem.Pleasanter.Models
                     var serverScriptModelColumn = userModel
                         ?.ServerScriptModelRow
                         ?.Columns.Get(column.ColumnName);
-                    if (needReplaceHtml?.Contains(column.ColumnName) == true)
+                    if (replaceFieldColumns?.Contains(column.ColumnName) == true)
                     {
                         res.ReplaceAll(
                             target: $"#Users_{column.Name}Field" + idSuffix,
@@ -4046,11 +4046,26 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static System.Web.Mvc.ContentResult GetByApi(Context context, SiteSettings ss)
+        public static System.Web.Mvc.ContentResult GetByApi(
+            Context context,
+            SiteSettings ss,
+            int userId)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
                 return ApiResults.BadRequest(context: context);
+            }
+            var invalid = UserValidators.OnEntry(
+                context: context,
+                ss: ss,
+                api: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                       context: context,
+                       errorData: invalid);
             }
             var api = context.RequestDataString.Deserialize<Api>();
             if (api == null)
@@ -4069,16 +4084,16 @@ namespace Implem.Pleasanter.Models
                 {
                     return ApiResults.Get(ApiResponses.NotFound(context: context));
                 }
-                var invalid = SiteValidators.OnReading(
+                var invalidOnReading = SiteValidators.OnReading(
                     context,
                     siteModel.SitesSiteSettings(context, siteId.Value),
                     siteModel);
-                switch (invalid.Type)
+                switch (invalidOnReading.Type)
                 {
                     case Error.Types.None: break;
                     default: return ApiResults.Error(
                         context: context,
-                        errorData: invalid);
+                        errorData: invalidOnReading);
                 }
             }
             var siteUsers = siteModel != null
@@ -4086,49 +4101,88 @@ namespace Implem.Pleasanter.Models
                 .Where(o => !SiteInfo.User(context, o).Disabled).ToArray()
                 : null;
             var pageSize = Parameters.Api.PageSize;
-            var userCollection = new UserCollection(
-                context: context,
-                ss: ss,
-                where: view.Where(context: context, ss: ss)
-                .Users_TenantId(context.TenantId)
-                .SqlWhereLike(
-                    tableName: "\"Users\"",
-                    name: "SearchText",
-                    searchText: view.ColumnFilterHash
-                        ?.Where(f => f.Key == "SearchText")
-                        ?.Select(f => f.Value)
-                        ?.FirstOrDefault(),
-                    clauseCollection: new List<string>()
-                    {
-                        Rds.Users_LoginId_WhereLike(factory: context),
-                        Rds.Users_Name_WhereLike(factory: context),
-                        Rds.Users_UserCode_WhereLike(factory: context),
-                        Rds.Users_Body_WhereLike(factory: context),
-                        Rds.Depts_DeptCode_WhereLike(factory: context),
-                        Rds.Depts_DeptName_WhereLike(factory: context),
-                        Rds.Depts_Body_WhereLike(factory: context)
-                    }),
-                orderBy: view.OrderBy(
-                    context: context,
-                    ss: ss),
-                offset: api.Offset,
-                pageSize: pageSize);
-            var users = siteUsers == null
-                ? userCollection
-                : userCollection.Join(siteUsers, c => c.UserId, s => s, (c, s) => c);
-            return ApiResults.Get(new
+            var tableType = (api?.TableType) ?? Sqls.TableTypes.Normal;
+            if (userId > 0)
             {
-                StatusCode = 200,
-                Response = new
+                if (view.ColumnFilterHash == null)
                 {
-                    Offset = api.Offset,
-                    PageSize = pageSize,
-                    TotalCount = users.Count(),
-                    Data = users.Select(o => o.GetByApi(
-                        context: context,
-                        ss: ss))
+                    view.ColumnFilterHash = new Dictionary<string, string>();
                 }
-            }.ToJson());
+                view.ColumnFilterHash.Add("UserId", userId.ToString());
+            }
+            switch (view.ApiDataType)
+            {
+                case View.ApiDataTypes.KeyValues:
+                    var gridData = new GridData(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        tableType: tableType,
+                        join: Rds.UsersJoinDefault(),
+                        offset: api?.Offset ?? 0,
+                        pageSize: pageSize);
+                    return ApiResults.Get(new
+                    {
+                        statusCode = 200,
+                        response = new
+                        {
+                            Offset = api?.Offset ?? 0,
+                            PageSize = pageSize,
+                            TotalCount = gridData.TotalCount,
+                            Data = gridData.KeyValues(
+                                context: context,
+                                ss: ss,
+                                view: view)
+                        }
+                    }.ToJson());
+                default:
+                    var userCollection = new UserCollection(
+                        context: context,
+                        ss: ss,
+                        where: view.Where(
+                            context: context,
+                            ss: ss)
+                                .Users_TenantId(context.TenantId)
+                                .SqlWhereLike(
+                                    tableName: "\"Users\"",
+                                    name: "SearchText",
+                                    searchText: view.ColumnFilterHash
+                                        ?.Where(f => f.Key == "SearchText")
+                                        ?.Select(f => f.Value)
+                                        ?.FirstOrDefault(),
+                                    clauseCollection: new List<string>()
+                                    {
+                                        Rds.Users_LoginId_WhereLike(factory: context),
+                                        Rds.Users_Name_WhereLike(factory: context),
+                                        Rds.Users_UserCode_WhereLike(factory: context),
+                                        Rds.Users_Body_WhereLike(factory: context),
+                                        Rds.Depts_DeptCode_WhereLike(factory: context),
+                                        Rds.Depts_DeptName_WhereLike(factory: context),
+                                        Rds.Depts_Body_WhereLike(factory: context)
+                                    }),
+                        orderBy: view.OrderBy(
+                            context: context,
+                            ss: ss),
+                        offset: api.Offset,
+                        pageSize: pageSize,
+                        tableType: tableType);
+                    var users = siteUsers == null
+                        ? userCollection
+                        : userCollection.Join(siteUsers, c => c.UserId, s => s, (c, s) => c);
+                    return ApiResults.Get(new
+                    {
+                        StatusCode = 200,
+                        Response = new
+                        {
+                            Offset = api.Offset,
+                            PageSize = pageSize,
+                            TotalCount = users.Count(),
+                            Data = users.Select(o => o.GetByApi(
+                                context: context,
+                                ss: ss))
+                        }
+                    }.ToJson());
+            }
         }
 
         /// <summary>

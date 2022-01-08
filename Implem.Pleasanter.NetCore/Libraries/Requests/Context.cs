@@ -623,18 +623,15 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
             return request?.Headers.TryGetValue("User-Agent", out value) == true ? value.Any(v => v.Contains("Mobile")) : false;
         }
 
-        string CreateHttpMethod(HttpRequest request)
-        {
-            return request != null
-               ? request.Method
-               : null;
-        }
-
         string CreateUrl(HttpRequest request)
         {
-            return request != null
-               ? $"{request.Scheme}://{request.Host.Value}{request.Path.Value}{request.QueryString.Value}"
-               : null;
+            var basePath = request.PathBase.HasValue
+                ? $"/{request.PathBase.Value.Trim('/')}"
+                : string.Empty;
+            var url = request != null
+                ? $"{request.Scheme}://{request.Host.Value}{basePath}{request.Path.Value}{request.QueryString.Value}"
+                : null;
+            return url;
         }
 
         public string CreateUrlReferrer(HttpRequest request)
