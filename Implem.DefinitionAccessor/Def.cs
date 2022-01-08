@@ -332,6 +332,10 @@ namespace Implem.DefinitionAccessor
                     case "Model_ToDisplay": Code.Model_ToDisplay = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToDisplay, definitionRow, CodeXls); break;
                     case "Model_ToDisplayColumnCases": Code.Model_ToDisplayColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToDisplayColumnCases, definitionRow, CodeXls); break;
                     case "Model_ToDisplayColumnCases_Dept": Code.Model_ToDisplayColumnCases_Dept = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToDisplayColumnCases_Dept, definitionRow, CodeXls); break;
+                    case "Model_ToApiDisplayValue": Code.Model_ToApiDisplayValue = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToApiDisplayValue, definitionRow, CodeXls); break;
+                    case "Model_ToApiDisplayValueColumnCases": Code.Model_ToApiDisplayValueColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToApiDisplayValueColumnCases, definitionRow, CodeXls); break;
+                    case "Model_ToApiValue": Code.Model_ToApiValue = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToApiValue, definitionRow, CodeXls); break;
+                    case "Model_ToApiValueColumnCases": Code.Model_ToApiValueColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToApiValueColumnCases, definitionRow, CodeXls); break;
                     case "Model_FullText": Code.Model_FullText = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_FullText, definitionRow, CodeXls); break;
                     case "Model_FullTextColumnCases": Code.Model_FullTextColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_FullTextColumnCases, definitionRow, CodeXls); break;
                     case "Model_FullTextColumn": Code.Model_FullTextColumn = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_FullTextColumn, definitionRow, CodeXls); break;
@@ -893,6 +897,8 @@ namespace Implem.DefinitionAccessor
                     case "FormulaUtilities_TableCases": Code.FormulaUtilities_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.FormulaUtilities_TableCases, definitionRow, CodeXls); break;
                     case "FormulaUtilities_Updates": Code.FormulaUtilities_Updates = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.FormulaUtilities_Updates, definitionRow, CodeXls); break;
                     case "GridData": Code.GridData = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.GridData, definitionRow, CodeXls); break;
+                    case "GridData_KeyValues": Code.GridData_KeyValues = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.GridData_KeyValues, definitionRow, CodeXls); break;
+                    case "GridData_KeyValues_Items": Code.GridData_KeyValues_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.GridData_KeyValues_Items, definitionRow, CodeXls); break;
                     case "GridData_Csv": Code.GridData_Csv = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.GridData_Csv, definitionRow, CodeXls); break;
                     case "GridData_Json": Code.GridData_Json = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.GridData_Json, definitionRow, CodeXls); break;
                     case "GridData_ModelHash": Code.GridData_ModelHash = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.GridData_ModelHash, definitionRow, CodeXls); break;
@@ -7379,6 +7385,10 @@ namespace Implem.DefinitionAccessor
         public string Model_ToDisplay;
         public string Model_ToDisplayColumnCases;
         public string Model_ToDisplayColumnCases_Dept;
+        public string Model_ToApiDisplayValue;
+        public string Model_ToApiDisplayValueColumnCases;
+        public string Model_ToApiValue;
+        public string Model_ToApiValueColumnCases;
         public string Model_FullText;
         public string Model_FullTextColumnCases;
         public string Model_FullTextColumn;
@@ -7940,6 +7950,8 @@ namespace Implem.DefinitionAccessor
         public string FormulaUtilities_TableCases;
         public string FormulaUtilities_Updates;
         public string GridData;
+        public string GridData_KeyValues;
+        public string GridData_KeyValues_Items;
         public string GridData_Csv;
         public string GridData_Json;
         public string GridData_ModelHash;
@@ -8068,6 +8080,10 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_ToDisplay = new CodeDefinition();
         public CodeDefinition Model_ToDisplayColumnCases = new CodeDefinition();
         public CodeDefinition Model_ToDisplayColumnCases_Dept = new CodeDefinition();
+        public CodeDefinition Model_ToApiDisplayValue = new CodeDefinition();
+        public CodeDefinition Model_ToApiDisplayValueColumnCases = new CodeDefinition();
+        public CodeDefinition Model_ToApiValue = new CodeDefinition();
+        public CodeDefinition Model_ToApiValueColumnCases = new CodeDefinition();
         public CodeDefinition Model_FullText = new CodeDefinition();
         public CodeDefinition Model_FullTextColumnCases = new CodeDefinition();
         public CodeDefinition Model_FullTextColumn = new CodeDefinition();
@@ -8629,6 +8645,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition FormulaUtilities_TableCases = new CodeDefinition();
         public CodeDefinition FormulaUtilities_Updates = new CodeDefinition();
         public CodeDefinition GridData = new CodeDefinition();
+        public CodeDefinition GridData_KeyValues = new CodeDefinition();
+        public CodeDefinition GridData_KeyValues_Items = new CodeDefinition();
         public CodeDefinition GridData_Csv = new CodeDefinition();
         public CodeDefinition GridData_Json = new CodeDefinition();
         public CodeDefinition GridData_ModelHash = new CodeDefinition();

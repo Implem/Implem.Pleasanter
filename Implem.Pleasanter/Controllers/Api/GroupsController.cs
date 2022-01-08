@@ -5,6 +5,7 @@ using System.Web.Http;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Implem.Pleasanter.Filters;
+using Implem.Pleasanter.Libraries.Settings;
 namespace Implem.Pleasanter.Controllers.Api
 {
     [CheckApiContextAttributes]
@@ -12,7 +13,7 @@ namespace Implem.Pleasanter.Controllers.Api
     public class GroupsController : ApiController
     {
         [HttpPost]
-        public async Task<HttpResponseMessage> Get()
+        public async Task<HttpResponseMessage> Get(int id = 0)
         {
             var body = await Request.Content.ReadAsStringAsync();
             var context = new Context(
@@ -22,7 +23,10 @@ namespace Implem.Pleasanter.Controllers.Api
                 contentType: Request.Content.Headers.ContentType.MediaType);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
-                ? new GroupModel().GetByApi(context: context)
+                ? GroupUtilities.GetByApi(
+                    context: context,
+                    ss: SiteSettingsUtilities.ApiGroupsSiteSettings(context),
+                    groupId: id)
                 : ApiResults.Unauthorized(context: context);
             log.Finish(context: context, responseSize: result.Content.Length);
             return result.ToHttpResponse(Request);
@@ -39,7 +43,9 @@ namespace Implem.Pleasanter.Controllers.Api
                 contentType: Request.Content.Headers.ContentType.MediaType);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
-                ? new GroupModel().CreateByApi(context: context)
+                ? GroupUtilities.CreateByApi(
+                    context: context,
+                    ss: SiteSettingsUtilities.ApiGroupsSiteSettings(context))
                 : ApiResults.Unauthorized(context: context);
             log.Finish(context: context, responseSize: result.Content.Length);
             return result.ToHttpResponse(Request);
@@ -56,7 +62,10 @@ namespace Implem.Pleasanter.Controllers.Api
                 contentType: Request.Content.Headers.ContentType.MediaType);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
-                ? new GroupModel().UpdateByApi(context: context, groupId: id)
+                ? GroupUtilities.UpdateByApi(
+                    context: context,
+                    ss: SiteSettingsUtilities.ApiGroupsSiteSettings(context),
+                    groupId: id)
                 : ApiResults.Unauthorized(context: context);
             log.Finish(context: context, responseSize: result.Content.Length);
             return result.ToHttpResponse(Request);
@@ -73,7 +82,10 @@ namespace Implem.Pleasanter.Controllers.Api
                 contentType: Request.Content.Headers.ContentType.MediaType);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
-                ? new GroupModel().DeleteByApi(context: context, groupId: id)
+                ? GroupUtilities.DeleteByApi(
+                    context: context,
+                    ss: SiteSettingsUtilities.ApiGroupsSiteSettings(context),
+                    groupId: id)
                 : ApiResults.Unauthorized(context: context);
             log.Finish(context: context, responseSize: result.Content.Length);
             return result.ToHttpResponse(Request);

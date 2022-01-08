@@ -657,12 +657,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             serverScriptModelRow?.Hidden?.ForEach(hidden => hb
                 .Hidden(controlId: hidden.Key, value: hidden.Value));
-            var needReplaceHtml = serverScriptModelRow?.NeedReplaceHtml(
-                context: context,
-                ss: ss) ?? new List<string>();
+            var replaceFieldColumns = serverScriptModelRow?.ReplaceFieldColumns(context: context)
+                ?? new List<string>();
             hb.Hidden(
-                controlId: "NeedReplaceHtml",
-                value: needReplaceHtml.ToJson());
+                controlId: "ReplaceFieldColumns",
+                value: replaceFieldColumns.ToJson());
             return hb;
         }
 

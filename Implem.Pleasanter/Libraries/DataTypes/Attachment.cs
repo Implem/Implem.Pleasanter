@@ -118,7 +118,6 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                         .Size(Size)
                         .ContentType(ContentType),
                     where: Rds.BinariesWhere().Guid(Guid)));
-                DataSources.File.DeleteTemp(Guid);
             }
             else if (Deleted == true && !Overwritten.HasValue)
             {

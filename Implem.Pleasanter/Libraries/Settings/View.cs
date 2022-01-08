@@ -33,6 +33,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             Hidden = 3,
         }
 
+        public enum ApiDataTypes : int
+        {
+            Default = 0,
+            KeyValues = 1
+        }
+
         public int Id;
         public string Name;
         public List<string> GridColumns;
@@ -64,6 +70,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Search;
         public Dictionary<string, SqlOrderBy.Types> ColumnSorterHash;
         public Dictionary<string, string> ViewExtensionsHash;
+        public Dictionary<string, ApiColumn> ApiColumnHash;
+        public ApiColumn.KeyDisplayTypes ApiColumnKeyDisplayType;
+        public ApiColumn.ValueDisplayTypes ApiColumnValueDisplayType;
         public string CalendarTimePeriod;
         public string CalendarFromTo;
         public DateTime? CalendarDate;
@@ -88,6 +97,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string KambanValue;
         public int? KambanColumns;
         public bool? KambanAggregationView;
+        public ApiDataTypes ApiDataType;
         [NonSerialized]
         public SqlWhereCollection AdditionalWhere;
         [NonSerialized]
@@ -364,19 +374,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                     AggregationsReduced = false;
                     break;
                 case "ViewFilters_Reset":
-                    Id = 0;
-                    Name = null;
-                    Incomplete = null;
-                    Own = null;
-                    NearCompletionTime = null;
-                    Delay = null;
-                    Overdue = null;
-                    ColumnFilterHash = null;
-                    Search = null;
-                    ShowHistory = null;
+                    ResetViewFilters(ss: ss);
                     break;
                 case "ViewSorters_Reset":
-                    ColumnSorterHash = null;
+                    ResetViewSorters(ss: ss);
                     break;
                 default:
                     foreach (string controlId in context.Forms.Keys)
@@ -673,6 +674,28 @@ namespace Implem.Pleasanter.Libraries.Settings
                     }
                     break;
             }
+        }
+
+        private void ResetViewFilters(SiteSettings ss)
+        {
+            var view = ss.Views.FirstOrDefault(o => o.Id == Id)
+                ?? new View();
+            Name = view.Name;
+            Incomplete = view.Incomplete;
+            Own = view.Own;
+            NearCompletionTime = view.NearCompletionTime;
+            Delay = view.Delay;
+            Overdue = view.Overdue;
+            ColumnFilterHash = view.ColumnFilterHash;
+            Search = view.Search;
+            ShowHistory = view.ShowHistory;
+        }
+
+        private void ResetViewSorters(SiteSettings ss)
+        {
+            var view = ss.Views.FirstOrDefault(o => o.Id == Id)
+                ?? new View();
+            ColumnSorterHash = view.ColumnSorterHash;
         }
 
         private bool? Bool(Context context, string controlId)

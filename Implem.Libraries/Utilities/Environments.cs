@@ -11,7 +11,6 @@ namespace Implem.Libraries.Utilities
         public static string Application;
         public static string AssemblyVersion;
         public static string RdsProvider;
-        public static TimeZoneInfo RdsTimeZoneInfo;
         public static TimeZoneInfo TimeZoneInfoDefault;
         public static int DeadlockRetryCount;
         public static int DeadlockRetryInterval;

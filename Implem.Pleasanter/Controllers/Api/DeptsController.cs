@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Threading.Tasks;
 using Implem.Pleasanter.Filters;
+using Implem.Pleasanter.Libraries.Settings;
 namespace Implem.Pleasanter.Controllers.Api
 {
     [CheckApiContextAttributes]
@@ -12,7 +13,7 @@ namespace Implem.Pleasanter.Controllers.Api
     public class DeptsController : ApiController
     {
         [HttpPost]
-        public async Task<HttpResponseMessage> Get()
+        public async Task<HttpResponseMessage> Get(int id = 0)
         {
             var body = await Request.Content.ReadAsStringAsync();
             var context = new Context(
@@ -22,7 +23,10 @@ namespace Implem.Pleasanter.Controllers.Api
                 contentType: Request.Content.Headers.ContentType.MediaType);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
-                ? new DeptModel().GetByApi(context: context)
+                ? DeptUtilities.GetByApi(
+                    context: context,
+                    ss: SiteSettingsUtilities.ApiDeptsSiteSettings(context),
+                    deptId: id)
                 : ApiResults.Unauthorized(context: context);
             log.Finish(context: context, responseSize: result.Content.Length);
             return result.ToHttpResponse(Request);

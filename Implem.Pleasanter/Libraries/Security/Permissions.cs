@@ -135,6 +135,12 @@ namespace Implem.Pleasanter.Libraries.Security
             SqlWhereCollection where,
             bool checkPermission = true)
         {
+            if (ss.ColumnHash.ContainsKey("TenantId"))
+            {
+                where.Add(
+                    tableName: ss.ReferenceType,
+                    raw: $"\"{ss.ReferenceType}\".\"TenantId\"={context.TenantId}");
+            }
             if (ss.IsSite(context: context) && ss.ReferenceType == "Sites")
             {
                 where.Add(

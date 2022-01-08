@@ -7,7 +7,10 @@ namespace Implem.Pleasanter.Libraries.Responses
     public static class ResponseViews
     {
         public static ResponseCollection View(
-            this ResponseCollection res, Context context, SiteSettings ss, View view)
+            this ResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            View view)
         {
             return res
                 .ViewFilters(
@@ -21,15 +24,23 @@ namespace Implem.Pleasanter.Libraries.Responses
         }
 
         private static ResponseCollection ViewFilters(
-            this ResponseCollection res, Context context, SiteSettings ss, View view)
+            this ResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            View view)
         {
             switch (context.Forms.ControlId())
             {
                 case "ViewSelector":
+                case "ViewFilters_Reset":
                 case "ReduceViewFilters":
                 case "ExpandViewFilters":
-                    return res.ReplaceAll("#ViewFilters", new HtmlBuilder()
-                        .ViewFilters(context: context, ss: ss, view: view))
+                    return res
+                        .ReplaceAll("#ViewFilters",
+                            new HtmlBuilder().ViewFilters(
+                                context: context,
+                                ss: ss,
+                                view: view))
                         .ReplaceAll("#ShowHistoryField",
                             new HtmlBuilder().FieldCheckBox(
                                 fieldId: "ShowHistoryField",

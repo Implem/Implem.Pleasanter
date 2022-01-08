@@ -1646,6 +1646,688 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public object ToApiDisplayValue(Context context, SiteSettings ss, Column column, List<string> mine)
+        {
+            if (!ss.ReadColumnAccessControls.Allowed(
+                context: context,
+                ss: ss,
+                column: column,
+                mine: mine))
+            {
+                return string.Empty;
+            }
+            switch (column.ColumnName)
+            {
+                case "TenantId":
+                    return TenantId.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UserId":
+                    return UserId.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Ver":
+                    return Ver.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "LoginId":
+                    return LoginId.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "GlobalId":
+                    return GlobalId.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Name":
+                    return Name.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UserCode":
+                    return UserCode.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Password":
+                    return Password.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "PasswordValidate":
+                    return PasswordValidate.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "PasswordDummy":
+                    return PasswordDummy.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "RememberMe":
+                    return RememberMe.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "LastName":
+                    return LastName.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "FirstName":
+                    return FirstName.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Birthday":
+                    return Birthday.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Gender":
+                    return Gender.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Language":
+                    return Language.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "TimeZone":
+                    return TimeZone.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "TimeZoneInfo":
+                    return TimeZoneInfo.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "DeptCode":
+                    return DeptCode.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "DeptId":
+                    return DeptId.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Dept":
+                    return Dept.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Theme":
+                    return Theme.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Title":
+                    return Title.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Body":
+                    return Body.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "LastLoginTime":
+                    return LastLoginTime.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "PasswordExpirationTime":
+                    return PasswordExpirationTime.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "PasswordChangeTime":
+                    return PasswordChangeTime.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "NumberOfLogins":
+                    return NumberOfLogins.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "NumberOfDenial":
+                    return NumberOfDenial.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "TenantManager":
+                    return TenantManager.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ServiceManager":
+                    return ServiceManager.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "AllowCreationAtTopSite":
+                    return AllowCreationAtTopSite.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "AllowGroupAdministration":
+                    return AllowGroupAdministration.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "AllowGroupCreation":
+                    return AllowGroupCreation.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "AllowApi":
+                    return AllowApi.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Disabled":
+                    return Disabled.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Lockout":
+                    return Lockout.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "LockoutCounter":
+                    return LockoutCounter.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Developer":
+                    return Developer.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ApiKey":
+                    return ApiKey.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "OldPassword":
+                    return OldPassword.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ChangedPassword":
+                    return ChangedPassword.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ChangedPasswordValidator":
+                    return ChangedPasswordValidator.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "AfterResetPassword":
+                    return AfterResetPassword.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "AfterResetPasswordValidator":
+                    return AfterResetPasswordValidator.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "DemoMailAddress":
+                    return DemoMailAddress.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SessionGuid":
+                    return SessionGuid.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SecondaryAuthenticationCode":
+                    return SecondaryAuthenticationCode.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SecondaryAuthenticationCodeExpirationTime":
+                    return SecondaryAuthenticationCodeExpirationTime.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "LdapSearchRoot":
+                    return LdapSearchRoot.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SynchronizedTime":
+                    return SynchronizedTime.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Comments":
+                    return Comments.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Creator":
+                    return Creator.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Updator":
+                    return Updator.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "CreatedTime":
+                    return CreatedTime.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UpdatedTime":
+                    return UpdatedTime.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "VerUp":
+                    return VerUp.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Timestamp":
+                    return Timestamp.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(column.Name))
+                    {
+                        case "Class":
+                            return Class(column: column).ToApiDisplayValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Num":
+                            return Num(column: column).ToApiDisplayValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Date":
+                            return Date(column: column).ToApiDisplayValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Description":
+                            return Description(column: column).ToApiDisplayValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Check":
+                            return Check(column: column).ToApiDisplayValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Attachments":
+                            return Attachments(column: column).ToApiDisplayValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        default:
+                            return string.Empty;
+                    }
+            }
+        }
+
+        public object ToApiValue(Context context, SiteSettings ss, Column column, List<string> mine)
+        {
+            if (!ss.ReadColumnAccessControls.Allowed(
+                context: context,
+                ss: ss,
+                column: column,
+                mine: mine))
+            {
+                return string.Empty;
+            }
+            switch (column.ColumnName)
+            {
+                case "TenantId":
+                    return TenantId.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UserId":
+                    return UserId.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Ver":
+                    return Ver.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "LoginId":
+                    return LoginId.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "GlobalId":
+                    return GlobalId.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Name":
+                    return Name.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UserCode":
+                    return UserCode.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Password":
+                    return Password.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "PasswordValidate":
+                    return PasswordValidate.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "PasswordDummy":
+                    return PasswordDummy.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "RememberMe":
+                    return RememberMe.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "LastName":
+                    return LastName.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "FirstName":
+                    return FirstName.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Birthday":
+                    return Birthday.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Gender":
+                    return Gender.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Language":
+                    return Language.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "TimeZone":
+                    return TimeZone.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "TimeZoneInfo":
+                    return TimeZoneInfo.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "DeptCode":
+                    return DeptCode.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "DeptId":
+                    return DeptId.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Dept":
+                    return Dept.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Theme":
+                    return Theme.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Title":
+                    return Title.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Body":
+                    return Body.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "LastLoginTime":
+                    return LastLoginTime.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "PasswordExpirationTime":
+                    return PasswordExpirationTime.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "PasswordChangeTime":
+                    return PasswordChangeTime.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "NumberOfLogins":
+                    return NumberOfLogins.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "NumberOfDenial":
+                    return NumberOfDenial.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "TenantManager":
+                    return TenantManager.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ServiceManager":
+                    return ServiceManager.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "AllowCreationAtTopSite":
+                    return AllowCreationAtTopSite.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "AllowGroupAdministration":
+                    return AllowGroupAdministration.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "AllowGroupCreation":
+                    return AllowGroupCreation.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "AllowApi":
+                    return AllowApi.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Disabled":
+                    return Disabled.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Lockout":
+                    return Lockout.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "LockoutCounter":
+                    return LockoutCounter.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Developer":
+                    return Developer.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ApiKey":
+                    return ApiKey.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "OldPassword":
+                    return OldPassword.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ChangedPassword":
+                    return ChangedPassword.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ChangedPasswordValidator":
+                    return ChangedPasswordValidator.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "AfterResetPassword":
+                    return AfterResetPassword.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "AfterResetPasswordValidator":
+                    return AfterResetPasswordValidator.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "DemoMailAddress":
+                    return DemoMailAddress.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SessionGuid":
+                    return SessionGuid.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SecondaryAuthenticationCode":
+                    return SecondaryAuthenticationCode.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SecondaryAuthenticationCodeExpirationTime":
+                    return SecondaryAuthenticationCodeExpirationTime.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "LdapSearchRoot":
+                    return LdapSearchRoot.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SynchronizedTime":
+                    return SynchronizedTime.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Comments":
+                    return Comments.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Creator":
+                    return Creator.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Updator":
+                    return Updator.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "CreatedTime":
+                    return CreatedTime.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UpdatedTime":
+                    return UpdatedTime.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "VerUp":
+                    return VerUp.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Timestamp":
+                    return Timestamp.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(column.Name))
+                    {
+                        case "Class":
+                            return Class(column: column).ToApiValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Num":
+                            return Num(column: column).ToApiValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Date":
+                            return Date(column: column).ToApiValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Description":
+                            return Description(column: column).ToApiValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Check":
+                            return Check(column: column).ToApiValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Attachments":
+                            return Attachments(column: column).ToApiValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        default:
+                            return string.Empty;
+                    }
+            }
+        }
+
         public ErrorData Create(
             Context context,
             SiteSettings ss,
@@ -3559,6 +4241,28 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public object ToApiDisplayValue(Context context, SiteSettings ss, Column column)
+        {
+            var name = SiteInfo.Name(
+                context: context,
+                id: UserId,
+                type: Column.Types.User);
+            return !name.IsNullOrEmpty()
+                ? name
+                : null;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public object ToApiValue(Context context, SiteSettings ss, Column column)
+        {
+            return UserId;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public string ToExport(Context context, Column column, ExportColumn exportColumn = null)
         {
             return SiteInfo.UserName(
@@ -3630,48 +4334,6 @@ namespace Implem.Pleasanter.Models
         public bool InitialValue(Context context)
         {
             return UserId == 0;
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public System.Web.Mvc.ContentResult GetByApi(Context context)
-        {
-            return UserUtilities.GetByApi(
-                context: context,
-                ss: SiteSettingsUtilities.ApiUsersSiteSettings(context));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public System.Web.Mvc.ContentResult CreateByApi(Context context)
-        {
-            return UserUtilities.CreateByApi(
-                context: context,
-                ss: SiteSettingsUtilities.ApiUsersSiteSettings(context));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public System.Web.Mvc.ContentResult UpdateByApi(Context context, int userId)
-        {
-            return UserUtilities.UpdateByApi(
-                context: context,
-                ss: SiteSettingsUtilities.ApiUsersSiteSettings(context),
-                userId: userId);
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public System.Web.Mvc.ContentResult DeleteByApi(Context context, int userId)
-        {
-            return UserUtilities.DeleteByApi(
-                context: context,
-                ss: SiteSettingsUtilities.ApiUsersSiteSettings(context),
-                userId: userId);
         }
     }
 }

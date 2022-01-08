@@ -12,6 +12,9 @@ namespace Implem.Pleasanter.Models
 {
     public static class UserValidators
     {
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static ErrorData OnEntry(Context context, SiteSettings ss, bool api = false)
         {
             if (api)
@@ -26,20 +29,15 @@ namespace Implem.Pleasanter.Models
                 {
                     return new ErrorData(type: Error.Types.InvalidJsonData);
                 }
+                return new ErrorData(type: Error.Types.None);
             }
             if (!Parameters.Service.ShowProfiles)
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
-            if (!api && ss.GetNoDisplayIfReadOnly())
-            {
-                return new ErrorData(type: Error.Types.NotFound);
-            }
-            return context.HasPermission(ss: ss)
+            return Permissions.CanManageTenant(context: context)
                 ? new ErrorData(type: Error.Types.None)
-                : !context.CanRead(ss: ss)
-                    ? new ErrorData(type: Error.Types.NotFound)
-                    : new ErrorData(type: Error.Types.HasNotPermission);
+                : new ErrorData(type: Error.Types.HasNotPermission);
         }
 
         public static ErrorData OnEditing(
@@ -798,16 +796,6 @@ namespace Implem.Pleasanter.Models
                 : !context.CanRead(ss: ss)
                     ? new ErrorData(type: Error.Types.NotFound)
                     : new ErrorData(type: Error.Types.HasNotPermission);
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static ErrorData OnEntry(Context context, SiteSettings ss)
-        {
-            return Permissions.CanManageTenant(context: context)
-                ? new ErrorData(type: Error.Types.None)
-                : new ErrorData(type: Error.Types.HasNotPermission);
         }
 
         /// <summary>

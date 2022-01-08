@@ -1350,12 +1350,12 @@ namespace Implem.Pleasanter.Models
             DeptModel deptModel,
             string idSuffix = null)
         {
-            var needReplaceHtml = deptModel.ServerScriptModelRow?.NeedReplaceHtml(
+            var replaceFieldColumns = ss.ReplaceFieldColumns(
                 context: context,
-                ss: ss);
+                serverScriptModelRow: deptModel.ServerScriptModelRow);
             res.Val(
-                target: "#NeedReplaceHtml",
-                value: needReplaceHtml?.ToJson());
+                target: "#ReplaceFieldColumns",
+                value: replaceFieldColumns?.ToJson());
             var columnNames = ss.GetEditorColumnNames(context.QueryStrings.Bool("control-auto-postback")
                 ? ss.GetColumn(
                     context: context,
@@ -1371,7 +1371,7 @@ namespace Implem.Pleasanter.Models
                     var serverScriptModelColumn = deptModel
                         ?.ServerScriptModelRow
                         ?.Columns.Get(column.ColumnName);
-                    if (needReplaceHtml?.Contains(column.ColumnName) == true)
+                    if (replaceFieldColumns?.Contains(column.ColumnName) == true)
                     {
                         res.ReplaceAll(
                             target: $"#Depts_{column.Name}Field" + idSuffix,
@@ -1812,11 +1812,26 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static System.Web.Mvc.ContentResult GetByApi(Context context, SiteSettings ss)
+        public static System.Web.Mvc.ContentResult GetByApi(
+            Context context,
+            SiteSettings ss,
+            int deptId)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
                 return ApiResults.BadRequest(context: context);
+            }
+            var invalid = DeptValidators.OnEntry(
+                context: context,
+                ss: ss,
+                api: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                       context: context,
+                       errorData: invalid);
             }
             var api = context.RequestDataString.Deserialize<Api>();
             if (api == null)
@@ -1839,16 +1854,16 @@ namespace Implem.Pleasanter.Models
                 {
                     return ApiResults.Get(ApiResponses.NotFound(context: context));
                 }
-                var invalid = SiteValidators.OnReading(
+                var invalidOnReading = SiteValidators.OnReading(
                     context,
                     siteModel.SitesSiteSettings(context, siteId.Value),
                     siteModel);
-                switch (invalid.Type)
+                switch (invalidOnReading.Type)
                 {
                     case Error.Types.None: break;
                     default: return ApiResults.Error(
                         context: context,
-                        errorData: invalid);
+                        errorData: invalidOnReading);
                 }
             }
             var siteDepts = siteModel != null
@@ -1856,55 +1871,93 @@ namespace Implem.Pleasanter.Models
                     .Where(o => !SiteInfo.User(context, o).Disabled).ToArray()
                 : null;
             var pageSize = Parameters.Api.PageSize;
-            var deptCollection = new DeptCollection(
-                context: context,
-                ss: ss,
-                where: view.Where(context: context, ss: ss)
-                .Depts_TenantId(context.TenantId)
-                .SqlWhereLike(
-                    tableName: "Depts",
-                    name: "SearchText",
-                    searchText: view.ColumnFilterHash
-                        ?.Where(f => f.Key == "SearchText")
-                        ?.Select(f => f.Value)
-                        ?.FirstOrDefault(),
-                    clauseCollection: new List<string>()
-                    {
-                        Rds.Depts_DeptId_WhereLike(factory: context),
-                        Rds.Depts_DeptName_WhereLike(factory: context),
-                        Rds.Depts_Body_WhereLike(factory: context)
-                    })
-                .Add(
-                    tableName: "Users",
-                    subLeft: Rds.SelectUsers(
-                    column: Rds.UsersColumn().UsersCount(),
-                    where: Rds.UsersWhere()
-                        .UserId(userId)
-                        .DeptId(raw: "\"Depts\".\"DeptId\"")
-                        .Add(raw: "\"Depts\".\"DeptId\">0")),
-                    _operator: ">0",
-                    _using: userId.HasValue),
-                orderBy: view.OrderBy(
-                    context: context,
-                    ss: ss),
-                offset: api.Offset,
-                pageSize: pageSize);
-            var groups = siteDepts == null
-                ? deptCollection
-                : deptCollection.Join(siteDepts, c => c.DeptId, s => s, (c, s) => c);
-            return ApiResults.Get(new
+            var tableType = (api?.TableType) ?? Sqls.TableTypes.Normal;
+            if (deptId > 0)
             {
-                StatusCode = 200,
-                Response = new
+                if (view.ColumnFilterHash == null)
                 {
-                    Offset = api.Offset,
-                    PageSize = pageSize,
-                    TotalCount = groups.Count(),
-                    Data = groups.Select(o => o.GetByApi(
-                        context: context,
-                        ss: ss))
+                    view.ColumnFilterHash = new Dictionary<string, string>();
                 }
-            }.ToJson());
+                view.ColumnFilterHash.Add("DeptId", deptId.ToString());
+            }
+            switch (view.ApiDataType)
+            {
+                case View.ApiDataTypes.KeyValues:
+                    var gridData = new GridData(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        tableType: tableType,
+                        offset: api?.Offset ?? 0,
+                        pageSize: pageSize);
+                    return ApiResults.Get(new
+                    {
+                        statusCode = 200,
+                        response = new
+                        {
+                            Offset = api?.Offset ?? 0,
+                            PageSize = pageSize,
+                            TotalCount = gridData.TotalCount,
+                            Data = gridData.KeyValues(
+                                context: context,
+                                ss: ss,
+                                view: view)
+                        }
+                    }.ToJson());
+                default:
+                    var deptCollection = new DeptCollection(
+                        context: context,
+                        ss: ss,
+                        where: view.Where(
+                            context: context,
+                            ss: ss)
+                                .Depts_TenantId(context.TenantId)
+                                .SqlWhereLike(
+                                    tableName: "Depts",
+                                    name: "SearchText",
+                                    searchText: view.ColumnFilterHash
+                                        ?.Where(f => f.Key == "SearchText")
+                                        ?.Select(f => f.Value)
+                                        ?.FirstOrDefault(),
+                                    clauseCollection: new List<string>()
+                                    {
+                                        Rds.Depts_DeptId_WhereLike(factory: context),
+                                        Rds.Depts_DeptName_WhereLike(factory: context),
+                                        Rds.Depts_Body_WhereLike(factory: context)
+                                    })
+                                .Add(
+                                    tableName: "Users",
+                                    subLeft: Rds.SelectUsers(
+                                    column: Rds.UsersColumn().UsersCount(),
+                                    where: Rds.UsersWhere()
+                                        .UserId(userId)
+                                        .DeptId(raw: "\"Depts\".\"DeptId\"")
+                                        .Add(raw: "\"Depts\".\"DeptId\">0")),
+                                    _operator: ">0",
+                                    _using: userId.HasValue),
+                        orderBy: view.OrderBy(
+                            context: context,
+                            ss: ss),
+                        offset: api.Offset,
+                        pageSize: pageSize,
+                        tableType: tableType);
+                    var groups = siteDepts == null
+                        ? deptCollection
+                        : deptCollection.Join(siteDepts, c => c.DeptId, s => s, (c, s) => c);
+                    return ApiResults.Get(new
+                    {
+                        StatusCode = 200,
+                        Response = new
+                        {
+                            Offset = api.Offset,
+                            PageSize = pageSize,
+                            TotalCount = groups.Count(),
+                            Data = groups.Select(o => o.GetByApi(
+                                context: context,
+                                ss: ss))
+                        }
+                    }.ToJson());
+            }
         }
 
         /// <summary>

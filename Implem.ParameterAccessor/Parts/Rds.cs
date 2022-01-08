@@ -4,7 +4,6 @@
     {
         public string Dbms;
         public string Provider;
-        public string TimeZoneInfo;
         public string SaConnectionString;
         public string OwnerConnectionString;
         public string UserConnectionString;

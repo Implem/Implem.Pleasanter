@@ -298,6 +298,8 @@
     <Compile Include="Libraries\Extensions\FullTextExtensions.cs" />
     <Compile Include="Libraries\Extensions\SearchIndexExtensions.cs" />
     <Compile Include="Libraries\Extensions\TimeExtensions.cs" />
+    <Compile Include="Libraries\Extensions\ToApiValueExtensions.cs" />
+    <Compile Include="Libraries\Extensions\ToApiDisplayValueExtensions.cs" />
     <Compile Include="Libraries\Extensions\ToLookupExtensions.cs" />
     <Compile Include="Libraries\Extensions\ToDisplayExtensions.cs" />
     <Compile Include="Libraries\Extensions\ToNoticeExtensions.cs" />
@@ -430,6 +432,7 @@
     <Compile Include="Libraries\Server\TenantCache.cs" />
     <Compile Include="Libraries\Server\UpdateMonitor.cs" />
     <Compile Include="Libraries\Requests\Context.cs" />
+    <Compile Include="Libraries\Settings\ApiColumn.cs" />
     <Compile Include="Libraries\Settings\BulkUpdateColumnDetail.cs" />
     <Compile Include="Libraries\Settings\ImportColumn.cs" />
     <Compile Include="Libraries\Settings\ImportUtilities.cs" />

@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Implem.ParameterAccessor")]
-[assembly: AssemblyCopyright("Copyright © Implem Inc 2014 - 2021")]
+[assembly: AssemblyCopyright("Copyright © Implem Inc 2014 - 2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]

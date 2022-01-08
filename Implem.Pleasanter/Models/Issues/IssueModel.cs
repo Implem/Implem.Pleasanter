@@ -967,6 +967,338 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public object ToApiDisplayValue(Context context, SiteSettings ss, Column column, List<string> mine)
+        {
+            if (!ss.ReadColumnAccessControls.Allowed(
+                context: context,
+                ss: ss,
+                column: column,
+                mine: mine))
+            {
+                return string.Empty;
+            }
+            switch (column.ColumnName)
+            {
+                case "SiteId":
+                    return SiteId.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UpdatedTime":
+                    return UpdatedTime.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "IssueId":
+                    return IssueId.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Ver":
+                    return Ver.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Title":
+                    return Title.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Body":
+                    return Body.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "TitleBody":
+                    return TitleBody.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "StartTime":
+                    return StartTime.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "CompletionTime":
+                    return CompletionTime.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "WorkValue":
+                    return WorkValue.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ProgressRate":
+                    return ProgressRate.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "RemainingWorkValue":
+                    return RemainingWorkValue.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Status":
+                    return Status.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Manager":
+                    return Manager.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Owner":
+                    return Owner.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Locked":
+                    return Locked.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SiteTitle":
+                    return SiteTitle.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Comments":
+                    return Comments.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Creator":
+                    return Creator.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Updator":
+                    return Updator.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "CreatedTime":
+                    return CreatedTime.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "VerUp":
+                    return VerUp.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Timestamp":
+                    return Timestamp.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(column.Name))
+                    {
+                        case "Class":
+                            return Class(column: column).ToApiDisplayValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Num":
+                            return Num(column: column).ToApiDisplayValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Date":
+                            return Date(column: column).ToApiDisplayValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Description":
+                            return Description(column: column).ToApiDisplayValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Check":
+                            return Check(column: column).ToApiDisplayValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Attachments":
+                            return Attachments(column: column).ToApiDisplayValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        default:
+                            return string.Empty;
+                    }
+            }
+        }
+
+        public object ToApiValue(Context context, SiteSettings ss, Column column, List<string> mine)
+        {
+            if (!ss.ReadColumnAccessControls.Allowed(
+                context: context,
+                ss: ss,
+                column: column,
+                mine: mine))
+            {
+                return string.Empty;
+            }
+            switch (column.ColumnName)
+            {
+                case "SiteId":
+                    return SiteId.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UpdatedTime":
+                    return UpdatedTime.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "IssueId":
+                    return IssueId.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Ver":
+                    return Ver.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Title":
+                    return Title.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Body":
+                    return Body.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "TitleBody":
+                    return TitleBody.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "StartTime":
+                    return StartTime.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "CompletionTime":
+                    return CompletionTime.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "WorkValue":
+                    return WorkValue.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ProgressRate":
+                    return ProgressRate.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "RemainingWorkValue":
+                    return RemainingWorkValue.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Status":
+                    return Status.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Manager":
+                    return Manager.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Owner":
+                    return Owner.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Locked":
+                    return Locked.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SiteTitle":
+                    return SiteTitle.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Comments":
+                    return Comments.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Creator":
+                    return Creator.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Updator":
+                    return Updator.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "CreatedTime":
+                    return CreatedTime.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "VerUp":
+                    return VerUp.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Timestamp":
+                    return Timestamp.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(column.Name))
+                    {
+                        case "Class":
+                            return Class(column: column).ToApiValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Num":
+                            return Num(column: column).ToApiValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Date":
+                            return Date(column: column).ToApiValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Description":
+                            return Description(column: column).ToApiValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Check":
+                            return Check(column: column).ToApiValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Attachments":
+                            return Attachments(column: column).ToApiValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        default:
+                            return string.Empty;
+                    }
+            }
+        }
+
         public string FullText(
             Context context,
             SiteSettings ss,
@@ -1169,6 +1501,9 @@ namespace Implem.Pleasanter.Models
                     id: IssueId,
                     columnName: response.ColumnName);
             }
+            WriteAttachments(
+                context: context,
+                ss: ss);
             IssueId = (response.Id ?? IssueId).ToLong();
             if (synchronizeSummary)
             {
@@ -1359,6 +1694,9 @@ namespace Implem.Pleasanter.Models
                     type: Error.Types.UpdateConflicts,
                     id: IssueId);
             }
+            WriteAttachments(
+                context: context,
+                ss: ss);
             if (synchronizeSummary)
             {
                 SynchronizeSummary(
@@ -1479,14 +1817,27 @@ namespace Implem.Pleasanter.Models
                 .Where(columnName => columnName.StartsWith("Attachments"))
                 .Where(columnName => Attachments_Updated(columnName: columnName))
                 .ForEach(columnName =>
-                    Attachments(columnName: columnName).Write(
+                    Attachments(columnName: columnName).Statements(
                         context: context,
                         statements: statements,
                         referenceId: IssueId,
-                            column: ss.GetColumn(
-                                context: context,
-                                columnName: columnName)));
+                        column: ss.GetColumn(
+                            context: context,
+                            columnName: columnName)));
             return statements;
+        }
+
+        private void WriteAttachments(Context context, SiteSettings ss)
+        {
+            ColumnNames()
+                .Where(columnName => columnName.StartsWith("Attachments"))
+                .Where(columnName => Attachments_Updated(columnName: columnName))
+                .ForEach(columnName =>
+                    Attachments(columnName: columnName).Write(
+                        context: context,
+                        column: ss.GetColumn(
+                            context: context,
+                            columnName: columnName)));
         }
 
         public void UpdateRelatedRecords(
@@ -1712,7 +2063,7 @@ namespace Implem.Pleasanter.Models
                         var attachments = Attachments(columnName: columnName);
                         attachments.ForEach(attachment =>
                             attachment.Deleted = true);
-                        attachments.Write(
+                        attachments.Statements(
                             context: context,
                             statements: statements,
                             referenceId: IssueId,
@@ -1729,6 +2080,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
+            WriteAttachments(
+                context: context,
+                ss: ss);
             SynchronizeSummary(context, ss);
             if (context.ContractSettings.Notice != false && notice)
             {
