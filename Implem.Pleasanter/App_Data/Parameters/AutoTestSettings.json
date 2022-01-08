@@ -6,5 +6,6 @@
     "ScreenShot": false,
     "ScreenShotPath": "ScreenShot",
     "ResultsPath": "Results",
-    "LogFileName": "AutoTest.log"
+    "LogFileName": "AutoTest.log",
+    "TimeoutSeconds": 60
 }
