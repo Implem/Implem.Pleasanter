@@ -1,7 +1,6 @@
 ﻿{
     "Dbms": "PostgreSQL",
     "Provider": "Local",
-    "TimeZoneInfo": "Asia/Tokyo",
     "SaConnectionString": null,
     "OwnerConnectionString": null,
     "UserConnectionString": null,

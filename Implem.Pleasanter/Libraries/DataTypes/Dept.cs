@@ -4,6 +4,7 @@ using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Collections.Generic;
 using System.Data;
@@ -119,6 +120,22 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 Body
             };
             return list.Where(o => !o.IsNullOrEmpty()).Join(" ");
+        }
+
+        public object ToApiDisplayValue(Context context, SiteSettings ss, Column column)
+        {
+            var name = SiteInfo.Name(
+                context: context,
+                id: Id,
+                type: Column.Types.Dept);
+            return !name.IsNullOrEmpty()
+                ? name
+                : null;
+        }
+
+        public object ToApiValue(Context context, SiteSettings ss, Column column)
+        {
+            return Id;
         }
 
         public string ToExport(Context context, Column column, ExportColumn exportColumn = null)

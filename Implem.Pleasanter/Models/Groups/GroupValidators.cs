@@ -12,6 +12,9 @@ namespace Implem.Pleasanter.Models
 {
     public static class GroupValidators
     {
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static ErrorData OnEntry(Context context, SiteSettings ss, bool api = false)
         {
             if (api)
@@ -26,15 +29,11 @@ namespace Implem.Pleasanter.Models
                 {
                     return new ErrorData(type: Error.Types.InvalidJsonData);
                 }
+                return new ErrorData(type: Error.Types.None);
             }
-            if (!api && ss.GetNoDisplayIfReadOnly())
-            {
-                return new ErrorData(type: Error.Types.NotFound);
-            }
-            return context.HasPermission(ss: ss)
-                ? new ErrorData(type: Error.Types.None)
-                : !context.CanRead(ss: ss)
-                    ? new ErrorData(type: Error.Types.NotFound)
+            return context.UserSettings?.AllowGroupAdministration(context: context) == true
+                || Permissions.CanManageTenant(context: context)
+                    ? new ErrorData(type: Error.Types.None)
                     : new ErrorData(type: Error.Types.HasNotPermission);
         }
 
@@ -413,18 +412,6 @@ namespace Implem.Pleasanter.Models
                 : !context.CanRead(ss: ss)
                     ? new ErrorData(type: Error.Types.NotFound)
                     : new ErrorData(type: Error.Types.HasNotPermission);
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static ErrorData OnEntry(Context context, SiteSettings ss)
-        {
-            return
-                context.UserSettings?.AllowGroupAdministration(context: context) == true
-                    || Permissions.CanManageTenant(context: context)
-                        ? new ErrorData(type: Error.Types.None)
-                        : new ErrorData(type: Error.Types.HasNotPermission);
         }
     }
 }

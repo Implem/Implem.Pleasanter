@@ -760,7 +760,8 @@ namespace Implem.Pleasanter.Models
                     _using: context.CanManagePermission(ss: ss)
                         && !ss.Locked()
                         && wikiModel.MethodType != BaseModel.MethodTypes.New
-                        && !editInDialog,
+                        && !editInDialog
+                        && ss.ReferenceType != "Wikis",
                     action: () => hb
                         .A(
                             href: "#FieldSetRecordAccessControl",
@@ -1255,12 +1256,12 @@ namespace Implem.Pleasanter.Models
             WikiModel wikiModel,
             string idSuffix = null)
         {
-            var needReplaceHtml = wikiModel.ServerScriptModelRow?.NeedReplaceHtml(
+            var replaceFieldColumns = ss.ReplaceFieldColumns(
                 context: context,
-                ss: ss);
+                serverScriptModelRow: wikiModel.ServerScriptModelRow);
             res.Val(
-                target: "#NeedReplaceHtml",
-                value: needReplaceHtml?.ToJson());
+                target: "#ReplaceFieldColumns",
+                value: replaceFieldColumns?.ToJson());
             var columnNames = ss.GetEditorColumnNames(context.QueryStrings.Bool("control-auto-postback")
                 ? ss.GetColumn(
                     context: context,
@@ -1276,7 +1277,7 @@ namespace Implem.Pleasanter.Models
                     var serverScriptModelColumn = wikiModel
                         ?.ServerScriptModelRow
                         ?.Columns.Get(column.ColumnName);
-                    if (needReplaceHtml?.Contains(column.ColumnName) == true)
+                    if (replaceFieldColumns?.Contains(column.ColumnName) == true)
                     {
                         res.ReplaceAll(
                             target: $"#Wikis_{column.Name}Field" + idSuffix,

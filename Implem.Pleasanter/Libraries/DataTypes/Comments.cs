@@ -90,6 +90,20 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                         .Join("\n\n");
         }
 
+        public object ToApiDisplayValue(Context context, SiteSettings ss, Column column)
+        {
+            return this.Any()
+                ? ToJson()
+                : null;
+        }
+
+        public object ToApiValue(Context context, SiteSettings ss, Column column)
+        {
+            return this.Any()
+                ? ToJson()
+                : null;
+        }
+
         public string ToExport(Context context, Column column, ExportColumn exportColumn = null)
         {
             return this.Select(o =>

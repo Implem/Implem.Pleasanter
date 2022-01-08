@@ -342,6 +342,248 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public object ToApiDisplayValue(Context context, SiteSettings ss, Column column, List<string> mine)
+        {
+            if (!ss.ReadColumnAccessControls.Allowed(
+                context: context,
+                ss: ss,
+                column: column,
+                mine: mine))
+            {
+                return string.Empty;
+            }
+            switch (column.ColumnName)
+            {
+                case "TenantId":
+                    return TenantId.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "GroupId":
+                    return GroupId.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Ver":
+                    return Ver.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "GroupName":
+                    return GroupName.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Body":
+                    return Body.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Title":
+                    return Title.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Disabled":
+                    return Disabled.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Comments":
+                    return Comments.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Creator":
+                    return Creator.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Updator":
+                    return Updator.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "CreatedTime":
+                    return CreatedTime.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UpdatedTime":
+                    return UpdatedTime.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "VerUp":
+                    return VerUp.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Timestamp":
+                    return Timestamp.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(column.Name))
+                    {
+                        case "Class":
+                            return Class(column: column).ToApiDisplayValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Num":
+                            return Num(column: column).ToApiDisplayValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Date":
+                            return Date(column: column).ToApiDisplayValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Description":
+                            return Description(column: column).ToApiDisplayValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Check":
+                            return Check(column: column).ToApiDisplayValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Attachments":
+                            return Attachments(column: column).ToApiDisplayValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        default:
+                            return string.Empty;
+                    }
+            }
+        }
+
+        public object ToApiValue(Context context, SiteSettings ss, Column column, List<string> mine)
+        {
+            if (!ss.ReadColumnAccessControls.Allowed(
+                context: context,
+                ss: ss,
+                column: column,
+                mine: mine))
+            {
+                return string.Empty;
+            }
+            switch (column.ColumnName)
+            {
+                case "TenantId":
+                    return TenantId.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "GroupId":
+                    return GroupId.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Ver":
+                    return Ver.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "GroupName":
+                    return GroupName.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Body":
+                    return Body.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Title":
+                    return Title.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Disabled":
+                    return Disabled.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Comments":
+                    return Comments.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Creator":
+                    return Creator.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Updator":
+                    return Updator.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "CreatedTime":
+                    return CreatedTime.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UpdatedTime":
+                    return UpdatedTime.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "VerUp":
+                    return VerUp.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Timestamp":
+                    return Timestamp.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(column.Name))
+                    {
+                        case "Class":
+                            return Class(column: column).ToApiValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Num":
+                            return Num(column: column).ToApiValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Date":
+                            return Date(column: column).ToApiValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Description":
+                            return Description(column: column).ToApiValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Check":
+                            return Check(column: column).ToApiValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Attachments":
+                            return Attachments(column: column).ToApiValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        default:
+                            return string.Empty;
+                    }
+            }
+        }
+
         public ErrorData Create(
             Context context,
             SiteSettings ss,
@@ -997,48 +1239,6 @@ namespace Implem.Pleasanter.Models
                 MineCache = mine;
             }
             return MineCache;
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public System.Web.Mvc.ContentResult GetByApi(Context context)
-        {
-            return GroupUtilities.GetByApi(
-                context: context,
-                ss: SiteSettingsUtilities.ApiGroupsSiteSettings(context));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public System.Web.Mvc.ContentResult CreateByApi(Context context)
-        {
-            return GroupUtilities.CreateByApi(
-                context: context,
-                ss: SiteSettingsUtilities.ApiGroupsSiteSettings(context));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public System.Web.Mvc.ContentResult UpdateByApi(Context context, int groupId)
-        {
-            return GroupUtilities.UpdateByApi(
-                context: context,
-                ss: SiteSettingsUtilities.ApiGroupsSiteSettings(context),
-                groupId: groupId);
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public System.Web.Mvc.ContentResult DeleteByApi(Context context, int groupId)
-        {
-            return GroupUtilities.DeleteByApi(
-                context: context,
-                ss: SiteSettingsUtilities.ApiGroupsSiteSettings(context),
-                groupId: groupId);
         }
     }
 }
