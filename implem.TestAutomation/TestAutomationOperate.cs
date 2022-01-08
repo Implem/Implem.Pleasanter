@@ -1,21 +1,21 @@
-﻿using System;
+﻿using CsvHelper;
+using CsvHelper.Configuration;
+using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
+using Implem.ParameterAccessor.Parts;
+using Implem.Pleasanter.Libraries.Responses;
+using Implem.TestAutomation.Parts;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Remote;
+using OpenQA.Selenium.Support.UI;
+using System;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
-using CsvHelper;
-using CsvHelper.Configuration;
-using Implem.DefinitionAccessor;
-using Implem.Libraries.Utilities;
-using Implem.ParameterAccessor.Parts;
-using Implem.TestAutomation.Parts;
-using Implem.Pleasanter.Libraries.Responses;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium.Remote;
-using System.Globalization;
 
 namespace Implem.TestAutomation
 {
@@ -109,6 +109,12 @@ namespace Implem.TestAutomation
             TestPart testPart)
         {
             driver.FindElement(SelectItem(testPart: testPart)).Click();
+        }
+
+        public static void EnterOpe(IWebDriver driver,
+            TestPart testPart)
+        {
+            driver.FindElement(SelectItem(testPart: testPart)).SendKeys(Keys.Return);
         }
 
         public static void HoverOpe(IWebDriver driver,
@@ -231,7 +237,10 @@ namespace Implem.TestAutomation
             ResultCheck resultCheck,
             string resultFileName)
         {
-            resultCheck.ExecutionValue = GetExecutionValue(driver, resultCheck);
+            if (!resultCheck.ExpectedValue.IsNullOrEmpty())
+            {
+                resultCheck.ExecutionValue = GetExecutionValue(driver, resultCheck);
+            }
             WriteResult(
                 resultCheck,
                 resultFileName,
@@ -316,6 +325,83 @@ namespace Implem.TestAutomation
             else if (resultCheck.CheckType.Equals(CheckTypes.DataRequiredFalse))
             {
                 if (!DataRequired(driver, resultCheck))
+                {
+                    return Displays.AutoTestResultOk(context: context);
+                }
+                else
+                {
+                    return Displays.AutoTestResultNg(context: context);
+                }
+            }
+            else if (resultCheck.CheckType.Equals(CheckTypes.CanReadRecordOnGrid))
+            {
+                if (CanReadRecordOnGrid(driver, resultCheck))
+                {
+                    return Displays.AutoTestResultOk(context: context);
+                }
+                else
+                {
+                    return Displays.AutoTestResultNg(context: context);
+                }
+            }
+            else if (resultCheck.CheckType.Equals(CheckTypes.CanNotReadRecordOnGrid))
+            {
+                if (!CanReadRecordOnGrid(driver, resultCheck))
+                {
+                    return Displays.AutoTestResultOk(context: context);
+                }
+                else
+                {
+                    return Displays.AutoTestResultNg(context: context);
+                }
+            }
+            else if (resultCheck.CheckType.Equals(CheckTypes.CanUpdateRecordOnEditor))
+            {
+                if (CanReadRecordOnEditor(driver, resultCheck) && CanUpdateRecordOnEditor(driver))
+                {
+                    return Displays.AutoTestResultOk(context: context);
+                }
+                else
+                {
+                    return Displays.AutoTestResultNg(context: context);
+                }
+            }
+            else if (resultCheck.CheckType.Equals(CheckTypes.CanReadRecordOnEditor))
+            {
+                if (CanReadRecordOnEditor(driver, resultCheck) && !CanUpdateRecordOnEditor(driver))
+                {
+                    return Displays.AutoTestResultOk(context: context);
+                }
+                else
+                {
+                    return Displays.AutoTestResultNg(context: context);
+                }
+            }
+            else if (resultCheck.CheckType.Equals(CheckTypes.CanNotReadRecordOnEditor))
+            {
+                if (!CanReadRecordOnEditor(driver, resultCheck))
+                {
+                    return Displays.AutoTestResultOk(context: context);
+                }
+                else
+                {
+                    return Displays.AutoTestResultNg(context: context);
+                }
+            }
+            else if (resultCheck.CheckType.Equals(CheckTypes.CanCrossSearchRecord))
+            {
+                if (CanCrossSearchRecord(driver, resultCheck))
+                {
+                    return Displays.AutoTestResultOk(context: context);
+                }
+                else
+                {
+                    return Displays.AutoTestResultNg(context: context);
+                }
+            }
+            else if (resultCheck.CheckType.Equals(CheckTypes.CanNotCrossSearchRecord))
+            {
+                if (!CanCrossSearchRecord(driver, resultCheck))
                 {
                     return Displays.AutoTestResultOk(context: context);
                 }
@@ -488,6 +574,52 @@ namespace Implem.TestAutomation
                 }}").ToBool();
             }
         }
+
+        private static bool CanReadRecordOnGrid(
+            IWebDriver driver,
+            ResultCheck resultCheck)
+        {
+            IJavaScriptExecutor jsDriver = driver as IJavaScriptExecutor;
+            jsDriver.ExecuteScript($"$('#ViewFilters_Reset').click()");
+            jsDriver.ExecuteScript($"$p.data.MainForm.ViewFilters__ResultId='{resultCheck.ItemId}'");
+            jsDriver.ExecuteScript($"$p.data.MainForm.ViewFilters__IssueId='{resultCheck.ItemId}'");
+            jsDriver.ExecuteScript($"$p.send($('#Grid'))");
+            return (driver.FindElements(By.CssSelector($"[data-id=\"{resultCheck.ItemId}\"]")).Count == 1);
+        }
+
+        private static bool CanReadRecordOnEditor(
+            IWebDriver driver,
+            ResultCheck resultCheck)
+        {
+            var url = string.Empty;
+            if (!resultCheck.ItemId.IsNullOrEmpty())
+            {
+                var recordId = resultCheck.ItemId;
+                url = $"{Parameters.ExtendedAutoTestSettings.Url}items/{recordId}";
+            }
+            driver.Navigate().GoToUrl(url);
+            Thread.Sleep(resultCheck.WaitTime);
+            return (driver.FindElements(By.Id("HeaderTitle")).Count() == 1);
+        }
+
+        private static bool CanUpdateRecordOnEditor(
+            IWebDriver driver)
+        {
+            return (driver.FindElements(By.CssSelector("[id=\"Notes\"]>[class=\"readonly\"]")).Count != 1);
+        }
+
+        private static bool CanCrossSearchRecord(
+            IWebDriver driver,
+            ResultCheck resultCheck)
+        {
+            IJavaScriptExecutor jsDriver = driver as IJavaScriptExecutor;
+            jsDriver.ExecuteScript($"$p.set($('#Search'),'{resultCheck.SearchString}')");
+            IWebElement element = driver.FindElement(By.Id("Search"));
+            element.SendKeys(Keys.Return);
+            Thread.Sleep(resultCheck.WaitTime);
+            return (driver.FindElements(By.CssSelector($"[href=\"/items/{resultCheck.ItemId}/edit?back=1\"]")).Count == 1);
+        }
+
         private static bool SelectOptions(IWebDriver driver, ResultCheck resultCheck, string executionValue)
         {
             var executionValueList = executionValue
