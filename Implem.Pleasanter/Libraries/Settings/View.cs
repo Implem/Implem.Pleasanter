@@ -678,7 +678,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private void ResetViewFilters(SiteSettings ss)
         {
-            var view = ss.Views.FirstOrDefault(o => o.Id == Id)
+            var view = ss.Views?.FirstOrDefault(o => o.Id == Id)
                 ?? new View();
             Name = view.Name;
             Incomplete = view.Incomplete;

@@ -37,6 +37,7 @@ namespace Implem.ParameterAccessor.Parts
         Inputs,
         Click,
         ClickSettingsMenu,
+        Enter,
         Hover,
         Clear,
         Create,
