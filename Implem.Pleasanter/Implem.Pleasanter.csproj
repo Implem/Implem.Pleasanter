@@ -24,11 +24,6 @@
     <PackageReference Include="Microsoft.ClearScript.linux-arm64" Version="7.2.1" />
     <PackageReference Include="Microsoft.ClearScript.linux-x64" Version="7.2.1" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Microsoft.IdentityModel.Logging" Version="6.5.0" />
-    <PackageReference Include="Microsoft.IdentityModel.Protocols" Version="6.5.0" />
-    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.5.0" />
-    <PackageReference Include="Microsoft.IdentityModel.Tokens.Saml" Version="6.5.0" />
-    <PackageReference Include="Microsoft.IdentityModel.Xml" Version="6.5.0" />
     <PackageReference Include="Microsoft.Web.Infrastructure" Version="1.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Novell.Directory.Ldap.NETStandard" Version="3.0.3" />
