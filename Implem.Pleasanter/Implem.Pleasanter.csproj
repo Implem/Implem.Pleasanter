@@ -26,7 +26,7 @@
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.Web.Infrastructure" Version="1.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Novell.Directory.Ldap.NETStandard" Version="3.0.3" />
+    <PackageReference Include="Novell.Directory.Ldap.NETStandard" Version="3.6.0" />
     <PackageReference Include="Npgsql" Version="6.0.2" />
     <PackageReference Include="Sendgrid" Version="9.25.1" />
     <PackageReference Include="SendGrid.SmtpApi" Version="1.4.2" />
