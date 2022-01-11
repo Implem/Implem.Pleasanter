@@ -20,7 +20,7 @@
     <PackageReference Include="FastMember" Version="1.5.0" />
     <PackageReference Include="FastMember.Signed" Version="1.5.0" />
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.7" />
-    <PackageReference Include="Microsoft.ClearScript" Version="7.1.7" />
+    <PackageReference Include="Microsoft.ClearScript" Version="7.2.0" />
     <PackageReference Include="Microsoft.ClearScript.linux-arm64" Version="7.1.7" />
     <PackageReference Include="Microsoft.ClearScript.linux-x64" Version="7.1.7" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
