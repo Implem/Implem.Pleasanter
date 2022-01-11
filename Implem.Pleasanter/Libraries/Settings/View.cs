@@ -693,7 +693,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private void ResetViewSorters(SiteSettings ss)
         {
-            var view = ss.Views.FirstOrDefault(o => o.Id == Id)
+            var view = ss.Views?.FirstOrDefault(o => o.Id == Id)
                 ?? new View();
             ColumnSorterHash = view.ColumnSorterHash;
         }
