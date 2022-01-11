@@ -20,4 +20,4 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build .\Implem.Pleasanter.NetCore\Implem.Pleasanter.NetCore.csproj
+      run: dotnet build ./Implem.Pleasanter.NetCore/Implem.Pleasanter.NetCore.csproj
