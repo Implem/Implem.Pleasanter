@@ -755,8 +755,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     context: context,
                     ss: ss,
                     model: itemModel),
-                columnFilterHash: view?.ColumnFilterHash,
-                columnSorterHash: view?.ColumnSorterHash,
+                view: view,
                 condition: condition,
                 debug: debug,
                 onTesting: onTesting))
