@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCoreCurrentRequestContext" Version="2.0.0" />
-    <PackageReference Include="Sustainsys.Saml2.AspNetCore2" Version="2.7.0" />
+    <PackageReference Include="Sustainsys.Saml2.AspNetCore2" Version="2.9.0" />
     <PackageReference Include="System.Globalization" Version="4.3.0" />
   </ItemGroup>
 
