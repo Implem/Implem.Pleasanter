@@ -213,7 +213,9 @@ namespace Implem.Pleasanter.NetCore.Controllers
             }
             return new ChallengeResult(Saml2Defaults.Scheme,
                 new AuthenticationProperties(
-                    items: new Dictionary<string, string> { ["idp"] = idp })
+                    items: string.IsNullOrEmpty(idp)
+                        ? null
+                        : new Dictionary<string, string> { ["idp"] = idp })
                 {
                     RedirectUri = Url.Action(nameof(SamlLogin))
                 });
