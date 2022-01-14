@@ -27,7 +27,6 @@
     <PackageReference Include="Sustainsys.Saml2.AspNetCore2" Version="2.9.0" />
     <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="6.0.0" />
     <PackageReference Include="System.DirectoryServices" Version="6.0.0" />
-    <PackageReference Include="System.IO" Version="4.3.0" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <PackageReference Include="System.Web.Http.Common" Version="4.0.20126.16343" />
   </ItemGroup>
