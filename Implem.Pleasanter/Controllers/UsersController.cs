@@ -226,8 +226,8 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
-        public (string redirectUrl, string redirectResultUrl, string html, bool ssoLogin) Login(
-            Context context, string returnUrl, bool isLocalUrl, string ssocode = "")
+        public (string redirectUrl, string html, bool ssoLogin) Login(
+            Context context, string returnUrl, bool isLocalUrl)
         {
             var log = new SysLogModel(context: context);
             if (context.Authenticated)
@@ -239,23 +239,7 @@ namespace Implem.Pleasanter.Controllers
                 log.Finish(context: context);
                 return (isLocalUrl
                     ? returnUrl
-                    : Locations.Top(context: context), null, null, false);
-            }
-            if ((Parameters.Authentication.Provider == "SAML-MultiTenant") && (ssocode != string.Empty))
-            {
-                var tenant = new TenantModel().Get(
-                    context: context,
-                    ss: SiteSettingsUtilities.TenantsSiteSettings(context), 
-                    where: Rds.TenantsWhere().Comments(ssocode));
-                if (tenant.AccessStatus == Databases.AccessStatuses.Selected)
-                {
-                    var redirectUrl = Saml.SetIdpConfiguration(context, tenant.TenantId);
-                    if (redirectUrl != null)
-                    {
-                        return (null, redirectUrl, null, true);
-                    }
-                }
-                return (null, Locations.InvalidSsoCode(context), null, false);
+                    : Locations.Top(context: context), null, false);
             }
             var html = UserUtilities.HtmlLogin(
                 context: context,
@@ -266,13 +250,33 @@ namespace Implem.Pleasanter.Controllers
                     ? Messages.Expired(context: context).Text
                     : string.Empty);
             log.Finish(context: context, responseSize: html.Length);
-            return (null, null, html, false);
+            return (null, html, false);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public (string redirectUrl, string redirectResultUrl, string html) SamlLogin(Context context)
+        public (ContractSettings contractSettings, string redirectUrl) GetTenantSamlSettings(Context context, string ssocode)
+        {
+            var tenant = new TenantModel().Get(
+                        context: context,
+                        ss: SiteSettingsUtilities.TenantsSiteSettings(context),
+                        where: Rds.TenantsWhere().Comments(ssocode));
+            if (tenant.AccessStatus == Databases.AccessStatuses.Selected)
+            {
+                var contractSettings = Saml.GetTenantSamlSettings(context: context, tenantId: tenant.TenantId);
+                if(contractSettings != null)
+                {
+                    return (contractSettings, null);
+                }
+            }
+            return (null,Locations.InvalidSsoCode(context));
+        }
+
+            /// <summary>
+            /// Fixed:
+            /// </summary>
+            public (string redirectUrl, string redirectResultUrl, string html) SamlLogin(Context context)
         {
             if (!Authentications.SAML()
                 || context.AuthenticationType != "Federation"

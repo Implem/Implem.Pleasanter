@@ -89,9 +89,47 @@ namespace Implem.Pleasanter.NetCore
                     .AddSaml2(options =>
                     {
                         Saml.SetSPOptions(options);
+                        options.Notifications.GetIdentityProvider = (entityId, rd, opt) =>
+                        {
+                            if(!rd.ContainsKey("SamlLoginUrl")
+                                && !rd.ContainsKey("SamlThumbprint"))
+                            {
+                                return opt.IdentityProviders.Default;
+                            }
+                            var loginUrl = rd["SamlLoginUrl"];
+                            var thumbprint = rd["SamlThumbprint"];
+
+                            var defaultIdp = opt.IdentityProviders.Default;
+                            var idp = new IdentityProvider(entityId, options.SPOptions)
+                            {
+                                SingleSignOnServiceUrl = new Uri(loginUrl),
+                                SingleLogoutServiceUrl = defaultIdp.SingleLogoutServiceUrl,
+                                AllowUnsolicitedAuthnResponse = defaultIdp.AllowUnsolicitedAuthnResponse,
+                                Binding = defaultIdp.Binding,
+                                WantAuthnRequestsSigned = defaultIdp.WantAuthnRequestsSigned,
+                                DisableOutboundLogoutRequests = defaultIdp.DisableOutboundLogoutRequests,
+                            };
+                            var store = new X509Store(
+                                StoreName.My,
+                                StoreLocation.CurrentUser);
+                            store.Open(OpenFlags.OpenExistingOnly);
+                            try
+                            {
+                                var certs = store.Certificates.Find(
+                                    X509FindType.FindByThumbprint,
+                                    thumbprint,
+                                    false);
+                                idp.SigningKeys.AddConfiguredKey(certs[0]);
+                            }
+                            finally
+                            {
+                                store.Close();
+                            }
+                            return idp;
+                        };
                     });
             }
-            else 
+            else
             {
                 services
                     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -112,7 +150,7 @@ namespace Implem.Pleasanter.NetCore
                     mvcBuilder.AddApplicationPart(assembly);
                 }
             }
-            services.Configure<FormOptions>(options => 
+            services.Configure<FormOptions>(options =>
             {
                 options.MultipartBodyLengthLimit = int.MaxValue;
             });
@@ -256,11 +294,6 @@ namespace Implem.Pleasanter.NetCore
             };
         }
 
-        private void SetConfigrations(Context context)
-        {
-            Saml.RegisterSamlConfiguration(context: context);
-        }
-
         private static bool isFirst = true;
         public async Task Invoke(HttpContext httpContext, Func<Task> next)
         {
@@ -310,7 +343,7 @@ namespace Implem.Pleasanter.NetCore
             SiteSettingsMigrator.Migrate(context: context);
             StatusesInitializer.Initialize(context: context);
             NotificationInitializer.Initialize();
-            SetConfigrations(context: context);
+            //SetConfigrations(context: context);
             SiteInfo.Reflesh(context: context);
             log.Finish(context: context);
         }
