@@ -1806,7 +1806,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : column.SearchType;
             var param = value.Deserialize<List<string>>();
             var json = param?.ToJson();
-            if (column.HasChoices() || column.ColumnName == "DeptCode")
+            if (column.HasChoices())
             {
                 if (column.MultipleSelections == true)
                 {
