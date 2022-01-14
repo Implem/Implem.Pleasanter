@@ -18,7 +18,6 @@
     <PackageReference Include="Microsoft.ClearScript" Version="7.2.1" />
     <PackageReference Include="Microsoft.ClearScript.linux-arm64" Version="7.2.1" />
     <PackageReference Include="Microsoft.ClearScript.linux-x64" Version="7.2.1" />
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Novell.Directory.Ldap.NETStandard" Version="3.6.0" />
     <PackageReference Include="Npgsql" Version="6.0.2" />
