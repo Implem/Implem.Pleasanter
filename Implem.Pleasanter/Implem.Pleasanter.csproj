@@ -20,7 +20,6 @@
     <PackageReference Include="Microsoft.ClearScript.linux-x64" Version="7.2.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Novell.Directory.Ldap.NETStandard" Version="3.6.0" />
-    <PackageReference Include="Npgsql" Version="6.0.2" />
     <PackageReference Include="Sendgrid" Version="9.25.2" />
     <PackageReference Include="SendGrid.SmtpApi" Version="1.4.3" />
     <PackageReference Include="Sustainsys.Saml2" Version="2.9.0" />
