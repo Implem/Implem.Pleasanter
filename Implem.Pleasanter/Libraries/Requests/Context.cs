@@ -84,6 +84,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public abstract ContractSettings ContractSettings { get; set; }
         public abstract decimal ApiVersion { get; set; }
         public abstract string ApiRequestBody { get; set; }
+        public abstract string ApiKey { get; set; }
         public abstract string RequestDataString { get; }
         public abstract string ContentType{ get; set; }
         public abstract List<ParameterAccessor.Parts.ExtendedField> ExtendedFields { get; set; }

@@ -19,7 +19,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public readonly ExpandoObject Columns = new ExpandoObject();
         public readonly ServerScriptModelContext Context;
         public readonly ServerScriptModelSiteSettings SiteSettings;
-        public readonly ServerScriptModelView View = new ServerScriptModelView();
+        public readonly ServerScriptModelView View;
         public readonly ServerScriptModelApiItems Items;
         public ServerScriptModelHidden Hidden;
         public ServerScriptElements Elements;
@@ -36,8 +36,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             SiteSettings ss,
             IEnumerable<(string Name, object Value)> data,
             IEnumerable<(string Name, ServerScriptModelColumn Value)> columns,
-            IEnumerable<KeyValuePair<string, string>> columnFilterHash,
-            IEnumerable<KeyValuePair<string, SqlOrderBy.Types>> columnSorterHash,
+            View view,
             string condition,
             bool debug,
             bool onTesting)
@@ -48,9 +47,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             Users = new ServerScriptModelUsers(context: context);
             columns?.ForEach(
                 datam => ((IDictionary<string, object>)Columns)[datam.Name] = datam.Value);
-            columnFilterHash?.ForEach(columnFilter =>
+            View = new ServerScriptModelView(view == null ? 0 : view.Id);
+            view?.ColumnFilterHash?.ForEach(columnFilter =>
                 ((IDictionary<string, object>)View.Filters)[columnFilter.Key] = columnFilter.Value);
-            columnSorterHash?.ForEach(columnSorter =>
+            view?.ColumnSorterHash?.ForEach(columnSorter =>
                 ((IDictionary<string, object>)View.Sorters)[columnSorter.Key] = Enum.GetName(
                     typeof(SqlOrderBy.Types),
                     columnSorter.Value));
