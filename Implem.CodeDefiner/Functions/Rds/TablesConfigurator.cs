@@ -31,7 +31,12 @@ namespace Implem.CodeDefiner.Functions.Rds
             });
             try
             {
-                ConfigureFullTextIndex(factory: factory);
+                switch (Parameters.Rds.Dbms)
+                {
+                    case "SQLServer":
+                        ConfigureFullTextIndex(factory: factory);
+                        break;
+                }
             }
             catch (System.Data.SqlClient.SqlException e)
             {
@@ -45,7 +50,6 @@ namespace Implem.CodeDefiner.Functions.Rds
 
         private static void ConfigureFullTextIndex(ISqlObjectFactory factory)
         {
-            Consoles.Write("", Consoles.Types.Info);
             var pkItems = Def.SqlIoByAdmin(
                 factory: factory,
                 statements: new SqlStatement(Def.Sql.SelectPkName.Replace("#TableName#", "Items")))

@@ -504,7 +504,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             : entry.GetAttribute(name).StringValue.RegexFirst(pattern)
                         : string.Empty;
                 }
-                catch (KeyNotFoundException e)
+                catch (KeyNotFoundException)
                 {
                 }
                 catch (Exception e)
