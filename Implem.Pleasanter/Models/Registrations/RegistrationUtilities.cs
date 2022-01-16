@@ -672,7 +672,7 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: registrationModel.Class(columnName: column.Name),
+                                            value: registrationModel.GetClass(columnName: column.Name),
                                             tabIndex: tabIndex,
                                             serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
@@ -690,7 +690,7 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: registrationModel.Num(columnName: column.Name),
+                                            value: registrationModel.GetNum(columnName: column.Name),
                                             tabIndex: tabIndex,
                                             serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
@@ -708,7 +708,7 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: registrationModel.Date(columnName: column.Name),
+                                            value: registrationModel.GetDate(columnName: column.Name),
                                             tabIndex: tabIndex,
                                             serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
@@ -726,7 +726,7 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: registrationModel.Description(columnName: column.Name),
+                                            value: registrationModel.GetDescription(columnName: column.Name),
                                             tabIndex: tabIndex,
                                             serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
@@ -744,7 +744,7 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: registrationModel.Check(columnName: column.Name),
+                                            value: registrationModel.GetCheck(columnName: column.Name),
                                             tabIndex: tabIndex,
                                             serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
@@ -762,7 +762,7 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: registrationModel.Attachments(columnName: column.Name),
+                                            value: registrationModel.GetAttachments(columnName: column.Name),
                                             tabIndex: tabIndex,
                                             serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
@@ -827,32 +827,32 @@ namespace Implem.Pleasanter.Models
                         switch (Def.ExtendedColumnTypes.Get(column.Name))
                         {
                             case "Class":
-                                value = registrationModel.Class(columnName: column.Name).GridText(
+                                value = registrationModel.GetClass(columnName: column.Name).GridText(
                                     context: context,
                                     column: column);
                                 break;
                             case "Num":
-                                value = registrationModel.Num(columnName: column.Name)?.Value?.GridText(
+                                value = registrationModel.GetNum(columnName: column.Name)?.Value?.GridText(
                                     context: context,
                                     column: column) ?? string.Empty;
                                 break;
                             case "Date":
-                                value = registrationModel.Date(columnName: column.Name).GridText(
+                                value = registrationModel.GetDate(columnName: column.Name).GridText(
                                     context: context,
                                     column: column);
                                 break;
                             case "Description":
-                                value = registrationModel.Description(columnName: column.Name).GridText(
+                                value = registrationModel.GetDescription(columnName: column.Name).GridText(
                                     context: context,
                                     column: column);
                                 break;
                             case "Check":
-                                value = registrationModel.Check(columnName: column.Name).GridText(
+                                value = registrationModel.GetCheck(columnName: column.Name).GridText(
                                     context: context,
                                     column: column);
                                 break;
                             case "Attachments":
-                                value = registrationModel.Attachments(columnName: column.Name).GridText(
+                                value = registrationModel.GetAttachments(columnName: column.Name).GridText(
                                     context: context,
                                     column: column);
                                 break;
@@ -1345,37 +1345,37 @@ namespace Implem.Pleasanter.Models
                     switch (Def.ExtendedColumnTypes.Get(column.Name))
                     {
                         case "Class":
-                            return registrationModel.Class(columnName: column.Name)
+                            return registrationModel.GetClass(columnName: column.Name)
                                 .ToControl(
                                     context: context,
                                     ss: ss,
                                     column: column);
                         case "Num":
-                            return registrationModel.Num(columnName: column.Name)
+                            return registrationModel.GetNum(columnName: column.Name)
                                 .ToControl(
                                     context: context,
                                     ss: ss,
                                     column: column);
                         case "Date":
-                            return registrationModel.Date(columnName: column.Name)
+                            return registrationModel.GetDate(columnName: column.Name)
                                 .ToControl(
                                     context: context,
                                     ss: ss,
                                     column: column);
                         case "Description":
-                            return registrationModel.Description(columnName: column.Name)
+                            return registrationModel.GetDescription(columnName: column.Name)
                                 .ToControl(
                                     context: context,
                                     ss: ss,
                                     column: column);
                         case "Check":
-                            return registrationModel.Check(columnName: column.Name)
+                            return registrationModel.GetCheck(columnName: column.Name)
                                 .ToControl(
                                     context: context,
                                     ss: ss,
                                     column: column);
                         case "Attachments":
-                            return registrationModel.Attachments(columnName: column.Name)
+                            return registrationModel.GetAttachments(columnName: column.Name)
                                 .ToControl(
                                     context: context,
                                     ss: ss,
@@ -1611,7 +1611,7 @@ namespace Implem.Pleasanter.Models
                                     case "Class":
                                         res.Val(
                                             target: $"#Registrations_{column.Name}{idSuffix}",
-                                            value: registrationModel.Class(columnName: column.Name).ToResponse(
+                                            value: registrationModel.GetClass(columnName: column.Name).ToResponse(
                                                 context: context,
                                                 ss: ss,
                                                 column: column),
@@ -1620,7 +1620,7 @@ namespace Implem.Pleasanter.Models
                                     case "Num":
                                         res.Val(
                                             target: $"#Registrations_{column.Name}{idSuffix}",
-                                            value: registrationModel.Num(columnName: column.Name).ToResponse(
+                                            value: registrationModel.GetNum(columnName: column.Name).ToResponse(
                                                 context: context,
                                                 ss: ss,
                                                 column: column),
@@ -1629,7 +1629,7 @@ namespace Implem.Pleasanter.Models
                                     case "Date":
                                         res.Val(
                                             target: $"#Registrations_{column.Name}{idSuffix}",
-                                            value: registrationModel.Date(columnName: column.Name).ToResponse(
+                                            value: registrationModel.GetDate(columnName: column.Name).ToResponse(
                                                 context: context,
                                                 ss: ss,
                                                 column: column),
@@ -1638,7 +1638,7 @@ namespace Implem.Pleasanter.Models
                                     case "Description":
                                         res.Val(
                                             target: $"#Registrations_{column.Name}{idSuffix}",
-                                            value: registrationModel.Description(columnName: column.Name).ToResponse(
+                                            value: registrationModel.GetDescription(columnName: column.Name).ToResponse(
                                                 context: context,
                                                 ss: ss,
                                                 column: column),
@@ -1647,7 +1647,7 @@ namespace Implem.Pleasanter.Models
                                     case "Check":
                                         res.Val(
                                             target: $"#Registrations_{column.Name}{idSuffix}",
-                                            value: registrationModel.Check(columnName: column.Name),
+                                            value: registrationModel.GetCheck(columnName: column.Name),
                                             options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                         break;
                                     case "Attachments":
@@ -1665,7 +1665,7 @@ namespace Implem.Pleasanter.Models
                                                             : string.Empty),
                                                     fieldDescription: column.Description,
                                                     labelText: column.LabelText,
-                                                    value: registrationModel.Attachments(columnName: column.Name).ToJson(),
+                                                    value: registrationModel.GetAttachments(columnName: column.Name).ToJson(),
                                                     readOnly: Permissions.ColumnPermissionType(
                                                         context: context,
                                                         ss: ss,

@@ -393,7 +393,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             ExpandoObject data,
             Column[] columns)
         {
-            columns?.ForEach(column => model?.Value(
+            columns?.ForEach(column => model?.GetValue(
                 context: context,
                 column: column,
                 value: String(

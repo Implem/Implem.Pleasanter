@@ -398,6 +398,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_OnUpdated_SetSiteMenu": Code.Model_OnUpdated_SetSiteMenu = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdated_SetSiteMenu, definitionRow, CodeXls); break;
                     case "Model_OnUpdated_ServerScript": Code.Model_OnUpdated_ServerScript = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdated_ServerScript, definitionRow, CodeXls); break;
                     case "Model_OnUpdating_ServerScript": Code.Model_OnUpdating_ServerScript = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdating_ServerScript, definitionRow, CodeXls); break;
+                    case "Model_WriteAttachmentsExecute": Code.Model_WriteAttachmentsExecute = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_WriteAttachmentsExecute, definitionRow, CodeXls); break;
                     case "Model_ForceSynchronizeSummaryExecute": Code.Model_ForceSynchronizeSummaryExecute = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ForceSynchronizeSummaryExecute, definitionRow, CodeXls); break;
                     case "Model_SynchronizeSummaryExecute": Code.Model_SynchronizeSummaryExecute = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SynchronizeSummaryExecute, definitionRow, CodeXls); break;
                     case "Model_SynchronizeSummary": Code.Model_SynchronizeSummary = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SynchronizeSummary, definitionRow, CodeXls); break;
@@ -7514,6 +7515,7 @@ namespace Implem.DefinitionAccessor
         public string Model_OnUpdated_SetSiteMenu;
         public string Model_OnUpdated_ServerScript;
         public string Model_OnUpdating_ServerScript;
+        public string Model_WriteAttachmentsExecute;
         public string Model_ForceSynchronizeSummaryExecute;
         public string Model_SynchronizeSummaryExecute;
         public string Model_SynchronizeSummary;
@@ -8210,6 +8212,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_OnUpdated_SetSiteMenu = new CodeDefinition();
         public CodeDefinition Model_OnUpdated_ServerScript = new CodeDefinition();
         public CodeDefinition Model_OnUpdating_ServerScript = new CodeDefinition();
+        public CodeDefinition Model_WriteAttachmentsExecute = new CodeDefinition();
         public CodeDefinition Model_ForceSynchronizeSummaryExecute = new CodeDefinition();
         public CodeDefinition Model_SynchronizeSummaryExecute = new CodeDefinition();
         public CodeDefinition Model_SynchronizeSummary = new CodeDefinition();
