@@ -3419,6 +3419,7 @@ namespace Implem.Pleasanter.Models
             switch (Parameters.Authentication.Provider)
             {
                 case "LDAP":
+                case "Windows":
                     ret = Ldap.Authenticate(
                         context: context,
                         loginId: LoginId,

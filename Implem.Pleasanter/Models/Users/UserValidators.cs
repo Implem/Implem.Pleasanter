@@ -31,7 +31,7 @@ namespace Implem.Pleasanter.Models
                 }
                 return new ErrorData(type: Error.Types.None);
             }
-            if (!Parameters.Service.ShowProfiles)
+            if (!Parameters.Service.ShowProfiles && !context.HasPrivilege)
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }

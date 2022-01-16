@@ -447,7 +447,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "registrations":
                     return CanManageRegistrations(context: context, any: true);
                 default:
-                    if (ss.ReferenceType == "Sites")
+                    if (ss.IsSite(context: context))
                     {
                         return context.CanManageSite(ss: ss);
                     }
@@ -497,7 +497,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "registrations":
                     return CanManageRegistrations(context: context, any: true);
                 default:
-                    if (ss.ReferenceType == "Sites")
+                    if (ss.IsSite(context: context))
                     {
                         return context.CanManageSite(ss: ss);
                     }
@@ -530,7 +530,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "registrations":
                     return PrivilegedUsers(loginId: context.LoginId);
                 default:
-                    if (ss.ReferenceType == "Sites")
+                    if (ss.IsSite(context: context))
                     {
                         return context.CanManageSite(ss: ss);
                     }
@@ -558,7 +558,7 @@ namespace Implem.Pleasanter.Libraries.Security
                     return CanManageTenant(context: context)
                         || context.UserId == context.Id;
                 default:
-                    if (ss.ReferenceType == "Sites")
+                    if (ss.IsSite(context: context))
                     {
                         return context.CanManageSite(ss: ss);
                     }

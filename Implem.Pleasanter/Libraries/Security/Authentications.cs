@@ -63,6 +63,10 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool Windows()
         {
+            if (Parameters.Authentication.Provider == "Windows")
+            {
+                return true;
+            }
             return ((AuthenticationSection)ConfigurationManager
                 .GetSection("system.web/authentication")).Mode.ToString() == "Windows";
         }

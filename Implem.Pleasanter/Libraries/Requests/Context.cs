@@ -93,6 +93,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public ContractSettings ContractSettings = new ContractSettings();
         public decimal ApiVersion = 1.000M;
         public string ApiRequestBody;
+        public string ApiKey;
         public string RequestDataString { get => ApiRequestBody ?? FormString; }
         public string ContentType;
         public long ServerScriptDepth = 0;
@@ -287,8 +288,9 @@ namespace Implem.Pleasanter.Libraries.Requests
                 if (api?.ApiKey.IsNullOrEmpty() == false)
                 {
                     ApiVersion = api.ApiVersion;
+                    ApiKey = api.ApiKey;
                     SetUser(userModel: GetUser(where: Rds.UsersWhere()
-                        .ApiKey(api.ApiKey)));
+                        .ApiKey(ApiKey)));
                 }
                 else if (!LoginId.IsNullOrEmpty())
                 {
