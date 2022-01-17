@@ -447,7 +447,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "registrations":
                     return CanManageRegistrations(context: context, any: true);
                 default:
-                    if (ss.IsSite(context: context))
+                    if (ss.IsSiteEditor(context: context))
                     {
                         return context.CanManageSite(ss: ss);
                     }
@@ -477,7 +477,14 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "versions":
                     return false;
                 default:
-                    return context.Can(ss: ss, type: Types.Create, site: site);
+                    if (ss.IsSiteEditor(context: context))
+                    {
+                        return context.CanManageSite(ss: ss);
+                    }
+                    else
+                    {
+                        return context.Can(ss: ss, type: Types.Create, site: site);
+                    }
             }
         }
 
@@ -497,7 +504,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "registrations":
                     return CanManageRegistrations(context: context, any: true);
                 default:
-                    if (ss.IsSite(context: context))
+                    if (ss.IsSiteEditor(context: context))
                     {
                         return context.CanManageSite(ss: ss);
                     }
@@ -530,7 +537,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "registrations":
                     return PrivilegedUsers(loginId: context.LoginId);
                 default:
-                    if (ss.IsSite(context: context))
+                    if (ss.IsSiteEditor(context: context))
                     {
                         return context.CanManageSite(ss: ss);
                     }
@@ -558,7 +565,7 @@ namespace Implem.Pleasanter.Libraries.Security
                     return CanManageTenant(context: context)
                         || context.UserId == context.Id;
                 default:
-                    if (ss.IsSite(context: context))
+                    if (ss.IsSiteEditor(context: context))
                     {
                         return context.CanManageSite(ss: ss);
                     }
