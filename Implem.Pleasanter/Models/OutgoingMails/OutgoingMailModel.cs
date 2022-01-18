@@ -871,18 +871,18 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SendBySendGrid(Context context, Attachments attachments = null)
         {
-            new SendGridMail(
-                context: context,
-                host: Host,
-                from: From,
-                to: To,
-                cc: Cc,
-                bcc: Bcc,
-                subject: Title.Value,
-                body: Body)
-                    .SendAsync(
-                        context: context,
-                        attachments: attachments);
+            _ = new SendGridMail(
+                 context: context,
+                 host: Host,
+                 from: From,
+                 to: To,
+                 cc: Cc,
+                 bcc: Bcc,
+                 subject: Title.Value,
+                 body: Body)
+                     .SendAsync(
+                         context: context,
+                         attachments: attachments);
         }
     }
 }
