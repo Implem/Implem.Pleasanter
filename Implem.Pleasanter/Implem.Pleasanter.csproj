@@ -17,9 +17,23 @@
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.7">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
-    <PackageReference Include="Microsoft.ClearScript" Version="7.2.1" />
+    <PackageReference Include="Microsoft.AspNet.Razor" Version="3.2.7">
+      <NoWarn>NU1701</NoWarn>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNet.WebPages" Version="3.2.7">
+      <NoWarn>NU1701</NoWarn>
+    </PackageReference>
+    <PackageReference Include="Microsoft.ClearScript" Version="7.2.1">
+      <NoWarn></NoWarn>
+    </PackageReference>
     <PackageReference Include="Microsoft.ClearScript.linux-arm64" Version="7.2.1" />
     <PackageReference Include="Microsoft.ClearScript.linux-x64" Version="7.2.1" />
+    <PackageReference Include="Microsoft.ClearScript.Windows" Version="7.2.1">
+      <NoWarn>NU1701</NoWarn>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Web.Infrastructure" Version="1.0.0">
+      <NoWarn>NU1701</NoWarn>
+    </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Novell.Directory.Ldap.NETStandard" Version="3.6.0" />
     <PackageReference Include="Sendgrid" Version="9.25.2" />
