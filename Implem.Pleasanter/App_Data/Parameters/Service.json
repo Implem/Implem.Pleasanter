@@ -8,6 +8,6 @@
     "ShowProfiles": true,
     "ShowChangePassword": false,
     "ShowStartGuide": true,
-    "Demo": false,
+    "Demo": true,
     "DemoUsagePeriod": 30
 }
