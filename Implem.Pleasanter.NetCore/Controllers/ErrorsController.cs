@@ -34,7 +34,7 @@ namespace Implem.Pleasanter.NetCore.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult BadRequest()
+        public new ActionResult BadRequest()
         {
             var context = new ContextImplement();
             var controller = new Pleasanter.Controllers.ErrorsController();
@@ -51,7 +51,7 @@ namespace Implem.Pleasanter.NetCore.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult NotFound()
+        public new ActionResult NotFound()
         {
             var context = new ContextImplement();
             var controller = new Pleasanter.Controllers.ErrorsController();
