@@ -3614,8 +3614,7 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 column: commentsColumn,
                 baseModel: siteModel);
-            var showComments = ss.GetEditorColumnNames()?.Contains("Comments") == true &&
-                commentsColumnPermissionType != Permissions.ColumnPermissionTypes.Deny;
+            var showComments = true;
             var tabsCss = showComments ? null : "max";
             return hb.Div(id: "Editor", action: () => hb
                 .Form(
