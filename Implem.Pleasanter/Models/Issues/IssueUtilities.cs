@@ -3432,6 +3432,9 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         formData: context.Forms);
+                    issueModel.SetByLookups(
+                        context: context,
+                        ss: ss);
                     issueModel.VerUp = Versions.MustVerUp(
                         context: context,
                         ss: ss,
