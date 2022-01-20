@@ -233,7 +233,7 @@ namespace Implem.Pleasanter.NetCore.Controllers
 
             if (DefinitionAccessor.Parameters.Authentication.Provider == "SAML-MultiTenant" && ssocode != string.Empty)
             {
-                var (contractSettings, errorUrl) = controller.GetTenantSamlSettings(context, ssocode);
+                var contractSettings = controller.GetTenantSamlSettings(context, ssocode);
                 if(contractSettings == null)
                 {
                     return Redirect(Pleasanter.Libraries.Responses.Locations.InvalidSsoCode(context: context));
@@ -250,7 +250,7 @@ namespace Implem.Pleasanter.NetCore.Controllers
                     });
             }
 
-            var (redirectUrl, html, ssoLogin) = controller.Login(
+            var (redirectUrl, html) = controller.Login(
                 context: context,
                 returnUrl: returnUrl,
                 isLocalUrl: Url.IsLocalUrl(returnUrl));

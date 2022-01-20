@@ -226,7 +226,7 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
-        public (string redirectUrl, string html, bool ssoLogin) Login(
+        public (string redirectUrl, string html) Login(
             Context context, string returnUrl, bool isLocalUrl)
         {
             var log = new SysLogModel(context: context);
@@ -239,7 +239,7 @@ namespace Implem.Pleasanter.Controllers
                 log.Finish(context: context);
                 return (isLocalUrl
                     ? returnUrl
-                    : Locations.Top(context: context), null, false);
+                    : Locations.Top(context: context), null);
             }
             var html = UserUtilities.HtmlLogin(
                 context: context,
@@ -250,13 +250,13 @@ namespace Implem.Pleasanter.Controllers
                     ? Messages.Expired(context: context).Text
                     : string.Empty);
             log.Finish(context: context, responseSize: html.Length);
-            return (null, html, false);
+            return (null, html);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public (ContractSettings contractSettings, string redirectUrl) GetTenantSamlSettings(Context context, string ssocode)
+        public ContractSettings GetTenantSamlSettings(Context context, string ssocode)
         {
             var tenant = new TenantModel().Get(
                         context: context,
@@ -267,16 +267,16 @@ namespace Implem.Pleasanter.Controllers
                 var contractSettings = Saml.GetTenantSamlSettings(context: context, tenantId: tenant.TenantId);
                 if(contractSettings != null)
                 {
-                    return (contractSettings, null);
+                    return contractSettings;
                 }
             }
-            return (null,Locations.InvalidSsoCode(context));
+            return null;
         }
 
-            /// <summary>
-            /// Fixed:
-            /// </summary>
-            public (string redirectUrl, string redirectResultUrl, string html) SamlLogin(Context context)
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public (string redirectUrl, string redirectResultUrl, string html) SamlLogin(Context context)
         {
             if (!Authentications.SAML()
                 || context.AuthenticationType != "Federation"

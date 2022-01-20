@@ -1,10 +1,8 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
-using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Initializers;
 using Implem.Pleasanter.Libraries.Migrators;
-using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Models;
@@ -22,15 +20,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Primitives;
-using Sustainsys.Saml2;
-using Sustainsys.Saml2.Configuration;
-using Sustainsys.Saml2.Metadata;
 using System;
-using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 namespace Implem.Pleasanter.NetCore
 {
@@ -89,44 +82,6 @@ namespace Implem.Pleasanter.NetCore
                     .AddSaml2(options =>
                     {
                         Saml.SetSPOptions(options);
-                        options.Notifications.GetIdentityProvider = (entityId, rd, opt) =>
-                        {
-                            if(!rd.ContainsKey("SamlLoginUrl")
-                                && !rd.ContainsKey("SamlThumbprint"))
-                            {
-                                return opt.IdentityProviders.Default;
-                            }
-                            var loginUrl = rd["SamlLoginUrl"];
-                            var thumbprint = rd["SamlThumbprint"];
-
-                            var defaultIdp = opt.IdentityProviders.Default;
-                            var idp = new IdentityProvider(entityId, options.SPOptions)
-                            {
-                                SingleSignOnServiceUrl = new Uri(loginUrl),
-                                SingleLogoutServiceUrl = defaultIdp.SingleLogoutServiceUrl,
-                                AllowUnsolicitedAuthnResponse = defaultIdp.AllowUnsolicitedAuthnResponse,
-                                Binding = defaultIdp.Binding,
-                                WantAuthnRequestsSigned = defaultIdp.WantAuthnRequestsSigned,
-                                DisableOutboundLogoutRequests = defaultIdp.DisableOutboundLogoutRequests,
-                            };
-                            var store = new X509Store(
-                                StoreName.My,
-                                StoreLocation.CurrentUser);
-                            store.Open(OpenFlags.OpenExistingOnly);
-                            try
-                            {
-                                var certs = store.Certificates.Find(
-                                    X509FindType.FindByThumbprint,
-                                    thumbprint,
-                                    false);
-                                idp.SigningKeys.AddConfiguredKey(certs[0]);
-                            }
-                            finally
-                            {
-                                store.Close();
-                            }
-                            return idp;
-                        };
                     });
             }
             else
