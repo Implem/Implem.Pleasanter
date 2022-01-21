@@ -593,7 +593,28 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public bool IsSiteEditor(Context context)
         {
-            return IsSite(context: context) && context.Action == "edit";
+            if (!IsSite(context: context))
+            {
+                return false;
+            }
+            switch (context.Action)
+            {
+                case "edit":
+                case "update":
+                case "deletecomment":
+                case "delete":
+                case "restore":
+                case "restorefromhistory":
+                case "copy":
+                case "histories":
+                case "history":
+                case "reply":
+                case "getdestinations":
+                case "send":
+                    return true;
+                default:
+                    return false;
+            }
         }
 
         public string RecordingJson(Context context)
@@ -2053,7 +2074,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(column =>
                     GridColumns.Contains(column.ColumnName)
                     || GetEditorColumnNames().Contains(column.ColumnName)
-                    || column.ColumnName.Contains("~"))
+                    || column.ColumnName.Contains("~")
+                    || column.ColumnName == "Creator"
+                    || column.ColumnName == "Updator")
                 .AllowedColumns(
                     context: context,
                     ss: this,

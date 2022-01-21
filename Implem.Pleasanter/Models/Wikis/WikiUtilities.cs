@@ -290,7 +290,7 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: wikiModel.Class(columnName: column.Name),
+                                            value: wikiModel.GetClass(columnName: column.Name),
                                             tabIndex: tabIndex,
                                             serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
@@ -308,7 +308,7 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: wikiModel.Num(columnName: column.Name),
+                                            value: wikiModel.GetNum(columnName: column.Name),
                                             tabIndex: tabIndex,
                                             serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
@@ -326,7 +326,7 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: wikiModel.Date(columnName: column.Name),
+                                            value: wikiModel.GetDate(columnName: column.Name),
                                             tabIndex: tabIndex,
                                             serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
@@ -344,7 +344,7 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: wikiModel.Description(columnName: column.Name),
+                                            value: wikiModel.GetDescription(columnName: column.Name),
                                             tabIndex: tabIndex,
                                             serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
@@ -362,7 +362,7 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: wikiModel.Check(columnName: column.Name),
+                                            value: wikiModel.GetCheck(columnName: column.Name),
                                             tabIndex: tabIndex,
                                             serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
@@ -380,7 +380,7 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: wikiModel.Attachments(columnName: column.Name),
+                                            value: wikiModel.GetAttachments(columnName: column.Name),
                                             tabIndex: tabIndex,
                                             serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
@@ -448,32 +448,32 @@ namespace Implem.Pleasanter.Models
                         switch (Def.ExtendedColumnTypes.Get(column.Name))
                         {
                             case "Class":
-                                value = wikiModel.Class(columnName: column.Name).GridText(
+                                value = wikiModel.GetClass(columnName: column.Name).GridText(
                                     context: context,
                                     column: column);
                                 break;
                             case "Num":
-                                value = wikiModel.Num(columnName: column.Name)?.Value?.GridText(
+                                value = wikiModel.GetNum(columnName: column.Name)?.Value?.GridText(
                                     context: context,
                                     column: column) ?? string.Empty;
                                 break;
                             case "Date":
-                                value = wikiModel.Date(columnName: column.Name).GridText(
+                                value = wikiModel.GetDate(columnName: column.Name).GridText(
                                     context: context,
                                     column: column);
                                 break;
                             case "Description":
-                                value = wikiModel.Description(columnName: column.Name).GridText(
+                                value = wikiModel.GetDescription(columnName: column.Name).GridText(
                                     context: context,
                                     column: column);
                                 break;
                             case "Check":
-                                value = wikiModel.Check(columnName: column.Name).GridText(
+                                value = wikiModel.GetCheck(columnName: column.Name).GridText(
                                     context: context,
                                     column: column);
                                 break;
                             case "Attachments":
-                                value = wikiModel.Attachments(columnName: column.Name).GridText(
+                                value = wikiModel.GetAttachments(columnName: column.Name).GridText(
                                     context: context,
                                     column: column);
                                 break;
@@ -1162,37 +1162,37 @@ namespace Implem.Pleasanter.Models
                     switch (Def.ExtendedColumnTypes.Get(column.Name))
                     {
                         case "Class":
-                            return wikiModel.Class(columnName: column.Name)
+                            return wikiModel.GetClass(columnName: column.Name)
                                 .ToControl(
                                     context: context,
                                     ss: ss,
                                     column: column);
                         case "Num":
-                            return wikiModel.Num(columnName: column.Name)
+                            return wikiModel.GetNum(columnName: column.Name)
                                 .ToControl(
                                     context: context,
                                     ss: ss,
                                     column: column);
                         case "Date":
-                            return wikiModel.Date(columnName: column.Name)
+                            return wikiModel.GetDate(columnName: column.Name)
                                 .ToControl(
                                     context: context,
                                     ss: ss,
                                     column: column);
                         case "Description":
-                            return wikiModel.Description(columnName: column.Name)
+                            return wikiModel.GetDescription(columnName: column.Name)
                                 .ToControl(
                                     context: context,
                                     ss: ss,
                                     column: column);
                         case "Check":
-                            return wikiModel.Check(columnName: column.Name)
+                            return wikiModel.GetCheck(columnName: column.Name)
                                 .ToControl(
                                     context: context,
                                     ss: ss,
                                     column: column);
                         case "Attachments":
-                            return wikiModel.Attachments(columnName: column.Name)
+                            return wikiModel.GetAttachments(columnName: column.Name)
                                 .ToControl(
                                     context: context,
                                     ss: ss,
@@ -1322,7 +1322,7 @@ namespace Implem.Pleasanter.Models
                                     case "Class":
                                         res.Val(
                                             target: $"#Wikis_{column.Name}{idSuffix}",
-                                            value: wikiModel.Class(columnName: column.Name).ToResponse(
+                                            value: wikiModel.GetClass(columnName: column.Name).ToResponse(
                                                 context: context,
                                                 ss: ss,
                                                 column: column),
@@ -1331,7 +1331,7 @@ namespace Implem.Pleasanter.Models
                                     case "Num":
                                         res.Val(
                                             target: $"#Wikis_{column.Name}{idSuffix}",
-                                            value: wikiModel.Num(columnName: column.Name).ToResponse(
+                                            value: wikiModel.GetNum(columnName: column.Name).ToResponse(
                                                 context: context,
                                                 ss: ss,
                                                 column: column),
@@ -1340,7 +1340,7 @@ namespace Implem.Pleasanter.Models
                                     case "Date":
                                         res.Val(
                                             target: $"#Wikis_{column.Name}{idSuffix}",
-                                            value: wikiModel.Date(columnName: column.Name).ToResponse(
+                                            value: wikiModel.GetDate(columnName: column.Name).ToResponse(
                                                 context: context,
                                                 ss: ss,
                                                 column: column),
@@ -1349,7 +1349,7 @@ namespace Implem.Pleasanter.Models
                                     case "Description":
                                         res.Val(
                                             target: $"#Wikis_{column.Name}{idSuffix}",
-                                            value: wikiModel.Description(columnName: column.Name).ToResponse(
+                                            value: wikiModel.GetDescription(columnName: column.Name).ToResponse(
                                                 context: context,
                                                 ss: ss,
                                                 column: column),
@@ -1358,7 +1358,7 @@ namespace Implem.Pleasanter.Models
                                     case "Check":
                                         res.Val(
                                             target: $"#Wikis_{column.Name}{idSuffix}",
-                                            value: wikiModel.Check(columnName: column.Name),
+                                            value: wikiModel.GetCheck(columnName: column.Name),
                                             options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                         break;
                                     case "Attachments":
@@ -1376,7 +1376,7 @@ namespace Implem.Pleasanter.Models
                                                             : string.Empty),
                                                     fieldDescription: column.Description,
                                                     labelText: column.LabelText,
-                                                    value: wikiModel.Attachments(columnName: column.Name).ToJson(),
+                                                    value: wikiModel.GetAttachments(columnName: column.Name).ToJson(),
                                                     readOnly: Permissions.ColumnPermissionType(
                                                         context: context,
                                                         ss: ss,

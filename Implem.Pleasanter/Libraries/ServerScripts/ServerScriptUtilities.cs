@@ -393,7 +393,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             ExpandoObject data,
             Column[] columns)
         {
-            columns?.ForEach(column => model?.Value(
+            columns?.ForEach(column => model?.GetValue(
                 context: context,
                 column: column,
                 value: String(
@@ -861,14 +861,32 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public static Context CreateContext(Context context, long id, string apiRequestBody)
         {
-            var createdContext = context.CreateContext(apiRequestBody: apiRequestBody);
+            var createdContext = context.CreateContext(apiRequestBody: MergedApiRequestBody(
+                context: context,
+                apiRequestBody: apiRequestBody));
             createdContext.LogBuilder = context.LogBuilder;
+            createdContext.UserData = context.UserData;
             createdContext.Messages = context.Messages;
             createdContext.Id = id;
             createdContext.ApiRequestBody = apiRequestBody;
             createdContext.PermissionHash = Permissions.Get(context: createdContext);
             createdContext.ServerScriptDepth = context.ServerScriptDepth + 1;
             return createdContext;
+        }
+
+        private static string MergedApiRequestBody(Context context, string apiRequestBody)
+        {
+            if (context.ApiKey.IsNullOrEmpty())
+            {
+                return apiRequestBody;
+            }
+            else
+            {
+                var api = apiRequestBody.Deserialize<Api>() ?? new Api();
+                api.ApiKey = api.ApiKey ?? context.ApiKey;
+                var json = api.ToJson();
+                return json;
+            }
         }
 
         public static ServerScriptModelApiModel[] Get(

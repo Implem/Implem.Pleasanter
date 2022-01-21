@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "implem.TestAutomation": {
-      "commandName": "Project",
-      "commandLineArgs": "/p /s select"
-    }
-  }
-}

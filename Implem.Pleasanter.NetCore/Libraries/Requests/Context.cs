@@ -97,6 +97,7 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
         public override ContractSettings ContractSettings { get; set; } = new ContractSettings();
         public override decimal ApiVersion { get; set; } = 1.000M;
         public override string ApiRequestBody { get; set; }
+        public override string ApiKey { get; set; }
         public override string RequestDataString { get => !string.IsNullOrEmpty(ApiRequestBody) ? ApiRequestBody : FormString; }
         public override string ContentType { get; set; }
         public override List<ParameterAccessor.Parts.ExtendedField> ExtendedFields { get; set; }
@@ -291,8 +292,9 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
                 if (api?.ApiKey.IsNullOrEmpty() == false)
                 {
                     ApiVersion = api.ApiVersion;
+                    ApiKey = api.ApiKey;
                     SetUser(userModel: GetUser(where: Rds.UsersWhere()
-                        .ApiKey(api.ApiKey)));
+                        .ApiKey(ApiKey)));
                 }
                 else if (!LoginId.IsNullOrEmpty())
                 {

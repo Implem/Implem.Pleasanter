@@ -50,6 +50,7 @@
             "MailAddress": "{NameId}"
         },
         "SamlTenantId": 1,
+        "DisableOverwriteName": false,
         "SPOptions": {
             "EntityId": "http://localhost:59802/Saml2",
             "ReturnUrl": "http://localhost:59802/Users/SamlLogin",

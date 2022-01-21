@@ -1,1 +1,0 @@
-The previous version of the Microsoft.AspNet.Mvc.FixedDisplayModes package contained a workaround for a bug affecting mobile view caching in ASP.NET MVC 4. As of ASP.NET MVC 5 this workaround is no longer needed. This package can be safely removed without affecting your application.
