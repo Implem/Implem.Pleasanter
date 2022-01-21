@@ -333,34 +333,39 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 var thumbprint = rd["SamlThumbprint"];
 
                 var defaultIdp = opt.IdentityProviders.Default;
+                var metadataPath = "~/App_Data/Temp/SamlMetadata/test001.xml";
                 var idp = new Sustainsys.Saml2.IdentityProvider(entityId, options.SPOptions)
                 {
-                    SingleSignOnServiceUrl = new Uri(loginUrl),
-                    SingleLogoutServiceUrl = defaultIdp.SingleLogoutServiceUrl,
-                    AllowUnsolicitedAuthnResponse = defaultIdp.AllowUnsolicitedAuthnResponse,
-                    Binding = defaultIdp.Binding,
-                    WantAuthnRequestsSigned = defaultIdp.WantAuthnRequestsSigned,
-                    DisableOutboundLogoutRequests = defaultIdp.DisableOutboundLogoutRequests,
+                    MetadataLocation = metadataPath
+                    //SingleSignOnServiceUrl = new Uri(loginUrl),
+                    //SingleLogoutServiceUrl = defaultIdp.SingleLogoutServiceUrl,
+                    //AllowUnsolicitedAuthnResponse = defaultIdp.AllowUnsolicitedAuthnResponse,
+                    //Binding = defaultIdp.Binding,
+                    //WantAuthnRequestsSigned = defaultIdp.WantAuthnRequestsSigned,
+                    //DisableOutboundLogoutRequests = defaultIdp.DisableOutboundLogoutRequests,
                 };
-                idp.ReadMetadata(EntityDescriptor)
-                var store = new X509Store(
-                    StoreName.My,
-                    StoreLocation.CurrentUser);
-                store.Open(OpenFlags.OpenExistingOnly);
-                try
-                {
-                    var certs = store.Certificates.Find(
-                        X509FindType.FindByThumbprint,
-                        thumbprint,
-                        false);
-                    idp.SigningKeys.AddConfiguredKey(certs[0]);
-                }
-                finally
-                {
-                    store.Close();
-                }
+                idp.LoadMetadata = true;
+                //var store = new X509Store(
+                //    StoreName.My,
+                //    StoreLocation.CurrentUser);
+                //store.Open(OpenFlags.OpenExistingOnly);
+                //try
+                //{
+                //    var certs = store.Certificates.Find(
+                //        X509FindType.FindByThumbprint,
+                //        thumbprint,
+                //        false);
+                //    idp.SigningKeys.AddConfiguredKey(certs[0]);
+                //}
+                //finally
+                //{
+                //    store.Close();
+                //}
+
+                
                 return idp;
             };
+
         }
 
         public static ContractSettings GetTenantSamlSettings(Context context, int tenantId)
