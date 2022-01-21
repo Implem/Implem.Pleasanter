@@ -2201,6 +2201,7 @@ td > .field-normal,td > .field-wide{
     float:left;
     padding:5px 10px 5px 5px;
     list-style-type:none;
+    touch-action:pan-y;
 }
 
 .control-selectable li{

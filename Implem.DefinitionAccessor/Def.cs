@@ -3651,6 +3651,11 @@ namespace Implem.DefinitionAccessor
                                 data.ToString();
                             newCssDefinition.Savedshape_rendering = newCssDefinition.shape_rendering;
                             break;
+                        case "touch-action":
+                            newCssDefinition.touch_action = customDefinitionRow.Get("touch-action")?.ToString() ??
+                                data.ToString();
+                            newCssDefinition.Savedtouch_action = newCssDefinition.touch_action;
+                            break;
                         default: break;
                     }
                 });
@@ -3720,6 +3725,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("stroke-width")) { definition.stroke_width = definitionRow["stroke-width"].ToString(); definition.Savedstroke_width = definition.stroke_width; }
             if (definitionRow.ContainsKey("text-anchor")) { definition.text_anchor = definitionRow["text-anchor"].ToString(); definition.Savedtext_anchor = definition.text_anchor; }
             if (definitionRow.ContainsKey("shape-rendering")) { definition.shape_rendering = definitionRow["shape-rendering"].ToString(); definition.Savedshape_rendering = definition.shape_rendering; }
+            if (definitionRow.ContainsKey("touch-action")) { definition.touch_action = definitionRow["touch-action"].ToString(); definition.Savedtouch_action = definition.touch_action; }
         }
 
         private static void ConstructCssDefinitions()
@@ -6532,6 +6538,7 @@ namespace Implem.DefinitionAccessor
                         case "stroke-width": cssDefinition.stroke_width = optionValue.ToString(); break;
                         case "text-anchor": cssDefinition.text_anchor = optionValue.ToString(); break;
                         case "shape-rendering": cssDefinition.shape_rendering = optionValue.ToString(); break;
+                        case "touch-action": cssDefinition.touch_action = optionValue.ToString(); break;
                     }
                 });
         }
@@ -10396,6 +10403,7 @@ namespace Implem.DefinitionAccessor
         public string stroke_width; public string Savedstroke_width;
         public string text_anchor; public string Savedtext_anchor;
         public string shape_rendering; public string Savedshape_rendering;
+        public string touch_action; public string Savedtouch_action;
 
         public CssDefinition()
         {
@@ -10463,6 +10471,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("stroke_width")) stroke_width = propertyCollection["stroke_width"].ToString(); else stroke_width = string.Empty;
             if (propertyCollection.ContainsKey("text_anchor")) text_anchor = propertyCollection["text_anchor"].ToString(); else text_anchor = string.Empty;
             if (propertyCollection.ContainsKey("shape_rendering")) shape_rendering = propertyCollection["shape_rendering"].ToString(); else shape_rendering = string.Empty;
+            if (propertyCollection.ContainsKey("touch_action")) touch_action = propertyCollection["touch_action"].ToString(); else touch_action = string.Empty;
         }
 
         public object this[string key]
@@ -10530,6 +10539,7 @@ namespace Implem.DefinitionAccessor
                     case "stroke_width": return stroke_width;
                     case "text_anchor": return text_anchor;
                     case "shape_rendering": return shape_rendering;
+                    case "touch_action": return touch_action;
                     default: return null;
                 }
             }
@@ -10597,6 +10607,7 @@ namespace Implem.DefinitionAccessor
             stroke_width = Savedstroke_width;
             text_anchor = Savedtext_anchor;
             shape_rendering = Savedshape_rendering;
+            touch_action = Savedtouch_action;
         }
     }
 
