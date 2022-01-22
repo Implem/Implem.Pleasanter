@@ -337,7 +337,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     .Comments("", _operator: "<>")))
             {
                 SetIdpConfiguration(createdContext, tenant.TenantId, true);
-                new SysLogModel(createdContext, "SetIdpConfiguration:" + "[" + tenant.TenantId + "]" + tenant.Title);
+                new SysLogModel(
+                    context: createdContext,
+                    method: nameof(RegisterSamlConfiguration),
+                    message: "SetIdpConfiguration:" + "[" + tenant.TenantId + "]" + tenant.Title);
             }
         }
 
@@ -476,13 +479,21 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 var certs = store.Certificates.Find(X509FindType.FindByThumbprint, findValue, false);
                 if (certs.Count != 1)
                 {
-                    new SysLogModel(context, $"Invalid SAML certificate. (Thumbrint={findValue})");
+                    new SysLogModel(
+                        context: context,
+                        method: nameof(FindCert),
+                        message: $"Invalid SAML certificate. (Thumbrint={findValue})",
+                        sysLogType: SysLogModel.SysLogTypes.Execption);
                     return false;
                 }
                 var today = DateTime.Today;
                 if (certs[0].NotBefore.Date > today || certs[0].NotAfter.Date < today)
                 {
-                    new SysLogModel(context, $"Certificate expired ({certs[0].NotBefore.ToString("yyyy/MM/dd")} - {certs[0].NotAfter.ToString("yyyy/MM/dd")})");
+                    new SysLogModel(
+                        context: context,
+                        method: nameof(FindCert),
+                        message: $"Certificate expired ({certs[0].NotBefore.ToString("yyyy/MM/dd")} - {certs[0].NotAfter.ToString("yyyy/MM/dd")})",
+                        sysLogType: SysLogModel.SysLogTypes.Execption);
                     return false;
                 }
             }

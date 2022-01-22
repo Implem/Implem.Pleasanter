@@ -5,19 +5,35 @@
     <Copyright>Copyright © Implem Inc 2014 - 2022</Copyright>
     <Description>Business application platform</Description>
     <AssemblyName>Implem.Pleasanter</AssemblyName>
-    <AssemblyVersion>1.2.25.1</AssemblyVersion>
-    <FileVersion>1.2.25.1</FileVersion>
+    <AssemblyVersion>1.2.26.0</AssemblyVersion>
+    <FileVersion>1.2.26.0</FileVersion>
     <LangVersion>7.2</LangVersion>
-    <Version>1.2.25.1</Version>
+    <Version>1.2.26.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.95.4" />
     <PackageReference Include="DocumentFormat.OpenXml" Version="2.15.0" />
-    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.7" />
-    <PackageReference Include="Microsoft.ClearScript" Version="7.2.1" />
+    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.7">
+      <NoWarn>NU1701</NoWarn>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNet.Razor" Version="3.2.7">
+      <NoWarn>NU1701</NoWarn>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNet.WebPages" Version="3.2.7">
+      <NoWarn>NU1701</NoWarn>
+    </PackageReference>
+    <PackageReference Include="Microsoft.ClearScript" Version="7.2.1">
+      <NoWarn></NoWarn>
+    </PackageReference>
     <PackageReference Include="Microsoft.ClearScript.linux-arm64" Version="7.2.1" />
     <PackageReference Include="Microsoft.ClearScript.linux-x64" Version="7.2.1" />
+    <PackageReference Include="Microsoft.ClearScript.Windows" Version="7.2.1">
+      <NoWarn>NU1701</NoWarn>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Web.Infrastructure" Version="1.0.0">
+      <NoWarn>NU1701</NoWarn>
+    </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Novell.Directory.Ldap.NETStandard" Version="3.6.0" />
     <PackageReference Include="Sendgrid" Version="9.25.2" />
@@ -26,8 +42,6 @@
     <PackageReference Include="Sustainsys.Saml2.AspNetCore2" Version="2.9.0" />
     <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="6.0.0" />
     <PackageReference Include="System.DirectoryServices" Version="6.0.0" />
-    <PackageReference Include="System.Net.Http" Version="4.3.4" />
-    <PackageReference Include="System.Web.Http.Common" Version="4.0.20126.16343" />
   </ItemGroup>
 
   <ItemGroup>

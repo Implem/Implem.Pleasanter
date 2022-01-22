@@ -108,7 +108,7 @@ namespace Implem.Pleasanter.Models
                 .ToList();
         }
 
-        public string Value(
+        public string GetValue(
             Context context,
             Column column,
             bool toLocal = false)
@@ -116,29 +116,29 @@ namespace Implem.Pleasanter.Models
             switch (Def.ExtendedColumnTypes.Get(column.ColumnName))
             {
                 case "Class":
-                    return Class(columnName: column.ColumnName);
+                    return GetClass(columnName: column.ColumnName);
                 case "Num":
                     return column.Nullable != true
-                        ? Num(columnName: column.ColumnName).Value?.ToString() ?? "0"
-                        : Num(columnName: column.ColumnName).Value?.ToString() ?? string.Empty;
+                        ? GetNum(columnName: column.ColumnName).Value?.ToString() ?? "0"
+                        : GetNum(columnName: column.ColumnName).Value?.ToString() ?? string.Empty;
                 case "Date":
                     return toLocal
-                        ? Date(columnName: column.ColumnName)
+                        ? GetDate(columnName: column.ColumnName)
                             .ToLocal(context: context)
                             .ToString()
-                        : Date(columnName: column.ColumnName).ToString();
+                        : GetDate(columnName: column.ColumnName).ToString();
                 case "Description":
-                    return Description(columnName: column.ColumnName);
+                    return GetDescription(columnName: column.ColumnName);
                 case "Check":
-                    return Check(columnName: column.ColumnName).ToString();
+                    return GetCheck(columnName: column.ColumnName).ToString();
                 case "Attachments":
-                    return Attachments(columnName: column.ColumnName).ToJson();
+                    return GetAttachments(columnName: column.ColumnName).ToJson();
                 default:
                     return null;
             }
         }
 
-        public void Value(
+        public void GetValue(
             Context context,
             Column column,
             string value,
@@ -147,12 +147,12 @@ namespace Implem.Pleasanter.Models
             switch (Def.ExtendedColumnTypes.Get(column.ColumnName))
             {
                 case "Class":
-                    Class(
+                    GetClass(
                         columnName: column.ColumnName,
                         value: value);
                     break;
                 case "Num":
-                    Num(
+                    GetNum(
                         columnName: column.ColumnName,
                         value: new Num(
                             context: context,
@@ -160,24 +160,24 @@ namespace Implem.Pleasanter.Models
                             value: value));
                     break;
                 case "Date":
-                    Date(
+                    GetDate(
                         columnName: column.ColumnName,
                         value: toUniversal
                             ? value.ToDateTime().ToUniversal(context: context)
                             : value.ToDateTime());
                     break;
                 case "Description":
-                    Description(
+                    GetDescription(
                         columnName: column.ColumnName,
                         value: value);
                     break;
                 case "Check":
-                    Check(
+                    GetCheck(
                         columnName: column.ColumnName,
                         value: value.ToBool());
                     break;
                 case "Attachments":
-                    Attachments(
+                    GetAttachments(
                         columnName: column.ColumnName,
                         value: value.Deserialize<Attachments>());
                     break;
@@ -194,41 +194,41 @@ namespace Implem.Pleasanter.Models
                 || AttachmentsHash.Any(o => Attachments_Updated(o.Key));
         }
 
-        public string Class(Column column)
+        public string GetClass(Column column)
         {
-            return Class(columnName: column.ColumnName);
+            return GetClass(columnName: column.ColumnName);
         }
 
-        public string SavedClass(Column column)
+        public string GetSavedClass(Column column)
         {
-            return SavedClass(columnName: column.ColumnName);
+            return GetSavedClass(columnName: column.ColumnName);
         }
 
-        public string Class(string columnName)
+        public string GetClass(string columnName)
         {
             return ClassHash.Get(columnName) ?? string.Empty;
         }
 
-        public string SavedClass(string columnName)
+        public string GetSavedClass(string columnName)
         {
             return SavedClassHash.Get(columnName) ?? string.Empty;
         }
 
-        public void Class(Column column, string value)
+        public void GetClass(Column column, string value)
         {
-            Class(
+            GetClass(
                 columnName: column.ColumnName,
                 value: value);
         }
 
-        public void SavedClass(Column column, string value)
+        public void GetSavedClass(Column column, string value)
         {
-            SavedClass(
+            GetSavedClass(
                 columnName: column.ColumnName,
                 value: value);
         }
 
-        public void Class(string columnName, string value)
+        public void GetClass(string columnName, string value)
         {
             if (!ClassHash.ContainsKey(columnName))
             {
@@ -240,7 +240,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public void SavedClass(string columnName, string value)
+        public void GetSavedClass(string columnName, string value)
         {
             if (!SavedClassHash.ContainsKey(columnName))
             {
@@ -257,48 +257,48 @@ namespace Implem.Pleasanter.Models
             Context context = null,
             Column column = null)
         {
-            var value = Class(columnName: columnName);
-            return value != SavedClass(columnName: columnName)
+            var value = GetClass(columnName: columnName);
+            return value != GetSavedClass(columnName: columnName)
                 && (column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.GetDefaultInput(context: context) != value);
         }
 
-        public Num Num(Column column)
+        public Num GetNum(Column column)
         {
-            return Num(columnName: column.ColumnName);
+            return GetNum(columnName: column.ColumnName);
         }
 
-        public decimal? SavedNum(Column column)
+        public decimal? GetSavedNum(Column column)
         {
-            return SavedNum(columnName: column.ColumnName);
+            return GetSavedNum(columnName: column.ColumnName);
         }
 
-        public Num Num(string columnName)
+        public Num GetNum(string columnName)
         {
             return NumHash.Get(columnName) ?? new Num();
         }
 
-        public decimal? SavedNum(string columnName)
+        public decimal? GetSavedNum(string columnName)
         {
             return SavedNumHash.Get(columnName);
         }
 
-        public void Num(Column column, Num value)
+        public void GetNum(Column column, Num value)
         {
-            Num(
+            GetNum(
                 columnName: column.ColumnName,
                 value: value);
         }
 
-        public void SavedNum(Column column, decimal? value)
+        public void GetSavedNum(Column column, decimal? value)
         {
-            SavedNum(
+            GetSavedNum(
                 columnName: column.ColumnName,
                 value: value);
         }
 
-        public void Num(string columnName, Num value)
+        public void GetNum(string columnName, Num value)
         {
             if (!NumHash.ContainsKey(columnName))
             {
@@ -310,7 +310,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public void SavedNum(string columnName, decimal? value)
+        public void GetSavedNum(string columnName, decimal? value)
         {
             if (!SavedNumHash.ContainsKey(columnName))
             {
@@ -328,8 +328,8 @@ namespace Implem.Pleasanter.Models
             Column column = null,
             bool paramDefault = false)
         {
-            var value = Num(columnName: columnName)?.Value;
-            var savedValue = SavedNum(columnName: columnName);
+            var value = GetNum(columnName: columnName)?.Value;
+            var savedValue = GetSavedNum(columnName: columnName);
             if (column?.Nullable !=  true)
             {
                 value = value ?? 0;
@@ -342,45 +342,45 @@ namespace Implem.Pleasanter.Models
                     || column.GetDefaultInput(context: context).ToDecimal() != value);
         }
 
-        public DateTime Date(Column column)
+        public DateTime GetDate(Column column)
         {
-            return Date(columnName: column.ColumnName);
+            return GetDate(columnName: column.ColumnName);
         }
 
-        public DateTime SavedDate(Column column)
+        public DateTime GetSavedDate(Column column)
         {
-            return SavedDate(columnName: column.ColumnName);
+            return GetSavedDate(columnName: column.ColumnName);
         }
 
-        public DateTime Date(string columnName)
+        public DateTime GetDate(string columnName)
         {
             return DateHash.ContainsKey(columnName)
                 ? DateHash.Get(columnName)
                 : 0.ToDateTime();
         }
 
-        public DateTime SavedDate(string columnName)
+        public DateTime GetSavedDate(string columnName)
         {
             return SavedDateHash.ContainsKey(columnName)
                 ? SavedDateHash.Get(columnName)
                 : 0.ToDateTime();
         }
 
-        public void Date(Column column, DateTime value)
+        public void GetDate(Column column, DateTime value)
         {
-            Date(
+            GetDate(
                 columnName: column.ColumnName,
                 value: value);
         }
 
-        public void SavedDate(Column column, DateTime value)
+        public void GetSavedDate(Column column, DateTime value)
         {
-            SavedDate(
+            GetSavedDate(
                 columnName: column.ColumnName,
                 value: value);
         }
 
-        public void Date(string columnName, DateTime value)
+        public void GetDate(string columnName, DateTime value)
         {
             if (!DateHash.ContainsKey(columnName))
             {
@@ -392,7 +392,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public void SavedDate(string columnName, DateTime value)
+        public void GetSavedDate(string columnName, DateTime value)
         {
             if (!SavedDateHash.ContainsKey(columnName))
             {
@@ -409,48 +409,48 @@ namespace Implem.Pleasanter.Models
             Context context = null,
             Column column = null)
         {
-            var value = Date(columnName: columnName);
-            return value != SavedDate(columnName: columnName)
+            var value = GetDate(columnName: columnName);
+            return value != GetSavedDate(columnName: columnName)
                 && (column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.GetDefaultInput(context: context).ToDateTime() != value);
         }
 
-        public string Description(Column column)
+        public string GetDescription(Column column)
         {
-            return Description(columnName: column.ColumnName);
+            return GetDescription(columnName: column.ColumnName);
         }
 
-        public string SavedDescription(Column column)
+        public string GetSavedDescription(Column column)
         {
-            return SavedDescription(columnName: column.ColumnName);
+            return GetSavedDescription(columnName: column.ColumnName);
         }
 
-        public string Description(string columnName)
+        public string GetDescription(string columnName)
         {
             return DescriptionHash.Get(columnName) ?? string.Empty;
         }
 
-        public string SavedDescription(string columnName)
+        public string GetSavedDescription(string columnName)
         {
             return SavedDescriptionHash.Get(columnName) ?? string.Empty;
         }
 
-        public void Description(Column column, string value)
+        public void GetDescription(Column column, string value)
         {
-            Description(
+            GetDescription(
                 columnName: column.ColumnName,
                 value: value);
         }
 
-        public void SavedDescription(Column column, string value)
+        public void GetSavedDescription(Column column, string value)
         {
-            SavedDescription(
+            GetSavedDescription(
                 columnName: column.ColumnName,
                 value: value);
         }
 
-        public void Description(string columnName, string value)
+        public void GetDescription(string columnName, string value)
         {
             if (!DescriptionHash.ContainsKey(columnName))
             {
@@ -462,7 +462,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public void SavedDescription(string columnName, string value)
+        public void GetSavedDescription(string columnName, string value)
         {
             if (!SavedDescriptionHash.ContainsKey(columnName))
             {
@@ -479,48 +479,48 @@ namespace Implem.Pleasanter.Models
             Context context = null,
             Column column = null)
         {
-            var value = Description(columnName: columnName);
-            return value != SavedDescription(columnName: columnName)
+            var value = GetDescription(columnName: columnName);
+            return value != GetSavedDescription(columnName: columnName)
                 && (column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.GetDefaultInput(context: context) != value);
         }
 
-        public bool Check(Column column)
+        public bool GetCheck(Column column)
         {
-            return Check(columnName: column.ColumnName);
+            return GetCheck(columnName: column.ColumnName);
         }
 
-        public bool SavedCheck(Column column)
+        public bool GetSavedCheck(Column column)
         {
-            return SavedCheck(columnName: column.ColumnName);
+            return GetSavedCheck(columnName: column.ColumnName);
         }
 
-        public bool Check(string columnName)
+        public bool GetCheck(string columnName)
         {
             return CheckHash.Get(columnName);
         }
 
-        public bool SavedCheck(string columnName)
+        public bool GetSavedCheck(string columnName)
         {
             return SavedCheckHash.Get(columnName);
         }
 
-        public void Check(Column column, bool value)
+        public void GetCheck(Column column, bool value)
         {
-            Check(
+            GetCheck(
                 columnName: column.ColumnName,
                 value: value);
         }
 
-        public void SavedCheck(Column column, bool value)
+        public void GetSavedCheck(Column column, bool value)
         {
-            SavedCheck(
+            GetSavedCheck(
                 columnName: column.ColumnName,
                 value: value);
         }
 
-        public void Check(string columnName, bool value)
+        public void GetCheck(string columnName, bool value)
         {
             if (!CheckHash.ContainsKey(columnName))
             {
@@ -532,7 +532,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public void SavedCheck(string columnName, bool value)
+        public void GetSavedCheck(string columnName, bool value)
         {
             if (!CheckHash.ContainsKey(columnName))
             {
@@ -549,48 +549,48 @@ namespace Implem.Pleasanter.Models
             Context context = null,
             Column column = null)
         {
-            var value = Check(columnName: columnName);
-            return value != SavedCheck(columnName: columnName)
+            var value = GetCheck(columnName: columnName);
+            return value != GetSavedCheck(columnName: columnName)
                 && (column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.GetDefaultInput(context: context).ToBool() != value);
         }
 
-        public Attachments Attachments(Column column)
+        public Attachments GetAttachments(Column column)
         {
-            return Attachments(columnName: column.ColumnName);
+            return GetAttachments(columnName: column.ColumnName);
         }
 
-        public string SavedAttachments(Column column)
+        public string GetSavedAttachments(Column column)
         {
-            return SavedAttachments(columnName: column.ColumnName);
+            return GetSavedAttachments(columnName: column.ColumnName);
         }
 
-        public Attachments Attachments(string columnName)
+        public Attachments GetAttachments(string columnName)
         {
             return AttachmentsHash.Get(columnName) ?? new Attachments();
         }
 
-        public string SavedAttachments(string columnName)
+        public string GetSavedAttachments(string columnName)
         {
             return SavedAttachmentsHash.Get(columnName) ?? new Attachments().RecordingJson();
         }
 
-        public void Attachments(Column column, Attachments value)
+        public void GetAttachments(Column column, Attachments value)
         {
-            Attachments(
+            GetAttachments(
                 columnName: column.ColumnName,
                 value: value);
         }
 
-        public void SavedAttachments(Column column, string value)
+        public void GetSavedAttachments(Column column, string value)
         {
-            SavedAttachments(
+            GetSavedAttachments(
                 columnName: column.ColumnName,
                 value: value);
         }
 
-        public void Attachments(string columnName, Attachments value)
+        public void GetAttachments(string columnName, Attachments value)
         {
             if (!AttachmentsHash.ContainsKey(columnName))
             {
@@ -602,7 +602,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public void SavedAttachments(string columnName, string value)
+        public void GetSavedAttachments(string columnName, string value)
         {
             if (!AttachmentsHash.ContainsKey(columnName))
             {
@@ -619,8 +619,8 @@ namespace Implem.Pleasanter.Models
             Context context = null,
             Column column = null)
         {
-            var value = Attachments(columnName: columnName).RecordingJson();
-            return value != SavedAttachments(columnName: columnName)
+            var value = GetAttachments(columnName: columnName).RecordingJson();
+            return value != GetSavedAttachments(columnName: columnName)
                 && (column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.GetDefaultInput(context: context) != value);
@@ -636,31 +636,31 @@ namespace Implem.Pleasanter.Models
                 switch (Def.ExtendedColumnTypes.Get(column.ColumnName))
                 {
                     case "Class":
-                        Class(column.ColumnName)?.FullText(
+                        GetClass(column.ColumnName)?.FullText(
                             context: context,
                             column: column,
                             fullText: fullText);
                         break;
                     case "Num":
-                        Num(column.ColumnName)?.FullText(
+                        GetNum(column.ColumnName)?.FullText(
                             context: context,
                             column: column,
                             fullText: fullText);
                         break;
                     case "Date":
-                        Date(column.ColumnName).FullText(
+                        GetDate(column.ColumnName).FullText(
                             context: context,
                             column: column,
                             fullText: fullText);
                         break;
                     case "Description":
-                        Description(column.ColumnName)?.FullText(
+                        GetDescription(column.ColumnName)?.FullText(
                             context: context,
                             column: column,
                             fullText: fullText);
                         break;
                     case "Attachments":
-                        Attachments(column.ColumnName)?.FullText(
+                        GetAttachments(column.ColumnName)?.FullText(
                             context: context,
                             column: column,
                             fullText: fullText);
@@ -717,13 +717,14 @@ namespace Implem.Pleasanter.Models
 
         public virtual ServerScriptModelRow SetByBeforeOpeningPageServerScript(
             Context context,
-            SiteSettings ss)
+            SiteSettings ss,
+            View view = null)
         {
             var scriptValues = ServerScriptUtilities.Execute(
                 context: context,
                 ss: ss,
                 itemModel: null,
-                view: null,
+                view: view,
                 where: script => script.BeforeOpeningPage == true,
                 condition: "BeforeOpeningPage");
             if (scriptValues != null)
@@ -948,13 +949,14 @@ namespace Implem.Pleasanter.Models
 
         public override ServerScriptModelRow SetByBeforeOpeningPageServerScript(
             Context context,
-            SiteSettings ss)
+            SiteSettings ss,
+            View view = null)
         {
             var scriptValues = ServerScriptUtilities.Execute(
                 context: context,
                 ss: ss,
                 itemModel: this,
-                view: null,
+                view: view,
                 where: script => script.BeforeOpeningPage == true,
                 condition: "BeforeOpeningPage");
             if (scriptValues != null)

@@ -37,7 +37,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implem.PostgreSql", "Rds\Im
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implem.Factory", "Implem.Factory\Implem.Factory.csproj", "{34F5C4BD-1CE6-40C1-BD84-3BA965615453}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "implem.TestAutomation", "implem.TestAutomation\implem.TestAutomation.csproj", "{8D829515-28D9-423B-BC60-9AF376CBAB15}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implem.TestAutomation", "Implem.TestAutomation\Implem.TestAutomation.csproj", "{8D829515-28D9-423B-BC60-9AF376CBAB15}"
 	ProjectSection(ProjectDependencies) = postProject
 		{43CA1830-2E4D-4137-898E-9C3C1B104BAF} = {43CA1830-2E4D-4137-898E-9C3C1B104BAF}
 		{87025B44-C7C0-402D-BCB4-5797BDA54DDE} = {87025B44-C7C0-402D-BCB4-5797BDA54DDE}

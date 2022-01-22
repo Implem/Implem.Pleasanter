@@ -46,19 +46,19 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 switch (Def.ExtendedColumnTypes.Get(name))
                 {
                     case "Class":
-                        result = Model.Class(name);
+                        result = Model.GetClass(name);
                         return true;
                     case "Num":
-                        result = Model.Num(name).Value;
+                        result = Model.GetNum(name).Value;
                         return true;
                     case "Date":
-                        result = Model.Date(name);
+                        result = Model.GetDate(name);
                         return true;
                     case "Description":
-                        result = Model.Description(name);
+                        result = Model.GetDescription(name);
                         return true;
                     case "Check":
-                        result = Model.Check(name);
+                        result = Model.GetCheck(name);
                         return true;
                 }
                 switch (name)
@@ -172,7 +172,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public override bool TrySetMember(SetMemberBinder binder, object value)
         {
             string name = binder.Name;
-            Model.Value(
+            Model.GetValue(
                 context: Context,
                 column: new Column(name),
                 value: value.ToStr());

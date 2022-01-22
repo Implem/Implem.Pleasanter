@@ -28,6 +28,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int BeforeCondition;
         public int AfterCondition;
         public Expressions Expression;
+        public bool? AfterCreate;
+        public bool? AfterUpdate;
+        public bool? AfterDelete;
         public bool? Disabled;
         [NonSerialized]
         public int Index;
@@ -72,6 +75,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             int beforeCondition,
             int afterCondition,
             Expressions expression,
+            bool afterCreate,
+            bool afterUpdate,
+            bool afterDelete,
             bool disabled)
         {
             Id = id;
@@ -85,6 +91,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             BeforeCondition = beforeCondition;
             AfterCondition = afterCondition;
             Expression = expression;
+            AfterCreate = afterCreate;
+            AfterUpdate = afterUpdate;
+            AfterDelete = afterDelete;
             Disabled = disabled;
         }
 
@@ -109,6 +118,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             int beforeCondition,
             int afterCondition,
             Expressions expression,
+            bool afterCreate,
+            bool afterUpdate,
+            bool afterDelete,
             bool disabled)
         {
             Type = type;
@@ -121,6 +133,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             BeforeCondition = beforeCondition;
             AfterCondition = afterCondition;
             Expression = expression;
+            AfterCreate = afterCreate;
+            AfterUpdate = afterUpdate;
+            AfterDelete = afterDelete;
             Disabled = disabled;
         }
 
@@ -304,6 +319,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!Prefix.IsNullOrEmpty())
             {
                 notification.Prefix = Prefix;
+            }
+            if (AfterCreate == false)
+            {
+                notification.AfterCreate = AfterCreate;
+            }
+            if (AfterUpdate == false)
+            {
+                notification.AfterUpdate = AfterUpdate;
+            }
+            if (AfterDelete == false)
+            {
+                notification.AfterDelete = AfterDelete;
             }
             if (Disabled == true)
             {

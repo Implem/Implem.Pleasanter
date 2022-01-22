@@ -21,7 +21,10 @@ namespace Implem.Pleasanter.NetCore.Filters
             {
                 new SysLogModel(
                     context: context,
-                    e: filterContext.Exception);
+                    method: nameof(OnException),
+                    message: filterContext.Exception.Message,
+                    errStackTrace: filterContext.Exception.StackTrace,
+                    sysLogType: SysLogModel.SysLogTypes.Execption);
                 var siteId = CanManageSiteId(context: context);
                 SessionUtilities.Set(
                     context: context,

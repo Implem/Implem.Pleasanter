@@ -143,37 +143,37 @@ namespace Implem.Pleasanter.Libraries.Settings
                         switch (Def.ExtendedColumnTypes.Get(column.Name))
                         {
                             case "Class":
-                                return deptModel.Class(column: column).ToLookup(
+                                return deptModel.GetClass(column: column).ToLookup(
                                     context: context,
                                     ss: ss,
                                     column: column,
                                     type: Type);
                             case "Num":
-                                return deptModel.Num(column: column).ToLookup(
+                                return deptModel.GetNum(column: column).ToLookup(
                                     context: context,
                                     ss: ss,
                                     column: column,
                                     type: Type);
                             case "Date":
-                                return deptModel.Date(column: column).ToLookup(
+                                return deptModel.GetDate(column: column).ToLookup(
                                     context: context,
                                     ss: ss,
                                     column: column,
                                     type: Type);
                             case "Description":
-                                return deptModel.Description(column: column).ToLookup(
+                                return deptModel.GetDescription(column: column).ToLookup(
                                     context: context,
                                     ss: ss,
                                     column: column,
                                     type: Type);
                             case "Check":
-                                return deptModel.Check(column: column).ToLookup(
+                                return deptModel.GetCheck(column: column).ToLookup(
                                     context: context,
                                     ss: ss,
                                     column: column,
                                     type: Type);
                             case "Attachments":
-                                return deptModel.Attachments(column: column).ToLookup(
+                                return deptModel.GetAttachments(column: column).ToLookup(
                                     context: context,
                                     ss: ss,
                                     column: column,
@@ -289,37 +289,37 @@ namespace Implem.Pleasanter.Libraries.Settings
                         switch (Def.ExtendedColumnTypes.Get(column.Name))
                         {
                             case "Class":
-                                return groupModel.Class(column: column).ToLookup(
+                                return groupModel.GetClass(column: column).ToLookup(
                                     context: context,
                                     ss: ss,
                                     column: column,
                                     type: Type);
                             case "Num":
-                                return groupModel.Num(column: column).ToLookup(
+                                return groupModel.GetNum(column: column).ToLookup(
                                     context: context,
                                     ss: ss,
                                     column: column,
                                     type: Type);
                             case "Date":
-                                return groupModel.Date(column: column).ToLookup(
+                                return groupModel.GetDate(column: column).ToLookup(
                                     context: context,
                                     ss: ss,
                                     column: column,
                                     type: Type);
                             case "Description":
-                                return groupModel.Description(column: column).ToLookup(
+                                return groupModel.GetDescription(column: column).ToLookup(
                                     context: context,
                                     ss: ss,
                                     column: column,
                                     type: Type);
                             case "Check":
-                                return groupModel.Check(column: column).ToLookup(
+                                return groupModel.GetCheck(column: column).ToLookup(
                                     context: context,
                                     ss: ss,
                                     column: column,
                                     type: Type);
                             case "Attachments":
-                                return groupModel.Attachments(column: column).ToLookup(
+                                return groupModel.GetAttachments(column: column).ToLookup(
                                     context: context,
                                     ss: ss,
                                     column: column,
@@ -597,37 +597,37 @@ namespace Implem.Pleasanter.Libraries.Settings
                         switch (Def.ExtendedColumnTypes.Get(column.Name))
                         {
                             case "Class":
-                                return userModel.Class(column: column).ToLookup(
+                                return userModel.GetClass(column: column).ToLookup(
                                     context: context,
                                     ss: ss,
                                     column: column,
                                     type: Type);
                             case "Num":
-                                return userModel.Num(column: column).ToLookup(
+                                return userModel.GetNum(column: column).ToLookup(
                                     context: context,
                                     ss: ss,
                                     column: column,
                                     type: Type);
                             case "Date":
-                                return userModel.Date(column: column).ToLookup(
+                                return userModel.GetDate(column: column).ToLookup(
                                     context: context,
                                     ss: ss,
                                     column: column,
                                     type: Type);
                             case "Description":
-                                return userModel.Description(column: column).ToLookup(
+                                return userModel.GetDescription(column: column).ToLookup(
                                     context: context,
                                     ss: ss,
                                     column: column,
                                     type: Type);
                             case "Check":
-                                return userModel.Check(column: column).ToLookup(
+                                return userModel.GetCheck(column: column).ToLookup(
                                     context: context,
                                     ss: ss,
                                     column: column,
                                     type: Type);
                             case "Attachments":
-                                return userModel.Attachments(column: column).ToLookup(
+                                return userModel.GetAttachments(column: column).ToLookup(
                                     context: context,
                                     ss: ss,
                                     column: column,
@@ -797,37 +797,37 @@ namespace Implem.Pleasanter.Libraries.Settings
                         switch (Def.ExtendedColumnTypes.Get(column.Name))
                         {
                             case "Class":
-                                return issueModel.Class(column: column).ToLookup(
+                                return issueModel.GetClass(column: column).ToLookup(
                                     context: context,
                                     ss: ss,
                                     column: column,
                                     type: Type);
                             case "Num":
-                                return issueModel.Num(column: column).ToLookup(
+                                return issueModel.GetNum(column: column).ToLookup(
                                     context: context,
                                     ss: ss,
                                     column: column,
                                     type: Type);
                             case "Date":
-                                return issueModel.Date(column: column).ToLookup(
+                                return issueModel.GetDate(column: column).ToLookup(
                                     context: context,
                                     ss: ss,
                                     column: column,
                                     type: Type);
                             case "Description":
-                                return issueModel.Description(column: column).ToLookup(
+                                return issueModel.GetDescription(column: column).ToLookup(
                                     context: context,
                                     ss: ss,
                                     column: column,
                                     type: Type);
                             case "Check":
-                                return issueModel.Check(column: column).ToLookup(
+                                return issueModel.GetCheck(column: column).ToLookup(
                                     context: context,
                                     ss: ss,
                                     column: column,
                                     type: Type);
                             case "Attachments":
-                                return issueModel.Attachments(column: column).ToLookup(
+                                return issueModel.GetAttachments(column: column).ToLookup(
                                     context: context,
                                     ss: ss,
                                     column: column,
@@ -967,37 +967,37 @@ namespace Implem.Pleasanter.Libraries.Settings
                         switch (Def.ExtendedColumnTypes.Get(column.Name))
                         {
                             case "Class":
-                                return resultModel.Class(column: column).ToLookup(
+                                return resultModel.GetClass(column: column).ToLookup(
                                     context: context,
                                     ss: ss,
                                     column: column,
                                     type: Type);
                             case "Num":
-                                return resultModel.Num(column: column).ToLookup(
+                                return resultModel.GetNum(column: column).ToLookup(
                                     context: context,
                                     ss: ss,
                                     column: column,
                                     type: Type);
                             case "Date":
-                                return resultModel.Date(column: column).ToLookup(
+                                return resultModel.GetDate(column: column).ToLookup(
                                     context: context,
                                     ss: ss,
                                     column: column,
                                     type: Type);
                             case "Description":
-                                return resultModel.Description(column: column).ToLookup(
+                                return resultModel.GetDescription(column: column).ToLookup(
                                     context: context,
                                     ss: ss,
                                     column: column,
                                     type: Type);
                             case "Check":
-                                return resultModel.Check(column: column).ToLookup(
+                                return resultModel.GetCheck(column: column).ToLookup(
                                     context: context,
                                     ss: ss,
                                     column: column,
                                     type: Type);
                             case "Attachments":
-                                return resultModel.Attachments(column: column).ToLookup(
+                                return resultModel.GetAttachments(column: column).ToLookup(
                                     context: context,
                                     ss: ss,
                                     column: column,

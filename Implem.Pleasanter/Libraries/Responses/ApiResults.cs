@@ -1,8 +1,6 @@
-using Implem.Libraries.Utilities;
+﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
-using System.Net.Http;
-using System.Web.Http;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Libraries.Responses
 {
@@ -93,14 +91,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                 context: context,
                 maxSize: maxSize));
             return result;
-        }
-
-        public static HttpResponseMessage ToHttpResponse(this ContentResult self, HttpRequestMessage request)
-        {
-            var content = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiResponse>(self.Content);
-            var response = request.CreateResponse((System.Net.HttpStatusCode)content.StatusCode);
-            response.Content = new StringContent(self.Content, self.ContentEncoding, self.ContentType);
-            return response;
         }
     }
 }
