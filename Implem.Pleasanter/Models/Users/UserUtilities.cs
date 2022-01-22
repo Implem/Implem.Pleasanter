@@ -40,7 +40,9 @@ namespace Implem.Pleasanter.Models
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
-            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(
+                context: context,
+                view: view);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
@@ -167,7 +169,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 view: view);
-            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(
+                context: context,
+                view: view);
             return new ResponseCollection()
                 .ViewMode(
                     context: context,

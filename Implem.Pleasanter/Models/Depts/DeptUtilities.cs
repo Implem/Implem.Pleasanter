@@ -207,7 +207,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 view: view);
-            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(
+                context: context,
+                view: view);
             return new ResponseCollection()
                 .ViewMode(
                     context: context,
