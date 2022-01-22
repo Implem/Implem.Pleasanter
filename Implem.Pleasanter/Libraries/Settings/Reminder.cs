@@ -669,35 +669,35 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     case "Class":
                                         line = line.Replace(
                                             $"[{column.Name}]",
-                                            issueModel.Class(column: column).ToExport(
+                                            issueModel.GetClass(column: column).ToExport(
                                                 context: context,
                                                 column: column));
                                         break;
                                     case "Num":
                                         line = line.Replace(
                                             $"[{column.Name}]",
-                                            issueModel.Num(column: column).ToExport(
+                                            issueModel.GetNum(column: column).ToExport(
                                                 context: context,
                                                 column: column));
                                         break;
                                     case "Date":
                                         line = line.Replace(
                                             $"[{column.Name}]",
-                                            issueModel.Date(column: column).ToExport(
+                                            issueModel.GetDate(column: column).ToExport(
                                                 context: context,
                                                 column: column));
                                         break;
                                     case "Description":
                                         line = line.Replace(
                                             $"[{column.Name}]",
-                                            issueModel.Description(column: column).ToExport(
+                                            issueModel.GetDescription(column: column).ToExport(
                                                 context: context,
                                                 column: column));
                                         break;
                                     case "Check":
                                         line = line.Replace(
                                             $"[{column.Name}]",
-                                            issueModel.Check(column: column).ToExport(
+                                            issueModel.GetCheck(column: column).ToExport(
                                                 context: context,
                                                 column: column));
                                         break;
@@ -813,35 +813,35 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     case "Class":
                                         line = line.Replace(
                                             $"[{column.Name}]",
-                                            resultModel.Class(column: column).ToExport(
+                                            resultModel.GetClass(column: column).ToExport(
                                                 context: context,
                                                 column: column));
                                         break;
                                     case "Num":
                                         line = line.Replace(
                                             $"[{column.Name}]",
-                                            resultModel.Num(column: column).ToExport(
+                                            resultModel.GetNum(column: column).ToExport(
                                                 context: context,
                                                 column: column));
                                         break;
                                     case "Date":
                                         line = line.Replace(
                                             $"[{column.Name}]",
-                                            resultModel.Date(column: column).ToExport(
+                                            resultModel.GetDate(column: column).ToExport(
                                                 context: context,
                                                 column: column));
                                         break;
                                     case "Description":
                                         line = line.Replace(
                                             $"[{column.Name}]",
-                                            resultModel.Description(column: column).ToExport(
+                                            resultModel.GetDescription(column: column).ToExport(
                                                 context: context,
                                                 column: column));
                                         break;
                                     case "Check":
                                         line = line.Replace(
                                             $"[{column.Name}]",
-                                            resultModel.Check(column: column).ToExport(
+                                            resultModel.GetCheck(column: column).ToExport(
                                                 context: context,
                                                 column: column));
                                         break;

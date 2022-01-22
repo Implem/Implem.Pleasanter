@@ -373,7 +373,7 @@ namespace Implem.Pleasanter.Models
                 case "CreatedTime": return CreatedTime.Value.ToString();
                 case "VerUp": return VerUp.ToString();
                 case "Timestamp": return Timestamp;
-                default: return Value(
+                default: return GetValue(
                     context: context,
                     column: column);
             }
@@ -506,7 +506,7 @@ namespace Implem.Pleasanter.Models
                             hash.Add("Timestamp", Timestamp);
                             break;
                         default:
-                            hash.Add(column.ColumnName, Value(
+                            hash.Add(column.ColumnName, GetValue(
                                 context: context,
                                 column: column));
                             break;
@@ -1164,12 +1164,12 @@ namespace Implem.Pleasanter.Models
                             switch (Def.ExtendedColumnTypes.Get(column?.ColumnName))
                             {
                                 case "Class":
-                                    Class(
+                                    GetClass(
                                         columnName: column.ColumnName,
                                         value: value);
                                     break;
                                 case "Num":
-                                    Num(
+                                    GetNum(
                                         columnName: column.ColumnName,
                                         value: new Num(
                                             context: context,
@@ -1177,22 +1177,22 @@ namespace Implem.Pleasanter.Models
                                             value: value));
                                     break;
                                 case "Date":
-                                    Date(
+                                    GetDate(
                                         columnName: column.ColumnName,
                                         value: value.ToDateTime().ToUniversal(context: context));
                                     break;
                                 case "Description":
-                                    Description(
+                                    GetDescription(
                                         columnName: column.ColumnName,
                                         value: value);
                                     break;
                                 case "Check":
-                                    Check(
+                                    GetCheck(
                                         columnName: column.ColumnName,
                                         value: value.ToBool());
                                     break;
                                 case "Attachments":
-                                    Attachments(
+                                    GetAttachments(
                                         columnName: column.ColumnName,
                                         value: value.Deserialize<Attachments>());
                                     break;
@@ -1289,10 +1289,10 @@ namespace Implem.Pleasanter.Models
             if (data.DisableCrossSearch != null) DisableCrossSearch = data.DisableCrossSearch.ToBool().ToBool();
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
-            data.ClassHash?.ForEach(o => Class(
+            data.ClassHash?.ForEach(o => GetClass(
                 columnName: o.Key,
                 value: o.Value));
-            data.NumHash?.ForEach(o => Num(
+            data.NumHash?.ForEach(o => GetNum(
                 columnName: o.Key,
                 value: new Num(
                     context: context,
@@ -1300,13 +1300,13 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         columnName: o.Key),
                     value: o.Value.ToString())));
-            data.DateHash?.ForEach(o => Date(
+            data.DateHash?.ForEach(o => GetDate(
                 columnName: o.Key,
                 value: o.Value.ToDateTime().ToUniversal(context: context)));
-            data.DescriptionHash?.ForEach(o => Description(
+            data.DescriptionHash?.ForEach(o => GetDescription(
                 columnName: o.Key,
                 value: o.Value));
-            data.CheckHash?.ForEach(o => Check(
+            data.CheckHash?.ForEach(o => GetCheck(
                 columnName: o.Key,
                 value: o.Value));
             data.AttachmentsHash?.ForEach(o =>
@@ -1367,7 +1367,7 @@ namespace Implem.Pleasanter.Models
                             Where((oldvalue) => !newGuidSet.Contains(oldvalue.Guid)));
                     }
                 }
-                Attachments(columnName: columnName, value: newAttachments);
+                GetAttachments(columnName: columnName, value: newAttachments);
             });
             SetSiteSettings(context: context);
         }
@@ -1416,27 +1416,27 @@ namespace Implem.Pleasanter.Models
                             switch (Def.ExtendedColumnTypes.Get(filter.Key))
                             {
                                 case "Class":
-                                    match = Class(column: column).Matched(
+                                    match = GetClass(column: column).Matched(
                                         column: column,
                                         condition: filter.Value);
                                     break;
                                 case "Num":
-                                    match = Num(column: column).Matched(
+                                    match = GetNum(column: column).Matched(
                                         column: column,
                                         condition: filter.Value);
                                     break;
                                 case "Date":
-                                    match = Date(column: column).Matched(
+                                    match = GetDate(column: column).Matched(
                                         column: column,
                                         condition: filter.Value);
                                     break;
                                 case "Description":
-                                    match = Description(column: column).Matched(
+                                    match = GetDescription(column: column).Matched(
                                         column: column,
                                         condition: filter.Value);
                                     break;
                                 case "Check":
-                                    match = Check(column: column).Matched(
+                                    match = GetCheck(column: column).Matched(
                                         column: column,
                                         condition: filter.Value);
                                     break;
@@ -1618,55 +1618,55 @@ namespace Implem.Pleasanter.Models
                             switch (Def.ExtendedColumnTypes.Get(column.Name))
                             {
                                 case "Class":
-                                    Class(
+                                    GetClass(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToString());
-                                    SavedClass(
+                                    GetSavedClass(
                                         columnName: column.Name,
-                                        value: Class(columnName: column.Name));
+                                        value: GetClass(columnName: column.Name));
                                     break;
                                 case "Num":
-                                    Num(
+                                    GetNum(
                                         columnName: column.Name,
                                         value: new Num(
                                             dataRow: dataRow,
                                             name: column.ColumnName));
-                                    SavedNum(
+                                    GetSavedNum(
                                         columnName: column.Name,
-                                        value: Num(columnName: column.Name).Value);
+                                        value: GetNum(columnName: column.Name).Value);
                                     break;
                                 case "Date":
-                                    Date(
+                                    GetDate(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToDateTime());
-                                    SavedDate(
+                                    GetSavedDate(
                                         columnName: column.Name,
-                                        value: Date(columnName: column.Name));
+                                        value: GetDate(columnName: column.Name));
                                     break;
                                 case "Description":
-                                    Description(
+                                    GetDescription(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToString());
-                                    SavedDescription(
+                                    GetSavedDescription(
                                         columnName: column.Name,
-                                        value: Description(columnName: column.Name));
+                                        value: GetDescription(columnName: column.Name));
                                     break;
                                 case "Check":
-                                    Check(
+                                    GetCheck(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToBool());
-                                    SavedCheck(
+                                    GetSavedCheck(
                                         columnName: column.Name,
-                                        value: Check(columnName: column.Name));
+                                        value: GetCheck(columnName: column.Name));
                                     break;
                                 case "Attachments":
-                                    Attachments(
+                                    GetAttachments(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToString()
                                             .Deserialize<Attachments>() ?? new Attachments());
-                                    SavedAttachments(
+                                    GetSavedAttachments(
                                         columnName: column.Name,
-                                        value: Attachments(columnName: column.Name).ToJson());
+                                        value: GetAttachments(columnName: column.Name).ToJson());
                                     break;
                             }
                             break;
@@ -3712,6 +3712,9 @@ namespace Implem.Pleasanter.Models
                     beforeCondition: context.Forms.Int("BeforeCondition"),
                     afterCondition: context.Forms.Int("AfterCondition"),
                     expression: (Notification.Expressions)context.Forms.Int("Expression"),
+                    afterCreate: context.Forms.Bool("NotificationAfterCreate"),
+                    afterUpdate: context.Forms.Bool("NotificationAfterUpdate"),
+                    afterDelete: context.Forms.Bool("NotificationAfterDelete"),
                     disabled: context.Forms.Bool("NotificationDisabled")));
                 SetNotificationsResponseCollection(context: context, res: res);
             }
@@ -3748,6 +3751,9 @@ namespace Implem.Pleasanter.Models
                         beforeCondition: context.Forms.Int("BeforeCondition"),
                         afterCondition: context.Forms.Int("AfterCondition"),
                         expression: (Notification.Expressions)context.Forms.Int("Expression"),
+                        afterCreate: context.Forms.Bool("NotificationAfterCreate"),
+                        afterUpdate: context.Forms.Bool("NotificationAfterUpdate"),
+                        afterDelete: context.Forms.Bool("NotificationAfterDelete"),
                         disabled: context.Forms.Bool("NotificationDisabled"));
                     SetNotificationsResponseCollection(context: context, res: res);
                 }

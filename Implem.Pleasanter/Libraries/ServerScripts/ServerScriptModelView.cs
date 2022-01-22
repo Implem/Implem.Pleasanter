@@ -5,16 +5,15 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public class ServerScriptModelView
     {
+        public readonly int Id;
         public List<string> AlwaysGetColumns = new List<string>();
         public string OnSelectingWhere;
         public string OnSelectingOrderBy;
         public Dictionary<string, string> ColumnPlaceholders;
         public readonly ExpandoObject Filters = new ExpandoObject();
         public readonly ExpandoObject Sorters = new ExpandoObject();
-        public readonly int Id;
 
-        public ServerScriptModelView(
-            int id = 0)
+        public ServerScriptModelView(int id = 0)
         {
             Id = id;
         }

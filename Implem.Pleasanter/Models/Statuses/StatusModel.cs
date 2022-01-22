@@ -211,55 +211,55 @@ namespace Implem.Pleasanter.Models
                             switch (Def.ExtendedColumnTypes.Get(column.Name))
                             {
                                 case "Class":
-                                    Class(
+                                    GetClass(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToString());
-                                    SavedClass(
+                                    GetSavedClass(
                                         columnName: column.Name,
-                                        value: Class(columnName: column.Name));
+                                        value: GetClass(columnName: column.Name));
                                     break;
                                 case "Num":
-                                    Num(
+                                    GetNum(
                                         columnName: column.Name,
                                         value: new Num(
                                             dataRow: dataRow,
                                             name: column.ColumnName));
-                                    SavedNum(
+                                    GetSavedNum(
                                         columnName: column.Name,
-                                        value: Num(columnName: column.Name).Value);
+                                        value: GetNum(columnName: column.Name).Value);
                                     break;
                                 case "Date":
-                                    Date(
+                                    GetDate(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToDateTime());
-                                    SavedDate(
+                                    GetSavedDate(
                                         columnName: column.Name,
-                                        value: Date(columnName: column.Name));
+                                        value: GetDate(columnName: column.Name));
                                     break;
                                 case "Description":
-                                    Description(
+                                    GetDescription(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToString());
-                                    SavedDescription(
+                                    GetSavedDescription(
                                         columnName: column.Name,
-                                        value: Description(columnName: column.Name));
+                                        value: GetDescription(columnName: column.Name));
                                     break;
                                 case "Check":
-                                    Check(
+                                    GetCheck(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToBool());
-                                    SavedCheck(
+                                    GetSavedCheck(
                                         columnName: column.Name,
-                                        value: Check(columnName: column.Name));
+                                        value: GetCheck(columnName: column.Name));
                                     break;
                                 case "Attachments":
-                                    Attachments(
+                                    GetAttachments(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToString()
                                             .Deserialize<Attachments>() ?? new Attachments());
-                                    SavedAttachments(
+                                    GetSavedAttachments(
                                         columnName: column.Name,
-                                        value: Attachments(columnName: column.Name).ToJson());
+                                        value: GetAttachments(columnName: column.Name).ToJson());
                                     break;
                             }
                             break;

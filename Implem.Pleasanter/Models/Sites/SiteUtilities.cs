@@ -40,7 +40,9 @@ namespace Implem.Pleasanter.Models
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
-            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(
+                context: context,
+                view: view);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
@@ -165,7 +167,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 view: view);
-            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(
+                context: context,
+                view: view);
             return new ResponseCollection()
                 .ViewMode(
                     context: context,
@@ -437,7 +441,9 @@ namespace Implem.Pleasanter.Models
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
-            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(
+                context: context,
+                view: view);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
@@ -703,7 +709,7 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: siteModel.Class(columnName: column.Name),
+                                            value: siteModel.GetClass(columnName: column.Name),
                                             tabIndex: tabIndex,
                                             serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
@@ -721,7 +727,7 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: siteModel.Num(columnName: column.Name),
+                                            value: siteModel.GetNum(columnName: column.Name),
                                             tabIndex: tabIndex,
                                             serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
@@ -739,7 +745,7 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: siteModel.Date(columnName: column.Name),
+                                            value: siteModel.GetDate(columnName: column.Name),
                                             tabIndex: tabIndex,
                                             serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
@@ -757,7 +763,7 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: siteModel.Description(columnName: column.Name),
+                                            value: siteModel.GetDescription(columnName: column.Name),
                                             tabIndex: tabIndex,
                                             serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
@@ -775,7 +781,7 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: siteModel.Check(columnName: column.Name),
+                                            value: siteModel.GetCheck(columnName: column.Name),
                                             tabIndex: tabIndex,
                                             serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
@@ -793,7 +799,7 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: siteModel.Attachments(columnName: column.Name),
+                                            value: siteModel.GetAttachments(columnName: column.Name),
                                             tabIndex: tabIndex,
                                             serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
@@ -855,32 +861,32 @@ namespace Implem.Pleasanter.Models
                         switch (Def.ExtendedColumnTypes.Get(column.Name))
                         {
                             case "Class":
-                                value = siteModel.Class(columnName: column.Name).GridText(
+                                value = siteModel.GetClass(columnName: column.Name).GridText(
                                     context: context,
                                     column: column);
                                 break;
                             case "Num":
-                                value = siteModel.Num(columnName: column.Name)?.Value?.GridText(
+                                value = siteModel.GetNum(columnName: column.Name)?.Value?.GridText(
                                     context: context,
                                     column: column) ?? string.Empty;
                                 break;
                             case "Date":
-                                value = siteModel.Date(columnName: column.Name).GridText(
+                                value = siteModel.GetDate(columnName: column.Name).GridText(
                                     context: context,
                                     column: column);
                                 break;
                             case "Description":
-                                value = siteModel.Description(columnName: column.Name).GridText(
+                                value = siteModel.GetDescription(columnName: column.Name).GridText(
                                     context: context,
                                     column: column);
                                 break;
                             case "Check":
-                                value = siteModel.Check(columnName: column.Name).GridText(
+                                value = siteModel.GetCheck(columnName: column.Name).GridText(
                                     context: context,
                                     column: column);
                                 break;
                             case "Attachments":
-                                value = siteModel.Attachments(columnName: column.Name).GridText(
+                                value = siteModel.GetAttachments(columnName: column.Name).GridText(
                                     context: context,
                                     column: column);
                                 break;
@@ -3614,8 +3620,7 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 column: commentsColumn,
                 baseModel: siteModel);
-            var showComments = ss.GetEditorColumnNames()?.Contains("Comments") == true &&
-                commentsColumnPermissionType != Permissions.ColumnPermissionTypes.Deny;
+            var showComments = true;
             var tabsCss = showComments ? null : "max";
             return hb.Div(id: "Editor", action: () => hb
                 .Form(
@@ -8419,6 +8424,12 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.AfterCondition(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.AfterCreate(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.AfterUpdate(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.AfterDelete(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.Disabled(context: context)))));
         }
 
@@ -8468,6 +8479,18 @@ namespace Implem.Pleasanter.Models
                                 : null))
                         .Td(action: () => hb
                             .Text(text: afterCondition?.Name))
+                        .Td(action: () => hb
+                            .Span(
+                                css: "ui-icon ui-icon-circle-check",
+                                _using: notification.AfterCreate != false))
+                        .Td(action: () => hb
+                            .Span(
+                                css: "ui-icon ui-icon-circle-check",
+                                _using: notification.AfterUpdate != false))
+                        .Td(action: () => hb
+                            .Span(
+                                css: "ui-icon ui-icon-circle-check",
+                                _using: notification.AfterDelete != false))
                         .Td(action: () => hb
                             .Span(
                                 css: "ui-icon ui-icon-circle-check",
@@ -8580,11 +8603,29 @@ namespace Implem.Pleasanter.Models
                                 optionCollection: ss.ViewSelectableOptions(),
                                 selectedValue: notification.AfterCondition.ToString(),
                                 insertBlank: true))
-                    .FieldCheckBox(
-                        controlId: "NotificationDisabled",
-                        controlCss: " always-send",
-                        labelText: Displays.Disabled(context: context),
-                        _checked: notification.Disabled == true)
+                    .Div(
+                        css: "both",
+                        action: () => hb
+                            .FieldCheckBox(
+                                controlId: "NotificationAfterCreate",
+                                controlCss: " always-send",
+                                labelText: Displays.AfterCreate(context: context),
+                                _checked: notification.AfterCreate != false)
+                            .FieldCheckBox(
+                                controlId: "NotificationAfterUpdate",
+                                controlCss: " always-send",
+                                labelText: Displays.AfterUpdate(context: context),
+                                _checked: notification.AfterUpdate != false)
+                            .FieldCheckBox(
+                                controlId: "NotificationAfterDelete",
+                                controlCss: " always-send",
+                                labelText: Displays.AfterDelete(context: context),
+                                _checked: notification.AfterDelete != false)
+                            .FieldCheckBox(
+                                controlId: "NotificationDisabled",
+                                controlCss: " always-send",
+                                labelText: Displays.Disabled(context: context),
+                                _checked: notification.Disabled == true))
                     .FieldSet(
                         css: " enclosed",
                         legendText: Displays.MonitorChangesColumns(context: context),

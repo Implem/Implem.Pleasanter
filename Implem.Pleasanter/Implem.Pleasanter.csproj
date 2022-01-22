@@ -112,9 +112,6 @@
       <HintPath>..\packages\StackExchange.Redis.StrongName.1.1.608\lib\net45\StackExchange.Redis.StrongName.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="StarkbankEcdsa, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b2e6337a5d77bfbc, processorArchitecture=MSIL">
-      <HintPath>..\packages\starkbank-ecdsa.1.3.1\lib\net40\StarkbankEcdsa.dll</HintPath>
-    </Reference>
     <Reference Include="Sustainsys.Saml2, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Sustainsys.Saml2.1.0.0\lib\net45\Sustainsys.Saml2.dll</HintPath>
     </Reference>

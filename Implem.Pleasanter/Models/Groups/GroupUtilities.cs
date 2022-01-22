@@ -212,7 +212,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 view: view);
-            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(
+                context: context,
+                view: view);
             return new ResponseCollection()
                 .ViewMode(
                     context: context,
@@ -704,7 +706,7 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: groupModel.Class(columnName: column.Name),
+                                            value: groupModel.GetClass(columnName: column.Name),
                                             tabIndex: tabIndex,
                                             serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
@@ -722,7 +724,7 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: groupModel.Num(columnName: column.Name),
+                                            value: groupModel.GetNum(columnName: column.Name),
                                             tabIndex: tabIndex,
                                             serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
@@ -740,7 +742,7 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: groupModel.Date(columnName: column.Name),
+                                            value: groupModel.GetDate(columnName: column.Name),
                                             tabIndex: tabIndex,
                                             serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
@@ -758,7 +760,7 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: groupModel.Description(columnName: column.Name),
+                                            value: groupModel.GetDescription(columnName: column.Name),
                                             tabIndex: tabIndex,
                                             serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
@@ -776,7 +778,7 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: groupModel.Check(columnName: column.Name),
+                                            value: groupModel.GetCheck(columnName: column.Name),
                                             tabIndex: tabIndex,
                                             serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
@@ -794,7 +796,7 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: groupModel.Attachments(columnName: column.Name),
+                                            value: groupModel.GetAttachments(columnName: column.Name),
                                             tabIndex: tabIndex,
                                             serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
@@ -856,32 +858,32 @@ namespace Implem.Pleasanter.Models
                         switch (Def.ExtendedColumnTypes.Get(column.Name))
                         {
                             case "Class":
-                                value = groupModel.Class(columnName: column.Name).GridText(
+                                value = groupModel.GetClass(columnName: column.Name).GridText(
                                     context: context,
                                     column: column);
                                 break;
                             case "Num":
-                                value = groupModel.Num(columnName: column.Name)?.Value?.GridText(
+                                value = groupModel.GetNum(columnName: column.Name)?.Value?.GridText(
                                     context: context,
                                     column: column) ?? string.Empty;
                                 break;
                             case "Date":
-                                value = groupModel.Date(columnName: column.Name).GridText(
+                                value = groupModel.GetDate(columnName: column.Name).GridText(
                                     context: context,
                                     column: column);
                                 break;
                             case "Description":
-                                value = groupModel.Description(columnName: column.Name).GridText(
+                                value = groupModel.GetDescription(columnName: column.Name).GridText(
                                     context: context,
                                     column: column);
                                 break;
                             case "Check":
-                                value = groupModel.Check(columnName: column.Name).GridText(
+                                value = groupModel.GetCheck(columnName: column.Name).GridText(
                                     context: context,
                                     column: column);
                                 break;
                             case "Attachments":
-                                value = groupModel.Attachments(columnName: column.Name).GridText(
+                                value = groupModel.GetAttachments(columnName: column.Name).GridText(
                                     context: context,
                                     column: column);
                                 break;
@@ -1199,37 +1201,37 @@ namespace Implem.Pleasanter.Models
                     switch (Def.ExtendedColumnTypes.Get(column.Name))
                     {
                         case "Class":
-                            return groupModel.Class(columnName: column.Name)
+                            return groupModel.GetClass(columnName: column.Name)
                                 .ToControl(
                                     context: context,
                                     ss: ss,
                                     column: column);
                         case "Num":
-                            return groupModel.Num(columnName: column.Name)
+                            return groupModel.GetNum(columnName: column.Name)
                                 .ToControl(
                                     context: context,
                                     ss: ss,
                                     column: column);
                         case "Date":
-                            return groupModel.Date(columnName: column.Name)
+                            return groupModel.GetDate(columnName: column.Name)
                                 .ToControl(
                                     context: context,
                                     ss: ss,
                                     column: column);
                         case "Description":
-                            return groupModel.Description(columnName: column.Name)
+                            return groupModel.GetDescription(columnName: column.Name)
                                 .ToControl(
                                     context: context,
                                     ss: ss,
                                     column: column);
                         case "Check":
-                            return groupModel.Check(columnName: column.Name)
+                            return groupModel.GetCheck(columnName: column.Name)
                                 .ToControl(
                                     context: context,
                                     ss: ss,
                                     column: column);
                         case "Attachments":
-                            return groupModel.Attachments(columnName: column.Name)
+                            return groupModel.GetAttachments(columnName: column.Name)
                                 .ToControl(
                                     context: context,
                                     ss: ss,
@@ -1417,7 +1419,7 @@ namespace Implem.Pleasanter.Models
                                     case "Class":
                                         res.Val(
                                             target: $"#Groups_{column.Name}{idSuffix}",
-                                            value: groupModel.Class(columnName: column.Name).ToResponse(
+                                            value: groupModel.GetClass(columnName: column.Name).ToResponse(
                                                 context: context,
                                                 ss: ss,
                                                 column: column),
@@ -1426,7 +1428,7 @@ namespace Implem.Pleasanter.Models
                                     case "Num":
                                         res.Val(
                                             target: $"#Groups_{column.Name}{idSuffix}",
-                                            value: groupModel.Num(columnName: column.Name).ToResponse(
+                                            value: groupModel.GetNum(columnName: column.Name).ToResponse(
                                                 context: context,
                                                 ss: ss,
                                                 column: column),
@@ -1435,7 +1437,7 @@ namespace Implem.Pleasanter.Models
                                     case "Date":
                                         res.Val(
                                             target: $"#Groups_{column.Name}{idSuffix}",
-                                            value: groupModel.Date(columnName: column.Name).ToResponse(
+                                            value: groupModel.GetDate(columnName: column.Name).ToResponse(
                                                 context: context,
                                                 ss: ss,
                                                 column: column),
@@ -1444,7 +1446,7 @@ namespace Implem.Pleasanter.Models
                                     case "Description":
                                         res.Val(
                                             target: $"#Groups_{column.Name}{idSuffix}",
-                                            value: groupModel.Description(columnName: column.Name).ToResponse(
+                                            value: groupModel.GetDescription(columnName: column.Name).ToResponse(
                                                 context: context,
                                                 ss: ss,
                                                 column: column),
@@ -1453,7 +1455,7 @@ namespace Implem.Pleasanter.Models
                                     case "Check":
                                         res.Val(
                                             target: $"#Groups_{column.Name}{idSuffix}",
-                                            value: groupModel.Check(columnName: column.Name),
+                                            value: groupModel.GetCheck(columnName: column.Name),
                                             options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                         break;
                                     case "Attachments":
@@ -1471,7 +1473,7 @@ namespace Implem.Pleasanter.Models
                                                             : string.Empty),
                                                     fieldDescription: column.Description,
                                                     labelText: column.LabelText,
-                                                    value: groupModel.Attachments(columnName: column.Name).ToJson(),
+                                                    value: groupModel.GetAttachments(columnName: column.Name).ToJson(),
                                                     readOnly: Permissions.ColumnPermissionType(
                                                         context: context,
                                                         ss: ss,
