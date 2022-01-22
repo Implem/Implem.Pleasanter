@@ -2775,22 +2775,26 @@ namespace Implem.Pleasanter.Models
                 switch (type)
                 {
                     case "Created":
-                        notification.Send(
-                            context: context,
-                            ss: ss,
-                            title: Displays.Created(
-                                context: context,
-                                data: Title.DisplayValue).ToString(),
-                            body: NoticeBody(
+                        if (notification.AfterCreate != false)
+                        {
+                            notification.Send(
                                 context: context,
                                 ss: ss,
-                                notification: notification),
-                            values: values);
+                                title: Displays.Created(
+                                    context: context,
+                                    data: Title.DisplayValue).ToString(),
+                                body: NoticeBody(
+                                    context: context,
+                                    ss: ss,
+                                    notification: notification),
+                                values: values);
+                        }
                         break;
                     case "Updated":
-                        if (notification.MonitorChangesColumns.Any(columnName => PropertyUpdated(
-                            context: context,
-                            name: columnName)))
+                        if (notification.AfterUpdate != false
+                            && notification.MonitorChangesColumns.Any(columnName => PropertyUpdated(
+                                context: context,
+                                name: columnName)))
                         {
                             var body = NoticeBody(
                                 context: context,
@@ -2808,17 +2812,20 @@ namespace Implem.Pleasanter.Models
                         }
                         break;
                     case "Deleted":
-                        notification.Send(
-                            context: context,
-                            ss: ss,
-                            title: Displays.Deleted(
-                                context: context,
-                                data: Title.DisplayValue).ToString(),
-                            body: NoticeBody(
+                        if (notification.AfterDelete != false)
+                        {
+                            notification.Send(
                                 context: context,
                                 ss: ss,
-                                notification: notification),
-                            values: values);
+                                title: Displays.Deleted(
+                                    context: context,
+                                    data: Title.DisplayValue).ToString(),
+                                body: NoticeBody(
+                                    context: context,
+                                    ss: ss,
+                                    notification: notification),
+                                values: values);
+                        }
                         break;
                 }
             });

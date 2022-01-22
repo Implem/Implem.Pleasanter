@@ -3712,6 +3712,9 @@ namespace Implem.Pleasanter.Models
                     beforeCondition: context.Forms.Int("BeforeCondition"),
                     afterCondition: context.Forms.Int("AfterCondition"),
                     expression: (Notification.Expressions)context.Forms.Int("Expression"),
+                    afterCreate: context.Forms.Bool("NotificationAfterCreate"),
+                    afterUpdate: context.Forms.Bool("NotificationAfterUpdate"),
+                    afterDelete: context.Forms.Bool("NotificationAfterDelete"),
                     disabled: context.Forms.Bool("NotificationDisabled")));
                 SetNotificationsResponseCollection(context: context, res: res);
             }
@@ -3748,6 +3751,9 @@ namespace Implem.Pleasanter.Models
                         beforeCondition: context.Forms.Int("BeforeCondition"),
                         afterCondition: context.Forms.Int("AfterCondition"),
                         expression: (Notification.Expressions)context.Forms.Int("Expression"),
+                        afterCreate: context.Forms.Bool("NotificationAfterCreate"),
+                        afterUpdate: context.Forms.Bool("NotificationAfterUpdate"),
+                        afterDelete: context.Forms.Bool("NotificationAfterDelete"),
                         disabled: context.Forms.Bool("NotificationDisabled"));
                     SetNotificationsResponseCollection(context: context, res: res);
                 }

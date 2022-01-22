@@ -8424,6 +8424,12 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.AfterCondition(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.AfterCreate(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.AfterUpdate(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.AfterDelete(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.Disabled(context: context)))));
         }
 
@@ -8473,6 +8479,18 @@ namespace Implem.Pleasanter.Models
                                 : null))
                         .Td(action: () => hb
                             .Text(text: afterCondition?.Name))
+                        .Td(action: () => hb
+                            .Span(
+                                css: "ui-icon ui-icon-circle-check",
+                                _using: notification.AfterCreate != false))
+                        .Td(action: () => hb
+                            .Span(
+                                css: "ui-icon ui-icon-circle-check",
+                                _using: notification.AfterUpdate != false))
+                        .Td(action: () => hb
+                            .Span(
+                                css: "ui-icon ui-icon-circle-check",
+                                _using: notification.AfterDelete != false))
                         .Td(action: () => hb
                             .Span(
                                 css: "ui-icon ui-icon-circle-check",
@@ -8585,11 +8603,29 @@ namespace Implem.Pleasanter.Models
                                 optionCollection: ss.ViewSelectableOptions(),
                                 selectedValue: notification.AfterCondition.ToString(),
                                 insertBlank: true))
-                    .FieldCheckBox(
-                        controlId: "NotificationDisabled",
-                        controlCss: " always-send",
-                        labelText: Displays.Disabled(context: context),
-                        _checked: notification.Disabled == true)
+                    .Div(
+                        css: "both",
+                        action: () => hb
+                            .FieldCheckBox(
+                                controlId: "NotificationAfterCreate",
+                                controlCss: " always-send",
+                                labelText: Displays.AfterCreate(context: context),
+                                _checked: notification.AfterCreate != false)
+                            .FieldCheckBox(
+                                controlId: "NotificationAfterUpdate",
+                                controlCss: " always-send",
+                                labelText: Displays.AfterUpdate(context: context),
+                                _checked: notification.AfterUpdate != false)
+                            .FieldCheckBox(
+                                controlId: "NotificationAfterDelete",
+                                controlCss: " always-send",
+                                labelText: Displays.AfterDelete(context: context),
+                                _checked: notification.AfterDelete != false)
+                            .FieldCheckBox(
+                                controlId: "NotificationDisabled",
+                                controlCss: " always-send",
+                                labelText: Displays.Disabled(context: context),
+                                _checked: notification.Disabled == true))
                     .FieldSet(
                         css: " enclosed",
                         legendText: Displays.MonitorChangesColumns(context: context),
