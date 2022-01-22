@@ -763,7 +763,9 @@ namespace Implem.Pleasanter.Models
         {
             Class = context.Controller;
             Method = context.Action;
-            WriteSysLog(context: context);
+            WriteSysLog(
+                context: context,
+                sysLogType: SysLogTypes.Info);
         }
 
         /// <summary>
@@ -776,7 +778,6 @@ namespace Implem.Pleasanter.Models
             Logs logs = null,
             SysLogTypes sysLogType = SysLogTypes.Execption)
         {
-            SysLogType = sysLogType;
             Class = context.Controller;
             Method = context.Action;
             ErrMessage = e.Message
@@ -787,18 +788,9 @@ namespace Implem.Pleasanter.Models
                     ? "\n" + logs.Select(o => o.Name + ": " + o.Value).Join("\n")
                     : string.Empty);
             ErrStackTrace = e.StackTrace;
-            WriteSysLog(context: context);
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public SysLogModel(Context context, string errorMessage)
-        {
-            Class = context.Controller;
-            Method = context.Action;
-            ErrMessage = errorMessage;
-            WriteSysLog(context: context);
+            WriteSysLog(
+                context: context,
+                sysLogType: sysLogType);
         }
 
         /// <summary>
@@ -808,10 +800,11 @@ namespace Implem.Pleasanter.Models
             Context context,
             string method,
             string message,
+            string errStackTrace = null,
             SysLogTypes sysLogType = SysLogTypes.Info)
         {
             Class = context.Controller;
-            Method = method;
+            Method = $"{context.Action}:{method}";
             switch (sysLogType)
             {
                 case SysLogTypes.SystemError:
@@ -828,23 +821,10 @@ namespace Implem.Pleasanter.Models
                     };
                     break;
             }
+            ErrStackTrace = errStackTrace;
             WriteSysLog(
                 context: context,
                 sysLogType: sysLogType);
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public SysLogModel(Context context, System.Web.Mvc.ExceptionContext filterContext)
-        {
-            Class = context.Controller;
-            Method = context.Action;
-            WriteSysLog(context: context);
-            SysLogType = SysLogTypes.Execption;
-            ErrMessage = filterContext.Exception.Message;
-            ErrStackTrace = filterContext.Exception.StackTrace;
-            Finish(context: context);
         }
 
         /// <summary>
@@ -864,7 +844,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public void WriteSysLog(
             Context context,
-            SysLogTypes sysLogType = SysLogTypes.Info)
+            SysLogTypes sysLogType)
         {
             StartTime = DateTime.Now;
             SetProperties(
