@@ -40,7 +40,9 @@ namespace Implem.Pleasanter.Models
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
-            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(
+                context: context,
+                view: view);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
@@ -185,7 +187,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 view: view);
-            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(
+                context: context,
+                view: view);
             return new ResponseCollection()
                 .ViewMode(
                     context: context,
@@ -604,7 +608,9 @@ namespace Implem.Pleasanter.Models
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
-            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(
+                context: context,
+                view: view);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
@@ -1068,7 +1074,7 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: issueModel.Class(columnName: column.Name),
+                                            value: issueModel.GetClass(columnName: column.Name),
                                             tabIndex: tabIndex,
                                             serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
@@ -1086,7 +1092,7 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: issueModel.Num(columnName: column.Name),
+                                            value: issueModel.GetNum(columnName: column.Name),
                                             tabIndex: tabIndex,
                                             serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
@@ -1104,7 +1110,7 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: issueModel.Date(columnName: column.Name),
+                                            value: issueModel.GetDate(columnName: column.Name),
                                             tabIndex: tabIndex,
                                             serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
@@ -1122,7 +1128,7 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: issueModel.Description(columnName: column.Name),
+                                            value: issueModel.GetDescription(columnName: column.Name),
                                             tabIndex: tabIndex,
                                             serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
@@ -1140,7 +1146,7 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: issueModel.Check(columnName: column.Name),
+                                            value: issueModel.GetCheck(columnName: column.Name),
                                             tabIndex: tabIndex,
                                             serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
@@ -1158,7 +1164,7 @@ namespace Implem.Pleasanter.Models
                                         ? hb.Td(
                                             context: context,
                                             column: column,
-                                            value: issueModel.Attachments(columnName: column.Name),
+                                            value: issueModel.GetAttachments(columnName: column.Name),
                                             tabIndex: tabIndex,
                                             serverScriptModelColumn: serverScriptModelColumn)
                                         : hb.Td(
@@ -1253,32 +1259,32 @@ namespace Implem.Pleasanter.Models
                         switch (Def.ExtendedColumnTypes.Get(column.Name))
                         {
                             case "Class":
-                                value = issueModel.Class(columnName: column.Name).GridText(
+                                value = issueModel.GetClass(columnName: column.Name).GridText(
                                     context: context,
                                     column: column);
                                 break;
                             case "Num":
-                                value = issueModel.Num(columnName: column.Name)?.Value?.GridText(
+                                value = issueModel.GetNum(columnName: column.Name)?.Value?.GridText(
                                     context: context,
                                     column: column) ?? string.Empty;
                                 break;
                             case "Date":
-                                value = issueModel.Date(columnName: column.Name).GridText(
+                                value = issueModel.GetDate(columnName: column.Name).GridText(
                                     context: context,
                                     column: column);
                                 break;
                             case "Description":
-                                value = issueModel.Description(columnName: column.Name).GridText(
+                                value = issueModel.GetDescription(columnName: column.Name).GridText(
                                     context: context,
                                     column: column);
                                 break;
                             case "Check":
-                                value = issueModel.Check(columnName: column.Name).GridText(
+                                value = issueModel.GetCheck(columnName: column.Name).GridText(
                                     context: context,
                                     column: column);
                                 break;
                             case "Attachments":
-                                value = issueModel.Attachments(columnName: column.Name).GridText(
+                                value = issueModel.GetAttachments(columnName: column.Name).GridText(
                                     context: context,
                                     column: column);
                                 break;
@@ -2174,37 +2180,37 @@ namespace Implem.Pleasanter.Models
                     switch (Def.ExtendedColumnTypes.Get(column.Name))
                     {
                         case "Class":
-                            return issueModel.Class(columnName: column.Name)
+                            return issueModel.GetClass(columnName: column.Name)
                                 .ToControl(
                                     context: context,
                                     ss: ss,
                                     column: column);
                         case "Num":
-                            return issueModel.Num(columnName: column.Name)
+                            return issueModel.GetNum(columnName: column.Name)
                                 .ToControl(
                                     context: context,
                                     ss: ss,
                                     column: column);
                         case "Date":
-                            return issueModel.Date(columnName: column.Name)
+                            return issueModel.GetDate(columnName: column.Name)
                                 .ToControl(
                                     context: context,
                                     ss: ss,
                                     column: column);
                         case "Description":
-                            return issueModel.Description(columnName: column.Name)
+                            return issueModel.GetDescription(columnName: column.Name)
                                 .ToControl(
                                     context: context,
                                     ss: ss,
                                     column: column);
                         case "Check":
-                            return issueModel.Check(columnName: column.Name)
+                            return issueModel.GetCheck(columnName: column.Name)
                                 .ToControl(
                                     context: context,
                                     ss: ss,
                                     column: column);
                         case "Attachments":
-                            return issueModel.Attachments(columnName: column.Name)
+                            return issueModel.GetAttachments(columnName: column.Name)
                                 .ToControl(
                                     context: context,
                                     ss: ss,
@@ -2534,7 +2540,7 @@ namespace Implem.Pleasanter.Models
                                     case "Class":
                                         res.Val(
                                             target: $"#Issues_{column.Name}{idSuffix}",
-                                            value: issueModel.Class(columnName: column.Name).ToResponse(
+                                            value: issueModel.GetClass(columnName: column.Name).ToResponse(
                                                 context: context,
                                                 ss: ss,
                                                 column: column),
@@ -2543,7 +2549,7 @@ namespace Implem.Pleasanter.Models
                                     case "Num":
                                         res.Val(
                                             target: $"#Issues_{column.Name}{idSuffix}",
-                                            value: issueModel.Num(columnName: column.Name).ToResponse(
+                                            value: issueModel.GetNum(columnName: column.Name).ToResponse(
                                                 context: context,
                                                 ss: ss,
                                                 column: column),
@@ -2552,7 +2558,7 @@ namespace Implem.Pleasanter.Models
                                     case "Date":
                                         res.Val(
                                             target: $"#Issues_{column.Name}{idSuffix}",
-                                            value: issueModel.Date(columnName: column.Name).ToResponse(
+                                            value: issueModel.GetDate(columnName: column.Name).ToResponse(
                                                 context: context,
                                                 ss: ss,
                                                 column: column),
@@ -2561,7 +2567,7 @@ namespace Implem.Pleasanter.Models
                                     case "Description":
                                         res.Val(
                                             target: $"#Issues_{column.Name}{idSuffix}",
-                                            value: issueModel.Description(columnName: column.Name).ToResponse(
+                                            value: issueModel.GetDescription(columnName: column.Name).ToResponse(
                                                 context: context,
                                                 ss: ss,
                                                 column: column),
@@ -2570,7 +2576,7 @@ namespace Implem.Pleasanter.Models
                                     case "Check":
                                         res.Val(
                                             target: $"#Issues_{column.Name}{idSuffix}",
-                                            value: issueModel.Check(columnName: column.Name),
+                                            value: issueModel.GetCheck(columnName: column.Name),
                                             options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                         break;
                                     case "Attachments":
@@ -2588,7 +2594,7 @@ namespace Implem.Pleasanter.Models
                                                             : string.Empty),
                                                     fieldDescription: column.Description,
                                                     labelText: column.LabelText,
-                                                    value: issueModel.Attachments(columnName: column.Name).ToJson(),
+                                                    value: issueModel.GetAttachments(columnName: column.Name).ToJson(),
                                                     readOnly: Permissions.ColumnPermissionType(
                                                         context: context,
                                                         ss: ss,
@@ -3432,6 +3438,9 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         formData: context.Forms);
+                    issueModel.SetByLookups(
+                        context: context,
+                        ss: ss);
                     issueModel.VerUp = Versions.MustVerUp(
                         context: context,
                         ss: ss,
@@ -5552,7 +5561,7 @@ namespace Implem.Pleasanter.Models
                                     }
                                     break;
                                 default:
-                                    issueModel.Value(
+                                    issueModel.GetValue(
                                         context: context,
                                         column: column.Value.Column,
                                         value: recordingData);
@@ -6025,7 +6034,9 @@ namespace Implem.Pleasanter.Models
                     .CalendarUtilities.InRange(
                         context: context,
                         dataRows: dataRows);
-            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(
+                context: context,
+                view: view);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
@@ -6383,7 +6394,9 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         data: Parameters.General.CrosstabYLimit.ToString()));
             }
-            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(
+                context: context,
+                view: view);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
@@ -6722,7 +6735,9 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         data: Parameters.General.GanttLimit.ToString()));
             }
-            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(
+                context: context,
+                view: view);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
@@ -6944,7 +6959,9 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         data: Parameters.General.BurnDownLimit.ToString()));
             }
-            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(
+                context: context,
+                view: view);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
@@ -7123,7 +7140,9 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         data: Parameters.General.TimeSeriesLimit.ToString()));
             }
-            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(
+                context: context,
+                view: view);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
@@ -7316,7 +7335,9 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         data: Parameters.General.KambanLimit.ToString()));
             }
-            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(
+                context: context,
+                view: view);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
@@ -7589,7 +7610,9 @@ namespace Implem.Pleasanter.Models
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
-            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(
+                context: context,
+                view: view);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,

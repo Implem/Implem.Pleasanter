@@ -250,7 +250,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     switch (Def.ExtendedColumnTypes.Get(destinationColumn))
                     {
                         case "Num":
-                            issueModel.Num(
+                            issueModel.GetNum(
                                 columnName: destinationColumn,
                                 value: new Num(value));
                             break;
@@ -389,7 +389,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     switch (Def.ExtendedColumnTypes.Get(destinationColumn))
                     {
                         case "Num":
-                            resultModel.Num(
+                            resultModel.GetNum(
                                 columnName: destinationColumn,
                                 value: new Num(value));
                             break;

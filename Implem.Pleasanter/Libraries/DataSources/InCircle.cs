@@ -30,7 +30,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 var tokenArray = token.Split(':');
                 if (tokenArray.Length < 2)
                 {
-                    new SysLogModel(context, Displays.InCircleInvalidToken(context));
+                    new SysLogModel(
+                        context: context,
+                        method: nameof(Send),
+                        message: Displays.InCircleInvalidToken(context),
+                        sysLogType: SysLogModel.SysLogTypes.UserError);
                     return;
                 }
                 var ticketNo = tokenArray[0];

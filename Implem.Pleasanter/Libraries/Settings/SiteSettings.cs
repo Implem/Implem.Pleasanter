@@ -4970,18 +4970,22 @@ namespace Implem.Pleasanter.Libraries.Settings
                         sub: sub)));
         }
 
-        public ServerScriptModel.ServerScriptModelRow GetServerScriptModelRow(
-            Context context, BaseItemModel itemModel = null)
+        public ServerScriptModelRow GetServerScriptModelRow(
+            Context context,
+            BaseItemModel itemModel = null,
+            View view = null)
         {
             if (ServerScriptModelRowCache == null)
             {
                 ServerScriptModelRowCache = itemModel != null
                     ? itemModel.SetByBeforeOpeningPageServerScript(
                         context: context,
-                        ss: this)
+                        ss: this,
+                        view: view)
                     : new ItemModel().SetByBeforeOpeningPageServerScript(
                         context: context,
-                        ss: this);
+                        ss: this,
+                        view: view);
             }
             return ServerScriptModelRowCache;
         }

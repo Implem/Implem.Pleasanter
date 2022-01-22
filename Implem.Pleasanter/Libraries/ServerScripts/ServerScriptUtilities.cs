@@ -393,7 +393,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             ExpandoObject data,
             Column[] columns)
         {
-            columns?.ForEach(column => model?.Value(
+            columns?.ForEach(column => model?.GetValue(
                 context: context,
                 column: column,
                 value: String(
@@ -865,6 +865,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 context: context,
                 apiRequestBody: apiRequestBody));
             createdContext.LogBuilder = context.LogBuilder;
+            createdContext.UserData = context.UserData;
             createdContext.Messages = context.Messages;
             createdContext.Id = id;
             createdContext.ApiRequestBody = apiRequestBody;

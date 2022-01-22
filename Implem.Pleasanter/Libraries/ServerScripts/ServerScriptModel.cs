@@ -47,7 +47,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             Users = new ServerScriptModelUsers(context: context);
             columns?.ForEach(
                 datam => ((IDictionary<string, object>)Columns)[datam.Name] = datam.Value);
-            View = new ServerScriptModelView(view == null ? 0 : view.Id);
+            View = new ServerScriptModelView(view != null
+                ? view.Id
+                : 0);
             view?.ColumnFilterHash?.ForEach(columnFilter =>
                 ((IDictionary<string, object>)View.Filters)[columnFilter.Key] = columnFilter.Value);
             view?.ColumnSorterHash?.ForEach(columnSorter =>
