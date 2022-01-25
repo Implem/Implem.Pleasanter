@@ -1,4 +1,4 @@
-{
+﻿{
     "Id": "CanNotUpdate",
     "Type": 220,
     "Languages": [
@@ -11,7 +11,7 @@
         },
         {
             "Language": "ja",
-            "Body": "読み取り専用のため更新できません。"
+            "Body": "読取専用のため更新できません。"
         },
         {
             "Language": "de",
