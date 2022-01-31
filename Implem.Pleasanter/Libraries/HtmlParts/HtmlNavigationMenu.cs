@@ -331,7 +331,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ss: ss,
                 site: true);
             var canManageDepts = Permissions.CanManageTenant(context: context);
-            var canManageUsers = Permissions.CanManageTenant(context: context);
+            var canManageUsers = Permissions.CanManageUser(context: context);
             var canManageRegistrations = Permissions.CanManageRegistrations(context: context);
             var canManageTenants = Permissions.CanManageTenant(context: context)
                 || context.UserSettings?.EnableManageTenant == true;
