@@ -15,11 +15,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
+using System.Collections.Concurrent;
 
 namespace Implem.Pleasanter.Libraries.DataSources
 {
     public static class Saml
     {
+        private static readonly ConcurrentDictionary<EntityId, Sustainsys.Saml2.IdentityProvider> idpCache
+            = new ConcurrentDictionary<EntityId, Sustainsys.Saml2.IdentityProvider>();
+
         public static SamlAttributes MapAttributes(IEnumerable<Claim> claims, string nameId)
         {
             var attributes = new SamlAttributes();
@@ -322,50 +326,29 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     options.IdentityProviders.Add(idp);
                 }
             }
-            options.Notifications.GetIdentityProvider = (entityId, rd, opt) =>
+            options.Notifications.SelectIdentityProvider = (entityId, rd) =>
             {
-                if (!rd.ContainsKey("SamlLoginUrl")
-                    && !rd.ContainsKey("SamlThumbprint"))
-                {
-                    return opt.IdentityProviders.Default;
-                }
-                var loginUrl = rd["SamlLoginUrl"];
-                var thumbprint = rd["SamlThumbprint"];
-
-                var defaultIdp = opt.IdentityProviders.Default;
-                var metadataPath = "~/App_Data/Temp/SamlMetadata/test001.xml";
-                var idp = new Sustainsys.Saml2.IdentityProvider(entityId, options.SPOptions)
-                {
-                    MetadataLocation = metadataPath
-                    //SingleSignOnServiceUrl = new Uri(loginUrl),
-                    //SingleLogoutServiceUrl = defaultIdp.SingleLogoutServiceUrl,
-                    //AllowUnsolicitedAuthnResponse = defaultIdp.AllowUnsolicitedAuthnResponse,
-                    //Binding = defaultIdp.Binding,
-                    //WantAuthnRequestsSigned = defaultIdp.WantAuthnRequestsSigned,
-                    //DisableOutboundLogoutRequests = defaultIdp.DisableOutboundLogoutRequests,
-                };
-                idp.LoadMetadata = true;
-                //var store = new X509Store(
-                //    StoreName.My,
-                //    StoreLocation.CurrentUser);
-                //store.Open(OpenFlags.OpenExistingOnly);
-                //try
-                //{
-                //    var certs = store.Certificates.Find(
-                //        X509FindType.FindByThumbprint,
-                //        thumbprint,
-                //        false);
-                //    idp.SigningKeys.AddConfiguredKey(certs[0]);
-                //}
-                //finally
-                //{
-                //    store.Close();
-                //}
-
-                
-                return idp;
+                return GetSamlIdp(options, entityId, rd);
             };
+            options.Notifications.GetIdentityProvider = (entityId, rd, op) =>
+            {
+                return GetSamlIdp(options, entityId, rd) ?? op.IdentityProviders.Default;
+            };
+        }
 
+        private static Sustainsys.Saml2.IdentityProvider GetSamlIdp(Saml2Options options, EntityId entityId, IDictionary<string, string> rd)
+        {
+            if (entityId == null
+                || !rd.TryGetValue("SamlLoginUrl", out string loginUrl)
+                || !rd.TryGetValue("SamlMetadataLocation", out string metadataLocation))
+            {
+                return null;
+            }
+            var idp = idpCache.GetOrAdd(entityId, key => new Sustainsys.Saml2.IdentityProvider(entityId, options.SPOptions));
+            idp.SingleSignOnServiceUrl = new Uri(loginUrl);
+            idp.MetadataLocation = metadataLocation;
+            idp.LoadMetadata = true;
+            return idp;
         }
 
         public static ContractSettings GetTenantSamlSettings(Context context, int tenantId)

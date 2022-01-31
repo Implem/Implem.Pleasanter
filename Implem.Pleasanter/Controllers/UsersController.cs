@@ -276,6 +276,29 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
+        public string SetSamlMetadataFile(Context context,string guid)
+        {
+            var metadataPath = System.IO.Path.Combine(Directories.Temp(), "SamlMetadata", guid + ".xml");
+            if (!System.IO.File.Exists(metadataPath))
+            {
+                System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(metadataPath));
+                var bytes = Repository.ExecuteScalar_bytes(
+                    context: context,
+                    transactional: false,
+                    statements: new Implem.Libraries.DataSources.SqlServer.SqlStatement[]
+                    {
+                        Rds.SelectBinaries(
+                            column: Rds.BinariesColumn().Bin(),
+                            where: Rds.BinariesWhere().Guid(guid))
+                    });
+                System.IO.File.WriteAllBytes(metadataPath, bytes);
+            }
+            return metadataPath;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public (string redirectUrl, string redirectResultUrl, string html) SamlLogin(Context context)
         {
             if (!Authentications.SAML()

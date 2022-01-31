@@ -230,7 +230,6 @@ namespace Implem.Pleasanter.NetCore.Controllers
         {
             var context = new ContextImplement();
             var controller = new Pleasanter.Controllers.UsersController();
-
             if (DefinitionAccessor.Parameters.Authentication.Provider == "SAML-MultiTenant" && ssocode != string.Empty)
             {
                 var contractSettings = controller.GetTenantSamlSettings(context, ssocode);
@@ -238,18 +237,19 @@ namespace Implem.Pleasanter.NetCore.Controllers
                 {
                     return Redirect(Pleasanter.Libraries.Responses.Locations.InvalidSsoCode(context: context));
                 }
+                var metadataLocation = controller.SetSamlMetadataFile(context: context, guid: contractSettings.SamlMetadataGuid);
                 return new ChallengeResult(Saml2Defaults.Scheme,
                     new AuthenticationProperties(
                         items: new Dictionary<string, string>
                         {
+                            ["idp"]= contractSettings.SamlLoginUrl.Substring(0, contractSettings.SamlLoginUrl.TrimEnd('/').LastIndexOf('/')+1),
                             ["SamlLoginUrl"] = contractSettings.SamlLoginUrl,
-                            ["SamlThumbprint"] =contractSettings.SamlThumbprint
+                            ["SamlMetadataLocation"] =metadataLocation
                         })
                     {
                         RedirectUri = Url.Action(nameof(SamlLogin))
                     });
             }
-
             var (redirectUrl, html) = controller.Login(
                 context: context,
                 returnUrl: returnUrl,
