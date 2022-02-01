@@ -19,6 +19,16 @@ namespace Implem.Pleasanter.NetCore.Controllers
 
         [AllowAnonymous]
         [HttpGet]
+        public string DeleteLog()
+        {
+            var context = new ContextImplement();
+            var controller = new Pleasanter.Controllers.BackgroundTasksController();
+            var html = controller.DeleteLog(context: context, backgroundTasks: new BackgroundTasks(context: context));
+            return html;
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
         public string RebuildSearchIndexes()
         {
             var context = new ContextImplement();
