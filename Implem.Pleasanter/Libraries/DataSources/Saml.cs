@@ -357,11 +357,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             if (contractSettings == null
                 || contractSettings.SamlCompanyCode.IsNullOrEmpty()
                 || contractSettings.SamlLoginUrl.IsNullOrEmpty()
-                || contractSettings.SamlThumbprint.IsNullOrEmpty())
-            {
-                return null;
-            }
-            if (!FindCert(context, contractSettings.SamlThumbprint))
+                || contractSettings.SamlMetadataGuid.IsNullOrEmpty())
             {
                 return null;
             }
