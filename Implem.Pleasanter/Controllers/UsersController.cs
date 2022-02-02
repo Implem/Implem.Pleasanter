@@ -259,13 +259,13 @@ namespace Implem.Pleasanter.Controllers
         public ContractSettings GetTenantSamlSettings(Context context, string ssocode)
         {
             var tenant = new TenantModel().Get(
-                        context: context,
-                        ss: SiteSettingsUtilities.TenantsSiteSettings(context),
-                        where: Rds.TenantsWhere().Comments(ssocode));
+                context: context,
+                ss: SiteSettingsUtilities.TenantsSiteSettings(context),
+                where: Rds.TenantsWhere().Comments(ssocode));
             if (tenant.AccessStatus == Databases.AccessStatuses.Selected)
             {
                 var contractSettings = Saml.GetTenantSamlSettings(context: context, tenantId: tenant.TenantId);
-                if(contractSettings != null)
+                if (contractSettings != null)
                 {
                     return contractSettings;
                 }

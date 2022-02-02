@@ -242,9 +242,9 @@ namespace Implem.Pleasanter.NetCore.Controllers
                     new AuthenticationProperties(
                         items: new Dictionary<string, string>
                         {
-                            ["idp"]= contractSettings.SamlLoginUrl.Substring(0, contractSettings.SamlLoginUrl.TrimEnd('/').LastIndexOf('/')+1),
+                            ["idp"] = contractSettings.SamlLoginUrl.Substring(0, contractSettings.SamlLoginUrl.TrimEnd('/').LastIndexOf('/') + 1),
                             ["SamlLoginUrl"] = contractSettings.SamlLoginUrl,
-                            ["SamlMetadataLocation"] =metadataLocation
+                            ["SamlMetadataLocation"] = metadataLocation
                         })
                     {
                         RedirectUri = Url.Action(nameof(SamlLogin))

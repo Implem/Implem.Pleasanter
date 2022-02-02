@@ -21,9 +21,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
 {
     public static class Saml
     {
-        private static readonly ConcurrentDictionary<EntityId, Sustainsys.Saml2.IdentityProvider> idpCache
-            = new ConcurrentDictionary<EntityId, Sustainsys.Saml2.IdentityProvider>();
-
         public static SamlAttributes MapAttributes(IEnumerable<Claim> claims, string nameId)
         {
             var attributes = new SamlAttributes();
@@ -344,7 +341,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 return null;
             }
-            var idp = idpCache.GetOrAdd(entityId, key => new Sustainsys.Saml2.IdentityProvider(entityId, options.SPOptions));
+            var idp = new Sustainsys.Saml2.IdentityProvider(entityId, options.SPOptions);
             idp.SingleSignOnServiceUrl = new Uri(loginUrl);
             idp.MetadataLocation = metadataLocation;
             idp.LoadMetadata = true;
@@ -362,38 +359,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 return null;
             }
             return contractSettings; 
-        }
-
-        private static bool FindCert(Context context, string findValue)
-        {
-            var store = new X509Store(StoreName.My, StoreLocation.CurrentUser);
-            store.Open(OpenFlags.ReadOnly);
-            try
-            {
-                var certs = store.Certificates.Find(X509FindType.FindByThumbprint, findValue, false);
-                if (certs.Count != 1)
-                {
-                    new SysLogModel(context, $"Invalid SAML certificate. (Thumbrint={findValue})");
-                    return false;
-                }
-                var today = DateTime.Today;
-                if (certs[0].NotBefore.Date > today || certs[0].NotAfter.Date < today)
-                {
-                    new SysLogModel(context, $"Certificate expired ({certs[0].NotBefore.ToString("yyyy/MM/dd")} - {certs[0].NotAfter.ToString("yyyy/MM/dd")})");
-                    return false;
-                }
-            }
-            catch (Exception e)
-            {
-                new SysLogModel(context, e);
-                return false;
-            }
-            finally
-            {
-                store.Close();
-            }
-            
-            return true;
         }
     }
 }
