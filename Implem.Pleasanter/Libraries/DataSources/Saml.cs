@@ -323,14 +323,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     options.IdentityProviders.Add(idp);
                 }
             }
-            options.Notifications.SelectIdentityProvider = (entityId, rd) =>
+            if (Parameters.Authentication.Provider == "SAML-MultiTenant")
             {
-                return GetSamlIdp(options, entityId, rd);
-            };
-            options.Notifications.GetIdentityProvider = (entityId, rd, op) =>
-            {
-                return GetSamlIdp(options, entityId, rd) ?? op.IdentityProviders.Default;
-            };
+                options.Notifications.SelectIdentityProvider = (entityId, rd) =>
+                {
+                    return GetSamlIdp(options, entityId, rd);
+                };
+                options.Notifications.GetIdentityProvider = (entityId, rd, op) =>
+                {
+                    return GetSamlIdp(options, entityId, rd) ?? op.IdentityProviders.Default;
+                };
+            }
         }
 
         private static Sustainsys.Saml2.IdentityProvider GetSamlIdp(Saml2Options options, EntityId entityId, IDictionary<string, string> rd)
