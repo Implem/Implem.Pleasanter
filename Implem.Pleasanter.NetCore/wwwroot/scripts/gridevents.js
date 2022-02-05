@@ -80,7 +80,8 @@
                 }
             }
         } else if (!$p.hoverd($control)) {
-            $control.trigger('click');
+            $control.prop('checked', !$control.prop('checked'));
+            $control.change();
         }
     });
 });
