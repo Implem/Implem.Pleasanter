@@ -27,6 +27,10 @@ namespace Implem.Pleasanter.Models
                     return new ErrorData(type: Error.Types.InvalidJsonData);
                 }
             }
+            if (api && !ss.IsSite(context: context) && !context.CanRead(ss: ss))
+            {
+                return new ErrorData(type: Error.Types.NotFound);
+            }
             if (!api && ss.GetNoDisplayIfReadOnly())
             {
                 return new ErrorData(type: Error.Types.NotFound);

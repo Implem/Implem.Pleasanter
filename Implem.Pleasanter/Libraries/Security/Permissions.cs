@@ -665,6 +665,13 @@ namespace Implem.Pleasanter.Libraries.Security
                 || context.HasPrivilege;
         }
 
+        public static bool CanManageUser(Context context)
+        {
+            return (context.User?.TenantManager == true
+                && Parameters.Service.ShowProfiles)
+                    || context.HasPrivilege;
+        }
+
         public static bool CanManageRegistrations(Context context, bool any = false)
         {
             return Parameters.Registration.Enabled

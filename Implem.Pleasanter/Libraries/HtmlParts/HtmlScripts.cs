@@ -26,7 +26,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 return hb
                     .Script(src: Responses.Locations.Get(
                         context: context,
-                        parts: "scripts/plugins/jquery-3.1.0.min.js"))
+                        parts: "scripts/plugins/jquery-3.6.0.min.js"))
                     .Script(src: Responses.Locations.Get(
                         context: context,
                         parts: "scripts/plugins/jquery-ui.min.js"))

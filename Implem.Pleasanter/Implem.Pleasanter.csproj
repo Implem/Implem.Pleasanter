@@ -1449,7 +1449,7 @@
     <Content Include="Scripts\Permission.js" />
     <Content Include="Scripts\Plugins\d3.min.js" />
     <Content Include="Scripts\Plugins\hogan-3.0.2.min.js" />
-    <Content Include="Scripts\Plugins\jquery-3.1.0.min.js" />
+    <Content Include="Scripts\Plugins\jquery-3.6.0.min.js" />
     <Content Include="Scripts\Plugins\jQuery-File-Upload\js\cors\jquery.postmessage-transport.js" />
     <Content Include="Scripts\Plugins\jQuery-File-Upload\js\cors\jquery.xdr-transport.js" />
     <Content Include="Scripts\Plugins\jQuery-File-Upload\js\jquery.fileupload-audio.js" />

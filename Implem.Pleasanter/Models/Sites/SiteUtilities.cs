@@ -6348,6 +6348,7 @@ namespace Implem.Pleasanter.Models
                             text: section.Id.ToString())
                         .FieldTextBox(
                             controlId: "LabelText",
+                            controlCss: " always-send",
                             labelText: Displays.DisplayName(context: context),
                             text: section.LabelText)
                         .FieldCheckBox(

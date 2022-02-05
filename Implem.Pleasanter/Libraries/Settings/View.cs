@@ -1622,7 +1622,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Context context, Column column, string value, SqlWhereCollection where)
         {
             var param = value.Deserialize<List<string>>();
-            if (param?.Any() == true)
+            if (param?.Any(o => !o.IsNullOrEmpty()) == true)
             {
                 where.Add(or: new SqlWhereCollection(
                     CsDateTimeColumnsWhere(

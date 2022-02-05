@@ -3592,6 +3592,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToList();
             Columns
                 .Where(column => column.Linked())
+                .Where(column => !column.ColumnName.Contains("~~"))
                 .ForEach(column =>
                 {
                     if (column.ChoiceHash == null)

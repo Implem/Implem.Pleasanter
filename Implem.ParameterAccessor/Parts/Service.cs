@@ -3,6 +3,7 @@
     public class Service
     {
         public string Name;
+        public string EnvironmentName;
         public string TimeZoneDefault;
         public string DefaultPassword;
         public string DefaultLanguage;
