@@ -3,6 +3,7 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Search;
 using Implem.Pleasanter.Models;
 using Implem.Pleasanter.Tools;
+
 namespace Implem.Pleasanter.Controllers
 {
     public class BackgroundTasksController
@@ -19,6 +20,28 @@ namespace Implem.Pleasanter.Controllers
                 {
                     var log = new SysLogModel(context: context);
                     var html = backgroundTasks.Do();
+                    log.Finish(context: context, responseSize: html.Length);
+                    return html;
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public string DeleteLog(Context context, IBackgroundTasks backgroundTasks)
+        {
+            if (Parameters.BackgroundTask.Enabled)
+            {
+                if (context.QueryStrings.Bool("NoLog"))
+                {
+                    return backgroundTasks.DeleteLog();
+                }
+                else
+                {
+                    var log = new SysLogModel(context: context);
+                    var html = backgroundTasks.DeleteLog();
                     log.Finish(context: context, responseSize: html.Length);
                     return html;
                 }
