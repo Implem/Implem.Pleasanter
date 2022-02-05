@@ -30,11 +30,12 @@ namespace Implem.Libraries.Utilities
         {
             if (File.Exists(path))
             {
-                var fs = new FileStream(path, FileMode.Open, FileAccess.Read);
-                var data = new byte[fs.Length];
-                fs.Read(data, 0, data.Length);
-                fs.Close();
-                return data;
+                using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read))
+                {
+                    var data = new byte[fs.Length];
+                    fs.Read(data, 0, data.Length);
+                    return data;
+                }
             }
             else
             {
