@@ -101,9 +101,9 @@ $(function () {
             $menuSort = $(".menu-sort[id='GridHeaderMenu__" + dataName + "']");
             $menuSort.css('width', '');
             $menuSort
-                .css('position', 'absolute')
-                .css('top', $control.position().top + $control.outerHeight())
-                .css('left', $control.position().left)
+                .css('position', 'fixed')
+                .css('top', $control.offset().top + $control.outerHeight())
+                .css('left', $control.offset().left)
                 .outerWidth($control.outerWidth() > $menuSort.outerWidth()
                     ? $control.outerWidth()
                     : $menuSort.outerWidth())
