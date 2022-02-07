@@ -172,18 +172,18 @@
                 return;
             }
             $menu.css('width', '');
-            $menu.css('position', 'absolute')
-                .css('top', $header.position().top + $header.outerHeight())
-                .css('left', $header.position().left)
+            $menu.css('position', 'fixed')
+                .css('top', $header.offset().top + $header.outerHeight())
+                .css('left', $header.offset().left)
                 .outerWidth($header.outerWidth() > $menuSort.outerWidth()
                     ? $header.outerWidth()
                     : $menuSort.outerWidth());
         }
-        
         var $multiSelect = $('.ui-multiselect-menu:visible');
         var $control = $("[id='ViewFiltersOnGridHeader__" + dataName + "_ms']");
         if ($multiSelect.length && $control.length) {
-            $multiSelect.css('top', $control.offset().top + $control.outerHeight())
+            $multiSelect
+                .css('top', $control.offset().top + $control.outerHeight())
                 .css('left', $control.offset().left);
         }
     }
