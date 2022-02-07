@@ -3218,7 +3218,8 @@ namespace Implem.Pleasanter.Models
                                             context: context,
                                             columnName: exportColumn.ColumnName),
                                         exportColumn: exportColumn,
-                                        mine: userModel.Mine(context: context))).Join(),
+                                        mine: userModel.Mine(context: context),
+                                        encloseDoubleQuotes: true)).Join(),
                                 ",",
                                 "\"" + Repository.ExecuteTable(
                                     context: context,
