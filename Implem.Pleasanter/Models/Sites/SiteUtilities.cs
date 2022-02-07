@@ -9219,6 +9219,8 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.DelimiterTypes(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.EncloseDoubleQuotes(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.ExportExecutionType(context: context)))));
         }
 
@@ -9259,6 +9261,10 @@ namespace Implem.Pleasanter.Models
                                  .Text(text: Displays.Get(
                                      context: context,
                                      id: export.DelimiterType.ToString())))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: export.EncloseDoubleQuotes != false))
                             .Td(action: () => hb
                                  .Text(text: Displays.Get(
                                      context: context,
@@ -9328,6 +9334,11 @@ namespace Implem.Pleasanter.Models
                             },
                         },
                         selectedValue: export.DelimiterType.ToInt().ToString())
+                    .FieldCheckBox(
+                        controlId: "EncloseDoubleQuotes",
+                        controlCss: " always-send",
+                        labelText: Displays.EncloseDoubleQuotes(context: context),
+                        _checked: export.EncloseDoubleQuotes != false)
                     .FieldDropDown(
                         context: context,
                         controlId: "ExecutionType",
@@ -9349,7 +9360,7 @@ namespace Implem.Pleasanter.Models
                         controlId: "ExportHeader",
                         controlCss: " always-send",
                         labelText: Displays.OutputHeader(context: context),
-                        _checked: export.Header == true)
+                        _checked: export.Header != false)
                     .FieldSet(
                         css: " enclosed",
                         legendText: Displays.ExportColumns(context: context),
