@@ -386,7 +386,15 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             }
             else
             {
-                return sitePackage.HeaderInfo.Convertors.ToJson();
+                return sitePackage.HeaderInfo.Convertors
+                    .Select(o => new
+                    {
+                        OldSiteId = o.SiteId,
+                        NewSiteId = o.SavedSiteId,
+                        ReferenceType = o.ReferenceType,
+                        Title = o.SiteTitle
+                    })
+                    .ToJson();
             }
         }
 
