@@ -2542,6 +2542,41 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public System.Web.Mvc.ContentResult CopySitePackageByApi(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true);
+            if (!Site.WithinApiLimits(context: context))
+            {
+                return ApiResults.Get(ApiResponses.OverLimitApi(
+                    context: context,
+                    siteId: Site.SiteId,
+                    limitPerSite: context.ContractSettings.ApiLimit()));
+            }
+            switch (Site.ReferenceType)
+            {
+                case "Sites":
+                case "Issues":
+                case "Results":
+                case "Wikis":
+                    var response = Libraries.SitePackages.Utilities.ImportSitePackage(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        apiData: context.RequestDataString.Deserialize<Sites.SitePackageApiModel>());
+                    return ApiResults.Get(
+                        statusCode: 200,
+                        limitPerDate: context.ContractSettings.ApiLimit(),
+                        limitRemaining: context.ContractSettings.ApiLimit() - Site.SiteSettings.ApiCount,
+                        response: new
+                        {
+                            Data = response
+                        });
+                default:
+                    return null;
+            }
+        }
+
         public string LockTable(Context context)
         {
             SetSite(
