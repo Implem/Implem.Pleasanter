@@ -684,7 +684,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             return listItemCollection;
         }
 
-        public static ResponseFile ExportSitePackage(Context context, SiteSettings ss, SitePackageApiModel apiData = null)
+        public static ResponseFile ExportSitePackage(Context context, SiteSettings ss)
         {
             var sitePackage = GetSitePackage(
                 context: context,
