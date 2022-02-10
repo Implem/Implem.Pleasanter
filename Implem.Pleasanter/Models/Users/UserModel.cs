@@ -3775,7 +3775,7 @@ namespace Implem.Pleasanter.Models
                                             .Replace(
                                                 "[AuthenticationCode]",
                                                 SecondaryAuthenticationCode),
-                                    From = new System.Net.Mail.MailAddress(Parameters
+                                    From = MimeKit.MailboxAddress.Parse(Parameters
                                         .Mail
                                         .SupportFrom),
                                     To = $"\"{Name}\" <{mailAddress}>",

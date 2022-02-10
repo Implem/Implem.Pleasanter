@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Net.Mail;
+using MimeKit;
 namespace Implem.Pleasanter.Libraries.Mails
 {
     public static class Addresses
@@ -77,15 +77,15 @@ namespace Implem.Pleasanter.Libraries.Mails
             {
                 return string.Empty;
             }
-            try
+            if(MailboxAddress.TryParse(address, out MailboxAddress internetAddress))
             {
-                return new MailAddress(address).Address;
+                return internetAddress.Address;
             }
-            catch (FormatException)
+            else
             {
                 return string.Empty;
             }
-        }
+          }
 
         private static bool IsValid(string address)
         {
@@ -93,15 +93,7 @@ namespace Implem.Pleasanter.Libraries.Mails
             {
                 return false;
             }
-            try
-            {
-                var mailAddress = new MailAddress(address);
-            }
-            catch (FormatException)
-            {
-                return false;
-            }
-            return true;
+            return MailboxAddress.TryParse(address, out MailboxAddress _);
         }
 
         public static string ExternalMailAddress(string addresses)
@@ -121,14 +113,14 @@ namespace Implem.Pleasanter.Libraries.Mails
             return string.Empty;
         }
 
-        public static MailAddress From(MailAddress from)
+        public static MailboxAddress From(MailboxAddress from)
         {
             return FixedFrom(from)
-                ? new MailAddress(Parameters.Mail.FixedFrom)
+                ? MailboxAddress.Parse(Parameters.Mail.FixedFrom)
                 : from;
         }
 
-        public static bool FixedFrom(MailAddress from)
+        public static bool FixedFrom(MailboxAddress from)
         {
             return
                 !Parameters.Mail.FixedFrom.IsNullOrEmpty() &&
