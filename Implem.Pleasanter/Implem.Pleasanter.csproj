@@ -667,6 +667,7 @@
     <Compile Include="Models\Sites\SiteApiModel.cs" />
     <Compile Include="Models\Sites\SiteCollection.cs" />
     <Compile Include="Models\Sites\SiteModel.cs" />
+    <Compile Include="Models\Sites\SitePackageApiModel.cs" />
     <Compile Include="Models\Sites\SiteUtilities.cs" />
     <Compile Include="Models\Sites\SiteValidators.cs" />
     <Compile Include="Models\Statuses\StatusCollection.cs" />
@@ -2347,6 +2348,7 @@
     <Content Include="App_Data\Displays\CopyWithNotifications.json" />
     <Content Include="App_Data\Displays\CopyWithReminders.json" />
     <Content Include="App_Data\Displays\AllowAttachments.json" />
+    <Content Include="App_Data\Displays\EncloseDoubleQuotes.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

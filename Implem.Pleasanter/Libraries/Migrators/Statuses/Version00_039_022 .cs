@@ -45,6 +45,7 @@ namespace Implem.Pleasanter.Libraries.Migrators.Statuses
                             id: i + 1))
                         .ToList(),
                     delimiterType: Export.DelimiterTypes.Comma,
+                    encloseDoubleQuotes: true,
                     executionType: Export.ExecutionTypes.Direct));
                 Repository.ExecuteNonQuery(
                     context: context,
