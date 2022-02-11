@@ -2859,6 +2859,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string EncloseDoubleQuotes(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "EncloseDoubleQuotes",
+                data: data);
+        }
+
         public static string End(
             Context context,
             params string[] data)

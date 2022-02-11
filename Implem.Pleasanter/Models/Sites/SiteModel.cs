@@ -4174,6 +4174,7 @@ namespace Implem.Pleasanter.Models
                     Export.Type = (Export.Types)context.Forms.Int("ExportType");
                     Export.Header = context.Forms.Bool("ExportHeader");
                     Export.DelimiterType = (Export.DelimiterTypes)context.Forms.Int("DelimiterType");
+                    Export.EncloseDoubleQuotes = context.Forms.Bool("EncloseDoubleQuotes");
                     SiteSettings.Exports.Add(Export);
                     SetExportsResponseCollection(context: context, res: res);
                 }
@@ -4228,6 +4229,7 @@ namespace Implem.Pleasanter.Models
                         header: context.Forms.Bool("ExportHeader"),
                         columns: columns,
                         delimiterType: (Export.DelimiterTypes)context.Forms.Int("DelimiterType"),
+                        encloseDoubleQuotes: context.Forms.Bool("EncloseDoubleQuotes"),
                         executionType: (Export.ExecutionTypes)context.Forms.Int("ExecutionType"));
                     SetExportsResponseCollection(context: context, res: res);
                 }

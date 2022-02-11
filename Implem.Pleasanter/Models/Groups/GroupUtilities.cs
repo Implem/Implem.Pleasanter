@@ -507,6 +507,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     gridDesign: column.GridDesign,
+                    css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
                     groupModel: groupModel);
             }
             else
@@ -817,6 +818,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             string gridDesign,
+            string css,
             GroupModel groupModel)
         {
             ss.IncludedColumns(gridDesign).ForEach(column =>
@@ -892,9 +894,13 @@ namespace Implem.Pleasanter.Models
                 }
                 gridDesign = gridDesign.Replace("[" + column.ColumnName + "]", value);
             });
-            return hb.Td(action: () => hb
-                .Div(css: "markup", action: () => hb
-                    .Text(text: gridDesign)));
+            return hb.Td(
+                css: css,
+                action: () => hb
+                    .Div(
+                        css: "markup",
+                        action: () => hb
+                            .Text(text: gridDesign)));
         }
 
         public static string EditorNew(Context context, SiteSettings ss)

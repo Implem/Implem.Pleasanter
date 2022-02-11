@@ -31,6 +31,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<ExportColumn> Columns;
         public Types Type;
         public DelimiterTypes DelimiterType;
+        public bool? EncloseDoubleQuotes;
         public ExecutionTypes ExecutionType;
         // compatibility Version 1.014
         public Join Join;
@@ -46,6 +47,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool header,
             List<ExportColumn> columns,
             DelimiterTypes delimiterType,
+            bool encloseDoubleQuotes,
             ExecutionTypes executionType)
         {
             Id = id;
@@ -59,12 +61,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                 Columns.Add(column);
             });
             DelimiterType = delimiterType;
+            EncloseDoubleQuotes = encloseDoubleQuotes;
             ExecutionType = executionType;
         }
 
         public Export(List<ExportColumn> columns)
         {
             Header = true;
+            EncloseDoubleQuotes = true;
             Columns = new List<ExportColumn>();
             columns.ForEach(column =>
             {
@@ -95,6 +99,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool header,
             List<ExportColumn> columns,
             DelimiterTypes delimiterType,
+            bool encloseDoubleQuotes,
             ExecutionTypes executionType)
         {
             Name = name;
@@ -102,6 +107,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Header = header;
             Columns = columns;
             DelimiterType = delimiterType;
+            EncloseDoubleQuotes = encloseDoubleQuotes;
             ExecutionType = executionType;
         }
 
@@ -117,13 +123,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             var export = new Export();
             export.Id = Id;
             export.Name = Name;
-            export.Header = Header == true ? null : Header;
+            export.Header = Header == true
+                ? null
+                : Header;
             export.Columns = new List<ExportColumn>();
             export.Type = Type;
             if (DelimiterType != DelimiterTypes.Comma)
             {
                 export.DelimiterType = DelimiterType;
             }
+            export.EncloseDoubleQuotes = EncloseDoubleQuotes == true
+                ? null
+                : EncloseDoubleQuotes;
             Columns?.ForEach(column => export.Columns.Add(column.GetRecordingData()));
             export.ExecutionType = ExecutionType;
             return export;
