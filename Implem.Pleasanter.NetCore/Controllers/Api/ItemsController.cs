@@ -101,5 +101,20 @@ namespace Implem.Pleasanter.NetCore.Controllers.Api
             var result = controller.Export(context: context, id: id);
             return result.ToHttpResponse(request: Request);
         }
+
+        [HttpPost("{id}/CopySitePackage")]
+        public ContentResult CopySitePackage(long id)
+        {
+            var body = default(string);
+            using (var reader = new StreamReader(Request.Body)) body = reader.ReadToEnd();
+            var context = new ContextImplement(
+                sessionStatus: User?.Identity?.IsAuthenticated == true,
+                sessionData: User?.Identity?.IsAuthenticated == true,
+                apiRequestBody: body,
+                contentType: Request.ContentType);
+            var controller = new Pleasanter.Controllers.Api.ItemsController();
+            var result = controller.CopySitePackage(context: context, id: id);
+            return result.ToHttpResponse(request: Request);
+        }
     }
 }
