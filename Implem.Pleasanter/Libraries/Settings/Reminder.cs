@@ -236,7 +236,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 }
                 if (test)
                 {
-                    throw e;
+                    throw;
                 }
             }
         }

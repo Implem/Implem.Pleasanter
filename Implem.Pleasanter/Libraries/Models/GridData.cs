@@ -117,7 +117,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     transactional: false,
                     statements: statements.ToArray());
             }
-            catch (System.Exception e)
+            catch (System.Exception)
             {
                 Views.SetSession(
                     context: context,
@@ -126,7 +126,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     setSession: true,
                     key: "View",
                     useUsersView: ss.SaveViewType == SiteSettings.SaveViewTypes.User);
-                throw e;
+                throw;
             }
             DataRows = dataSet.Tables["Main"].AsEnumerable();
             TotalCount = Rds.Count(dataSet);
