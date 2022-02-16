@@ -3391,13 +3391,7 @@ namespace Implem.Pleasanter.Models
                                 ? OpenChangePasswordAtLoginDialog()
                                 : Allow(
                                     context: context,
-                                    returnUrl: (!string.IsNullOrEmpty(returnUrl)
-                                        || Permissions.PrivilegedUsers(LoginId))
-                                            ? ((returnUrl == "/")
-                                                && (!Parameters.Locations.LoginAfterUrl.IsNullOrEmpty()))
-                                                    ? Parameters.Locations.LoginAfterUrl
-                                                    : returnUrl
-                                            : Parameters.Locations.LoginAfterUrl,
+                                    returnUrl: GetReturnUrl(returnUrl: returnUrl),
                                     createPersistentCookie: context.Forms.Bool("Users_RememberMe"));
                 }
                 else if (PasswordExpired())
@@ -3408,11 +3402,7 @@ namespace Implem.Pleasanter.Models
                 {
                     return Allow(
                         context: context,
-                        returnUrl: (!string.IsNullOrEmpty(returnUrl) || Permissions.PrivilegedUsers(LoginId))
-                            ? ((returnUrl == "/") && (!Parameters.Locations.LoginAfterUrl.IsNullOrEmpty()))
-                                ? Parameters.Locations.LoginAfterUrl
-                                : returnUrl
-                            : Parameters.Locations.LoginAfterUrl,
+                        returnUrl: GetReturnUrl(returnUrl: returnUrl),
                         createPersistentCookie: context.Forms.Bool("Users_RememberMe"));
                 }
             }
@@ -4388,6 +4378,19 @@ namespace Implem.Pleasanter.Models
         {
             if (TimeZoneInfo.GetSystemTimeZones().Any(info => info.Id == TimeZone)) return;
             TimeZone = (TimeZoneInfo.GetSystemTimeZones().FirstOrDefault(info => info.Id == "Tokyo Standard Time" || info.Id == "Asia/Tokyo") ?? TimeZoneInfo.Local)?.Id;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        /// <returns></returns>
+        private string GetReturnUrl(string returnUrl)
+        {
+            return (!returnUrl.IsNullOrEmpty() || Permissions.PrivilegedUsers(LoginId))
+                ? ((returnUrl == "/") && (!Parameters.Locations.LoginAfterUrl.IsNullOrEmpty()))
+                    ? Parameters.Locations.LoginAfterUrl
+                    : returnUrl
+                : Parameters.Locations.LoginAfterUrl;
         }
     }
 }
