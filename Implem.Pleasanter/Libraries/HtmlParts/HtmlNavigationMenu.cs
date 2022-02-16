@@ -339,7 +339,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 context: context,
                 ss: ss);
             var canUseApi = context.UserSettings?.AllowApi(context: context) == true;
-            var canUnlockSite = ss.AllowLockTable == true;
+            var canUnlockSite = ss.LockedTable()
+                && ss.LockedTableUser.Id == context.UserId;
             switch (menu.MenuId)
             {
                 case "NewMenu":
@@ -398,9 +399,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case "LockTableMenu_LockTable":
                 case "LockTableMenu_ForceUnlockTable":
                     return canManageSite
-                        && canUnlockSite;
+                        && ss.AllowLockTable == true;
                 case "LockTableMenu_UnlockTable":
-                    return canUnlockSite;
+                    return ss.AllowLockTable == true;
                 case "AccountMenu_Responsive":
                     return context.Mobile;
                 default:
