@@ -7464,7 +7464,11 @@ namespace Implem.Pleasanter.Models
                                     .A(
                                         href: "#ViewKambanTab",
                                         text: Displays.Kamban(context: context)),
-                                _using: hasKamban))
+                                _using: hasKamban)
+                            .Li(action: () => hb
+                                .A(
+                                    href: "#ViewAccessControlTab",
+                                    text: Displays.AccessControls(context: context))))
                         .ViewGridTab(
                             context: context,
                             ss: ss,
@@ -7509,7 +7513,11 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             view: view,
-                            _using: hasKamban))
+                            _using: hasKamban)
+                        .ViewAccessControlTab(
+                            context: context,
+                            ss: ss,
+                            view: view))
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
@@ -8260,6 +8268,84 @@ namespace Implem.Pleasanter.Models
                                 _checked: view.KambanAggregationView == true,
                                 labelPositionIsRight: true)))
                 : hb;
+        }
+
+        private static HtmlBuilder ViewAccessControlTab(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            View view,
+            int totalCount = 0)
+        {
+            var currentPermissions = view.GetPermissions(ss: ss);
+            var sourcePermissions = PermissionUtilities.SourceCollection(
+                context: context,
+                ss: ss,
+                searchText: context.Forms.Data("SearchViewAccessControlElements"),
+                currentPermissions: currentPermissions);
+            var offset = context.Forms.Int("SourceViewAccessControlOffset");
+            return hb.FieldSet(id: "ViewAccessControlTab", action: () => hb
+                .Div(id: "ViewAccessControlEditor", action: () => hb
+                    .FieldSelectable(
+                        controlId: "CurrentViewAccessControl",
+                        fieldCss: "field-vertical both",
+                        controlContainerCss: "container-selectable",
+                        controlCss: " always-send send-all",
+                        labelText: Displays.Permissions(context: context),
+                        listItemCollection: currentPermissions.ToDictionary(
+                            o => o.Key(), o => o.ControlData(
+                                context: context,
+                                ss: ss,
+                                withType: false)),
+                        commandOptionPositionIsTop: true,
+                        commandOptionAction: () => hb
+                            .Div(css: "command-right", action: () => hb
+                                .Button(
+                                    controlCss: "button-icon",
+                                    text: Displays.DeletePermission(context: context),
+                                    onClick: "$p.deleteViewAccessControl();",
+                                    icon: "ui-icon-circle-triangle-e")))
+                    .FieldSelectable(
+                        controlId: "SourceViewAccessControl",
+                        fieldCss: "field-vertical",
+                        controlContainerCss: "container-selectable",
+                        controlWrapperCss: " h300",
+                        labelText: Displays.OptionList(context: context),
+                        listItemCollection: sourcePermissions
+                            .Page(offset)
+                            .ListItemCollection(
+                                context: context,
+                                ss: ss,
+                                withType: false),
+                        commandOptionPositionIsTop: true,
+                        action: "Permissions",
+                        method: "post",
+                        commandOptionAction: () => hb
+                            .Div(css: "command-left", action: () => hb
+                                .Button(
+                                    controlCss: "button-icon",
+                                    text: Displays.AddPermission(context: context),
+                                    onClick: "$p.addViewAccessControl();",
+                                    icon: "ui-icon-circle-triangle-w")
+                                .TextBox(
+                                    controlId: "SearchViewAccessControl",
+                                    controlCss: " auto-postback w100",
+                                    placeholder: Displays.Search(context: context),
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .Button(
+                                    text: Displays.Search(context: context),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.send($('#SearchViewAccessControl'));",
+                                    icon: "ui-icon-search")))
+                    .Hidden(
+                        controlId: "SourceViewAccessControlOffset",
+                        css: "always-send",
+                        value: Paging.NextOffset(
+                            offset: offset,
+                            totalCount: sourcePermissions.Count(),
+                            pageSize: Parameters.Permissions.PageSize)
+                                .ToString())));
         }
 
         /// <summary>

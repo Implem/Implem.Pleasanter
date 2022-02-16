@@ -79,6 +79,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return languages?.Get(id)?.Display(context: context);
         }
 
+        public static string AccessControls(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AccessControls",
+                data: data);
+        }
+
         public static string Add(
             Context context,
             params string[] data)

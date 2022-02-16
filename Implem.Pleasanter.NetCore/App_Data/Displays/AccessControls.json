@@ -1,0 +1,33 @@
+﻿{
+    "Id": "AccessControls",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Access controls"
+        },
+        {
+            "Language": "zh",
+            "Body": "访问控制"
+        },
+        {
+            "Language": "ja",
+            "Body": "アクセス制御"
+        },
+        {
+            "Language": "de",
+            "Body": "Zugangskontrollen"
+        },
+        {
+            "Language": "ko",
+            "Body": "액세스 제어"
+        },
+        {
+            "Language": "es",
+            "Body": "Controles de acceso"
+        },
+        {
+            "Language": "vn",
+            "Body": "Kiểm soát truy cập"
+        }
+    ]
+}
