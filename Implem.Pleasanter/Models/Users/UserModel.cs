@@ -3393,7 +3393,10 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     returnUrl: (!string.IsNullOrEmpty(returnUrl)
                                         || Permissions.PrivilegedUsers(LoginId))
-                                            ? returnUrl
+                                            ? ((returnUrl == "/")
+                                                && (!string.IsNullOrEmpty(Parameters.Locations.LoginAfterUrl)))
+                                                ? Parameters.Locations.LoginAfterUrl
+                                                : returnUrl
                                             : Parameters.Locations.LoginAfterUrl,
                                     createPersistentCookie: context.Forms.Bool("Users_RememberMe"));
                 }
@@ -3406,7 +3409,9 @@ namespace Implem.Pleasanter.Models
                     return Allow(
                         context: context,
                         returnUrl: (!string.IsNullOrEmpty(returnUrl) || Permissions.PrivilegedUsers(LoginId))
-                            ? returnUrl
+                            ? ((returnUrl == "/") && (!string.IsNullOrEmpty(Parameters.Locations.LoginAfterUrl)))
+                                ? Parameters.Locations.LoginAfterUrl
+                                : returnUrl
                             : Parameters.Locations.LoginAfterUrl,
                         createPersistentCookie: context.Forms.Bool("Users_RememberMe"));
                 }
