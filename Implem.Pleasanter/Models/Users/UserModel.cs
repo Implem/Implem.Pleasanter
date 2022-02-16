@@ -4383,7 +4383,6 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        /// <returns></returns>
         private string GetReturnUrl(string returnUrl)
         {
             return (!returnUrl.IsNullOrEmpty() || Permissions.PrivilegedUsers(LoginId))
