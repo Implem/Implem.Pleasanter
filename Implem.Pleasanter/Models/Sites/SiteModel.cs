@@ -2072,6 +2072,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
+                case "SearchViewAccessControl":
+                    SearchViewAccessControl(
+                        context: context,
+                        res: res);
+                    break;
                 case "AddView":
                     AddView(
                         context: context,
@@ -3557,12 +3562,39 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string SearchViewAccessControl(Context context, ResponseCollection res)
+        {
+            var view = SiteSettings.Views.Get(context.Forms.Int("ViewId"))
+                ?? new View(context: context, ss: SiteSettings);
+            var currentPermissions = view.GetPermissions(ss: SiteSettings);
+            var sourcePermissions = PermissionUtilities.SourceCollection(
+                context: context,
+                ss: SiteSettings,
+                searchText: context.Forms.Data("SearchViewAccessControl"),
+                currentPermissions: currentPermissions);
+            return res
+                .Html("#SourceViewAccessControl", PermissionUtilities.PermissionListItem(
+                    context: context,
+                    ss: SiteSettings,
+                    permissions: sourcePermissions.Page(0),
+                    selectedValueTextCollection: context.Forms.Data("SourceViewAccessControl")
+                        .Deserialize<List<string>>()?
+                        .Where(o => o != string.Empty),
+                    withType: false))
+                .Val("#SourceViewAccessControlOffset", Parameters.Permissions.PageSize)
+                .ToJson();
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>
         private void AddView(Context context, ResponseCollection res)
         {
-            SiteSettings.AddView(new View(context: context, ss: SiteSettings));
+            var view = new View(
+                context: context,
+                ss: SiteSettings);
+            view.SetPermissions(permissions: ViewPermissions(context: context));
+            SiteSettings.AddView(view: view);
             res
                 .ViewResponses(SiteSettings, new List<int>
                 {
@@ -3587,6 +3619,7 @@ namespace Implem.Pleasanter.Models
                 view.SetByForm(
                     context: context,
                     ss: SiteSettings);
+                view.SetPermissions(permissions: ViewPermissions(context: context));
                 res
                     .ViewResponses(SiteSettings, new List<int> { selected })
                     .CloseDialog();
@@ -3601,6 +3634,16 @@ namespace Implem.Pleasanter.Models
             SiteSettings.Views?.RemoveAll(o =>
                 context.Forms.IntList("Views").Contains(o.Id));
             res.ViewResponses(SiteSettings);
+        }
+
+        private List<Permission> ViewPermissions(Context context)
+        {
+            return context.Forms.List("CurrentViewAccessControlAll")
+                .Select(data => new Permission(
+                    name: data.Split_1st(),
+                    id: data.Split_2nd().ToInt(),
+                    type: Permissions.Types.NotSet))
+                .ToList();
         }
 
         /// <summary>
