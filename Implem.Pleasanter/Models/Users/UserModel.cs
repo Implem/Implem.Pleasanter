@@ -3394,9 +3394,9 @@ namespace Implem.Pleasanter.Models
                                     returnUrl: (!string.IsNullOrEmpty(returnUrl)
                                         || Permissions.PrivilegedUsers(LoginId))
                                             ? ((returnUrl == "/")
-                                                && (!string.IsNullOrEmpty(Parameters.Locations.LoginAfterUrl)))
-                                                ? Parameters.Locations.LoginAfterUrl
-                                                : returnUrl
+                                                && (!Parameters.Locations.LoginAfterUrl.IsNullOrEmpty()))
+                                                    ? Parameters.Locations.LoginAfterUrl
+                                                    : returnUrl
                                             : Parameters.Locations.LoginAfterUrl,
                                     createPersistentCookie: context.Forms.Bool("Users_RememberMe"));
                 }
@@ -3409,7 +3409,7 @@ namespace Implem.Pleasanter.Models
                     return Allow(
                         context: context,
                         returnUrl: (!string.IsNullOrEmpty(returnUrl) || Permissions.PrivilegedUsers(LoginId))
-                            ? ((returnUrl == "/") && (!string.IsNullOrEmpty(Parameters.Locations.LoginAfterUrl)))
+                            ? ((returnUrl == "/") && (!Parameters.Locations.LoginAfterUrl.IsNullOrEmpty()))
                                 ? Parameters.Locations.LoginAfterUrl
                                 : returnUrl
                             : Parameters.Locations.LoginAfterUrl,
