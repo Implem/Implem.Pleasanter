@@ -1,11 +1,11 @@
 ﻿{
-    "SmtpHost": "LAPTOP-79O2AOI9",
+    "SmtpHost": null,
     "SmtpPort": 25,
-    "SmtpUserName": "kobayashi",
-    "SmtpPassword": "pleaplem",
+    "SmtpUserName": null,
+    "SmtpPassword": null,
     "SmtpEnableSsl": false,
-    "FixedFrom": "test@exsampl.jp",
-    "AllowedFrom": [ "kobayashi@implem.co.jp" ],
+    "FixedFrom": null,
+    "AllowedFrom": null,
     "SupportFrom": "\"Pleasanter.org\" <support@pleasanter.org>",
     "InternalDomains": ""
 }
