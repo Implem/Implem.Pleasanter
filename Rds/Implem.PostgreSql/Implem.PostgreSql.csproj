@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Npgsql" Version="6.0.2" />
+    <PackageReference Include="Npgsql" Version="6.0.3" />
   </ItemGroup>
 
   <ItemGroup>
