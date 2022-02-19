@@ -97,6 +97,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string KambanValue;
         public int? KambanColumns;
         public bool? KambanAggregationView;
+        public List<int> Depts;
+        public List<int> Groups;
+        public List<int> Users;
         public ApiDataTypes ApiDataType;
         [NonSerialized]
         public SqlWhereCollection AdditionalWhere;
@@ -897,6 +900,90 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
+        public void SetPermissions(List<Permission> permissions)
+        {
+            Depts?.Clear();
+            Groups?.Clear();
+            Users?.Clear();
+            foreach (var permission in permissions)
+            {
+                switch (permission.Name)
+                {
+                    case "Dept":
+                        if (Depts == null)
+                        {
+                            Depts = new List<int>();
+                        }
+                        if (!Depts.Contains(permission.Id))
+                        {
+                            Depts.Add(permission.Id);
+                        }
+                        break;
+                    case "Group":
+                        if (Groups == null)
+                        {
+                            Groups = new List<int>();
+                        }
+                        if (!Groups.Contains(permission.Id))
+                        {
+                            Groups.Add(permission.Id);
+                        }
+                        break;
+                    case "User":
+                        if (Users == null)
+                        {
+                            Users = new List<int>();
+                        }
+                        if (!Users.Contains(permission.Id))
+                        {
+                            Users.Add(permission.Id);
+                        }
+                        break;
+                }
+            }
+        }
+
+        public List<Permission> GetPermissions(SiteSettings ss)
+        {
+            var permissions = new List<Permission>();
+            Depts?.ForEach(deptId => permissions.Add(new Permission(
+                ss: ss,
+                name: "Dept",
+                id: deptId)));
+            Groups?.ForEach(groupId => permissions.Add(new Permission(
+                ss: ss,
+                name: "Group",
+                id: groupId)));
+            Users?.ForEach(userId => permissions.Add(new Permission(
+                ss: ss,
+                name: "User",
+                id: userId)));
+            return permissions;
+        }
+
+        public bool Accessable(Context context)
+        {
+            if (Depts?.Any() != true
+                && Groups?.Any() != true
+                && Users?.Any() != true)
+            {
+                return true;
+            }
+            if (Depts?.Contains(context.DeptId) == true)
+            {
+                return true;
+            }
+            if (Groups?.Any(groupId => context.Groups.Contains(groupId)) == true)
+            {
+                return true;
+            }
+            if (Users?.Contains(context.UserId) == true)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public View GetRecordingData(Context context, SiteSettings ss)
         {
             var view = new View();
@@ -1165,6 +1252,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (KambanAggregationView == true)
             {
                 view.KambanAggregationView = KambanAggregationView;
+            }
+            if (Depts?.Any() == true)
+            {
+                view.Depts = Depts;
+            }
+            if (Groups?.Any() == true)
+            {
+                view.Groups = Groups;
+            }
+            if (Users?.Any() == true)
+            {
+                view.Users = Users;
             }
             if (ShowHistory == true)
             {

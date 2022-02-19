@@ -97,6 +97,7 @@ namespace Implem.Pleasanter.App_Start
                 "~/scripts/users.js",
                 "~/scripts/validator.js",
                 "~/scripts/video.js",
+                "~/scripts/view.js",
                 "~/scripts/viewmode.js",
                 "~/scripts/visibility.js",
                 "~/scripts/_show.js",
