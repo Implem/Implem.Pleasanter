@@ -1088,7 +1088,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.Description = column.Description;
                     }
-                    if (column.ChoicesText != columnDefinition.ChoicesText)
+                    if (column.ChoicesText.Replace("\r\n", "\n") != columnDefinition.ChoicesText.Replace("\r\n", "\n"))
                     {
                         enabled = true;
                         newColumn.ChoicesText = column.ChoicesText;
@@ -1108,7 +1108,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.DefaultInput = column.DefaultInput;
                     }
-                    if (column.MaxLength != null)
+                    if (column.MaxLength.ToDecimal() > 0)
                     {
                         enabled = true;
                         newColumn.MaxLength = column.MaxLength;
@@ -1319,7 +1319,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.AllowBulkUpdate = column.AllowBulkUpdate;
                     }
-                    if (column.FieldCss != columnDefinition.FieldCss)
+                    if (column.FieldCss != columnDefinition.FieldCss
+                        && !(column.FieldCss == "field-normal" && columnDefinition.FieldCss.IsNullOrEmpty()))
                     {
                         enabled = true;
                         newColumn.FieldCss = column.FieldCss;
@@ -1765,6 +1766,21 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.DateTimeStep = DefaultDateTimeStep(column.DateTimeStep ?? Parameters.General.DateTimeStep);
                 column.Joined = columnNameInfo.Joined;
             }
+        }
+
+        public Column ResetColumn(Context context, string columnName)
+        {
+            var columnDefinition = ColumnDefinitionHash.Get(columnName);
+            var column = new Column(columnDefinition.ColumnName);
+            UpdateColumn(
+                context: context,
+                ss: this,
+                columnDefinition: columnDefinition,
+                column: column);
+            ColumnHash.AddOrUpdate(columnName, column);
+            Columns.RemoveAll(o => o.ColumnName == columnName);
+            Columns.Add(column);
+            return column;
         }
 
         private string ModifiedLabelText(Context context, Column column)

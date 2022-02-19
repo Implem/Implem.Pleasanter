@@ -5302,6 +5302,10 @@ namespace Implem.Pleasanter.Models
                         controlId: "EditorColumnName",
                         css: "always-send",
                         value: column.ColumnName)
+                    .Hidden(
+                        controlId: "ResetEditorColumnData",
+                        css: "always-send",
+                        value: "0")
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(

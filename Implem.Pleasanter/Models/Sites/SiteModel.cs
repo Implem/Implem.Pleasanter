@@ -2769,6 +2769,12 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
+                if (context.Forms.Bool("ResetEditorColumnData"))
+                {
+                    column = SiteSettings.ResetColumn(
+                        context: context,
+                        columnName: column.ColumnName);
+                }
                 var editorOtherColumn = false;
                 switch (column.ColumnName)
                 {
@@ -2813,15 +2819,18 @@ namespace Implem.Pleasanter.Models
             var ss = new SiteSettings(
                 context: context,
                 referenceType: ReferenceType);
-            res.Html(
-                "#EditorColumnDialog",
-                SiteUtilities.EditorColumnDialog(
-                    context: context,
-                    ss: SiteSettings,
-                    column: ss.GetColumn(
+            var column = ss.GetColumn(
+                context: context,
+                columnName: context.Forms.Data("EditorColumnName"));
+            res
+                .Html(
+                    "#EditorColumnDialog",
+                    SiteUtilities.EditorColumnDialog(
                         context: context,
-                        columnName: context.Forms.Data("EditorColumnName")),
-                    titleColumns: ss.TitleColumns));
+                        ss: SiteSettings,
+                        column: column,
+                        titleColumns: ss.TitleColumns))
+                .Val("#ResetEditorColumnData", "1");
         }
 
         /// <summary>
