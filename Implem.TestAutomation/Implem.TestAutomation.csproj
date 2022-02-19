@@ -21,7 +21,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Selenium.Support" Version="4.1.0" />
     <PackageReference Include="Selenium.WebDriver" Version="4.1.0" />
-    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="97.0.4692.7100" />
+    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="98.0.4758.10200" />
     <PackageReference Include="Selenium.WebDriver.IEDriver" Version="4.0.0" />
     <PackageReference Include="Selenium.WebDriverBackedSelenium" Version="4.1.0" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.3" />

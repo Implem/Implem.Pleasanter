@@ -94,7 +94,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static List<Permission> Page(this List<Permission> permissions, int offset)
+        public static List<Permission> Page(this List<Permission> permissions, int offset)
         {
             return permissions
                 .Skip(offset)
@@ -105,7 +105,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static Dictionary<string, ControlData> ListItemCollection(
+        public static Dictionary<string, ControlData> ListItemCollection(
             this List<Permission> permissions,
             Context context,
             SiteSettings ss,
@@ -213,7 +213,11 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static HtmlBuilder PermissionEditor(
-            this HtmlBuilder hb, Context context, SiteSettings ss, long referenceId, bool _using)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            long referenceId,
+            bool _using)
         {
             var currentPermissions = CurrentCollection(
                 context: context,
@@ -361,7 +365,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static List<Permission> SourceCollection(
+        public static List<Permission> SourceCollection(
             Context context,
             SiteSettings ss,
             string searchText,
@@ -369,7 +373,8 @@ namespace Implem.Pleasanter.Models
             int offset = 0)
         {
             var sourceCollection = new List<Permission>();
-            if (!context.DisableAllUsersPermission)
+            if (!context.DisableAllUsersPermission
+                && searchText.IsNullOrEmpty())
             {
                 sourceCollection.Add(new Permission(
                     ss: ss,
@@ -475,7 +480,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static string PermissionListItem(
+        public static string PermissionListItem(
             Context context,
             SiteSettings ss,
             IEnumerable<Permission> permissions,

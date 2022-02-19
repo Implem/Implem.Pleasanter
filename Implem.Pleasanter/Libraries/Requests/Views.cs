@@ -25,8 +25,12 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
             if (context.Forms.ControlId() == "ViewSelector")
             {
-                view = ss.Views?.Get(context.Forms.Int("ViewSelector"))
-                    ?? new View(context: context, ss: ss);
+                view = ss.Views
+                    ?.Where(o => o.Accessable(context:context))
+                    .FirstOrDefault(o => o.Id == context.Forms.Int("ViewSelector"))
+                        ?? new View(
+                            context: context,
+                            ss: ss);
                 SetSession(
                     context: context,
                     ss: ss,

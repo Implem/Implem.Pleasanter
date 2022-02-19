@@ -859,7 +859,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return canUpdate;
         }
 
-        public static Context CreateContext(Context context, long id, string apiRequestBody)
+        public static Context CreateContext(
+            Context context,
+            string action,
+            long id,
+            string apiRequestBody)
         {
             var createdContext = context.CreateContext(apiRequestBody: MergedApiRequestBody(
                 context: context,
@@ -867,6 +871,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             createdContext.LogBuilder = context.LogBuilder;
             createdContext.UserData = context.UserData;
             createdContext.Messages = context.Messages;
+            createdContext.Action = action.ToLower();
             createdContext.Id = id;
             createdContext.ApiRequestBody = apiRequestBody;
             createdContext.PermissionHash = Permissions.Get(context: createdContext);
@@ -899,6 +904,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 context: context,
                 apiContext: CreateContext(
                     context: context,
+                    action: "Get",
                     id: id,
                     apiRequestBody: view)) ?? new BaseItemModel[0];
             var items = itemModels.Select(model => new ServerScriptModelApiModel(
@@ -914,6 +920,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 context: context,
                 apiContext: CreateContext(
                     context: context,
+                    action: "Create",
                     id: id,
                     apiRequestBody: string.Empty),
                 model: model);
@@ -925,6 +932,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 context: context,
                 apiContext: CreateContext(
                     context: context,
+                    action: "Update",
                     id: id,
                     apiRequestBody: GetApiRequestBody(model: model)),
                 model: model);
@@ -936,6 +944,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 context: context,
                 apiContext: CreateContext(
                     context: context,
+                    action: "Delete",
                     id: id,
                     apiRequestBody: string.Empty));
         }
@@ -946,6 +955,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 context: context,
                 apiContext: CreateContext(
                     context: context,
+                    action: "BulkDelete",
                     id: id,
                     apiRequestBody: apiRequestBody));
         }
@@ -963,6 +973,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             }
             var apiContext = CreateContext(
                 context: context,
+                action: "Aggregate",
                 id: ss.SiteId,
                 apiRequestBody: view);
             var where = (view.IsNullOrEmpty()
@@ -1017,6 +1028,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             }
             var apiContext = CreateContext(
                 context: context,
+                action: "Aggregate",
                 id: ss.SiteId,
                 apiRequestBody: view);
             var where = (view.IsNullOrEmpty()

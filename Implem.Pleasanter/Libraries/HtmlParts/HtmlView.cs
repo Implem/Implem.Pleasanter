@@ -20,8 +20,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 controlId: "ViewSelector",
                 controlCss: " auto-postback",
                 labelText: Displays.DataView(context: context),
-                optionCollection: ss.Views?.ToDictionary(o =>
-                    o.Id.ToString(), o => o.Name),
+                optionCollection: ss.Views
+                    ?.Where(o => o.Accessable(context: context))
+                    .ToDictionary(o =>
+                        o.Id.ToString(),
+                        o => o.Name),
                 selectedValue: ss.Views?.FirstOrDefault(o =>
                     o.Id == view.Id)?.Id.ToString(),
                 addSelectedValue: false,
