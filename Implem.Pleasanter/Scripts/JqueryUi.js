@@ -21,8 +21,16 @@
         $('.button-icon.hidden').toggle(false);
         $('select[multiple]:not(.applied)').multiselect({
             selectedList: 100,
-            checkAllText: $p.display('CheckAll'),
-            uncheckAllText: $p.display('UncheckAll'),
+            linkInfo: {
+                checkAll: {
+                    text: $p.display('CheckAll'),
+                    title: $p.display('CheckAll')
+                },
+                uncheckAll: {
+                    text: $p.display('UncheckAll'),
+                    title: $p.display('UncheckAll')
+                }
+            },
             noneSelectedText: '',
             beforeopen: function (){
                 if ($(this).hasClass('search')) {

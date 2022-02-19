@@ -110,6 +110,7 @@ namespace Implem.Pleasanter
                 "~/Scripts/Users.js",
                 "~/Scripts/Validator.js",
                 "~/Scripts/Video.js",
+                "~/Scripts/View.js",
                 "~/Scripts/ViewMode.js",
                 "~/Scripts/Visibility.js",
                 "~/Scripts/_Show.js",

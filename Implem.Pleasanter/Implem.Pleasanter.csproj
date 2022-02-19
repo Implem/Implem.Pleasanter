@@ -1403,6 +1403,7 @@
     <Content Include="Scripts\Calendar.js" />
     <Content Include="Scripts\CalendarEvents.js" />
     <Content Include="Scripts\Clipboard.js" />
+    <Content Include="Scripts\View.js" />
     <Content Include="Scripts\ColumnAccessControl.js" />
     <Content Include="Scripts\Confirm.js" />
     <Content Include="Scripts\ConfirmEvents.js" />
@@ -2349,6 +2350,7 @@
     <Content Include="App_Data\Displays\CopyWithReminders.json" />
     <Content Include="App_Data\Displays\AllowAttachments.json" />
     <Content Include="App_Data\Displays\EncloseDoubleQuotes.json" />
+    <Content Include="App_Data\Displays\AccessControls.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

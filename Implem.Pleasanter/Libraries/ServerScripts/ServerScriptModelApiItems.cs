@@ -34,6 +34,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             var itemModel = new IssueModel();
             var apiContext = ServerScriptUtilities.CreateContext(
                 context: Context,
+                action: "New",
                 id: 0,
                 apiRequestBody: string.Empty);
             var ss = new SiteSettings(
