@@ -3571,6 +3571,9 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public string SearchViewAccessControl(Context context, ResponseCollection res)
         {
             var view = SiteSettings.Views.Get(context.Forms.Int("ViewId"))
@@ -3645,6 +3648,9 @@ namespace Implem.Pleasanter.Models
             res.ViewResponses(SiteSettings);
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private List<Permission> ViewPermissions(Context context)
         {
             return context.Forms.List("CurrentViewAccessControlAll")

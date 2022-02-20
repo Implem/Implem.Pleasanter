@@ -3,15 +3,19 @@ using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Requests;
-using System;
+using MimeKit;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using MimeKit;
 namespace Implem.Pleasanter.Libraries.Mails
 {
     public static class Addresses
     {
+        public static MailboxAddress SupportFrom()
+        {
+            return MailboxAddress.Parse(Parameters.Mail.SupportFrom);
+        }
+
         public static IEnumerable<string> Get(
             Context context, string addresses)
         {

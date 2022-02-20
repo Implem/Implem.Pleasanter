@@ -8274,6 +8274,9 @@ namespace Implem.Pleasanter.Models
                 : hb;
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static HtmlBuilder ViewAccessControlTab(
             this HtmlBuilder hb,
             Context context,
