@@ -1754,7 +1754,7 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     passphrase: passphrase)
                             }),
-                        From = new System.Net.Mail.MailAddress(mailAddress),
+                        From = MimeKit.MailboxAddress.Parse(mailAddress),
                         To = registrationModel.MailAddress,
                         Bcc = Parameters.Mail.SupportFrom
                     };
@@ -2254,7 +2254,7 @@ namespace Implem.Pleasanter.Models
                         statements: Rds.SelectTenants(
                         column: Rds.TenantsColumn().Title(),
                         where: Rds.TenantsWhere().TenantId(registrationModel.TenantId)));
-                    var from = Libraries.Mails.Addresses.From(new System.Net.Mail.MailAddress(registrationModel.MailAddress));
+                    var from = Libraries.Mails.Addresses.From(MimeKit.MailboxAddress.Parse(registrationModel.MailAddress));
                     new OutgoingMailModel()
                     {
                         Title = new Title(Displays.ApprovalRequestMailTitle(
@@ -2354,7 +2354,7 @@ namespace Implem.Pleasanter.Models
                         context.TenantTitle,
                         Locations.ApprovaUri(context: context)
                     }),
-                From = new System.Net.Mail.MailAddress(mailAddress),
+                From = MimeKit.MailboxAddress.Parse(mailAddress),
                 To = registrationModel.MailAddress,
                 Bcc = Parameters.Mail.SupportFrom
             }.Send(

@@ -159,7 +159,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case Types.Mail:
                     if (Parameters.Notification.Mail)
                     {
-                        var mailFrom = new System.Net.Mail.MailAddress(
+                        var mailFrom = MimeKit.MailboxAddress.Parse(
                             Addresses.BadAddress(addresses: from) == string.Empty
                                 ? from
                                 : Parameters.Mail.SupportFrom);

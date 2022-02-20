@@ -178,14 +178,14 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 var filename = Path.Combine(Directories.Temp(), Guid, Name ?? FileName);
                 using (var stream = new FileStream(filename, FileMode.Open, FileAccess.Read))
                 {
-                    var sha = new System.Security.Cryptography.SHA256CryptoServiceProvider();
+                    var sha = System.Security.Cryptography.SHA512.Create();
                     HashCode = System.Convert.ToBase64String(sha.ComputeHash(stream));
                 }
             }
             else
             {
                 var bytes = GetBin() ?? bin;
-                var sha = new System.Security.Cryptography.SHA256CryptoServiceProvider();
+                var sha = System.Security.Cryptography.SHA512.Create();
                 HashCode = System.Convert.ToBase64String(sha.ComputeHash(bytes));
             }
         }

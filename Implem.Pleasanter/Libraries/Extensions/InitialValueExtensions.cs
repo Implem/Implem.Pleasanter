@@ -52,7 +52,7 @@ namespace Implem.Pleasanter.Libraries.Extensions
             return self?.Any() != true;
         }
 
-        public static bool InitialValue(this System.Net.Mail.MailAddress self, Context context)
+        public static bool InitialValue(this MimeKit.MailboxAddress self, Context context)
         {
             return self.Address.IsNullOrEmpty();
         }

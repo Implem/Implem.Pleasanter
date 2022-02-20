@@ -5487,7 +5487,7 @@ namespace Implem.Pleasanter.Models
                             data: new string[] { fileName })),
                         Body = Displays.ExportEmailBody(context: context) + "\n" +
                             $"{serverName}{Locations.DownloadFile(context: context, guid: guid)}",
-                        From = new System.Net.Mail.MailAddress(Parameters.Mail.SupportFrom),
+                        From = MimeKit.MailboxAddress.Parse(Parameters.Mail.SupportFrom),
                         To = MailAddressUtilities.Get(context: context, context.UserId),
                     }.Send(context: context, ss);
                 }
@@ -5497,7 +5497,7 @@ namespace Implem.Pleasanter.Models
                     {
                         Title = new Title(Displays.ExportEmailTitleFaild(context: context)),
                         Body = Displays.ExportEmailBodyFaild(context: context, fileName, e.Message),
-                        From = new System.Net.Mail.MailAddress(Parameters.Mail.SupportFrom),
+                        From = MimeKit.MailboxAddress.Parse(Parameters.Mail.SupportFrom),
                         To = MailAddressUtilities.Get(context: context, context.UserId),
                     }.Send(context: context, ss);
                 }

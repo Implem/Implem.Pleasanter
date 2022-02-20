@@ -1,4 +1,5 @@
-﻿using Implem.DefinitionAccessor;
+﻿#pragma warning disable CA1416
+using Implem.DefinitionAccessor;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.General;
