@@ -34,7 +34,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public string ToControl(Context context, SiteSettings ss, Column column)
         {
-            return Value.ToString();
+            var value = Value.ToString();
+            return column.ChoiceHash.ContainsKey(value) || Value != 0
+                ? value
+                : string.Empty;
         }
 
         public string ToResponse(Context context, SiteSettings ss, Column column)

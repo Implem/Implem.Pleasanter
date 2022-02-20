@@ -41,6 +41,13 @@ namespace Implem.Pleasanter.Libraries.Requests
             return Data(key).ToDecimal(context.CultureInfo());
         }
 
+        public decimal? Decimal(Context context, string key, bool nullable)
+        {
+            return nullable && Data(key).IsNullOrEmpty()
+                ? null
+                : (decimal?)Data(key).ToDecimal(context.CultureInfo());
+        }
+
         public DateTime DateTime(string key)
         {
             return Data(key).ToDateTime();

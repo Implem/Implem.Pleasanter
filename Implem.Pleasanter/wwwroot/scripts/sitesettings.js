@@ -81,6 +81,21 @@ $p.openFormulaDialog = function ($control) {
     $p.openSiteSettingsDialog($control, '#FormulaDialog');
 }
 
+$p.openProcessDialog = function ($control) {
+    $p.data.ProcessForm = {};
+    $p.openSiteSettingsDialog($control, '#ProcessDialog');
+}
+
+$p.openProcessValidateInputDialog = function ($control) {
+    $p.data.ProcessValidateInputForm = {};
+    $p.openSiteSettingsDialog($control, '#ProcessValidateInputDialog', '75%');
+}
+
+$p.openProcessNotificationDialog = function ($control) {
+    $p.data.ProcessNotificationForm = {};
+    $p.openSiteSettingsDialog($control, '#ProcessNotificationDialog', '75%');
+}
+
 $p.openViewDialog = function ($control) {
     $p.data.ViewForm = {};
     $p.openSiteSettingsDialog($control, '#ViewDialog');

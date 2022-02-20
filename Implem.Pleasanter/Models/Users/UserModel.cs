@@ -2925,6 +2925,39 @@ namespace Implem.Pleasanter.Models
             });
         }
 
+        public string ReplacedDisplayValues(
+            Context context,
+            SiteSettings ss,
+            string value)
+        {
+            ss.IncludedColumns(value: value).ForEach(column =>
+                value = value.Replace(
+                    $"[{column.ColumnName}]",
+                    ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: Mine(context: context))));
+            value = ReplacedContextValues(context, value);
+            return value;
+        }
+
+        private string ReplacedContextValues(Context context, string value)
+        {
+            var url = Locations.ItemEditAbsoluteUri(
+                context: context,
+                id: UserId);
+            var mailAddress = MailAddressUtilities.Get(
+                context: context,
+                userId: context.UserId);
+            value = value
+                .Replace("{Url}", url)
+                .Replace("{LoginId}", context.User.LoginId)
+                .Replace("{UserName}", context.User.Name)
+                .Replace("{MailAddress}", mailAddress);
+            return value;
+        }
+
         private void SetBySession(Context context)
         {
             if (!context.Forms.Exists("Users_UserSettings")) UserSettings = Session_UserSettings(context: context);
@@ -3819,8 +3852,7 @@ namespace Implem.Pleasanter.Models
                                 controlId: "SecondaryAuthenticationCode",
                                 controlCss: " focus always-send",
                                 labelText: Displays.AuthenticationCode(context: context),
-                                validateRequired: true,
-                                labelRequired: true))
+                                validateRequired: true))
                         .Div(
                             id: "SecondaryAuthenticationCommands",
                             css: "both",

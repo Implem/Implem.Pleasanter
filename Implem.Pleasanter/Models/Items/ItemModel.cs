@@ -1077,9 +1077,9 @@ namespace Implem.Pleasanter.Models
                 initSiteSettings: true);
             if (context.HasPermission(ss: Site.SiteSettings))
             {
-                var columnName = context.Forms.ControlId()
-                    .Replace("ViewFilters__", string.Empty)
-                    .Replace("ViewFiltersOnGridHeader__", string.Empty)
+                var controlId = context.Forms.ControlId();
+                var columnName = controlId
+                    .Substring(controlId.IndexOf("__") + 2)
                     .Replace("_NumericRange", string.Empty);
                 var column = Site.SiteSettings.GetColumn(
                     context: context,
@@ -1107,9 +1107,9 @@ namespace Implem.Pleasanter.Models
                 initSiteSettings: true);
             if (context.HasPermission(ss: Site.SiteSettings))
             {
-                var columnName = context.Forms.ControlId()
-                    .Replace("ViewFilters__", string.Empty)
-                    .Replace("ViewFiltersOnGridHeader__", string.Empty)
+                var controlId = context.Forms.ControlId();
+                var columnName = controlId
+                    .Substring(controlId.IndexOf("__") + 2)
                     .Replace("_DateRange", string.Empty);
                 var column = Site.SiteSettings.GetColumn(
                     context: context,

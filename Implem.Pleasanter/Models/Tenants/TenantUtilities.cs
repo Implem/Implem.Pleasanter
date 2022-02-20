@@ -1179,12 +1179,13 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
+            Process process = null;
             var errorData = tenantModel.Update(context: context, ss: ss);
             switch (errorData.Type)
             {
                 case Error.Types.None:
                     var res = new TenantsResponseCollection(tenantModel);
-                    return ResponseByUpdate(res, context, ss, tenantModel)
+                    return ResponseByUpdate(res, context, ss, tenantModel, process)
                         .PrependComment(
                             context: context,
                             ss: ss,
@@ -1206,7 +1207,8 @@ namespace Implem.Pleasanter.Models
             TenantsResponseCollection res,
             Context context,
             SiteSettings ss,
-            TenantModel tenantModel)
+            TenantModel tenantModel,
+            Process process)
         {
             ss.ClearColumnAccessControlCaches(baseModel: tenantModel);
             if (context.Forms.Bool("IsDialogEditorForm"))
@@ -1234,9 +1236,11 @@ namespace Implem.Pleasanter.Models
                             dataRows: gridData.DataRows,
                             columns: columns))
                     .CloseDialog()
-                    .Message(Messages.Updated(
+                    .Message(message: UpdatedMessage(
                         context: context,
-                        data: tenantModel.Title.MessageDisplay(context: context)))
+                        ss: ss,
+                        tenantModel: tenantModel,
+                        process: process))
                     .Messages(context.Messages);
             }
             else
@@ -1269,6 +1273,29 @@ namespace Implem.Pleasanter.Models
                         comments: tenantModel.Comments,
                         deleteCommentId: tenantModel.DeleteCommentId)
                     .ClearFormData();
+            }
+        }
+
+        private static Message UpdatedMessage(
+            Context context,
+            SiteSettings ss,
+            TenantModel tenantModel,
+            Process process)
+        {
+            if (process == null)
+            {
+                return Messages.Updated(
+                    context: context,
+                    data: tenantModel.Title.MessageDisplay(context: context));
+            }
+            else
+            {
+                var message = process.GetSuccessMessage(context: context);
+                message.Text = tenantModel.ReplacedDisplayValues(
+                    context: context,
+                    ss: ss,
+                    value: message.Text);
+                return message;
             }
         }
 
