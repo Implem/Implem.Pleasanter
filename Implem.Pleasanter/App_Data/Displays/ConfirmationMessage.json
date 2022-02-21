@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ConfirmationMessage",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Confirmation message"
+        },
+        {
+            "Language": "zh",
+            "Body": "确认信息"
+        },
+        {
+            "Language": "ja",
+            "Body": "確認メッセージ"
+        },
+        {
+            "Language": "de",
+            "Body": "Bestätigungsmeldung"
+        },
+        {
+            "Language": "ko",
+            "Body": "확인 메시지"
+        },
+        {
+            "Language": "es",
+            "Body": "Mensaje de confirmacion"
+        },
+        {
+            "Language": "vn",
+            "Body": "thông báo xác nhận"
+        }
+    ]
+}

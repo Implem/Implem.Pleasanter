@@ -32,7 +32,7 @@ namespace Implem.Pleasanter.Models
         public long OutgoingMailId = 0;
         public string Host = string.Empty;
         public int Port = 0;
-        public System.Net.Mail.MailAddress From = null;
+        public MimeKit.MailboxAddress From = null;
         public string To = string.Empty;
         public string Cc = string.Empty;
         public string Bcc = string.Empty;
@@ -582,7 +582,7 @@ namespace Implem.Pleasanter.Models
                             SavedPort = Port;
                             break;
                         case "From":
-                            From = new System.Net.Mail.MailAddress(dataRow[column.ColumnName].ToString());
+                            From = MimeKit.MailboxAddress.Parse(dataRow[column.ColumnName].ToString());
                             SavedFrom = From.ToString();
                             break;
                         case "To":
@@ -740,7 +740,7 @@ namespace Implem.Pleasanter.Models
             SetByForm(context: context);
             if (Libraries.Mails.Addresses.FixedFrom(From))
             {
-                Body += "\n\n{0}<{1}>".Params(From.DisplayName, From.Address);
+                Body += "\n\n{0}<{1}>".Params(From.Name, From.Address);
             }
         }
 
@@ -872,17 +872,17 @@ namespace Implem.Pleasanter.Models
         private void SendBySendGrid(Context context, Attachments attachments = null)
         {
             _ = new SendGridMail(
-                 context: context,
-                 host: Host,
-                 from: From,
-                 to: To,
-                 cc: Cc,
-                 bcc: Bcc,
-                 subject: Title.Value,
-                 body: Body)
-                     .SendAsync(
-                         context: context,
-                         attachments: attachments);
+                context: context,
+                host: Host,
+                from: From,
+                to: To,
+                cc: Cc,
+                bcc: Bcc,
+                subject: Title.Value,
+                body: Body)
+                    .SendAsync(
+                        context: context,
+                        attachments: attachments);
         }
     }
 }

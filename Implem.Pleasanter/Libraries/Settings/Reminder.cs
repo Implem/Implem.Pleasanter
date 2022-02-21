@@ -168,7 +168,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     context: context,
                                     ss: ss,
                                     dataRows: data.Value.Values.ToList()),
-                                From = new MailAddress(Strings.CoalesceEmpty(
+                                From = MimeKit.MailboxAddress.Parse(Strings.CoalesceEmpty(
                                     Parameters.Mail.FixedFrom,
                                     From)),
                                 To = data.Key
@@ -226,7 +226,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         Title = title,
                         Body = body,
-                        From = new MailAddress(Strings.CoalesceEmpty(
+                        From = MimeKit.MailboxAddress.Parse(Strings.CoalesceEmpty(
                             Parameters.Mail.FixedFrom,
                             From)),
                         To = reminder.To
@@ -236,7 +236,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 }
                 if (test)
                 {
-                    throw e;
+                    throw;
                 }
             }
         }

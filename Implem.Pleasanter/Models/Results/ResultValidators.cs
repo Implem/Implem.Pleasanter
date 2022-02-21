@@ -27,6 +27,10 @@ namespace Implem.Pleasanter.Models
                     return new ErrorData(type: Error.Types.InvalidJsonData);
                 }
             }
+            if (api && !ss.IsSite(context: context) && !context.CanRead(ss: ss))
+            {
+                return new ErrorData(type: Error.Types.NotFound);
+            }
             if (!api && ss.GetNoDisplayIfReadOnly())
             {
                 return new ErrorData(type: Error.Types.NotFound);
@@ -744,58 +748,37 @@ namespace Implem.Pleasanter.Models
                     {
                         var savedCommentId = resultModel
                             .SavedComments
-                            ?.Deserialize<Libraries.DataTypes.Comments>()
+                            ?.Deserialize<Comments>()
                             ?.Max(savedComment => (int?)savedComment.CommentId) ?? default(int);
                         var comment = value
-                            ?.Deserialize<Libraries.DataTypes.Comments>()
+                            ?.Deserialize<Comments>()
                             ?.FirstOrDefault();
                         value = comment?.CommentId > savedCommentId ? comment?.Body : null;
                     }
                     if (!value.IsNullOrEmpty())
                     {
-                        if (column.MaxLength > 0)
-                        {
-                            int length = 0;
-                            switch (Parameters.Validation.MaxLengthCountType)
-                            {
-                                case "Regex":
-                                    length = value?.Length + Regex.Replace(
-                                        value,
-                                        $"[{Parameters.Validation.SingleSyteCharactorRegexServer}]",
-                                        string.Empty)?.Length ?? 0;
-                                    break;
-                                default:
-                                    length = value?.Length ?? 0;
-                                    break;
-                            }
-                            if (length > column.MaxLength)
-                            {
-                                errors.Add(new ErrorData(
-                                    type: Error.Types.TooLongText,
-                                    columnName: column.ColumnName,
-                                    data: column.MaxLength?.ToLong().ToStr()));
-                            }
-                        }
-                        if (!column.ServerRegexValidation.IsNullOrEmpty())
-                        {
-                            try
-                            {
-                                if (!Regex.IsMatch(value, column.ServerRegexValidation))
-                                {
-                                    errors.Add(new ErrorData(
-                                        type: Error.Types.NotMatchRegex,
-                                        columnName: column.ColumnName,
-                                        data: column.RegexValidationMessage));
-                                }
-                            }
-                            catch (System.ArgumentException)
-                            {
-                                errors.Add(new ErrorData(
-                                    type: Error.Types.NotMatchRegex,
-                                    columnName: column.ColumnName,
-                                    data: column.RegexValidationMessage));
-                            }
-                        }
+                        Validators.ValidateMaxLength(
+                            columnName: column.ColumnName,
+                            maxLength: column.MaxLength,
+                            errors: errors,
+                            value: value);
+                        Validators.ValidateRegex(
+                            columnName: column.ColumnName,
+                            serverRegexValidation: column.ServerRegexValidation,
+                            regexValidationMessage: column.RegexValidationMessage,
+                            errors: errors,
+                            value: value);
+                        ss.Processes
+                            ?.FirstOrDefault(o => $"Process_{o.Id}" == context.Forms.ControlId())
+                            ?.ValidateInputs
+                            ?.Where(validateInputs => validateInputs.ColumnName == column.ColumnName)
+                            ?.ForEach(validateInputs =>
+                                Validators.ValidateRegex(
+                                    columnName: validateInputs.ColumnName,
+                                    serverRegexValidation: validateInputs.ServerRegexValidation,
+                                    regexValidationMessage: validateInputs.RegexValidationMessage,
+                                    errors: errors,
+                                    value: value));
                     }
                 });
             if (errors.Count == 0)

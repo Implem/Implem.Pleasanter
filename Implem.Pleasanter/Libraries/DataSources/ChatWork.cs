@@ -1,6 +1,7 @@
 ﻿using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,24 +26,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             Task.Run(() =>
             {
-                var postDataBytes = Encoding.UTF8.GetBytes("body=" + Uri.EscapeDataString(text));
-                var req = WebRequest.Create(url);
-                req.Method = "POST";
-                req.ContentType = "application/x-www-form-urlencoded;charset=UTF-8";
-                req.ContentLength = postDataBytes.Length;
-                req.Headers.Add($"X-ChatWorkToken: {token}");
-                using (var reqStream = req.GetRequestStream())
-                {
-                    try
+                var client = new NotificationHttpClient();
+                client.NotifyFormUrlencorded(
+                    url: url,
+                    parameters: new Dictionary<string, string>()
                     {
-                        reqStream.Write(postDataBytes, 0, postDataBytes.Length);
-                        req.GetResponse();
-                    }
-                    catch(Exception e)
+                        ["body"] = text
+                    },
+                    headers: new Dictionary<string, string>()
                     {
-                        new SysLogModel(context, e);
-                    }
-                }
+                        ["X-ChatWorkToken"] = token
+                    });
             });
         }
     }

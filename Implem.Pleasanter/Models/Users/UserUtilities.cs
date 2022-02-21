@@ -40,7 +40,9 @@ namespace Implem.Pleasanter.Models
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
-            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(
+                context: context,
+                view: view);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
@@ -167,7 +169,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 view: view);
-            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(
+                context: context,
+                view: view);
             return new ResponseCollection()
                 .ViewMode(
                     context: context,
@@ -462,6 +466,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     gridDesign: column.GridDesign,
+                    css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
                     userModel: userModel);
             }
             else
@@ -1186,6 +1191,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             string gridDesign,
+            string css,
             UserModel userModel)
         {
             ss.IncludedColumns(gridDesign).ForEach(column =>
@@ -1330,9 +1336,13 @@ namespace Implem.Pleasanter.Models
                 }
                 gridDesign = gridDesign.Replace("[" + column.ColumnName + "]", value);
             });
-            return hb.Td(action: () => hb
-                .Div(css: "markup", action: () => hb
-                    .Text(text: gridDesign)));
+            return hb.Td(
+                css: css,
+                action: () => hb
+                    .Div(
+                        css: "markup",
+                        action: () => hb
+                            .Text(text: gridDesign)));
         }
 
         public static string EditorNew(Context context, SiteSettings ss)
@@ -2439,12 +2449,13 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
+            Process process = null;
             var errorData = userModel.Update(context: context, ss: ss);
             switch (errorData.Type)
             {
                 case Error.Types.None:
                     var res = new UsersResponseCollection(userModel);
-                    return ResponseByUpdate(res, context, ss, userModel)
+                    return ResponseByUpdate(res, context, ss, userModel, process)
                         .PrependComment(
                             context: context,
                             ss: ss,
@@ -2466,7 +2477,8 @@ namespace Implem.Pleasanter.Models
             UsersResponseCollection res,
             Context context,
             SiteSettings ss,
-            UserModel userModel)
+            UserModel userModel,
+            Process process)
         {
             ss.ClearColumnAccessControlCaches(baseModel: userModel);
             if (context.Forms.Bool("IsDialogEditorForm"))
@@ -2494,9 +2506,11 @@ namespace Implem.Pleasanter.Models
                             dataRows: gridData.DataRows,
                             columns: columns))
                     .CloseDialog()
-                    .Message(Messages.Updated(
+                    .Message(message: UpdatedMessage(
                         context: context,
-                        data: userModel.Title.MessageDisplay(context: context)))
+                        ss: ss,
+                        userModel: userModel,
+                        process: process))
                     .Messages(context.Messages);
             }
             else
@@ -2529,6 +2543,29 @@ namespace Implem.Pleasanter.Models
                         comments: userModel.Comments,
                         deleteCommentId: userModel.DeleteCommentId)
                     .ClearFormData();
+            }
+        }
+
+        private static Message UpdatedMessage(
+            Context context,
+            SiteSettings ss,
+            UserModel userModel,
+            Process process)
+        {
+            if (process == null)
+            {
+                return Messages.Updated(
+                    context: context,
+                    data: userModel.Title.MessageDisplay(context: context));
+            }
+            else
+            {
+                var message = process.GetSuccessMessage(context: context);
+                message.Text = userModel.ReplacedDisplayValues(
+                    context: context,
+                    ss: ss,
+                    value: message.Text);
+                return message;
             }
         }
 
@@ -3214,7 +3251,8 @@ namespace Implem.Pleasanter.Models
                                             context: context,
                                             columnName: exportColumn.ColumnName),
                                         exportColumn: exportColumn,
-                                        mine: userModel.Mine(context: context))).Join(),
+                                        mine: userModel.Mine(context: context),
+                                        encloseDoubleQuotes: true)).Join(),
                                 ",",
                                 "\"" + Repository.ExecuteTable(
                                     context: context,

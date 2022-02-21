@@ -124,5 +124,46 @@
             });
         });
     }
+
+    $p.formValidate = function ($form, $control) {
+        $('input, select, textarea').each(function () {
+            $(this).rules('remove');
+        });
+        $p.applyValidator();
+        if ($control.data('validations')) {
+            $.each($control.data('validations'), function (i, validation) {
+                var $target = $p.getControl(validation.ColumnName);
+                if (validation.Required) {
+                    if ($target.hasClass('control-attachments')) {
+                        $target.rules('add', {
+                            c_attachments_required: true
+                        });
+                    } else {
+                        $target.rules('add', {
+                            required: true
+                        });
+                    }
+                }
+                if (validation.ClientRegexValidation) {
+                    $target.rules('add', {
+                        c_regex: validation.ClientRegexValidation,
+                        messages: { c_regex: validation.RegexValidationMessage }
+                    });
+                }
+                if (validation.Min != undefined) {
+                    $target.rules('add', {
+                        c_min_num: validation.Min
+                    });
+                }
+                if (validation.Max != undefined) {
+                    $target.rules('add', {
+                        c_max_num: validation.Max
+                    });
+                }
+            });
+        }
+        $form.validate();
+    }
+
     $p.applyValidator();
 });

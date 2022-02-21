@@ -50,8 +50,8 @@ namespace Implem.Pleasanter.Libraries.Extensions
                 if (param.All(o => o.RegexExists(@"^[0-9\.]*,[0-9\.]*$")))
                 {
                     return param.Any(o =>
-                        o.Split_1st().ToDecimal() <= value &&
-                        o.Split_2nd().ToDecimal() >= value);
+                        (o.Split_1st().IsNullOrEmpty() || o.Split_1st().ToDecimal() <= value) &&
+                        (o.Split_2nd().IsNullOrEmpty() || o.Split_2nd().ToDecimal() >= value));
                 }
                 else
                 {
@@ -68,8 +68,8 @@ namespace Implem.Pleasanter.Libraries.Extensions
             {
                 return value.InRange()
                     ? param.Any(o =>
-                        o.Split_1st().ToDateTime() <= value &&
-                        o.Split_2nd().ToDateTime() >= value)
+                        (o.Split_1st().IsNullOrEmpty() || o.Split_1st().ToDateTime() <= value) &&
+                        (o.Split_2nd().IsNullOrEmpty() || o.Split_2nd().ToDateTime() >= value))
                     : param.Any(o => o == "\n");
             }
             return true;
@@ -78,9 +78,112 @@ namespace Implem.Pleasanter.Libraries.Extensions
         public static bool Matched(this string value, Column column, string condition)
         {
             var param = condition.Deserialize<List<string>>();
-            return param.Contains(value != string.Empty
-                ? value
-                : "\t");
+            if (column.HasChoices())
+            {
+                if (column.MultipleSelections == true)
+                {
+                    switch (column.SearchType)
+                    {
+                        case Column.SearchTypes.ExactMatch:
+                        case Column.SearchTypes.ExactMatchMultiple:
+                            if (param?.Count() == 1 && param.FirstOrDefault() == "\t")
+                            {
+                                return value?.ToJson()?.Any() != true;
+                            }
+                            else
+                            {
+                                return value == condition;
+                            }
+                        case Column.SearchTypes.ForwardMatch:
+                        case Column.SearchTypes.ForwardMatchMultiple:
+                            if (param?.Count() == 1 && param.FirstOrDefault() == "\t")
+                            {
+                                return value?.ToJson()?.Any() != true;
+                            }
+                            else
+                            {
+                                return value?.IndexOf(condition) == 0;
+                            }
+                        default:
+                            if (param?.Any() == true)
+                            {
+                                var x = param.All(o =>
+                                    value?.Contains(o.StringInJson()) == true);
+                                return x;
+                            }
+                            return true;
+                    }
+                }
+                else if (param?.Any() == true)
+                {
+                    switch (column.SearchType)
+                    {
+                        case Column.SearchTypes.ExactMatch:
+                        case Column.SearchTypes.ExactMatchMultiple:
+                            return param.Any(o => o == (!value.IsNullOrEmpty()
+                                ? value
+                                : "\t"));
+                        case Column.SearchTypes.ForwardMatch:
+                        case Column.SearchTypes.ForwardMatchMultiple:
+                            return param.Any(o => !value.IsNullOrEmpty()
+                                ? value.IndexOf(o) == 0
+                                : o == "\t");
+                        default:
+                            return param.Any(o => !value.IsNullOrEmpty()
+                                ? value.Contains(o)
+                                : o == "\t");
+                    }
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                if (condition == " " || condition == "　")
+                {
+                    return value.IsNullOrEmpty();
+                }
+                else
+                {
+                    switch (column.SearchType)
+                    {
+                        case Column.SearchTypes.ExactMatch:
+                            return value == condition;
+                        case Column.SearchTypes.ForwardMatch:
+                            return value?.IndexOf(condition) == 0;
+                        case Column.SearchTypes.PartialMatch:
+                            return value?.Contains(condition) == true;
+                        case Column.SearchTypes.ExactMatchMultiple:
+                            if (param?.Any() == true)
+                            {
+                                return param.Any(o => o == (!value.IsNullOrEmpty()
+                                    ? value
+                                    : "\t"));
+                            }
+                            return true;
+                        case Column.SearchTypes.ForwardMatchMultiple:
+                            if (param?.Any() == true)
+                            {
+                                return param.Any(o => !value.IsNullOrEmpty()
+                                    ? value.IndexOf(o) == 0
+                                    : o == "\t");
+                            }
+                            return true;
+                        case Column.SearchTypes.PartialMatchMultiple:
+                            if (param?.Any() == true)
+                            {
+                                return param.Any(o => !value.IsNullOrEmpty()
+                                    ? value.Contains(o)
+                                    : o == "\t");
+                            }
+                            return true;
+                        default:
+                            return true;
+                    }
+                }
+            }
         }
     }
 }

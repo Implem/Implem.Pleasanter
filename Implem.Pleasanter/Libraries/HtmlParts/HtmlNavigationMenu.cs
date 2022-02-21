@@ -331,7 +331,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ss: ss,
                 site: true);
             var canManageDepts = Permissions.CanManageTenant(context: context);
-            var canManageUsers = Permissions.CanManageTenant(context: context);
+            var canManageUsers = Permissions.CanManageUser(context: context);
             var canManageRegistrations = Permissions.CanManageRegistrations(context: context);
             var canManageTenants = Permissions.CanManageTenant(context: context)
                 || context.UserSettings?.EnableManageTenant == true;
@@ -339,6 +339,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 context: context,
                 ss: ss);
             var canUseApi = context.UserSettings?.AllowApi(context: context) == true;
+            var canUnlockSite = ss.LockedTable()
+                && ss.LockedTableUser.Id == context.UserId;
             switch (menu.MenuId)
             {
                 case "NewMenu":
@@ -356,7 +358,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     return canManageSite
                         || canManageDepts
                         || canManageGroups
-                        || canManageUsers;
+                        || canManageUsers
+                        || canUnlockSite;
                 case "SettingsMenu_SiteSettings":
                     return canManageSite;
                 case "SettingsMenu_DeptAdmin":

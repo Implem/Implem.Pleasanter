@@ -288,7 +288,8 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Column column,
             ExportColumn exportColumn,
-            List<string> mine)
+            List<string> mine,
+            bool? encloseDoubleQuotes)
         {
             var value = string.Empty;
             switch (column.Name)
@@ -624,7 +625,14 @@ namespace Implem.Pleasanter.Models
                     }
                     break;
             }
-            return "\"" + value?.Replace("\"", "\"\"") + "\"";
+            if (encloseDoubleQuotes != false)
+            {
+                return "\"" + value?.Replace("\"", "\"\"") + "\"";
+            }
+            else
+            {
+                return value;
+            }
         }
 
         public List<long> SwitchTargets;
@@ -658,6 +666,9 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss);
             }
+            SetProcessMatchConditions(
+                context: context,
+                ss: ss);
             MethodType = methodType;
             OnConstructed(context: context);
         }
@@ -712,6 +723,9 @@ namespace Implem.Pleasanter.Models
                     time: UpdatedTime,
                     user: Updator);
             }
+            SetProcessMatchConditions(
+                context: context,
+                ss: ss);
             SwitchTargets = switchTargets;
             MethodType = methodType;
             OnConstructed(context: context);
@@ -747,6 +761,9 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss);
             }
+            SetProcessMatchConditions(
+                context: context,
+                ss: ss);
             OnConstructed(context: context);
         }
 
@@ -1635,6 +1652,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData Update(
             Context context,
             SiteSettings ss,
+            Process process = null,
             bool extendedSqls = true,
             bool synchronizeSummary = true,
             bool forceSynchronizeSourceSummary = false,
@@ -1717,6 +1735,24 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             notice: notice)),
                     type: "Updated");
+                process?.Notifications?.ForEach(notification =>
+                    notification.Send(
+                        context: context,
+                        ss: ss,
+                        title: ReplacedDisplayValues(
+                            context: context,
+                            ss: ss,
+                            value: notification.Subject),
+                        body: ReplacedDisplayValues(
+                            context: context,
+                            ss: ss,
+                            value: notification.Body),
+                        values: ss.IncludedColumns(notification.Address)
+                            .ToDictionary(
+                                column => column,
+                                column => PropertyValue(
+                                    context: context,
+                                    column: column))));
             }
             if (get)
             {
@@ -1732,6 +1768,9 @@ namespace Implem.Pleasanter.Models
                 addUpdatorParam: true,
                 updateItems: true);
             SetByAfterUpdateServerScript(
+                context: context,
+                ss: ss);
+            SetProcessMatchConditions(
                 context: context,
                 ss: ss);
             return new ErrorData(type: Error.Types.None);
@@ -2495,6 +2534,19 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        private void SetProcessMatchConditions(
+            Context context,
+            SiteSettings ss)
+        {
+            ss.Processes?.ForEach(process =>
+                process.MatchConditions = Matched(
+                    context: context,
+                    ss: ss,
+                    view: process.View)
+                        && (process.CurrentStatus == -1
+                            || Status.Value == process.CurrentStatus));
+        }
+
         public void SetByModel(IssueModel issueModel)
         {
             SiteId = issueModel.SiteId;
@@ -3009,6 +3061,39 @@ namespace Implem.Pleasanter.Models
             return true;
         }
 
+        public string ReplacedDisplayValues(
+            Context context,
+            SiteSettings ss,
+            string value)
+        {
+            ss.IncludedColumns(value: value).ForEach(column =>
+                value = value.Replace(
+                    $"[{column.ColumnName}]",
+                    ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: Mine(context: context))));
+            value = ReplacedContextValues(context, value);
+            return value;
+        }
+
+        private string ReplacedContextValues(Context context, string value)
+        {
+            var url = Locations.ItemEditAbsoluteUri(
+                context: context,
+                id: IssueId);
+            var mailAddress = MailAddressUtilities.Get(
+                context: context,
+                userId: context.UserId);
+            value = value
+                .Replace("{Url}", url)
+                .Replace("{LoginId}", context.User.LoginId)
+                .Replace("{UserName}", context.User.Name)
+                .Replace("{MailAddress}", mailAddress);
+            return value;
+        }
+
         public List<Notification> GetNotifications(
             Context context,
             SiteSettings ss,
@@ -3100,22 +3185,26 @@ namespace Implem.Pleasanter.Models
                 switch (type)
                 {
                     case "Created":
-                        notification.Send(
-                            context: context,
-                            ss: ss,
-                            title: Displays.Created(
-                                context: context,
-                                data: Title.DisplayValue).ToString(),
-                            body: NoticeBody(
+                        if (notification.AfterCreate != false)
+                        {
+                            notification.Send(
                                 context: context,
                                 ss: ss,
-                                notification: notification),
-                            values: values);
+                                title: Displays.Created(
+                                    context: context,
+                                    data: Title.DisplayValue).ToString(),
+                                body: NoticeBody(
+                                    context: context,
+                                    ss: ss,
+                                    notification: notification),
+                                values: values);
+                        }
                         break;
                     case "Updated":
-                        if (notification.MonitorChangesColumns.Any(columnName => PropertyUpdated(
-                            context: context,
-                            name: columnName)))
+                        if (notification.AfterUpdate != false
+                            && notification.MonitorChangesColumns.Any(columnName => PropertyUpdated(
+                                context: context,
+                                name: columnName)))
                         {
                             var body = NoticeBody(
                                 context: context,
@@ -3133,35 +3222,35 @@ namespace Implem.Pleasanter.Models
                         }
                         break;
                     case "Deleted":
-                        notification.Send(
-                            context: context,
-                            ss: ss,
-                            title: Displays.Deleted(
-                                context: context,
-                                data: Title.DisplayValue).ToString(),
-                            body: NoticeBody(
+                        if (notification.AfterDelete != false)
+                        {
+                            notification.Send(
                                 context: context,
                                 ss: ss,
-                                notification: notification),
-                            values: values);
+                                title: Displays.Deleted(
+                                    context: context,
+                                    data: Title.DisplayValue).ToString(),
+                                body: NoticeBody(
+                                    context: context,
+                                    ss: ss,
+                                    notification: notification),
+                                values: values);
+                        }
                         break;
                 }
             });
         }
 
         private string NoticeBody(
-            Context context, SiteSettings ss, Notification notification, bool update = false)
+            Context context,
+            SiteSettings ss,
+            Notification notification,
+            bool update = false)
         {
             var body = new System.Text.StringBuilder();
-            var url = Locations.ItemEditAbsoluteUri(
-                context: context,
-                id: IssueId);
-            var mailAddress = MailAddressUtilities.Get(
-                context: context,
-                userId: context.UserId);
             notification.GetFormat(
-                context,
-                ss)
+                context: context,
+                ss: ss)
                     .Split('\n')
                     .Select(line => new
                     {
@@ -3173,11 +3262,9 @@ namespace Implem.Pleasanter.Models
                         var column = ss.IncludedColumns(data.Format?.Name)?.FirstOrDefault();
                         if (column == null)
                         {
-                            body.Append(data.Line
-                                .Replace("{Url}", url)
-                                .Replace("{LoginId}", context.User.LoginId)
-                                .Replace("{UserName}", context.User.Name)
-                                .Replace("{MailAddress}", mailAddress));
+                            body.Append(ReplacedContextValues(
+                                context: context,
+                                value: data.Line));
                             body.Append("\n");
                         }
                         else

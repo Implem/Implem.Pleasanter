@@ -1162,6 +1162,11 @@ th.calendar-header{
     padding:0px 20px;
 }
 
+#ProcessTabsContainer{
+    margin:0px 20px 10px 20px;
+    clear:both;
+}
+
 #ViewTabsContainer{
     margin:0px 20px 10px 20px;
     clear:both;
@@ -2201,6 +2206,7 @@ td > .field-normal,td > .field-wide{
     float:left;
     padding:5px 10px 5px 5px;
     list-style-type:none;
+    touch-action:pan-y;
 }
 
 .control-selectable li{

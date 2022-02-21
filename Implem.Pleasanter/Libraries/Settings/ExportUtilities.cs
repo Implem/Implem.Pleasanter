@@ -131,7 +131,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                         context: context,
                         ss: ss)
                     .Select(column =>
-                        $"\"{column.GetLabelText()}\"").Join(delimiter: delimiter), "\n");
+                        export.EncloseDoubleQuotes != false
+                            ? $"\"{column.GetLabelText()}\""
+                            : $"{column.GetLabelText()}")
+                    .Join(delimiter: delimiter), "\n");
             }
             gridData.Csv(
                 context: context,
@@ -140,7 +143,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 exportColumns: export.Columns.ExportColumns(
                     context: context,
                     ss: ss),
-                delimiter: delimiter);
+                delimiter: delimiter,
+                encloseDoubleQuotes: export.EncloseDoubleQuotes);
             return csv.ToString();
         }
 

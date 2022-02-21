@@ -1077,9 +1077,9 @@ namespace Implem.Pleasanter.Models
                 initSiteSettings: true);
             if (context.HasPermission(ss: Site.SiteSettings))
             {
-                var columnName = context.Forms.ControlId()
-                    .Replace("ViewFilters__", string.Empty)
-                    .Replace("ViewFiltersOnGridHeader__", string.Empty)
+                var controlId = context.Forms.ControlId();
+                var columnName = controlId
+                    .Substring(controlId.IndexOf("__") + 2)
                     .Replace("_NumericRange", string.Empty);
                 var column = Site.SiteSettings.GetColumn(
                     context: context,
@@ -1107,9 +1107,9 @@ namespace Implem.Pleasanter.Models
                 initSiteSettings: true);
             if (context.HasPermission(ss: Site.SiteSettings))
             {
-                var columnName = context.Forms.ControlId()
-                    .Replace("ViewFilters__", string.Empty)
-                    .Replace("ViewFiltersOnGridHeader__", string.Empty)
+                var controlId = context.Forms.ControlId();
+                var columnName = controlId
+                    .Substring(controlId.IndexOf("__") + 2)
                     .Replace("_DateRange", string.Empty);
                 var column = Site.SiteSettings.GetColumn(
                     context: context,
@@ -2537,6 +2537,41 @@ namespace Implem.Pleasanter.Models
                     return Libraries.SitePackages.Utilities.ExportSitePackage(
                         context: context,
                         ss: Site.SiteSettings);
+                default:
+                    return null;
+            }
+        }
+
+        public System.Web.Mvc.ContentResult CopySitePackageByApi(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true);
+            if (!Site.WithinApiLimits(context: context))
+            {
+                return ApiResults.Get(ApiResponses.OverLimitApi(
+                    context: context,
+                    siteId: Site.SiteId,
+                    limitPerSite: context.ContractSettings.ApiLimit()));
+            }
+            switch (Site.ReferenceType)
+            {
+                case "Sites":
+                case "Issues":
+                case "Results":
+                case "Wikis":
+                    var response = Libraries.SitePackages.Utilities.ImportSitePackage(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        apiData: context.RequestDataString.Deserialize<Sites.SitePackageApiModel>());
+                    return ApiResults.Get(
+                        statusCode: 200,
+                        limitPerDate: context.ContractSettings.ApiLimit(),
+                        limitRemaining: context.ContractSettings.ApiLimit() - Site.SiteSettings.ApiCount,
+                        response: new
+                        {
+                            Data = response
+                        });
                 default:
                     return null;
             }

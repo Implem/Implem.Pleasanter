@@ -117,7 +117,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     transactional: false,
                     statements: statements.ToArray());
             }
-            catch (System.Exception e)
+            catch (System.Exception)
             {
                 Views.SetSession(
                     context: context,
@@ -126,7 +126,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     setSession: true,
                     key: "View",
                     useUsersView: ss.SaveViewType == SiteSettings.SaveViewTypes.User);
-                throw e;
+                throw;
             }
             DataRows = dataSet.Tables["Main"].AsEnumerable();
             TotalCount = Rds.Count(dataSet);
@@ -394,7 +394,8 @@ namespace Implem.Pleasanter.Libraries.Models
             SiteSettings ss,
             System.Text.StringBuilder csv,
             IEnumerable<ExportColumn> exportColumns,
-            string delimiter)
+            string delimiter,
+            bool? encloseDoubleQuotes)
         {
             var idColumn = Rds.IdColumn(ss.ReferenceType);
             DataRows.ForEach(dataRow =>
@@ -430,7 +431,8 @@ namespace Implem.Pleasanter.Libraries.Models
                                 ss: column.SiteSettings,
                                 column: column,
                                 exportColumn: exportColumn,
-                                mine: users.Get(key).Mine(context: context)));
+                                mine: users.Get(key).Mine(context: context),
+                                encloseDoubleQuotes: encloseDoubleQuotes));
                             break;
                         case "Issues":
                             if (!issues.ContainsKey(key))
@@ -446,7 +448,8 @@ namespace Implem.Pleasanter.Libraries.Models
                                 ss: column.SiteSettings,
                                 column: column,
                                 exportColumn: exportColumn,
-                                mine: issues.Get(key).Mine(context: context)));
+                                mine: issues.Get(key).Mine(context: context),
+                                encloseDoubleQuotes: encloseDoubleQuotes));
                             break;
                         case "Results":
                             if (!results.ContainsKey(key))
@@ -462,7 +465,8 @@ namespace Implem.Pleasanter.Libraries.Models
                                 ss: column.SiteSettings,
                                 column: column,
                                 exportColumn: exportColumn,
-                                mine: results.Get(key).Mine(context: context)));
+                                mine: results.Get(key).Mine(context: context),
+                                encloseDoubleQuotes: encloseDoubleQuotes));
                             break;
                     }
                 });

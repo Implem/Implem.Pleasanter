@@ -20,14 +20,19 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int Id { get; set; }
         public Types Type;
         public string Prefix;
+        public string Subject;
         public string Address;
         public string Token;
         public bool? UseCustomFormat;
         public string Format;
+        public string Body;
         public List<string> MonitorChangesColumns;
         public int BeforeCondition;
         public int AfterCondition;
         public Expressions Expression;
+        public bool? AfterCreate;
+        public bool? AfterUpdate;
+        public bool? AfterDelete;
         public bool? Disabled;
         [NonSerialized]
         public int Index;
@@ -72,6 +77,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             int beforeCondition,
             int afterCondition,
             Expressions expression,
+            bool afterCreate,
+            bool afterUpdate,
+            bool afterDelete,
             bool disabled)
         {
             Id = id;
@@ -85,6 +93,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             BeforeCondition = beforeCondition;
             AfterCondition = afterCondition;
             Expression = expression;
+            AfterCreate = afterCreate;
+            AfterUpdate = afterUpdate;
+            AfterDelete = afterDelete;
             Disabled = disabled;
         }
 
@@ -109,6 +120,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             int beforeCondition,
             int afterCondition,
             Expressions expression,
+            bool afterCreate,
+            bool afterUpdate,
+            bool afterDelete,
             bool disabled)
         {
             Type = type;
@@ -121,6 +135,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             BeforeCondition = beforeCondition;
             AfterCondition = afterCondition;
             Expression = expression;
+            AfterCreate = afterCreate;
+            AfterUpdate = afterUpdate;
+            AfterDelete = afterDelete;
             Disabled = disabled;
         }
 
@@ -144,7 +161,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case Types.Mail:
                     if (Parameters.Notification.Mail)
                     {
-                        var mailFrom = new System.Net.Mail.MailAddress(
+                        var mailFrom = MimeKit.MailboxAddress.Parse(
                             Addresses.BadAddress(addresses: from) == string.Empty
                                 ? from
                                 : Parameters.Mail.SupportFrom);
@@ -305,6 +322,22 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 notification.Prefix = Prefix;
             }
+            if (!Subject.IsNullOrEmpty())
+            {
+                notification.Subject = Subject;
+            }
+            if (AfterCreate == false)
+            {
+                notification.AfterCreate = AfterCreate;
+            }
+            if (AfterUpdate == false)
+            {
+                notification.AfterUpdate = AfterUpdate;
+            }
+            if (AfterDelete == false)
+            {
+                notification.AfterDelete = AfterDelete;
+            }
             if (Disabled == true)
             {
                 notification.Disabled = Disabled;
@@ -326,6 +359,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     notification.Format = Format;
                 }
+            }
+            if (!Body.IsNullOrEmpty())
+            {
+                notification.Body = Body;
             }
             if (MonitorChangesColumns?.Any() == true)
             {

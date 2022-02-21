@@ -503,7 +503,8 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Column column,
             ExportColumn exportColumn,
-            List<string> mine)
+            List<string> mine,
+            bool? encloseDoubleQuotes)
         {
             var value = string.Empty;
             switch (column.Name)
@@ -1151,7 +1152,14 @@ namespace Implem.Pleasanter.Models
                     }
                     break;
             }
-            return "\"" + value?.Replace("\"", "\"\"") + "\"";
+            if (encloseDoubleQuotes != false)
+            {
+                return "\"" + value?.Replace("\"", "\"\"") + "\"";
+            }
+            else
+            {
+                return value;
+            }
         }
 
         public List<int> SwitchTargets;
@@ -2917,6 +2925,39 @@ namespace Implem.Pleasanter.Models
             });
         }
 
+        public string ReplacedDisplayValues(
+            Context context,
+            SiteSettings ss,
+            string value)
+        {
+            ss.IncludedColumns(value: value).ForEach(column =>
+                value = value.Replace(
+                    $"[{column.ColumnName}]",
+                    ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: Mine(context: context))));
+            value = ReplacedContextValues(context, value);
+            return value;
+        }
+
+        private string ReplacedContextValues(Context context, string value)
+        {
+            var url = Locations.ItemEditAbsoluteUri(
+                context: context,
+                id: UserId);
+            var mailAddress = MailAddressUtilities.Get(
+                context: context,
+                userId: context.UserId);
+            value = value
+                .Replace("{Url}", url)
+                .Replace("{LoginId}", context.User.LoginId)
+                .Replace("{UserName}", context.User.Name)
+                .Replace("{MailAddress}", mailAddress);
+            return value;
+        }
+
         private void SetBySession(Context context)
         {
             if (!context.Forms.Exists("Users_UserSettings")) UserSettings = Session_UserSettings(context: context);
@@ -3383,10 +3424,7 @@ namespace Implem.Pleasanter.Models
                                 ? OpenChangePasswordAtLoginDialog()
                                 : Allow(
                                     context: context,
-                                    returnUrl: (!string.IsNullOrEmpty(returnUrl)
-                                        || Permissions.PrivilegedUsers(LoginId))
-                                            ? returnUrl
-                                            : Parameters.Locations.LoginAfterUrl,
+                                    returnUrl: GetReturnUrl(returnUrl: returnUrl),
                                     createPersistentCookie: context.Forms.Bool("Users_RememberMe"));
                 }
                 else if (PasswordExpired())
@@ -3397,9 +3435,7 @@ namespace Implem.Pleasanter.Models
                 {
                     return Allow(
                         context: context,
-                        returnUrl: (!string.IsNullOrEmpty(returnUrl) || Permissions.PrivilegedUsers(LoginId))
-                            ? returnUrl
-                            : Parameters.Locations.LoginAfterUrl,
+                        returnUrl: GetReturnUrl(returnUrl: returnUrl),
                         createPersistentCookie: context.Forms.Bool("Users_RememberMe"));
                 }
             }
@@ -3775,7 +3811,7 @@ namespace Implem.Pleasanter.Models
                                             .Replace(
                                                 "[AuthenticationCode]",
                                                 SecondaryAuthenticationCode),
-                                    From = new System.Net.Mail.MailAddress(Parameters
+                                    From = MimeKit.MailboxAddress.Parse(Parameters
                                         .Mail
                                         .SupportFrom),
                                     To = $"\"{Name}\" <{mailAddress}>",
@@ -3816,8 +3852,7 @@ namespace Implem.Pleasanter.Models
                                 controlId: "SecondaryAuthenticationCode",
                                 controlCss: " focus always-send",
                                 labelText: Displays.AuthenticationCode(context: context),
-                                validateRequired: true,
-                                labelRequired: true))
+                                validateRequired: true))
                         .Div(
                             id: "SecondaryAuthenticationCommands",
                             css: "both",
@@ -4375,6 +4410,18 @@ namespace Implem.Pleasanter.Models
         {
             if (TimeZoneInfo.GetSystemTimeZones().Any(info => info.Id == TimeZone)) return;
             TimeZone = (TimeZoneInfo.GetSystemTimeZones().FirstOrDefault(info => info.Id == "Tokyo Standard Time" || info.Id == "Asia/Tokyo") ?? TimeZoneInfo.Local)?.Id;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private string GetReturnUrl(string returnUrl)
+        {
+            return (!returnUrl.IsNullOrEmpty() || Permissions.PrivilegedUsers(LoginId))
+                ? ((returnUrl == "/") && (!Parameters.Locations.LoginAfterUrl.IsNullOrEmpty()))
+                    ? Parameters.Locations.LoginAfterUrl
+                    : returnUrl
+                : Parameters.Locations.LoginAfterUrl;
         }
     }
 }

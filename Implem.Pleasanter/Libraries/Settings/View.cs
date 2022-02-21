@@ -97,6 +97,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string KambanValue;
         public int? KambanColumns;
         public bool? KambanAggregationView;
+        public List<int> Depts;
+        public List<int> Groups;
+        public List<int> Users;
         public ApiDataTypes ApiDataType;
         [NonSerialized]
         public SqlWhereCollection AdditionalWhere;
@@ -120,9 +123,12 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
         }
 
-        public View(Context context, SiteSettings ss)
+        public View(Context context, SiteSettings ss, string prefix = "")
         {
-            SetByForm(context: context, ss: ss);
+            SetByForm(
+                context: context,
+                ss: ss,
+                prefix: prefix);
         }
 
         [OnDeserialized]
@@ -353,12 +359,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                 o.Id == ss.ReferenceType + "_" + name);
         }
 
-        public void SetByForm(Context context, SiteSettings ss)
+        public void SetByForm(
+            Context context,
+            SiteSettings ss,
+            string prefix = "")
         {
-            var columnFilterPrefix = "ViewFilters__";
-            var columnFilterOnGridPrefix = "ViewFiltersOnGridHeader__";
-            var columnSorterPrefix = "ViewSorters__";
-            var columnViewExtensionPrefix = "ViewExtensions__";
+            var columnFilterPrefix = $"{prefix}ViewFilters__";
+            var columnFilterOnGridPrefix = $"{prefix}ViewFiltersOnGridHeader__";
+            var columnSorterPrefix = $"{prefix}ViewSorters__";
+            var columnViewExtensionPrefix = $"{prefix}ViewExtensions__";
             switch (context.Forms.ControlId())
             {
                 case "ReduceViewFilters":
@@ -380,9 +389,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ResetViewSorters(ss: ss);
                     break;
                 default:
-                    foreach (string controlId in context.Forms.Keys)
+                    foreach (var controlId in context.Forms.Keys)
                     {
-                        switch (controlId)
+                        switch (ControlIdWithOutPrefix(
+                            controlId: controlId,
+                            prefix: prefix))
                         {
                             case "ViewName":
                                 Name = String(
@@ -676,6 +687,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
+        private static string ControlIdWithOutPrefix(string controlId, string prefix)
+        {
+            return !prefix.IsNullOrEmpty() && controlId.StartsWith(prefix)
+                ? controlId.Substring(prefix.Length)
+                : controlId;
+        }
+
         private void ResetViewFilters(SiteSettings ss)
         {
             var view = ss.Views?.FirstOrDefault(o => o.Id == Id)
@@ -778,9 +796,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             string value)
         {
             var column = context.ExtendedFieldColumn(
-                    ss: ss,
-                    columnName: columnName,
-                    extendedFieldType: "ViewExtensions");
+                ss: ss,
+                columnName: columnName,
+                extendedFieldType: "ViewExtensions");
             if (ViewExtensionsHash == null)
             {
                 ViewExtensionsHash = new Dictionary<string, string>();
@@ -895,6 +913,90 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "desc": return SqlOrderBy.Types.desc;
                 default: return SqlOrderBy.Types.release;
             }
+        }
+
+        public void SetPermissions(List<Permission> permissions)
+        {
+            Depts?.Clear();
+            Groups?.Clear();
+            Users?.Clear();
+            foreach (var permission in permissions)
+            {
+                switch (permission.Name)
+                {
+                    case "Dept":
+                        if (Depts == null)
+                        {
+                            Depts = new List<int>();
+                        }
+                        if (!Depts.Contains(permission.Id))
+                        {
+                            Depts.Add(permission.Id);
+                        }
+                        break;
+                    case "Group":
+                        if (Groups == null)
+                        {
+                            Groups = new List<int>();
+                        }
+                        if (!Groups.Contains(permission.Id))
+                        {
+                            Groups.Add(permission.Id);
+                        }
+                        break;
+                    case "User":
+                        if (Users == null)
+                        {
+                            Users = new List<int>();
+                        }
+                        if (!Users.Contains(permission.Id))
+                        {
+                            Users.Add(permission.Id);
+                        }
+                        break;
+                }
+            }
+        }
+
+        public List<Permission> GetPermissions(SiteSettings ss)
+        {
+            var permissions = new List<Permission>();
+            Depts?.ForEach(deptId => permissions.Add(new Permission(
+                ss: ss,
+                name: "Dept",
+                id: deptId)));
+            Groups?.ForEach(groupId => permissions.Add(new Permission(
+                ss: ss,
+                name: "Group",
+                id: groupId)));
+            Users?.ForEach(userId => permissions.Add(new Permission(
+                ss: ss,
+                name: "User",
+                id: userId)));
+            return permissions;
+        }
+
+        public bool Accessable(Context context)
+        {
+            if (Depts?.Any() != true
+                && Groups?.Any() != true
+                && Users?.Any() != true)
+            {
+                return true;
+            }
+            if (Depts?.Contains(context.DeptId) == true)
+            {
+                return true;
+            }
+            if (Groups?.Any(groupId => context.Groups.Contains(groupId)) == true)
+            {
+                return true;
+            }
+            if (Users?.Contains(context.UserId) == true)
+            {
+                return true;
+            }
+            return false;
         }
 
         public View GetRecordingData(Context context, SiteSettings ss)
@@ -1165,6 +1267,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (KambanAggregationView == true)
             {
                 view.KambanAggregationView = KambanAggregationView;
+            }
+            if (Depts?.Any() == true)
+            {
+                view.Depts = Depts;
+            }
+            if (Groups?.Any() == true)
+            {
+                view.Groups = Groups;
+            }
+            if (Users?.Any() == true)
+            {
+                view.Users = Users;
             }
             if (ShowHistory == true)
             {
@@ -1622,7 +1736,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Context context, Column column, string value, SqlWhereCollection where)
         {
             var param = value.Deserialize<List<string>>();
-            if (param?.Any() == true)
+            if (param?.Any(o => !o.IsNullOrEmpty()) == true)
             {
                 where.Add(or: new SqlWhereCollection(
                     CsDateTimeColumnsWhere(
@@ -1851,7 +1965,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     where: where,
                                     param: param
                                         .Where(o => o != "\t")
-                                        .Select(o => StringInJson(value: o)),
+                                        .Select(o => o.StringInJson()),
                                     nullable: param.Any(o => o == "\t"),
                                     format: "%{0}%",
                                     like: true);
@@ -2026,13 +2140,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ? context.Sqls.LikeWithEscape
                     : "=",
                 multiParamOperator: " or ");
-        }
-
-        private string StringInJson(string value)
-        {
-            if (value.IsNullOrEmpty()) return string.Empty;
-            var json = value.ToSingleList().ToJson();
-            return $"{json.Substring(1, json.Length - 2)}";
         }
 
         private SqlWhere CsStringColumnsWhereNull(Column column)

@@ -40,7 +40,9 @@ namespace Implem.Pleasanter.Models
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
-            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(
+                context: context,
+                view: view);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
@@ -165,7 +167,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 view: view);
-            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(
+                context: context,
+                view: view);
             return new ResponseCollection()
                 .ViewMode(
                     context: context,
@@ -437,7 +441,9 @@ namespace Implem.Pleasanter.Models
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
-            var serverScriptModelRow = ss.GetServerScriptModelRow(context: context);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(
+                context: context,
+                view: view);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
@@ -504,6 +510,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     gridDesign: column.GridDesign,
+                    css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
                     siteModel: siteModel);
             }
             else
@@ -814,6 +821,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             string gridDesign,
+            string css,
             SiteModel siteModel)
         {
             ss.IncludedColumns(gridDesign).ForEach(column =>
@@ -889,9 +897,13 @@ namespace Implem.Pleasanter.Models
                 }
                 gridDesign = gridDesign.Replace("[" + column.ColumnName + "]", value);
             });
-            return hb.Td(action: () => hb
-                .Div(css: "markup", action: () => hb
-                    .Text(text: gridDesign)));
+            return hb.Td(
+                css: css,
+                action: () => hb
+                    .Div(
+                        css: "markup",
+                        action: () => hb
+                            .Text(text: gridDesign)));
         }
 
         public static string EditorJson(Context context, SiteModel siteModel)
@@ -1061,6 +1073,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
+            Process process = null;
             if (context.Forms.Exists("InheritPermission"))
             {
                 siteModel.InheritPermission = context.Forms.Long("InheritPermission");
@@ -1096,7 +1109,7 @@ namespace Implem.Pleasanter.Models
                         .ReplaceAll("#Warnings", new HtmlBuilder().Warnings(
                             context: context,
                             ss: ss));
-                    return ResponseByUpdate(res, context, siteModel)
+                    return ResponseByUpdate(res, context, siteModel, process)
                         .PrependComment(
                             context: context,
                             ss: ss,
@@ -1117,7 +1130,8 @@ namespace Implem.Pleasanter.Models
         private static ResponseCollection ResponseByUpdate(
             SitesResponseCollection res,
             Context context,
-            SiteModel siteModel)
+            SiteModel siteModel,
+            Process process)
         {
             var ss = siteModel.SiteSettings;
             ss.ClearColumnAccessControlCaches(baseModel: siteModel);
@@ -1146,9 +1160,11 @@ namespace Implem.Pleasanter.Models
                             dataRows: gridData.DataRows,
                             columns: columns))
                     .CloseDialog()
-                    .Message(Messages.Updated(
+                    .Message(message: UpdatedMessage(
                         context: context,
-                        data: siteModel.Title.MessageDisplay(context: context)))
+                        ss: ss,
+                        siteModel: siteModel,
+                        process: process))
                     .Messages(context.Messages);
             }
             else
@@ -1180,6 +1196,29 @@ namespace Implem.Pleasanter.Models
                         comments: siteModel.Comments,
                         deleteCommentId: siteModel.DeleteCommentId)
                     .ClearFormData();
+            }
+        }
+
+        private static Message UpdatedMessage(
+            Context context,
+            SiteSettings ss,
+            SiteModel siteModel,
+            Process process)
+        {
+            if (process == null)
+            {
+                return Messages.Updated(
+                    context: context,
+                    data: siteModel.Title.MessageDisplay(context: context));
+            }
+            else
+            {
+                var message = process.GetSuccessMessage(context: context);
+                message.Text = siteModel.ReplacedDisplayValues(
+                    context: context,
+                    ss: ss,
+                    value: message.Text);
+                return message;
             }
         }
 
@@ -2735,6 +2774,10 @@ namespace Implem.Pleasanter.Models
                                         text: Displays.Formulas(context: context)))
                                 .Li(action: () => hb
                                     .A(
+                                        href: "#ProcessesSettingsEditor",
+                                        text: Displays.Processes(context: context)))
+                                .Li(action: () => hb
+                                    .A(
                                         href: "#ViewsSettingsEditor",
                                         text: Displays.DataView(context: context)))
                                 .Li(
@@ -3614,8 +3657,7 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 column: commentsColumn,
                 baseModel: siteModel);
-            var showComments = ss.GetEditorColumnNames()?.Contains("Comments") == true &&
-                commentsColumnPermissionType != Permissions.ColumnPermissionTypes.Deny;
+            var showComments = true;
             var tabsCss = showComments ? null : "max";
             return hb.Div(id: "Editor", action: () => hb
                 .Form(
@@ -3756,9 +3798,23 @@ namespace Implem.Pleasanter.Models
                     .Class("dialog")
                     .Title(Displays.AdvancedSetting(context: context)))
                 .Div(attributes: new HtmlAttributes()
+                    .Id("ProcessDialog")
+                    .Class("dialog")
+                    .Title(Displays.AdvancedSetting(context: context)))
+                .Div(attributes: new HtmlAttributes()
+                    .Id("ProcessValidateInputDialog")
+                    .Class("dialog")
+                    .Title(Displays.ValidateInput(context: context)))
+                .Div(attributes: new HtmlAttributes()
                     .Id("ViewDialog")
                     .Class("dialog")
                     .Title(Displays.DataView(context: context)))
+                .Div(
+                    attributes: new HtmlAttributes()
+                        .Id("ProcessNotificationDialog")
+                        .Class("dialog")
+                        .Title(Displays.Notifications(context: context)),
+                    _using: context.ContractSettings.Notice != false)
                 .Div(
                     attributes: new HtmlAttributes()
                         .Id("NotificationDialog")
@@ -3964,6 +4020,7 @@ namespace Implem.Pleasanter.Models
                             .MoveSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .SummariesSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .FormulasSettingsEditor(context: context, ss: siteModel.SiteSettings)
+                            .ProcessesSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .ViewsSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .NotificationsSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .RemindersSettingsEditor(context: context, ss: siteModel.SiteSettings)
@@ -5188,7 +5245,12 @@ namespace Implem.Pleasanter.Models
                     controlId: "SwitchRecordWithAjax",
                     fieldCss: "field-auto-thin",
                     labelText: Displays.SwitchRecordWithAjax(context: context),
-                    _checked: ss.SwitchRecordWithAjax == true));
+                    _checked: ss.SwitchRecordWithAjax == true)
+                .FieldCheckBox(
+                    controlId: "SwitchCommandButtonsAutoPostBack",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.SwitchCommandButtonsAutoPostBack(context: context),
+                    _checked: ss.SwitchCommandButtonsAutoPostBack == true));
         }
 
         /// <summary>
@@ -5291,6 +5353,10 @@ namespace Implem.Pleasanter.Models
                         controlId: "EditorColumnName",
                         css: "always-send",
                         value: column.ColumnName)
+                    .Hidden(
+                        controlId: "ResetEditorColumnData",
+                        css: "always-send",
+                        value: "0")
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
@@ -6267,7 +6333,6 @@ namespace Implem.Pleasanter.Models
                         controlId: "LabelText",
                         labelText: Displays.DisplayName(context: context),
                         text: tab?.LabelText,
-                        labelRequired: tab?.Id != 0,
                         validateRequired: tab?.Id != 0)
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
@@ -6343,6 +6408,7 @@ namespace Implem.Pleasanter.Models
                             text: section.Id.ToString())
                         .FieldTextBox(
                             controlId: "LabelText",
+                            controlCss: " always-send",
                             labelText: Displays.DisplayName(context: context),
                             text: section.LabelText)
                         .FieldCheckBox(
@@ -7291,6 +7357,935 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private static HtmlBuilder ProcessesSettingsEditor(
+            this HtmlBuilder hb, Context context, SiteSettings ss)
+        {
+            return hb.FieldSet(id: "ProcessesSettingsEditor", action: () => hb
+                .Div(css: "command-left", action: () => hb
+                    .Button(
+                        controlId: "MoveUpProcesses",
+                        controlCss: "button-icon",
+                        text: Displays.MoveUp(context: context),
+                        onClick: "$p.setAndSend('#EditProcess', $(this));",
+                        icon: "ui-icon-circle-triangle-n",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "MoveDownProcesses",
+                        controlCss: "button-icon",
+                        text: Displays.MoveDown(context: context),
+                        onClick: "$p.setAndSend('#EditProcess', $(this));",
+                        icon: "ui-icon-circle-triangle-s",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "NewProcess",
+                        text: Displays.New(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.openProcessDialog($(this));",
+                        icon: "ui-icon-gear",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "DeleteProcesses",
+                        controlCss: "button-icon",
+                        text: Displays.Delete(context: context),
+                        onClick: "$p.setAndSend('#EditProcess', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "post",
+                        confirm: Displays.ConfirmDelete(context: context)))
+                .EditProcess(
+                    context: context,
+                    ss: ss));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder EditProcess(
+            this HtmlBuilder hb, Context context, SiteSettings ss)
+        {
+            var selected = context.Forms.Data("EditProcess").Deserialize<IEnumerable<int>>();
+            return hb
+                .Table(
+                    id: "EditProcess",
+                    css: "grid",
+                    attributes: new HtmlAttributes()
+                        .DataName("ProcessId")
+                        .DataFunc("openProcessDialog")
+                        .DataAction("SetSiteSettings")
+                        .DataMethod("post"),
+                    action: () => hb
+                        .ProcessesHeader(
+                            context: context,
+                            ss: ss,
+                            selected: selected)
+                        .ProcessesBody(
+                            context: context,
+                            ss: ss,
+                            selected: selected));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ProcessesHeader(
+            this HtmlBuilder hb, Context context, SiteSettings ss, IEnumerable<int> selected)
+        {
+            return hb.THead(action: () => hb
+                .Tr(css: "ui-widget-header", action: () => hb
+                    .Th(action: () => hb
+                        .CheckBox(
+                            controlCss: "select-all",
+                            _checked: ss.Processes?.All(o =>
+                                selected?.Contains(o.Id) == true) == true))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Id(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Name(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.DisplayName(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Description(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Tooltip(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.CurrentStatus(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.ChangedStatus(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.ConfirmationMessage(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.SuccessMessage(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.OnClick(context: context)))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ProcessesBody(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            IEnumerable<int> selected)
+        {
+            if (ss.Processes?.Any() == true)
+            {
+                var statusColumn = ss.GetColumn(
+                    context: context,
+                    columnName: "Status");
+                hb.TBody(action: () =>
+                {
+                    ss.Processes?.ForEach(process =>
+                    {
+                        hb.Tr(
+                            css: "grid-row",
+                            attributes: new HtmlAttributes()
+                                .DataId(process.Id.ToString()),
+                            action: () => hb
+                                .Td(action: () => hb
+                                    .CheckBox(
+                                        controlCss: "select",
+                                        _checked: selected?.Contains(process.Id) == true))
+                                .Td(action: () => hb
+                                    .Text(text: process.Id.ToString()))
+                                .Td(action: () => hb
+                                    .Text(text: process.Name))
+                                .Td(action: () => hb
+                                    .Text(text: process.DisplayName))
+                                .Td(action: () => hb
+                                    .Text(text: process.Description))
+                                .Td(action: () => hb
+                                    .Text(text: process.Tooltip))
+                                .Td(action: () => hb
+                                    .Text(text: process.CurrentStatus != -1
+                                        ? statusColumn?.ChoiceHash?.Get(process.CurrentStatus.ToString())?.Text
+                                        : "*"))
+                                .Td(action: () => hb
+                                    .Text(text: process.ChangedStatus != -1
+                                        ? statusColumn?.ChoiceHash?.Get(process.ChangedStatus.ToString())?.Text
+                                        : "*"))
+                                .Td(action: () => hb
+                                    .Text(text: process.ConfirmationMessage))
+                                .Td(action: () => hb
+                                    .Text(text: ss.ColumnNameToLabelText(process.SuccessMessage)))
+                                .Td(action: () => hb
+                                    .Text(text: process.OnClick)));
+                    });
+                });
+            }
+            return hb;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder ProcessDialog(
+            Context context,
+            SiteSettings ss,
+            string controlId,
+            Process process)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("ProcessForm")
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
+                action: () => hb
+                    .FieldText(
+                        controlId: "ProcessId",
+                        controlCss: " always-send",
+                        labelText: Displays.Id(context: context),
+                        text: process.Id.ToString(),
+                        _using: controlId == "EditProcess")
+                    .FieldTextBox(
+                        controlId: "ProcessName",
+                        controlCss: " always-send",
+                        labelText: Displays.Name(context: context),
+                        text: process.Name,
+                        validateRequired: true)
+                    .FieldTextBox(
+                        controlId: "ProcessDisplayName",
+                        controlCss: " always-send",
+                        labelText: Displays.DisplayName(context: context),
+                        text: process.DisplayName)
+                    .Div(id: "ProcessTabsContainer", action: () => hb
+                        .Ul(id: "ProcessTabs", action: () => hb
+                            .Li(action: () => hb
+                                .A(
+                                    href: "#ProcessGeneralTab",
+                                    text: Displays.General(context: context)))
+                            .Li(action: () => hb
+                                .A(
+                                    href: "#ProcessValidateInputsTab",
+                                    text: Displays.ValidateInput(context: context)))
+                            .Li(action: () => hb
+                                .A(
+                                    href: "#ProcessViewFiltersTab",
+                                    text: Displays.Condition(context: context)))
+                            .Li(action: () => hb
+                                .A(
+                                    href: "#ProcessAccessControlsTab",
+                                    text: Displays.AccessControls(context: context)))
+                            .Li(action: () => hb
+                                .A(
+                                    href: "#ProcessNotificationsTab",
+                                    text: Displays.Notifications(context: context))))
+                        .ProcessGeneralTab(
+                            context: context,
+                            ss: ss,
+                            process: process)
+                        .ProcessValidateInputsTab(
+                            context: context,
+                            ss: ss,
+                            process: process)
+                        .ProcessViewFiltersTab(
+                            context: context,
+                            ss: ss,
+                            process: process)
+                        .ProcessAccessControlsTab(
+                            context: context,
+                            ss: ss,
+                            process: process)
+                        .ProcessNotificationsTab(
+                            context: context,
+                            ss: ss,
+                            process: process))
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "AddProcess",
+                            text: Displays.Add(context: context),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.send($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "NewProcess")
+                        .Button(
+                            controlId: "UpdateProcess",
+                            text: Displays.Change(context: context),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.send($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "EditProcess")
+                        .Button(
+                            text: Displays.Cancel(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ProcessGeneralTab(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            Process process)
+        {
+            var status = ss.GetColumn(
+                context: context,
+                columnName: "Status");
+            var optionCollection = $"-1,*\n{status.ChoicesText}".SplitReturn()
+                .Select(o => new Choice(o))
+                .ToDictionary(
+                    o => o.Value,
+                    o => new ControlData(
+                        text: o.Text,
+                        css: o.CssClass));
+            return hb.FieldSet(id: "ProcessGeneralTab", action: () => hb
+                .Div(css: "items", action: () => hb
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "ProcessCurrentStatus",
+                        controlCss: " always-send",
+                        labelText: Displays.CurrentStatus(context: context),
+                        optionCollection: optionCollection,
+                        selectedValue: process.CurrentStatus.ToString(),
+                        insertBlank: true)
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "ProcessChangedStatus",
+                        controlCss: " always-send",
+                        labelText: Displays.ChangedStatus(context: context),
+                        optionCollection: optionCollection,
+                        selectedValue: ss.ColumnNameToLabelText(process.ChangedStatus.ToString()),
+                        insertBlank: true)
+                    .FieldTextBox(
+                        controlId: "ProcessDescription",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Description(context: context),
+                        text: process.Description)
+                    .FieldTextBox(
+                        controlId: "ProcessTooltip",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Tooltip(context: context),
+                        text: process.Tooltip)
+                    .FieldTextBox(
+                        controlId: "ProcessConfirmationMessage",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.ConfirmationMessage(context: context),
+                        text: process.ConfirmationMessage)
+                    .FieldTextBox(
+                        controlId: "ProcessSuccessMessage",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.SuccessMessage(context: context),
+                        text: ss.ColumnNameToLabelText(process.SuccessMessage))
+                    .FieldTextBox(
+                        controlId: "ProcessOnClick",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.OnClick(context: context),
+                        text: process.OnClick)));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ProcessValidateInputsTab(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            Process process)
+        {
+            return hb.FieldSet(id: "ProcessValidateInputsTab", action: () => hb
+                .Div(css: "command-left", action: () => hb
+                    .Button(
+                        controlId: "MoveUpProcessValidateInputs",
+                        controlCss: "button-icon",
+                        text: Displays.MoveUp(context: context),
+                        onClick: "$p.setAndSend('#EditProcessValidateInput', $(this));",
+                        icon: "ui-icon-circle-triangle-n",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "MoveDownProcessValidateInputs",
+                        controlCss: "button-icon",
+                        text: Displays.MoveDown(context: context),
+                        onClick: "$p.setAndSend('#EditProcessValidateInput', $(this));",
+                        icon: "ui-icon-circle-triangle-s",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "NewProcessValidateInput",
+                        text: Displays.New(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.openProcessValidateInputDialog($(this));",
+                        icon: "ui-icon-gear",
+                        action: "SetSiteSettings",
+                        method: "put")
+                    .Button(
+                        controlId: "DeleteProcessValidateInputs",
+                        text: Displays.Delete(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditProcessValidateInput', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "delete",
+                        confirm: Displays.ConfirmDelete(context: context)))
+                .EditProcessValidateInput(
+                    context: context,
+                    ss: ss,
+                    validateInputs: process.ValidateInputs)
+                .Hidden(
+                    controlId: "ProcessValidateInputs",
+                    css: "always-send",
+                    value: process.ValidateInputs?.ToJson()));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder EditProcessValidateInput(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            SettingList<ValidateInput> validateInputs)
+        {
+            var selected = context.Forms.Data("EditProcessValidateInput").Deserialize<IEnumerable<int>>();
+            return hb.Table(
+                id: "EditProcessValidateInput",
+                css: "grid",
+                attributes: new HtmlAttributes()
+                    .DataName("ProcessValidateInputId")
+                    .DataFunc("openProcessValidateInputDialog")
+                    .DataAction("SetSiteSettings")
+                    .DataMethod("post"),
+                action: () => hb
+                    .EditProcessValidateInputHeader(
+                        context: context,
+                        ss: ss,
+                        selected: selected)
+                    .EditProcessValidateInputBody(
+                        context: context,
+                        ss: ss,
+                        validateInputs: validateInputs,
+                        selected: selected));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditProcessValidateInputHeader(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            IEnumerable<int> selected)
+        {
+            return hb.THead(action: () => hb
+                .Tr(css: "ui-widget-header", action: () => hb
+                    .Th(action: () => hb
+                        .CheckBox(
+                            controlCss: "select-all",
+                            _checked: ss.Summaries?.All(o =>
+                                selected?.Contains(o.Id) == true) == true))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Id(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Column(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Required(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.ClientRegexValidation(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.ServerRegexValidation(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.RegexValidationMessage(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Min(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Max(context: context)))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder EditProcessValidateInputBody(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            SettingList<ValidateInput> validateInputs,
+            IEnumerable<int> selected)
+        {
+            return hb.TBody(action: () => validateInputs?.ForEach(validateInput =>
+            {
+                hb.Tr(
+                    css: "grid-row",
+                    attributes: new HtmlAttributes()
+                        .DataId(validateInput.Id.ToString()),
+                    action: () => hb
+                        .Td(action: () => hb
+                            .CheckBox(
+                                controlCss: "select",
+                                _checked: selected?
+                                    .Contains(validateInput.Id) == true))
+                        .Td(action: () => hb
+                            .Text(text: validateInput.Id.ToString()))
+                        .Td(action: () => hb
+                            .Text(text: ss.GetColumn(
+                                context: context,
+                                columnName: validateInput.ColumnName)?.LabelText))
+                        .Td(action: () => hb
+                            .Span(
+                                css: "ui-icon ui-icon-circle-check",
+                                _using: validateInput.Required == true))
+                        .Td(action: () => hb
+                            .Text(text: validateInput.ClientRegexValidation))
+                        .Td(action: () => hb
+                            .Text(text: validateInput.ServerRegexValidation))
+                        .Td(action: () => hb
+                            .Text(text: validateInput.RegexValidationMessage))
+                        .Td(action: () => hb
+                            .Text(text: validateInput.Min?.TrimEndZero()))
+                        .Td(action: () => hb
+                            .Text(text: validateInput.Max?.TrimEndZero())));
+            }));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder ProcessValidateInputDialog(
+            Context context,
+            SiteSettings ss,
+            string controlId,
+            ValidateInput validateInput)
+        {
+            var hb = new HtmlBuilder();
+            var column = ss.GetColumn(
+                context: context,
+                columnName: validateInput.ColumnName);
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("ProcessValidateInputForm")
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
+                action: () => hb
+                    .FieldText(
+                        controlId: "ProcessValidateInputIdTemp",
+                        controlCss: " always-send",
+                        labelText: Displays.Id(context: context),
+                        text: validateInput.Id.ToString(),
+                        _using: controlId == "EditProcessValidateInput")
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "ProcessValidateInputColumnName",
+                        controlCss: " always-send",
+                        labelText: Displays.Column(context: context),
+                        optionCollection: ss.ProcessValidateInputSelectableOptions(),
+                        selectedValue: validateInput.ColumnName)
+                    .FieldCheckBox(
+                        fieldId: "ProcessValidateInputRequiredField",
+                        controlId: "ProcessValidateInputRequired",
+                        controlCss: " always-send",
+                        labelText: Displays.Required(context: context),
+                        _checked: validateInput.Required ?? false)
+                    .FieldTextBox(
+                        fieldId: "ProcessValidateInputClientRegexValidationField",
+                        controlId: "ProcessValidateInputClientRegexValidation",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.ClientRegexValidation(context: context),
+                        text: validateInput.ClientRegexValidation)
+                    .FieldTextBox(
+                        fieldId: "ProcessValidateInputServerRegexValidationField",
+                        controlId: "ProcessValidateInputServerRegexValidation",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.ServerRegexValidation(context: context),
+                        text: validateInput.ServerRegexValidation)
+                    .FieldTextBox(
+                        fieldId: "ProcessValidateInputRegexValidationMessageField",
+                        controlId: "ProcessValidateInputRegexValidationMessage",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.RegexValidationMessage(context: context),
+                        text: validateInput.RegexValidationMessage)
+                    .FieldTextBox(
+                        fieldId: "ProcessValidateInputMinField",
+                        controlId: "ProcessValidateInputMin",
+                        fieldCss: " both",
+                        controlCss: " always-send",
+                        labelText: Displays.Min(context: context),
+                        text: validateInput.Min?.TrimEndZero(),
+                        validateNumber: true)
+                    .FieldTextBox(
+                        fieldId: "ProcessValidateInputMaxField",
+                        controlId: "ProcessValidateInputMax",
+                        controlCss: " always-send",
+                        labelText: Displays.Max(context: context),
+                        text: validateInput.Max?.TrimEndZero(),
+                        validateNumber: true)
+                    .Hidden(
+                        controlId: "ProcessValidateInputsTemp",
+                        css: "always-send",
+                        value: context.Forms.Data("ProcessValidateInputs"))
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "AddProcessValidateInput",
+                            text: Displays.Add(context: context),
+                            controlCss: "button-icon validate",
+                            icon: "ui-icon-disk",
+                            onClick: "$p.send($(this));",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "NewProcessValidateInput")
+                        .Button(
+                            controlId: "UpdateProcessValidateInput",
+                            text: Displays.Change(context: context),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.send($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "EditProcessValidateInput")
+                        .Button(
+                            text: Displays.Cancel(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ProcessViewFiltersTab(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            Process process)
+        {
+            var view = process.View ?? new View();
+            return hb.ViewFiltersTab(
+                context: context,
+                ss: ss,
+                view: view,
+                prefix: "Process",
+                action: () => hb
+                    .FieldTextBox(
+                        controlId: "ProcessErrorMessage",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.ErrorMessage(context: context),
+                        text: ss.ColumnNameToLabelText(process.ErrorMessage)));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ProcessAccessControlsTab(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            Process process,
+            int totalCount = 0)
+        {
+            var currentPermissions = process.GetPermissions(ss: ss);
+            var sourcePermissions = PermissionUtilities.SourceCollection(
+                context: context,
+                ss: ss,
+                searchText: context.Forms.Data("SearchProcessAccessControlElements"),
+                currentPermissions: currentPermissions);
+            var offset = context.Forms.Int("SourceProcessAccessControlOffset");
+            return hb.FieldSet(id: "ProcessAccessControlsTab", action: () => hb
+                .Div(id: "ProcessAccessControlEditor", action: () => hb
+                    .FieldSelectable(
+                        controlId: "CurrentProcessAccessControl",
+                        fieldCss: "field-vertical both",
+                        controlContainerCss: "container-selectable",
+                        controlCss: " always-send send-all",
+                        labelText: Displays.Permissions(context: context),
+                        listItemCollection: currentPermissions.ToDictionary(
+                            o => o.Key(), o => o.ControlData(
+                                context: context,
+                                ss: ss,
+                                withType: false)),
+                        commandOptionPositionIsTop: true,
+                        commandOptionAction: () => hb
+                            .Div(css: "command-left", action: () => hb
+                                .Button(
+                                    controlCss: "button-icon",
+                                    text: Displays.DeletePermission(context: context),
+                                    onClick: "$p.deleteProcessAccessControl();",
+                                    icon: "ui-icon-circle-triangle-e")))
+                    .FieldSelectable(
+                        controlId: "SourceProcessAccessControl",
+                        fieldCss: "field-vertical",
+                        controlContainerCss: "container-selectable",
+                        controlWrapperCss: " h300",
+                        labelText: Displays.OptionList(context: context),
+                        listItemCollection: sourcePermissions
+                            .Page(offset)
+                            .ListItemCollection(
+                                context: context,
+                                ss: ss,
+                                withType: false),
+                        commandOptionPositionIsTop: true,
+                        action: "Permissions",
+                        method: "post",
+                        commandOptionAction: () => hb
+                            .Div(css: "command-left", action: () => hb
+                                .Button(
+                                    controlCss: "button-icon",
+                                    text: Displays.AddPermission(context: context),
+                                    onClick: "$p.addProcessAccessControl();",
+                                    icon: "ui-icon-circle-triangle-w")
+                                .TextBox(
+                                    controlId: "SearchProcessAccessControl",
+                                    controlCss: " auto-postback w100",
+                                    placeholder: Displays.Search(context: context),
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .Button(
+                                    text: Displays.Search(context: context),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.send($('#SearchProcessAccessControl'));",
+                                    icon: "ui-icon-search")))
+                    .Hidden(
+                        controlId: "SourceProcessAccessControlOffset",
+                        css: "always-send",
+                        value: Paging.NextOffset(
+                            offset: offset,
+                            totalCount: sourcePermissions.Count(),
+                            pageSize: Parameters.Permissions.PageSize)
+                                .ToString())));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ProcessNotificationsTab(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            Process process)
+        {
+            return hb.FieldSet(id: "ProcessNotificationsTab", action: () => hb
+                .Div(css: "command-left", action: () => hb
+                    .Button(
+                        controlId: "MoveUpProcessNotifications",
+                        controlCss: "button-icon",
+                        text: Displays.MoveUp(context: context),
+                        onClick: "$p.setAndSend('#EditProcessNotification', $(this));",
+                        icon: "ui-icon-circle-triangle-n",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "MoveDownProcessNotifications",
+                        controlCss: "button-icon",
+                        text: Displays.MoveDown(context: context),
+                        onClick: "$p.setAndSend('#EditProcessNotification', $(this));",
+                        icon: "ui-icon-circle-triangle-s",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "NewProcessNotification",
+                        text: Displays.New(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.openProcessNotificationDialog($(this));",
+                        icon: "ui-icon-gear",
+                        action: "SetSiteSettings",
+                        method: "put")
+                    .Button(
+                        controlId: "DeleteProcessNotifications",
+                        text: Displays.Delete(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditProcessNotification', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "delete",
+                        confirm: Displays.ConfirmDelete(context: context)))
+                .EditProcessNotification(
+                    context: context,
+                    ss: ss,
+                    notifications: process.Notifications)
+                .Hidden(
+                    controlId: "ProcessNotifications",
+                    css: "always-send",
+                    value: process.Notifications?.ToJson()));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder EditProcessNotification(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            SettingList<Notification> notifications)
+        {
+            var selected = context.Forms.Data("EditProcessNotification").Deserialize<IEnumerable<int>>();
+            return hb.Table(
+                id: "EditProcessNotification",
+                css: "grid",
+                attributes: new HtmlAttributes()
+                    .DataName("ProcessNotificationId")
+                    .DataFunc("openProcessNotificationDialog")
+                    .DataAction("SetSiteSettings")
+                    .DataMethod("post"),
+                action: () => hb
+                    .EditProcessNotificationHeader(
+                        context: context,
+                        ss: ss,
+                        selected: selected)
+                    .EditProcessNotificationBody(
+                        context: context,
+                        ss: ss,
+                        notifications: notifications,
+                        selected: selected));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditProcessNotificationHeader(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            IEnumerable<int> selected)
+        {
+            return hb.THead(action: () => hb
+                .Tr(css: "ui-widget-header", action: () => hb
+                    .Th(action: () => hb
+                        .CheckBox(
+                            controlCss: "select-all",
+                            _checked: ss.Summaries?.All(o =>
+                                selected?.Contains(o.Id) == true) == true))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Id(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Address(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Subject(context: context)))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder EditProcessNotificationBody(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            SettingList<Notification> notifications,
+            IEnumerable<int> selected)
+        {
+            return hb.TBody(action: () => notifications?.ForEach(notification =>
+            {
+                var beforeCondition = ss.Views?.Get(notification.BeforeCondition);
+                var afterCondition = ss.Views?.Get(notification.AfterCondition);
+                hb.Tr(
+                    css: "grid-row",
+                    attributes: new HtmlAttributes()
+                        .DataId(notification.Id.ToString()),
+                    action: () => hb
+                        .Td(action: () => hb
+                            .CheckBox(
+                                controlCss: "select",
+                                _checked: selected?
+                                    .Contains(notification.Id) == true))
+                        .Td(action: () => hb
+                            .Text(text: notification.Id.ToString()))
+                        .Td(action: () => hb
+                            .Text(text: ss.ColumnNameToLabelText(notification.Address)))
+                        .Td(action: () => hb
+                            .Text(text: ss.ColumnNameToLabelText(notification.Subject))));
+            }));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder ProcessNotificationDialog(
+            Context context,
+            SiteSettings ss,
+            string controlId,
+            Notification notification)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("ProcessNotificationForm")
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
+                action: () => hb
+                    .FieldText(
+                        controlId: "ProcessNotificationIdTemp",
+                        controlCss: " always-send",
+                        labelText: Displays.Id(context: context),
+                        text: notification.Id.ToString(),
+                        _using: controlId == "EditProcessNotification")
+                    .FieldTextBox(
+                        controlId: "ProcessNotificationSubject",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Subject(context: context),
+                        text: ss.ColumnNameToLabelText(notification.Subject),
+                        validateRequired: true)
+                    .FieldTextBox(
+                        controlId: "ProcessNotificationAddress",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Address(context: context),
+                        text: ss.ColumnNameToLabelText(notification.Address),
+                        validateRequired: true)
+                    .FieldTextBox(
+                        textType: HtmlTypes.TextTypes.MultiLine,
+                        fieldId: "ProcessNotificationBody",
+                        controlId: "ProcessNotificationBody",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Body(context: context),
+                        text: ss.ColumnNameToLabelText(notification.Body),
+                        validateRequired: true)
+                    .Hidden(
+                        controlId: "ProcessNotificationsTemp",
+                        css: "always-send",
+                        value: context.Forms.Data("ProcessNotifications"))
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "AddProcessNotification",
+                            text: Displays.Add(context: context),
+                            controlCss: "button-icon validate",
+                            icon: "ui-icon-disk",
+                            onClick: "$p.send($(this));",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "NewProcessNotification")
+                        .Button(
+                            controlId: "UpdateProcessNotification",
+                            text: Displays.Change(context: context),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.send($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "EditProcessNotification")
+                        .Button(
+                            text: Displays.Cancel(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static HtmlBuilder ViewsSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
@@ -7452,7 +8447,11 @@ namespace Implem.Pleasanter.Models
                                     .A(
                                         href: "#ViewKambanTab",
                                         text: Displays.Kamban(context: context)),
-                                _using: hasKamban))
+                                _using: hasKamban)
+                            .Li(action: () => hb
+                                .A(
+                                    href: "#ViewAccessControlTab",
+                                    text: Displays.AccessControls(context: context))))
                         .ViewGridTab(
                             context: context,
                             ss: ss,
@@ -7497,7 +8496,11 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             view: view,
-                            _using: hasKamban))
+                            _using: hasKamban)
+                        .ViewAccessControlTab(
+                            context: context,
+                            ss: ss,
+                            view: view))
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
@@ -7671,82 +8674,99 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static HtmlBuilder ViewFiltersTab(
-            this HtmlBuilder hb, Context context, SiteSettings ss, View view)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            View view,
+            string prefix = "",
+            Action action = null)
         {
-            return hb.FieldSet(id: "ViewFiltersTab", action: () => hb
-                .Div(css: "items", action: () => hb
-                    .FieldCheckBox(
-                        controlId: "ViewFilters_Incomplete",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.Incomplete(context: context),
-                        _checked: view.Incomplete == true,
-                        labelPositionIsRight: true,
-                        _using: view.HasIncompleteColumns(context: context, ss: ss))
-                    .FieldCheckBox(
-                        controlId: "ViewFilters_Own",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.Own(context: context),
-                        _checked: view.Own == true,
-                        labelPositionIsRight: true,
-                        _using: view.HasOwnColumns(context: context, ss: ss))
-                    .FieldCheckBox(
-                        controlId: "ViewFilters_NearCompletionTime",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.NearCompletionTime(context: context),
-                        _checked: view.NearCompletionTime == true,
-                        labelPositionIsRight: true,
-                        _using: view.HasNearCompletionTimeColumns(context: context, ss: ss))
-                    .FieldCheckBox(
-                        controlId: "ViewFilters_Delay",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.Delay(context: context),
-                        _checked: view.Delay == true,
-                        labelPositionIsRight: true,
-                        _using: view.HasDelayColumns(context: context, ss: ss))
-                    .FieldCheckBox(
-                        controlId: "ViewFilters_Overdue",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.Overdue(context: context),
-                        _checked: view.Overdue == true,
-                        labelPositionIsRight: true,
-                        _using: view.HasOverdueColumns(context: context, ss: ss))
-                    .FieldTextBox(
-                        controlId: "ViewFilters_Search",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.Search(context: context),
-                        text: view.Search)
-                    .ViewColumnFilters(context: context, ss: ss, view: view))
-                .FieldCheckBox(
-                        controlId: "ViewFilters_ShowHistory",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.ShowHistory(context: context),
-                        _checked: view.ShowHistory == true,
-                        labelPositionIsRight: true,
-                        _using: ss.HistoryOnGrid == true)
-                .Div(css: "both", action: () => hb
-                    .FieldDropDown(
-                        context: context,
-                        controlId: "ViewFilterSelector",
-                        fieldCss: "field-auto-thin",
-                        controlCss: " always-send",
-                        optionCollection: ss.ViewFilterOptions(
+            return hb.FieldSet(id: $"{prefix}ViewFiltersTab", action: () =>
+            {
+                hb
+                    .Div(css: "items", action: () => hb
+                        .FieldCheckBox(
+                            controlId: $"{prefix}ViewFilters_Incomplete",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.Incomplete(context: context),
+                            _checked: view.Incomplete == true,
+                            labelPositionIsRight: true,
+                            _using: view.HasIncompleteColumns(context: context, ss: ss))
+                        .FieldCheckBox(
+                            controlId: $"{prefix}ViewFilters_Own",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.Own(context: context),
+                            _checked: view.Own == true,
+                            labelPositionIsRight: true,
+                            _using: view.HasOwnColumns(context: context, ss: ss))
+                        .FieldCheckBox(
+                            controlId: $"{prefix}ViewFilters_NearCompletionTime",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.NearCompletionTime(context: context),
+                            _checked: view.NearCompletionTime == true,
+                            labelPositionIsRight: true,
+                            _using: view.HasNearCompletionTimeColumns(context: context, ss: ss))
+                        .FieldCheckBox(
+                            controlId: $"{prefix}ViewFilters_Delay",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.Delay(context: context),
+                            _checked: view.Delay == true,
+                            labelPositionIsRight: true,
+                            _using: view.HasDelayColumns(context: context, ss: ss))
+                        .FieldCheckBox(
+                            controlId: $"{prefix}ViewFilters_Overdue",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.Overdue(context: context),
+                            _checked: view.Overdue == true,
+                            labelPositionIsRight: true,
+                            _using: view.HasOverdueColumns(context: context, ss: ss))
+                        .FieldTextBox(
+                            controlId: $"{prefix}ViewFilters_Search",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.Search(context: context),
+                            text: view.Search)
+                        .ViewColumnFilters(
                             context: context,
-                            view: view))
-                    .Button(
-                        controlId: "AddViewFilter",
-                        controlCss: "button-icon",
-                        text: Displays.Add(context: context),
-                        onClick: "$p.send($(this));",
-                        icon: "ui-icon-plus",
-                        action: "SetSiteSettings",
-                        method: "post")));
+                            ss: ss,
+                            view: view,
+                            prefix: prefix))
+                    .FieldCheckBox(
+                            controlId: $"{prefix}ViewFilters_ShowHistory",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.ShowHistory(context: context),
+                            _checked: view.ShowHistory == true,
+                            labelPositionIsRight: true,
+                            _using: ss.HistoryOnGrid == true)
+                    .Div(css: "both", action: () => hb
+                        .FieldDropDown(
+                            context: context,
+                            controlId: $"{prefix}ViewFilterSelector",
+                            fieldCss: "field-auto-thin",
+                            controlCss: " always-send",
+                            optionCollection: ss.ViewFilterOptions(
+                                context: context,
+                                view: view))
+                        .Button(
+                            controlId: $"Add{prefix}ViewFilter",
+                            controlCss: "button-icon",
+                            text: Displays.Add(context: context),
+                            onClick: "$p.send($(this));",
+                            icon: "ui-icon-plus",
+                            action: "SetSiteSettings",
+                            method: "post"));
+                action?.Invoke();
+            });
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
         public static HtmlBuilder ViewColumnFilters(
-            this HtmlBuilder hb, Context context, SiteSettings ss, View view)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            View view,
+            string prefix)
         {
             view.ColumnFilterHash?.ForEach(data => hb
                 .ViewFilter(
@@ -7755,7 +8775,8 @@ namespace Implem.Pleasanter.Models
                     column: ss.GetColumn(
                         context: context,
                         columnName: data.Key),
-                    value: data.Value));
+                    value: data.Value,
+                    prefix: prefix));
             return hb;
         }
 
@@ -7767,10 +8788,11 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             Column column,
+            string prefix,
             string value = null)
         {
             var labelTitle = ss.LabelTitle(column);
-            var controlId = "ViewFilters__" + column.ColumnName;
+            var controlId = $"{prefix}ViewFilters__" + column.ColumnName;
             switch (column.TypeName.CsTypeSummary())
             {
                 case Types.CsBool:
@@ -7827,7 +8849,7 @@ namespace Implem.Pleasanter.Models
                                 ["data-action"] = $"SetSiteSettings"
                             })
                             .Hidden(attributes: new HtmlAttributes()
-                                .Id("ViewFilters__" + column.ColumnName)
+                                .Id($"{prefix}ViewFilters__" + column.ColumnName)
                                 .Value(value));
                 case Types.CsNumeric:
                     return column.DateFilterSetMode == ColumnUtilities.DateFilterSetMode.Default
@@ -7865,7 +8887,7 @@ namespace Implem.Pleasanter.Models
                                 ["data-action"] = $"SetSiteSettings"
                             })
                             .Hidden(attributes: new HtmlAttributes()
-                                .Id("ViewFilters__" + column.ColumnName)
+                                .Id($"{prefix}ViewFilters__" + column.ColumnName)
                                 .Value(value));
                 case Types.CsString:
                     return column.HasChoices()
@@ -8253,6 +9275,87 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private static HtmlBuilder ViewAccessControlTab(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            View view,
+            int totalCount = 0)
+        {
+            var currentPermissions = view.GetPermissions(ss: ss);
+            var sourcePermissions = PermissionUtilities.SourceCollection(
+                context: context,
+                ss: ss,
+                searchText: context.Forms.Data("SearchViewAccessControlElements"),
+                currentPermissions: currentPermissions);
+            var offset = context.Forms.Int("SourceViewAccessControlOffset");
+            return hb.FieldSet(id: "ViewAccessControlTab", action: () => hb
+                .Div(id: "ViewAccessControlEditor", action: () => hb
+                    .FieldSelectable(
+                        controlId: "CurrentViewAccessControl",
+                        fieldCss: "field-vertical both",
+                        controlContainerCss: "container-selectable",
+                        controlCss: " always-send send-all",
+                        labelText: Displays.Permissions(context: context),
+                        listItemCollection: currentPermissions.ToDictionary(
+                            o => o.Key(), o => o.ControlData(
+                                context: context,
+                                ss: ss,
+                                withType: false)),
+                        commandOptionPositionIsTop: true,
+                        commandOptionAction: () => hb
+                            .Div(css: "command-right", action: () => hb
+                                .Button(
+                                    controlCss: "button-icon",
+                                    text: Displays.DeletePermission(context: context),
+                                    onClick: "$p.deleteViewAccessControl();",
+                                    icon: "ui-icon-circle-triangle-e")))
+                    .FieldSelectable(
+                        controlId: "SourceViewAccessControl",
+                        fieldCss: "field-vertical",
+                        controlContainerCss: "container-selectable",
+                        controlWrapperCss: " h300",
+                        labelText: Displays.OptionList(context: context),
+                        listItemCollection: sourcePermissions
+                            .Page(offset)
+                            .ListItemCollection(
+                                context: context,
+                                ss: ss,
+                                withType: false),
+                        commandOptionPositionIsTop: true,
+                        action: "Permissions",
+                        method: "post",
+                        commandOptionAction: () => hb
+                            .Div(css: "command-left", action: () => hb
+                                .Button(
+                                    controlCss: "button-icon",
+                                    text: Displays.AddPermission(context: context),
+                                    onClick: "$p.addViewAccessControl();",
+                                    icon: "ui-icon-circle-triangle-w")
+                                .TextBox(
+                                    controlId: "SearchViewAccessControl",
+                                    controlCss: " auto-postback w100",
+                                    placeholder: Displays.Search(context: context),
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .Button(
+                                    text: Displays.Search(context: context),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.send($('#SearchViewAccessControl'));",
+                                    icon: "ui-icon-search")))
+                    .Hidden(
+                        controlId: "SourceViewAccessControlOffset",
+                        css: "always-send",
+                        value: Paging.NextOffset(
+                            offset: offset,
+                            totalCount: sourcePermissions.Count(),
+                            pageSize: Parameters.Permissions.PageSize)
+                                .ToString())));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static ResponseCollection ViewResponses(
             this ResponseCollection res, SiteSettings ss, IEnumerable<int> selected = null)
         {
@@ -8419,6 +9522,12 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.AfterCondition(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.AfterCreate(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.AfterUpdate(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.AfterDelete(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.Disabled(context: context)))));
         }
 
@@ -8468,6 +9577,18 @@ namespace Implem.Pleasanter.Models
                                 : null))
                         .Td(action: () => hb
                             .Text(text: afterCondition?.Name))
+                        .Td(action: () => hb
+                            .Span(
+                                css: "ui-icon ui-icon-circle-check",
+                                _using: notification.AfterCreate != false))
+                        .Td(action: () => hb
+                            .Span(
+                                css: "ui-icon ui-icon-circle-check",
+                                _using: notification.AfterUpdate != false))
+                        .Td(action: () => hb
+                            .Span(
+                                css: "ui-icon ui-icon-circle-check",
+                                _using: notification.AfterDelete != false))
                         .Td(action: () => hb
                             .Span(
                                 css: "ui-icon ui-icon-circle-check",
@@ -8580,11 +9701,29 @@ namespace Implem.Pleasanter.Models
                                 optionCollection: ss.ViewSelectableOptions(),
                                 selectedValue: notification.AfterCondition.ToString(),
                                 insertBlank: true))
-                    .FieldCheckBox(
-                        controlId: "NotificationDisabled",
-                        controlCss: " always-send",
-                        labelText: Displays.Disabled(context: context),
-                        _checked: notification.Disabled == true)
+                    .Div(
+                        css: "both",
+                        action: () => hb
+                            .FieldCheckBox(
+                                controlId: "NotificationAfterCreate",
+                                controlCss: " always-send",
+                                labelText: Displays.AfterCreate(context: context),
+                                _checked: notification.AfterCreate != false)
+                            .FieldCheckBox(
+                                controlId: "NotificationAfterUpdate",
+                                controlCss: " always-send",
+                                labelText: Displays.AfterUpdate(context: context),
+                                _checked: notification.AfterUpdate != false)
+                            .FieldCheckBox(
+                                controlId: "NotificationAfterDelete",
+                                controlCss: " always-send",
+                                labelText: Displays.AfterDelete(context: context),
+                                _checked: notification.AfterDelete != false)
+                            .FieldCheckBox(
+                                controlId: "NotificationDisabled",
+                                controlCss: " always-send",
+                                labelText: Displays.Disabled(context: context),
+                                _checked: notification.Disabled == true))
                     .FieldSet(
                         css: " enclosed",
                         legendText: Displays.MonitorChangesColumns(context: context),
@@ -9177,6 +10316,8 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.DelimiterTypes(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.EncloseDoubleQuotes(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.ExportExecutionType(context: context)))));
         }
 
@@ -9217,6 +10358,10 @@ namespace Implem.Pleasanter.Models
                                  .Text(text: Displays.Get(
                                      context: context,
                                      id: export.DelimiterType.ToString())))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: export.EncloseDoubleQuotes != false))
                             .Td(action: () => hb
                                  .Text(text: Displays.Get(
                                      context: context,
@@ -9286,6 +10431,11 @@ namespace Implem.Pleasanter.Models
                             },
                         },
                         selectedValue: export.DelimiterType.ToInt().ToString())
+                    .FieldCheckBox(
+                        controlId: "EncloseDoubleQuotes",
+                        controlCss: " always-send",
+                        labelText: Displays.EncloseDoubleQuotes(context: context),
+                        _checked: export.EncloseDoubleQuotes != false)
                     .FieldDropDown(
                         context: context,
                         controlId: "ExecutionType",
@@ -9307,7 +10457,7 @@ namespace Implem.Pleasanter.Models
                         controlId: "ExportHeader",
                         controlCss: " always-send",
                         labelText: Displays.OutputHeader(context: context),
-                        _checked: export.Header == true)
+                        _checked: export.Header != false)
                     .FieldSet(
                         css: " enclosed",
                         legendText: Displays.ExportColumns(context: context),

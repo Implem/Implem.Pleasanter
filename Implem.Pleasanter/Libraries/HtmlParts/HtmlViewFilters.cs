@@ -306,9 +306,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             controlCss: ss.UseFilterButton != true
                                 ? " auto-postback"
                                 : string.Empty,
-                            labelText: Displays.Get(
-                                context: context,
-                                id: column.GridLabelText),
+                            labelText: column.GridLabelText,
                             labelTitle: ss.LabelTitle(column),
                             controlOnly: controlOnly,
                             method: "post");
@@ -335,9 +333,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             controlId: idPrefix + column.ColumnName + "_NumericRange",
                             fieldCss: "field-auto-thin",
                             controlCss: (column.UseSearch == true ? " search" : string.Empty),
-                            labelText: Displays.Get(
-                                context: context,
-                                id: column.GridLabelText),
+                            labelText: column.GridLabelText,
                             labelTitle: ss.LabelTitle(column),
                             controlOnly: controlOnly,
                             action: "openSetNumericRangeDialog",
@@ -374,9 +370,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             controlId: idPrefix + column.ColumnName + "_DateRange",
                             fieldCss: "field-auto-thin",
                             controlCss: (column.UseSearch == true ? " search" : string.Empty),
-                            labelText: Displays.Get(
-                                context: context,
-                                id: column.GridLabelText),
+                            labelText: column.GridLabelText,
                             labelTitle: ss.LabelTitle(column),
                             controlOnly: controlOnly,
                             action: "openSetDateRangeDialog",
@@ -433,9 +427,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             controlCss: ss.UseFilterButton != true
                                 ? " auto-postback"
                                 : string.Empty,
-                            labelText: Displays.Get(
-                                context: context,
-                                id: column.GridLabelText),
+                            labelText: column.GridLabelText,
                             labelTitle: ss.LabelTitle(column),
                             controlOnly: controlOnly,
                             action: action,
@@ -468,9 +460,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlCss: ss.UseFilterButton != true
                             ? " auto-postback"
                             : string.Empty,
-                        labelText: Displays.Get(
-                            context: context,
-                            id: column.GridLabelText),
+                        labelText: column.GridLabelText,
                         labelTitle: ss.LabelTitle(column),
                         controlOnly: controlOnly,
                         action: action,
@@ -487,9 +477,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlCss: ss.UseFilterButton != true
                             ? " auto-postback"
                             : string.Empty,
-                        labelText: Displays.Get(
-                            context: context,
-                            id: column.GridLabelText),
+                        labelText: column.GridLabelText,
                         labelTitle: ss.LabelTitle(column),
                         controlOnly: controlOnly,
                         action: action,
@@ -551,9 +539,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         + (column.UseSearch == true
                             ? " search"
                             : string.Empty),
-                labelText: Displays.Get(
-                    context: context,
-                    id: column.GridLabelText),
+                labelText: column.GridLabelText,
                 labelTitle: ss.LabelTitle(column),
                 controlOnly: controlOnly,
                 action: action,

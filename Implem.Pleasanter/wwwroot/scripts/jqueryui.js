@@ -5,7 +5,7 @@
             $(element).removeClass('ui-menu-item');
             $($(element).children()[0]).removeClass('ui-menu-item-wrapper');
         });
-        $('#EditorTabsContainer:not(.applied),#MailEditorTabsContainer:not(.applied),#ViewTabsContainer:not(.applied),#ColumnAccessControlTabsContainer:not(.applied),#EditorDetailTabsContainer:not(.applied)').tabs({
+        $('#EditorTabsContainer:not(.applied),#MailEditorTabsContainer:not(.applied),#ProcessTabsContainer:not(.applied),#ViewTabsContainer:not(.applied),#ColumnAccessControlTabsContainer:not(.applied),#EditorDetailTabsContainer:not(.applied)').tabs({
             beforeActivate: function (event, ui) {
                 if (ui.newPanel.attr('data-action')) {
                     $p.send(ui.newPanel);
@@ -21,8 +21,16 @@
         $('.button-icon.hidden').toggle(false);
         $('select[multiple]:not(.applied)').multiselect({
             selectedList: 100,
-            checkAllText: $p.display('CheckAll'),
-            uncheckAllText: $p.display('UncheckAll'),
+            linkInfo: {
+                checkAll: {
+                    text: $p.display('CheckAll'),
+                    title: $p.display('CheckAll')
+                },
+                uncheckAll: {
+                    text: $p.display('UncheckAll'),
+                    title: $p.display('UncheckAll')
+                }
+            },
             noneSelectedText: '',
             beforeopen: function (){
                 if ($(this).hasClass('search')) {
@@ -172,18 +180,18 @@
                 return;
             }
             $menu.css('width', '');
-            $menu.css('position', 'absolute')
-                .css('top', $header.position().top + $header.outerHeight())
-                .css('left', $header.position().left)
+            $menu.css('position', 'fixed')
+                .css('top', $header.offset().top + $header.outerHeight())
+                .css('left', $header.offset().left)
                 .outerWidth($header.outerWidth() > $menuSort.outerWidth()
                     ? $header.outerWidth()
                     : $menuSort.outerWidth());
         }
-        
         var $multiSelect = $('.ui-multiselect-menu:visible');
         var $control = $("[id='ViewFiltersOnGridHeader__" + dataName + "_ms']");
         if ($multiSelect.length && $control.length) {
-            $multiSelect.css('top', $control.offset().top + $control.outerHeight())
+            $multiSelect
+                .css('top', $control.offset().top + $control.outerHeight())
                 .css('left', $control.offset().left);
         }
     }
