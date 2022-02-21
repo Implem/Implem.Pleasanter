@@ -306,7 +306,6 @@ namespace Implem.Pleasanter.NetCore
             SiteSettingsMigrator.Migrate(context: context);
             StatusesInitializer.Initialize(context: context);
             NotificationInitializer.Initialize();
-            //SetConfigrations(context: context);
             SiteInfo.Reflesh(context: context);
             log.Finish(context: context);
         }
