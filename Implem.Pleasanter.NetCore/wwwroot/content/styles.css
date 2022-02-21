@@ -1162,6 +1162,11 @@ th.calendar-header{
     padding:0px 20px;
 }
 
+#ProcessTabsContainer{
+    margin:0px 20px 10px 20px;
+    clear:both;
+}
+
 #ViewTabsContainer{
     margin:0px 20px 10px 20px;
     clear:both;

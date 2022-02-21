@@ -1,0 +1,33 @@
+﻿{
+    "Id": "SwitchCommandButtonsAutoPostBack",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Switch command buttons during automatic postback"
+        },
+        {
+            "Language": "zh",
+            "Body": "在自动回发期间切换命令按钮"
+        },
+        {
+            "Language": "ja",
+            "Body": "自動ポストバック時にコマンドボタンを切り替える"
+        },
+        {
+            "Language": "de",
+            "Body": "Wechseln Sie die Befehlsschaltflächen während des automatischen Postbacks"
+        },
+        {
+            "Language": "ko",
+            "Body": "자동 포스트백 중 명령 단추 전환"
+        },
+        {
+            "Language": "es",
+            "Body": "Cambiar los botones de comando durante la devolución de datos automática"
+        },
+        {
+            "Language": "vn",
+            "Body": "Chuyển các nút lệnh trong khi đăng lại tự động"
+        }
+    ]
+}

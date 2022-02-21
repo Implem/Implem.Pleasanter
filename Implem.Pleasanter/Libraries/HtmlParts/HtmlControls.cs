@@ -616,11 +616,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string dataId = null,
             string icon = null,
             string selector = null,
+            string validations = null,
             string action = null,
             string method = null,
             string confirm = null,
             string type = "button",
             bool disabled = false,
+            Dictionary<string, string> attributes = null,
             bool _using = true)
         {
             return _using
@@ -636,10 +638,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .DataId(dataId)
                         .DataIcon(icon)
                         .DataSelector(selector)
+                        .DataValidations(validations)
                         .DataAction(action)
                         .DataMethod(method)
                         .DataConfirm(confirm)
-                        .Disabled(disabled),
+                        .Disabled(disabled)
+                        .Add(attributes),
                     action: () => hb
                         .Text(text: text))
                 : hb;

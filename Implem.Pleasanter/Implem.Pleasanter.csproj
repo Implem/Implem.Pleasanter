@@ -1,20 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Copyright>Copyright © Implem Inc 2014 - 2022</Copyright>
     <Description>Business application platform</Description>
     <AssemblyName>Implem.Pleasanter</AssemblyName>
-    <AssemblyVersion>1.2.27.2</AssemblyVersion>
-    <FileVersion>1.2.27.2</FileVersion>
+    <AssemblyVersion>1.2.29.0</AssemblyVersion>
+    <FileVersion>1.2.29.0</FileVersion>
     <LangVersion>7.2</LangVersion>
-    <Version>1.2.27.2</Version>
+    <Version>1.2.29.0</Version>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningsAsErrors />
+    <NoWarn>NU1605;1701;1702</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <WarningsAsErrors />
+    <NoWarn>NU1605;1701;1702</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
     <PackageReference Include="ClosedXML" Version="0.95.4" />
     <PackageReference Include="DocumentFormat.OpenXml" Version="2.15.0" />
+    <PackageReference Include="MailKit" Version="3.1.1" />
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.7">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
@@ -24,12 +35,12 @@
     <PackageReference Include="Microsoft.AspNet.WebPages" Version="3.2.7">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
-    <PackageReference Include="Microsoft.ClearScript" Version="7.2.1">
+    <PackageReference Include="Microsoft.ClearScript" Version="7.2.2">
       <NoWarn></NoWarn>
     </PackageReference>
-    <PackageReference Include="Microsoft.ClearScript.linux-arm64" Version="7.2.1" />
-    <PackageReference Include="Microsoft.ClearScript.linux-x64" Version="7.2.1" />
-    <PackageReference Include="Microsoft.ClearScript.Windows" Version="7.2.1">
+    <PackageReference Include="Microsoft.ClearScript.linux-arm64" Version="7.2.2" />
+    <PackageReference Include="Microsoft.ClearScript.linux-x64" Version="7.2.2" />
+    <PackageReference Include="Microsoft.ClearScript.Windows" Version="7.2.2">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
     <PackageReference Include="Microsoft.Web.Infrastructure" Version="1.0.0">
@@ -37,8 +48,8 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Novell.Directory.Ldap.NETStandard" Version="3.6.0" />
-    <PackageReference Include="Sendgrid" Version="9.25.2" />
-    <PackageReference Include="SendGrid.SmtpApi" Version="1.4.3" />
+    <PackageReference Include="Sendgrid" Version="9.25.3" />
+    <PackageReference Include="SendGrid.SmtpApi" Version="1.4.4" />
     <PackageReference Include="Sustainsys.Saml2" Version="2.9.0" />
     <PackageReference Include="Sustainsys.Saml2.AspNetCore2" Version="2.9.0" />
     <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="6.0.0" />

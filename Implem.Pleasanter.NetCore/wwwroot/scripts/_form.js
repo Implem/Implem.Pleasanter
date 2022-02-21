@@ -79,7 +79,7 @@ $p.send = function ($control, formId, _async, clearMessage) {
         if ($p.before_validate($p.eventArgs(url, methodType, data, $control, _async)) === false) {
             return false;
         }
-        $form.validate();
+        $p.formValidate($form, $control);
         if (!$form.valid()) {
             $p.setValidationError($form);
             $p.setErrorMessage('ValidationError');

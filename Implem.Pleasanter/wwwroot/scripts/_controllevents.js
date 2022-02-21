@@ -36,25 +36,8 @@
     $(document).on('change', '.auto-postback:not([type="text"],select[multiple])', function () {
         $p.send($(this));
     });
-    $(document).on('change', '.control-auto-postback', function () {
-        if ($p.disableAutPostback) return;
-        var fieldSetTab = $('li[role="tab"][aria-selected=true][aria-controls^=FieldSetTab]');
-        var selectedTabIndex = fieldSetTab.parent().children().index(fieldSetTab);
-        var $mainForm = $('#MainForm');
-        var data = $p.getData($mainForm);
-        $p.setMustData($mainForm);
-        data.ControlId = $(this).attr('id');
-        data.ReplaceFieldColumns = $('#ReplaceFieldColumns').val();
-        return $p.ajax(
-            $('#BaseUrl').val()
-                + $p.id()
-                + '/'
-                + $p.action()
-                + '/?control-auto-postback=1&TabIndex=' + selectedTabIndex,
-            'post',
-            data,
-            $(this),
-            false);
+    $(document).on('change', '.control-auto-postback:not(select[multiple])', function () {
+        $p.controlAutoPostBack($(this));
     });
     $(document).on('change', '.datepicker.auto-postback', function () {
         $p.send($(this));
@@ -69,4 +52,25 @@
             }, 500);
         }
     });
+
+    $p.controlAutoPostBack = function ($control) {
+        if ($p.disableAutPostback) return;
+        var fieldSetTab = $('li[role="tab"][aria-selected=true][aria-controls^=FieldSetTab]');
+        var selectedTabIndex = fieldSetTab.parent().children().index(fieldSetTab);
+        var $mainForm = $('#MainForm');
+        var data = $p.getData($mainForm);
+        $p.setMustData($mainForm);
+        data.ControlId = $control.attr('id');
+        data.ReplaceFieldColumns = $('#ReplaceFieldColumns').val();
+        return $p.ajax(
+            $('#BaseUrl').val()
+            + $p.id()
+            + '/'
+            + $p.action()
+            + '/?control-auto-postback=1&TabIndex=' + selectedTabIndex,
+            'post',
+            data,
+            $control,
+            false);
+    }
 });

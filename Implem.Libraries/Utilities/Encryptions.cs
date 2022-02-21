@@ -7,7 +7,7 @@ namespace Implem.Libraries.Utilities
     {
         public static string Sha512Cng(this string self)
         {
-            using (var sha512cng = new SHA512CryptoServiceProvider())
+            using (var sha512cng = SHA512.Create())
             {
                 return sha512cng.ComputeHash(Encoding.UTF8.GetBytes(self))
                     .Select(hash => hash.ToString("x2"))

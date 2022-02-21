@@ -157,6 +157,7 @@ namespace Implem.Pleasanter.Libraries.Html
             if (value && _using)
             {
                 Add("selected");
+                Add("selected");
             }
             return this;
         }
@@ -286,7 +287,7 @@ namespace Implem.Pleasanter.Libraries.Html
             if (!value.IsNullOrEmpty() && _using)
             {
                 Add("onclick");
-                Add(value);
+                Add(HttpUtility.HtmlAttributeEncode(value));
             }
             return this;
         }
@@ -441,6 +442,16 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
+        public HtmlAttributes DataValidations(string value, bool _using = true)
+        {
+            if (!value.IsNullOrEmpty() && _using)
+            {
+                Add("data-validations");
+                Add(HttpUtility.HtmlAttributeEncode(value));
+            }
+            return this;
+        }
+
         public HtmlAttributes DataValue(string value, bool _using = true)
         {
             if (!value.IsNullOrEmpty() && _using)
@@ -536,7 +547,7 @@ namespace Implem.Pleasanter.Libraries.Html
             if (!value.IsNullOrEmpty() && _using)
             {
                 Add("data-confirm");
-                Add(value);
+                Add(HttpUtility.HtmlAttributeEncode(value));
             }
             return this;
         }

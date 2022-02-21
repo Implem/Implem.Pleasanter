@@ -24,18 +24,6 @@ namespace Implem.Libraries.Utilities
             return string.Join(separator, list?.Where(o => !o.IsNullOrEmpty()));
         }
 
-        public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> self, int size)
-        {
-            var _size = size != 0
-                ? size
-                : self.Count();
-            while (self.Any())
-            {
-                yield return self.Take(_size);
-                self = self.Skip(_size);
-            }
-        }
-
         public static bool AllEqual<T>(this IEnumerable<T> self)
         {
             if (!self.Any()) return true;

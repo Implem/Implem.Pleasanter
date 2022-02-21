@@ -29,15 +29,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 {
                     try
                     {
-                        using (var client = new WebClient())
-                        {
-
-                            string json = Newtonsoft.Json.JsonConvert.SerializeObject(new { text });
-                            client.Headers[HttpRequestHeader.ContentType] = "application/json;charset=UTF-8";
-                            client.Headers[HttpRequestHeader.Accept] = "application/json";
-                            client.Encoding = Encoding.UTF8;
-                            client.UploadString(url, "POST", json);
-                        }
+                        var client = new NotificationHttpClient();
+                        string json = Newtonsoft.Json.JsonConvert.SerializeObject(new { text });
+                        client.NotifyString(url, json);
                     }
                     catch (Exception e)
                     {

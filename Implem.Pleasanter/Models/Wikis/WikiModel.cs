@@ -338,6 +338,82 @@ namespace Implem.Pleasanter.Models
             return data;
         }
 
+        public string ToDisplay(Context context, SiteSettings ss, Column column, List<string> mine)
+        {
+            if (!ss.ReadColumnAccessControls.Allowed(
+                context: context,
+                ss: ss,
+                column: column,
+                mine: mine))
+            {
+                return string.Empty;
+            }
+            switch (column.ColumnName)
+            {
+                case "WikiId":
+                    return WikiId.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Title":
+                    return Title.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Body":
+                    return Body.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Locked":
+                    return Locked.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Timestamp":
+                    return Timestamp.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(column.Name))
+                    {
+                        case "Class":
+                            return GetClass(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Num":
+                            return GetNum(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Date":
+                            return GetDate(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Description":
+                            return GetDescription(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Check":
+                            return GetCheck(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Attachments":
+                            return GetAttachments(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        default:
+                            return string.Empty;
+                    }
+            }
+        }
+
         public string FullText(
             Context context,
             SiteSettings ss,
@@ -567,6 +643,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData Update(
             Context context,
             SiteSettings ss,
+            Process process = null,
             bool extendedSqls = true,
             bool synchronizeSummary = true,
             bool forceSynchronizeSourceSummary = false,
@@ -640,6 +717,24 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             notice: notice)),
                     type: "Updated");
+                process?.Notifications?.ForEach(notification =>
+                    notification.Send(
+                        context: context,
+                        ss: ss,
+                        title: ReplacedDisplayValues(
+                            context: context,
+                            ss: ss,
+                            value: notification.Subject),
+                        body: ReplacedDisplayValues(
+                            context: context,
+                            ss: ss,
+                            value: notification.Body),
+                        values: ss.IncludedColumns(notification.Address)
+                            .ToDictionary(
+                                column => column,
+                                column => PropertyValue(
+                                    context: context,
+                                    column: column))));
             }
             if (get)
             {
@@ -1311,6 +1406,39 @@ namespace Implem.Pleasanter.Models
             return true;
         }
 
+        public string ReplacedDisplayValues(
+            Context context,
+            SiteSettings ss,
+            string value)
+        {
+            ss.IncludedColumns(value: value).ForEach(column =>
+                value = value.Replace(
+                    $"[{column.ColumnName}]",
+                    ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: Mine(context: context))));
+            value = ReplacedContextValues(context, value);
+            return value;
+        }
+
+        private string ReplacedContextValues(Context context, string value)
+        {
+            var url = Locations.ItemEditAbsoluteUri(
+                context: context,
+                id: WikiId);
+            var mailAddress = MailAddressUtilities.Get(
+                context: context,
+                userId: context.UserId);
+            value = value
+                .Replace("{Url}", url)
+                .Replace("{LoginId}", context.User.LoginId)
+                .Replace("{UserName}", context.User.Name)
+                .Replace("{MailAddress}", mailAddress);
+            return value;
+        }
+
         public List<Notification> GetNotifications(
             Context context,
             SiteSettings ss,
@@ -1455,18 +1583,15 @@ namespace Implem.Pleasanter.Models
         }
 
         private string NoticeBody(
-            Context context, SiteSettings ss, Notification notification, bool update = false)
+            Context context,
+            SiteSettings ss,
+            Notification notification,
+            bool update = false)
         {
             var body = new System.Text.StringBuilder();
-            var url = Locations.ItemEditAbsoluteUri(
-                context: context,
-                id: WikiId);
-            var mailAddress = MailAddressUtilities.Get(
-                context: context,
-                userId: context.UserId);
             notification.GetFormat(
-                context,
-                ss)
+                context: context,
+                ss: ss)
                     .Split('\n')
                     .Select(line => new
                     {
@@ -1478,11 +1603,9 @@ namespace Implem.Pleasanter.Models
                         var column = ss.IncludedColumns(data.Format?.Name)?.FirstOrDefault();
                         if (column == null)
                         {
-                            body.Append(data.Line
-                                .Replace("{Url}", url)
-                                .Replace("{LoginId}", context.User.LoginId)
-                                .Replace("{UserName}", context.User.Name)
-                                .Replace("{MailAddress}", mailAddress));
+                            body.Append(ReplacedContextValues(
+                                context: context,
+                                value: data.Line));
                             body.Append("\n");
                         }
                         else

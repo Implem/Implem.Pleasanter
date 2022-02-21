@@ -637,9 +637,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static System.Net.Mail.MailAddress From(Context context, int userId)
+        public static MimeKit.MailboxAddress From(Context context, int userId)
         {
-            return new System.Net.Mail.MailAddress(
+            return MimeKit.MailboxAddress.Parse(
                 MailAddressUtilities.Get(
                     context: context,
                     userId: userId,
@@ -733,7 +733,7 @@ namespace Implem.Pleasanter.Models
                     siteId: itemModel.SiteId,
                     limitPerSite: context.ContractSettings.ApiLimit()));
             }
-            if (data.From != null) outgoingMailModel.From = new System.Net.Mail.MailAddress(data.From);
+            if (data.From != null) outgoingMailModel.From = MimeKit.MailboxAddress.Parse(data.From);
             if (data.To != null) outgoingMailModel.To = data.To;
             if (data.Cc != null) outgoingMailModel.Cc = data.Cc;
             if (data.Bcc != null) outgoingMailModel.Bcc = data.Bcc;

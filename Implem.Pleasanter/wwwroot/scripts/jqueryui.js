@@ -5,7 +5,7 @@
             $(element).removeClass('ui-menu-item');
             $($(element).children()[0]).removeClass('ui-menu-item-wrapper');
         });
-        $('#EditorTabsContainer:not(.applied),#MailEditorTabsContainer:not(.applied),#ViewTabsContainer:not(.applied),#ColumnAccessControlTabsContainer:not(.applied),#EditorDetailTabsContainer:not(.applied)').tabs({
+        $('#EditorTabsContainer:not(.applied),#MailEditorTabsContainer:not(.applied),#ProcessTabsContainer:not(.applied),#ViewTabsContainer:not(.applied),#ColumnAccessControlTabsContainer:not(.applied),#EditorDetailTabsContainer:not(.applied)').tabs({
             beforeActivate: function (event, ui) {
                 if (ui.newPanel.attr('data-action')) {
                     $p.send(ui.newPanel);
@@ -21,8 +21,16 @@
         $('.button-icon.hidden').toggle(false);
         $('select[multiple]:not(.applied)').multiselect({
             selectedList: 100,
-            checkAllText: $p.display('CheckAll'),
-            uncheckAllText: $p.display('UncheckAll'),
+            linkInfo: {
+                checkAll: {
+                    text: $p.display('CheckAll'),
+                    title: $p.display('CheckAll')
+                },
+                uncheckAll: {
+                    text: $p.display('UncheckAll'),
+                    title: $p.display('UncheckAll')
+                }
+            },
             noneSelectedText: '',
             beforeopen: function (){
                 if ($(this).hasClass('search')) {
