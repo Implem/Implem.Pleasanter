@@ -30,10 +30,10 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static void Maintain(Context context)
+        public static void Maintain(Context context, bool force = false)
         {
-            if (Parameters.SysLog.RetentionPeriod > 0 &&
-                (DateTime.Now - Applications.SysLogsMaintenanceDate).Days > 0)
+            if (Parameters.SysLog.RetentionPeriod > 0
+                && (force || (DateTime.Now - Applications.SysLogsMaintenanceDate).Days > 0))
             { 
                 Repository.ExecuteNonQuery(
                     context: context,

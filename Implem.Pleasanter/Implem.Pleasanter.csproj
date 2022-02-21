@@ -5,13 +5,14 @@
     <Copyright>Copyright © Implem Inc 2014 - 2022</Copyright>
     <Description>Business application platform</Description>
     <AssemblyName>Implem.Pleasanter</AssemblyName>
-    <AssemblyVersion>1.2.26.1</AssemblyVersion>
-    <FileVersion>1.2.26.1</FileVersion>
+    <AssemblyVersion>1.2.27.2</AssemblyVersion>
+    <FileVersion>1.2.27.2</FileVersion>
     <LangVersion>7.2</LangVersion>
-    <Version>1.2.26.1</Version>
+    <Version>1.2.27.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
     <PackageReference Include="ClosedXML" Version="0.95.4" />
     <PackageReference Include="DocumentFormat.OpenXml" Version="2.15.0" />
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.7">

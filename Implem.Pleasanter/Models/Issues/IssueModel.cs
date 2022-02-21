@@ -288,7 +288,8 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Column column,
             ExportColumn exportColumn,
-            List<string> mine)
+            List<string> mine,
+            bool? encloseDoubleQuotes)
         {
             var value = string.Empty;
             switch (column.Name)
@@ -624,7 +625,14 @@ namespace Implem.Pleasanter.Models
                     }
                     break;
             }
-            return "\"" + value?.Replace("\"", "\"\"") + "\"";
+            if (encloseDoubleQuotes != false)
+            {
+                return "\"" + value?.Replace("\"", "\"\"") + "\"";
+            }
+            else
+            {
+                return value;
+            }
         }
 
         public List<long> SwitchTargets;

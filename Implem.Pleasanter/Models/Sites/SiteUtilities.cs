@@ -510,6 +510,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     gridDesign: column.GridDesign,
+                    css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
                     siteModel: siteModel);
             }
             else
@@ -820,6 +821,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             string gridDesign,
+            string css,
             SiteModel siteModel)
         {
             ss.IncludedColumns(gridDesign).ForEach(column =>
@@ -895,9 +897,13 @@ namespace Implem.Pleasanter.Models
                 }
                 gridDesign = gridDesign.Replace("[" + column.ColumnName + "]", value);
             });
-            return hb.Td(action: () => hb
-                .Div(css: "markup", action: () => hb
-                    .Text(text: gridDesign)));
+            return hb.Td(
+                css: css,
+                action: () => hb
+                    .Div(
+                        css: "markup",
+                        action: () => hb
+                            .Text(text: gridDesign)));
         }
 
         public static string EditorJson(Context context, SiteModel siteModel)
@@ -6348,6 +6354,7 @@ namespace Implem.Pleasanter.Models
                             text: section.Id.ToString())
                         .FieldTextBox(
                             controlId: "LabelText",
+                            controlCss: " always-send",
                             labelText: Displays.DisplayName(context: context),
                             text: section.LabelText)
                         .FieldCheckBox(
@@ -9218,6 +9225,8 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.DelimiterTypes(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.EncloseDoubleQuotes(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.ExportExecutionType(context: context)))));
         }
 
@@ -9258,6 +9267,10 @@ namespace Implem.Pleasanter.Models
                                  .Text(text: Displays.Get(
                                      context: context,
                                      id: export.DelimiterType.ToString())))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: export.EncloseDoubleQuotes != false))
                             .Td(action: () => hb
                                  .Text(text: Displays.Get(
                                      context: context,
@@ -9327,6 +9340,11 @@ namespace Implem.Pleasanter.Models
                             },
                         },
                         selectedValue: export.DelimiterType.ToInt().ToString())
+                    .FieldCheckBox(
+                        controlId: "EncloseDoubleQuotes",
+                        controlCss: " always-send",
+                        labelText: Displays.EncloseDoubleQuotes(context: context),
+                        _checked: export.EncloseDoubleQuotes != false)
                     .FieldDropDown(
                         context: context,
                         controlId: "ExecutionType",
@@ -9348,7 +9366,7 @@ namespace Implem.Pleasanter.Models
                         controlId: "ExportHeader",
                         controlCss: " always-send",
                         labelText: Displays.OutputHeader(context: context),
-                        _checked: export.Header == true)
+                        _checked: export.Header != false)
                     .FieldSet(
                         css: " enclosed",
                         legendText: Displays.ExportColumns(context: context),

@@ -5,10 +5,7 @@ using Implem.Pleasanter.Models;
 using Implem.Pleasanter.NetCore.Libraries.Requests;
 using Implem.Pleasanter.Tools;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Implem.Pleasanter.NetCore.Tools
 {
@@ -32,6 +29,14 @@ namespace Implem.Pleasanter.NetCore.Tools
                 LatestTime = DateTime.Now;
             }
             return new ResponseCollection().ToJson();
+        }
+
+        public string DeleteLog()
+        {
+            SysLogUtilities.Maintain(
+                context: Context,
+                force: true);
+            return string.Empty;
         }
     }
 }

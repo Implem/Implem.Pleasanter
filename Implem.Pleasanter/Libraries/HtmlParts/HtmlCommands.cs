@@ -391,7 +391,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     selector: "#CopyDialog",
                     _using: copyButton
                         && context.CanCreate(ss: ss)
-                        && ss.AllowCopy == true)
+                        && (ss.IsSite(context: context) || ss.AllowCopy == true))
                 .Button(
                     serverScriptModelRow: serverScriptModelRow,
                     commandDisplayTypes: view?.ReferenceCopyCommand,
