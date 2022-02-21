@@ -33,6 +33,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string SamlCompanyCode;
         public string SamlThumbprint;
         public string SamlLoginUrl;
+        public string SamlMetadataGuid;
         public int? AllowOriginalLogin;
         public bool? AllowNewFeatures;
         public int? ApiLimitPerSite;

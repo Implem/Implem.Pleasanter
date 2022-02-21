@@ -226,8 +226,8 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
-        public (string redirectUrl, string redirectResultUrl, string html, bool ssoLogin) Login(
-            Context context, string returnUrl, bool isLocalUrl, string ssocode = "")
+        public (string redirectUrl, string html) Login(
+            Context context, string returnUrl, bool isLocalUrl)
         {
             var log = new SysLogModel(context: context);
             if (context.Authenticated)
@@ -239,23 +239,7 @@ namespace Implem.Pleasanter.Controllers
                 log.Finish(context: context);
                 return (isLocalUrl
                     ? returnUrl
-                    : Locations.Top(context: context), null, null, false);
-            }
-            if ((Parameters.Authentication.Provider == "SAML-MultiTenant") && (ssocode != string.Empty))
-            {
-                var tenant = new TenantModel().Get(
-                    context: context,
-                    ss: SiteSettingsUtilities.TenantsSiteSettings(context), 
-                    where: Rds.TenantsWhere().Comments(ssocode));
-                if (tenant.AccessStatus == Databases.AccessStatuses.Selected)
-                {
-                    var redirectUrl = Saml.SetIdpConfiguration(context, tenant.TenantId);
-                    if (redirectUrl != null)
-                    {
-                        return (null, redirectUrl, null, true);
-                    }
-                }
-                return (null, Locations.InvalidSsoCode(context), null, false);
+                    : Locations.Top(context: context), null);
             }
             var html = UserUtilities.HtmlLogin(
                 context: context,
@@ -266,7 +250,50 @@ namespace Implem.Pleasanter.Controllers
                     ? Messages.Expired(context: context).Text
                     : string.Empty);
             log.Finish(context: context, responseSize: html.Length);
-            return (null, null, html, false);
+            return (null, html);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public ContractSettings GetTenantSamlSettings(Context context, string ssocode)
+        {
+            var tenant = new TenantModel().Get(
+                context: context,
+                ss: SiteSettingsUtilities.TenantsSiteSettings(context),
+                where: Rds.TenantsWhere().Comments(ssocode));
+            if (tenant.AccessStatus == Databases.AccessStatuses.Selected)
+            {
+                var contractSettings = Saml.GetTenantSamlSettings(context: context, tenantId: tenant.TenantId);
+                if (contractSettings != null)
+                {
+                    return contractSettings;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string SetSamlMetadataFile(Context context,string guid)
+        {
+            var metadataPath = System.IO.Path.Combine(Directories.Temp(), "SamlMetadata", guid + ".xml");
+            if (!System.IO.File.Exists(metadataPath))
+            {
+                System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(metadataPath));
+                var bytes = Repository.ExecuteScalar_bytes(
+                    context: context,
+                    transactional: false,
+                    statements: new Implem.Libraries.DataSources.SqlServer.SqlStatement[]
+                    {
+                        Rds.SelectBinaries(
+                            column: Rds.BinariesColumn().Bin(),
+                            where: Rds.BinariesWhere().Guid(guid))
+                    });
+                System.IO.File.WriteAllBytes(metadataPath, bytes);
+            }
+            return metadataPath;
         }
 
         /// <summary>

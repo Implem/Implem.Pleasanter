@@ -1,10 +1,8 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
-using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Initializers;
 using Implem.Pleasanter.Libraries.Migrators;
-using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Models;
@@ -23,15 +21,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Primitives;
-using Sustainsys.Saml2;
-using Sustainsys.Saml2.Configuration;
-using Sustainsys.Saml2.Metadata;
 using System;
-using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 namespace Implem.Pleasanter.NetCore
 {
@@ -92,7 +85,7 @@ namespace Implem.Pleasanter.NetCore
                         Saml.SetSPOptions(options);
                     });
             }
-            else 
+            else
             {
                 services
                     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -113,7 +106,7 @@ namespace Implem.Pleasanter.NetCore
                     mvcBuilder.AddApplicationPart(assembly);
                 }
             }
-            services.Configure<FormOptions>(options => 
+            services.Configure<FormOptions>(options =>
             {
                 options.MultipartBodyLengthLimit = int.MaxValue;
             });
@@ -264,11 +257,6 @@ namespace Implem.Pleasanter.NetCore
             };
         }
 
-        private void SetConfigrations(Context context)
-        {
-            Saml.RegisterSamlConfiguration(context: context);
-        }
-
         private static bool isFirst = true;
         public async Task Invoke(HttpContext httpContext, Func<Task> next)
         {
@@ -318,7 +306,6 @@ namespace Implem.Pleasanter.NetCore
             SiteSettingsMigrator.Migrate(context: context);
             StatusesInitializer.Initialize(context: context);
             NotificationInitializer.Initialize();
-            SetConfigrations(context: context);
             SiteInfo.Reflesh(context: context);
             log.Finish(context: context);
         }

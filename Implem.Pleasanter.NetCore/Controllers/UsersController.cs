@@ -230,24 +230,31 @@ namespace Implem.Pleasanter.NetCore.Controllers
         {
             var context = new ContextImplement();
             var controller = new Pleasanter.Controllers.UsersController();
-            var (redirectUrl, redirectResultUrl, html, ssoLogin) = controller.Login(
-                context: context,
-                returnUrl: returnUrl,
-                isLocalUrl: Url.IsLocalUrl(returnUrl),
-                ssocode: ssocode);
-
-            if (ssoLogin && !string.IsNullOrEmpty(redirectResultUrl))
+            if (DefinitionAccessor.Parameters.Authentication.Provider == "SAML-MultiTenant" && ssocode != string.Empty)
             {
+                var contractSettings = controller.GetTenantSamlSettings(context, ssocode);
+                if(contractSettings == null)
+                {
+                    return Redirect(Pleasanter.Libraries.Responses.Locations.InvalidSsoCode(context: context));
+                }
+                var metadataLocation = controller.SetSamlMetadataFile(context: context, guid: contractSettings.SamlMetadataGuid);
                 return new ChallengeResult(Saml2Defaults.Scheme,
                     new AuthenticationProperties(
-                        items: null,
-                        parameters: new Dictionary<string, object> { ["idp"] = redirectResultUrl })
+                        items: new Dictionary<string, string>
+                        {
+                            ["idp"] = contractSettings.SamlLoginUrl.Substring(0, contractSettings.SamlLoginUrl.TrimEnd('/').LastIndexOf('/') + 1),
+                            ["SamlLoginUrl"] = contractSettings.SamlLoginUrl,
+                            ["SamlMetadataLocation"] = metadataLocation
+                        })
                     {
-                        RedirectUri = Url.Action(nameof(SamlLogin), new { returnUrl })
+                        RedirectUri = Url.Action(nameof(SamlLogin))
                     });
             }
+            var (redirectUrl, html) = controller.Login(
+                context: context,
+                returnUrl: returnUrl,
+                isLocalUrl: Url.IsLocalUrl(returnUrl));
             if (!string.IsNullOrEmpty(redirectUrl)) return base.Redirect(redirectUrl);
-            if (!string.IsNullOrEmpty(redirectResultUrl)) return new RedirectResult(redirectResultUrl);
             ViewBag.HtmlBody = html;
             return View();
         }
@@ -257,7 +264,6 @@ namespace Implem.Pleasanter.NetCore.Controllers
         /// </summary>
         public ActionResult SamlLogin()
         {
-
             var context = new ContextImplement();
             var controller = new Pleasanter.Controllers.UsersController();
             var result = controller.SamlLogin(context: context);
