@@ -52,7 +52,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 commandText.Append(
                     "order by ",
                     this
-                        .GroupBy(o => o.ColumnBracket)
+                        .GroupBy(o => $"{o.TableName}.{o.ColumnBracket}")
                         .Select(o => o.FirstOrDefault())
                         .Select(o => o.Sql(
                             sqlContainer: sqlContainer,
