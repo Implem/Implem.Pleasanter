@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return new ContentResult
             {
-                ContentType = "application/json",
+                ContentType = "application/json;charset=utf-8",
                 Content = apiResponse
             };
         }
@@ -50,7 +50,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return new ContentResult
             {
-                ContentType = "application/json",
+                ContentType = "application/json;charset=utf-8",
                 Content = new
                 {
                     StatusCode = statusCode,
