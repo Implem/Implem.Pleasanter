@@ -4909,6 +4909,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ?? new List<string>();
             columns.AddRange(Links?
                 .Where(o => $"{ReferenceType}_{o.ColumnName}" == context.Forms.ControlId())
+                .Where(o => o.Lookups != null)
                 .SelectMany(o => o.Lookups.Select(p => p.To)));
             return columns;
         }
