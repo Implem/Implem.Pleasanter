@@ -4155,7 +4155,8 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: SiteSettings,
                 searchText: context.Forms.Data("SearchProcessAccessControl"),
-                currentPermissions: currentPermissions);
+                currentPermissions: currentPermissions,
+                allUsers: false);
             return res
                 .Html("#SourceProcessAccessControl", PermissionUtilities.PermissionListItem(
                     context: context,
@@ -4435,7 +4436,8 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: SiteSettings,
                 searchText: context.Forms.Data("SearchViewAccessControl"),
-                currentPermissions: currentPermissions);
+                currentPermissions: currentPermissions,
+                allUsers: false);
             return res
                 .Html("#SourceViewAccessControl", PermissionUtilities.PermissionListItem(
                     context: context,

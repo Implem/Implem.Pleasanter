@@ -7999,7 +7999,8 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 searchText: context.Forms.Data("SearchProcessAccessControlElements"),
-                currentPermissions: currentPermissions);
+                currentPermissions: currentPermissions,
+                allUsers: false);
             var offset = context.Forms.Int("SourceProcessAccessControlOffset");
             return hb.FieldSet(id: "ProcessAccessControlsTab", action: () => hb
                 .Div(id: "ProcessAccessControlEditor", action: () => hb
@@ -9287,7 +9288,8 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 searchText: context.Forms.Data("SearchViewAccessControlElements"),
-                currentPermissions: currentPermissions);
+                currentPermissions: currentPermissions,
+                allUsers: false);
             var offset = context.Forms.Int("SourceViewAccessControlOffset");
             return hb.FieldSet(id: "ViewAccessControlTab", action: () => hb
                 .Div(id: "ViewAccessControlEditor", action: () => hb
