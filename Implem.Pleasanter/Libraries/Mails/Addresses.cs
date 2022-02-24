@@ -81,7 +81,7 @@ namespace Implem.Pleasanter.Libraries.Mails
             {
                 return string.Empty;
             }
-            if(MailboxAddress.TryParse(address, out MailboxAddress internetAddress))
+            if (MailboxAddress.TryParse(address, out MailboxAddress internetAddress))
             {
                 return internetAddress.Address;
             }
@@ -89,7 +89,7 @@ namespace Implem.Pleasanter.Libraries.Mails
             {
                 return string.Empty;
             }
-          }
+        }
 
         private static bool IsValid(string address)
         {
