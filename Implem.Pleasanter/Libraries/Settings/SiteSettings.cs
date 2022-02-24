@@ -4842,7 +4842,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => $"{ReferenceType}_{o.ColumnName}" == context.Forms.ControlId())
                 .Where(o => o.Lookups != null)
                 .SelectMany(o => o.Lookups.Select(p => p.To)));
-            return columns;
+            columns.AddRange(Columns
+                .Where(o => o.UseSearch == true)
+                .Select(o => o.ColumnName));
+            return columns
+                .Distinct()
+                .ToList();
         }
 
         public List<ServerScript> GetServerScripts(Context context)
