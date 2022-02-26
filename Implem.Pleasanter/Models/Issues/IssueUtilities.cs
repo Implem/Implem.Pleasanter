@@ -2383,6 +2383,9 @@ namespace Implem.Pleasanter.Models
             IssueModel issueModel,
             ServerScriptModelRow serverScriptModelRow)
         {
+            issueModel.SetProcessMatchConditions(
+                context: context,
+                ss: ss);
             return hb.MainCommands(
                 context: context,
                 ss: ss,
@@ -3104,6 +3107,10 @@ namespace Implem.Pleasanter.Models
                 $"Process_{o.Id}" == context.Forms.ControlId());
             if (process != null)
             {
+                process.MatchConditions = issueModel.GetProcessMatchConditions(
+                    context: context,
+                    ss: ss,
+                    process: process);
                 if (process.MatchConditions && process.Accessable(context: context))
                 {
                     if (process.ChangedStatus != -1)

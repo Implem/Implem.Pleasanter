@@ -666,9 +666,6 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss);
             }
-            SetProcessMatchConditions(
-                context: context,
-                ss: ss);
             MethodType = methodType;
             OnConstructed(context: context);
         }
@@ -723,9 +720,6 @@ namespace Implem.Pleasanter.Models
                     time: UpdatedTime,
                     user: Updator);
             }
-            SetProcessMatchConditions(
-                context: context,
-                ss: ss);
             SwitchTargets = switchTargets;
             MethodType = methodType;
             OnConstructed(context: context);
@@ -761,9 +755,6 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss);
             }
-            SetProcessMatchConditions(
-                context: context,
-                ss: ss);
             OnConstructed(context: context);
         }
 
@@ -1770,9 +1761,6 @@ namespace Implem.Pleasanter.Models
             SetByAfterUpdateServerScript(
                 context: context,
                 ss: ss);
-            SetProcessMatchConditions(
-                context: context,
-                ss: ss);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -2534,17 +2522,28 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private void SetProcessMatchConditions(
+        public void SetProcessMatchConditions(
             Context context,
             SiteSettings ss)
         {
             ss.Processes?.ForEach(process =>
-                process.MatchConditions = Matched(
+                process.MatchConditions = GetProcessMatchConditions(
                     context: context,
                     ss: ss,
-                    view: process.View)
-                        && (process.CurrentStatus == -1
-                            || Status.Value == process.CurrentStatus));
+                    process: process));
+        }
+
+        public bool GetProcessMatchConditions(
+            Context context,
+            SiteSettings ss,
+            Process process)
+        {
+            return Matched(
+                context: context,
+                ss: ss,
+                view: process.View)
+                   && (process.CurrentStatus == -1
+                        || Status.Value == process.CurrentStatus);
         }
 
         public void SetByModel(IssueModel issueModel)
