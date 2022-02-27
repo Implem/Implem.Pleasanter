@@ -1,9 +1,0 @@
-﻿{
-    "Id": "AutoTestConfirmationTarget",
-    "Type": 110,
-    "Languages": [
-        {
-            "Body": "Confirmation target."
-        }
-    ]
-}

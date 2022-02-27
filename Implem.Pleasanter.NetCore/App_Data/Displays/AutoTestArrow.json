@@ -1,9 +1,0 @@
-﻿{
-    "Id": "AutoTestArrow",
-    "Type": 110,
-    "Languages": [
-        {
-            "Body": "=>"
-        }
-    ]
-}

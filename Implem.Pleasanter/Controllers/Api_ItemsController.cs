@@ -1,49 +1,59 @@
 ﻿using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Models;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
-    public class Api_ItemsController
+    [AllowAnonymous]
+    public class Api_ItemsController : Controller
     {
-        public ContentResult Get(Context context, long id)
+        [HttpPost]
+        public ContentResult Get(long id)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? new ItemModel(context: context, referenceId: id).GetByApi(context: context)
                 : ApiResults.Unauthorized(context: context);
             log.Finish(context: context, responseSize: result.Content.Length);
-            return result;
+            return result.ToHttpResponse(request: Request);
         }
 
-        public ContentResult Create(Context context, long id)
+        [HttpPost]
+        public ContentResult Create(long id)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? new ItemModel(context: context, referenceId: id).CreateByApi(context: context)
                 : ApiResults.Unauthorized(context: context);
             log.Finish(context: context, responseSize: result.Content.Length);
-            return result;
+            return result.ToHttpResponse(request: Request);
         }
 
-        public ContentResult Update(Context context, long id)
+        [HttpPost]
+        public ContentResult Update(long id)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? new ItemModel(context: context, referenceId: id).UpdateByApi(context: context)
                 : ApiResults.Unauthorized(context: context);
             log.Finish(context: context, responseSize: result.Content.Length);
-            return result;
+            return result.ToHttpResponse(request: Request);
         }
 
-        public ContentResult Delete(Context context, long id)
+        [HttpPost]
+        public ContentResult Delete(long id)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? new ItemModel(context: context, referenceId: id).DeleteByApi(context: context)
                 : ApiResults.Unauthorized(context: context);
             log.Finish(context: context, responseSize: result.Content.Length);
-            return result;
+            return result.ToHttpResponse(request: Request);
         }
     }
 }

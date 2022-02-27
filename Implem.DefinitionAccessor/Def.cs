@@ -648,6 +648,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_InitSiteSettings": Code.Model_Utilities_InitSiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_InitSiteSettings, definitionRow, CodeXls); break;
                     case "Model_Utilities_EditorResponse": Code.Model_Utilities_EditorResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_EditorResponse, definitionRow, CodeXls); break;
                     case "Model_Utilities_EditorResponse_Tables": Code.Model_Utilities_EditorResponse_Tables = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_EditorResponse_Tables, definitionRow, CodeXls); break;
+                    case "Model_Utilities_SetProcessMatchConditions": Code.Model_Utilities_SetProcessMatchConditions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetProcessMatchConditions, definitionRow, CodeXls); break;
                     case "Model_Utilities_GetSwitchTargets": Code.Model_Utilities_GetSwitchTargets = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GetSwitchTargets, definitionRow, CodeXls); break;
                     case "Model_Utilities_SqlWhereTenantId": Code.Model_Utilities_SqlWhereTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SqlWhereTenantId, definitionRow, CodeXls); break;
                     case "Model_Utilities_SiteId": Code.Model_Utilities_SiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SiteId, definitionRow, CodeXls); break;
@@ -7783,6 +7784,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_InitSiteSettings;
         public string Model_Utilities_EditorResponse;
         public string Model_Utilities_EditorResponse_Tables;
+        public string Model_Utilities_SetProcessMatchConditions;
         public string Model_Utilities_GetSwitchTargets;
         public string Model_Utilities_SqlWhereTenantId;
         public string Model_Utilities_SiteId;
@@ -8490,6 +8492,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_InitSiteSettings = new CodeDefinition();
         public CodeDefinition Model_Utilities_EditorResponse = new CodeDefinition();
         public CodeDefinition Model_Utilities_EditorResponse_Tables = new CodeDefinition();
+        public CodeDefinition Model_Utilities_SetProcessMatchConditions = new CodeDefinition();
         public CodeDefinition Model_Utilities_GetSwitchTargets = new CodeDefinition();
         public CodeDefinition Model_Utilities_SqlWhereTenantId = new CodeDefinition();
         public CodeDefinition Model_Utilities_SiteId = new CodeDefinition();

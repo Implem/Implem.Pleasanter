@@ -1847,7 +1847,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static System.Web.Mvc.ContentResult GetByApi(
+        public static ContentResultInheritance GetByApi(
             Context context,
             SiteSettings ss,
             int deptId)

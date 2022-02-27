@@ -1,8 +1,8 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Web;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IO;
-using System.Web.Mvc;
 namespace Implem.Pleasanter.Libraries.Responses
 {
     public class ResponseFile
@@ -60,7 +60,7 @@ namespace Implem.Pleasanter.Libraries.Responses
             return fileContentResult;
         }
 
-        public ContentResult ToContentResult(
+        public ContentResultInheritance ToContentResult(
             long id,
             long referenceId,
             string binaryType,
@@ -70,8 +70,7 @@ namespace Implem.Pleasanter.Libraries.Responses
             long creator,
             long updator,
             string createdTime,
-            string updatedTime
-            )
+            string updatedTime)
         {
             return ApiResults.Get(new
             {

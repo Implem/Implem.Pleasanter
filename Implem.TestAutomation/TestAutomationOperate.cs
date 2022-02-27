@@ -3,6 +3,7 @@ using CsvHelper.Configuration;
 using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.ParameterAccessor.Parts;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.TestAutomation.Parts;
 using OpenQA.Selenium;
@@ -43,7 +44,12 @@ namespace Implem.TestAutomation
         public static void InputsOpe(IWebDriver driver,
             TestPart testPart)
         {
-            var context = new ContextForAutoTest();
+            var context = new Context(
+                request: false,
+                sessionStatus: false,
+                sessionData: false,
+                user: false,
+                item: false);
             IJavaScriptExecutor jsDriver = driver as IJavaScriptExecutor;
             testPart.Inputs.ForEach(testInput =>
             {
@@ -252,7 +258,12 @@ namespace Implem.TestAutomation
             IWebDriver driver,
             ResultCheck resultCheck)
         {
-            var context = new ContextForAutoTest();
+            var context = new Context(
+                request: false,
+                sessionStatus: false,
+                sessionData: false,
+                user: false,
+                item: false);
             if (resultCheck.CheckType.Equals(CheckTypes.Regex))
             {
                 if (Regex.IsMatch(resultCheck.ExecutionValue, resultCheck.ExpectedValue))
@@ -645,7 +656,12 @@ namespace Implem.TestAutomation
             ,string comparisonResult
             ,string executionValue)
         {
-            var context = new ContextForAutoTest();
+            var context = new Context(
+                request: false,
+                sessionStatus: false,
+                sessionData: false,
+                user: false,
+                item: false);
             var resultStr = new AutoTestResult();
             resultStr.ExpectedContent = resultCheck.Description;
             resultStr.ConfirmationTarget = SetConfirmationTaget(resultCheck);

@@ -1,9 +1,0 @@
-﻿{
-    "Id": "AutoTestInputErrorHalfNumber",
-    "Type": 110,
-    "Languages": [
-        {
-            "Body": "Please enter a half-width number."
-        }
-    ]
-}

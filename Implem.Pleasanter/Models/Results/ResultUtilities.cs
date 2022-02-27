@@ -2581,7 +2581,7 @@ namespace Implem.Pleasanter.Models
             return ids.ToJson();
         }
 
-        public static System.Web.Mvc.ContentResult GetByApi(
+        public static ContentResultInheritance GetByApi(
             Context context,
             SiteSettings ss,
             long resultId,
@@ -2804,7 +2804,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static System.Web.Mvc.ContentResult CreateByApi(Context context, SiteSettings ss)
+        public static ContentResultInheritance CreateByApi(Context context, SiteSettings ss)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
@@ -3654,7 +3654,7 @@ namespace Implem.Pleasanter.Models
                 .ToJson();
         }
 
-        public static System.Web.Mvc.ContentResult UpdateByApi(
+        public static ContentResultInheritance UpdateByApi(
             Context context,
             SiteSettings ss,
             long resultId,
@@ -3959,7 +3959,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static System.Web.Mvc.ContentResult DeleteByApi(
+        public static ContentResultInheritance DeleteByApi(
             Context context, SiteSettings ss, long resultId)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
@@ -4655,7 +4655,7 @@ namespace Implem.Pleasanter.Models
                     .Count.ToInt();
         }
 
-        public static System.Web.Mvc.ContentResult BulkDeleteByApi(
+        public static ContentResultInheritance BulkDeleteByApi(
             Context context,
             SiteSettings ss)
         {
@@ -5019,7 +5019,7 @@ namespace Implem.Pleasanter.Models
             return count;
         }
 
-        public static System.Web.Mvc.ContentResult PhysicalBulkDeleteByApi(
+        public static ContentResultInheritance PhysicalBulkDeleteByApi(
             Context context,
             SiteSettings ss)
         {
@@ -5593,7 +5593,7 @@ namespace Implem.Pleasanter.Models
             return Messages.ResponseExportAccepted(context: context).ToJson();
         }
 
-        public static System.Web.Mvc.ContentResult ExportByApi(
+        public static ContentResultInheritance ExportByApi(
             Context context, SiteSettings ss, SiteModel siteModel)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))

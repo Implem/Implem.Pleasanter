@@ -1,9 +1,0 @@
-﻿{
-    "Id": "AutoTestComparisonResult",
-    "Type": 110,
-    "Languages": [
-        {
-            "Body": "Comparison result."
-        }
-    ]
-}

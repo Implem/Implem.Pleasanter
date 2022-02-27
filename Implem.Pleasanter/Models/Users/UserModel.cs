@@ -3517,7 +3517,7 @@ namespace Implem.Pleasanter.Models
                         tenantId: context.Forms.Int("SelectedTenantId"));
                     if (ret)
                     {
-                        context = context.CreateContext(tenantId: TenantId);
+                        context = new Context(tenantId: TenantId);
                         if (context.ContractSettings?.AllowOriginalLogin == 0 && TenantManager == false)
                         {
                             ret = false;
@@ -3540,7 +3540,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private bool AllowedIpAddress(Context context)
         {
-            var createdContext = context.CreateContext(TenantId);
+            var createdContext = new Context(TenantId);
             return context.ContractSettings.AllowedIpAddress(createdContext.UserHostAddress);
         }
 
@@ -4112,7 +4112,7 @@ namespace Implem.Pleasanter.Models
             context.FormsAuthenticationSignIn(
                 userName: LoginId,
                 createPersistentCookie: createPersistentCookie);
-            Libraries.Initializers.StatusesInitializer.Initialize(context.CreateContext(
+            Libraries.Initializers.StatusesInitializer.Initialize(new Context(
                 tenantId: TenantId,
                 deptId: DeptId,
                 userId: UserId));

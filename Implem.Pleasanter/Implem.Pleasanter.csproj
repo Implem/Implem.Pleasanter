@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -22,6 +22,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="App_Data\Temp\**" />
+    <Content Remove="App_Data\Temp\**" />
+    <EmbeddedResource Remove="App_Data\Temp\**" />
+    <None Remove="App_Data\Temp\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AspNetCoreCurrentRequestContext" Version="2.0.0" />
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
     <PackageReference Include="ClosedXML" Version="0.95.4" />
     <PackageReference Include="DocumentFormat.OpenXml" Version="2.15.0" />
@@ -60,19 +68,315 @@
   <ItemGroup>
     <ProjectReference Include="..\Implem.DefinitionAccessor\Implem.DefinitionAccessor.csproj" />
     <ProjectReference Include="..\Implem.DisplayAccessor\Implem.DisplayAccessor.csproj" />
+    <ProjectReference Include="..\Implem.Factory\Implem.Factory.csproj" />
     <ProjectReference Include="..\Implem.Libraries\Implem.Libraries.csproj" />
     <ProjectReference Include="..\Implem.ParameterAccessor\Implem.ParameterAccessor.csproj" />
     <ProjectReference Include="..\Rds\Implem.IRds\Implem.IRds.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="App_Data\Parameters\ExtendedNavigationMenus\Sample.json.txt">
+    <Folder Include="Views\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="App_Data\Definitions\definition_Code.xlsm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\definition_Column.xlsm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\definition_Css.xlsm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\definition_Demo.xlsm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\definition_Template.xlsm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\definition_ViewMode.xlsm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\AlterLoginRole.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\BeginTransaction.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\BulkInsert.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\CanRead.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\CanReadSites.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\Columns.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\CommitTransaction.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\CompletionTimeColumn.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\CreateDatabase.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\CreateDefault.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\CreateFullText.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\CreateIx.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\CreateLoginAdmin.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\CreateLoginUser.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\CreatePk.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\CreateTable.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\Defaults.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\DropConstraint.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\DropIndex.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\ExistsDatabase.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\ExistsTable.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\ExistsUser.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\GrantPrivilegeAdmin.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\GrantPrivilegeUser.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\HasPermission.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\Identity.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\IfConflicted.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\IfDuplicated.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\Indexes.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\KillSpid.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\MigrateTable.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\MigrateTableWithIdentity.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\MoveTarget.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\ProgressRateDelay.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\SelectIdentity.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\SelectPkName.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\SiteDepts.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\Spaceused.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\SpWho.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\StartTimeColumn.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\PostgreSQL\TruncateTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\AlterLoginRole.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\BeginTransaction.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\BulkInsert.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\CanRead.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\CanReadSites.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\Columns.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\CommitTransaction.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\CompletionTimeColumn.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\CreateDatabase.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\CreateDefault.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\CreateFullText.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\CreateIx.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\CreateLoginAdmin.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\CreateLoginRole.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\CreateLoginUser.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\CreatePk.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\CreateTable.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\Defaults.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\DropConstraint.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\DropIndex.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\DropLoginRole.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\DropUser.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\ExistsDatabase.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\ExistsLoginRole.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\ExistsTable.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\ExistsUser.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\GrantPrivilegeAdmin.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\GrantPrivilegeUser.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\HasPermission.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\Identity.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\IfConflicted.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\IfDuplicated.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\Indexes.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\KillSpid.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\MigrateTable.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\MigrateTableWithIdentity.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\MoveTarget.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\ProgressRateDelay.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\SelectIdentity.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\SelectPkName.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\SiteDepts.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\Spaceused.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\SpWho.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\StartTimeColumn.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Definitions\Sqls\SQLServer\TruncateTemplate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Licenses\Implem.License.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Parameters\ExtendedFields\Sample.json.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="App_Data\Parameters\ExtendedHtmls\Sample.html.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="App_Data\Parameters\ExtendedNavigationMenus\Sample.json.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Parameters\ExtendedScripts\Sample.js.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="App_Data\Parameters\ExtendedServerScripts\Sample.json.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Parameters\ExtendedSqls\Sample.json.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Parameters\ExtendedStyles\Sample.css.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

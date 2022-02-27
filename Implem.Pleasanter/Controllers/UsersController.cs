@@ -1,30 +1,39 @@
-﻿using Implem.Pleasanter.Libraries.Requests;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
-using System.Web;
-using System.Web.Mvc;
-using Implem.DefinitionAccessor;
-using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.DataSources;
-using System.Security.Claims;
+using Implem.PleasanterFilters;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Sustainsys.Saml2.AspNetCore2;
+using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
+using System.Security.Claims;
 namespace Implem.Pleasanter.Controllers
 {
+    [Authorize]
     public class UsersController : Controller
     {
-        public string Index(Context context)
+        [AcceptVerbs(HttpVerbs.Get, HttpVerbs.Post)]
+        public ActionResult Index()
         {
+            var context = new Context();
             if (!context.Ajax)
             {
                 var log = new SysLogModel(context: context);
                 var html = UserUtilities.Index(
                     context: context,
                     ss: SiteSettingsUtilities.UsersSiteSettings(context: context));
+                ViewBag.HtmlBody = html;
                 log.Finish(context: context, responseSize: html.Length);
-                return html;
+                return View();
             }
             else
             {
@@ -33,22 +42,27 @@ namespace Implem.Pleasanter.Controllers
                     context: context,
                     ss: SiteSettingsUtilities.UsersSiteSettings(context: context));
                 log.Finish(context: context, responseSize: json.Length);
-                return json;
+                return Content(json);
             }
         }
 
-        public string New(Context context, long id = 0)
+        [HttpGet]
+        public ActionResult New(long id = 0)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var html = UserUtilities.EditorNew(
                 context: context,
                 ss: SiteSettingsUtilities.UsersSiteSettings(context: context));
+            ViewBag.HtmlBody = html;
             log.Finish(context: context, responseSize: html.Length);
-            return html;
+            return View();
         }
 
-        public string Edit(Context context, int id)
+        [AcceptVerbs(HttpVerbs.Get, HttpVerbs.Post)]
+        public ActionResult Edit(int id)
         {
+            var context = new Context();
             if (!context.Ajax)
             {
                 var log = new SysLogModel(context: context);
@@ -57,8 +71,9 @@ namespace Implem.Pleasanter.Controllers
                     ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
                     userId: id,
                     clearSessions: true);
+                ViewBag.HtmlBody = html;
                 log.Finish(context: context, responseSize: html.Length);
-                return html;
+                return View();
             }
             else
             {
@@ -68,20 +83,24 @@ namespace Implem.Pleasanter.Controllers
                     ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
                     userId: id);
                 log.Finish(context: context, responseSize: json.Length);
-                return json;
+                return Content(json);
             }
         }
 
-        public string GridRows(Context context)
+        [HttpPost]
+        public string GridRows()
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = UserUtilities.GridRows(context: context);
             log.Finish(context: context, responseSize: json.Length);
             return json;
         }
 
-        public string Create(Context context)
+        [HttpPost]
+        public string Create()
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = UserUtilities.Create(
                 context: context,
@@ -90,8 +109,10 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        public string Update(Context context, int id)
+        [HttpPut]
+        public string Update(int id)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = UserUtilities.Update(
                 context: context,
@@ -101,8 +122,10 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        public string Delete(Context context, int id)
+        [HttpDelete]
+        public string Delete(int id)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = UserUtilities.Delete(
                 context: context,
@@ -112,8 +135,10 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        public string DeleteComment(Context context, int id)
+        [HttpDelete]
+        public string DeleteComment(int id)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = UserUtilities.Update(
                 context: context,
@@ -123,8 +148,10 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        public string Histories(Context context, int id)
+        [HttpPost]
+        public string Histories(int id)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = UserUtilities.Histories(
                 context: context,
@@ -134,8 +161,10 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        public string History(Context context, int id)
+        [HttpPost]
+        public string History(int id)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = UserUtilities.History(
                 context: context,
@@ -145,31 +174,37 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        public string SearchDropDown(Context context)
+        [HttpPost]
+        public ActionResult SearchDropDown()
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = Libraries.Models.DropDowns.SearchDropDown(
                 context: context,
                 ss: SiteSettingsUtilities.UsersSiteSettings(context: context));
             log.Finish(context: context, responseSize: json.Length);
-            return json;
+            return Content(json);
         }
 
-        public string SelectSearchDropDown(Context context)
+        [HttpPost]
+        public ActionResult SelectSearchDropDown()
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = Libraries.Models.DropDowns.SelectSearchDropDown(
                 context: context,
                 ss: SiteSettingsUtilities.UsersSiteSettings(context: context));
             log.Finish(context: context, responseSize: json.Length);
-            return json;
+            return Content(json);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string BulkDelete(Context context, long id)
+        [HttpDelete]
+        public string BulkDelete(long id)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = UserUtilities.BulkDelete(
                 context: context,
@@ -181,8 +216,10 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string Import(Context context, long id, IHttpPostedFile[] file)
+        [HttpPost]
+        public string Import(long id, ICollection<IFormFile> file)
         {
+            var context = new Context(files: file);
             var log = new SysLogModel(context: context);
             var json = UserUtilities.Import(context: context);
             log.Finish(context: context, responseSize: json.Length);
@@ -192,8 +229,10 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string OpenExportSelectorDialog(Context context)
+        [HttpPost]
+        public string OpenExportSelectorDialog()
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = UserUtilities.OpenExportSelectorDialog(
                 context: context,
@@ -205,8 +244,10 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
-        public FileContentResult Export(Context context)
+        [HttpGet]
+        public ActionResult Export()
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var responseFile = UserUtilities.Export(
                 context: context,
@@ -214,11 +255,10 @@ namespace Implem.Pleasanter.Controllers
             if (responseFile != null)
             {
                 log.Finish(context: context, responseSize: responseFile.Length);
-                return responseFile.ToFile();
+                return responseFile.ToFile().ToFileContentResult();
             }
             else
             {
-                log.Finish(context: context, responseSize: 0);
                 return null;
             }
         }
@@ -226,7 +266,78 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
-        public (string redirectUrl, string html) Login(
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult Challenge(string idp = "")
+        {
+            if (!Authentications.SAML())
+            {
+                var context = new Context();
+                return new RedirectResult(
+                    Pleasanter.Libraries.Responses.Locations.Login(context: context));
+            }
+            return new ChallengeResult(Saml2Defaults.Scheme,
+                new AuthenticationProperties(
+                    items: string.IsNullOrEmpty(idp)
+                        ? null
+                        : new Dictionary<string, string> { ["idp"] = idp })
+                {
+                    RedirectUri = Url.Action(nameof(SamlLogin))
+                });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult Login(string returnUrl, string ssocode = "")
+        {
+            var context = new Context();
+            if (Parameters.Authentication.Provider == "SAML-MultiTenant" && ssocode != string.Empty)
+            {
+                var contractSettings = GetTenantSamlSettings(context, ssocode);
+                if (contractSettings == null)
+                {
+                    return Redirect(Locations.InvalidSsoCode(context: context));
+                }
+                var metadataLocation = SetSamlMetadataFile(context: context, guid: contractSettings.SamlMetadataGuid);
+                return new ChallengeResult(Saml2Defaults.Scheme,
+                    new AuthenticationProperties(
+                        items: new Dictionary<string, string>
+                        {
+                            ["idp"] = contractSettings.SamlLoginUrl.Substring(0, contractSettings.SamlLoginUrl.TrimEnd('/').LastIndexOf('/') + 1),
+                            ["SamlLoginUrl"] = contractSettings.SamlLoginUrl,
+                            ["SamlMetadataLocation"] = metadataLocation
+                        })
+                    {
+                        RedirectUri = Url.Action(nameof(SamlLogin))
+                    });
+            }
+            var (redirectUrl, html) = Login(
+                context: context,
+                returnUrl: returnUrl,
+                isLocalUrl: Url.IsLocalUrl(returnUrl));
+            if (!string.IsNullOrEmpty(redirectUrl)) return base.Redirect(redirectUrl);
+            ViewBag.HtmlBody = html;
+            return View();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public ActionResult SamlLogin()
+        {
+            var context = new Context();
+            var result = SamlLogin(context: context);
+            var redirectResult = new RedirectResult(result.redirectResultUrl);
+            return redirectResult;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private (string redirectUrl, string html) Login(
             Context context, string returnUrl, bool isLocalUrl)
         {
             var log = new SysLogModel(context: context);
@@ -276,7 +387,7 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string SetSamlMetadataFile(Context context,string guid)
+        private string SetSamlMetadataFile(Context context, string guid)
         {
             var metadataPath = System.IO.Path.Combine(Directories.Temp(), "SamlMetadata", guid + ".xml");
             if (!System.IO.File.Exists(metadataPath))
@@ -299,7 +410,7 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
-        public (string redirectUrl, string redirectResultUrl, string html) SamlLogin(Context context)
+        private (string redirectUrl, string redirectResultUrl, string html) SamlLogin(Context context)
         {
             if (!Authentications.SAML()
                 || context.AuthenticationType != "Federation"
@@ -395,12 +506,17 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string Authenticate(Context context, string returnUrl)
+        [AllowAnonymous]
+        [HttpPost]
+        public string Authenticate(string returnUrl)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = Authentications.SignIn(
                 context: context,
-                returnUrl: returnUrl);
+                returnUrl: Url.IsLocalUrl(returnUrl)
+                    ? returnUrl
+                    : string.Empty);
             log.Finish(
                 context: context,
                 responseSize: json.Length);
@@ -410,20 +526,25 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string Logout(Context context, string returnUrl)
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult Logout(string returnUrl)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             Authentications.SignOut(context: context);
             var url = Locations.Login(context: context);
             log.Finish(context: context);
-            return url;
+            return Redirect(url);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string OpenChangePasswordDialog(Context context)
+        [HttpPost]
+        public string OpenChangePasswordDialog()
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = UserUtilities.OpenChangePasswordDialog(
                 context: context,
@@ -435,8 +556,10 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string ChangePassword(Context context, int id)
+        [HttpPost]
+        public string ChangePassword(int id)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = UserUtilities.ChangePassword(context: context, userId: id);
             log.Finish(context: context, responseSize: json.Length);
@@ -446,8 +569,11 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string ChangePasswordAtLogin(Context context)
+        [AllowAnonymous]
+        [HttpPost]
+        public string ChangePasswordAtLogin()
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = UserUtilities.ChangePasswordAtLogin(context: context);
             log.Finish(context: context, responseSize: json.Length);
@@ -457,8 +583,10 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string ResetPassword(Context context, int id)
+        [HttpPost]
+        public string ResetPassword(int id)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = UserUtilities.ResetPassword(context: context, userId: id);
             log.Finish(context: context, responseSize: json.Length);
@@ -468,8 +596,9 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string AddMailAddress(Context context, int id)
+        public string AddMailAddress(int id)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = UserUtilities.AddMailAddresses(
                 context: context,
@@ -482,8 +611,9 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string DeleteMailAddresses(Context context, int id)
+        public string DeleteMailAddresses(int id)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = UserUtilities.DeleteMailAddresses(
                 context: context,
@@ -496,8 +626,10 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string SyncByLdap(Context context)
+        [AllowAnonymous]
+        public string SyncByLdap()
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = UserUtilities.SyncByLdap(context: context);
             log.Finish(context: context, responseSize: json.Length);
@@ -507,21 +639,25 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string EditApi(Context context)
+        public ActionResult EditApi()
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var html = UserUtilities.ApiEditor(
                 context: context,
                 ss: SiteSettingsUtilities.UsersSiteSettings(context: context));
+            ViewBag.HtmlBody = html;
             log.Finish(context: context, responseSize: html.Length);
-            return html;
+            return View();
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string CreateApiKey(Context context)
+        [HttpPost]
+        public string CreateApiKey()
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = UserUtilities.CreateApiKey(
                 context: context,
@@ -533,8 +669,10 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string DeleteApiKey(Context context)
+        [HttpPost]
+        public string DeleteApiKey()
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = UserUtilities.DeleteApiKey(
                 context: context,
@@ -546,8 +684,10 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string SwitchUser(Context context)
+        [HttpPost]
+        public string SwitchUser()
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = UserUtilities.SwitchUser(context: context);
             log.Finish(context: context, responseSize: json.Length);
@@ -557,8 +697,10 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string ReturnOriginalUser(Context context)
+        [HttpPost]
+        public string ReturnOriginalUser()
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = UserUtilities.ReturnOriginalUser(context: context);
             log.Finish(context: context, responseSize: json.Length);
@@ -568,8 +710,10 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string SetStartGuide(Context context)
+        [HttpPost]
+        public string SetStartGuide()
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = UserUtilities.SetStartGuide(context: context);
             log.Finish(context: context, responseSize: json.Length);

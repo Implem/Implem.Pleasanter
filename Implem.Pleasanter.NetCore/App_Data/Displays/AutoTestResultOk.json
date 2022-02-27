@@ -1,9 +1,0 @@
-﻿{
-    "Id": "AutoTestResultOk",
-    "Type": 110,
-    "Languages": [
-        {
-            "Body": "OK"
-        }
-    ]
-}

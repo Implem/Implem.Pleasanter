@@ -1,9 +1,0 @@
-﻿{
-    "Id": "AutoTestExpectedContent",
-    "Type": 110,
-    "Languages": [
-        {
-            "Body": "Expected content."
-        }
-    ]
-}
