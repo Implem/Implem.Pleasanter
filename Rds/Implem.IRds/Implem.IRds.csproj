@@ -2,6 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <Copyright>Copyright © Implem Inc 2014 - 2022</Copyright>
+    <AssemblyVersion>1.2.29.3</AssemblyVersion>
+    <FileVersion>1.2.29.3</FileVersion>
+    <Version>1.2.29.3</Version>
   </PropertyGroup>
 
 </Project>
