@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using System.Security.Claims;
-
 namespace Implem.Pleasanter.Controllers
 {
     [Authorize]
@@ -257,7 +256,6 @@ namespace Implem.Pleasanter.Controllers
             {
                 log.Finish(context: context, responseSize: responseFile.Length);
                 return responseFile.ToFile().ToFileContentResult();
-
             }
             else
             {
