@@ -2,17 +2,21 @@
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
-    public class VersionsController
+    [Authorize]
+    public class VersionsController : Controller
     {
-        public string Index(Context context)
+        public ActionResult Index()
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var html = new HtmlBuilder().AssemblyVersions(context: context);
+            ViewBag.HtmlBody = html;
             log.Finish(context: context, responseSize: html.Length);
-            return html;
+            return View();
         }
     }
 }

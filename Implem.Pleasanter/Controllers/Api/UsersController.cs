@@ -2,13 +2,29 @@
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
-using System.Web.Mvc;
+using Implem.PleasanterFilters;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.IO;
 namespace Implem.Pleasanter.Controllers.Api
 {
-    public class UsersController
+    [CheckApiContextAttributes]
+    [AllowAnonymous]
+    [ApiController]
+    [Route("api/[controller]")]
+    public class UsersController : ControllerBase
     {
-        public ContentResult Get(Context context, int id)
+        [HttpPost("Get")]
+        [HttpPost("{id}/Get")]
+        public ContentResult Get(int id = 0)
         {
+            var body = default(string);
+            using (var reader = new StreamReader(Request.Body)) body = reader.ReadToEnd();
+            var context = new Context(
+                sessionStatus: User?.Identity?.IsAuthenticated == true,
+                sessionData: User?.Identity?.IsAuthenticated == true,
+                apiRequestBody: body,
+                contentType: Request.ContentType);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? UserUtilities.GetByApi(
@@ -17,11 +33,19 @@ namespace Implem.Pleasanter.Controllers.Api
                     userId: id)
                 : ApiResults.Unauthorized(context: context);
             log.Finish(context: context, responseSize: result.Content.Length);
-            return result;
+            return result.ToHttpResponse(request: Request);
         }
-        
-        public ContentResult Create(Context context)
+
+        [HttpPost("Create")]
+        public ContentResult Create()
         {
+            var body = default(string);
+            using (var reader = new StreamReader(Request.Body)) body = reader.ReadToEnd();
+            var context = new Context(
+                sessionStatus: User?.Identity?.IsAuthenticated == true,
+                sessionData: User?.Identity?.IsAuthenticated == true,
+                apiRequestBody: body,
+                contentType: Request.ContentType);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? UserUtilities.CreateByApi(
@@ -29,11 +53,19 @@ namespace Implem.Pleasanter.Controllers.Api
                     ss: SiteSettingsUtilities.ApiUsersSiteSettings(context))
                 : ApiResults.Unauthorized(context: context);
             log.Finish(context: context, responseSize: result.Content.Length);
-            return result;
+            return result.ToHttpResponse(Request);
         }
 
-        public ContentResult Update(Context context, int id)
+        [HttpPost("{id}/Update")]
+        public ContentResult Update(int id)
         {
+            var body = default(string);
+            using (var reader = new StreamReader(Request.Body)) body = reader.ReadToEnd();
+            var context = new Context(
+                sessionStatus: User?.Identity?.IsAuthenticated == true,
+                sessionData: User?.Identity?.IsAuthenticated == true,
+                apiRequestBody: body,
+                contentType: Request.ContentType);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? UserUtilities.UpdateByApi(
@@ -42,11 +74,19 @@ namespace Implem.Pleasanter.Controllers.Api
                     userId: id)
                 : ApiResults.Unauthorized(context: context);
             log.Finish(context: context, responseSize: result.Content.Length);
-            return result;
+            return result.ToHttpResponse(Request);
         }
 
-        public ContentResult Delete(Context context, int id)
+        [HttpPost("{id}/Delete")]
+        public ContentResult Delete(int id)
         {
+            var body = default(string);
+            using (var reader = new StreamReader(Request.Body)) body = reader.ReadToEnd();
+            var context = new Context(
+                sessionStatus: User?.Identity?.IsAuthenticated == true,
+                sessionData: User?.Identity?.IsAuthenticated == true,
+                apiRequestBody: body,
+                contentType: Request.ContentType);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? UserUtilities.DeleteByApi(
@@ -55,7 +95,7 @@ namespace Implem.Pleasanter.Controllers.Api
                     userId: id)
                 : ApiResults.Unauthorized(context: context);
             log.Finish(context: context, responseSize: result.Content.Length);
-            return result;
+            return result.ToHttpResponse(Request);
         }
     }
 }

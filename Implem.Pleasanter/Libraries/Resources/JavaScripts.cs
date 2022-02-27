@@ -1,6 +1,6 @@
 ﻿using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 namespace Implem.Pleasanter.Libraries.Resources
 {
     public static class JavaScripts

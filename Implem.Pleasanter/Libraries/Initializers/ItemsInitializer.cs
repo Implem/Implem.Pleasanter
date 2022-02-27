@@ -51,10 +51,10 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         if (siteModel.SiteSettings != null)
                         {
                             var fullText = siteModel.FullText(
-                                context: context.CreateContext(tenantId: siteModel.TenantId),
+                                context: new Context(tenantId: siteModel.TenantId),
                                 ss: siteModel.SiteSettings);
                             Repository.ExecuteNonQuery(
-                                context: context.CreateContext(tenantId: siteModel.TenantId),
+                                context: new Context(tenantId: siteModel.TenantId),
                                 connectionString: Parameters.Rds.OwnerConnectionString,
                                 statements: new SqlStatement[]
                                 {
@@ -87,7 +87,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         if (siteModel.SiteSettings != null)
                         {
                             Repository.ExecuteNonQuery(
-                                context: context.CreateContext(tenantId: siteModel.TenantId),
+                                context: new Context(tenantId: siteModel.TenantId),
                                 statements: new SqlStatement[]
                                 {
                                     Rds.InsertItems(
@@ -143,16 +143,16 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                 {
                                     var siteId = dataRow.Long("SiteId");
                                     var ss = new SiteModel().Get(
-                                        context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                        context: new Context(tenantId: dataRow.Int("TenantId")),
                                         where: Rds.SitesWhere().SiteId(siteId))?
                                             .IssuesSiteSettings(
-                                                context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                                context: new Context(tenantId: dataRow.Int("TenantId")),
                                                 referenceId: dataRow.Long("IssueId"));
                                     var issueModel = new IssueModel(
-                                        context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                        context: new Context(tenantId: dataRow.Int("TenantId")),
                                         ss: ss)
                                             .Get(
-                                                context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                                context: new Context(tenantId: dataRow.Int("TenantId")),
                                                 ss: ss,
                                                 tableType: Sqls.TableTypes.Normal,
                                                 where: Rds.IssuesWhere()
@@ -163,10 +163,10 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                         issueModel.AccessStatus == Databases.AccessStatuses.Selected)
                                     {
                                         var fullText = issueModel.FullText(
-                                            context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                            context: new Context(tenantId: dataRow.Int("TenantId")),
                                             ss: ss);
                                         Repository.ExecuteNonQuery(
-                                            context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                            context: new Context(tenantId: dataRow.Int("TenantId")),
                                             connectionString: Parameters.Rds.OwnerConnectionString,
                                             statements: new SqlStatement[]
                                             {
@@ -213,16 +213,16 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                 {
                                     var siteId = dataRow.Long("SiteId");
                                     var ss = new SiteModel().Get(
-                                        context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                        context: new Context(tenantId: dataRow.Int("TenantId")),
                                         where: Rds.SitesWhere().SiteId(siteId))?
                                             .IssuesSiteSettings(
-                                                context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                                context: new Context(tenantId: dataRow.Int("TenantId")),
                                                 referenceId: dataRow.Long("IssueId"));
                                     var issueModel = new IssueModel(
-                                        context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                        context: new Context(tenantId: dataRow.Int("TenantId")),
                                         ss: ss)
                                             .Get(
-                                                context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                                context: new Context(tenantId: dataRow.Int("TenantId")),
                                                 ss: ss,
                                                 tableType: Sqls.TableTypes.Deleted,
                                                 where: Rds.IssuesWhere()
@@ -233,7 +233,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                         issueModel.AccessStatus == Databases.AccessStatuses.Selected)
                                     {
                                         Repository.ExecuteNonQuery(
-                                            context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                            context: new Context(tenantId: dataRow.Int("TenantId")),
                                             statements: new SqlStatement[]
                                             {
                                                 Rds.InsertItems(
@@ -289,16 +289,16 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                 {
                                     var siteId = dataRow.Long("SiteId");
                                     var ss = new SiteModel().Get(
-                                        context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                        context: new Context(tenantId: dataRow.Int("TenantId")),
                                         where: Rds.SitesWhere().SiteId(siteId))?
                                             .ResultsSiteSettings(
-                                                context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                                context: new Context(tenantId: dataRow.Int("TenantId")),
                                                 referenceId: dataRow.Long("ResultId"));
                                     var resultModel = new ResultModel(
-                                        context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                        context: new Context(tenantId: dataRow.Int("TenantId")),
                                         ss: ss)
                                             .Get(
-                                                context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                                context: new Context(tenantId: dataRow.Int("TenantId")),
                                                 ss: ss,
                                                 tableType: Sqls.TableTypes.Normal,
                                                 where: Rds.ResultsWhere()
@@ -309,10 +309,10 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                         resultModel.AccessStatus == Databases.AccessStatuses.Selected)
                                     {
                                         var fullText = resultModel.FullText(
-                                            context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                            context: new Context(tenantId: dataRow.Int("TenantId")),
                                             ss: ss);
                                         Repository.ExecuteNonQuery(
-                                            context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                            context: new Context(tenantId: dataRow.Int("TenantId")),
                                             connectionString: Parameters.Rds.OwnerConnectionString,
                                             statements: new SqlStatement[]
                                             {
@@ -359,16 +359,16 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                 {
                                     var siteId = dataRow.Long("SiteId");
                                     var ss = new SiteModel().Get(
-                                        context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                        context: new Context(tenantId: dataRow.Int("TenantId")),
                                         where: Rds.SitesWhere().SiteId(siteId))?
                                             .ResultsSiteSettings(
-                                                context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                                context: new Context(tenantId: dataRow.Int("TenantId")),
                                                 referenceId: dataRow.Long("ResultId"));
                                     var resultModel = new ResultModel(
-                                        context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                        context: new Context(tenantId: dataRow.Int("TenantId")),
                                         ss: ss)
                                             .Get(
-                                                context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                                context: new Context(tenantId: dataRow.Int("TenantId")),
                                                 ss: ss,
                                                 tableType: Sqls.TableTypes.Deleted,
                                                 where: Rds.ResultsWhere()
@@ -379,7 +379,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                         resultModel.AccessStatus == Databases.AccessStatuses.Selected)
                                     {
                                         Repository.ExecuteNonQuery(
-                                            context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                            context: new Context(tenantId: dataRow.Int("TenantId")),
                                             statements: new SqlStatement[]
                                             {
                                                 Rds.InsertItems(
@@ -435,16 +435,16 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                 {
                                     var siteId = dataRow.Long("SiteId");
                                     var ss = new SiteModel().Get(
-                                        context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                        context: new Context(tenantId: dataRow.Int("TenantId")),
                                         where: Rds.SitesWhere().SiteId(siteId))?
                                             .WikisSiteSettings(
-                                                context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                                context: new Context(tenantId: dataRow.Int("TenantId")),
                                                 referenceId: dataRow.Long("WikiId"));
                                     var wikiModel = new WikiModel(
-                                        context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                        context: new Context(tenantId: dataRow.Int("TenantId")),
                                         ss: ss)
                                             .Get(
-                                                context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                                context: new Context(tenantId: dataRow.Int("TenantId")),
                                                 ss: ss,
                                                 tableType: Sqls.TableTypes.Normal,
                                                 where: Rds.WikisWhere()
@@ -455,10 +455,10 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                         wikiModel.AccessStatus == Databases.AccessStatuses.Selected)
                                     {
                                         var fullText = wikiModel.FullText(
-                                            context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                            context: new Context(tenantId: dataRow.Int("TenantId")),
                                             ss: ss);
                                         Repository.ExecuteNonQuery(
-                                            context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                            context: new Context(tenantId: dataRow.Int("TenantId")),
                                             connectionString: Parameters.Rds.OwnerConnectionString,
                                             statements: new SqlStatement[]
                                             {
@@ -505,16 +505,16 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                 {
                                     var siteId = dataRow.Long("SiteId");
                                     var ss = new SiteModel().Get(
-                                        context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                        context: new Context(tenantId: dataRow.Int("TenantId")),
                                         where: Rds.SitesWhere().SiteId(siteId))?
                                             .WikisSiteSettings(
-                                                context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                                context: new Context(tenantId: dataRow.Int("TenantId")),
                                                 referenceId: dataRow.Long("WikiId"));
                                     var wikiModel = new WikiModel(
-                                        context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                        context: new Context(tenantId: dataRow.Int("TenantId")),
                                         ss: ss)
                                             .Get(
-                                                context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                                context: new Context(tenantId: dataRow.Int("TenantId")),
                                                 ss: ss,
                                                 tableType: Sqls.TableTypes.Deleted,
                                                 where: Rds.WikisWhere()
@@ -525,7 +525,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                         wikiModel.AccessStatus == Databases.AccessStatuses.Selected)
                                     {
                                         Repository.ExecuteNonQuery(
-                                            context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
+                                            context: new Context(tenantId: dataRow.Int("TenantId")),
                                             statements: new SqlStatement[]
                                             {
                                                 Rds.InsertItems(

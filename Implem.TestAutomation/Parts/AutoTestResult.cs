@@ -1,8 +1,6 @@
 ﻿using CsvHelper.Configuration;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
-using Implem.Pleasanter.NetCore.Libraries.Requests;
-
 namespace Implem.TestAutomation.Parts
 {
     public class AutoTestResult
@@ -13,14 +11,18 @@ namespace Implem.TestAutomation.Parts
         public string ExpectedContent { get; set; }
         public string ExpectedValue { get; set; }
         public string ExecutionValue { get; set; }
-
     }
 
     public class AutoTestResultTable : ClassMap<AutoTestResult>
     {
         private AutoTestResultTable()
         {
-            var context = new ContextForAutoTest();
+            var context = new Context(
+                request: false,
+                sessionStatus: false,
+                sessionData: false,
+                user: false,
+                item: false);
             Map(c => c.Description).Index(0).Name(Displays.AutoTestExecutionTestCase(context: context));
             Map(c => c.ComparisonResult).Index(1).Name(Displays.AutoTestComparisonResult(context: context));
             Map(c => c.ConfirmationTarget).Index(2).Name(Displays.AutoTestConfirmationTarget(context: context));

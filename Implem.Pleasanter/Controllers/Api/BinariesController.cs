@@ -1,23 +1,34 @@
-﻿using Implem.Pleasanter.Libraries.Requests;
-using Implem.Pleasanter.Libraries.Responses;
-using Implem.Pleasanter.Models;
-using System.Net.Http;
-using System.Web.Mvc;
-using System.Threading.Tasks;
-using System.Net.Http.Headers;
-using System.IO;
-using Implem.Libraries.Utilities;
-using System.Collections.Generic;
+﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataTypes;
-using System;
+using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Web;
-
+using Implem.Pleasanter.Models;
+using Implem.PleasanterFilters;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
 namespace Implem.Pleasanter.Controllers.Api
 {
-    public class BinariesController
+    [CheckApiContextAttributes]
+    [AllowAnonymous]
+    [ApiController]
+    [Route("api/[controller]")]
+    public class BinariesController : ControllerBase
     {
-        public ContentResult Get(Context context, string guid)
+        [HttpPost("{guid}/Get")]
+        public ContentResult Get(string guid)
         {
+            var body = default(string);
+            using (var reader = new StreamReader(Request.Body)) body = reader.ReadToEnd();
+            var context = new Context(
+                sessionStatus: User?.Identity?.IsAuthenticated == true,
+                sessionData: User?.Identity?.IsAuthenticated == true,
+                apiRequestBody: body,
+                contentType: Request.ContentType);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? BinaryUtilities.ApiDonwload(
@@ -25,44 +36,63 @@ namespace Implem.Pleasanter.Controllers.Api
                     guid: guid)
                 : ApiResults.Unauthorized(context: context);
             log.Finish(context: context, responseSize: result.Content.Length);
-            return result;
+            return result.ToHttpResponse(request: Request);
         }
 
-        public ActionResult GetStream(Context context, string guid)
+        [HttpPost("{guid}/getstream")]
+        public FileStreamResult GetStream(string guid)
         {
+            var body = default(string);
+            using (var reader = new StreamReader(Request.Body)) body = reader.ReadToEnd();
+            var context = new Context(
+                 sessionStatus: User?.Identity?.IsAuthenticated == true,
+                 sessionData: User?.Identity?.IsAuthenticated == true,
+                 apiRequestBody: body,
+                 contentType: Request.ContentType);
             var log = new SysLogModel(context: context);
             if (!context.Authenticated)
             {
-                return ApiResults.Unauthorized(context: context);
+                return null;
             }
             var file = BinaryUtilities.Donwload(
                 context: context,
                 guid: guid.ToUpper());
             if (file == null)
             {
-                return ApiResults.NotFound(context: context);
+                return null;
             }
-            var response = CreateFileSteramResult(file);
+            var result = CreateFileSteramResult(file);
             log.Finish(
                 context: context,
                 responseSize: file?.Length ?? 0);
-            return response;
+            return new FileStreamResult(result.FileStream, result.ContentType)
+            {
+                FileDownloadName = result.FileDownloadName
+            };
         }
 
-        private static ActionResult CreateFileSteramResult(ResponseFile file)
+        private static FileStreamResult CreateFileSteramResult(ResponseFile file)
         {
             var response = new HttpResponseMessage
             {
                 StatusCode = System.Net.HttpStatusCode.OK
             };
             var stream = file.IsFileInfo() == true
-                ? File.OpenRead(file?.FileInfo.FullName)
+                ? System.IO.File.OpenRead(file?.FileInfo.FullName)
                 : file.FileContentsStream;
             return new FileStreamResult(stream, file.ContentType) { FileDownloadName = file.FileDownloadName };
         }
 
-        public ContentResult Upload(Context context, string guid)
+        [HttpPost("{guid}/upload")]
+        [HttpPost("upload")]
+        public ContentResult Upload(string guid = null)
         {
+            var context = new Context(
+                files: Request.Form.Files.ToList(),
+                apiRequestBody: new
+                {
+                    ApiKey = AuthorizationHeaderValue()
+                }.ToJson());
             var log = new SysLogModel(context: context);
             if (!context.Authenticated)
             {
@@ -131,6 +161,20 @@ namespace Implem.Pleasanter.Controllers.Api
             finally
             {
                 Files.DeleteFile(filePath);
+            }
+        }
+
+        private string AuthorizationHeaderValue()
+        {
+            var authHeader = (string)Request.Headers["Authorization"];
+
+            if (authHeader != null && authHeader.ToLower().StartsWith("bearer"))
+            {
+                return authHeader.Substring("bearer ".Length).Trim();
+            }
+            else
+            {
+                return string.Empty;
             }
         }
 

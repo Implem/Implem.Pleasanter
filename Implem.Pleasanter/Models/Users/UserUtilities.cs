@@ -4084,7 +4084,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static System.Web.Mvc.ContentResult GetByApi(
+        public static ContentResultInheritance GetByApi(
             Context context,
             SiteSettings ss,
             int userId)
@@ -4251,7 +4251,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     key: "SwitchLoginId",
                     value: userModel.LoginId);
-                context = context.CreateContext();
+                context = new Context();
                 return new ResponseCollection()
                     .ReplaceAll("#Warnings", new HtmlBuilder().Warnings(
                         context: context,
@@ -4290,7 +4290,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 key: "SwitchLoginId",
                 page: false);
-            context = context.CreateContext();
+            context = new Context();
             return new ResponseCollection()
                 .ReplaceAll("#Warnings", new HtmlBuilder().Warnings(
                     context: context,
@@ -4323,7 +4323,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static System.Web.Mvc.ContentResult CreateByApi(Context context, SiteSettings ss)
+        public static ContentResultInheritance CreateByApi(Context context, SiteSettings ss)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
@@ -4388,7 +4388,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static System.Web.Mvc.ContentResult UpdateByApi(Context context, SiteSettings ss, int userId)
+        public static ContentResultInheritance UpdateByApi(Context context, SiteSettings ss, int userId)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
@@ -4459,7 +4459,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static System.Web.Mvc.ContentResult DeleteByApi(Context context, SiteSettings ss, int userId)
+        public static ContentResultInheritance DeleteByApi(Context context, SiteSettings ss, int userId)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {

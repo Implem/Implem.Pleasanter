@@ -1,6 +1,6 @@
 ﻿{
     "Provider": "Rds",
-    "Path": null,
+    "Path": "C:\\Work",
     "Attachments": true,
     "Images": true,
     "RestoreLocalFiles": true,
@@ -19,7 +19,7 @@
     "LocalFolderLimitTotalSize": 30720,
     "LocalFolderTotalMinSize": 1,
     "LocalFolderTotalMaxSize": 30720,
-    "UseStorageSelect": false,
+    "UseStorageSelect": true,
     "DefaultBinaryStorageProvider": "DataBase",
     "ImageLimitSize": null,
     "ThumbnailLimitSize": null,

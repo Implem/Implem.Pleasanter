@@ -701,7 +701,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static System.Web.Mvc.ContentResult SendByApi(Context context, string reference, long id)
+        public static ContentResultInheritance SendByApi(Context context, string reference, long id)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {

@@ -9,11 +9,11 @@ using Implem.DefinitionAccessor;
 using Implem.ParameterAccessor.Parts;
 using Implem.Libraries.Classes;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.TestAutomation.Parts;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.IE;
-
 namespace Implem.TestAutomation
 {
     internal class TestAutomation
@@ -24,8 +24,12 @@ namespace Implem.TestAutomation
             Initializer.Initialize(
                 path,
                 assemblyVersion: Assembly.GetExecutingAssembly().GetName().Version.ToString());
-
-            var context = new ContextForAutoTest();
+            var context = new Context(
+                request: false,
+                sessionStatus: false,
+                sessionData: false,
+                user: false,
+                item: false);
             var (testList, checkResult) = CheckPreExecution(executeType);
             if (!checkResult) { return; }
             try
@@ -112,7 +116,12 @@ namespace Implem.TestAutomation
 
         private static (List<int>, bool) CheckPreExecution(string executeType)
         {
-            var context = new ContextForAutoTest();
+            var context = new Context(
+                request: false,
+                sessionStatus: false,
+                sessionData: false,
+                user: false,
+                item: false);
             var testList = new List<int>();
             if (Parameters.ExtendedAutoTestSettings.Url.IsNullOrEmpty())
             {
@@ -177,7 +186,12 @@ namespace Implem.TestAutomation
 
         private static bool CheckTestPartsJson()
         {
-            var context = new ContextForAutoTest();
+            var context = new Context(
+                request: false,
+                sessionStatus: false,
+                sessionData: false,
+                user: false,
+                item: false);
             var result = true;
             Parameters.ExtendedAutoTestScenarios
                 .Select((autoTestScenario, i) => new { Index = i + 1 , Data = autoTestScenario })
@@ -231,7 +245,12 @@ namespace Implem.TestAutomation
 
         private static string InputUrl()
         {
-            var context = new ContextForAutoTest();
+            var context = new Context(
+                request: false,
+                sessionStatus: false,
+                sessionData: false,
+                user: false,
+                item: false);
             Console.WriteLine(Displays.AutoTestNoUrl(context: context));
             Console.Write(Displays.AutoTestArrow(context: context));
             var strUrl = Console.ReadLine();

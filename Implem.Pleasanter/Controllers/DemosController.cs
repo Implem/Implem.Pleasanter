@@ -2,13 +2,18 @@
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Models;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
-    public class DemosController
+    [Authorize]
+    public class DemosController : Controller
     {
-        public string Register(Context context)
+        [AllowAnonymous]
+        [HttpPost]
+        public string Register()
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             if (Parameters.Service.Demo)
             {
@@ -23,19 +28,22 @@ namespace Implem.Pleasanter.Controllers
             }
         }
 
-        public (string redirectUrl, string errors, string notFound) Login(Context context)
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult Login()
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             if (Parameters.Service.Demo)
             {
                 DemoUtilities.Login(context: context);
                 log.Finish(context: context);
-                return (Locations.Get(context: context), null, null);
+                return Redirect(Locations.Get(context: context));
             }
             else
             {
                 log.Finish(context: context);
-                return (null, "Errors", "NotFound");
+                return RedirectToAction("Errors", "NotFound");
             }
         }
     }

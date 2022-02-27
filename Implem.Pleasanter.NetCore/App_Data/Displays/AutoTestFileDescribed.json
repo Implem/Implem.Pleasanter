@@ -1,9 +1,0 @@
-﻿{
-    "Id": "AutoTestFileDescribed",
-    "Type": 110,
-    "Languages": [
-        {
-            "Body": "The file described as NG was not found. Cancel the process."
-        }
-    ]
-}

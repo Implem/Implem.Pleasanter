@@ -865,7 +865,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             long id,
             string apiRequestBody)
         {
-            var createdContext = context.CreateContext(apiRequestBody: MergedApiRequestBody(
+            var createdContext = new Context(apiRequestBody: MergedApiRequestBody(
                 context: context,
                 apiRequestBody: apiRequestBody));
             createdContext.LogBuilder = context.LogBuilder;

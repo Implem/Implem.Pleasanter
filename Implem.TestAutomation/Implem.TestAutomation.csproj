@@ -33,7 +33,6 @@
     <ProjectReference Include="..\Implem.DisplayAccessor\Implem.DisplayAccessor.csproj" />
     <ProjectReference Include="..\Implem.Libraries\Implem.Libraries.csproj" />
     <ProjectReference Include="..\Implem.ParameterAccessor\Implem.ParameterAccessor.csproj" />
-    <ProjectReference Include="..\Implem.Pleasanter.NetCore\Implem.Pleasanter.NetCore.csproj" />
     <ProjectReference Include="..\Implem.Pleasanter\Implem.Pleasanter.csproj" />
   </ItemGroup>
 

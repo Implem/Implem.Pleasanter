@@ -1,12 +1,16 @@
 ﻿using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
-    public class OutgoingMailsController
+    [Authorize]
+    public class OutgoingMailsController : Controller
     {
-        public string Edit(Context context, string reference, long id)
+        [HttpPut]
+        public string Edit(string reference, long id)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = OutgoingMailUtilities.Editor(
                 context: context,
@@ -16,8 +20,10 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        public string Reply(Context context, string reference, long id)
+        [HttpPut]
+        public string Reply(string reference, long id)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = OutgoingMailUtilities.Editor(
                 context: context,
@@ -27,11 +33,13 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        public string GetDestinations(Context context, string reference, long id)
+        [HttpPut]
+        public string GetDestinations(string reference, long id)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = new OutgoingMailModel(
-                context: context, 
+                context: context,
                 reference: reference,
                 referenceId: id)
                     .GetDestinations(context: context);
@@ -39,8 +47,10 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        public string Send(Context context, string reference, long id)
+        [HttpPost]
+        public string Send(string reference, long id)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = OutgoingMailUtilities.Send(
                 context: context,

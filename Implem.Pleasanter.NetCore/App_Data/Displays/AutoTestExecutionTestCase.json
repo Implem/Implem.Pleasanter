@@ -1,9 +1,0 @@
-﻿{
-    "Id": "AutoTestExecutionTestCase",
-    "Type": 110,
-    "Languages": [
-        {
-            "Body": "Execution test case."
-        }
-    ]
-}

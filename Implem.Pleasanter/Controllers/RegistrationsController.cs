@@ -1,24 +1,27 @@
 ﻿using Implem.Pleasanter.Libraries.Requests;
-using Implem.Pleasanter.Libraries.Responses;
-using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
-using System.Web;
-using System.Web.Mvc;
+using Implem.PleasanterFilters;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
+    [Authorize]
     public class RegistrationsController : Controller
     {
-        public string Index(Context context)
+        [AcceptVerbs(HttpVerbs.Get, HttpVerbs.Post)]
+        public ActionResult Index()
         {
+            var context = new Context();
             if (!context.Ajax)
             {
                 var log = new SysLogModel(context: context);
                 var html = RegistrationUtilities.Index(
                     context: context,
                     ss: SiteSettingsUtilities.RegistrationsSiteSettings(context: context));
+                ViewBag.HtmlBody = html;
                 log.Finish(context: context, responseSize: html.Length);
-                return html;
+                return View();
             }
             else
             {
@@ -27,22 +30,27 @@ namespace Implem.Pleasanter.Controllers
                     context: context,
                     ss: SiteSettingsUtilities.RegistrationsSiteSettings(context: context));
                 log.Finish(context: context, responseSize: json.Length);
-                return json;
+                return Content(json);
             }
         }
 
-        public string New(Context context, long id = 0)
+        [HttpGet]
+        public ActionResult New(long id = 0)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var html = RegistrationUtilities.EditorNew(
                 context: context,
                 ss: SiteSettingsUtilities.RegistrationsSiteSettings(context: context));
+            ViewBag.HtmlBody = html;
             log.Finish(context: context, responseSize: html.Length);
-            return html;
+            return View();
         }
 
-        public string Edit(Context context, int id)
+        [AcceptVerbs(HttpVerbs.Get, HttpVerbs.Post)]
+        public ActionResult Edit(int id)
         {
+            var context = new Context();
             if (!context.Ajax)
             {
                 var log = new SysLogModel(context: context);
@@ -51,8 +59,9 @@ namespace Implem.Pleasanter.Controllers
                     ss: SiteSettingsUtilities.RegistrationsSiteSettings(context: context),
                     registrationId: id,
                     clearSessions: true);
+                ViewBag.HtmlBody = html;
                 log.Finish(context: context, responseSize: html.Length);
-                return html;
+                return View();
             }
             else
             {
@@ -62,20 +71,24 @@ namespace Implem.Pleasanter.Controllers
                     ss: SiteSettingsUtilities.RegistrationsSiteSettings(context: context),
                     registrationId: id);
                 log.Finish(context: context, responseSize: json.Length);
-                return json;
+                return Content(json);
             }
         }
 
-        public string GridRows(Context context)
+        [HttpPost]
+        public string GridRows()
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = RegistrationUtilities.GridRows(context: context);
             log.Finish(context: context, responseSize: json.Length);
             return json;
         }
 
-        public string Create(Context context)
+        [HttpPost]
+        public string Create()
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = RegistrationUtilities.Create(
                 context: context,
@@ -84,8 +97,10 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        public string Update(Context context, int id)
+        [HttpPut]
+        public string Update(int id)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = RegistrationUtilities.Update(
                 context: context,
@@ -95,8 +110,10 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        public string Delete(Context context, int id)
+        [HttpDelete]
+        public string Delete(int id)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = RegistrationUtilities.Delete(
                 context: context,
@@ -106,8 +123,10 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        public string DeleteComment(Context context, int id)
+        [HttpDelete]
+        public string DeleteComment(int id)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = RegistrationUtilities.Update(
                 context: context,
@@ -117,8 +136,10 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        public string Histories(Context context, int id)
+        [HttpPost]
+        public string Histories(int id)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = RegistrationUtilities.Histories(
                 context: context,
@@ -128,8 +149,10 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        public string History(Context context, int id)
+        [HttpPost]
+        public string History(int id)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = RegistrationUtilities.History(
                 context: context,
@@ -139,31 +162,37 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        public string SearchDropDown(Context context)
+        [HttpPost]
+        public ActionResult SearchDropDown()
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = Libraries.Models.DropDowns.SearchDropDown(
                 context: context,
                 ss: SiteSettingsUtilities.RegistrationsSiteSettings(context: context));
             log.Finish(context: context, responseSize: json.Length);
-            return json;
+            return Content(json);
         }
 
-        public string SelectSearchDropDown(Context context)
+        [HttpPost]
+        public ActionResult SelectSearchDropDown()
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = Libraries.Models.DropDowns.SelectSearchDropDown(
                 context: context,
                 ss: SiteSettingsUtilities.RegistrationsSiteSettings(context: context));
             log.Finish(context: context, responseSize: json.Length);
-            return json;
+            return Content(json);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string BulkDelete(Context context, long id)
+        [HttpDelete]
+        public string BulkDelete(long id)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = RegistrationUtilities.BulkDelete(
                 context: context,
@@ -175,22 +204,28 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string Login(Context context)
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult Login()
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var html = RegistrationUtilities.Login(
                 context: context,
                 ss: SiteSettingsUtilities.RegistrationsSiteSettings(context: context));
-            log.Finish(context: context);
+            ViewBag.HtmlBody = html;
             log.Finish(context: context, responseSize: html.Length);
-            return html;
+            return View();
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string ApprovalRequest(Context context, int id)
+        [AllowAnonymous]
+        [HttpPost]
+        public string ApprovalRequest(int id)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = RegistrationUtilities.ApprovalRequest(context: context,
             ss: SiteSettingsUtilities.RegistrationsSiteSettings(context: context),
@@ -202,8 +237,10 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string Approval(Context context, int id)
+        [HttpPut]
+        public string Approval(int id)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = RegistrationUtilities.Approval(context: context,
             ss: SiteSettingsUtilities.RegistrationsSiteSettings(context: context),
