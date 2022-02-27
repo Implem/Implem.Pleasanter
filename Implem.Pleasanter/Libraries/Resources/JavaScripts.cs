@@ -1,6 +1,6 @@
 ﻿using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
-using Microsoft.AspNetCore.Mvc;
+using Implem.Pleasanter.Libraries.Responses;
 namespace Implem.Pleasanter.Libraries.Resources
 {
     public static class JavaScripts
@@ -21,14 +21,14 @@ namespace Implem.Pleasanter.Libraries.Resources
             return string.Empty;
         }
 
-        public static ContentResult Get(Context context)
+        public static ContentResultInheritance Get(Context context)
         {
             var siteId = context.QueryStrings.Long("site-id");
             var id = context.QueryStrings.Long("id");
             var controller = context.QueryStrings.Data("controller");
             var action = context.QueryStrings.Data("action");
             var siteTop = siteId == 0 && id == 0 && controller == "items" && action == "index";
-            return new ContentResult
+            return new ContentResultInheritance
             {
                 ContentType = "text/javascript",
                 Content = HtmlScripts.ExtendedScripts(
