@@ -27,11 +27,38 @@ namespace Implem.Pleasanter.Libraries.Mails
 
         public static List<string> GetSplitList(this string addresses)
         {
-            return addresses
-                ?.Split(';', ',', '\n')
-                .Select(address => address.Trim())
-                .ToList()
-                    ?? new List<string>();
+            var addressList = new List<string>();
+            var isDisplayNameFlg = false;
+            var addressStartIndex = 0;
+            addresses
+                .Select((c, i) => new
+                {
+                    Char = c,
+                    Index = i
+                })
+                .ForEach(data =>
+                {
+                    if (data.Char == '\"')
+                    {
+                        isDisplayNameFlg = !isDisplayNameFlg;
+                    }
+                    if (!isDisplayNameFlg)
+                    {
+                        if (data.Char == ',' || data.Char == ';' || data.Char == '\n')
+                        {
+                            addressList.Add(addresses
+                                .Substring(addressStartIndex, (data.Index - addressStartIndex))
+                                .Trim());
+                            addressStartIndex = data.Index + 1;
+                        }
+                        else if (data.Index == addresses.Length - 1)
+                        {
+                            addressList.Add(addresses.Substring(addressStartIndex).Trim());
+                            addressStartIndex = data.Index;
+                        }
+                    }
+                });
+            return addressList;
         }
 
         private static IEnumerable<string> ConvertedMailAddresses(
