@@ -3,6 +3,7 @@ using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.ParameterAccessor.Parts;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using Sustainsys.Saml2;
@@ -12,10 +13,10 @@ using Sustainsys.Saml2.Metadata;
 using Sustainsys.Saml2.WebSso;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
-using System.Collections.Concurrent;
 
 namespace Implem.Pleasanter.Libraries.DataSources
 {
@@ -362,6 +363,136 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 return null;
             }
             return contractSettings; 
+        }
+
+        public static ContractSettings GetTenantSamlSettings(Context context, string ssocode)
+        {
+            var tenant = new TenantModel().Get(
+                context: context,
+                ss: SiteSettingsUtilities.TenantsSiteSettings(context),
+                where: Rds.TenantsWhere().Comments(ssocode));
+            if (tenant.AccessStatus == Databases.AccessStatuses.Selected)
+            {
+                var contractSettings = Saml.GetTenantSamlSettings(context: context, tenantId: tenant.TenantId);
+                if (contractSettings != null)
+                {
+                    return contractSettings;
+                }
+            }
+            return null;
+        }
+
+        public static string SetSamlMetadataFile(Context context, string guid)
+        {
+            var metadataPath = System.IO.Path.Combine(Directories.Temp(), "SamlMetadata", guid + ".xml");
+            if (!System.IO.File.Exists(metadataPath))
+            {
+                System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(metadataPath));
+                var bytes = Repository.ExecuteScalar_bytes(
+                    context: context,
+                    transactional: false,
+                    statements: new Implem.Libraries.DataSources.SqlServer.SqlStatement[]
+                    {
+                        Rds.SelectBinaries(
+                            column: Rds.BinariesColumn().Bin(),
+                            where: Rds.BinariesWhere().Guid(guid))
+                    });
+                System.IO.File.WriteAllBytes(metadataPath, bytes);
+            }
+            return metadataPath;
+        }
+
+        public static (string redirectUrl, string redirectResultUrl, string html) SamlLogin(Context context)
+        {
+            if (!Authentications.SAML()
+                || context.AuthenticationType != "Federation"
+                || context.IsAuthenticated != true)
+            {
+                return (null, Responses.Locations.SamlLoginFailed(context: context), null);
+            }
+            Authentications.SignOut(context: context);
+            var loginId = context.UserClaims?.FirstOrDefault(claim => claim.Type == ClaimTypes.NameIdentifier);
+            var attributes = Saml.MapAttributes(context.UserClaims, loginId.Value);
+            var name = attributes.UserName;
+            TenantModel tenant;
+            if (Parameters.Authentication.Provider == "SAML-MultiTenant")
+            {
+                if (string.IsNullOrEmpty(name))
+                {
+                    return (null, Responses.Locations.EmptyUserName(context: context), null);
+                }
+                var ssocode = loginId.Issuer.TrimEnd('/').Substring(loginId.Issuer.TrimEnd('/').LastIndexOf('/') + 1);
+                tenant = new TenantModel().Get(
+                    context: context,
+                    ss: SiteSettingsUtilities.TenantsSiteSettings(context),
+                    where: Rds.TenantsWhere().Comments(ssocode));
+            }
+            else
+            {
+                tenant = new TenantModel().Get(
+                    context: context,
+                    ss: SiteSettingsUtilities.TenantsSiteSettings(context),
+                    where: Rds.TenantsWhere().TenantId(Parameters.Authentication.SamlParameters.SamlTenantId));
+                if (tenant.AccessStatus != Databases.AccessStatuses.Selected)
+                {
+                    Rds.ExecuteNonQuery(
+                        context: context,
+                        connectionString: Parameters.Rds.OwnerConnectionString,
+                        statements: new[] {
+                            Rds.IdentityInsertTenants(factory: context, on: true),
+                            Rds.InsertTenants(
+                                param: Rds.TenantsParam()
+                                    .TenantId(Parameters.Authentication.SamlParameters.SamlTenantId)
+                                    .TenantName("DefaultTenant")),
+                            Rds.IdentityInsertTenants(factory: context, on: false)
+                        });
+                    tenant.TenantId = Parameters.Authentication.SamlParameters.SamlTenantId;
+                }
+            }
+            try
+            {
+                Saml.UpdateOrInsert(
+                    context: context,
+                    tenantId: tenant.TenantId,
+                    loginId: loginId.Value,
+                    name: string.IsNullOrEmpty(name)
+                        ? loginId.Value
+                        : name,
+                    mailAddress: attributes["MailAddress"],
+                    synchronizedTime: System.DateTime.Now,
+                    attributes: attributes);
+            }
+            catch (DbException e)
+            {
+                if (context.SqlErrors.ErrorCode(e) == 2601)
+                {
+                    return (null, Responses.Locations.LoginIdAlreadyUse(context: context), null);
+                }
+                throw;
+            }
+            var user = new UserModel().Get(
+                context: context,
+                ss: null,
+                where: Rds.UsersWhere()
+                    .TenantId(tenant.TenantId)
+                    .LoginId(loginId.Value));
+            if (user.AccessStatus == Databases.AccessStatuses.Selected)
+            {
+                if (user.Disabled)
+                {
+                    return (null, Responses.Locations.UserDisabled(context: context), null);
+                }
+                if (user.Lockout)
+                {
+                    return (null, Responses.Locations.UserLockout(context: context), null);
+                }
+                user.Allow(context: context, returnUrl: Responses.Locations.Top(context), createPersistentCookie: true);
+                return (null, Responses.Locations.Top(context), null);
+            }
+            else
+            {
+                return (null, Responses.Locations.SamlLoginFailed(context: context), null);
+            }
         }
     }
 }
