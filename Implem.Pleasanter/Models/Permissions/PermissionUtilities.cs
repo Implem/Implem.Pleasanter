@@ -370,10 +370,12 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             string searchText,
             List<Permission> currentPermissions,
+            bool allUsers = true,
             int offset = 0)
         {
             var sourceCollection = new List<Permission>();
             if (!context.DisableAllUsersPermission
+                && allUsers
                 && searchText.IsNullOrEmpty())
             {
                 sourceCollection.Add(new Permission(

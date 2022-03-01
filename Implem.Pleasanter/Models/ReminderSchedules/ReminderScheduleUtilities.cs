@@ -71,7 +71,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static void Remind(Context context, DataRow dataRow)
         {
-            context = context.CreateContext(
+            context = new Context(
                 tenantId: dataRow.Int("TenantId"),
                 userId: dataRow.Int("Updator"),
                 deptId: dataRow.Int("DeptId"));

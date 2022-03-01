@@ -480,30 +480,19 @@ namespace Implem.Pleasanter.Libraries.Server
         {
             var dataRows = Rds.ExecuteTable(
                 context: context,
-                statements: Rds.SelectLinks(
-                    column: Rds.LinksColumn()
-                        .DestinationId()
-                        .SourceId(),
-                    join: new SqlJoinCollection(
-                        new SqlJoin(
-                            tableBracket: "\"Sites\"",
-                            joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "\"DestinationSites\".\"SiteId\"=\"Links\".\"DestinationId\"",
-                            _as: "DestinationSites"),
-                        new SqlJoin(
-                            tableBracket: "\"Sites\"",
-                            joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "\"SourceSites\".\"SiteId\"=\"Links\".\"SourceId\"",
-                            _as: "SourceSites")),
-                    where: Rds.SitesWhere()
-                        .TenantId(context.TenantId, tableName: "DestinationSites")
-                        .TenantId(context.TenantId, tableName: "SourceSites")
-                        .ReferenceType("Wikis", tableName: "DestinationSites", _operator: "<>")
-                        .ReferenceType("Wikis", tableName: "SourceSites", _operator: "<>")
-                        .Or(or: Rds.SitesWhere()
-                            .UpdatedTime(sitesUpdatedTime, tableName: "DestinationSites", _operator: ">")
-                            .UpdatedTime(sitesUpdatedTime, tableName: "SourceSites", _operator: ">"))))
-                                .AsEnumerable();
+                statements: new SqlStatement[]
+                {
+                    SelectLinks(
+                        context: context,
+                        sitesUpdatedTime: sitesUpdatedTime,
+                        tableName: "DestinationSites"),
+                    SelectLinks(
+                        context: context,
+                        sitesUpdatedTime: sitesUpdatedTime,
+                        tableName: "SourceSites",
+                        unionType: Sqls.UnionTypes.UnionAll)
+                })
+                    .AsEnumerable();
             if (dataRows.Any())
             {
                 var destinationKeyValues = new Dictionary<long, List<long>>();
@@ -537,6 +526,36 @@ namespace Implem.Pleasanter.Libraries.Server
                 tenantCache.Links.DestinationKeyValues = destinationKeyValues;
                 tenantCache.Links.SourceKeyValues = sourceKeyValues;
             }
+        }
+
+        private static SqlSelect SelectLinks(
+            Context context,
+            DateTime sitesUpdatedTime,
+            string tableName,
+            Sqls.UnionTypes unionType = Sqls.UnionTypes.None)
+        {
+            return Rds.SelectLinks(
+                column: Rds.LinksColumn()
+                    .DestinationId()
+                    .SourceId(),
+                join: new SqlJoinCollection(
+                    new SqlJoin(
+                        tableBracket: "\"Sites\"",
+                        joinType: SqlJoin.JoinTypes.Inner,
+                        joinExpression: "\"DestinationSites\".\"SiteId\"=\"Links\".\"DestinationId\"",
+                        _as: "DestinationSites"),
+                    new SqlJoin(
+                        tableBracket: "\"Sites\"",
+                        joinType: SqlJoin.JoinTypes.Inner,
+                        joinExpression: "\"SourceSites\".\"SiteId\"=\"Links\".\"SourceId\"",
+                        _as: "SourceSites")),
+                where: Rds.SitesWhere()
+                    .TenantId(context.TenantId, tableName: "DestinationSites")
+                    .TenantId(context.TenantId, tableName: "SourceSites")
+                    .ReferenceType("Wikis", tableName: "DestinationSites", _operator: "<>")
+                    .ReferenceType("Wikis", tableName: "SourceSites", _operator: "<>")
+                    .UpdatedTime(sitesUpdatedTime, tableName: tableName, _operator: ">"),
+                unionType: unionType);
         }
 
         public static void DeleteSiteCaches(Context context, List<long> siteIds)

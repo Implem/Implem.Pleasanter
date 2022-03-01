@@ -1,9 +1,0 @@
-﻿{
-    "TestParts":
-    [
-        {
-            "ElementId": "CorpLogo",
-            "Action": "Click"
-        }
-    ]
-}

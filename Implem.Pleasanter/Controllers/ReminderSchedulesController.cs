@@ -1,13 +1,18 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
-    public class ReminderSchedulesController
+    [Authorize]
+    public class ReminderSchedulesController : Controller
     {
-        public string Remind(Context context)
+        [AllowAnonymous]
+        [HttpGet]
+        public string Remind()
         {
+            var context = new Context();
             if (Parameters.Reminder.Enabled)
             {
                 if (context.QueryStrings.Bool("NoLog"))

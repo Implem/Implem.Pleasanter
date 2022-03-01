@@ -1567,12 +1567,13 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
+            Process process = null;
             var errorData = deptModel.Update(context: context, ss: ss);
             switch (errorData.Type)
             {
                 case Error.Types.None:
                     var res = new DeptsResponseCollection(deptModel);
-                    return ResponseByUpdate(res, context, ss, deptModel)
+                    return ResponseByUpdate(res, context, ss, deptModel, process)
                         .PrependComment(
                             context: context,
                             ss: ss,
@@ -1594,7 +1595,8 @@ namespace Implem.Pleasanter.Models
             DeptsResponseCollection res,
             Context context,
             SiteSettings ss,
-            DeptModel deptModel)
+            DeptModel deptModel,
+            Process process)
         {
             ss.ClearColumnAccessControlCaches(baseModel: deptModel);
             if (context.Forms.Bool("IsDialogEditorForm"))
@@ -1622,9 +1624,11 @@ namespace Implem.Pleasanter.Models
                             dataRows: gridData.DataRows,
                             columns: columns))
                     .CloseDialog()
-                    .Message(Messages.Updated(
+                    .Message(message: UpdatedMessage(
                         context: context,
-                        data: deptModel.Title.MessageDisplay(context: context)))
+                        ss: ss,
+                        deptModel: deptModel,
+                        process: process))
                     .Messages(context.Messages);
             }
             else
@@ -1657,6 +1661,29 @@ namespace Implem.Pleasanter.Models
                         comments: deptModel.Comments,
                         deleteCommentId: deptModel.DeleteCommentId)
                     .ClearFormData();
+            }
+        }
+
+        private static Message UpdatedMessage(
+            Context context,
+            SiteSettings ss,
+            DeptModel deptModel,
+            Process process)
+        {
+            if (process == null)
+            {
+                return Messages.Updated(
+                    context: context,
+                    data: deptModel.Title.MessageDisplay(context: context));
+            }
+            else
+            {
+                var message = process.GetSuccessMessage(context: context);
+                message.Text = deptModel.ReplacedDisplayValues(
+                    context: context,
+                    ss: ss,
+                    value: message.Text);
+                return message;
             }
         }
 
@@ -1820,7 +1847,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static System.Web.Mvc.ContentResult GetByApi(
+        public static ContentResultInheritance GetByApi(
             Context context,
             SiteSettings ss,
             int deptId)

@@ -1,9 +1,0 @@
-﻿{
-    "Id": "AutoTestTargetPartsMessage",
-    "Type": 110,
-    "Languages": [
-        {
-            "Body": "Test cases marked with \"*\" run all test parts under the folder."
-        }
-    ]
-}

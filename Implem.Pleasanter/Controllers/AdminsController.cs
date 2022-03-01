@@ -4,35 +4,48 @@ using Implem.Pleasanter.Libraries.Initializers;
 using Implem.Pleasanter.Libraries.Migrators;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
-    public class AdminsController
+    [Authorize]
+    public class AdminsController : Controller
     {
-        public string Index(Context context)
+        [HttpGet]
+        public ActionResult Index()
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var html = new HtmlBuilder().AdminsIndex(context: context);
+            ViewBag.HtmlBody = html;
             log.Finish(context: context, responseSize: html.Length);
-            return html;
+            return View();
         }
 
-        public void InitializeItems(Context context)
+        [HttpGet]
+        public ActionResult InitializeItems()
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             ItemsInitializer.Initialize(context: context);
             log.Finish(context: context, responseSize: 0);
+            return View();
         }
 
-        public void MigrateSiteSettings(Context context)
+        [HttpGet]
+        public ActionResult MigrateSiteSettings()
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             SiteSettingsMigrator.Migrate(context: context);
             log.Finish(context: context, responseSize: 0);
+            return View();
         }
 
-        public string ReloadParameters(Context context)
+        [HttpGet]
+        public string ReloadParameters()
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = ParametersInitializer.Initialize(context: context);
             log.Finish(context: context, responseSize: json.Length);

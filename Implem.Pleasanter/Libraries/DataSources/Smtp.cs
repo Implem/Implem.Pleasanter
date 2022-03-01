@@ -7,15 +7,18 @@ using Implem.Pleasanter.Models;
 using System;
 using System.IO;
 using System.Linq;
-using System.Net.Mail;
 using System.Threading.Tasks;
+using MimeKit;
+using System.Collections.Generic;
+using MailKit.Net.Smtp;
+
 namespace Implem.Pleasanter.Libraries.DataSources
 {
     public class Smtp
     {
         public string Host;
         public int Port;
-        public MailAddress From;
+        public MailboxAddress From;
         public string To;
         public string Cc;
         public string Bcc;
@@ -27,7 +30,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Context context,
             string host,
             int port,
-            MailAddress from,
+            MailboxAddress from,
             string to,
             string cc,
             string bcc,
@@ -45,61 +48,77 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Body = body;
         }
 
-        public void Send(Context context, Attachments attachments = null)
+        public async void Send(Context context, Attachments attachments = null)
         {
-            var task = Task.Run(() =>
+            try
             {
-                try
+                var message = new MimeMessage();
+                message.From.Add(Addresses.From(From));
+                Addresses.Get(
+                    context: context,
+                    addresses: To)
+                    .ForEach(to => message.To.Add(MailboxAddress.Parse(to)));
+                Addresses.Get(
+                    context: context,
+                    addresses: Cc)
+                    .ForEach(cc => message.Cc.Add(MailboxAddress.Parse(cc)));
+                Addresses.Get(
+                    context: context,
+                    addresses: Bcc)
+                        .ForEach(bcc => message.Bcc.Add(MailboxAddress.Parse(bcc)));
+                message.Subject = Subject;
+                var textPart = new TextPart(MimeKit.Text.TextFormat.Plain)
                 {
-                    using (var mailMessage = new MailMessage())
+                    Text = Body
+                };
+                var mimeParts = attachments
+                    ?.Where(attachment => attachment?.Base64?.IsNullOrEmpty() == false)
+                    .Select(attachment =>
                     {
-                        mailMessage.From = Addresses.From(From);
-                        Addresses.Get(
-                            context: context,
-                            addresses: To)
-                                .ForEach(to => mailMessage.To.Add(to));
-                        Addresses.Get(
-                            context: context,
-                            addresses: Cc)
-                                .ForEach(cc => mailMessage.CC.Add(cc));
-                        Addresses.Get(
-                            context: context,
-                            addresses: Bcc)
-                                .ForEach(bcc => mailMessage.Bcc.Add(bcc));
-                        mailMessage.Subject = Subject;
-                        mailMessage.Body = Body;
-                        attachments
-                            ?.Where(attachment => attachment?.Base64?.IsNullOrEmpty() == false)
-                            .ForEach(attachment =>
-                            {
-                                var attach = System.Net.Mail.Attachment.CreateAttachmentFromString(
-                                    content: attachment.Base64,
-                                    name: Strings.CoalesceEmpty(attachment.Name, "NoName"));
-                                mailMessage.Attachments.Add(attach);
-                            });
-                        using (var smtpClient = new SmtpClient())
-                        {
-                            smtpClient.Host = Host;
-                            smtpClient.Port = Port;
-                            smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-                            if (Parameters.Mail.SmtpUserName != null &&
-                                Parameters.Mail.SmtpPassword != null)
-                            {
-                                smtpClient.Credentials = new System.Net.NetworkCredential(
-                                    Parameters.Mail.SmtpUserName, Parameters.Mail.SmtpPassword);
-                            }
-                            smtpClient.EnableSsl = Parameters.Mail.SmtpEnableSsl;
-                            smtpClient.Send(mailMessage);
-                            smtpClient.Dispose();
-                        }
-                    }
-                }
-                catch (Exception e)
+                        var fileName = attachment.Name ?? attachment.FileName ?? string.Empty;
+                        var mimeType = attachment.ContentType.IsNullOrEmpty()
+                            ? MimeTypes.GetMimeType(fileName)
+                            : attachment.ContentType;
+                        var stream = new MemoryStream(Convert.FromBase64String(attachment.Base64));
+                        var mimePart = new MimePart(mimeType);
+                        mimePart.FileName = Strings.CoalesceEmpty(fileName, "NoName");
+                        mimePart.Content = new MimeContent(stream);
+                        return mimePart;
+                    }).ToList();
+                if (mimeParts.Count > 0)
                 {
-                    new SysLogModel(Context, e);
+                    var multipart = new Multipart("mixed");
+                    multipart.Add(textPart);
+                    foreach (var part in mimeParts)
+                    {
+                        multipart.Add(part);
+                    }
+                    message.Body = multipart;
                 }
-            });
-
+                else
+                {
+                    message.Body = textPart;
+                }
+                using (var smtpClient = new SmtpClient())
+                {
+                    var options = Parameters.Mail.SmtpEnableSsl
+                        ? MailKit.Security.SecureSocketOptions.StartTls
+                        : MailKit.Security.SecureSocketOptions.Auto;
+                    await smtpClient.ConnectAsync(Host, Port, options);
+                    
+                    if (Parameters.Mail.SmtpUserName != null &&
+                        Parameters.Mail.SmtpPassword != null)
+                    {
+                        await smtpClient.AuthenticateAsync(Parameters.Mail.SmtpUserName, Parameters.Mail.SmtpPassword);
+                    }
+                    await smtpClient.SendAsync(message);
+                    await smtpClient.DisconnectAsync(true);
+                }
+            }
+            catch (Exception e)
+            {
+                new SysLogModel(Context, e);
+            }
         }
     }
 }

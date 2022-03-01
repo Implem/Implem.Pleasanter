@@ -75,6 +75,8 @@ namespace Implem.Pleasanter.App_Start
                 "~/scripts/permission.js",
                 "~/scripts/position.js",
                 "~/scripts/positionevents.js",
+                "~/scripts/process.js",
+                "~/scripts/processevents.js",
                 "~/scripts/scroll.js",
                 "~/scripts/scrollevents.js",
                 "~/scripts/searchevents.js",

@@ -2925,6 +2925,39 @@ namespace Implem.Pleasanter.Models
             });
         }
 
+        public string ReplacedDisplayValues(
+            Context context,
+            SiteSettings ss,
+            string value)
+        {
+            ss.IncludedColumns(value: value).ForEach(column =>
+                value = value.Replace(
+                    $"[{column.ColumnName}]",
+                    ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: Mine(context: context))));
+            value = ReplacedContextValues(context, value);
+            return value;
+        }
+
+        private string ReplacedContextValues(Context context, string value)
+        {
+            var url = Locations.ItemEditAbsoluteUri(
+                context: context,
+                id: UserId);
+            var mailAddress = MailAddressUtilities.Get(
+                context: context,
+                userId: context.UserId);
+            value = value
+                .Replace("{Url}", url)
+                .Replace("{LoginId}", context.User.LoginId)
+                .Replace("{UserName}", context.User.Name)
+                .Replace("{MailAddress}", mailAddress);
+            return value;
+        }
+
         private void SetBySession(Context context)
         {
             if (!context.Forms.Exists("Users_UserSettings")) UserSettings = Session_UserSettings(context: context);
@@ -3484,7 +3517,7 @@ namespace Implem.Pleasanter.Models
                         tenantId: context.Forms.Int("SelectedTenantId"));
                     if (ret)
                     {
-                        context = context.CreateContext(tenantId: TenantId);
+                        context = new Context(tenantId: TenantId);
                         if (context.ContractSettings?.AllowOriginalLogin == 0 && TenantManager == false)
                         {
                             ret = false;
@@ -3507,7 +3540,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private bool AllowedIpAddress(Context context)
         {
-            var createdContext = context.CreateContext(TenantId);
+            var createdContext = new Context(TenantId);
             return context.ContractSettings.AllowedIpAddress(createdContext.UserHostAddress);
         }
 
@@ -3778,7 +3811,7 @@ namespace Implem.Pleasanter.Models
                                             .Replace(
                                                 "[AuthenticationCode]",
                                                 SecondaryAuthenticationCode),
-                                    From = new System.Net.Mail.MailAddress(Parameters
+                                    From = MimeKit.MailboxAddress.Parse(Parameters
                                         .Mail
                                         .SupportFrom),
                                     To = $"\"{Name}\" <{mailAddress}>",
@@ -3819,8 +3852,7 @@ namespace Implem.Pleasanter.Models
                                 controlId: "SecondaryAuthenticationCode",
                                 controlCss: " focus always-send",
                                 labelText: Displays.AuthenticationCode(context: context),
-                                validateRequired: true,
-                                labelRequired: true))
+                                validateRequired: true))
                         .Div(
                             id: "SecondaryAuthenticationCommands",
                             css: "both",
@@ -4080,7 +4112,7 @@ namespace Implem.Pleasanter.Models
             context.FormsAuthenticationSignIn(
                 userName: LoginId,
                 createPersistentCookie: createPersistentCookie);
-            Libraries.Initializers.StatusesInitializer.Initialize(context.CreateContext(
+            Libraries.Initializers.StatusesInitializer.Initialize(new Context(
                 tenantId: TenantId,
                 deptId: DeptId,
                 userId: UserId));

@@ -1,0 +1,33 @@
+﻿{
+    "Id": "SuccessMessage",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Success message"
+        },
+        {
+            "Language": "zh",
+            "Body": "成功讯息"
+        },
+        {
+            "Language": "ja",
+            "Body": "成功メッセージ"
+        },
+        {
+            "Language": "de",
+            "Body": "Erfolgsmeldung"
+        },
+        {
+            "Language": "ko",
+            "Body": "성공 메시지"
+        },
+        {
+            "Language": "es",
+            "Body": "mensaje de exito"
+        },
+        {
+            "Language": "vn",
+            "Body": "Gửi tin thành công"
+        }
+    ]
+}

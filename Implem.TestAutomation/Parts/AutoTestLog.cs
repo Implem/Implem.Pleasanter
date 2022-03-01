@@ -1,6 +1,5 @@
 ﻿using CsvHelper.Configuration;
 using Implem.Pleasanter.Libraries.Requests;
-using Implem.Pleasanter.NetCore.Libraries.Requests;
 using System;
 namespace Implem.TestAutomation.Parts
 {
@@ -14,7 +13,12 @@ namespace Implem.TestAutomation.Parts
     {
         private AutoTestLogTable()
         {
-            var context = new ContextForAutoTest();
+            var context = new Context(
+                request: false,
+                sessionStatus: false,
+                sessionData: false,
+                user: false,
+                item: false);
             Map(c => c.Time).Index(0).Name("Time");
             Map(c => c.Message).Index(1).Name("Message");
         }

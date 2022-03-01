@@ -141,7 +141,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             }
         }
 
-        public System.Web.Mvc.ContentResult Create(Context context)
+        public ContentResultInheritance Create(Context context)
         {
             if (!context.ContractSettings.Attachments())
             {
@@ -178,14 +178,14 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 var filename = Path.Combine(Directories.Temp(), Guid, Name ?? FileName);
                 using (var stream = new FileStream(filename, FileMode.Open, FileAccess.Read))
                 {
-                    var sha = new System.Security.Cryptography.SHA256CryptoServiceProvider();
+                    var sha = System.Security.Cryptography.SHA512.Create();
                     HashCode = System.Convert.ToBase64String(sha.ComputeHash(stream));
                 }
             }
             else
             {
                 var bytes = GetBin() ?? bin;
-                var sha = new System.Security.Cryptography.SHA256CryptoServiceProvider();
+                var sha = System.Security.Cryptography.SHA512.Create();
                 HashCode = System.Convert.ToBase64String(sha.ComputeHash(bytes));
             }
         }
@@ -200,7 +200,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public bool IsStoreLocalFolder(Column column)
         {
-            return Pleasanter.Models.BinaryUtilities.BinaryStorageProvider(column, Size.GetValueOrDefault()) == "LocalFolder";
+            return BinaryUtilities.BinaryStorageProvider(column, Size.GetValueOrDefault()) == "LocalFolder";
         }
 
         internal void AttachmentAction(Context context, Column column, Attachments oldAttachments)

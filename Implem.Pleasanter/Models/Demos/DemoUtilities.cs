@@ -40,7 +40,7 @@ namespace Implem.Pleasanter.Models
                 TenantName = mailAddress
             };
             tenantModel.Create(context: context, ss: ss);
-            context = context.CreateContext(
+            context = new Context(
                 tenantId: tenantModel.TenantId,
                 language: context.Language);
             var demoModel = new DemoModel()
@@ -61,7 +61,7 @@ namespace Implem.Pleasanter.Models
                             passphrase: passphrase),
                         Parameters.Service.DemoUsagePeriod.ToString()
                     }),
-                From = new System.Net.Mail.MailAddress(Parameters.Mail.SupportFrom),
+                From = MimeKit.MailboxAddress.Parse(Parameters.Mail.SupportFrom),
                 To = mailAddress,
                 Bcc = Parameters.Mail.SupportFrom
             });
@@ -84,7 +84,7 @@ namespace Implem.Pleasanter.Models
                         _operator: ">="));
             if (demoModel.AccessStatus == Databases.AccessStatuses.Selected)
             {
-                context = context.CreateContext(
+                context = new Context(
                     tenantId: demoModel.TenantId,
                     language: context.Language);
                 var password = Strings.NewGuid().Sha512Cng();

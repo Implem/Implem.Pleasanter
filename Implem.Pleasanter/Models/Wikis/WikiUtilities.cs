@@ -1420,9 +1420,11 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
+            Process process = null;
             var errorData = wikiModel.Update(
                 context: context,
                 ss: ss,
+                process: process,
                 notice: true,
                 previousTitle: previousTitle);
             switch (errorData.Type)
@@ -1431,7 +1433,7 @@ namespace Implem.Pleasanter.Models
                     var res = new WikisResponseCollection(wikiModel);
                     res.ReplaceAll("#Breadcrumb", new HtmlBuilder()
                         .Breadcrumb(context: context, ss: ss));
-                    return ResponseByUpdate(res, context, ss, wikiModel)
+                    return ResponseByUpdate(res, context, ss, wikiModel, process)
                         .PrependComment(
                             context: context,
                             ss: ss,
@@ -1453,7 +1455,8 @@ namespace Implem.Pleasanter.Models
             WikisResponseCollection res,
             Context context,
             SiteSettings ss,
-            WikiModel wikiModel)
+            WikiModel wikiModel,
+            Process process)
         {
             ss.ClearColumnAccessControlCaches(baseModel: wikiModel);
             if (context.Forms.Bool("IsDialogEditorForm"))
@@ -1481,9 +1484,11 @@ namespace Implem.Pleasanter.Models
                             dataRows: gridData.DataRows,
                             columns: columns))
                     .CloseDialog()
-                    .Message(Messages.Updated(
+                    .Message(message: UpdatedMessage(
                         context: context,
-                        data: wikiModel.Title.MessageDisplay(context: context)))
+                        ss: ss,
+                        wikiModel: wikiModel,
+                        process: process))
                     .Messages(context.Messages);
             }
             else if (wikiModel.Locked)
@@ -1497,9 +1502,11 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     wikiModel: wikiModel)
                         .SetMemory("formChanged", false)
-                        .Message(Messages.Updated(
+                        .Message(message: UpdatedMessage(
                             context: context,
-                            data: wikiModel.Title.MessageDisplay(context: context)))
+                            ss: ss,
+                            wikiModel: wikiModel,
+                            process: process))
                         .Messages(context.Messages)
                         .ClearFormData();
             }
@@ -1542,6 +1549,29 @@ namespace Implem.Pleasanter.Models
                         comments: wikiModel.Comments,
                         deleteCommentId: wikiModel.DeleteCommentId)
                     .ClearFormData();
+            }
+        }
+
+        private static Message UpdatedMessage(
+            Context context,
+            SiteSettings ss,
+            WikiModel wikiModel,
+            Process process)
+        {
+            if (process == null)
+            {
+                return Messages.Updated(
+                    context: context,
+                    data: wikiModel.Title.MessageDisplay(context: context));
+            }
+            else
+            {
+                var message = process.GetSuccessMessage(context: context);
+                message.Text = wikiModel.ReplacedDisplayValues(
+                    context: context,
+                    ss: ss,
+                    value: message.Text);
+                return message;
             }
         }
 

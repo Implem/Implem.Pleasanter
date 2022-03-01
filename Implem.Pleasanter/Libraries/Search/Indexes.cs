@@ -1016,7 +1016,7 @@ namespace Implem.Pleasanter.Libraries.Search
                         })
                         .ForEach(data =>
                         {
-                            var currentContext = context.CreateContext(
+                            var currentContext = new Context(
                                 tenantId: data.TenantId,
                                 deptId: data.DeptId,
                                 userId: data.UserId);

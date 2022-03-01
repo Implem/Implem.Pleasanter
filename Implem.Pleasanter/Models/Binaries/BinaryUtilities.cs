@@ -622,7 +622,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static System.Web.Mvc.ContentResult ApiDonwload(Context context, string guid)
+        public static ContentResultInheritance ApiDonwload(Context context, string guid)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
@@ -950,7 +950,7 @@ namespace Implem.Pleasanter.Models
             using (var fileStream = fileInfo.Open(System.IO.FileMode.Open))
             {
                 fileStream.Position = 0;
-                hashValue = new System.Security.Cryptography.MD5CryptoServiceProvider().ComputeHash(fileStream);
+                hashValue = System.Security.Cryptography.MD5.Create().ComputeHash(fileStream);
                 fileStream.Close();
             }
             var fileHash = string.Join(string.Empty, hashValue.Select(h => h.ToString("x2")));

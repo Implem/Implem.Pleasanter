@@ -1,9 +1,0 @@
-﻿{
-    "Id": "AutoTestFinished",
-    "Type": 110,
-    "Languages": [
-        {
-            "Body": "Auto test execution finished."
-        }
-    ]
-}

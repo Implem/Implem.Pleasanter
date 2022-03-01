@@ -3,6 +3,7 @@ using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.ParameterAccessor.Parts;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using Sustainsys.Saml2;
@@ -12,7 +13,7 @@ using Sustainsys.Saml2.Metadata;
 using Sustainsys.Saml2.WebSso;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
+using System.Data.Common;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
@@ -21,8 +22,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
 {
     public static class Saml
     {
-        private static bool processing = false;
-
         public static SamlAttributes MapAttributes(IEnumerable<Claim> claims, string nameId)
         {
             var attributes = new SamlAttributes();
@@ -325,183 +324,175 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     options.IdentityProviders.Add(idp);
                 }
             }
-        }
-
-        public static void RegisterSamlConfiguration(Context context)
-        {
-            if (Parameters.Authentication.Provider != "SAML") { return; }
-            var createdContext = context.CreateContext(request: false, sessionStatus: false, sessionData: false, user: false);
-            foreach (var tenant in new TenantCollection(createdContext, SiteSettingsUtilities.TenantsSiteSettings(createdContext),
-                where: Rds.TenantsWhere()
-                    .Comments(_operator: " is not null")
-                    .Comments("", _operator: "<>")))
+            if (Parameters.Authentication.Provider == "SAML-MultiTenant")
             {
-                SetIdpConfiguration(createdContext, tenant.TenantId, true);
-                new SysLogModel(
-                    context: createdContext,
-                    method: nameof(RegisterSamlConfiguration),
-                    message: "SetIdpConfiguration:" + "[" + tenant.TenantId + "]" + tenant.Title);
+                options.Notifications.SelectIdentityProvider = (entityId, rd) =>
+                {
+                    return GetSamlIdp(options, entityId, rd);
+                };
+                options.Notifications.GetIdentityProvider = (entityId, rd, op) =>
+                {
+                    return GetSamlIdp(options, entityId, rd) ?? op.IdentityProviders.Default;
+                };
             }
         }
 
-        public static string SetIdpConfiguration(Context context, int tenantId, bool startup = false)
+        private static Sustainsys.Saml2.IdentityProvider GetSamlIdp(Saml2Options options, EntityId entityId, IDictionary<string, string> rd)
+        {
+            if (entityId == null
+                || !rd.TryGetValue("SamlLoginUrl", out string loginUrl)
+                || !rd.TryGetValue("SamlMetadataLocation", out string metadataLocation))
+            {
+                return null;
+            }
+            var idp = new Sustainsys.Saml2.IdentityProvider(entityId, options.SPOptions);
+            idp.SingleSignOnServiceUrl = new Uri(loginUrl);
+            idp.MetadataLocation = metadataLocation;
+            idp.LoadMetadata = true;
+            return idp;
+        }
+
+        public static ContractSettings GetTenantSamlSettings(Context context, int tenantId)
         {
             var contractSettings = TenantUtilities.GetContractSettings(context, tenantId);
             if (contractSettings == null
                 || contractSettings.SamlCompanyCode.IsNullOrEmpty()
                 || contractSettings.SamlLoginUrl.IsNullOrEmpty()
-                || contractSettings.SamlThumbprint.IsNullOrEmpty())
+                || contractSettings.SamlMetadataGuid.IsNullOrEmpty())
             {
                 return null;
             }
-            if (!FindCert(context, contractSettings.SamlThumbprint))
+            return contractSettings; 
+        }
+
+        public static ContractSettings GetTenantSamlSettings(Context context, string ssocode)
+        {
+            var tenant = new TenantModel().Get(
+                context: context,
+                ss: SiteSettingsUtilities.TenantsSiteSettings(context),
+                where: Rds.TenantsWhere().Comments(ssocode));
+            if (tenant.AccessStatus == Databases.AccessStatuses.Selected)
             {
-                return null;
+                var contractSettings = Saml.GetTenantSamlSettings(context: context, tenantId: tenant.TenantId);
+                if (contractSettings != null)
+                {
+                    return contractSettings;
+                }
+            }
+            return null;
+        }
+
+        public static string SetSamlMetadataFile(Context context, string guid)
+        {
+            var metadataPath = System.IO.Path.Combine(Directories.Temp(), "SamlMetadata", guid + ".xml");
+            if (!System.IO.File.Exists(metadataPath))
+            {
+                System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(metadataPath));
+                var bytes = Repository.ExecuteScalar_bytes(
+                    context: context,
+                    transactional: false,
+                    statements: new Implem.Libraries.DataSources.SqlServer.SqlStatement[]
+                    {
+                        Rds.SelectBinaries(
+                            column: Rds.BinariesColumn().Bin(),
+                            where: Rds.BinariesWhere().Guid(guid))
+                    });
+                System.IO.File.WriteAllBytes(metadataPath, bytes);
+            }
+            return metadataPath;
+        }
+
+        public static (string redirectUrl, string redirectResultUrl, string html) SamlLogin(Context context)
+        {
+            if (!Authentications.SAML()
+                || context.AuthenticationType != "Federation"
+                || context.IsAuthenticated != true)
+            {
+                return (null, Responses.Locations.SamlLoginFailed(context: context), null);
+            }
+            Authentications.SignOut(context: context);
+            var loginId = context.UserClaims?.FirstOrDefault(claim => claim.Type == ClaimTypes.NameIdentifier);
+            var attributes = Saml.MapAttributes(context.UserClaims, loginId.Value);
+            var name = attributes.UserName;
+            TenantModel tenant;
+            if (Parameters.Authentication.Provider == "SAML-MultiTenant")
+            {
+                if (string.IsNullOrEmpty(name))
+                {
+                    return (null, Responses.Locations.EmptyUserName(context: context), null);
+                }
+                var ssocode = loginId.Issuer.TrimEnd('/').Substring(loginId.Issuer.TrimEnd('/').LastIndexOf('/') + 1);
+                tenant = new TenantModel().Get(
+                    context: context,
+                    ss: SiteSettingsUtilities.TenantsSiteSettings(context),
+                    where: Rds.TenantsWhere().Comments(ssocode));
+            }
+            else
+            {
+                tenant = new TenantModel().Get(
+                    context: context,
+                    ss: SiteSettingsUtilities.TenantsSiteSettings(context),
+                    where: Rds.TenantsWhere().TenantId(Parameters.Authentication.SamlParameters.SamlTenantId));
+                if (tenant.AccessStatus != Databases.AccessStatuses.Selected)
+                {
+                    Rds.ExecuteNonQuery(
+                        context: context,
+                        connectionString: Parameters.Rds.OwnerConnectionString,
+                        statements: new[] {
+                            Rds.IdentityInsertTenants(factory: context, on: true),
+                            Rds.InsertTenants(
+                                param: Rds.TenantsParam()
+                                    .TenantId(Parameters.Authentication.SamlParameters.SamlTenantId)
+                                    .TenantName("DefaultTenant")),
+                            Rds.IdentityInsertTenants(factory: context, on: false)
+                        });
+                    tenant.TenantId = Parameters.Authentication.SamlParameters.SamlTenantId;
+                }
             }
             try
             {
-                var section = (SustainsysSaml2Section)ConfigurationManager.GetSection("sustainsys.saml2");
-                var loginUrl = contractSettings.SamlLoginUrl;
-                var idp = loginUrl.TrimEnd(new[] { '/' }).Substring(0, loginUrl.LastIndexOf('/') + 1);
-                if (processing) { System.Threading.Thread.Sleep(300); }
-                if (processing == false)
-                {
-                    processing = true;
-                    try
-                    {
-                        IdentityProviderElement newProvider = null;
-                        CertificateElement newCert = null;
-                        var provider = section.IdentityProviders.FirstOrDefault(p => p.EntityId == idp);
-                        if (provider != null)
-                        {
-                            string signOnUrl = provider.SignOnUrl.ToString();
-                            string findValue = provider.SigningCertificate.FindValue;
-                            if (signOnUrl == contractSettings.SamlLoginUrl
-                                && findValue == contractSettings.SamlThumbprint)
-                            {
-                                return $"~/Saml2/SignIn?idp={idp}";
-                            }
-                            else
-                            {
-                                newProvider = provider;
-                                newCert = provider.SigningCertificate;
-                                WriteIdPSettings(contractSettings?.SamlLoginUrl, contractSettings?.SamlThumbprint, idp, newProvider, newCert);
-                                try
-                                {
-                                    var spOptions = new Sustainsys.Saml2.Configuration.SPOptions(SustainsysSaml2Section.Current);
-                                    var options = new Options(spOptions);
-                                    SustainsysSaml2Section.Current.IdentityProviders.RegisterIdentityProviders(options);
-                                    SustainsysSaml2Section.Current.Federations.RegisterFederations(options);
-                                    var optionsFromConfiguration = typeof(Options).GetField("optionsFromConfiguration",
-                                        System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
-                                    optionsFromConfiguration.SetValue(null, new Lazy<Options>(() => options, true));
-                                    //Sustainsys.Saml2.Mvc.Saml2Controller.Options = Options.FromConfiguration;
-
-                                }
-                                catch
-                                {
-                                    WriteIdPSettings(signOnUrl, findValue, idp, newProvider, newCert);
-                                    throw;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            newProvider = new IdentityProviderElement();
-                            newCert = new CertificateElement();
-                            WriteIdPSettings(contractSettings?.SamlLoginUrl, contractSettings?.SamlThumbprint, idp, newProvider, newCert);
-                            AddIdP(section, newProvider);
-                            if (startup == false)
-                            {
-                                var spOptions = new Sustainsys.Saml2.Configuration.SPOptions(SustainsysSaml2Section.Current);
-                                var options = new Options(spOptions);
-                                SustainsysSaml2Section.Current.IdentityProviders.RegisterIdentityProviders(options);
-                                SustainsysSaml2Section.Current.Federations.RegisterFederations(options);
-                                var optionsFromConfiguration = typeof(Options).GetField("optionsFromConfiguration",
-                                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
-                                optionsFromConfiguration.SetValue(null, new Lazy<Options>(() => options, true));
-                                //Sustainsys.Saml2.Mvc.Saml2Controller.Options = Options.FromConfiguration;
-                            }
-                        }
-                    }
-                    finally
-                    {
-                        processing = false;
-                    }
-                }
-                return $"~/Saml2/SignIn?idp={idp}";
+                Saml.UpdateOrInsert(
+                    context: context,
+                    tenantId: tenant.TenantId,
+                    loginId: loginId.Value,
+                    name: string.IsNullOrEmpty(name)
+                        ? loginId.Value
+                        : name,
+                    mailAddress: attributes["MailAddress"],
+                    synchronizedTime: System.DateTime.Now,
+                    attributes: attributes);
             }
-            catch (System.Exception e)
+            catch (DbException e)
             {
-                new SysLogModel(context, e);
-                return null;
-            }
-        }
-
-        private static void AddIdP(SustainsysSaml2Section section, IdentityProviderElement newProvider)
-        {
-            var isReadonly = typeof(ConfigurationElementCollection).GetField("bReadOnly",
-                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            isReadonly.SetValue(section.IdentityProviders, false);
-            var providers = typeof(ConfigurationElementCollection).GetMethod("BaseAdd",
-                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance,
-                null, new[] { typeof(ConfigurationElement) }, null);
-            providers.Invoke(section.IdentityProviders, new[] { newProvider });
-        }
-
-        private static void WriteIdPSettings(string samlLoginUrl, string samlThumbprint, string idp, IdentityProviderElement newProvider, CertificateElement newCert)
-        {
-            var providerReadonly = typeof(IdentityProviderElement).GetField("isReadOnly", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            providerReadonly.SetValue(newProvider, false);
-            var providerIndexer = typeof(IdentityProviderElement).GetProperties(System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-                .First(p => p.GetIndexParameters().Select(i => i.ParameterType).SequenceEqual(new[] { typeof(string) }));
-            providerIndexer.SetValue(newProvider, idp, new[] { "entityId" });
-            providerIndexer.SetValue(newProvider, new System.Uri(samlLoginUrl), new[] { "signOnUrl" });
-            providerIndexer.SetValue(newProvider, true, new[] { "allowUnsolicitedAuthnResponse" });
-            providerIndexer.SetValue(newProvider, Saml2BindingType.HttpRedirect, new[] { "binding" });
-            var certReadonly = typeof(CertificateElement).GetField("isReadOnly", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            certReadonly.SetValue(newCert, false);
-            var certIndexer = typeof(IdentityProviderElement).GetProperties(System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-                .First(p => p.GetIndexParameters().Select(i => i.ParameterType).SequenceEqual(new[] { typeof(string) }));
-            certIndexer.SetValue(newCert, StoreName.My, new[] { "storeName" });
-            certIndexer.SetValue(newCert, StoreLocation.CurrentUser, new[] { "storeLocation" });
-            certIndexer.SetValue(newCert, X509FindType.FindByThumbprint, new[] { "x509FindType" });
-            certIndexer.SetValue(newCert, samlThumbprint, new[] { "findValue" });
-            providerIndexer.SetValue(newProvider, newCert, new[] { "signingCertificate" });
-        }
-
-        private static bool FindCert(Context context, string findValue)
-        {
-            var store = new X509Store(StoreName.My, StoreLocation.CurrentUser);
-            store.Open(OpenFlags.ReadOnly);
-            try
-            {
-                var certs = store.Certificates.Find(X509FindType.FindByThumbprint, findValue, false);
-                if (certs.Count != 1)
+                if (context.SqlErrors.ErrorCode(e) == 2601)
                 {
-                    new SysLogModel(
-                        context: context,
-                        method: nameof(FindCert),
-                        message: $"Invalid SAML certificate. (Thumbrint={findValue})",
-                        sysLogType: SysLogModel.SysLogTypes.Execption);
-                    return false;
+                    return (null, Responses.Locations.LoginIdAlreadyUse(context: context), null);
                 }
-                var today = DateTime.Today;
-                if (certs[0].NotBefore.Date > today || certs[0].NotAfter.Date < today)
-                {
-                    new SysLogModel(
-                        context: context,
-                        method: nameof(FindCert),
-                        message: $"Certificate expired ({certs[0].NotBefore.ToString("yyyy/MM/dd")} - {certs[0].NotAfter.ToString("yyyy/MM/dd")})",
-                        sysLogType: SysLogModel.SysLogTypes.Execption);
-                    return false;
-                }
+                throw;
             }
-            finally
+            var user = new UserModel().Get(
+                context: context,
+                ss: null,
+                where: Rds.UsersWhere()
+                    .TenantId(tenant.TenantId)
+                    .LoginId(loginId.Value));
+            if (user.AccessStatus == Databases.AccessStatuses.Selected)
             {
-                store.Close();
+                if (user.Disabled)
+                {
+                    return (null, Responses.Locations.UserDisabled(context: context), null);
+                }
+                if (user.Lockout)
+                {
+                    return (null, Responses.Locations.UserLockout(context: context), null);
+                }
+                user.Allow(context: context, returnUrl: Responses.Locations.Top(context), createPersistentCookie: true);
+                return (null, Responses.Locations.Top(context), null);
             }
-            return true;
+            else
+            {
+                return (null, Responses.Locations.SamlLoginFailed(context: context), null);
+            }
         }
     }
 }
