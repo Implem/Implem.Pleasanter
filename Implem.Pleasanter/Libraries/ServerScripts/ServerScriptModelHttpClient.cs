@@ -23,9 +23,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 var responseContent = response.Content.ReadAsStringAsync().Result;
                 return responseContent;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw e;
+                throw;
             }
         }
 
@@ -43,9 +43,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 var responseContent = response.Content.ReadAsStringAsync().Result;
                 return responseContent;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw e;
+                throw;
             }
         }
 
@@ -63,9 +63,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 var responseContent = response.Content.ReadAsStringAsync().Result;
                 return responseContent;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw e;
+                throw;
             }
         }
 
@@ -77,9 +77,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 var responseContent = response.Content.ReadAsStringAsync().Result;
                 return responseContent;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw e;
+                throw;
             }
         }
     }

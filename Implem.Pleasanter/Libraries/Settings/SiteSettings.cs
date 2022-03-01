@@ -175,6 +175,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<Link> Links;
         public SettingList<Summary> Summaries;
         public SettingList<FormulaSet> Formulas;
+        public SettingList<Process> Processes;
         public int? ViewLatestId;
         public List<View> Views;
         public SettingList<Notification> Notifications;
@@ -200,6 +201,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? AllowPhysicalDeleteHistories;
         public bool? HideLink;
         public bool? SwitchRecordWithAjax;
+        public bool? SwitchCommandButtonsAutoPostBack;
         public bool? EnableCalendar;
         public bool? EnableCrosstab;
         public bool? NoDisplayCrosstabGraph;
@@ -316,6 +318,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Links == null) Links = new List<Link>();
             if (Summaries == null) Summaries = new SettingList<Summary>();
             if (Formulas == null) Formulas = new SettingList<FormulaSet>();
+            if (Processes == null) Processes = new SettingList<Process>();
             ViewLatestId = ViewLatestId ?? 0;
             if (Notifications == null) Notifications = new SettingList<Notification>();
             if (Reminders == null) Reminders = new SettingList<Reminder>();
@@ -339,6 +342,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             AllowPhysicalDeleteHistories = AllowPhysicalDeleteHistories ?? true;
             HideLink = HideLink ?? false;
             SwitchRecordWithAjax = SwitchRecordWithAjax ?? false;
+            SwitchCommandButtonsAutoPostBack = SwitchCommandButtonsAutoPostBack ?? false;
             EnableCalendar = EnableCalendar ?? true;
             EnableCrosstab = EnableCrosstab ?? true;
             NoDisplayCrosstabGraph = NoDisplayCrosstabGraph ?? false;
@@ -768,6 +772,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.SwitchRecordWithAjax = SwitchRecordWithAjax;
             }
+            if (SwitchCommandButtonsAutoPostBack == true)
+            {
+                ss.SwitchCommandButtonsAutoPostBack = SwitchCommandButtonsAutoPostBack;
+            }
             if (EnableCalendar == false)
             {
                 ss.EnableCalendar = EnableCalendar;
@@ -901,6 +909,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss.Formulas = new SettingList<FormulaSet>();
                 }
                 ss.Formulas.Add(formulas.GetRecordingData());
+            });
+            Processes?.ForEach(process =>
+            {
+                if (ss.Processes == null)
+                {
+                    ss.Processes = new SettingList<Process>();
+                }
+                ss.Processes.Add(process.GetRecordingData(
+                    context: context,
+                    ss: this));
             });
             if (ViewLatestId != 0)
             {
@@ -1866,7 +1884,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 data.RecordUsers = columnAccessControl.RecordUsers;
             }
         }
-        private decimal DefaultMin(ColumnDefinition columnDefinition)
+
+        public decimal DefaultMin(ColumnDefinition columnDefinition)
         {
             return columnDefinition.ExtendedColumnType == "Num"
                 && columnDefinition.DefaultMinValue != 0
@@ -1874,7 +1893,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     : columnDefinition.Min;
         }
 
-        private decimal DefaultMax(ColumnDefinition columnDefinition)
+        public decimal DefaultMax(ColumnDefinition columnDefinition)
         {
             return columnDefinition.ExtendedColumnType == "Num"
                 && columnDefinition.DefaultMaxValue != 0
@@ -2707,6 +2726,55 @@ namespace Implem.Pleasanter.Libraries.Settings
             return targets;
         }
 
+        public Dictionary<string, ControlData> ProcessValidateInputSelectableOptions()
+        {
+            return ProcessValidateInputColumns()
+                .ToDictionary(
+                    column => column.ColumnName,
+                    column => new ControlData(
+                        text: column.LabelText,
+                        attributes: ProcessValidateInputColumnAttributes(column: column)));
+        }
+
+        private IEnumerable<Column> ProcessValidateInputColumns()
+        {
+            return Columns
+                .Where(o => !o.NotUpdate)
+                .Where(o => !o.Id_Ver)
+                .Where(o => !o.Joined)
+                .Where(o => !o.RecordedTime)
+                .Where(o => o.TypeName != "bit")
+                .Where(o => o.ColumnName != "SiteId")
+                .Where(o => o.ColumnName != "Creator")
+                .Where(o => o.ColumnName != "Updator")
+                .Where(o => o.ColumnName != "Comments")
+                .Where(o => o.EditorColumn)
+                .OrderBy(o => o.No);
+        }
+
+        private Dictionary<string, string> ProcessValidateInputColumnAttributes(Column column)
+        {
+            var data = new Dictionary<string, string>();
+            data.Add("data-required", "1");
+            switch (column.TypeName.CsTypeSummary())
+            {
+                case "string":
+                    if (!column.ColumnName.StartsWith("Attachments"))
+                    {
+                        data.Add("data-string", "1");
+                    }
+                    break;
+                case "numeric":
+                    if (column.TypeName == "decimal")
+                    {
+                        var columnDefinition = ColumnDefinitionHash.Get(column.ColumnName);
+                        data.Add("data-num", "1");
+                    }
+                    break;
+            }
+            return data;
+        }
+
         public Dictionary<string, ControlData> FormulaTargetSelectableOptions()
         {
             return Columns
@@ -3208,6 +3276,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "AllowPhysicalDeleteHistories": AllowPhysicalDeleteHistories = value.ToBool(); break;
                 case "HideLink": HideLink = value.ToBool(); break;
                 case "SwitchRecordWithAjax": SwitchRecordWithAjax = value.ToBool(); break;
+                case "SwitchCommandButtonsAutoPostBack": SwitchCommandButtonsAutoPostBack = value.ToBool(); break;
                 case "ImportEncoding": ImportEncoding = value; break;
                 case "UpdatableImport": UpdatableImport = value.ToBool(); break;
                 case "EnableCalendar": EnableCalendar = value.ToBool(); break;

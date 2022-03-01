@@ -12,7 +12,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult Edit()
         {
             var context = new Context();
-            if (!Request.IsAjaxRequest())
+            if (!context.Ajax)
             {
                 var log = new SysLogModel(context: context);
                 var html = TenantUtilities.Editor(

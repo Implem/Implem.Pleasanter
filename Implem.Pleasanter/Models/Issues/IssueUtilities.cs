@@ -1558,22 +1558,11 @@ namespace Implem.Pleasanter.Models
                                     _using: context.CanManagePermission(ss: ss)
                                         && !ss.Locked()
                                         && issueModel.MethodType != BaseModel.MethodTypes.New)
-                                .MainCommands(
+                                .EditorMainCommands(
                                     context: context,
                                     ss: ss,
-                                    verType: issueModel.VerType,
-                                    readOnly: issueModel.ReadOnly,
-                                    updateButton: true,
-                                    copyButton: true,
-                                    moveButton: true,
-                                    mailButton: true,
-                                    deleteButton: true,
-                                    serverScriptModelRow: serverScriptModelRow,
-                                    extensions: () => hb
-                                        .MainCommandExtensions(
-                                            context: context,
-                                            ss: ss,
-                                            issueModel: issueModel)))
+                                    issueModel: issueModel,
+                                    serverScriptModelRow: serverScriptModelRow))
                         .Hidden(
                             controlId: "BaseUrl",
                             value: Locations.BaseUrl(context: context))
@@ -2366,7 +2355,7 @@ namespace Implem.Pleasanter.Models
                         .Message(invalid.Message(context: context))
                         .Messages(context.Messages);
             }
-            issueModel.SetByBeforeOpeningPageServerScript(
+            var serverScriptModelRow = issueModel.SetByBeforeOpeningPageServerScript(
                 context: context,
                 ss: ss);
             var ret = new ResponseCollection()
@@ -2374,9 +2363,48 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     issueModel: issueModel)
+                .ReplaceAll(
+                    "#MainCommandsContainer",
+                    new HtmlBuilder().EditorMainCommands(
+                        context: context,
+                        ss: ss,
+                        issueModel: issueModel,
+                        serverScriptModelRow: serverScriptModelRow),
+                    _using: ss.SwitchCommandButtonsAutoPostBack == true)
                 .Messages(context.Messages)
                 .Log(context.GetLog());
             return ret;
+        }
+
+        private static HtmlBuilder EditorMainCommands(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            IssueModel issueModel,
+            ServerScriptModelRow serverScriptModelRow)
+        {
+            issueModel.SetProcessMatchConditions(
+                context: context,
+                ss: ss);
+            return hb.MainCommands(
+                context: context,
+                ss: ss,
+                verType: issueModel.VerType,
+                readOnly: issueModel.ReadOnly,
+                updateButton: true,
+                copyButton: true,
+                moveButton: true,
+                mailButton: true,
+                deleteButton: true,
+                serverScriptModelRow: serverScriptModelRow,
+                extensions: () => hb
+                    .MainCommandExtensions(
+                        context: context,
+                        ss: ss,
+                        issueModel: issueModel)
+                    .ProcessCommands(
+                        context: context,
+                        ss: ss));
         }
 
         private static List<long> GetSwitchTargets(Context context, SiteSettings ss, long issueId, long siteId)
@@ -2734,7 +2762,7 @@ namespace Implem.Pleasanter.Models
             return ids.ToJson();
         }
 
-        public static System.Web.Mvc.ContentResult GetByApi(
+        public static ContentResultInheritance GetByApi(
             Context context,
             SiteSettings ss,
             long issueId,
@@ -2957,7 +2985,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static System.Web.Mvc.ContentResult CreateByApi(Context context, SiteSettings ss)
+        public static ContentResultInheritance CreateByApi(Context context, SiteSettings ss)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
@@ -3075,9 +3103,37 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
+            var process = ss.Processes?.FirstOrDefault(o =>
+                $"Process_{o.Id}" == context.Forms.ControlId());
+            if (process != null)
+            {
+                process.MatchConditions = issueModel.GetProcessMatchConditions(
+                    context: context,
+                    ss: ss,
+                    process: process);
+                if (process.MatchConditions && process.Accessable(context: context))
+                {
+                    if (process.ChangedStatus != -1)
+                    {
+                        issueModel.Status.Value = process.ChangedStatus;
+                    }
+                }
+                else
+                {
+                    var message = process.GetErrorMessage(context: context);
+                    message.Text = issueModel.ReplacedDisplayValues(
+                        context: context,
+                        ss: ss,
+                        value: message.Text);
+                    return new ResponseCollection()
+                        .Message(message: message)
+                        .ToJson();
+                }
+            }
             var errorData = issueModel.Update(
                 context: context,
                 ss: ss,
+                process: process,
                 notice: true,
                 previousTitle: previousTitle);
             switch (errorData.Type)
@@ -3094,7 +3150,7 @@ namespace Implem.Pleasanter.Models
                     switch (Parameters.General.UpdateResponseType)
                     {
                         case 1:
-                            return ResponseByUpdate(res, context, ss, issueModel)
+                            return ResponseByUpdate(res, context, ss, issueModel, process)
                                 .PrependComment(
                                     context: context,
                                     ss: ss,
@@ -3103,7 +3159,7 @@ namespace Implem.Pleasanter.Models
                                     verType: issueModel.VerType)
                                 .ToJson();
                         default:
-                            return ResponseByUpdate(res, context, ss, issueModel)
+                            return ResponseByUpdate(res, context, ss, issueModel, process)
                                 .ToJson();
                     }
                 case Error.Types.Duplicated:
@@ -3127,7 +3183,8 @@ namespace Implem.Pleasanter.Models
             IssuesResponseCollection res,
             Context context,
             SiteSettings ss,
-            IssueModel issueModel)
+            IssueModel issueModel,
+            Process process)
         {
             ss.ClearColumnAccessControlCaches(baseModel: issueModel);
             if (context.Forms.Bool("IsDialogEditorForm"))
@@ -3155,9 +3212,11 @@ namespace Implem.Pleasanter.Models
                             dataRows: gridData.DataRows,
                             columns: columns))
                     .CloseDialog()
-                    .Message(Messages.Updated(
+                    .Message(message: UpdatedMessage(
                         context: context,
-                        data: issueModel.Title.MessageDisplay(context: context)))
+                        ss: ss,
+                        issueModel: issueModel,
+                        process: process))
                     .Messages(context.Messages);
             }
             else if (issueModel.Locked)
@@ -3171,9 +3230,11 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     issueModel: issueModel)
                         .SetMemory("formChanged", false)
-                        .Message(Messages.Updated(
+                        .Message(message: UpdatedMessage(
                             context: context,
-                            data: issueModel.Title.MessageDisplay(context: context)))
+                            ss: ss,
+                            issueModel: issueModel,
+                            process: process))
                         .Messages(context.Messages)
                         .ClearFormData();
             }
@@ -3208,9 +3269,11 @@ namespace Implem.Pleasanter.Models
                                 id: issueModel.IssueId,
                                 methodType: issueModel.MethodType)
                             .SetMemory("formChanged", false)
-                            .Message(Messages.Updated(
+                            .Message(message: UpdatedMessage(
                                 context: context,
-                                data: issueModel.Title.MessageDisplay(context: context)))
+                                ss: ss,
+                                issueModel: issueModel,
+                                process: process))
                             .Messages(context.Messages)
                             .Comment(
                                 context: context,
@@ -3224,10 +3287,35 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             issueModel: issueModel,
-                            message: Messages.Updated(
+                            message: UpdatedMessage(
                                 context: context,
-                                data: issueModel.Title.MessageDisplay(context: context)));
+                                ss: ss,
+                                issueModel: issueModel,
+                                process: process));
                 }
+            }
+        }
+
+        private static Message UpdatedMessage(
+            Context context,
+            SiteSettings ss,
+            IssueModel issueModel,
+            Process process)
+        {
+            if (process == null)
+            {
+                return Messages.Updated(
+                    context: context,
+                    data: issueModel.Title.MessageDisplay(context: context));
+            }
+            else
+            {
+                var message = process.GetSuccessMessage(context: context);
+                message.Text = issueModel.ReplacedDisplayValues(
+                    context: context,
+                    ss: ss,
+                    value: message.Text);
+                return message;
             }
         }
 
@@ -3754,7 +3842,7 @@ namespace Implem.Pleasanter.Models
                 .ToJson();
         }
 
-        public static System.Web.Mvc.ContentResult UpdateByApi(
+        public static ContentResultInheritance UpdateByApi(
             Context context,
             SiteSettings ss,
             long issueId,
@@ -4059,7 +4147,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static System.Web.Mvc.ContentResult DeleteByApi(
+        public static ContentResultInheritance DeleteByApi(
             Context context, SiteSettings ss, long issueId)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
@@ -4900,7 +4988,7 @@ namespace Implem.Pleasanter.Models
                     .Count.ToInt();
         }
 
-        public static System.Web.Mvc.ContentResult BulkDeleteByApi(
+        public static ContentResultInheritance BulkDeleteByApi(
             Context context,
             SiteSettings ss)
         {
@@ -5264,7 +5352,7 @@ namespace Implem.Pleasanter.Models
             return count;
         }
 
-        public static System.Web.Mvc.ContentResult PhysicalBulkDeleteByApi(
+        public static ContentResultInheritance PhysicalBulkDeleteByApi(
             Context context,
             SiteSettings ss)
         {
@@ -5851,7 +5939,7 @@ namespace Implem.Pleasanter.Models
                             data: new string[] { fileName })),
                         Body = Displays.ExportEmailBody(context: context) + "\n" +
                             $"{serverName}{Locations.DownloadFile(context: context, guid: guid)}",
-                        From = new System.Net.Mail.MailAddress(Parameters.Mail.SupportFrom),
+                        From = Libraries.Mails.Addresses.SupportFrom(),
                         To = MailAddressUtilities.Get(context: context, context.UserId),
                     }.Send(context: context, ss);
                 }
@@ -5861,7 +5949,7 @@ namespace Implem.Pleasanter.Models
                     {
                         Title = new Title(Displays.ExportEmailTitleFaild(context: context)),
                         Body = Displays.ExportEmailBodyFaild(context: context, fileName, e.Message),
-                        From = new System.Net.Mail.MailAddress(Parameters.Mail.SupportFrom),
+                        From = Libraries.Mails.Addresses.SupportFrom(),
                         To = MailAddressUtilities.Get(context: context, context.UserId),
                     }.Send(context: context, ss);
                 }
@@ -5869,7 +5957,7 @@ namespace Implem.Pleasanter.Models
             return Messages.ResponseExportAccepted(context: context).ToJson();
         }
 
-        public static System.Web.Mvc.ContentResult ExportByApi(
+        public static ContentResultInheritance ExportByApi(
             Context context, SiteSettings ss, SiteModel siteModel)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))

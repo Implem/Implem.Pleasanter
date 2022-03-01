@@ -276,7 +276,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static System.Web.Mvc.ContentResult GetByApi(Context context)
+        public static ContentResultInheritance GetByApi(Context context)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
@@ -310,7 +310,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static System.Web.Mvc.ContentResult SetByApi(Context context)
+        public static ContentResultInheritance SetByApi(Context context)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
@@ -349,7 +349,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static System.Web.Mvc.ContentResult DeleteByApi(Context context)
+        public static ContentResultInheritance DeleteByApi(Context context)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {

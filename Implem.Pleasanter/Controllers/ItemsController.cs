@@ -13,7 +13,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult Index(long id = 0)
         {
             var context = new Context();
-            if (!Request.IsAjaxRequest())
+            if (!context.Ajax)
             {
                 var log = new SysLogModel(context: context);
                 var html = new ItemModel(context: context, referenceId: id).Index(context: context);
@@ -34,7 +34,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult TrashBox(long id = 0)
         {
             var context = new Context();
-            if (!Request.IsAjaxRequest())
+            if (!context.Ajax)
             {
                 var log = new SysLogModel(context: context);
                 var html = new ItemModel(context: context, referenceId: id).TrashBox(context: context);
@@ -55,7 +55,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult Calendar(long id = 0)
         {
             var context = new Context();
-            if (!Request.IsAjaxRequest())
+            if (!context.Ajax)
             {
                 var log = new SysLogModel(context: context);
                 var html = new ItemModel(context: context, referenceId: id).Calendar(context: context);
@@ -76,7 +76,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult Crosstab(long id = 0)
         {
             var context = new Context();
-            if (!Request.IsAjaxRequest())
+            if (!context.Ajax)
             {
                 var log = new SysLogModel(context: context);
                 var html = new ItemModel(context: context, referenceId: id).Crosstab(context: context);
@@ -97,7 +97,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult Gantt(long id = 0)
         {
             var context = new Context();
-            if (!Request.IsAjaxRequest())
+            if (!context.Ajax)
             {
                 var log = new SysLogModel(context: context);
                 var html = new ItemModel(context: context, referenceId: id).Gantt(context: context);
@@ -118,7 +118,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult BurnDown(long id = 0)
         {
             var context = new Context();
-            if (!Request.IsAjaxRequest())
+            if (!context.Ajax)
             {
                 var log = new SysLogModel(context: context);
                 var html = new ItemModel(context: context, referenceId: id).BurnDown(context: context);
@@ -139,7 +139,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult TimeSeries(long id = 0)
         {
             var context = new Context();
-            if (!Request.IsAjaxRequest())
+            if (!context.Ajax)
             {
                 var log = new SysLogModel(context: context);
                 var html = new ItemModel(context: context, referenceId: id).TimeSeries(context: context);
@@ -160,7 +160,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult Kamban(long id = 0)
         {
             var context = new Context();
-            if (!Request.IsAjaxRequest())
+            if (!context.Ajax)
             {
                 var log = new SysLogModel(context: context);
                 var html = new ItemModel(context: context, referenceId: id).Kamban(context: context);
@@ -181,7 +181,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult ImageLib(long id = 0)
         {
             var context = new Context();
-            if (!Request.IsAjaxRequest())
+            if (!context.Ajax)
             {
                 var log = new SysLogModel(context: context);
                 var html = new ItemModel(context: context, referenceId: id).ImageLib(context: context);
@@ -202,7 +202,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult New(long id = 0)
         {
             var context = new Context();
-            if (!Request.IsAjaxRequest())
+            if (!context.Ajax)
             {
                 var log = new SysLogModel(context: context);
                 var html = new ItemModel(context: context, referenceId: id).New(context: context);
@@ -253,7 +253,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult Edit(long id)
         {
             var context = new Context();
-            if (!Request.IsAjaxRequest())
+            if (!context.Ajax)
             {
                 var log = new SysLogModel(context: context);
                 var html = new ItemModel(context: context, referenceId: id).Editor(context: context);
@@ -400,7 +400,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult Search()
         {
             var context = new Context();
-            if (!Request.IsAjaxRequest())
+            if (!context.Ajax)
             {
                 var log = new SysLogModel(context: context);
                 var html = Indexes.Search(context: context);

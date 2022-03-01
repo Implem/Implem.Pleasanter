@@ -19,7 +19,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult Index()
         {
             var context = new Context();
-            if (!Request.IsAjaxRequest())
+            if (!context.Ajax)
             {
                 var log = new SysLogModel(context: context);
                 var html = UserUtilities.Index(
@@ -57,7 +57,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult Edit(int id)
         {
             var context = new Context();
-            if (!Request.IsAjaxRequest())
+            if (!context.Ajax)
             {
                 var log = new SysLogModel(context: context);
                 var html = UserUtilities.Editor(
@@ -614,6 +614,19 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
+        [HttpPost]
+        public string SetStartGuide()
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = UserUtilities.SetStartGuide(context: context);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         [HttpGet]
         public ActionResult SwitchTenant(int id = 0)
         {
@@ -637,19 +650,6 @@ namespace Implem.Pleasanter.Controllers
             var url = Locations.Top(context: context);
             log.Finish(context: context);
             return Redirect(url);
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        [HttpPost]
-        public string SetStartGuide()
-        {
-            var context = new Context();
-            var log = new SysLogModel(context: context);
-            var json = UserUtilities.SetStartGuide(context: context);
-            log.Finish(context: context, responseSize: json.Length);
-            return json;
         }
     }
 }

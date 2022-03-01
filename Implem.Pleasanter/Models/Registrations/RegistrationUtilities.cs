@@ -1754,7 +1754,7 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     passphrase: passphrase)
                             }),
-                        From = new System.Net.Mail.MailAddress(mailAddress),
+                        From = MimeKit.MailboxAddress.Parse(mailAddress),
                         To = registrationModel.MailAddress,
                         Bcc = Parameters.Mail.SupportFrom
                     };
@@ -1797,12 +1797,13 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
+            Process process = null;
             var errorData = registrationModel.Update(context: context, ss: ss);
             switch (errorData.Type)
             {
                 case Error.Types.None:
                     var res = new RegistrationsResponseCollection(registrationModel);
-                    return ResponseByUpdate(res, context, ss, registrationModel)
+                    return ResponseByUpdate(res, context, ss, registrationModel, process)
                         .PrependComment(
                             context: context,
                             ss: ss,
@@ -1824,7 +1825,8 @@ namespace Implem.Pleasanter.Models
             RegistrationsResponseCollection res,
             Context context,
             SiteSettings ss,
-            RegistrationModel registrationModel)
+            RegistrationModel registrationModel,
+            Process process)
         {
             ss.ClearColumnAccessControlCaches(baseModel: registrationModel);
             if (context.Forms.Bool("IsDialogEditorForm"))
@@ -1852,9 +1854,11 @@ namespace Implem.Pleasanter.Models
                             dataRows: gridData.DataRows,
                             columns: columns))
                     .CloseDialog()
-                    .Message(Messages.Updated(
+                    .Message(message: UpdatedMessage(
                         context: context,
-                        data: registrationModel.Title.MessageDisplay(context: context)))
+                        ss: ss,
+                        registrationModel: registrationModel,
+                        process: process))
                     .Messages(context.Messages);
             }
             else
@@ -1887,6 +1891,29 @@ namespace Implem.Pleasanter.Models
                         comments: registrationModel.Comments,
                         deleteCommentId: registrationModel.DeleteCommentId)
                     .ClearFormData();
+            }
+        }
+
+        private static Message UpdatedMessage(
+            Context context,
+            SiteSettings ss,
+            RegistrationModel registrationModel,
+            Process process)
+        {
+            if (process == null)
+            {
+                return Messages.Updated(
+                    context: context,
+                    data: registrationModel.Title.MessageDisplay(context: context));
+            }
+            else
+            {
+                var message = process.GetSuccessMessage(context: context);
+                message.Text = registrationModel.ReplacedDisplayValues(
+                    context: context,
+                    ss: ss,
+                    value: message.Text);
+                return message;
             }
         }
 
@@ -2252,7 +2279,7 @@ namespace Implem.Pleasanter.Models
                         statements: Rds.SelectTenants(
                         column: Rds.TenantsColumn().Title(),
                         where: Rds.TenantsWhere().TenantId(registrationModel.TenantId)));
-                    var from = Libraries.Mails.Addresses.From(new System.Net.Mail.MailAddress(registrationModel.MailAddress));
+                    var from = Libraries.Mails.Addresses.From(MimeKit.MailboxAddress.Parse(registrationModel.MailAddress));
                     new OutgoingMailModel()
                     {
                         Title = new Title(Displays.ApprovalRequestMailTitle(
@@ -2352,7 +2379,7 @@ namespace Implem.Pleasanter.Models
                         context.TenantTitle,
                         Locations.ApprovaUri(context: context)
                     }),
-                From = new System.Net.Mail.MailAddress(mailAddress),
+                From = MimeKit.MailboxAddress.Parse(mailAddress),
                 To = registrationModel.MailAddress,
                 Bcc = Parameters.Mail.SupportFrom
             }.Send(

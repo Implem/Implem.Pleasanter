@@ -20,10 +20,12 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int Id { get; set; }
         public Types Type;
         public string Prefix;
+        public string Subject;
         public string Address;
         public string Token;
         public bool? UseCustomFormat;
         public string Format;
+        public string Body;
         public List<string> MonitorChangesColumns;
         public int BeforeCondition;
         public int AfterCondition;
@@ -159,7 +161,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case Types.Mail:
                     if (Parameters.Notification.Mail)
                     {
-                        var mailFrom = new System.Net.Mail.MailAddress(
+                        var mailFrom = MimeKit.MailboxAddress.Parse(
                             Addresses.BadAddress(addresses: from) == string.Empty
                                 ? from
                                 : Parameters.Mail.SupportFrom);
@@ -320,6 +322,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 notification.Prefix = Prefix;
             }
+            if (!Subject.IsNullOrEmpty())
+            {
+                notification.Subject = Subject;
+            }
             if (AfterCreate == false)
             {
                 notification.AfterCreate = AfterCreate;
@@ -353,6 +359,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     notification.Format = Format;
                 }
+            }
+            if (!Body.IsNullOrEmpty())
+            {
+                notification.Body = Body;
             }
             if (MonitorChangesColumns?.Any() == true)
             {

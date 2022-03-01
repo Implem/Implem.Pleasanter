@@ -15,7 +15,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult Index()
         {
             var context = new Context();
-            if (!Request.IsAjaxRequest())
+            if (!context.Ajax)
             {
                 var log = new SysLogModel(context: context);
                 var html = DeptUtilities.Index(
@@ -53,7 +53,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult Edit(int id)
         {
             var context = new Context();
-            if (!Request.IsAjaxRequest())
+            if (!context.Ajax)
             {
                 var log = new SysLogModel(context: context);
                 var html = DeptUtilities.Editor(

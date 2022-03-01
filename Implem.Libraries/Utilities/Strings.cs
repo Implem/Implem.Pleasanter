@@ -130,5 +130,12 @@ namespace Implem.Libraries.Utilities
                 ? self.Substring(0, self.Length - before.Length) + (before.ToInt() + number)
                 : self + number;
         }
+
+        public static string StringInJson(this string self)
+        {
+            if (self.IsNullOrEmpty()) return string.Empty;
+            var json = self.ToSingleList().ToJson();
+            return $"{json.Substring(1, json.Length - 2)}";
+        }
     }
 }

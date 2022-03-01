@@ -80,23 +80,6 @@ namespace Implem.Pleasanter.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<HttpResponseMessage> Export(long id)
-        {
-            var body = await Request.Content.ReadAsStringAsync();
-            var context = new Context(
-                sessionStatus: User?.Identity?.IsAuthenticated == true,
-                sessionData: User?.Identity?.IsAuthenticated == true,
-                apiRequestBody: body,
-                contentType: Request.Content.Headers.ContentType.MediaType);
-            var log = new SysLogModel(context: context);
-            var result = context.Authenticated
-                ? new ItemModel(context: context, referenceId: id).ExportByApi(context: context)
-                : ApiResults.Unauthorized(context: context);
-            log.Finish(context: context, responseSize: result.Content.Length);
-            return result.ToHttpResponse(Request);
-        }
-
-        [HttpPost]
         public async Task<HttpResponseMessage> BulkDelete(long id)
         {
             var body = await Request.Content.ReadAsStringAsync();
@@ -108,6 +91,23 @@ namespace Implem.Pleasanter.Controllers.Api
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? new ItemModel(context: context, referenceId: id).BulkDeleteByApi(context: context)
+                : ApiResults.Unauthorized(context: context);
+            log.Finish(context: context, responseSize: result.Content.Length);
+            return result.ToHttpResponse(Request);
+        }
+
+        [HttpPost]
+        public async Task<HttpResponseMessage> Export(long id)
+        {
+            var body = await Request.Content.ReadAsStringAsync();
+            var context = new Context(
+                sessionStatus: User?.Identity?.IsAuthenticated == true,
+                sessionData: User?.Identity?.IsAuthenticated == true,
+                apiRequestBody: body,
+                contentType: Request.Content.Headers.ContentType.MediaType);
+            var log = new SysLogModel(context: context);
+            var result = context.Authenticated
+                ? new ItemModel(context: context, referenceId: id).ExportByApi(context: context)
                 : ApiResults.Unauthorized(context: context);
             log.Finish(context: context, responseSize: result.Content.Length);
             return result.ToHttpResponse(Request);

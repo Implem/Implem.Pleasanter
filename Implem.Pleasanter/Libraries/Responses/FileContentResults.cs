@@ -11,7 +11,6 @@ using System;
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Web.Mvc;
 namespace Implem.Pleasanter.Libraries.Responses
 {
     public static class FileContentResults
@@ -41,7 +40,7 @@ namespace Implem.Pleasanter.Libraries.Responses
             }
         }
 
-        public static ContentResult DownloadByApi(Context context, string guid)
+        public static ContentResultInheritance DownloadByApi(Context context, string guid)
         {
             DataRow dataRow = GetBinariesTable(context, guid);
             return dataRow != null

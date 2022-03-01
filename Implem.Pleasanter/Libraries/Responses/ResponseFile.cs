@@ -60,7 +60,7 @@ namespace Implem.Pleasanter.Libraries.Responses
             return fileContentResult;
         }
 
-        public ContentResult ToContentResult(
+        public ContentResultInheritance ToContentResult(
             long id,
             long referenceId,
             string binaryType,

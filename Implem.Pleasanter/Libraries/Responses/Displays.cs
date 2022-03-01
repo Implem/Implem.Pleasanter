@@ -2949,13 +2949,13 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string RegexValidationMessage(
+        public static string ErrorMessage(
             Context context,
             params string[] data)
         {
             return Get(
                 context: context,
-                id: "RegexValidationMessage",
+                id: "ErrorMessage",
                 data: data);
         }
 
@@ -4096,6 +4096,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "InCopying",
+                data: data);
+        }
+
+        public static string Incorrect(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Incorrect",
                 data: data);
         }
 
@@ -5839,6 +5849,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string OnClick(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "OnClick",
+                data: data);
+        }
+
         public static string OnOnly(
             Context context,
             params string[] data)
@@ -6359,6 +6379,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ProcessExecuted(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ProcessExecuted",
+                data: data);
+        }
+
         public static string ProductList(
             Context context,
             params string[] data)
@@ -6559,13 +6589,13 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string ErrorMessage(
+        public static string RegexValidationMessage(
             Context context,
             params string[] data)
         {
             return Get(
                 context: context,
-                id: "ErrorMessage",
+                id: "RegexValidationMessage",
                 data: data);
         }
 
@@ -7639,6 +7669,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string SwitchCommandButtonsAutoPostBack(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SwitchCommandButtonsAutoPostBack",
+                data: data);
+        }
+
         public static string SwitchRecordWithAjax(
             Context context,
             params string[] data)
@@ -7966,6 +8006,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "TooLongText",
+                data: data);
+        }
+
+        public static string Tooltip(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Tooltip",
                 data: data);
         }
 

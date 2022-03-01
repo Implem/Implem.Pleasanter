@@ -622,7 +622,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static System.Web.Mvc.ContentResult ApiDonwload(Context context, string guid)
+        public static ContentResultInheritance ApiDonwload(Context context, string guid)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {

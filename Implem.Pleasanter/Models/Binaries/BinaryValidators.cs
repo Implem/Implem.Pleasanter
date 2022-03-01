@@ -339,7 +339,7 @@ namespace Implem.Pleasanter.Models
                     }
                     break;
                 case "AutoDataBaseOrLocalFolder":
-                    if(OverTotalLimitSize(
+                    if (OverTotalLimitSize(
                         attachments: attachments,
                         totalLimitSize: column.TotalLimitSize,
                         newFileTotalSize: totalLength))

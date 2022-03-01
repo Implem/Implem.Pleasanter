@@ -24,79 +24,79 @@ namespace Implem.Pleasanter.Libraries.Requests
 {
     public class Context
     {
-        public Stopwatch Stopwatch = new Stopwatch();
-        public StringBuilder LogBuilder = new StringBuilder();
-        public ExpandoObject UserData = new ExpandoObject();
-        public List<Message> Messages = new List<Message>();
-        public ErrorData ErrorData = new ErrorData(type: Error.Types.None);
-        public bool InvalidJsonData;
-        public bool Authenticated;
-        public bool SwitchUser;
-        public bool SwitchTenant;
-        public string SessionGuid = Strings.NewGuid();
-        public Dictionary<string, string> SessionData = new Dictionary<string, string>();
-        public Dictionary<string, string> UserSessionData = new Dictionary<string, string>();
-        public bool Publish;
-        public QueryStrings QueryStrings = new QueryStrings();
-        public Forms Forms = new Forms();
-        public string FormStringRaw;
-        public string FormString;
-        public List<PostedFile> PostedFiles = new List<PostedFile>();
-        public bool HasRoute = RouteTable.Routes.Count != 0 && HttpContext.Current != null;
-        public string HttpMethod;
-        public bool Ajax;
-        public bool Mobile;
-        public bool Responsive;
-        public Dictionary<string, string> RouteData = new Dictionary<string, string>();
-        public string ApplicationPath;
-        public string AbsoluteUri;
-        public string AbsolutePath;
-        public string Url;
-        public string UrlReferrer;
-        public string Query;
-        public string Controller;
-        public string Action;
-        public string Page;
-        public string Server;
-        public int TenantId;
-        public int TargetTenantId;
-        public long SiteId;
-        public long Id;
-        public Dictionary<long, Permissions.Types> PermissionHash;
-        public List<int> Groups;
-        public string Guid;
-        public TenantModel.LogoTypes LogoType;
-        public string TenantTitle;
-        public string SiteTitle;
-        public string RecordTitle;
-        public bool DisableAllUsersPermission;
-        public bool DisableStartGuide;
-        public string HtmlTitleTop;
-        public string HtmlTitleSite;
-        public string HtmlTitleRecord;
-        public string TopStyle;
-        public string TopScript;
-        public int DeptId;
-        public int UserId;
+        public Stopwatch Stopwatch { get; set; } = new Stopwatch();
+        public StringBuilder LogBuilder { get; set; } = new StringBuilder();
+        public ExpandoObject UserData { get; set; } = new ExpandoObject();
+        public List<Message> Messages { get; set; } = new List<Message>();
+        public ErrorData ErrorData { get; set; } = new ErrorData(type: Error.Types.None);
+        public bool InvalidJsonData { get; set; }
+        public bool Authenticated { get; set; }
+        public bool SwitchUser { get; set; }
+        public bool SwitchTenant { get; set; }
+        public string SessionGuid { get; set; } = Strings.NewGuid();
+        public Dictionary<string, string> SessionData { get; set; } = new Dictionary<string, string>();
+        public Dictionary<string, string> UserSessionData { get; set; } = new Dictionary<string, string>();
+        public bool Publish { get; set; }
+        public QueryStrings QueryStrings { get; set; } = new QueryStrings();
+        public Forms Forms { get; set; } = new Forms();
+        public string FormStringRaw { get; set; }
+        public string FormString { get; set; }
+        public List<PostedFile> PostedFiles { get; set; } = new List<PostedFile>();
+        public bool HasRoute { get; set; } = RouteTable.Routes.Count != 0 && HttpContext.Current != null;
+        public string HttpMethod { get; set; }
+        public bool Ajax { get; set; }
+        public bool Mobile { get; set; }
+        public bool Responsive { get; set; }
+        public Dictionary<string, string> RouteData { get; set; } = new Dictionary<string, string>();
+        public string ApplicationPath { get; set; }
+        public string AbsoluteUri { get; set; }
+        public string AbsolutePath { get; set; }
+        public string Url { get; set; }
+        public string UrlReferrer { get; set; }
+        public string Query { get; set; }
+        public string Controller { get; set; }
+        public string Action { get; set; }
+        public string Page { get; set; }
+        public string Server { get; set; }
+        public int TenantId { get; set; }
+        public int TargetTenantId { get; set; }
+        public long SiteId { get; set; }
+        public long Id { get; set; }
+        public Dictionary<long, Permissions.Types> PermissionHash { get; set; }
+        public List<int> Groups { get; set; }
+        public string Guid { get; set; }
+        public TenantModel.LogoTypes LogoType { get; set; }
+        public string TenantTitle { get; set; }
+        public string SiteTitle { get; set; }
+        public string RecordTitle { get; set; }
+        public bool DisableAllUsersPermission { get; set; }
+        public bool DisableStartGuide { get; set; }
+        public string HtmlTitleTop { get; set; }
+        public string HtmlTitleSite { get; set; }
+        public string HtmlTitleRecord { get; set; }
+        public string TopStyle { get; set; }
+        public string TopScript { get; set; }
+        public int DeptId { get; set; }
+        public int UserId { get; set; }
         public string LoginId = HttpContext.Current?.User?.Identity.Name;
-        public Dept Dept;
-        public User User;
-        public string UserHostName;
-        public string UserHostAddress;
-        public string UserAgent;
-        public string Language = Parameters.Service.DefaultLanguage;
-        public string Theme = Parameters.User.Theme;
-        public bool Developer;
-        public TimeZoneInfo TimeZoneInfo = Environments.TimeZoneInfoDefault;
-        public UserSettings UserSettings;
-        public bool HasPrivilege;
-        public ContractSettings ContractSettings = new ContractSettings();
-        public decimal ApiVersion = 1.000M;
-        public string ApiRequestBody;
-        public string ApiKey;
+        public Dept Dept { get; set; }
+        public User User { get; set; }
+        public string UserHostName { get; set; }
+        public string UserHostAddress { get; set; }
+        public string UserAgent { get; set; }
+        public string Language { get; set; } = Parameters.Service.DefaultLanguage;
+        public string Theme { get; set; } = Parameters.User.Theme;
+        public bool Developer { get; set; }
+        public TimeZoneInfo TimeZoneInfo { get; set; } = Environments.TimeZoneInfoDefault;
+        public UserSettings UserSettings { get; set; }
+        public bool HasPrivilege { get; set; }
+        public ContractSettings ContractSettings { get; set; } = new ContractSettings();
+        public decimal ApiVersion { get; set; } = 1.000M;
+        public string ApiRequestBody { get; set; }
+        public string ApiKey { get; set; }
         public string RequestDataString { get => ApiRequestBody ?? FormString; }
-        public string ContentType;
-        public long ServerScriptDepth = 0;
+        public string ContentType { get; set; }
+        public long ServerScriptDepth { get; set; } = 0;
         public bool ServerScriptDisabled { get; set; }
         public List<ParameterAccessor.Parts.ExtendedField> ExtendedFields;
         public SqlServerSqls Sqls = new SqlServerSqls();
@@ -147,14 +147,6 @@ namespace Implem.Pleasanter.Libraries.Requests
         {
             Set();
             SetPostedFiles(files: files);
-        }
-
-        public Context CreateContext(int tenantId, int deptId, int userId)
-        {
-            return new Context(
-                tenantId: tenantId,
-                deptId: deptId,
-                userId: userId);
         }
 
         public void Set(
@@ -260,7 +252,6 @@ namespace Implem.Pleasanter.Libraries.Requests
                         ExtendedFields = Parameters.ExtendedFields
                             .ExtensionWhere<ParameterAccessor.Parts.ExtendedField>(context: this)
                             .ToList();
-
                         break;
                     case "groups":
                         Page = Controller;
@@ -391,7 +382,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         private void SetData()
         {
             SessionData = SessionUtilities.Get(
-                context: this, 
+                context: this,
                 includeUserArea: Controller == "sessions");
             var responsive = SessionData.Get("Responsive");
             Responsive = Mobile
@@ -478,9 +469,9 @@ namespace Implem.Pleasanter.Libraries.Requests
                                     .Tenants_HtmlTitleSite()
                                     .Tenants_HtmlTitleRecord(),
                                 join: Rds.SitesJoin().Add(new SqlJoin(
-                                    tableBracket: "[Tenants]",
+                                    tableBracket: "\"Tenants\"",
                                     joinType: SqlJoin.JoinTypes.Inner,
-                                    joinExpression: "[Sites].[TenantId]=[Tenants].[TenantId]")),
+                                    joinExpression: "\"Sites\".\"TenantId\"=\"Tenants\".\"TenantId\"")),
                                 where: Rds.SitesWhere()
                                     .SiteId(sub: Rds.SelectItems(
                                         column: Rds.ItemsColumn().SiteId(),
@@ -494,7 +485,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                         var publish = dataRow.Bool("Publish");
                         if (publish)
                         {
-                            var cs= dataRow.String("ContractSettings")
+                            var cs = dataRow.String("ContractSettings")
                                 .Deserialize<ContractSettings>() ?? ContractSettings;
                             if (cs.Extensions.Get("Publish"))
                             {
@@ -550,7 +541,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                             language = "en";
                             break;
                         default:
-                            language= Parameters.Service?.DefaultLanguage;
+                            language = Parameters.Service?.DefaultLanguage;
                             break;
                     }
                 }
@@ -705,7 +696,6 @@ namespace Implem.Pleasanter.Libraries.Requests
                 After = viewFilter.After,
                 SqlParam = viewFilter.SqlParam
             };
-           
             if (column.HasChoices())
             {
                 column.SetChoiceHash(

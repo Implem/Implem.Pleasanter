@@ -13,7 +13,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult Index()
         {
             var context = new Context();
-            if (!Request.IsAjaxRequest())
+            if (!context.Ajax)
             {
                 ViewBag.HtmlBody = HtmlTemplates.Error(
                     context: context,
@@ -41,7 +41,7 @@ namespace Implem.Pleasanter.Controllers
         {
             var context = new Context();
             // Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            if (!Request.IsAjaxRequest())
+            if (!context.Ajax)
             {
                 ViewBag.HtmlBody = HtmlTemplates.Error(
                     context: context,
@@ -59,7 +59,7 @@ namespace Implem.Pleasanter.Controllers
         {
             var context = new Context();
             // Response.StatusCode = (int)HttpStatusCode.NotFound;
-            if (!Request.IsAjaxRequest())
+            if (!context.Ajax)
             {
                 ViewBag.HtmlBody = HtmlTemplates.Error(
                     context: context,
@@ -80,7 +80,7 @@ namespace Implem.Pleasanter.Controllers
             {
                 Parameters.SyntaxErrors?.Join(",")
             };
-            if (!Request.IsAjaxRequest())
+            if (!context.Ajax)
             {
                 ViewBag.HtmlBody = HtmlTemplates.Error(
                     context: context,
@@ -101,7 +101,7 @@ namespace Implem.Pleasanter.Controllers
         {
             var context = new Context();
             // Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            if (!Request.IsAjaxRequest())
+            if (!context.Ajax)
             {
                 ViewBag.HtmlBody = HtmlTemplates.Error(
                     context: context,

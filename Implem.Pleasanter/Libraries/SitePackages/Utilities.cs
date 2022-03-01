@@ -488,6 +488,12 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             var model = exportModel as IssueExportModel;
             var siteId = idHash.Get(model.SiteId.ToLong());
             var referenceId = idHash.Get(model.IssueId.ToLong());
+            var ss = new SiteModel(
+                context: context,
+                siteId: siteId)
+                    .IssuesSiteSettings(
+                        context: context,
+                        referenceId: referenceId);
             var param = Rds.IssuesParam()
                 .SiteId(siteId)
                 .IssueId(referenceId)
@@ -501,41 +507,45 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 .Manager(model.Manager?.Id, _using: model.Manager != null)
                 .Owner(model.Owner?.Id, _using: model.Owner != null)
                 .Comments(model.Comments?.ToJson(), _using: model.Comments?.Any() == true);
-            model.ClassHash?.ForEach(o =>
-                param.Add(
-                    columnBracket: $"\"{o.Key}\"",
-                    name: o.Key,
-                    value: o.Value.ToString().MaxLength(1024)));
-            model.NumHash?.ForEach(o =>
-                param.Add(
-                    columnBracket: $"\"{o.Key}\"",
-                    name: o.Key,
-                    value: o.Value));
-            model.DateHash?.ForEach(o =>
-                param.Add(
-                    columnBracket: $"\"{o.Key}\"",
-                    name: o.Key,
-                    value: o.Value));
-            model.DescriptionHash?.ForEach(o =>
-                param.Add(
-                    columnBracket: $"\"{o.Key}\"",
-                    name: o.Key,
-                    value: o.Value));
-            model.CheckHash?.ForEach(o =>
-                param.Add(
-                    columnBracket: $"\"{o.Key}\"",
-                    name: o.Key,
-                    value: o.Value));
+            model.ClassHash
+                ?.Where(o => ss.ColumnDefinitionHash.ContainsKey(o.Key))
+                .ForEach(o =>
+                    param.Add(
+                        columnBracket: $"\"{o.Key}\"",
+                        name: o.Key,
+                        value: o.Value.ToString().MaxLength(1024)));
+            model.NumHash
+                ?.Where(o => ss.ColumnDefinitionHash.ContainsKey(o.Key))
+                .ForEach(o =>
+                    param.Add(
+                        columnBracket: $"\"{o.Key}\"",
+                        name: o.Key,
+                        value: o.Value));
+            model.DateHash
+                ?.Where(o => ss.ColumnDefinitionHash.ContainsKey(o.Key))
+                .ForEach(o =>
+                    param.Add(
+                        columnBracket: $"\"{o.Key}\"",
+                        name: o.Key,
+                        value: o.Value));
+            model.DescriptionHash
+                ?.Where(o => ss.ColumnDefinitionHash.ContainsKey(o.Key))
+                .ForEach(o =>
+                    param.Add(
+                        columnBracket: $"\"{o.Key}\"",
+                        name: o.Key,
+                        value: o.Value));
+            model.CheckHash
+                ?.Where(o => ss.ColumnDefinitionHash.ContainsKey(o.Key))
+                .ForEach(o =>
+                    param.Add(
+                        columnBracket: $"\"{o.Key}\"",
+                        name: o.Key,
+                        value: o.Value));
             Repository.ExecuteScalar_response(
                 context: context,
                 selectIdentity: false,
                 statements: Rds.InsertIssues(param: param));
-            var ss = new SiteModel(
-                context: context,
-                siteId: siteId)
-                    .IssuesSiteSettings(
-                        context: context,
-                        referenceId: referenceId);
             var issueModel = new IssueModel(
                 context: context,
                 ss: ss,
@@ -552,6 +562,12 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             var model = exportModel as ResultExportModel;
             var siteId = idHash.Get(model.SiteId.ToLong());
             var referenceId = idHash.Get(model.ResultId.ToLong());
+            var ss = new SiteModel(
+                context: context,
+                siteId: siteId)
+                    .ResultsSiteSettings(
+                        context: context,
+                        referenceId: referenceId);
             var param = Rds.ResultsParam()
                 .SiteId(siteId)
                 .ResultId(referenceId)
@@ -561,41 +577,45 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 .Manager(model.Manager?.Id, _using: model.Manager != null)
                 .Owner(model.Owner?.Id, _using: model.Owner != null)
                 .Comments(model.Comments?.ToJson(), _using: model.Comments?.Any() == true);
-            model.ClassHash?.ForEach(o =>
-                param.Add(
-                    columnBracket: $"\"{o.Key}\"",
-                    name: o.Key,
-                    value: o.Value.ToString().MaxLength(1024)));
-            model.NumHash?.ForEach(o =>
-                param.Add(
-                    columnBracket: $"\"{o.Key}\"",
-                    name: o.Key,
-                    value: o.Value));
-            model.DateHash?.ForEach(o =>
-                param.Add(
-                    columnBracket: $"\"{o.Key}\"",
-                    name: o.Key,
-                    value: o.Value));
-            model.DescriptionHash?.ForEach(o =>
-                param.Add(
-                    columnBracket: $"\"{o.Key}\"",
-                    name: o.Key,
-                    value: o.Value));
-            model.CheckHash?.ForEach(o =>
-                param.Add(
-                    columnBracket: $"\"{o.Key}\"",
-                    name: o.Key,
-                    value: o.Value));
+            model.ClassHash
+                ?.Where(o => ss.ColumnDefinitionHash.ContainsKey(o.Key))
+                .ForEach(o =>
+                    param.Add(
+                        columnBracket: $"\"{o.Key}\"",
+                        name: o.Key,
+                        value: o.Value.ToString().MaxLength(1024)));
+            model.NumHash
+                ?.Where(o => ss.ColumnDefinitionHash.ContainsKey(o.Key))
+                .ForEach(o =>
+                    param.Add(
+                        columnBracket: $"\"{o.Key}\"",
+                        name: o.Key,
+                        value: o.Value));
+            model.DateHash
+                ?.Where(o => ss.ColumnDefinitionHash.ContainsKey(o.Key))
+                .ForEach(o =>
+                    param.Add(
+                        columnBracket: $"\"{o.Key}\"",
+                        name: o.Key,
+                        value: o.Value));
+            model.DescriptionHash
+                ?.Where(o => ss.ColumnDefinitionHash.ContainsKey(o.Key))
+                .ForEach(o =>
+                    param.Add(
+                        columnBracket: $"\"{o.Key}\"",
+                        name: o.Key,
+                        value: o.Value));
+            model.CheckHash
+                ?.Where(o => ss.ColumnDefinitionHash.ContainsKey(o.Key))
+                .ForEach(o =>
+                    param.Add(
+                        columnBracket: $"\"{o.Key}\"",
+                        name: o.Key,
+                        value: o.Value));
             Repository.ExecuteScalar_response(
                 context: context,
                 selectIdentity: false,
                 statements: Rds.InsertResults(param: param));
-            var ss = new SiteModel(
-                context: context,
-                siteId: siteId)
-                    .ResultsSiteSettings(
-                        context: context,
-                        referenceId: referenceId);
             var resultModel = new ResultModel(
                 context: context,
                 ss: ss,

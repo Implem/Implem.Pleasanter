@@ -141,7 +141,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             }
         }
 
-        public System.Web.Mvc.ContentResult Create(Context context)
+        public ContentResultInheritance Create(Context context)
         {
             if (!context.ContractSettings.Attachments())
             {
@@ -200,7 +200,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public bool IsStoreLocalFolder(Column column)
         {
-            return Pleasanter.Models.BinaryUtilities.BinaryStorageProvider(column, Size.GetValueOrDefault()) == "LocalFolder";
+            return BinaryUtilities.BinaryStorageProvider(column, Size.GetValueOrDefault()) == "LocalFolder";
         }
 
         internal void AttachmentAction(Context context, Column column, Attachments oldAttachments)

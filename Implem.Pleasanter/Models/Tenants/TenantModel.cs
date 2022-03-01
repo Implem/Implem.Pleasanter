@@ -350,6 +350,117 @@ namespace Implem.Pleasanter.Models
             return data;
         }
 
+        public string ToDisplay(Context context, SiteSettings ss, Column column, List<string> mine)
+        {
+            if (!ss.ReadColumnAccessControls.Allowed(
+                context: context,
+                ss: ss,
+                column: column,
+                mine: mine))
+            {
+                return string.Empty;
+            }
+            switch (column.ColumnName)
+            {
+                case "TenantName":
+                    return TenantName.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Title":
+                    return Title.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Body":
+                    return Body.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ContractDeadline":
+                    return ContractDeadline.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "DisableAllUsersPermission":
+                    return DisableAllUsersPermission.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "DisableStartGuide":
+                    return DisableStartGuide.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "HtmlTitleTop":
+                    return HtmlTitleTop.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "HtmlTitleSite":
+                    return HtmlTitleSite.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "HtmlTitleRecord":
+                    return HtmlTitleRecord.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "TopStyle":
+                    return TopStyle.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "TopScript":
+                    return TopScript.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Timestamp":
+                    return Timestamp.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(column.Name))
+                    {
+                        case "Class":
+                            return GetClass(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Num":
+                            return GetNum(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Date":
+                            return GetDate(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Description":
+                            return GetDescription(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Check":
+                            return GetCheck(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Attachments":
+                            return GetAttachments(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        default:
+                            return string.Empty;
+                    }
+            }
+        }
+
         public ErrorData Create(
             Context context,
             SiteSettings ss,
@@ -810,6 +921,39 @@ namespace Implem.Pleasanter.Models
                 }
                 GetAttachments(columnName: columnName, value: newAttachments);
             });
+        }
+
+        public string ReplacedDisplayValues(
+            Context context,
+            SiteSettings ss,
+            string value)
+        {
+            ss.IncludedColumns(value: value).ForEach(column =>
+                value = value.Replace(
+                    $"[{column.ColumnName}]",
+                    ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: Mine(context: context))));
+            value = ReplacedContextValues(context, value);
+            return value;
+        }
+
+        private string ReplacedContextValues(Context context, string value)
+        {
+            var url = Locations.ItemEditAbsoluteUri(
+                context: context,
+                id: TenantId);
+            var mailAddress = MailAddressUtilities.Get(
+                context: context,
+                userId: context.UserId);
+            value = value
+                .Replace("{Url}", url)
+                .Replace("{LoginId}", context.User.LoginId)
+                .Replace("{UserName}", context.User.Name)
+                .Replace("{MailAddress}", mailAddress);
+            return value;
         }
 
         private void SetBySession(Context context)

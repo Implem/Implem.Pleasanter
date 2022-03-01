@@ -79,9 +79,6 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         [HttpPost]
         public string UpdateTenantImage(HttpPostedFileBase[] file)
         {

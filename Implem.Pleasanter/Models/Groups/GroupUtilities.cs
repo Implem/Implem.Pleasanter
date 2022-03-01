@@ -1562,12 +1562,13 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
+            Process process = null;
             var errorData = groupModel.Update(context: context, ss: ss);
             switch (errorData.Type)
             {
                 case Error.Types.None:
                     var res = new GroupsResponseCollection(groupModel);
-                    return ResponseByUpdate(res, context, ss, groupModel)
+                    return ResponseByUpdate(res, context, ss, groupModel, process)
                         .PrependComment(
                             context: context,
                             ss: ss,
@@ -1589,7 +1590,8 @@ namespace Implem.Pleasanter.Models
             GroupsResponseCollection res,
             Context context,
             SiteSettings ss,
-            GroupModel groupModel)
+            GroupModel groupModel,
+            Process process)
         {
             ss.ClearColumnAccessControlCaches(baseModel: groupModel);
             if (context.Forms.Bool("IsDialogEditorForm"))
@@ -1617,9 +1619,11 @@ namespace Implem.Pleasanter.Models
                             dataRows: gridData.DataRows,
                             columns: columns))
                     .CloseDialog()
-                    .Message(Messages.Updated(
+                    .Message(message: UpdatedMessage(
                         context: context,
-                        data: groupModel.Title.MessageDisplay(context: context)))
+                        ss: ss,
+                        groupModel: groupModel,
+                        process: process))
                     .Messages(context.Messages);
             }
             else
@@ -1652,6 +1656,29 @@ namespace Implem.Pleasanter.Models
                         comments: groupModel.Comments,
                         deleteCommentId: groupModel.DeleteCommentId)
                     .ClearFormData();
+            }
+        }
+
+        private static Message UpdatedMessage(
+            Context context,
+            SiteSettings ss,
+            GroupModel groupModel,
+            Process process)
+        {
+            if (process == null)
+            {
+                return Messages.Updated(
+                    context: context,
+                    data: groupModel.Title.MessageDisplay(context: context));
+            }
+            else
+            {
+                var message = process.GetSuccessMessage(context: context);
+                message.Text = groupModel.ReplacedDisplayValues(
+                    context: context,
+                    ss: ss,
+                    value: message.Text);
+                return message;
             }
         }
 
@@ -2236,7 +2263,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static System.Web.Mvc.ContentResult GetByApi(
+        public static ContentResultInheritance GetByApi(
             Context context,
             SiteSettings ss,
             int groupId)
@@ -2384,7 +2411,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static System.Web.Mvc.ContentResult CreateByApi(Context context, SiteSettings ss)
+        public static ContentResultInheritance CreateByApi(Context context, SiteSettings ss)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
@@ -2435,7 +2462,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static System.Web.Mvc.ContentResult UpdateByApi(Context context, SiteSettings ss, int groupId)
+        public static ContentResultInheritance UpdateByApi(Context context, SiteSettings ss, int groupId)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
@@ -2492,7 +2519,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static System.Web.Mvc.ContentResult DeleteByApi(Context context, SiteSettings ss, int groupId)
+        public static ContentResultInheritance DeleteByApi(Context context, SiteSettings ss, int groupId)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {

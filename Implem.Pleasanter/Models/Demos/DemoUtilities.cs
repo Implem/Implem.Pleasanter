@@ -61,7 +61,7 @@ namespace Implem.Pleasanter.Models
                             passphrase: passphrase),
                         Parameters.Service.DemoUsagePeriod.ToString()
                     }),
-                From = new System.Net.Mail.MailAddress(Parameters.Mail.SupportFrom),
+                From = MimeKit.MailboxAddress.Parse(Parameters.Mail.SupportFrom),
                 To = mailAddress,
                 Bcc = Parameters.Mail.SupportFrom
             });

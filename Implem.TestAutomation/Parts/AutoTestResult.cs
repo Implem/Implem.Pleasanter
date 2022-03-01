@@ -11,7 +11,6 @@ namespace Implem.TestAutomation.Parts
         public string ExpectedContent { get; set; }
         public string ExpectedValue { get; set; }
         public string ExecutionValue { get; set; }
-
     }
 
     public class AutoTestResultTable : ClassMap<AutoTestResult>

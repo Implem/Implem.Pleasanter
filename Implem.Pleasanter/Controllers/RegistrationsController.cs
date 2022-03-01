@@ -15,7 +15,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult Index()
         {
             var context = new Context();
-            if (!Request.IsAjaxRequest())
+            if (!context.Ajax)
             {
                 var log = new SysLogModel(context: context);
                 var html = RegistrationUtilities.Index(
@@ -53,7 +53,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult Edit(int id)
         {
             var context = new Context();
-            if (!Request.IsAjaxRequest())
+            if (!context.Ajax)
             {
                 var log = new SysLogModel(context: context);
                 var html = RegistrationUtilities.Editor(
@@ -215,7 +215,6 @@ namespace Implem.Pleasanter.Controllers
             var html = RegistrationUtilities.Login(
                 context: context,
                 ss: SiteSettingsUtilities.RegistrationsSiteSettings(context: context));
-            log.Finish(context: context);
             ViewBag.HtmlBody = html;
             log.Finish(context: context, responseSize: html.Length);
             return View();

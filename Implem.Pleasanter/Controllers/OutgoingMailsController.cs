@@ -39,7 +39,7 @@ namespace Implem.Pleasanter.Controllers
             var context = new Context();
             var log = new SysLogModel(context: context);
             var json = new OutgoingMailModel(
-                context: context, 
+                context: context,
                 reference: reference,
                 referenceId: id)
                     .GetDestinations(context: context);

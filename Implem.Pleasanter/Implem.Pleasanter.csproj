@@ -15,7 +15,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Implem.Pleasanter</RootNamespace>
     <AssemblyName>Implem.Pleasanter</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <ResolveComReferenceSilent>True</ResolveComReferenceSilent>
     <UseIISExpress>true</UseIISExpress>
@@ -62,6 +62,9 @@
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="BouncyCastle.Crypto, Version=1.9.0.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\packages\Portable.BouncyCastle.1.9.0\lib\net40\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
     <Reference Include="ClearScript.Core, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ClearScript.Core.7.0.0\lib\net45\ClearScript.Core.dll</HintPath>
     </Reference>
@@ -83,6 +86,9 @@
     <Reference Include="FastMember.Signed, Version=1.3.0.0, Culture=neutral, PublicKeyToken=9e8f22703bef9a29, processorArchitecture=MSIL">
       <HintPath>..\packages\FastMember.Signed.1.3.0\lib\net45\FastMember.Signed.dll</HintPath>
     </Reference>
+    <Reference Include="MailKit, Version=3.1.0.0, Culture=neutral, PublicKeyToken=4e064fe7c44a8f1b, processorArchitecture=MSIL">
+      <HintPath>..\packages\MailKit.3.1.1\lib\net452\MailKit.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp">
       <Private>True</Private>
     </Reference>
@@ -98,6 +104,9 @@
     <Reference Include="Microsoft.Web.RedisSessionStateProvider, Version=2.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.RedisSessionStateProvider.2.2.3\lib\net40\Microsoft.Web.RedisSessionStateProvider.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="MimeKit, Version=3.1.0.0, Culture=neutral, PublicKeyToken=bede1c8a46c66814, processorArchitecture=MSIL">
+      <HintPath>..\packages\MimeKit.3.1.1\lib\net452\MimeKit.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -120,6 +129,9 @@
     </Reference>
     <Reference Include="System">
       <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\netstandard1.1\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Data">
       <Private>True</Private>
@@ -149,8 +161,9 @@
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    <Reference Include="System.Security" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.DynamicData">
       <Private>True</Private>
@@ -330,6 +343,8 @@
     <Compile Include="Libraries\General\ErrorData.cs" />
     <Compile Include="Libraries\General\Log.cs" />
     <Compile Include="Libraries\General\Logs.cs" />
+    <Compile Include="Libraries\General\Validators.cs" />
+    <Compile Include="Libraries\HtmlParts\HtmlProcess.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlBulkUpdate.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlAssemblyVersions.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlDateRange.cs" />
@@ -392,6 +407,7 @@
     <Compile Include="Libraries\Responses\ApiResponse.cs" />
     <Compile Include="Libraries\Responses\ApiResponses.cs" />
     <Compile Include="Libraries\Responses\ApiResults.cs" />
+    <Compile Include="Libraries\Responses\ContentResultInheritance.cs" />
     <Compile Include="Libraries\Responses\Displays.cs" />
     <Compile Include="Libraries\Responses\FileContentResults.cs" />
     <Compile Include="Libraries\Responses\Paging.cs" />
@@ -429,6 +445,7 @@
     <Compile Include="Libraries\Server\TenantCache.cs" />
     <Compile Include="Libraries\Server\UpdateMonitor.cs" />
     <Compile Include="Libraries\Requests\Context.cs" />
+    <Compile Include="Libraries\Settings\Process.cs" />
     <Compile Include="Libraries\Settings\ApiColumn.cs" />
     <Compile Include="Libraries\Settings\BulkUpdateColumnDetail.cs" />
     <Compile Include="Libraries\Settings\ImportColumn.cs" />
@@ -439,6 +456,7 @@
     <Compile Include="Libraries\Settings\Lookups.cs" />
     <Compile Include="Libraries\Settings\BulkUpdateColumn.cs" />
     <Compile Include="Libraries\Settings\PasswordHistory.cs" />
+    <Compile Include="Libraries\Settings\ValidateInput.cs" />
     <Compile Include="Libraries\Settings\ServerScript.cs" />
     <Compile Include="Libraries\Settings\Section.cs" />
     <Compile Include="Libraries\Settings\JoinStack.cs" />
@@ -1403,6 +1421,8 @@
     <Content Include="Scripts\Calendar.js" />
     <Content Include="Scripts\CalendarEvents.js" />
     <Content Include="Scripts\Clipboard.js" />
+    <Content Include="Scripts\ProcessEvents.js" />
+    <Content Include="Scripts\Process.js" />
     <Content Include="Scripts\View.js" />
     <Content Include="Scripts\ColumnAccessControl.js" />
     <Content Include="Scripts\Confirm.js" />
@@ -2349,8 +2369,19 @@
     <Content Include="App_Data\Displays\CopyWithNotifications.json" />
     <Content Include="App_Data\Displays\CopyWithReminders.json" />
     <Content Include="App_Data\Displays\AllowAttachments.json" />
-    <Content Include="App_Data\Displays\EncloseDoubleQuotes.json" />
+    <Content Include="App_Data\Displays\Processes.json" />
     <Content Include="App_Data\Displays\AccessControls.json" />
+    <Content Include="App_Data\Displays\CurrentStatus.json" />
+    <Content Include="App_Data\Displays\ExecutedStatus.json" />
+    <Content Include="App_Data\Displays\SuccessMessage.json" />
+    <Content Include="App_Data\Displays\ConfirmationMessage.json" />
+    <Content Include="App_Data\Displays\ErrorMessage.json" />
+    <Content Include="App_Data\Displays\EncloseDoubleQuotes.json" />
+    <Content Include="App_Data\Displays\SwitchCommandButtonsAutoPostBack.json" />
+    <Content Include="App_Data\Displays\OnClick.json" />
+    <Content Include="App_Data\Displays\ProcessExecuted.json" />
+    <Content Include="App_Data\Displays\Incorrect.json" />
+    <Content Include="App_Data\Displays\Tooltip.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

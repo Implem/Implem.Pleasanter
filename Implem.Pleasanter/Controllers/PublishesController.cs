@@ -11,7 +11,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult Index(long id = 0)
         {
             var context = new Context();
-            if (!Request.IsAjaxRequest())
+            if (!context.Ajax)
             {
                 var log = new SysLogModel(context: context);
                 var html = new ItemModel(
@@ -72,7 +72,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult Edit(long id)
         {
             var context = new Context();
-            if (!Request.IsAjaxRequest())
+            if (!context.Ajax)
             {
                 var log = new SysLogModel(context: context);
                 var html = new ItemModel(context: context, referenceId: id).Editor(context: context);

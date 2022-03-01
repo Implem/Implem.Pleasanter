@@ -2,13 +2,12 @@
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using System.Net.Http;
-using System.Web.Http;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Libraries.Responses
 {
     public static class ApiResults
     {
-        public static ContentResult Success(long id, string message, int? limitPerDate = null, int? limitRemaining = null)
+        public static ContentResultInheritance Success(long id, string message, int? limitPerDate = null, int? limitRemaining = null)
         {
             if (limitPerDate == 0)
             {
@@ -22,7 +21,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                 limitRemaining: limitRemaining));
         }
 
-        public static ContentResult Error(Context context, ErrorData errorData, params string[] data)
+        public static ContentResultInheritance Error(Context context, ErrorData errorData, params string[] data)
         {
             return Get(ApiResponses.Error(
                 context: context,
@@ -30,27 +29,27 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data));
         }
 
-        public static ContentResult Get(ApiResponse apiResponse)
+        public static ContentResultInheritance Get(ApiResponse apiResponse)
         {
             return Get(apiResponse.ToJson());
         }
 
-        public static ContentResult Get(string apiResponse)
+        public static ContentResultInheritance Get(string apiResponse)
         {
-            return new ContentResult
+            return new ContentResultInheritance
             {
                 ContentType = "application/json",
                 Content = apiResponse
             };
         }
 
-        public static ContentResult Get(
+        public static ContentResultInheritance Get(
             int statusCode,
             int limitPerDate,
             int limitRemaining,
             object response)
         {
-            return new ContentResult
+            return new ContentResultInheritance
             {
                 ContentType = "application/json",
                 Content = new
@@ -67,27 +66,27 @@ namespace Implem.Pleasanter.Libraries.Responses
             };
         }
 
-        public static ContentResult BadRequest(Context context)
+        public static ContentResultInheritance BadRequest(Context context)
         {
             return Get(ApiResponses.BadRequest(context: context));
         }
 
-        public static ContentResult Unauthorized(Context context)
+        public static ContentResultInheritance Unauthorized(Context context)
         {
             return Get(ApiResponses.Unauthorized(context: context));
         }
 
-        public static ContentResult Forbidden(Context context)
+        public static ContentResultInheritance Forbidden(Context context)
         {
             return Get(ApiResponses.Forbidden(context: context));
         }
 
-        public static ContentResult NotFound(Context context)
+        public static ContentResultInheritance NotFound(Context context)
         {
             return Get(ApiResponses.NotFound(context: context));
         }
 
-        public static ContentResult OverTenantStorageSize(Context context, decimal? maxSize)
+        public static ContentResultInheritance OverTenantStorageSize(Context context, decimal? maxSize)
         {
             var result = Get(ApiResponses.OverTenantStorageSize(
                 context: context,
