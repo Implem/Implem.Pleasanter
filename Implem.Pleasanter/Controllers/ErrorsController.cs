@@ -3,68 +3,82 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
-    public class ErrorsController
+    [Authorize]
+    public class ErrorsController : Controller
     {
-        public string Index(Context context)
+        [AllowAnonymous]
+        public ActionResult Index()
         {
+            var context = new Context();
             if (!context.Ajax)
             {
                 var html = HtmlTemplates.Error(
                     context: context,
                     errorData: new ErrorData(type: Error.Types.ApplicationError));
-                return html;
+                ViewBag.HtmlBody = html;
+                return View();
             }
             else
             {
-                return Error.Types.ApplicationError.MessageJson(context: context);
+                return Content(Error.Types.ApplicationError.MessageJson(context: context));
             }
         }
 
-        public string InvalidIpAddress(Context context)
+        [AllowAnonymous]
+        public ActionResult InvalidIpAddress()
         {
+            var context = new Context();
             var html = HtmlTemplates.Error(
                 context: context,
                 errorData: new ErrorData(type: Error.Types.InvalidIpAddress));
-            return html;
+            ViewBag.HtmlBody = html;
+            return View();
         }
 
-        public string BadRequest(Context context)
+        [AllowAnonymous]
+        public new ActionResult BadRequest()
         {
-            // Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            var context = new Context();
             if (!context.Ajax)
             {
                 var html = HtmlTemplates.Error(
                     context: context,
                     errorData: new ErrorData(type: Error.Types.BadRequest));
-                return html;
+                ViewBag.HtmlBody = html;
+                return View();
             }
             else
             {
-                return Error.Types.NotFound.MessageJson(context: context);
+                return Content(Error.Types.NotFound.MessageJson(context: context));
             }
         }
 
-        public string NotFound(Context context)
+        [AllowAnonymous]
+        public new ActionResult NotFound()
         {
-            // Response.StatusCode = (int)HttpStatusCode.NotFound;
+            var context = new Context();
             if (!context.Ajax)
             {
                 var html = HtmlTemplates.Error(
                     context: context,
                     errorData: new ErrorData(type: Error.Types.NotFound));
-                return html;
+                ViewBag.HtmlBody = html;
+                return View();
             }
             else
             {
-                return Error.Types.NotFound.MessageJson(context: context);
+                return Content(Error.Types.NotFound.MessageJson(context: context));
             }
         }
 
-        public string ParameterSyntaxError(Context context)
+        [AllowAnonymous]
+        public ActionResult ParameterSyntaxError()
         {
+            var context = new Context();
             var messageData = new string[]
             {
                 Parameters.SyntaxErrors?.Join(",")
@@ -75,78 +89,99 @@ namespace Implem.Pleasanter.Controllers
                     context: context,
                     errorData: new ErrorData(type: Error.Types.ParameterSyntaxError),
                     messageData: messageData);
-                return html;
+                ViewBag.HtmlBody = html;
+                return View();
             }
             else
             {
-                return Error.Types.ParameterSyntaxError.MessageJson(
+                return Content(Error.Types.ParameterSyntaxError.MessageJson(
                     context: context,
-                    data: messageData);
+                    data: messageData));
             }
         }
 
-        public string InternalServerError(Context context)
+        [AllowAnonymous]
+        public ActionResult InternalServerError()
         {
-            // Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            var context = new Context();
             if (!context.Ajax)
             {
                 var html = HtmlTemplates.Error(
                     context: context,
                     errorData: new ErrorData(type: Error.Types.InternalServerError));
-                return html;
+                ViewBag.HtmlBody = html;
+                return View();
             }
             else
             {
-                return Error.Types.InternalServerError.MessageJson(context: context);
+                return Content(Error.Types.InternalServerError.MessageJson(context: context));
             }
         }
 
-        public string LoginIdAlreadyUse(Context context)
+        [AllowAnonymous]
+        public ActionResult LoginIdAlreadyUse()
         {
+            var context = new Context();
             var html = HtmlTemplates.Error(
                 context: context,
                 errorData: new ErrorData(type: Error.Types.LoginIdAlreadyUse));
-            return html;
+            ViewBag.HtmlBody = html;
+            return View();
         }
 
-        public string UserLockout(Context context)
+        [AllowAnonymous]
+        public ActionResult UserLockout()
         {
+            var context = new Context();
             var html = HtmlTemplates.Error(
                 context: context,
                 errorData: new ErrorData(type: Error.Types.UserLockout));
-            return html;
+            ViewBag.HtmlBody = html;
+            return View();
         }
 
-        public string UserDisabled(Context context)
+        [AllowAnonymous]
+        public ActionResult UserDisabled()
         {
+            var context = new Context();
             var html = HtmlTemplates.Error(
                 context: context,
                 errorData: new ErrorData(type: Error.Types.UserDisabled));
-            return html;
+            ViewBag.HtmlBody = html;
+            return View();
         }
 
-        public string SamlLoginFailed(Context context)
+        [AllowAnonymous]
+        public ActionResult SamlLoginFailed()
         {
+            var context = new Context();
             var html = HtmlTemplates.Error(
                 context: context,
                 errorData: new ErrorData(type: Error.Types.SamlLoginFailed));
-            return html;
+            ViewBag.HtmlBody = html;
+            return View();
         }
 
-        public string InvalidSsoCode(Context context)
+        [AllowAnonymous]
+        public ActionResult InvalidSsoCode()
         {
+            var context = new Context();
             var html = HtmlTemplates.Error(
                 context: context,
                 errorData: new ErrorData(type: Error.Types.InvalidSsoCode));
-            return html;
+            ViewBag.HtmlBody = html;
+            return View();
         }
 
-        public string EmptyUserName(Context context)
+        [AllowAnonymous]
+        public ActionResult EmptyUserName()
         {
+            var context = new Context();
             var html = HtmlTemplates.Error(
                 context: context,
                 errorData: new ErrorData(type: Error.Types.EmptyUserName));
-            return html;
+            ViewBag.HtmlBody = html;
+            return View();
         }
     }
 }

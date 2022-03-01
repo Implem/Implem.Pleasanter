@@ -1,9 +1,0 @@
-{
-    "Id": "Csv",
-    "Type": 110,
-    "Languages": [
-        {
-            "Body": "CSV"
-        }
-    ]
-}

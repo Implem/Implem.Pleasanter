@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ProcessExecuted",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "\" {0} \" was executed."
+        },
+        {
+            "Language": "zh",
+            "Body": "执行了 \" {0} \"。"
+        },
+        {
+            "Language": "ja",
+            "Body": "\" {0} \" を実行しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "\" {0} \" wurde ausgeführt."
+        },
+        {
+            "Language": "ko",
+            "Body": "\" {0} \" 이 실행되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se ejecutó \" {0} \"."
+        },
+        {
+            "Language": "vn",
+            "Body": "\" {0} \" đã được thực hiện."
+        }
+    ]
+}

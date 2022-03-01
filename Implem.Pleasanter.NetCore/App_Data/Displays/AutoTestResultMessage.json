@@ -1,9 +1,0 @@
-﻿{
-    "Id": "AutoTestResultMessage",
-    "Type": 110,
-    "Languages": [
-        {
-            "Body": "{0} , {1} , Target：{2} , Expected：{3} , Result：{4}"
-        }
-    ]
-}

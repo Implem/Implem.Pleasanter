@@ -2,16 +2,22 @@
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Search;
 using Implem.Pleasanter.Models;
-using Implem.Pleasanter.Tools;
-
+using Implem.PleasanterTools;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
-    public class BackgroundTasksController
+    [Authorize]
+    public class BackgroundTasksController : Controller
     {
-        public string Do(Context context, IBackgroundTasks backgroundTasks)
+        [AllowAnonymous]
+        [HttpGet]
+        public string Do()
         {
+            var context = new Context();
             if (Parameters.BackgroundTask.Enabled)
             {
+                var backgroundTasks = new BackgroundTasks(context: context);
                 if (context.QueryStrings.Bool("NoLog"))
                 {
                     return backgroundTasks.Do();
@@ -30,10 +36,14 @@ namespace Implem.Pleasanter.Controllers
             }
         }
 
-        public string DeleteLog(Context context, IBackgroundTasks backgroundTasks)
+        [AllowAnonymous]
+        [HttpGet]
+        public string DeleteLog()
         {
+            var context = new Context();
             if (Parameters.BackgroundTask.Enabled)
             {
+                var backgroundTasks = new BackgroundTasks(context: context);
                 if (context.QueryStrings.Bool("NoLog"))
                 {
                     return backgroundTasks.DeleteLog();
@@ -52,8 +62,11 @@ namespace Implem.Pleasanter.Controllers
             }
         }
 
-        public string RebuildSearchIndexes(Context context)
+        [AllowAnonymous]
+        [HttpGet]
+        public string RebuildSearchIndexes()
         {
+            var context = new Context();
             if (Parameters.BackgroundTask.Enabled)
             {
                 if (context.QueryStrings.Bool("NoLog"))

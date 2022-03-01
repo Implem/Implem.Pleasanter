@@ -1,1 +1,0 @@
-﻿alter table "#TableName#" alter column "#ColumnName#" set default #DefaultValue#;

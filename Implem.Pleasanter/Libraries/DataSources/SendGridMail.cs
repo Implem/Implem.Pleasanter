@@ -9,7 +9,7 @@ using SendGrid.Helpers.Mail;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Mail;
+using MimeKit;
 using System.Threading.Tasks;
 namespace Implem.Pleasanter.Libraries.DataSources
 {
@@ -27,7 +27,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public SendGridMail(
             Context context,
             string host,
-            MailAddress from,
+            MailboxAddress from,
             string to,
             string cc,
             string bcc,
@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             var siteFrom = Addresses.From(from);
             Context = context;
             Host = host;
-            From = new EmailAddress(siteFrom.Address, siteFrom.DisplayName);
+            From = new EmailAddress(siteFrom.Address, siteFrom.Name);
             To = Strings.CoalesceEmpty(to, Parameters.Mail.FixedFrom, Parameters.Mail.SupportFrom);
             Cc = cc;
             Bcc = bcc;
@@ -62,20 +62,20 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     addresses: To)
                         .ForEach(to =>
                         {
-                            var mailAddress = new MailAddress(to);
+                            var mailAddress = MailboxAddress.Parse(to);
                             existAddresses.Add(mailAddress.Address);
-                            msg.AddTo(mailAddress.Address, mailAddress.DisplayName);
+                            msg.AddTo(mailAddress.Address, mailAddress.Name);
                         });
                 Addresses.Get(
                     context: context,
                     addresses: Cc)
                         .ForEach(cc =>
                         {
-                            var mailAddress = new MailAddress(cc);
+                            var mailAddress = MailboxAddress.Parse(cc);
                             if (!existAddresses.Contains(mailAddress.Address))
                             {
                                 existAddresses.Add(mailAddress.Address);
-                                msg.AddCc(mailAddress.Address, mailAddress.DisplayName);
+                                msg.AddCc(mailAddress.Address, mailAddress.Name);
                             }
                         });
                 Addresses.Get(
@@ -83,11 +83,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     addresses: Bcc)
                         .ForEach(bcc =>
                         {
-                            var mailAddress = new MailAddress(bcc);
+                            var mailAddress = MailboxAddress.Parse(bcc);
                             if (!existAddresses.Contains(mailAddress.Address))
                             {
                                 existAddresses.Add(mailAddress.Address);
-                                msg.AddBcc(mailAddress.Address, mailAddress.DisplayName);
+                                msg.AddBcc(mailAddress.Address, mailAddress.Name);
                             }
                         });
                 attachments

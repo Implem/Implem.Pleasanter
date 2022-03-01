@@ -1,1 +1,0 @@
-﻿alter table "#SourceTableName#" drop constraint "#IndexName#";

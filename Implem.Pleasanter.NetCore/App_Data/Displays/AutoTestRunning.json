@@ -1,9 +1,0 @@
-﻿{
-    "Id": "AutoTestRunning",
-    "Type": 110,
-    "Languages": [
-        {
-            "Body": "Auto test start."
-        }
-    ]
-}

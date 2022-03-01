@@ -30,7 +30,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static System.Web.Mvc.ContentResult Sql(Context context)
+        public static ContentResultInheritance Sql(Context context)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {

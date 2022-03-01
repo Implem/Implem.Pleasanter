@@ -1,9 +1,0 @@
-﻿{
-    "Id": "AutoTestOtherError",
-    "Type": 110,
-    "Languages": [
-        {
-            "Body": "Other errors."
-        }
-    ]
-}

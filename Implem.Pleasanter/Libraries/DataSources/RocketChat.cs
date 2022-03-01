@@ -27,13 +27,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 try
                 {
-                    using (var client = new WebClient())
-                    {
-                        client.Headers.Add(
-                            HttpRequestHeader.ContentType, "application/json;charset=UTF-8");
-                        client.Encoding = Encoding.UTF8;
-                        client.UploadString(url, this.ToJson());
-                    }
+                    var client = new NotificationHttpClient();
+                    client.NotifyString(url, this.ToJson());
                 }
                 catch (Exception e)
                 {

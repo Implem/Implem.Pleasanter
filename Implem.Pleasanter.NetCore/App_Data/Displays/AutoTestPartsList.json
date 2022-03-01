@@ -1,9 +1,0 @@
-﻿{
-    "Id": "AutoTestPartsList",
-    "Type": 110,
-    "Languages": [
-        {
-            "Body": "-->TestParts{0}{1} {2}"
-        }
-    ]
-}

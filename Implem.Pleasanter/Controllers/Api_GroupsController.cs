@@ -2,13 +2,17 @@
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
-    public class Api_GroupsController
+    [AllowAnonymous]
+    public class Api_GroupsController : Controller
     {
-        public ContentResult Get(Context context, int id)
+        [HttpPost]
+        public ContentResult Get(int id = 0)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? GroupUtilities.GetByApi(
@@ -17,7 +21,7 @@ namespace Implem.Pleasanter.Controllers
                     groupId: id)
                 : ApiResults.Unauthorized(context: context);
             log.Finish(context: context, responseSize: result.Content.Length);
-            return result;
+            return result.ToHttpResponse(request: Request);
         }
     }
 }

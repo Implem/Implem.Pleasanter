@@ -315,7 +315,7 @@ namespace Implem.Pleasanter.Models
                 sourceIds: sourceIds);
         }
 
-        public System.Web.Mvc.ContentResult ExportByApi(Context context)
+        public ContentResultInheritance ExportByApi(Context context)
         {
             SetSite(
                 context: context,
@@ -1077,9 +1077,9 @@ namespace Implem.Pleasanter.Models
                 initSiteSettings: true);
             if (context.HasPermission(ss: Site.SiteSettings))
             {
-                var columnName = context.Forms.ControlId()
-                    .Replace("ViewFilters__", string.Empty)
-                    .Replace("ViewFiltersOnGridHeader__", string.Empty)
+                var controlId = context.Forms.ControlId();
+                var columnName = controlId
+                    .Substring(controlId.IndexOf("__") + 2)
                     .Replace("_NumericRange", string.Empty);
                 var column = Site.SiteSettings.GetColumn(
                     context: context,
@@ -1107,9 +1107,9 @@ namespace Implem.Pleasanter.Models
                 initSiteSettings: true);
             if (context.HasPermission(ss: Site.SiteSettings))
             {
-                var columnName = context.Forms.ControlId()
-                    .Replace("ViewFilters__", string.Empty)
-                    .Replace("ViewFiltersOnGridHeader__", string.Empty)
+                var controlId = context.Forms.ControlId();
+                var columnName = controlId
+                    .Substring(controlId.IndexOf("__") + 2)
                     .Replace("_DateRange", string.Empty);
                 var column = Site.SiteSettings.GetColumn(
                     context: context,
@@ -1372,7 +1372,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public System.Web.Mvc.ContentResult GetByApi(Context context, bool internalRequest = false)
+        public ContentResultInheritance GetByApi(Context context, bool internalRequest = false)
         {
             SetSite(
                 context: context,
@@ -1494,7 +1494,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public System.Web.Mvc.ContentResult CreateByApi(Context context)
+        public ContentResultInheritance CreateByApi(Context context)
         {
             SetSite(
                 context: context,
@@ -1739,7 +1739,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public System.Web.Mvc.ContentResult UpdateByApi(Context context)
+        public ContentResultInheritance UpdateByApi(Context context)
         {
             SetSite(
                 context: context,
@@ -1978,7 +1978,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public System.Web.Mvc.ContentResult DeleteByApi(Context context)
+        public ContentResultInheritance DeleteByApi(Context context)
         {
             SetSite(
                 context: context,
@@ -2056,7 +2056,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public System.Web.Mvc.ContentResult BulkDeleteByApi(Context context)
+        public ContentResultInheritance BulkDeleteByApi(Context context)
         {
             SetSite(
                 context: context,
@@ -2542,7 +2542,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public System.Web.Mvc.ContentResult CopySitePackageByApi(Context context)
+        public ContentResultInheritance CopySitePackageByApi(Context context)
         {
             SetSite(
                 context: context,

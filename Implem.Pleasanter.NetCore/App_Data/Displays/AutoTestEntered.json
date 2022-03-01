@@ -1,9 +1,0 @@
-﻿{
-    "Id": "AutoTestEntered",
-    "Type": 110,
-    "Languages": [
-        {
-            "Body": "Entered：('{0}'), ('{1}')"
-        }
-    ]
-}

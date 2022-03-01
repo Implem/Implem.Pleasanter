@@ -1,6 +1,7 @@
 ﻿using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -28,44 +29,45 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 try
                 {
-                    using (var client = new WebClient())
+                    var client = new NotificationHttpClient();
+                    if (!isGroup)
                     {
-                        if (!isGroup)
+                        var users = toUsers.Split(',')
+                            .Where(s => !string.IsNullOrEmpty(s))
+                            .Select(s => s.Trim()).ToArray();
+                        if (users.Length > 0)
                         {
-                            var users = toUsers.Split(',')
-                                .Where(s => !string.IsNullOrEmpty(s))
-                                .Select(s=>s.Trim()).ToArray();
-                            if (users.Length > 0)
+                            string json = Newtonsoft.Json.JsonConvert.SerializeObject(new
                             {
-                                string json = Newtonsoft.Json.JsonConvert.SerializeObject(new
+                                to = users,
+                                messages = new[] { new { type = "text", text } }
+                            });
+                            client.NotifyString(
+                                url: "https://api.line.me/v2/bot/message/multicast",
+                                content: json,
+                                headers: new Dictionary<string, string>()
                                 {
-                                    to = users,
-                                    messages = new[] { new { type = "text", text } }
+                                    ["Authorization"] = "Bearer " + token
                                 });
-                                client.Headers[HttpRequestHeader.ContentType] = "application/json;charset=UTF-8";
-                                client.Headers[HttpRequestHeader.Accept] = "application/json";
-                                client.Headers[HttpRequestHeader.Authorization] = $"Bearer {token}";
-                                client.Encoding = Encoding.UTF8;
-                                client.UploadString(
-                                    "https://api.line.me/v2/bot/message/multicast", "POST", json);
-                            }
                         }
-                        else
+                    }
+                    else
+                    {
+                        var group = toUsers.Split(',').FirstOrDefault()?.Trim();
+                        if (!string.IsNullOrEmpty(group))
                         {
-                            var group = toUsers.Split(',').FirstOrDefault()?.Trim();
-                            if (!string.IsNullOrEmpty(group))
+                            string json = Newtonsoft.Json.JsonConvert.SerializeObject(new
                             {
-                                string json = Newtonsoft.Json.JsonConvert.SerializeObject(new
+                                to = group,
+                                messages = new[] { new { type = "text", text } }
+                            });
+                            client.NotifyString(
+                                url: "https://api.line.me/v2/bot/message/push",
+                                content: json,
+                                headers: new Dictionary<string, string>()
                                 {
-                                    to = group,
-                                    messages = new[] { new { type = "text", text } }
+                                    ["Authorization"] = "Bearer " + token
                                 });
-                                client.Headers[HttpRequestHeader.ContentType] = "application/json;charset=UTF-8";
-                                client.Headers[HttpRequestHeader.Accept] = "application/json";
-                                client.Headers[HttpRequestHeader.Authorization] = $"Bearer {token}";
-                                client.Encoding = Encoding.UTF8;
-                                client.UploadString("https://api.line.me/v2/bot/message/push", "POST", json);
-                            }
                         }
                     }
                 }

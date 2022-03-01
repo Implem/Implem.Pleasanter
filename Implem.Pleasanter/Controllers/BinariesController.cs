@@ -3,15 +3,21 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
-using System.Net.Http.Headers;
-using System.Web;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
 namespace Implem.Pleasanter.Controllers
 {
-    public class BinariesController
+    [Authorize]
+    public class BinariesController : Controller
     {
-        public ActionResult SiteImageThumbnail(Context context, string reference, long id)
+        [HttpGet]
+        [ResponseCache(Duration = int.MaxValue)]
+        public ActionResult SiteImageThumbnail(string reference, long id)
         {
+            var context = new Context();
             if (reference.ToLower() == "items")
             {
                 var (bytes, contentType) = BinaryUtilities.SiteImageThumbnail(
@@ -25,8 +31,11 @@ namespace Implem.Pleasanter.Controllers
             }
         }
 
-        public ActionResult SiteImageIcon(Context context, string reference, long id)
+        [HttpGet]
+        [ResponseCache(Duration = int.MaxValue)]
+        public ActionResult SiteImageIcon(string reference, long id)
         {
+            var context = new Context();
             if (reference.ToLower() == "items")
             {
                 var (bytes, contentType) = BinaryUtilities.SiteImageIcon(
@@ -40,8 +49,11 @@ namespace Implem.Pleasanter.Controllers
             }
         }
 
-        public ActionResult TenantImageLogo(Context context)
+        [HttpGet]
+        [ResponseCache(Duration = int.MaxValue)]
+        public ActionResult TenantImageLogo()
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var (bytes, contentType) = BinaryUtilities.TenantImageLogo(
                 context: context,
@@ -54,8 +66,10 @@ namespace Implem.Pleasanter.Controllers
             return new FileContentResult(bytes, contentType);
         }
 
-        public string UpdateSiteImage(Context context, string reference, long id, IHttpPostedFile[] file)
+        [HttpPost]
+        public string UpdateSiteImage(string reference, long id, ICollection<IFormFile> file)
         {
+            var context = new Context(files: file);
             var log = new SysLogModel(context: context);
             var json = reference.ToLower() == "items"
                 ? BinaryUtilities.UpdateSiteImage(
@@ -66,8 +80,10 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        public string UpdateTenantImage(Context context, IHttpPostedFile[] file)
+        [HttpPost]
+        public string UpdateTenantImage(ICollection<IFormFile> file)
         {
+            var context = new Context(files: file);
             var ss = SiteSettingsUtilities.TenantsSiteSettings(context);
             var tenantModel = new TenantModel(context, ss).Get(context, ss);
             var log = new SysLogModel(context: context);
@@ -78,8 +94,10 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        public string DeleteSiteImage(Context context, string reference, long id)
+        [HttpDelete]
+        public string DeleteSiteImage(string reference, long id)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = reference.ToLower() == "items"
                 ? BinaryUtilities.DeleteSiteImage(
@@ -90,8 +108,10 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        public string DeleteTenantImage(Context context)
+        [HttpDelete]
+        public string DeleteTenantImage()
         {
+            var context = new Context();
             var ss = SiteSettingsUtilities.TenantsSiteSettings(context);
             var tenantModel = new TenantModel(context, ss).Get(context, ss);
             var log = new SysLogModel(context: context);
@@ -102,8 +122,10 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        public string UploadImage(Context context, string reference, long id, IHttpPostedFile[] file)
+        [HttpPost]
+        public string UploadImage(string reference, long id, ICollection<IFormFile> file)
         {
+            var context = new Context(files: file);
             var log = new SysLogModel(context: context);
             var json = BinaryUtilities.UploadImage(
                 context: context,
@@ -112,16 +134,20 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        public string DeleteImage(Context context, string reference, string guid)
+        [HttpDelete]
+        public string DeleteImage(string reference, string guid)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = BinaryUtilities.DeleteImage(context: context, guid: guid);
             log.Finish(context: context, responseSize: json.Length);
             return json;
         }
 
-        public string MultiUpload(Context context, string reference, long id, IHttpPostedFile[] file)
+        [HttpPost]
+        public string MultiUpload(string reference, long id, ICollection<IFormFile> file)
         {
+            var context = new Context(files: file);
             var log = new SysLogModel(context: context);
             var json = BinaryUtilities.MultiUpload(
                 context: context,
@@ -130,65 +156,105 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        public FileResult Download(Context context, string reference, string guid)
+        [HttpGet]
+        public ActionResult Download(string reference, string guid)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var file = BinaryUtilities.Donwload(context: context, guid: guid);
             log.Finish(context: context, responseSize: file?.FileContents?.Length ?? 0);
-            return file?.IsFileInfo() == true
-                ? (FileResult)new FilePathResult(file?.FileInfo.FullName, file?.ContentType) { FileDownloadName = file?.FileDownloadName }
-                : (FileResult)new FileStreamResult(file?.FileContentsStream, file?.ContentType) { FileDownloadName = file?.FileDownloadName };
+            var result = FileContentResults.FileStreamResult(file: file);
+            if (result == null)
+            {
+                return RedirectToAction("notfound", "errors");
+            }
+            return result;
         }
 
-        public FileResult DownloadTemp(Context context, string reference, string guid)
+        [HttpGet]
+        public ActionResult DownloadTemp(string reference, string guid)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var file = BinaryUtilities.DownloadTemp(context: context, guid: guid);
             log.Finish(context: context, responseSize: file?.FileContents?.Length ?? 0);
-            return file?.IsFileInfo() == true
-                ? (FileResult)new FilePathResult(file?.FileInfo.FullName, file?.ContentType) { FileDownloadName = file?.FileDownloadName }
-                : (FileResult)new FileStreamResult(file?.FileContentsStream, file?.ContentType) { FileDownloadName = file?.FileDownloadName };
+            var result = FileContentResults.FileStreamResult(file: file);
+            if (result == null)
+            {
+                return RedirectToAction("notfound", "errors");
+            }
+            return result;
         }
 
-        public FileContentResult Show(Context context, string reference, string guid)
+        [HttpGet]
+        public ActionResult Show(string reference, string guid)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var file = BinaryUtilities.Donwload(
                 context: context,
                 guid: guid)
                     ?.FileStream();
             log.Finish(context: context, responseSize: file?.FileContents?.Length ?? 0);
-            return file != null
+            var result = file != null
                 ? new FileContentResult(file.FileContents, file.ContentType)
                 : null;
+            if (result == null)
+            {
+                return RedirectToAction("notfound", "errors");
+            }
+            return File(result.FileContents, result.ContentType);
         }
 
-        public FileContentResult ShowTemp(Context context, string reference, string guid)
+        [HttpGet]
+        public ActionResult ShowTemp(string reference, string guid)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var file = BinaryUtilities.DownloadTemp(context: context, guid: guid);
             log.Finish(context: context, responseSize: file?.FileContents?.Length ?? 0);
-            return file != null
+            var result = file != null
                 ? new FileContentResult(System.Text.Encoding.UTF8.GetBytes(file.FileContents), file.ContentType)
+                : null;
+            return result != null
+                ? File(result.FileContents, result.ContentType)
                 : null;
         }
 
-        public string DeleteTemp(Context context, string reference, long id)
+        [HttpPost]
+        public string DeleteTemp(string reference, long id)
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var json = BinaryUtilities.DeleteTemp(context: context);
             log.Finish(context: context, responseSize: json.Length);
             return json.ToString();
         }
 
-        public string Upload(Context context, long id, ContentRangeHeaderValue contentRange)
+        [HttpPost]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
+        public ActionResult Upload(long id)
         {
+            var files = Request.Form.Files;
+            var context = new Context(files: files.ToList());
             var log = new SysLogModel(context: context);
-            var result = context.Authenticated
+            var contentRangeHeader = Request.Headers["Content-Range"];
+            var matches = System.Text.RegularExpressions.Regex.Matches(contentRangeHeader.FirstOrDefault() ?? string.Empty, "\\d+");
+            var contentRange = matches.Count > 0
+                ? new System.Net.Http.Headers.ContentRangeHeaderValue(
+                    long.Parse(matches[0].Value),
+                    long.Parse(matches[1].Value),
+                    long.Parse(matches[2].Value))
+                : null;
+            var content= context.Authenticated
                 ? BinaryUtilities.UploadFile(context, id, contentRange)
                 : Messages.ResponseAuthentication(context: context).ToJson();
-            log.Finish(context: context, responseSize: result.Length);
-            return result;
+            log.Finish(context: context, responseSize: content.Length);
+            return new ContentResult()
+            {
+                Content = content,
+                ContentType = "applicaion/json",
+            };
         }
     }
 }

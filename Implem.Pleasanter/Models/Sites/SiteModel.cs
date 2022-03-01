@@ -691,6 +691,152 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
+        public string ToDisplay(Context context, SiteSettings ss, Column column, List<string> mine)
+        {
+            if (!ss.ReadColumnAccessControls.Allowed(
+                context: context,
+                ss: ss,
+                column: column,
+                mine: mine))
+            {
+                return string.Empty;
+            }
+            switch (column.ColumnName)
+            {
+                case "SiteId":
+                    return SiteId.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Title":
+                    return Title.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Body":
+                    return Body.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SiteName":
+                    return SiteName.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SiteGroupName":
+                    return SiteGroupName.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "GridGuide":
+                    return GridGuide.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "EditorGuide":
+                    return EditorGuide.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "CalendarGuide":
+                    return CalendarGuide.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "CrosstabGuide":
+                    return CrosstabGuide.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "GanttGuide":
+                    return GanttGuide.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "BurnDownGuide":
+                    return BurnDownGuide.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "TimeSeriesGuide":
+                    return TimeSeriesGuide.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "KambanGuide":
+                    return KambanGuide.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ImageLibGuide":
+                    return ImageLibGuide.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ReferenceType":
+                    return ReferenceType.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "InheritPermission":
+                    return InheritPermission.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Publish":
+                    return Publish.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "DisableCrossSearch":
+                    return DisableCrossSearch.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Timestamp":
+                    return Timestamp.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(column.Name))
+                    {
+                        case "Class":
+                            return GetClass(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Num":
+                            return GetNum(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Date":
+                            return GetDate(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Description":
+                            return GetDescription(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Check":
+                            return GetCheck(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Attachments":
+                            return GetAttachments(column: column).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        default:
+                            return string.Empty;
+                    }
+            }
+        }
+
         public string FullText(
             Context context,
             SiteSettings ss,
@@ -1449,6 +1595,39 @@ namespace Implem.Pleasanter.Models
             return true;
         }
 
+        public string ReplacedDisplayValues(
+            Context context,
+            SiteSettings ss,
+            string value)
+        {
+            ss.IncludedColumns(value: value).ForEach(column =>
+                value = value.Replace(
+                    $"[{column.ColumnName}]",
+                    ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: Mine(context: context))));
+            value = ReplacedContextValues(context, value);
+            return value;
+        }
+
+        private string ReplacedContextValues(Context context, string value)
+        {
+            var url = Locations.ItemEditAbsoluteUri(
+                context: context,
+                id: SiteId);
+            var mailAddress = MailAddressUtilities.Get(
+                context: context,
+                userId: context.UserId);
+            value = value
+                .Replace("{Url}", url)
+                .Replace("{LoginId}", context.User.LoginId)
+                .Replace("{UserName}", context.User.Name)
+                .Replace("{MailAddress}", mailAddress);
+            return value;
+        }
+
         private void SetBySession(Context context)
         {
             if (!context.Forms.Exists("Sites_SiteSettings")) SiteSettings = Session_SiteSettings(context: context);
@@ -2057,6 +2236,108 @@ namespace Implem.Pleasanter.Models
                     break;
                 case "DeleteFormulas":
                     DeleteFormulas(
+                        context: context,
+                        res: res);
+                    break;
+                case "MoveUpProcesses":
+                case "MoveDownProcesses":
+                    SetProcessesOrder(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "NewProcess":
+                case "EditProcess":
+                    OpenProcessDialog(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "AddProcess":
+                    AddProcess(
+                        context: context,
+                        res: res);
+                    break;
+                case "UpdateProcess":
+                    UpdateProcess(
+                        context: context,
+                        res: res);
+                    break;
+                case "DeleteProcesses":
+                    DeleteProcess(
+                        context: context,
+                        res: res);
+                    break;
+                case "MoveUpProcessValidateInputs":
+                case "MoveDownProcessValidateInputs":
+                    SetProcessValidateInputsOrder(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "NewProcessValidateInput":
+                case "EditProcessValidateInput":
+                    OpenProcessValidateInputDialog(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "AddProcessValidateInput":
+                    AddProcessValidateInput(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "UpdateProcessValidateInput":
+                    UpdateProcessValidateInput(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "DeleteProcessValidateInputs":
+                    DeleteProcessValidateInputs(
+                        context: context,
+                        res: res);
+                    break;
+                case "AddProcessViewFilter":
+                    AddViewFilter(
+                        context: context,
+                        res: res,
+                        prefix: "Process");
+                    break;
+                case "SearchProcessAccessControl":
+                    SearchProcessAccessControl(
+                        context: context,
+                        res: res);
+                    break;
+                case "MoveUpProcessNotifications":
+                case "MoveDownProcessNotifications":
+                    SetProcessNotificationsOrder(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "NewProcessNotification":
+                case "EditProcessNotification":
+                    OpenProcessNotificationDialog(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "AddProcessNotification":
+                    AddProcessNotification(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "UpdateProcessNotification":
+                    UpdateProcessNotification(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "DeleteProcessNotifications":
+                    DeleteProcessNotifications(
                         context: context,
                         res: res);
                     break;
@@ -3500,6 +3781,574 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void SetProcessesOrder(Context context, ResponseCollection res, string controlId)
+        {
+            var selected = context.Forms.IntList("EditProcess");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.Processes.MoveUpOrDown(
+                    ColumnUtilities.ChangeCommand(controlId), selected);
+                res.Html("#EditProcess", new HtmlBuilder()
+                    .EditProcess(
+                        context: context,
+                        ss: SiteSettings));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenProcessDialog(Context context, ResponseCollection res, string controlId)
+        {
+            if (controlId == "NewProcess")
+            {
+                var process = new Process();
+                OpenProcessDialog(
+                    context: context,
+                    res: res,
+                    process: process);
+            }
+            else
+            {
+                var process = SiteSettings.Processes?.Get(context.Forms.Int("ProcessId"));
+                if (process == null)
+                {
+                    OpenDialogError(res, Messages.SelectOne(context: context));
+                }
+                else
+                {
+                    SiteSettingsUtilities.Get(
+                        context: context,
+                        siteModel: this,
+                        referenceId: SiteId);
+                    OpenProcessDialog(
+                        context: context,
+                        res: res,
+                        process: process);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenProcessDialog(
+            Context context, ResponseCollection res, Process process)
+        {
+            res.Html("#ProcessDialog", SiteUtilities.ProcessDialog(
+                context: context,
+                ss: SiteSettings,
+                controlId: context.Forms.ControlId(),
+                process: process));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void AddProcess(Context context, ResponseCollection res)
+        {
+            var process = new Process(
+                id: SiteSettings.Processes.MaxOrDefault(o => o.Id) + 1,
+                name: context.Forms.Data("ProcessName"),
+                displayName: context.Forms.Data("ProcessDisplayName"),
+                currentStatus: context.Forms.Int("ProcessCurrentStatus"),
+                changedStatus: context.Forms.Int("ProcessChangedStatus"),
+                description: context.Forms.Data("ProcessDescription"),
+                tooltip: context.Forms.Data("ProcessTooltip"),
+                confirmationMessage: context.Forms.Data("ProcessConfirmationMessage"),
+                successMessage: SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessSuccessMessage")),
+                onClick: context.Forms.Data("ProcessOnClick"),
+                validateInputs: context.Forms.Data("ProcessValidateInputs").Deserialize<SettingList<ValidateInput>>(),
+                permissions: ProcessPermissions(context: context),
+                view: new View(
+                    context: context,
+                    ss: SiteSettings,
+                    prefix: "Process"),
+                errorMessage: SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessErrorMessage")),
+                notifications: context.Forms.Data("ProcessNotifications").Deserialize<SettingList<Notification>>());
+            SiteSettings.Processes.Add(process);
+            res
+                .ReplaceAll("#EditProcess", new HtmlBuilder()
+                    .EditProcess(
+                        context: context,
+                        ss: SiteSettings))
+                .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateProcess(Context context, ResponseCollection res)
+        {
+            var process = SiteSettings.Processes.Get(context.Forms.Int("ProcessId"));
+            if (process == null)
+            {
+                res.Message(Messages.NotFound(context: context));
+            }
+            else
+            {
+                SiteSettings.SetChoiceHash(context: context);
+                var view = process.View ?? new View();
+                view.SetByForm(
+                    context: context,
+                    ss: SiteSettings,
+                    prefix: "Process");
+                process.Update(
+                    name: context.Forms.Data("ProcessName"),
+                    displayName: context.Forms.Data("ProcessDisplayName"),
+                    currentStatus: context.Forms.Int("ProcessCurrentStatus"),
+                    changedStatus: context.Forms.Int("ProcessChangedStatus"),
+                    description: context.Forms.Data("ProcessDescription"),
+                    tooltip: context.Forms.Data("ProcessTooltip"),
+                    confirmationMessage: context.Forms.Data("ProcessConfirmationMessage"),
+                    successMessage: SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessSuccessMessage")),
+                    onClick: context.Forms.Data("ProcessOnClick"),
+                    validateInputs: context.Forms.Data("ProcessValidateInputs").Deserialize<SettingList<ValidateInput>>(),
+                    permissions: ProcessPermissions(context: context),
+                    view: view,
+                    errorMessage: SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessErrorMessage")),
+                    notifications: context.Forms.Data("ProcessNotifications").Deserialize<SettingList<Notification>>());
+                res
+                    .ReplaceAll("#EditProcess", new HtmlBuilder()
+                        .EditProcess(
+                            context: context,
+                            ss: SiteSettings))
+                    .CloseDialog();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void DeleteProcess(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.IntList("EditProcess");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.Processes.Delete(selected);
+                res.ReplaceAll("#EditProcess", new HtmlBuilder()
+                    .EditProcess(
+                        context: context,
+                        ss: SiteSettings));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetProcessValidateInputsOrder(
+            Context context, ResponseCollection res, string controlId)
+        {
+            if (context.ContractSettings.Notice == false)
+            {
+                res.Message(Messages.Restricted(context: context));
+            }
+            else
+            {
+                var selected = context.Forms.IntList("EditProcessValidateInput");
+                if (selected?.Any() != true)
+                {
+                    res.Message(Messages.SelectTargets(context: context)).ToJson();
+                }
+                else
+                {
+                    var validateInputs = context.Forms.Data("ProcessValidateInputs").Deserialize<SettingList<ValidateInput>>();
+                    validateInputs.MoveUpOrDown(ColumnUtilities.ChangeCommand(controlId), selected);
+                    res
+                        .Html("#EditProcessValidateInput", new HtmlBuilder()
+                            .EditProcessValidateInput(
+                                context: context,
+                                ss: SiteSettings,
+                                validateInputs: validateInputs))
+                        .Val(
+                            "#ProcessValidateInputs",
+                            validateInputs.ToJson());
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenProcessValidateInputDialog(Context context, ResponseCollection res, string controlId)
+        {
+            if (controlId == "NewProcessValidateInput")
+            {
+                OpenProcessValidateInputDialog(
+                    context: context,
+                    res: res,
+                    validateInput: new ValidateInput());
+            }
+            else
+            {
+                var validateInputs = context.Forms.Data("ProcessValidateInputs").Deserialize<SettingList<ValidateInput>>();
+                var validateInput = validateInputs?.Get(context.Forms.Int("ProcessValidateInputId"));
+                if (validateInput == null)
+                {
+                    OpenDialogError(res, Messages.SelectOne(context: context));
+                }
+                else
+                {
+                    SiteSettingsUtilities.Get(
+                        context: context, siteModel: this, referenceId: SiteId);
+                    OpenProcessValidateInputDialog(
+                        context: context,
+                        res: res,
+                        validateInput: validateInput);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenProcessValidateInputDialog(
+            Context context, ResponseCollection res, ValidateInput validateInput)
+        {
+            if (context.ContractSettings.Notice == false)
+            {
+                res.Message(Messages.Restricted(context: context));
+            }
+            else
+            {
+                res
+                    .Html("#ProcessValidateInputDialog", SiteUtilities.ProcessValidateInputDialog(
+                        context: context,
+                        ss: SiteSettings,
+                        controlId: context.Forms.ControlId(),
+                        validateInput: validateInput))
+                    .Invoke(methodName: "setProcessValidateInputDialog");
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void AddProcessValidateInput(Context context, ResponseCollection res, string controlId)
+        {
+            var validateInputs = context.Forms.Data("ProcessValidateInputsTemp").Deserialize<SettingList<ValidateInput>>()
+                ?? new SettingList<ValidateInput>();
+            validateInputs.Add(new ValidateInput()
+            {
+                Id = validateInputs.MaxOrDefault(o => o.Id) + 1,
+                ColumnName = context.Forms.Data("ProcessValidateInputColumnName"),
+                Required = context.Forms.Bool("ProcessValidateInputRequired"),
+                ClientRegexValidation = context.Forms.Data("ProcessValidateInputClientRegexValidation"),
+                ServerRegexValidation = context.Forms.Data("ProcessValidateInputServerRegexValidation"),
+                RegexValidationMessage = context.Forms.Data("ProcessValidateInputRegexValidationMessage"),
+                Min = context.Forms.Decimal(
+                    context: context,
+                    key: "ProcessValidateInputMin",
+                    nullable: true),
+                Max = context.Forms.Decimal(
+                    context: context,
+                    key: "ProcessValidateInputMax",
+                    nullable: true)
+            });
+            res
+                .ReplaceAll("#EditProcessValidateInput", new HtmlBuilder()
+                    .EditProcessValidateInput(
+                        context: context,
+                        ss: SiteSettings,
+                        validateInputs: validateInputs))
+                .Val(
+                    "#ProcessValidateInputs",
+                    validateInputs.ToJson())
+                .CloseDialog(target: "#ProcessValidateInputDialog");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateProcessValidateInput(Context context, ResponseCollection res, string controlId)
+        {
+            var validateInputs = context.Forms.Data("ProcessValidateInputsTemp").Deserialize<SettingList<ValidateInput>>();
+            var validateInput = validateInputs?.Get(context.Forms.Int("ProcessValidateInputIdTemp"));
+            validateInput.ColumnName = context.Forms.Data("ProcessValidateInputColumnName");
+            validateInput.Required = context.Forms.Bool("ProcessValidateInputRequired");
+            validateInput.ClientRegexValidation = context.Forms.Data("ProcessValidateInputClientRegexValidation");
+            validateInput.ServerRegexValidation = context.Forms.Data("ProcessValidateInputServerRegexValidation");
+            validateInput.RegexValidationMessage = context.Forms.Data("ProcessValidateInputRegexValidationMessage");
+            validateInput.Min = context.Forms.Decimal(
+                context: context,
+                key: "ProcessValidateInputMin",
+                nullable: true);
+            validateInput.Max = context.Forms.Decimal(
+                context: context,
+                key: "ProcessValidateInputMax",
+                nullable: true);
+            res
+                .ReplaceAll("#EditProcessValidateInput", new HtmlBuilder()
+                    .EditProcessValidateInput(
+                        context: context,
+                        ss: SiteSettings,
+                        validateInputs: validateInputs))
+                .Val(
+                    "#ProcessValidateInputs",
+                    validateInputs.ToJson())
+                .CloseDialog(target: "#ProcessValidateInputDialog");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void DeleteProcessValidateInputs(Context context, ResponseCollection res)
+        {
+            if (context.ContractSettings.Notice == false)
+            {
+                res.Message(Messages.Restricted(context: context));
+            }
+            else
+            {
+                var selected = context.Forms.IntList("EditProcessValidateInput");
+                if (selected?.Any() != true)
+                {
+                    res.Message(Messages.SelectTargets(context: context)).ToJson();
+                }
+                else
+                {
+                    var validateInputs = context.Forms.Data("ProcessValidateInputs").Deserialize<SettingList<ValidateInput>>();
+                    validateInputs.Delete(selected);
+                    res
+                        .Html("#EditProcessValidateInput", new HtmlBuilder()
+                            .EditProcessValidateInput(
+                                context: context,
+                                ss: SiteSettings,
+                                validateInputs: validateInputs))
+                        .Val(
+                            "#ProcessValidateInputs",
+                            validateInputs.ToJson());
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private List<Permission> ProcessPermissions(Context context)
+        {
+            return context.Forms.List("CurrentProcessAccessControlAll")
+                .Select(data => new Permission(
+                    name: data.Split_1st(),
+                    id: data.Split_2nd().ToInt(),
+                    type: Permissions.Types.NotSet))
+                .ToList();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string SearchProcessAccessControl(Context context, ResponseCollection res)
+        {
+            var process = SiteSettings.Processes.Get(context.Forms.Int("ProcessId"))
+                ?? new Process();
+            var currentPermissions = process.GetPermissions(ss: SiteSettings);
+            var sourcePermissions = PermissionUtilities.SourceCollection(
+                context: context,
+                ss: SiteSettings,
+                searchText: context.Forms.Data("SearchProcessAccessControl"),
+                currentPermissions: currentPermissions,
+                allUsers: false);
+            return res
+                .Html("#SourceProcessAccessControl", PermissionUtilities.PermissionListItem(
+                    context: context,
+                    ss: SiteSettings,
+                    permissions: sourcePermissions.Page(0),
+                    selectedValueTextCollection: context.Forms.Data("SourceProcessAccessControl")
+                        .Deserialize<List<string>>()?
+                        .Where(o => o != string.Empty),
+                    withType: false))
+                .Val("#SourceProcessAccessControlOffset", Parameters.Permissions.PageSize)
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetProcessNotificationsOrder(
+            Context context, ResponseCollection res, string controlId)
+        {
+            if (context.ContractSettings.Notice == false)
+            {
+                res.Message(Messages.Restricted(context: context));
+            }
+            else
+            {
+                var selected = context.Forms.IntList("EditProcessNotification");
+                if (selected?.Any() != true)
+                {
+                    res.Message(Messages.SelectTargets(context: context)).ToJson();
+                }
+                else
+                {
+                    var notifications = context.Forms.Data("ProcessNotifications").Deserialize<SettingList<Notification>>();
+                    notifications.MoveUpOrDown(ColumnUtilities.ChangeCommand(controlId), selected);
+                    res
+                        .Html("#EditProcessNotification", new HtmlBuilder()
+                            .EditProcessNotification(
+                                context: context,
+                                ss: SiteSettings,
+                                notifications: notifications))
+                        .Val(
+                            "#ProcessNotifications",
+                            notifications.ToJson());
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenProcessNotificationDialog(Context context, ResponseCollection res, string controlId)
+        {
+            if (controlId == "NewProcessNotification")
+            {
+                OpenProcessNotificationDialog(
+                    context: context,
+                    res: res,
+                    notification: new Notification(
+                        type: Notification.Types.Mail,
+                        monitorChangesColumns: SiteSettings
+                            .ColumnDefinitionHash
+                            .MonitorChangesDefinitions()
+                            .Select(o => o.ColumnName)
+                            .Where(o => SiteSettings.GetEditorColumnNames().Contains(o)
+                                || o == "Comments")
+                            .ToList()));
+            }
+            else
+            {
+                var notifications = context.Forms.Data("ProcessNotifications").Deserialize<SettingList<Notification>>();
+                var notification = notifications?.Get(context.Forms.Int("ProcessNotificationId"));
+                if (notification == null)
+                {
+                    OpenDialogError(res, Messages.SelectOne(context: context));
+                }
+                else
+                {
+                    SiteSettingsUtilities.Get(
+                        context: context, siteModel: this, referenceId: SiteId);
+                    OpenProcessNotificationDialog(
+                        context: context,
+                        res: res,
+                        notification: notification);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenProcessNotificationDialog(
+            Context context, ResponseCollection res, Notification notification)
+        {
+            if (context.ContractSettings.Notice == false)
+            {
+                res.Message(Messages.Restricted(context: context));
+            }
+            else
+            {
+                res.Html("#ProcessNotificationDialog", SiteUtilities.ProcessNotificationDialog(
+                    context: context,
+                    ss: SiteSettings,
+                    controlId: context.Forms.ControlId(),
+                    notification: notification));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void AddProcessNotification(Context context, ResponseCollection res, string controlId)
+        {
+            var notifications = context.Forms.Data("ProcessNotificationsTemp").Deserialize<SettingList<Notification>>()
+                ?? new SettingList<Notification>();
+            notifications.Add(new Notification()
+            {
+                Id = notifications.MaxOrDefault(o => o.Id) + 1,
+                Type = Notification.Types.Mail,
+                Address = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationAddress")),
+                Subject = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationSubject")),
+                Body = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationBody"))
+            });
+            res
+                .ReplaceAll("#EditProcessNotification", new HtmlBuilder()
+                    .EditProcessNotification(
+                        context: context,
+                        ss: SiteSettings,
+                        notifications: notifications))
+                .Val(
+                    "#ProcessNotifications",
+                    notifications.ToJson())
+                .CloseDialog(target: "#ProcessNotificationDialog");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateProcessNotification(Context context, ResponseCollection res, string controlId)
+        {
+            var notifications = context.Forms.Data("ProcessNotificationsTemp").Deserialize<SettingList<Notification>>();
+            var notification = notifications?.Get(context.Forms.Int("ProcessNotificationIdTemp"));
+            notification.Address = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationAddress"));
+            notification.Subject = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationSubject"));
+            notification.Body = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationBody"));
+            res
+                .ReplaceAll("#EditProcessNotification", new HtmlBuilder()
+                    .EditProcessNotification(
+                        context: context,
+                        ss: SiteSettings,
+                        notifications: notifications))
+                .Val(
+                    "#ProcessNotifications",
+                    notifications.ToJson())
+                .CloseDialog(target: "#ProcessNotificationDialog");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void DeleteProcessNotifications(Context context, ResponseCollection res)
+        {
+            if (context.ContractSettings.Notice == false)
+            {
+                res.Message(Messages.Restricted(context: context));
+            }
+            else
+            {
+                var selected = context.Forms.IntList("EditProcessNotification");
+                if (selected?.Any() != true)
+                {
+                    res.Message(Messages.SelectTargets(context: context)).ToJson();
+                }
+                else
+                {
+                    var notifications = context.Forms.Data("ProcessNotifications").Deserialize<SettingList<Notification>>();
+                    notifications.Delete(selected);
+                    res
+                        .Html("#EditProcessNotification", new HtmlBuilder()
+                            .EditProcessNotification(
+                                context: context,
+                                ss: SiteSettings,
+                                notifications: notifications))
+                        .Val(
+                            "#ProcessNotifications",
+                            notifications.ToJson());
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void OpenViewDialog(Context context, ResponseCollection res, string controlId)
         {
             View view;
@@ -3552,25 +4401,32 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void AddViewFilter(Context context, ResponseCollection res)
+        private void AddViewFilter(
+            Context context,
+            ResponseCollection res,
+            string prefix = "")
         {
             SiteSettings.SetChoiceHash(context: context);
             var column = SiteSettings.GetColumn(
                 context: context,
-                columnName: context.Forms.Data("ViewFilterSelector"));
+                columnName: context.Forms.Data($"{prefix}ViewFilterSelector"));
             if (column != null)
             {
                 res
                     .Append(
-                        "#ViewFiltersTab .items",
+                        $"#{prefix}ViewFiltersTab .items",
                         new HtmlBuilder().ViewFilter(
                             context: context,
                             ss: SiteSettings,
-                            column: column))
-                    .Remove("#ViewFilterSelector option:selected");
+                            column: column,
+                            prefix: prefix))
+                    .Remove($"#{prefix}ViewFilterSelector option:selected");
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public string SearchViewAccessControl(Context context, ResponseCollection res)
         {
             var view = SiteSettings.Views.Get(context.Forms.Int("ViewId"))
@@ -3580,7 +4436,8 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: SiteSettings,
                 searchText: context.Forms.Data("SearchViewAccessControl"),
-                currentPermissions: currentPermissions);
+                currentPermissions: currentPermissions,
+                allUsers: false);
             return res
                 .Html("#SourceViewAccessControl", PermissionUtilities.PermissionListItem(
                     context: context,
@@ -3645,6 +4502,9 @@ namespace Implem.Pleasanter.Models
             res.ViewResponses(SiteSettings);
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private List<Permission> ViewPermissions(Context context)
         {
             return context.Forms.List("CurrentViewAccessControlAll")
@@ -5345,8 +6205,7 @@ namespace Implem.Pleasanter.Models
             if (context.CanRead(SiteSettings))
             {
                 var columnName = controlId
-                    .Replace("ViewFilters__", string.Empty)
-                    .Replace("ViewFiltersOnGridHeader__", string.Empty)
+                    .Substring(controlId.IndexOf("__") + 2)
                     .Replace("_NumericRange", string.Empty);
                 var column = SiteSettings.GetColumn(
                     context: context,
@@ -5377,8 +6236,7 @@ namespace Implem.Pleasanter.Models
             if (context.CanRead(SiteSettings))
             {
                 var columnName = controlId
-                    .Replace("ViewFilters__", string.Empty)
-                    .Replace("ViewFiltersOnGridHeader__", string.Empty)
+                    .Substring(controlId.IndexOf("__") + 2)
                     .Replace("_DateRange", string.Empty);
                 var column = SiteSettings.GetColumn(
                     context: context,

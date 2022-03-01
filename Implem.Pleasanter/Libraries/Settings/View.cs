@@ -123,9 +123,12 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
         }
 
-        public View(Context context, SiteSettings ss)
+        public View(Context context, SiteSettings ss, string prefix = "")
         {
-            SetByForm(context: context, ss: ss);
+            SetByForm(
+                context: context,
+                ss: ss,
+                prefix: prefix);
         }
 
         [OnDeserialized]
@@ -356,12 +359,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                 o.Id == ss.ReferenceType + "_" + name);
         }
 
-        public void SetByForm(Context context, SiteSettings ss)
+        public void SetByForm(
+            Context context,
+            SiteSettings ss,
+            string prefix = "")
         {
-            var columnFilterPrefix = "ViewFilters__";
-            var columnFilterOnGridPrefix = "ViewFiltersOnGridHeader__";
-            var columnSorterPrefix = "ViewSorters__";
-            var columnViewExtensionPrefix = "ViewExtensions__";
+            var columnFilterPrefix = $"{prefix}ViewFilters__";
+            var columnFilterOnGridPrefix = $"{prefix}ViewFiltersOnGridHeader__";
+            var columnSorterPrefix = $"{prefix}ViewSorters__";
+            var columnViewExtensionPrefix = $"{prefix}ViewExtensions__";
             switch (context.Forms.ControlId())
             {
                 case "ReduceViewFilters":
@@ -383,9 +389,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ResetViewSorters(ss: ss);
                     break;
                 default:
-                    foreach (string controlId in context.Forms.Keys)
+                    foreach (var controlId in context.Forms.Keys)
                     {
-                        switch (controlId)
+                        switch (ControlIdWithOutPrefix(
+                            controlId: controlId,
+                            prefix: prefix))
                         {
                             case "ViewName":
                                 Name = String(
@@ -679,6 +687,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
+        private static string ControlIdWithOutPrefix(string controlId, string prefix)
+        {
+            return !prefix.IsNullOrEmpty() && controlId.StartsWith(prefix)
+                ? controlId.Substring(prefix.Length)
+                : controlId;
+        }
+
         private void ResetViewFilters(SiteSettings ss)
         {
             var view = ss.Views?.FirstOrDefault(o => o.Id == Id)
@@ -781,9 +796,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             string value)
         {
             var column = context.ExtendedFieldColumn(
-                    ss: ss,
-                    columnName: columnName,
-                    extendedFieldType: "ViewExtensions");
+                ss: ss,
+                columnName: columnName,
+                extendedFieldType: "ViewExtensions");
             if (ViewExtensionsHash == null)
             {
                 ViewExtensionsHash = new Dictionary<string, string>();
@@ -1950,7 +1965,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     where: where,
                                     param: param
                                         .Where(o => o != "\t")
-                                        .Select(o => StringInJson(value: o)),
+                                        .Select(o => o.StringInJson()),
                                     nullable: param.Any(o => o == "\t"),
                                     format: "%{0}%",
                                     like: true);
@@ -2125,13 +2140,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ? context.Sqls.LikeWithEscape
                     : "=",
                 multiParamOperator: " or ");
-        }
-
-        private string StringInJson(string value)
-        {
-            if (value.IsNullOrEmpty()) return string.Empty;
-            var json = value.ToSingleList().ToJson();
-            return $"{json.Substring(1, json.Length - 2)}";
         }
 
         private SqlWhere CsStringColumnsWhereNull(Column column)

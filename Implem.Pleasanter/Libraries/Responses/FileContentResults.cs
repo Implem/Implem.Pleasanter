@@ -7,11 +7,11 @@ using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Web.Mvc;
 namespace Implem.Pleasanter.Libraries.Responses
 {
     public static class FileContentResults
@@ -41,7 +41,7 @@ namespace Implem.Pleasanter.Libraries.Responses
             }
         }
 
-        public static ContentResult DownloadByApi(Context context, string guid)
+        public static ContentResultInheritance DownloadByApi(Context context, string guid)
         {
             DataRow dataRow = GetBinariesTable(context, guid);
             return dataRow != null
@@ -211,6 +211,36 @@ namespace Implem.Pleasanter.Libraries.Responses
             var folderPath = Path.Combine(Path.Combine(Directories.Temp(), guid));
             var files = Directory.GetFiles(folderPath);
             return new ResponseFile(new FileInfo(files[0]), Path.GetFileName(files[0]));
+        }
+
+        public static FileContentResult ToFileContentResult(this FileContentResult content)
+        {
+            return new FileContentResult(content.FileContents, content.ContentType)
+            {
+                FileDownloadName = content.FileDownloadName
+            };
+        }
+
+        public static FileStreamResult FileStreamResult(ResponseFile file)
+        {
+            if (file == null)
+            {
+                return null;
+            }
+            else if (file.IsFileInfo())
+            {
+                return new FileStreamResult(System.IO.File.OpenRead(file.FileInfo.FullName), file.ContentType)
+                {
+                    FileDownloadName = file.FileDownloadName
+                };
+            }
+            else
+            {
+                return new FileStreamResult(file.FileContentsStream, file.ContentType)
+                {
+                    FileDownloadName = file.FileDownloadName
+                };
+            }
         }
     }
 }

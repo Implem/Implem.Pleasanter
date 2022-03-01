@@ -3,34 +3,44 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Resources;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Models;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
-    public class ResourcesController
+    [AllowAnonymous]
+    public class ResourcesController : Controller
     {
-        public ContentResult Scripts(Context context)
+        [HttpGet]
+        [ResponseCache(Duration = int.MaxValue)]
+        public ContentResult Scripts()
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var result = JavaScripts.Get(context: context);
             log.Finish(
                 context: context,
                 responseSize: result.Content.Length);
-            return result;
+            return result.ToRecourceContentResult(request: Request);
         }
 
-        public ContentResult Styles(Context context)
+        [HttpGet]
+        [ResponseCache(Duration = int.MaxValue)]
+        public ContentResult Styles()
         {
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var result = Css.Get(context: context);
             log.Finish(
                 context: context,
                 responseSize: result.Content.Length);
-            return result;
+            return result.ToRecourceContentResult(request: Request);
         }
 
         [HttpPost]
-        public string Responsive(Context context, string Responsive)
+        [ResponseCache(Duration = int.MaxValue)]
+        public string Responsive(string Responsive)
         {
+            var context = new Context();
             var responsive = !Responsive.ToBool();
             SessionUtilities.Set(
                 context: context,
