@@ -11,6 +11,7 @@ namespace Implem.ParameterAccessor.Parts
         public bool JoeAccountCheck;
         public bool TokenCheck;
         public bool SecureCookies;
+        public bool DisableMvcResponseHeader;
         public List<string> AccessControlAllowOrigin;
         public int EnforcePasswordHistories;
         public List<PasswordPolicy> PasswordPolicies;
