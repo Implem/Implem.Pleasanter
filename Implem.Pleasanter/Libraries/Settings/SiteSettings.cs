@@ -4204,8 +4204,10 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Export GetExport(Context context, int id = 0)
         {
-            return Exports?.FirstOrDefault(o => o.Id == id)
-                ?? new Export(DefaultExportColumns(context: context));
+            return Exports
+                ?.Where(o => o.Accessable(context: context))
+                .FirstOrDefault(o => o.Id == id)
+                    ?? new Export(DefaultExportColumns(context: context));
         }
 
         public List<ExportColumn> DefaultExportColumns(Context context)

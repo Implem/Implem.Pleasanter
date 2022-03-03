@@ -5,7 +5,7 @@
             $(element).removeClass('ui-menu-item');
             $($(element).children()[0]).removeClass('ui-menu-item-wrapper');
         });
-        $('#EditorTabsContainer:not(.applied),#MailEditorTabsContainer:not(.applied),#ProcessTabsContainer:not(.applied),#ViewTabsContainer:not(.applied),#ColumnAccessControlTabsContainer:not(.applied),#EditorDetailTabsContainer:not(.applied)').tabs({
+        $('#EditorTabsContainer:not(.applied),#MailEditorTabsContainer:not(.applied),#ProcessTabsContainer:not(.applied),#ViewTabsContainer:not(.applied),#ColumnAccessControlTabsContainer:not(.applied),#EditorDetailTabsContainer:not(.applied),#ExportTabsContainer:not(.applied)').tabs({
             beforeActivate: function (event, ui) {
                 if (ui.newPanel.attr('data-action')) {
                     $p.send(ui.newPanel);
