@@ -9,7 +9,6 @@ using MimeKit;
 using System;
 using System.IO;
 using System.Linq;
-
 namespace Implem.Pleasanter.Libraries.DataSources
 {
     public class Smtp
@@ -83,7 +82,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         mimePart.Content = new MimeContent(stream);
                         return mimePart;
                     }).ToList();
-                if (mimeParts.Count > 0)
+                if (mimeParts?.Count > 0)
                 {
                     var multipart = new Multipart("mixed");
                     multipart.Add(textPart);
@@ -117,7 +116,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 new SysLogModel(Context, e);
             }
-
         }
     }
 }
