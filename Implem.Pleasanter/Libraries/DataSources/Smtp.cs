@@ -4,14 +4,11 @@ using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Mails;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
+using MailKit.Net.Smtp;
+using MimeKit;
 using System;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-using MimeKit;
-using System.Collections.Generic;
-using MailKit.Net.Smtp;
-
 namespace Implem.Pleasanter.Libraries.DataSources
 {
     public class Smtp
@@ -85,7 +82,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         mimePart.Content = new MimeContent(stream);
                         return mimePart;
                     }).ToList();
-                if (mimeParts.Count > 0)
+                if (mimeParts?.Count > 0)
                 {
                     var multipart = new Multipart("mixed");
                     multipart.Add(textPart);
