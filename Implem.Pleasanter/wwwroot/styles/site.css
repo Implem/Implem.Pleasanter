@@ -1172,6 +1172,11 @@ th.calendar-header{
     clear:both;
 }
 
+#ExportTabsContainer {
+    margin: 0px 20px 10px 20px;
+    clear: both;
+}
+
 #EditorDetailTabsContainer{
     margin:0px 20px 10px 20px;
     clear:both;

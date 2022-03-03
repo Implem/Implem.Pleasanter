@@ -10387,6 +10387,146 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         id: ss.SiteId)),
                 action: () => hb
+                    .Div(id: "ExportTabsContainer", action: () => hb
+                        .Ul(id: "ExportTabs", action: () => hb
+                            .Li(
+                                action: () => hb
+                                    .A(
+                                        href: "#ExportGeneralTab",
+                                        text: Displays.General(context: context))
+                            .Li(
+                                action: () => hb
+                                    .A(
+                                        href: "#ExportAccessControlTab",
+                                        text: Displays.AccessControls(context: context)))))
+                        .ExportGeneralTab(
+                            context: context,
+                            ss: ss,
+                            controlId: controlId,
+                            export: export)
+                        .ExportAccessControlTab(
+                            context: context,
+                            ss: ss,
+                            export: export)
+                        )
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "AddExport",
+                            text: Displays.Add(context: context),
+                            controlCss: "button-icon validate",
+                            icon: "ui-icon-disk",
+                            onClick: "$p.setExport($(this));",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "NewExport")
+                        .Button(
+                            controlId: "UpdateExport",
+                            text: Displays.Change(context: context),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.setExport($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "EditExport")
+                        .Button(
+                            text: Displays.Cancel(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder ExportColumnsDialog(
+            Context context, SiteSettings ss, string controlId, ExportColumn exportColumn)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("ExportColumnsForm")
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
+                action: () => hb
+                    .FieldText(
+                        labelText: Displays.Column(context: context),
+                        text: exportColumn.GetColumnLabelText())
+                    .FieldTextBox(
+                        controlId: "ExportColumnLabelText",
+                        controlCss: " always-send",
+                        labelText: Displays.DisplayName(context: context),
+                        text: exportColumn.GetLabelText(),
+                        validateRequired: true)
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "ExportColumnType",
+                        controlCss: " always-send",
+                        labelText: Displays.Output(context: context),
+                        optionCollection: new Dictionary<string, string>
+                        {
+                            {
+                                ExportColumn.Types.Text.ToInt().ToString(),
+                                Displays.DisplayName(context: context)
+                            },
+                            {
+                                ExportColumn.Types.TextMini.ToInt().ToString(),
+                                Displays.ShortDisplayName(context: context)
+                            },
+                            {
+                                ExportColumn.Types.Value.ToInt().ToString(),
+                                Displays.Value(context: context)
+                            }
+                        },
+                        selectedValue: exportColumn.GetType())
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "ExportFormat",
+                        controlCss: " always-send",
+                        labelText: Displays.ExportFormat(context: context),
+                        optionCollection: DateTimeOptions(context: context),
+                        selectedValue: exportColumn.GetFormat(),
+                        _using: exportColumn.Column.TypeName == "datetime")
+                    .FieldCheckBox(
+                        controlId: "ExportColumnOutputClassColumn",
+                        controlCss: " always-send",
+                        labelText: Displays.OutputClassColumn(context: context),
+                        _checked: exportColumn.OutputClassColumn == true,
+                        _using: exportColumn.Column.HasChoices())
+                    .Hidden(
+                        controlId: "ExportColumnId",
+                        css: " always-send",
+                        value: exportColumn.Id.ToString())
+                    .P(id: "ExportColumnsMessage", css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "UpdateExportColumn",
+                            text: Displays.Change(context: context),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.setExportColumn($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post")
+                        .Button(
+                            text: Displays.Cancel(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ExportGeneralTab(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            string controlId,
+            Export export)
+        {
+            return hb.FieldSet(id: "ExportGeneralTab", action: () => hb
+                .Div(css: "items", action: () => hb
                     .FieldText(
                         controlId: "ExportId",
                         controlCss: " always-send",
@@ -10527,112 +10667,92 @@ namespace Implem.Pleasanter.Models
                                         optionCollection: ss.JoinOptions(),
                                         addSelectedValue: false,
                                         action: "SetSiteSettings",
-                                        method: "post"))))
-                    .P(css: "message-dialog")
-                    .Div(css: "command-center", action: () => hb
-                        .Button(
-                            controlId: "AddExport",
-                            text: Displays.Add(context: context),
-                            controlCss: "button-icon validate",
-                            icon: "ui-icon-disk",
-                            onClick: "$p.setExport($(this));",
-                            action: "SetSiteSettings",
-                            method: "post",
-                            _using: controlId == "NewExport")
-                        .Button(
-                            controlId: "UpdateExport",
-                            text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
-                            onClick: "$p.setExport($(this));",
-                            icon: "ui-icon-disk",
-                            action: "SetSiteSettings",
-                            method: "post",
-                            _using: controlId == "EditExport")
-                        .Button(
-                            text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
-                            onClick: "$p.closeDialog($(this));",
-                            icon: "ui-icon-cancel")));
+                                        method: "post"))))));
+
+
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder ExportColumnsDialog(
-            Context context, SiteSettings ss, string controlId, ExportColumn exportColumn)
+        private static HtmlBuilder ExportAccessControlTab(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            Export export)
         {
-            var hb = new HtmlBuilder();
-            return hb.Form(
-                attributes: new HtmlAttributes()
-                    .Id("ExportColumnsForm")
-                    .Action(Locations.ItemAction(
-                        context: context,
-                        id: ss.SiteId)),
-                action: () => hb
-                    .FieldText(
-                        labelText: Displays.Column(context: context),
-                        text: exportColumn.GetColumnLabelText())
-                    .FieldTextBox(
-                        controlId: "ExportColumnLabelText",
-                        controlCss: " always-send",
-                        labelText: Displays.DisplayName(context: context),
-                        text: exportColumn.GetLabelText(),
-                        validateRequired: true)
-                    .FieldDropDown(
-                        context: context,
-                        controlId: "ExportColumnType",
-                        controlCss: " always-send",
-                        labelText: Displays.Output(context: context),
-                        optionCollection: new Dictionary<string, string>
-                        {
-                            {
-                                ExportColumn.Types.Text.ToInt().ToString(),
-                                Displays.DisplayName(context: context)
-                            },
-                            {
-                                ExportColumn.Types.TextMini.ToInt().ToString(),
-                                Displays.ShortDisplayName(context: context)
-                            },
-                            {
-                                ExportColumn.Types.Value.ToInt().ToString(),
-                                Displays.Value(context: context)
-                            }
-                        },
-                        selectedValue: exportColumn.GetType())
-                    .FieldDropDown(
-                        context: context,
-                        controlId: "ExportFormat",
-                        controlCss: " always-send",
-                        labelText: Displays.ExportFormat(context: context),
-                        optionCollection: DateTimeOptions(context: context),
-                        selectedValue: exportColumn.GetFormat(),
-                        _using: exportColumn.Column.TypeName == "datetime")
-                    .FieldCheckBox(
-                        controlId: "ExportColumnOutputClassColumn",
-                        controlCss: " always-send",
-                        labelText: Displays.OutputClassColumn(context: context),
-                        _checked: exportColumn.OutputClassColumn == true,
-                        _using: exportColumn.Column.HasChoices())
+            var currentPermissions = export.GetPermissions(ss: ss);
+            var sourcePermissions = PermissionUtilities.SourceCollection(
+                context: context,
+                ss: ss,
+                searchText: context.Forms.Data("SearchExportAccessControlElements"),
+                currentPermissions: currentPermissions,
+                allUsers: false);
+            var offset = context.Forms.Int("SourceExportAccessControlOffset");
+            return hb.FieldSet(id: "ExportAccessControlTab", action: () => hb
+                .Div(id: "ExportAccessControlEditor", action: () => hb
+                    .FieldSelectable(
+                        controlId: "CurrentExportAccessControl",
+                        fieldCss: "field-vertical both",
+                        controlContainerCss: "container-selectable",
+                        controlCss: " always-send send-all",
+                        labelText: Displays.Permissions(context: context),
+                        listItemCollection: currentPermissions.ToDictionary(
+                            o => o.Key(), o => o.ControlData(
+                                context: context,
+                                ss: ss,
+                                withType: false)),
+                        commandOptionPositionIsTop: true,
+                        commandOptionAction: () => hb
+                            .Div(css: "command-right", action: () => hb
+                                .Button(
+                                    controlCss: "button-icon",
+                                    text: Displays.DeletePermission(context: context),
+                                    onClick: "$p.deleteExportAccessControl();",
+                                    icon: "ui-icon-circle-triangle-e")))
+                    .FieldSelectable(
+                        controlId: "SourceExportAccessControl",
+                        fieldCss: "field-vertical",
+                        controlContainerCss: "container-selectable",
+                        controlWrapperCss: " h300",
+                        labelText: Displays.OptionList(context: context),
+                        listItemCollection: sourcePermissions
+                            .Page(offset)
+                            .ListItemCollection(
+                                context: context,
+                                ss: ss,
+                                withType: false),
+                        commandOptionPositionIsTop: true,
+                        action: "Permissions",
+                        method: "post",
+                        commandOptionAction: () => hb
+                            .Div(css: "command-left", action: () => hb
+                                .Button(
+                                    controlCss: "button-icon",
+                                    text: Displays.AddPermission(context: context),
+                                    onClick: "$p.addExportAccessControl();",
+                                    icon: "ui-icon-circle-triangle-w")
+                                .TextBox(
+                                    controlId: "SearchExportAccessControl",
+                                    controlCss: " auto-postback w100",
+                                    placeholder: Displays.Search(context: context),
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .Button(
+                                    text: Displays.Search(context: context),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.send($('#SearchExportAccessControl'));",
+                                    icon: "ui-icon-search")))
                     .Hidden(
-                        controlId: "ExportColumnId",
-                        css: " always-send",
-                        value: exportColumn.Id.ToString())
-                    .P(id: "ExportColumnsMessage", css: "message-dialog")
-                    .Div(css: "command-center", action: () => hb
-                        .Button(
-                            controlId: "UpdateExportColumn",
-                            text: Displays.Change(context: context),
-                            controlCss: "button-icon validate",
-                            onClick: "$p.setExportColumn($(this));",
-                            icon: "ui-icon-disk",
-                            action: "SetSiteSettings",
-                            method: "post")
-                        .Button(
-                            text: Displays.Cancel(context: context),
-                            controlCss: "button-icon",
-                            onClick: "$p.closeDialog($(this));",
-                            icon: "ui-icon-cancel")));
+                        controlId: "SourceExportAccessControlOffset",
+                        css: "always-send",
+                        value: Paging.NextOffset(
+                            offset: offset,
+                            totalCount: sourcePermissions.Count(),
+                            pageSize: Parameters.Permissions.PageSize)
+                                .ToString())));
         }
+
 
         /// <summary>
         /// Fixed:

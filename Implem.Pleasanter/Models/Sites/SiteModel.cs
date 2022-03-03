@@ -2493,6 +2493,11 @@ namespace Implem.Pleasanter.Models
                         res: res,
                         controlId: controlId);
                     break;
+                case "SearchExportAccessControl":
+                    SearchExportAccessControl(
+                        context: context,
+                        res: res);
+                    break;
                 case "MoveUpStyles":
                 case "MoveDownStyles":
                     SetStylesOrder(
@@ -5087,6 +5092,7 @@ namespace Implem.Pleasanter.Models
                     Export.Header = context.Forms.Bool("ExportHeader");
                     Export.DelimiterType = (Export.DelimiterTypes)context.Forms.Int("DelimiterType");
                     Export.EncloseDoubleQuotes = context.Forms.Bool("EncloseDoubleQuotes");
+                    Export.SetPermissions(permissions: ExportPermissions(context: context));
                     SiteSettings.Exports.Add(Export);
                     SetExportsResponseCollection(context: context, res: res);
                 }
@@ -5142,7 +5148,8 @@ namespace Implem.Pleasanter.Models
                         columns: columns,
                         delimiterType: (Export.DelimiterTypes)context.Forms.Int("DelimiterType"),
                         encloseDoubleQuotes: context.Forms.Bool("EncloseDoubleQuotes"),
-                        executionType: (Export.ExecutionTypes)context.Forms.Int("ExecutionType"));
+                        executionType: (Export.ExecutionTypes)context.Forms.Int("ExecutionType"),
+                        permissions: ExportPermissions(context: context));
                     SetExportsResponseCollection(context: context, res: res);
                 }
             }
@@ -5350,6 +5357,40 @@ namespace Implem.Pleasanter.Models
                         .CloseDialog("#ExportColumnsDialog");
                 }
             }
+        }
+
+        public string SearchExportAccessControl(Context context, ResponseCollection res)
+        {
+            var export = SiteSettings.Exports.Get(context.Forms.Int("ExportId"))
+                ?? new Export();
+            var currentPermissions = export.GetPermissions(ss: SiteSettings);
+            var sourcePermissions = PermissionUtilities.SourceCollection(
+                context: context,
+                ss: SiteSettings,
+                searchText: context.Forms.Data("SearchExportAccessControl"),
+                currentPermissions: currentPermissions,
+                allUsers: false);
+            return res
+                .Html("#SourceExportAccessControl", PermissionUtilities.PermissionListItem(
+                    context: context,
+                    ss: SiteSettings,
+                    permissions: sourcePermissions.Page(0),
+                    selectedValueTextCollection: context.Forms.Data("SourceExportAccessControl")
+                        .Deserialize<List<string>>()
+                        ?.Where(o => o != string.Empty),
+                    withType: false))
+                .Val("#SourceExportAccessControlOffset", Parameters.Permissions.PageSize)
+                .ToJson();
+        }
+
+        private List<Permission> ExportPermissions(Context context)
+        {
+            return context.Forms.List("CurrentExportAccessControlAll")
+                .Select(data => new Permission(
+                    name: data.Split_1st(),
+                    id: data.Split_2nd().ToInt(),
+                    type: Permissions.Types.NotSet))
+                .ToList();
         }
 
         /// <summary>
