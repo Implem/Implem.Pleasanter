@@ -45,6 +45,7 @@ namespace Implem.DefinitionAccessor
             DateTimes.FirstMonth = Parameters.General.FirstMonth;
             DateTimes.MinTime = Parameters.General.MinTime;
             DateTimes.MaxTime = Parameters.General.MaxTime;
+            SetBundleVersions();
             DeleteTemporaryFiles();
         }
 
@@ -843,6 +844,22 @@ namespace Implem.DefinitionAccessor
             Sqls.SelectIdentity = Def.Sql.SelectIdentity;
             Sqls.BeginTransaction = Def.Sql.BeginTransaction;
             Sqls.CommitTransaction = Def.Sql.CommitTransaction;
+        }
+
+        private static void SetBundleVersions()
+        {
+            Environments.BundlesVersions.Add("generals.js", Files.Read(Path.Combine(
+                Directories.Wwwroot(),
+                "bundles",
+                "generals.js")).Sha512Cng());
+            Environments.BundlesVersions.Add("responsive.css", Files.Read(Path.Combine(
+                Directories.Wwwroot(),
+                "content",
+                "responsive.css")).Sha512Cng());
+            Environments.BundlesVersions.Add("styles.css", Files.Read(Path.Combine(
+                Directories.Wwwroot(),
+                "content",
+                "styles.css")).Sha512Cng());
         }
 
         private static void DeleteTemporaryFiles()

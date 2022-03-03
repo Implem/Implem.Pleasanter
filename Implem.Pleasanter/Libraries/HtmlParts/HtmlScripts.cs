@@ -148,7 +148,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             if (!System.Diagnostics.Debugger.IsAttached)
             {
-                hb.Script(src: context.VirtualPathToAbsolute("~/bundles/generals.min.js"));
+                hb.Script(src: context.VirtualPathToAbsolute($"~/bundles/generals.min.js?v={Environments.BundlesVersions.Get("generals.js")}"));
             }
             else
             {
