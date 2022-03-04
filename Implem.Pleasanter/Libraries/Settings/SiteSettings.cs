@@ -320,6 +320,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Formulas == null) Formulas = new SettingList<FormulaSet>();
             if (Processes == null) Processes = new SettingList<Process>();
             ViewLatestId = ViewLatestId ?? 0;
+            if (Views == null) Views = new List<View>();
             if (Notifications == null) Notifications = new SettingList<Notification>();
             if (Reminders == null) Reminders = new SettingList<Reminder>();
             ImportEncoding = ImportEncoding ?? Parameters.General.ImportEncoding;
