@@ -2003,6 +2003,9 @@ namespace Implem.Pleasanter.Models
             SiteSettings.AccessStatus = AccessStatus;
             SiteSettings.LinkedSsDataSetHash = linkedSsDataSetHash;
             SiteSettings.SetLinkedSiteSettings(context: context);
+            SiteSettings.SetPermissions(
+                context: context,
+                referenceId: context.Id);
         }
 
         /// <summary>
