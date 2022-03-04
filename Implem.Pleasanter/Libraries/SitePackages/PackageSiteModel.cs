@@ -16,6 +16,8 @@ namespace Implem.Pleasanter.Libraries.SitePackages
         public int TenantId = 0;
         public long SiteId = 0;
         public string Title = string.Empty;
+        public string SiteName = string.Empty;
+        public string SiteGroupName = string.Empty;
         public string Body = string.Empty;
         public string GridGuide = string.Empty;
         public string EditorGuide = string.Empty;
@@ -45,6 +47,8 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             TenantId = siteModel.TenantId;
             SiteId = siteModel.SiteId;
             Title = siteModel.Title.Value.MaxLength(1024);
+            SiteName = siteModel.SiteName;
+            SiteGroupName = siteModel.SiteGroupName;
             Body = siteModel.Body;
             GridGuide = siteModel.GridGuide;
             EditorGuide = siteModel.EditorGuide;
@@ -232,6 +236,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             if (!includeNotifications)
             {
                 ss.Notifications?.Clear();
+                ss.Processes?.ForEach(p => p.Notifications?.Clear());
             }
             if (!includeReminders)
             {
@@ -252,6 +257,18 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     columnAccessControls: ss.UpdateColumnAccessControls,
                     permissionIdList: permissionIdList);
             }
+            ReplaceProcesses(
+                context: context,
+                processes: ss.Processes,
+                permissionIdList: permissionIdList);
+            ReplaceViews(
+                context: context,
+                views: ss.Views,
+                permissionIdList: permissionIdList);
+            ReplaceExports(
+                context: context,
+                exports: ss.Exports,
+                permissionIdList: permissionIdList);
             return ss;
         }
 
@@ -369,6 +386,99 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     .Where(groupId => groupId > 0)
                     .ToList();
                 columnAccessControl.Users = columnAccessControl?.Users
+                    ?.Select(userId => Utilities.ConvertedUserId(
+                        context: context,
+                        permissionIdList: permissionIdList,
+                        userId: userId))
+                    .Where(userId => userId > 0)
+                    .ToList();
+            });
+        }
+
+        internal static void ReplaceProcesses(
+            Context context,
+            SettingList<Process> processes,
+            PermissionIdList permissionIdList)
+        {
+            processes?.ForEach(process =>
+            {
+                process.Depts = process?.Depts
+                    ?.Select(deptId => Utilities.ConvertedDeptId(
+                        context: context,
+                        permissionIdList: permissionIdList,
+                        deptId: deptId))
+                    .Where(deptId => deptId > 0)
+                    .ToList();
+                process.Groups = process?.Groups
+                    ?.Select(groupId => Utilities.ConvertedGroupId(
+                        context: context,
+                        permissionIdList: permissionIdList,
+                        groupId: groupId))
+                    .Where(groupId => groupId > 0)
+                    .ToList();
+                process.Users = process?.Users
+                    ?.Select(userId => Utilities.ConvertedUserId(
+                        context: context,
+                        permissionIdList: permissionIdList,
+                        userId: userId))
+                    .Where(userId => userId > 0)
+                    .ToList();
+            });
+        }
+
+        internal static void ReplaceViews(
+            Context context,
+            List<View> views,
+            PermissionIdList permissionIdList)
+        {
+            views?.ForEach(view =>
+            {
+                view.Depts = view?.Depts
+                    ?.Select(deptId => Utilities.ConvertedDeptId(
+                        context: context,
+                        permissionIdList: permissionIdList,
+                        deptId: deptId))
+                    .Where(deptId => deptId > 0)
+                    .ToList();
+                view.Groups = view?.Groups
+                    ?.Select(groupId => Utilities.ConvertedGroupId(
+                        context: context,
+                        permissionIdList: permissionIdList,
+                        groupId: groupId))
+                    .Where(groupId => groupId > 0)
+                    .ToList();
+                view.Users = view?.Users
+                    ?.Select(userId => Utilities.ConvertedUserId(
+                        context: context,
+                        permissionIdList: permissionIdList,
+                        userId: userId))
+                    .Where(userId => userId > 0)
+                    .ToList();
+            });
+        }
+
+        internal static void ReplaceExports(
+            Context context,
+            SettingList<Export> exports,
+            PermissionIdList permissionIdList)
+        {
+            exports?.ForEach(export =>
+            {
+                export.Depts = export?.Depts
+                    ?.Select(deptId => Utilities.ConvertedDeptId(
+                        context: context,
+                        permissionIdList: permissionIdList,
+                        deptId: deptId))
+                    .Where(deptId => deptId > 0)
+                    .ToList();
+                export.Groups = export?.Groups
+                    ?.Select(groupId => Utilities.ConvertedGroupId(
+                        context: context,
+                        permissionIdList: permissionIdList,
+                        groupId: groupId))
+                    .Where(groupId => groupId > 0)
+                    .ToList();
+                export.Users = export?.Users
                     ?.Select(userId => Utilities.ConvertedUserId(
                         context: context,
                         permissionIdList: permissionIdList,
