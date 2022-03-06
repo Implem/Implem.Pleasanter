@@ -622,6 +622,7 @@ namespace Implem.Pleasanter.Models
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.InsertItems(
+                    dataTableName: dataTableName,
                     selectIdentity: true,
                     param: Rds.ItemsParam()
                         .ReferenceType("Wikis")
@@ -814,7 +815,9 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         wikiModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(WikiId)) {
+                new SqlStatement(Def.Sql.IfConflicted.Params(WikiId))
+                {
+                    DataTableName = dataTableName,
                     IfConflicted = true,
                     Id = WikiId
                 }
@@ -900,6 +903,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData UpdateOrCreate(
             Context context,
             SiteSettings ss,
+            string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {
@@ -907,6 +911,7 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>
             {
                 Rds.InsertItems(
+                    dataTableName: dataTableName,
                     selectIdentity: true,
                     param: Rds.ItemsParam()
                         .ReferenceType("Wikis")

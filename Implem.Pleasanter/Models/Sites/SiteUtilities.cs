@@ -5322,8 +5322,14 @@ namespace Implem.Pleasanter.Models
                         .Ul(id: "EditorDetailsettingTabs", action: () => hb
                             .Li(action: () => hb
                                 .A(
-                                    href: "#EditorColumnDialog",
+                                    href: "#EditorColumnDialogTab",
                                     text: Displays.General(context: context)))
+                            .Li(
+                                action: () => hb
+                                    .A(
+                                        href: "#AutoNumberingSettingTab",
+                                        text: Displays.AutoNumbering(context: context)),
+                                _using: column.TypeName.CsTypeSummary() == Types.CsString)
                             .Li(
                                 action: () => hb
                                     .A(
@@ -5336,6 +5342,15 @@ namespace Implem.Pleasanter.Models
                                         href: "#ExtendedHtmlSettingTab",
                                         text: Displays.ExtendedHtml(context: context)),
                                 _using: !column.OtherColumn()))
+                        .EditorColumnDialogTab(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            titleColumns: titleColumns)
+                        .AutoNumberingSettingTab(
+                            context: context,
+                            ss: ss,
+                            column: column)
                         .ExtendedHtmlSettingTab(
                             context: context,
                             ss: ss,
@@ -5343,12 +5358,7 @@ namespace Implem.Pleasanter.Models
                         .EditorDetailsettingTab(
                             context: context,
                             ss: ss,
-                            column: column)
-                        .EditorColumnDialog(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            titleColumns: titleColumns))
+                            column: column))
                     .Hidden(
                         controlId: "EditorColumnName",
                         css: "always-send",
@@ -5403,15 +5413,15 @@ namespace Implem.Pleasanter.Models
                                             href: "#ExtendedHtmlSettingTab",
                                             text: Displays.ExtendedHtml(context: context)),
                                     _using: !column.OtherColumn()))
-                            .ExtendedHtmlSettingTab(
-                                context: context,
-                                ss: ss,
-                                column: column)
-                            .EditorColumnDialog(
+                            .EditorColumnDialogTab(
                                 context: context,
                                 ss: ss,
                                 column: column,
-                                titleColumns: titleColumns))
+                                titleColumns: titleColumns)
+                            .ExtendedHtmlSettingTab(
+                                context: context,
+                                ss: ss,
+                                column: column))
                     .Hidden(
                         controlId: "EditorColumnName",
                         css: "always-send",
@@ -5444,6 +5454,72 @@ namespace Implem.Pleasanter.Models
                             controlCss: "button-icon",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder AutoNumberingSettingTab(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            Column column)
+        {
+            if (column.TypeName.CsTypeSummary() != Types.CsString)
+            {
+                return hb;
+            }
+            return hb.FieldSet(
+                id: "AutoNumberingSettingTab",
+                action: () => hb
+                    .FieldSet(
+                        css: " enclosed",
+                        legendText: column.LabelTextDefault,
+                        action: () => hb
+                            .FieldTextBox(
+                                controlId: "AutoNumberingFormat",
+                                fieldCss: "field-wide",
+                                labelText: Displays.Format(context: context),
+                                text: ss.ColumnNameToLabelText(column.AutoNumberingFormat))
+                            .FieldDropDown(
+                                context: context,
+                                controlId: "AutoNumberingResetType",
+                                labelText: Displays.ResetType(context: context),
+                                optionCollection: new Dictionary<string, string>
+                                {
+                                    {
+                                        Column.AutoNumberingResetTypes.Year.ToInt().ToString(),
+                                        Displays.Year(context: context)
+                                    },
+                                    {
+                                        Column.AutoNumberingResetTypes.Month.ToInt().ToString(),
+                                        Displays.Month(context: context)
+                                    },
+                                    {
+                                        Column.AutoNumberingResetTypes.Day.ToInt().ToString(),
+                                        Displays.Day(context: context)
+                                    },
+                                    {
+                                        Column.AutoNumberingResetTypes.String.ToInt().ToString(),
+                                        Displays.String(context: context)
+                                    }
+                                },
+                                selectedValue: column.AutoNumberingResetType.ToInt().ToString(),
+                                insertBlank: true)
+                            .FieldTextBox(
+                                controlId: "AutoNumberingDefault",
+                                labelText: Displays.DefaultInput(context: context),
+                                text: column.AutoNumberingDefault.ToString(),
+                                validateNumber: true,
+                                validateMinNumber: 0,
+                                validateMaxNumber: 999999999999999)
+                            .FieldTextBox(
+                                controlId: "AutoNumberingStep",
+                                labelText: Displays.Step(context: context),
+                                text: column.AutoNumberingStep.ToString(),
+                                validateNumber: true,
+                                validateMinNumber: 1,
+                                validateMaxNumber: 999999999999999)));
         }
 
         /// <summary>
@@ -5535,7 +5611,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder EditorColumnDialog(
+        public static HtmlBuilder EditorColumnDialogTab(
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
@@ -5544,7 +5620,7 @@ namespace Implem.Pleasanter.Models
         {
             var type = column.TypeName.CsTypeSummary();
             return hb.FieldSet(
-                id: "EditorColumnDialog",
+                id: "EditorColumnDialogTab",
                 action: () => hb
                     .FieldSet(
                         css: " enclosed",
@@ -10668,8 +10744,6 @@ namespace Implem.Pleasanter.Models
                                         addSelectedValue: false,
                                         action: "SetSiteSettings",
                                         method: "post"))))));
-
-
         }
 
         /// <summary>
@@ -10752,7 +10826,6 @@ namespace Implem.Pleasanter.Models
                             pageSize: Parameters.Permissions.PageSize)
                                 .ToString())));
         }
-
 
         /// <summary>
         /// Fixed:

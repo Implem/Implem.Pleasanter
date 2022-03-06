@@ -779,7 +779,9 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         deptModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(DeptId)) {
+                new SqlStatement(Def.Sql.IfConflicted.Params(DeptId))
+                {
+                    DataTableName = dataTableName,
                     IfConflicted = true,
                     Id = DeptId
                 },
@@ -792,6 +794,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData UpdateOrCreate(
             Context context,
             SiteSettings ss,
+            string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {

@@ -143,8 +143,8 @@ namespace Implem.Libraries.DataSources.SqlServer
                         dt.Load(SqlCommand.ExecuteReader());
                         var cmd = SqlCommand.CommandText;
                         value = dt.AsEnumerable()
-                        .Select(dr => dr[0])
-                        .FirstOrDefault();
+                            .Select(dr => dr[0])
+                            .FirstOrDefault();
                     });
             }
             finally
@@ -413,8 +413,8 @@ namespace Implem.Libraries.DataSources.SqlServer
                 factory: factory,
                 dbTransaction: dbTransaction,
                 dbConnection: dbConnection)
-                .ToStr()
-                .Deserialize<SqlResponse>() ?? new SqlResponse();
+                    .ToStr()
+                    .Deserialize<SqlResponse>() ?? new SqlResponse();
             if (!response.ErrorMessage.IsNullOrEmpty())
             {
                 throw new Exception(response.ErrorMessage);

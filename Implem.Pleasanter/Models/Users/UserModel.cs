@@ -2538,7 +2538,9 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         userModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(UserId)) {
+                new SqlStatement(Def.Sql.IfConflicted.Params(UserId))
+                {
+                    DataTableName = dataTableName,
                     IfConflicted = true,
                     Id = UserId
                 },

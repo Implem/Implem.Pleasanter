@@ -366,6 +366,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_CheckNotificationConditions": Code.Model_CheckNotificationConditions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CheckNotificationConditions, definitionRow, CodeXls); break;
                     case "Model_CreatedNotice": Code.Model_CreatedNotice = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreatedNotice, definitionRow, CodeXls); break;
                     case "Model_Insert_User": Code.Model_Insert_User = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Insert_User, definitionRow, CodeXls); break;
+                    case "Model_Insert_ExecuteAutomaticNumberingExec": Code.Model_Insert_ExecuteAutomaticNumberingExec = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Insert_ExecuteAutomaticNumberingExec, definitionRow, CodeXls); break;
                     case "Model_InsertItems": Code.Model_InsertItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertItems, definitionRow, CodeXls); break;
                     case "Model_InsertItemsAfter": Code.Model_InsertItemsAfter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertItemsAfter, definitionRow, CodeXls); break;
                     case "Model_ReloadPermissions": Code.Model_ReloadPermissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ReloadPermissions, definitionRow, CodeXls); break;
@@ -380,6 +381,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Insert": Code.Model_Insert = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Insert, definitionRow, CodeXls); break;
                     case "Model_InsertIdentity": Code.Model_InsertIdentity = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertIdentity, definitionRow, CodeXls); break;
                     case "Model_InsertIdentitySet": Code.Model_InsertIdentitySet = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertIdentitySet, definitionRow, CodeXls); break;
+                    case "Model_Insert_ExecuteAutomaticNumbering": Code.Model_Insert_ExecuteAutomaticNumbering = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Insert_ExecuteAutomaticNumbering, definitionRow, CodeXls); break;
                     case "Model_Update": Code.Model_Update = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Update, definitionRow, CodeXls); break;
                     case "Model_UpdateAttachmentsStatementsMethod": Code.Model_UpdateAttachmentsStatementsMethod = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateAttachmentsStatementsMethod, definitionRow, CodeXls); break;
                     case "Model_UpdateParams_Items": Code.Model_UpdateParams_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateParams_Items, definitionRow, CodeXls); break;
@@ -1712,6 +1714,11 @@ namespace Implem.DefinitionAccessor
                     case "OutgoingMails_SentTime": Column.OutgoingMails_SentTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.OutgoingMails_SentTime, definitionRow, ColumnXls); break;
                     case "OutgoingMails_DestinationSearchRange": Column.OutgoingMails_DestinationSearchRange = definitionRow[1].ToString(); SetColumnTable(ColumnTable.OutgoingMails_DestinationSearchRange, definitionRow, ColumnXls); break;
                     case "OutgoingMails_DestinationSearchText": Column.OutgoingMails_DestinationSearchText = definitionRow[1].ToString(); SetColumnTable(ColumnTable.OutgoingMails_DestinationSearchText, definitionRow, ColumnXls); break;
+                    case "AutoNumberings_TenantId": Column.AutoNumberings_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.AutoNumberings_TenantId, definitionRow, ColumnXls); break;
+                    case "AutoNumberings_ReferenceId": Column.AutoNumberings_ReferenceId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.AutoNumberings_ReferenceId, definitionRow, ColumnXls); break;
+                    case "AutoNumberings_ColumnName": Column.AutoNumberings_ColumnName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.AutoNumberings_ColumnName, definitionRow, ColumnXls); break;
+                    case "AutoNumberings_Key": Column.AutoNumberings_Key = definitionRow[1].ToString(); SetColumnTable(ColumnTable.AutoNumberings_Key, definitionRow, ColumnXls); break;
+                    case "AutoNumberings_Number": Column.AutoNumberings_Number = definitionRow[1].ToString(); SetColumnTable(ColumnTable.AutoNumberings_Number, definitionRow, ColumnXls); break;
                     case "Items_ReferenceId": Column.Items_ReferenceId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_ReferenceId, definitionRow, ColumnXls); break;
                     case "Items_ReferenceType": Column.Items_ReferenceType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_ReferenceType, definitionRow, ColumnXls); break;
                     case "Items_SiteId": Column.Items_SiteId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_SiteId, definitionRow, ColumnXls); break;
@@ -1928,6 +1935,14 @@ namespace Implem.DefinitionAccessor
                     case "OutgoingMails_UpdatedTime": Column.OutgoingMails_UpdatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.OutgoingMails_UpdatedTime, definitionRow, ColumnXls); break;
                     case "OutgoingMails_VerUp": Column.OutgoingMails_VerUp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.OutgoingMails_VerUp, definitionRow, ColumnXls); break;
                     case "OutgoingMails_Timestamp": Column.OutgoingMails_Timestamp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.OutgoingMails_Timestamp, definitionRow, ColumnXls); break;
+                    case "AutoNumberings_Ver": Column.AutoNumberings_Ver = definitionRow[1].ToString(); SetColumnTable(ColumnTable.AutoNumberings_Ver, definitionRow, ColumnXls); break;
+                    case "AutoNumberings_Comments": Column.AutoNumberings_Comments = definitionRow[1].ToString(); SetColumnTable(ColumnTable.AutoNumberings_Comments, definitionRow, ColumnXls); break;
+                    case "AutoNumberings_Creator": Column.AutoNumberings_Creator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.AutoNumberings_Creator, definitionRow, ColumnXls); break;
+                    case "AutoNumberings_Updator": Column.AutoNumberings_Updator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.AutoNumberings_Updator, definitionRow, ColumnXls); break;
+                    case "AutoNumberings_CreatedTime": Column.AutoNumberings_CreatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.AutoNumberings_CreatedTime, definitionRow, ColumnXls); break;
+                    case "AutoNumberings_UpdatedTime": Column.AutoNumberings_UpdatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.AutoNumberings_UpdatedTime, definitionRow, ColumnXls); break;
+                    case "AutoNumberings_VerUp": Column.AutoNumberings_VerUp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.AutoNumberings_VerUp, definitionRow, ColumnXls); break;
+                    case "AutoNumberings_Timestamp": Column.AutoNumberings_Timestamp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.AutoNumberings_Timestamp, definitionRow, ColumnXls); break;
                     case "Items_Ver": Column.Items_Ver = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_Ver, definitionRow, ColumnXls); break;
                     case "Items_Comments": Column.Items_Comments = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_Comments, definitionRow, ColumnXls); break;
                     case "Items_Creator": Column.Items_Creator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_Creator, definitionRow, ColumnXls); break;
@@ -7502,6 +7517,7 @@ namespace Implem.DefinitionAccessor
         public string Model_CheckNotificationConditions;
         public string Model_CreatedNotice;
         public string Model_Insert_User;
+        public string Model_Insert_ExecuteAutomaticNumberingExec;
         public string Model_InsertItems;
         public string Model_InsertItemsAfter;
         public string Model_ReloadPermissions;
@@ -7516,6 +7532,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Insert;
         public string Model_InsertIdentity;
         public string Model_InsertIdentitySet;
+        public string Model_Insert_ExecuteAutomaticNumbering;
         public string Model_Update;
         public string Model_UpdateAttachmentsStatementsMethod;
         public string Model_UpdateParams_Items;
@@ -8210,6 +8227,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_CheckNotificationConditions = new CodeDefinition();
         public CodeDefinition Model_CreatedNotice = new CodeDefinition();
         public CodeDefinition Model_Insert_User = new CodeDefinition();
+        public CodeDefinition Model_Insert_ExecuteAutomaticNumberingExec = new CodeDefinition();
         public CodeDefinition Model_InsertItems = new CodeDefinition();
         public CodeDefinition Model_InsertItemsAfter = new CodeDefinition();
         public CodeDefinition Model_ReloadPermissions = new CodeDefinition();
@@ -8224,6 +8242,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Insert = new CodeDefinition();
         public CodeDefinition Model_InsertIdentity = new CodeDefinition();
         public CodeDefinition Model_InsertIdentitySet = new CodeDefinition();
+        public CodeDefinition Model_Insert_ExecuteAutomaticNumbering = new CodeDefinition();
         public CodeDefinition Model_Update = new CodeDefinition();
         public CodeDefinition Model_UpdateAttachmentsStatementsMethod = new CodeDefinition();
         public CodeDefinition Model_UpdateParams_Items = new CodeDefinition();
@@ -9557,6 +9576,11 @@ namespace Implem.DefinitionAccessor
         public string OutgoingMails_SentTime;
         public string OutgoingMails_DestinationSearchRange;
         public string OutgoingMails_DestinationSearchText;
+        public string AutoNumberings_TenantId;
+        public string AutoNumberings_ReferenceId;
+        public string AutoNumberings_ColumnName;
+        public string AutoNumberings_Key;
+        public string AutoNumberings_Number;
         public string Items_ReferenceId;
         public string Items_ReferenceType;
         public string Items_SiteId;
@@ -9773,6 +9797,14 @@ namespace Implem.DefinitionAccessor
         public string OutgoingMails_UpdatedTime;
         public string OutgoingMails_VerUp;
         public string OutgoingMails_Timestamp;
+        public string AutoNumberings_Ver;
+        public string AutoNumberings_Comments;
+        public string AutoNumberings_Creator;
+        public string AutoNumberings_Updator;
+        public string AutoNumberings_CreatedTime;
+        public string AutoNumberings_UpdatedTime;
+        public string AutoNumberings_VerUp;
+        public string AutoNumberings_Timestamp;
         public string Items_Ver;
         public string Items_Comments;
         public string Items_Creator;
@@ -10073,6 +10105,11 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition OutgoingMails_SentTime = new ColumnDefinition();
         public ColumnDefinition OutgoingMails_DestinationSearchRange = new ColumnDefinition();
         public ColumnDefinition OutgoingMails_DestinationSearchText = new ColumnDefinition();
+        public ColumnDefinition AutoNumberings_TenantId = new ColumnDefinition();
+        public ColumnDefinition AutoNumberings_ReferenceId = new ColumnDefinition();
+        public ColumnDefinition AutoNumberings_ColumnName = new ColumnDefinition();
+        public ColumnDefinition AutoNumberings_Key = new ColumnDefinition();
+        public ColumnDefinition AutoNumberings_Number = new ColumnDefinition();
         public ColumnDefinition Items_ReferenceId = new ColumnDefinition();
         public ColumnDefinition Items_ReferenceType = new ColumnDefinition();
         public ColumnDefinition Items_SiteId = new ColumnDefinition();
@@ -10289,6 +10326,14 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition OutgoingMails_UpdatedTime = new ColumnDefinition();
         public ColumnDefinition OutgoingMails_VerUp = new ColumnDefinition();
         public ColumnDefinition OutgoingMails_Timestamp = new ColumnDefinition();
+        public ColumnDefinition AutoNumberings_Ver = new ColumnDefinition();
+        public ColumnDefinition AutoNumberings_Comments = new ColumnDefinition();
+        public ColumnDefinition AutoNumberings_Creator = new ColumnDefinition();
+        public ColumnDefinition AutoNumberings_Updator = new ColumnDefinition();
+        public ColumnDefinition AutoNumberings_CreatedTime = new ColumnDefinition();
+        public ColumnDefinition AutoNumberings_UpdatedTime = new ColumnDefinition();
+        public ColumnDefinition AutoNumberings_VerUp = new ColumnDefinition();
+        public ColumnDefinition AutoNumberings_Timestamp = new ColumnDefinition();
         public ColumnDefinition Items_Ver = new ColumnDefinition();
         public ColumnDefinition Items_Comments = new ColumnDefinition();
         public ColumnDefinition Items_Creator = new ColumnDefinition();

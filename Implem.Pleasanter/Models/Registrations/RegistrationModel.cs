@@ -956,7 +956,9 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         registrationModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(RegistrationId)) {
+                new SqlStatement(Def.Sql.IfConflicted.Params(RegistrationId))
+                {
+                    DataTableName = dataTableName,
                     IfConflicted = true,
                     Id = RegistrationId
                 },
@@ -966,6 +968,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData UpdateOrCreate(
             Context context,
             SiteSettings ss,
+            string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {

@@ -382,7 +382,9 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         exportSettingModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(ExportSettingId)) {
+                new SqlStatement(Def.Sql.IfConflicted.Params(ExportSettingId))
+                {
+                    DataTableName = dataTableName,
                     IfConflicted = true,
                     Id = ExportSettingId
                 }
@@ -392,6 +394,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData UpdateOrCreate(
             Context context,
             SiteSettings ss,
+            string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {

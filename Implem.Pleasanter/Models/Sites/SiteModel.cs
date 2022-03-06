@@ -1070,7 +1070,9 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         siteModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(SiteId)) {
+                new SqlStatement(Def.Sql.IfConflicted.Params(SiteId))
+                {
+                    DataTableName = dataTableName,
                     IfConflicted = true,
                     Id = SiteId
                 }
@@ -1127,6 +1129,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData UpdateOrCreate(
             Context context,
             SiteSettings ss,
+            string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {
@@ -1134,6 +1137,7 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>
             {
                 Rds.InsertItems(
+                    dataTableName: dataTableName,
                     selectIdentity: true,
                     param: Rds.ItemsParam()
                         .ReferenceType("Sites")
@@ -5362,6 +5366,9 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public string SearchExportAccessControl(Context context, ResponseCollection res)
         {
             var export = SiteSettings.Exports.Get(context.Forms.Int("ExportId"))
@@ -5386,6 +5393,9 @@ namespace Implem.Pleasanter.Models
                 .ToJson();
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private List<Permission> ExportPermissions(Context context)
         {
             return context.Forms.List("CurrentExportAccessControlAll")

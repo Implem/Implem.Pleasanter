@@ -131,6 +131,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "loginkeys": return LoginKeysSiteSettings(context: context);
                 case "mailaddresses": return MailAddressesSiteSettings(context: context);
                 case "outgoingmails": return OutgoingMailsSiteSettings(context: context);
+                case "autonumberings": return AutoNumberingsSiteSettings(context: context);
                 case "orders": return OrdersSiteSettings(context: context);
                 case "exportsettings": return ExportSettingsSiteSettings(context: context);
                 case "links": return LinksSiteSettings(context: context);
@@ -306,6 +307,16 @@ namespace Implem.Pleasanter.Libraries.Settings
             var ss = new SiteSettings()
             {
                 ReferenceType = "OutgoingMails"
+            };
+            ss.Init(context: context);
+            return ss;
+        }
+
+        public static SiteSettings AutoNumberingsSiteSettings(Context context)
+        {
+            var ss = new SiteSettings()
+            {
+                ReferenceType = "AutoNumberings"
             };
             ss.Init(context: context);
             return ss;
