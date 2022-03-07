@@ -102,9 +102,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         ? MailKit.Security.SecureSocketOptions.StartTls
                         : MailKit.Security.SecureSocketOptions.Auto;
                     await smtpClient.ConnectAsync(Host, Port, options);
-                    
-                    if (Parameters.Mail.SmtpUserName != null &&
-                        Parameters.Mail.SmtpPassword != null)
+                    if (!Parameters.Mail.SmtpUserName.IsNullOrEmpty()
+                        && !Parameters.Mail.SmtpPassword.IsNullOrEmpty())
                     {
                         await smtpClient.AuthenticateAsync(Parameters.Mail.SmtpUserName, Parameters.Mail.SmtpPassword);
                     }
