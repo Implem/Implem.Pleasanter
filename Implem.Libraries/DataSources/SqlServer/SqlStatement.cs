@@ -230,6 +230,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             if (SelectIdentity)
             {
                 commandText.Append(factory.SqlCommandText.CreateSelectIdentity(
+                    dataTableName: DataTableName,
                     template: Sqls.SelectIdentity,
                     identityColumnName: IdentityColumnName));
             }

@@ -1520,6 +1520,9 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     force: forceSynchronizeSourceSummary);
             }
+            ExecuteAutomaticNumbering(
+                context: context,
+                ss: ss);
             if (context.ContractSettings.Notice != false && notice)
             {
                 SetTitle(
@@ -1605,6 +1608,7 @@ namespace Implem.Pleasanter.Models
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.InsertItems(
+                    dataTableName: dataTableName,
                     selectIdentity: true,
                     param: Rds.ItemsParam()
                         .ReferenceType("Issues")
@@ -1638,6 +1642,40 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 column: o).ToInt()))));
             return statements;
+        }
+
+        public void ExecuteAutomaticNumbering(
+            Context context,
+            SiteSettings ss)
+        {
+            ss.Columns
+                .Where(column => !column.AutoNumberingFormat.IsNullOrEmpty())
+                .Where(column => !column.Joined)
+                .ForEach(column => SetByForm(
+                    context: context,
+                    ss: ss,
+                    formData: new Dictionary<string, string>()
+                    {
+                        {
+                            $"Issues_{column.ColumnName}",
+                            AutoNumberingUtilities.ExecuteAutomaticNumbering(
+                                context: context,
+                                ss: ss,
+                                column: column,
+                                data: ss.IncludedColumns(value: column.AutoNumberingFormat)
+                                    .ToDictionary(
+                                        o => o.ColumnName,
+                                        o => ToDisplay(
+                                            context: context,
+                                            ss: ss,
+                                            column: o,
+                                            mine: Mine(context: context))),
+                                updateModel: Rds.UpdateIssues(
+                                    where: Rds.IssuesWhere()
+                                        .SiteId(SiteId)
+                                        .IssueId(IssueId)))
+                        }
+                    }));
         }
 
         public ErrorData Update(
@@ -1830,7 +1868,9 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         issueModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(IssueId)) {
+                new SqlStatement(Def.Sql.IfConflicted.Params(IssueId))
+                {
+                    DataTableName = dataTableName,
                     IfConflicted = true,
                     Id = IssueId
                 }
@@ -1967,6 +2007,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData UpdateOrCreate(
             Context context,
             SiteSettings ss,
+            string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {
@@ -1974,6 +2015,7 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>
             {
                 Rds.InsertItems(
+                    dataTableName: dataTableName,
                     selectIdentity: true,
                     param: Rds.ItemsParam()
                         .ReferenceType("Issues")

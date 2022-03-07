@@ -484,7 +484,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 id: dataRow.Long("Id"),
                 title: dataRow.String("ItemTitle"),
                 time: (from.EditorFormat == "Ymdhm"
-                    ? dataRow.DateTime("From").ToLocal(context: context).ToString("t") + " "
+                    ? dataRow.DateTime("From").ToLocal(context: context).ToString("HH:mm") + " "
                     : null),
                 from: ConvertIfCompletionTime(
                 context: context,

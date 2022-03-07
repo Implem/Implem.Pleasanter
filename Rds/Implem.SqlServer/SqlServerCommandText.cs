@@ -27,10 +27,13 @@ namespace Implem.SqlServer
         }
 
         public string CreateSelectIdentity(
+            string dataTableName,
             string template,
             string identityColumnName)
         {
-            return template;
+            return string.Format(
+                template,
+                dataTableName ?? string.Empty);
         }
 
         public string CreateSelectStatementTerminator(bool selectIdentity)

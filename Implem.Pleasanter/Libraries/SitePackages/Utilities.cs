@@ -176,6 +176,8 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                             .SiteId(packageSiteModel.SavedSiteId)
                             .TenantId(packageSiteModel.SavedTenantId)
                             .Title(conv.SiteTitle)
+                            .SiteName(packageSiteModel.SiteName)
+                            .SiteGroupName(packageSiteModel.SiteGroupName)
                             .Body(packageSiteModel.Body)
                             .GridGuide(packageSiteModel.GridGuide)
                             .EditorGuide(packageSiteModel.EditorGuide)

@@ -44,6 +44,11 @@ namespace Implem.DefinitionAccessor
             }
         }
 
+        public static string Wwwroot()
+        {
+            return Path.Combine(Environments.CurrentDirectoryPath, "wwwroot");
+        }
+
         public static string Definitions(string fileName = "")
         {
             return Outputs("App_Data", "Definitions") + fileName.IsNotEmpty(Path.DirectorySeparatorChar + fileName);

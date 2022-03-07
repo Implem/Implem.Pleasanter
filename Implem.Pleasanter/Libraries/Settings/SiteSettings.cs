@@ -320,6 +320,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Formulas == null) Formulas = new SettingList<FormulaSet>();
             if (Processes == null) Processes = new SettingList<Process>();
             ViewLatestId = ViewLatestId ?? 0;
+            if (Views == null) Views = new List<View>();
             if (Notifications == null) Notifications = new SettingList<Notification>();
             if (Reminders == null) Reminders = new SettingList<Reminder>();
             ImportEncoding = ImportEncoding ?? Parameters.General.ImportEncoding;
@@ -1166,6 +1167,26 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.Hide = column.Hide;
                     }
+                    if (column.AutoNumberingFormat?.Trim().IsNullOrEmpty() == false)
+                    {
+                        enabled = true;
+                        newColumn.AutoNumberingFormat = column.AutoNumberingFormat;
+                    }
+                    if (column.AutoNumberingResetType != Column.AutoNumberingResetTypes.None)
+                    {
+                        enabled = true;
+                        newColumn.AutoNumberingResetType = column.AutoNumberingResetType;
+                    }
+                    if (column.AutoNumberingDefault != 1)
+                    {
+                        enabled = true;
+                        newColumn.AutoNumberingDefault = column.AutoNumberingDefault;
+                    }
+                    if (column.AutoNumberingStep != 1)
+                    {
+                        enabled = true;
+                        newColumn.AutoNumberingStep = column.AutoNumberingStep;
+                    }
                     if (column.ExtendedCellCss?.Trim().IsNullOrEmpty() == false)
                     {
                         enabled = true;
@@ -1692,6 +1713,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.EditorFormat = column.EditorFormat ?? columnDefinition.EditorFormat;
                 column.ExportFormat = column.ExportFormat ?? columnDefinition.ExportFormat;
                 column.ControlType = column.ControlType ?? columnDefinition.ControlType;
+                column.AutoNumberingResetType = column.AutoNumberingResetType ?? Column.AutoNumberingResetTypes.None;
+                column.AutoNumberingDefault = column.AutoNumberingDefault ?? 1;
+                column.AutoNumberingStep = column.AutoNumberingStep ?? 1;
                 column.ValidateRequired = column.ValidateRequired ?? columnDefinition.ValidateRequired;
                 column.ValidateNumber = column.ValidateNumber ?? columnDefinition.ValidateNumber;
                 column.ValidateDate = column.ValidateDate ?? columnDefinition.ValidateDate;
@@ -3453,12 +3477,22 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "Format": column.Format = value; break;
                 case "NoWrap": column.NoWrap = value.ToBool(); break;
                 case "Hide": column.Hide = value.ToBool(); break;
+                case "AutoNumberingFormat":
+                    column.AutoNumberingFormat = LabelTextToColumnName(
+                        column: column,
+                        value: value);
+                    break;
+                case "AutoNumberingResetType": column.AutoNumberingResetType = (Column.AutoNumberingResetTypes)value.ToInt(); break;
+                case "AutoNumberingDefault": column.AutoNumberingDefault = value.ToInt(); break;
+                case "AutoNumberingStep": column.AutoNumberingStep = value.ToInt(); break;
                 case "ExtendedCellCss": column.ExtendedCellCss = value; break;
                 case "ExtendedFieldCss": column.ExtendedFieldCss = value; break;
                 case "ExtendedControlCss": column.ExtendedControlCss = value; break;
                 case "Section": column.Section = value; break;
                 case "GridDesign":
-                    column.GridDesign = LabelTextToColumnName(column, value);
+                    column.GridDesign = LabelTextToColumnName(
+                        column: column,
+                        value: value);
                     break;
                 case "ValidateRequired": column.ValidateRequired = value.ToBool(); break;
                 case "ValidateNumber": column.ValidateNumber = value.ToBool(); break;
@@ -3532,12 +3566,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        private string LabelTextToColumnName(Column currentColumn, string value)
+        private string LabelTextToColumnName(Column column, string value)
         {
             if (!value.IsNullOrEmpty())
             {
                 value = LabelTextToColumnName(value);
-                return value != $"[{currentColumn.ColumnName}]"
+                return value != $"[{column.ColumnName}]"
                     ? value
                     : null;
             }
@@ -4204,8 +4238,10 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Export GetExport(Context context, int id = 0)
         {
-            return Exports?.FirstOrDefault(o => o.Id == id)
-                ?? new Export(DefaultExportColumns(context: context));
+            return Exports
+                ?.Where(o => o.Accessable(context: context))
+                .FirstOrDefault(o => o.Id == id)
+                    ?? new Export(DefaultExportColumns(context: context));
         }
 
         public List<ExportColumn> DefaultExportColumns(Context context)

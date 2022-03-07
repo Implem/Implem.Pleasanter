@@ -312,6 +312,28 @@ namespace Implem.Pleasanter.Libraries.Responses
         }
     }
 
+    public class AutoNumberingsResponseCollection : ResponseCollection
+    {
+        public AutoNumberingModel AutoNumberingModel;
+
+        public AutoNumberingsResponseCollection(AutoNumberingModel autoNumberingModel)
+        {
+            AutoNumberingModel = autoNumberingModel;
+        }
+
+        public AutoNumberingsResponseCollection Val(string selector, string value)
+        {
+            base.Val(selector, value);
+            return this;
+        }
+
+        public AutoNumberingsResponseCollection ValAndFormData(string selector, string value)
+        {
+            base.ValAndFormData(selector, value);
+            return this;
+        }
+    }
+
     public class SitesResponseCollection : ResponseCollection
     {
         public SiteModel SiteModel;
@@ -6626,6 +6648,226 @@ namespace Implem.Pleasanter.Libraries.Responses
             this OutgoingMailsResponseCollection res, Context context, string value)
         {
             return res.ValAndFormData("#OutgoingMails_Timestamp", value);
+        }
+
+        public static AutoNumberingsResponseCollection Ver(
+            this AutoNumberingsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#AutoNumberings_Ver",
+                res.AutoNumberingModel.Ver.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Ver")));
+        }
+
+        public static AutoNumberingsResponseCollection Ver(
+            this AutoNumberingsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#AutoNumberings_Ver", value);
+        }
+
+        public static AutoNumberingsResponseCollection Ver_FormData(
+            this AutoNumberingsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#AutoNumberings_Ver",
+                res.AutoNumberingModel.Ver.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Ver")));
+        }
+
+        public static AutoNumberingsResponseCollection Ver_FormData(
+            this AutoNumberingsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#AutoNumberings_Ver", value);
+        }
+
+        public static AutoNumberingsResponseCollection Comments(
+            this AutoNumberingsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#AutoNumberings_Comments",
+                res.AutoNumberingModel.Comments.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Comments")));
+        }
+
+        public static AutoNumberingsResponseCollection Comments(
+            this AutoNumberingsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#AutoNumberings_Comments", value);
+        }
+
+        public static AutoNumberingsResponseCollection Comments_FormData(
+            this AutoNumberingsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#AutoNumberings_Comments",
+                res.AutoNumberingModel.Comments.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Comments")));
+        }
+
+        public static AutoNumberingsResponseCollection Comments_FormData(
+            this AutoNumberingsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#AutoNumberings_Comments", value);
+        }
+
+        public static AutoNumberingsResponseCollection CreatedTime(
+            this AutoNumberingsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#AutoNumberings_CreatedTime",
+                res.AutoNumberingModel.CreatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "CreatedTime")));
+        }
+
+        public static AutoNumberingsResponseCollection CreatedTime(
+            this AutoNumberingsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#AutoNumberings_CreatedTime", value);
+        }
+
+        public static AutoNumberingsResponseCollection CreatedTime_FormData(
+            this AutoNumberingsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#AutoNumberings_CreatedTime",
+                res.AutoNumberingModel.CreatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "CreatedTime")));
+        }
+
+        public static AutoNumberingsResponseCollection CreatedTime_FormData(
+            this AutoNumberingsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#AutoNumberings_CreatedTime", value);
+        }
+
+        public static AutoNumberingsResponseCollection UpdatedTime(
+            this AutoNumberingsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#AutoNumberings_UpdatedTime",
+                res.AutoNumberingModel.UpdatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UpdatedTime")));
+        }
+
+        public static AutoNumberingsResponseCollection UpdatedTime(
+            this AutoNumberingsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#AutoNumberings_UpdatedTime", value);
+        }
+
+        public static AutoNumberingsResponseCollection UpdatedTime_FormData(
+            this AutoNumberingsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#AutoNumberings_UpdatedTime",
+                res.AutoNumberingModel.UpdatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UpdatedTime")));
+        }
+
+        public static AutoNumberingsResponseCollection UpdatedTime_FormData(
+            this AutoNumberingsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#AutoNumberings_UpdatedTime", value);
+        }
+
+        public static AutoNumberingsResponseCollection Timestamp(
+            this AutoNumberingsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#AutoNumberings_Timestamp",
+                res.AutoNumberingModel.Timestamp.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Timestamp")));
+        }
+
+        public static AutoNumberingsResponseCollection Timestamp(
+            this AutoNumberingsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#AutoNumberings_Timestamp", value);
+        }
+
+        public static AutoNumberingsResponseCollection Timestamp_FormData(
+            this AutoNumberingsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#AutoNumberings_Timestamp",
+                res.AutoNumberingModel.Timestamp.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Timestamp")));
+        }
+
+        public static AutoNumberingsResponseCollection Timestamp_FormData(
+            this AutoNumberingsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#AutoNumberings_Timestamp", value);
         }
 
         public static SitesResponseCollection SiteId(

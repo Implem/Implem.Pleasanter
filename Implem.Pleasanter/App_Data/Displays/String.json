@@ -1,0 +1,33 @@
+﻿{
+    "Id": "String",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "String"
+        },
+        {
+            "Language": "zh",
+            "Body": "细绳"
+        },
+        {
+            "Language": "ja",
+            "Body": "文字列"
+        },
+        {
+            "Language": "de",
+            "Body": "Schnur"
+        },
+        {
+            "Language": "ko",
+            "Body": "끈"
+        },
+        {
+            "Language": "es",
+            "Body": "Cuerda"
+        },
+        {
+            "Language": "vn",
+            "Body": "Sợi dây"
+        }
+    ]
+}
