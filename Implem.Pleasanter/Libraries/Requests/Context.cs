@@ -99,6 +99,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public long ServerScriptDepth { get; set; } = 0;
         public bool ServerScriptDisabled { get; set; }
         public List<ParameterAccessor.Parts.ExtendedField> ExtendedFields;
+        public SqlServerErrors SqlErrors = new SqlServerErrors();
         public SqlServerSqls Sqls = new SqlServerSqls();
         public SqlServerCommandText SqlCommandText = new SqlServerCommandText();
 

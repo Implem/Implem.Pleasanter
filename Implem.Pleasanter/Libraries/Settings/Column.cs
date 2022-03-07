@@ -53,6 +53,16 @@ namespace Implem.Pleasanter.Libraries.Settings
             ValueAndDisplayName = 3
         }
 
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum AutoNumberingResetTypes : int
+        {
+            None = 0,
+            Year = 10,
+            Month = 20,
+            Day = 30,
+            String = 90
+        }
+
         public string Id;
         public string ColumnName;
         public string LabelText;
@@ -69,6 +79,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Format;
         public bool? NoWrap;
         public bool? Hide;
+        public string AutoNumberingFormat;
+        public AutoNumberingResetTypes? AutoNumberingResetType;
+        public int? AutoNumberingDefault;
+        public int? AutoNumberingStep;
         public string ExtendedCellCss;
         public string ExtendedFieldCss;
         public string ExtendedControlCss;

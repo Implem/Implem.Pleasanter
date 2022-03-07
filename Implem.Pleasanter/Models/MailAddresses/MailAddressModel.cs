@@ -320,7 +320,9 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         mailAddressModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(MailAddressId)) {
+                new SqlStatement(Def.Sql.IfConflicted.Params(MailAddressId))
+                {
+                    DataTableName = dataTableName,
                     IfConflicted = true,
                     Id = MailAddressId
                 }
@@ -330,6 +332,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData UpdateOrCreate(
             Context context,
             SiteSettings ss,
+            string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {

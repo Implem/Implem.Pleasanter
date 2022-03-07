@@ -606,7 +606,9 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         tenantModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(TenantId)) {
+                new SqlStatement(Def.Sql.IfConflicted.Params(TenantId))
+                {
+                    DataTableName = dataTableName,
                     IfConflicted = true,
                     Id = TenantId
                 }
@@ -616,6 +618,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData UpdateOrCreate(
             Context context,
             SiteSettings ss,
+            string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {

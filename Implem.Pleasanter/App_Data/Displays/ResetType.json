@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ResetType",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Reset type"
+        },
+        {
+            "Language": "zh",
+            "Body": "重置类型"
+        },
+        {
+            "Language": "ja",
+            "Body": "リセット種別"
+        },
+        {
+            "Language": "de",
+            "Body": "Typ zurücksetzen"
+        },
+        {
+            "Language": "ko",
+            "Body": "재설정 유형"
+        },
+        {
+            "Language": "es",
+            "Body": "Numeración automática"
+        },
+        {
+            "Language": "vn",
+            "Body": "Đặt lại loại"
+        }
+    ]
+}

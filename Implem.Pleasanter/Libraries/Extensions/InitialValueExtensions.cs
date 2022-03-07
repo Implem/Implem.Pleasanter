@@ -32,6 +32,11 @@ namespace Implem.Pleasanter.Libraries.Extensions
             return self == 0;
         }
 
+        public static bool InitialValue(this decimal? self, Context context)
+        {
+            return self == 0;
+        }
+
         public static bool InitialValue(this DateTime self, Context context)
         {
             return self == 0.ToDateTime();

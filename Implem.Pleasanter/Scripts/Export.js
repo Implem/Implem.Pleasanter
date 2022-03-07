@@ -30,3 +30,12 @@ $p.export = function () {
 $p.exportCrosstab = function () {
     $p.transition($('.main-form').attr('action').replace('_action_', 'exportcrosstab'));
 }
+
+$p.addExportAccessControl = function () {
+    $('#SourceExportAccessControl li.ui-selected').appendTo('#CurrentExportAccessControl');
+    $p.setData($('#CurrentExportAccessControl'));
+}
+
+$p.deleteExportAccessControl = function () {
+    $('#CurrentExportAccessControl li.ui-selected').appendTo('#SourceExportAccessControl');
+}

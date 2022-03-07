@@ -2368,9 +2368,9 @@ namespace Implem.Pleasanter.Models
                     statements: statements.ToArray());
                 UserId = response.Id.ToInt();
             }
-            catch (System.Data.SqlClient.SqlException e)
+            catch (DbException e)
             {
-                if (e.Number == 2601)
+                if (context.SqlErrors.ErrorCode(e) == context.SqlErrors.ErrorCodeDuplicateKey)
                 {
                     return new ErrorData(type: Error.Types.LoginIdAlreadyUse);
                 }
@@ -2446,9 +2446,9 @@ namespace Implem.Pleasanter.Models
                         id: UserId);
                 }
             }
-            catch (System.Data.SqlClient.SqlException e)
+            catch (DbException e)
             {
-                if (e.Number == 2601)
+                if (context.SqlErrors.ErrorCode(e) == context.SqlErrors.ErrorCodeDuplicateKey)
                 {
                     return new ErrorData(type: Error.Types.LoginIdAlreadyUse);
                 }
@@ -2529,7 +2529,9 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         userModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(UserId)) {
+                new SqlStatement(Def.Sql.IfConflicted.Params(UserId))
+                {
+                    DataTableName = dataTableName,
                     IfConflicted = true,
                     Id = UserId
                 },

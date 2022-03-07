@@ -597,6 +597,10 @@
     <Compile Include="Libraries\Settings\Summary.cs" />
     <Compile Include="Libraries\General\Error.cs" />
     <Compile Include="Libraries\Web\Mime.cs" />
+    <Compile Include="Models\AutoNumberings\AutoNumberingCollection.cs" />
+    <Compile Include="Models\AutoNumberings\AutoNumberingModel.cs" />
+    <Compile Include="Models\AutoNumberings\AutoNumberingUtilities.cs" />
+    <Compile Include="Models\AutoNumberings\AutoNumberingValidators.cs" />
     <Compile Include="Models\Binaries\BinaryUtilities.cs" />
     <Compile Include="Models\Binaries\BinaryCollection.cs" />
     <Compile Include="Models\Binaries\BinaryModel.cs" />
@@ -2382,6 +2386,11 @@
     <Content Include="App_Data\Displays\ProcessExecuted.json" />
     <Content Include="App_Data\Displays\Incorrect.json" />
     <Content Include="App_Data\Displays\Tooltip.json" />
+    <Content Include="App_Data\Displays\AutoNumbering.json" />
+    <Content Include="App_Data\Displays\AutoNumberingFormat.json" />
+    <Content Include="App_Data\Displays\Overflow.json" />
+    <Content Include="App_Data\Displays\ResetType.json" />
+    <Content Include="App_Data\Displays\String.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />
