@@ -4,7 +4,6 @@ namespace Implem.ParameterAccessor.Parts
     public class Security
     {
         public bool MimeTypeCheckOnApi;
-        public int RequestLimit;
         public List<string> PrivilegedUsers;
         public bool RevealUserDisabled;
         public int LockoutCount;
@@ -12,6 +11,7 @@ namespace Implem.ParameterAccessor.Parts
         public bool JoeAccountCheck;
         public bool TokenCheck;
         public bool SecureCookies;
+        public bool DisableMvcResponseHeader;
         public List<string> AccessControlAllowOrigin;
         public int EnforcePasswordHistories;
         public List<PasswordPolicy> PasswordPolicies;

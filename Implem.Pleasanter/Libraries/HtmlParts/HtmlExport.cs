@@ -13,6 +13,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             var optionCollection = ss.Exports
+                ?.Where(o => o.Accessable(context: context))
                 .ToDictionary(
                     o => new
                     {

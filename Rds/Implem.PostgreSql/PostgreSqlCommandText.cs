@@ -28,10 +28,14 @@ namespace Implem.PostgreSql
         }
 
         public string CreateSelectIdentity(
+            string dataTableName,
             string template,
             string identityColumnName)
         {
-            return string.Format(template, identityColumnName);
+            return string.Format(
+                template,
+                dataTableName ?? string.Empty,
+                identityColumnName);
         }
 
         public string CreateSelectStatementTerminator(bool selectIdentity)

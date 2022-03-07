@@ -341,7 +341,9 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         extensionModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(ExtensionId)) {
+                new SqlStatement(Def.Sql.IfConflicted.Params(ExtensionId))
+                {
+                    DataTableName = dataTableName,
                     IfConflicted = true,
                     Id = ExtensionId
                 }
@@ -351,6 +353,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData UpdateOrCreate(
             Context context,
             SiteSettings ss,
+            string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {

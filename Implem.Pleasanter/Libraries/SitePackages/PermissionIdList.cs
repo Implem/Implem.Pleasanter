@@ -19,7 +19,8 @@ namespace Implem.Pleasanter.Libraries.SitePackages
         public PermissionIdList(
             Context context,
             List<PackageSiteModel> sites,
-            List<PackagePermissionModel> packagePermissionModels)
+            List<PackagePermissionModel> packagePermissionModels,
+            bool includeSitePermission)
         {
             DeptIdList = new List<DeptIdHash>();
             GroupIdList = new List<GroupIdHash>();
@@ -27,32 +28,37 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             Add(
                 context: context,
                 sites: sites,
-                packagePermissionModels: packagePermissionModels);
+                packagePermissionModels: packagePermissionModels,
+                includeSitePermission: includeSitePermission);
         }
 
         private void Add(
             Context context,
             List<PackageSiteModel> sites,
-            List<PackagePermissionModel> packagePermissionModels)
+            List<PackagePermissionModel> packagePermissionModels,
+            bool includeSitePermission)
         {
             var deptIds = new HashSet<int>();
             var groupIds = new HashSet<int>();
             var userIds = new HashSet<int>();
-            foreach (var packagePermissionModel in packagePermissionModels)
+            if (includeSitePermission)
             {
-                foreach (var permission in packagePermissionModel.Permissions)
+                foreach (var packagePermissionModel in packagePermissionModels)
                 {
-                    if (permission.DeptId > 0 && !deptIds.Contains(permission.DeptId))
+                    foreach (var permission in packagePermissionModel.Permissions)
                     {
-                        deptIds.Add(permission.DeptId);
-                    }
-                    if (permission.GroupId > 0 && !groupIds.Contains(permission.GroupId))
-                    {
-                        groupIds.Add(permission.GroupId);
-                    }
-                    if (permission.UserId > 0 && !userIds.Contains(permission.UserId))
-                    {
-                        userIds.Add(permission.UserId);
+                        if (permission.DeptId > 0 && !deptIds.Contains(permission.DeptId))
+                        {
+                            deptIds.Add(permission.DeptId);
+                        }
+                        if (permission.GroupId > 0 && !groupIds.Contains(permission.GroupId))
+                        {
+                            groupIds.Add(permission.GroupId);
+                        }
+                        if (permission.UserId > 0 && !userIds.Contains(permission.UserId))
+                        {
+                            userIds.Add(permission.UserId);
+                        }
                     }
                 }
             }
@@ -99,6 +105,51 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         groupIds.Add(group);
                     }
                     foreach (var user in uca.Users ?? new List<int>() { 0 })
+                    {
+                        userIds.Add(user);
+                    }
+                }
+                foreach (var process in packageSiteModel.SiteSettings.Processes)
+                {
+                    foreach (var dept in process.Depts ?? new List<int>() { 0 })
+                    {
+                        deptIds.Add(dept);
+                    }
+                    foreach (var group in process.Groups ?? new List<int>() { 0 })
+                    {
+                        groupIds.Add(group);
+                    }
+                    foreach (var user in process.Users ?? new List<int>() { 0 })
+                    {
+                        userIds.Add(user);
+                    }
+                }
+                foreach (var view in packageSiteModel.SiteSettings.Views)
+                {
+                    foreach (var dept in view.Depts ?? new List<int>() { 0 })
+                    {
+                        deptIds.Add(dept);
+                    }
+                    foreach (var group in view.Groups ?? new List<int>() { 0 })
+                    {
+                        groupIds.Add(group);
+                    }
+                    foreach (var user in view.Users ?? new List<int>() { 0 })
+                    {
+                        userIds.Add(user);
+                    }
+                }
+                foreach (var export in packageSiteModel.SiteSettings.Exports)
+                {
+                    foreach (var dept in export.Depts ?? new List<int>() { 0 })
+                    {
+                        deptIds.Add(dept);
+                    }
+                    foreach (var group in export.Groups ?? new List<int>() { 0 })
+                    {
+                        groupIds.Add(group);
+                    }
+                    foreach (var user in export.Users ?? new List<int>() { 0 })
                     {
                         userIds.Add(user);
                     }

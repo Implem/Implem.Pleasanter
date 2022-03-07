@@ -122,10 +122,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         parts: "Styles/Plugins/jquery.multiselect.filter.css"),
                     rel: "stylesheet")
                 .Link(
-                    href: context.VirtualPathToAbsolute("~/content/styles.min.css"),
+                    href: context.VirtualPathToAbsolute($"~/content/styles.min.css?v={Environments.BundlesVersions.Get("styles.css")}"),
                     rel: "stylesheet")
                 .Link(
-                    href: context.VirtualPathToAbsolute("~/content/responsive.min.css"),
+                    href: context.VirtualPathToAbsolute($"~/content/responsive.min.css?v={Environments.BundlesVersions.Get("responsive.css")}"),
                     rel: "stylesheet",
                     _using: Parameters.Mobile.Responsive
                         && context.Mobile

@@ -405,7 +405,9 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         outgoingMailModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(OutgoingMailId)) {
+                new SqlStatement(Def.Sql.IfConflicted.Params(OutgoingMailId))
+                {
+                    DataTableName = dataTableName,
                     IfConflicted = true,
                     Id = OutgoingMailId
                 }
@@ -415,6 +417,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData UpdateOrCreate(
             Context context,
             SiteSettings ss,
+            string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {

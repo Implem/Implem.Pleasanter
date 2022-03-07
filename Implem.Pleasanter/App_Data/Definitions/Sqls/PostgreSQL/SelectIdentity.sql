@@ -1,1 +1,1 @@
-﻿ RETURNING '{{"Id":' || {0} || '}}' 
+﻿ RETURNING '{{"DataTableName":"{0}","Id":' || {1} || '}}' 

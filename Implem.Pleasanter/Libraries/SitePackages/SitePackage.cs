@@ -49,12 +49,14 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 includeColumnPermission: includeColumnPermission,
                 includeNotifications: includeNotifications,
                 includeReminders: includeReminders);
-            if (includeSitePermission)
+            PermissionIdList = new PermissionIdList(
+                context: context,
+                sites: Sites,
+                packagePermissionModels: Permissions,
+                includeSitePermission: includeSitePermission);
+            if (includeSitePermission == false)
             {
-                PermissionIdList = new PermissionIdList(
-                    context: context,
-                    sites: Sites,
-                    packagePermissionModels: Permissions);
+                Permissions.Clear();
             }
         }
 
@@ -101,6 +103,8 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     if (includeNotifications == false)
                     {
                         packageSiteModel.SiteSettings.Notifications?.Clear();
+                        packageSiteModel.SiteSettings
+                            .Processes?.ForEach(p => { p.Notifications?.Clear(); });
                     }
                     if (includeReminders == false)
                     {
@@ -171,6 +175,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
 
         public class Header
         {
+            public string AssemblyVersion;
             public long BaseSiteId;
             public string Server;
             public string CreatorName;
@@ -198,6 +203,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 bool includeNotifications,
                 bool includeReminders)
             {
+                AssemblyVersion = Environments.AssemblyVersion;
                 BaseSiteId = context.SiteId;
                 Server = context.Server;
                 CreatorName = context.User.Name;

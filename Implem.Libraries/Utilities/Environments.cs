@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 namespace Implem.Libraries.Utilities
 {
     public static class Environments
@@ -14,5 +15,6 @@ namespace Implem.Libraries.Utilities
         public static TimeZoneInfo TimeZoneInfoDefault;
         public static int DeadlockRetryCount;
         public static int DeadlockRetryInterval;
+        public static Dictionary<string, string> BundlesVersions = new Dictionary<string, string>();
     }
 }

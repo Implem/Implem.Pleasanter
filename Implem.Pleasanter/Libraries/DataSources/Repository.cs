@@ -31,7 +31,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool selectIdentity = false,
             params SqlStatement[] statements)
         {
-            var response = Rds.ExecuteScalar<List<SqlResponse>>(
+            var response = Rds.ExecuteScalar(
                 context: context,
                 connectionString: connectionString,
                 transactional: true,
@@ -64,12 +64,13 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     return (false, new List<SqlResponse> {
                                     new SqlResponse
                                     {
+                                        DataTableName = statement.DataTableName,
                                         Event = "Duplicated",
                                         Id = 0,
                                         ColumnName = statement
-                                        .SqlParamCollection
-                                        .FirstOrDefault()?
-                                        .Name,
+                                            .SqlParamCollection
+                                            .FirstOrDefault()?
+                                            .Name,
                                     }});
                                 }
                             }
@@ -80,6 +81,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     return (false, new List<SqlResponse> {
                                     new SqlResponse
                                     {
+                                        DataTableName = statement.DataTableName,
                                         Event = "Conflicted",
                                         Id = statement.Id ?? 0,
                                         Count = count,
@@ -87,6 +89,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 }
                                 sqlResponse.Add(new SqlResponse
                                 {
+                                    DataTableName = statement.DataTableName,
                                     Id = statement.Id ?? 0,
                                     Count = count,
                                 });
@@ -95,6 +98,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             {
                                 sqlResponse.Add(new SqlResponse
                                 {
+                                    DataTableName = statement.DataTableName,
                                     Id = 0,
                                     Count = count,
                                 });

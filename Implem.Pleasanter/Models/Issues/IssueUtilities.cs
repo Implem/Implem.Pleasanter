@@ -3560,6 +3560,10 @@ namespace Implem.Pleasanter.Models
 
         public static string UpdateByGrid(Context context, SiteSettings ss)
         {
+            if (ss.GridEditorType != SiteSettings.GridEditorTypes.Grid)
+            {
+                return Error.Types.InvalidRequest.MessageJson(context: context);
+            }
             var formDataSet = new FormDataSet(
                 context: context,
                 ss: ss)
@@ -3574,6 +3578,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 where: Rds.IssuesWhere()
+                    .SiteId(ss.SiteId)
                     .IssueId_In(formDataSet
                         .Where(formData => formData.Id > 0)
                         .Select(formData => formData.Id)),
@@ -3594,8 +3599,6 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     notice: true,
                     before: true));
-            var updatedModels = new List<BaseItemModel>();
-            var createdModels = new List<BaseItemModel>();
             foreach (var formData in formDataSet)
             {
                 var issueModel = issueCollection
@@ -3626,7 +3629,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         dataTableName: formData.Id.ToString()));
-                    updatedModels.Add(issueModel);
                 }
                 else if (formData.Id < 0)
                 {
@@ -3654,7 +3656,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         dataTableName: formData.Id.ToString()));
-                    createdModels.Add(issueModel);
                 }
                 else
                 {
@@ -3692,17 +3693,10 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         response: response);
                 default:
-                    createdModels.ForEach(model => model.SetByAfterCreateServerScript(
-                        context: context,
-                        ss: ss));
-                    updatedModels.ForEach(model => model.SetByAfterUpdateServerScript(
-                        context: context,
-                        ss: ss));
                     return UpdateByGridSuccess(
                         context: context,
                         ss: ss,
                         formDataSet: formDataSet,
-                        issueCollection: issueCollection,
                         responses: responses,
                         notificationHash: notificationHash);
             }
@@ -3744,25 +3738,28 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             List<FormData> formDataSet,
-            IssueCollection issueCollection,
             List<SqlResponse> responses,
             Dictionary<long, List<Notification>> notificationHash)
         {
-            responses
-                .Where(o => o.DataTableName.ToInt() < 0)
-                .ForEach(response =>
-                    issueCollection.Add(new IssueModel(
-                        context: context,
-                        ss: ss,
-                        issueId: response.Id.ToLong())));
+            var issueCollection = new IssueCollection(
+                context: context,
+                ss: ss,
+                where: Rds.IssuesWhere()
+                    .SiteId(ss.SiteId)
+                    .IssueId_In(responses
+                        .Where(o => o.Id > 0)
+                        .Select(o => o.Id.ToLong())
+                        .ToList()));
             issueCollection.ForEach(issueModel =>
             {
                 issueModel.SynchronizeSummary(
                     context: context,
                     ss: ss);
-                var response = responses.FirstOrDefault(o => o.Id == issueModel.IssueId);
-                if (response?.DataTableName.ToInt() < 0)
+                if (!formDataSet.Any(o => o.Id == issueModel.IssueId))
                 {
+                    issueModel.ExecuteAutomaticNumbering(
+                        context: context,
+                        ss: ss);
                     issueModel.Notice(
                         context: context,
                         ss: ss,
@@ -3771,6 +3768,9 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             notice: true),
                         type: "Created");
+                    issueModel.SetByAfterCreateServerScript(
+                        context: context,
+                        ss: ss);                
                 }
                 else
                 {
@@ -3785,6 +3785,9 @@ namespace Implem.Pleasanter.Models
                                 ss: ss,
                                 notice: true)),
                         type: "Updated");
+                    issueModel.SetByAfterUpdateServerScript(
+                        context: context,
+                        ss: ss);
                 }
             });
             Repository.ExecuteNonQuery(

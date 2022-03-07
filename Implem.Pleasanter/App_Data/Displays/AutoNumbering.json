@@ -1,0 +1,33 @@
+﻿{
+    "Id": "AutoNumbering",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Auto numbering"
+        },
+        {
+            "Language": "zh",
+            "Body": "自动编号"
+        },
+        {
+            "Language": "ja",
+            "Body": "自動採番"
+        },
+        {
+            "Language": "de",
+            "Body": "Automatische Nummerierung"
+        },
+        {
+            "Language": "ko",
+            "Body": "자동 번호 매기기"
+        },
+        {
+            "Language": "es",
+            "Body": "Numeración automática"
+        },
+        {
+            "Language": "vn",
+            "Body": "Đánh số tự động"
+        }
+    ]
+}

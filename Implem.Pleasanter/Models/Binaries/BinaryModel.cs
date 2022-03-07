@@ -434,7 +434,9 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         binaryModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(BinaryId)) {
+                new SqlStatement(Def.Sql.IfConflicted.Params(BinaryId))
+                {
+                    DataTableName = dataTableName,
                     IfConflicted = true,
                     Id = BinaryId
                 }
@@ -444,6 +446,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData UpdateOrCreate(
             Context context,
             SiteSettings ss,
+            string dataTableName = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {
