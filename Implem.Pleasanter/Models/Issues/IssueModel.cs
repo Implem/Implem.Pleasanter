@@ -874,7 +874,7 @@ namespace Implem.Pleasanter.Models
             {
                 return string.Empty;
             }
-            switch (column.ColumnName)
+            switch (column.Name)
             {
                 case "IssueId":
                     return IssueId.ToDisplay(
@@ -940,32 +940,32 @@ namespace Implem.Pleasanter.Models
                     switch (Def.ExtendedColumnTypes.Get(column.Name))
                     {
                         case "Class":
-                            return GetClass(column: column).ToDisplay(
+                            return GetClass(columnName: column.Name).ToDisplay(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Num":
-                            return GetNum(column: column).ToDisplay(
+                            return GetNum(columnName: column.Name).ToDisplay(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Date":
-                            return GetDate(column: column).ToDisplay(
+                            return GetDate(columnName: column.Name).ToDisplay(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Description":
-                            return GetDescription(column: column).ToDisplay(
+                            return GetDescription(columnName: column.Name).ToDisplay(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Check":
-                            return GetCheck(column: column).ToDisplay(
+                            return GetCheck(columnName: column.Name).ToDisplay(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Attachments":
-                            return GetAttachments(column: column).ToDisplay(
+                            return GetAttachments(columnName: column.Name).ToDisplay(
                                 context: context,
                                 ss: ss,
                                 column: column);
@@ -985,7 +985,7 @@ namespace Implem.Pleasanter.Models
             {
                 return string.Empty;
             }
-            switch (column.ColumnName)
+            switch (column.Name)
             {
                 case "SiteId":
                     return SiteId.ToApiDisplayValue(
@@ -1106,32 +1106,32 @@ namespace Implem.Pleasanter.Models
                     switch (Def.ExtendedColumnTypes.Get(column.Name))
                     {
                         case "Class":
-                            return GetClass(column: column).ToApiDisplayValue(
+                            return GetClass(columnName: column.Name).ToApiDisplayValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Num":
-                            return GetNum(column: column).ToApiDisplayValue(
+                            return GetNum(columnName: column.Name).ToApiDisplayValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Date":
-                            return GetDate(column: column).ToApiDisplayValue(
+                            return GetDate(columnName: column.Name).ToApiDisplayValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Description":
-                            return GetDescription(column: column).ToApiDisplayValue(
+                            return GetDescription(columnName: column.Name).ToApiDisplayValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Check":
-                            return GetCheck(column: column).ToApiDisplayValue(
+                            return GetCheck(columnName: column.Name).ToApiDisplayValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Attachments":
-                            return GetAttachments(column: column).ToApiDisplayValue(
+                            return GetAttachments(columnName: column.Name).ToApiDisplayValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
@@ -1151,7 +1151,7 @@ namespace Implem.Pleasanter.Models
             {
                 return string.Empty;
             }
-            switch (column.ColumnName)
+            switch (column.Name)
             {
                 case "SiteId":
                     return SiteId.ToApiValue(
@@ -1272,32 +1272,32 @@ namespace Implem.Pleasanter.Models
                     switch (Def.ExtendedColumnTypes.Get(column.Name))
                     {
                         case "Class":
-                            return GetClass(column: column).ToApiValue(
+                            return GetClass(columnName: column.Name).ToApiValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Num":
-                            return GetNum(column: column).ToApiValue(
+                            return GetNum(columnName: column.Name).ToApiValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Date":
-                            return GetDate(column: column).ToApiValue(
+                            return GetDate(columnName: column.Name).ToApiValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Description":
-                            return GetDescription(column: column).ToApiValue(
+                            return GetDescription(columnName: column.Name).ToApiValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Check":
-                            return GetCheck(column: column).ToApiValue(
+                            return GetCheck(columnName: column.Name).ToApiValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Attachments":
-                            return GetAttachments(column: column).ToApiValue(
+                            return GetAttachments(columnName: column.Name).ToApiValue(
                                 context: context,
                                 ss: ss,
                                 column: column);

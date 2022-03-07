@@ -701,7 +701,7 @@ namespace Implem.Pleasanter.Models
             {
                 return string.Empty;
             }
-            switch (column.ColumnName)
+            switch (column.Name)
             {
                 case "SiteId":
                     return SiteId.ToDisplay(
@@ -802,32 +802,32 @@ namespace Implem.Pleasanter.Models
                     switch (Def.ExtendedColumnTypes.Get(column.Name))
                     {
                         case "Class":
-                            return GetClass(column: column).ToDisplay(
+                            return GetClass(columnName: column.Name).ToDisplay(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Num":
-                            return GetNum(column: column).ToDisplay(
+                            return GetNum(columnName: column.Name).ToDisplay(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Date":
-                            return GetDate(column: column).ToDisplay(
+                            return GetDate(columnName: column.Name).ToDisplay(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Description":
-                            return GetDescription(column: column).ToDisplay(
+                            return GetDescription(columnName: column.Name).ToDisplay(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Check":
-                            return GetCheck(column: column).ToDisplay(
+                            return GetCheck(columnName: column.Name).ToDisplay(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Attachments":
-                            return GetAttachments(column: column).ToDisplay(
+                            return GetAttachments(columnName: column.Name).ToDisplay(
                                 context: context,
                                 ss: ss,
                                 column: column);
