@@ -3223,9 +3223,9 @@ namespace Implem.Pleasanter.Models
                         column => PropertyValue(
                             context: context,
                             column: column));
-                switch (type)
+                switch (context.Action)
                 {
-                    case "Created":
+                    case "create":
                         if (notification.AfterCreate != false)
                         {
                             notification.Send(
@@ -3241,7 +3241,7 @@ namespace Implem.Pleasanter.Models
                                 values: values);
                         }
                         break;
-                    case "Updated":
+                    case "update":
                         if (notification.AfterUpdate != false
                             && notification.MonitorChangesColumns.Any(columnName => PropertyUpdated(
                                 context: context,
@@ -3262,13 +3262,29 @@ namespace Implem.Pleasanter.Models
                                 values: values);
                         }
                         break;
-                    case "Deleted":
+                    case "delete":
                         if (notification.AfterDelete != false)
                         {
                             notification.Send(
                                 context: context,
                                 ss: ss,
                                 title: Displays.Deleted(
+                                    context: context,
+                                    data: Title.DisplayValue).ToString(),
+                                body: NoticeBody(
+                                    context: context,
+                                    ss: ss,
+                                    notification: notification),
+                                values: values);
+                        }
+                        break;
+                    case "copy":
+                        if (notification.AfterCopy != false)
+                        {
+                            notification.Send(
+                                context: context,
+                                ss: ss,
+                                title: Displays.Created(
                                     context: context,
                                     data: Title.DisplayValue).ToString(),
                                 body: NoticeBody(

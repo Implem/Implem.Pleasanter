@@ -3813,6 +3813,7 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 copyFrom: resultId,
                 forceSynchronizeSourceSummary: true,
+                notice: true,
                 otherInitValue: true);
             switch (errorData.Type)
             {
