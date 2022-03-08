@@ -9677,7 +9677,7 @@ namespace Implem.Pleasanter.Models
                             .Span(
                                 css: "ui-icon ui-icon-circle-check",
                                 _using: notification.Disabled == true)));
-        }));
+            }));
         }
 
         /// <summary>
