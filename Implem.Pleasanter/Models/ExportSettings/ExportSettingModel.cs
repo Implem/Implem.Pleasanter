@@ -243,6 +243,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
+            string noticeType = "Created",
             bool otherInitValue = false,
             bool get = true)
         {

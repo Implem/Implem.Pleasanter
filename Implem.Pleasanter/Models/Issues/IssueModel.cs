@@ -1474,6 +1474,7 @@ namespace Implem.Pleasanter.Models
             bool synchronizeSummary = true,
             bool forceSynchronizeSourceSummary = false,
             bool notice = false,
+            string noticeType = "Created",
             bool otherInitValue = false,
             bool get = true)
         {
@@ -1535,7 +1536,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         notice: notice),
-                    type: "Created");
+                    type: noticeType);
             }
             if (get) Get(context: context, ss: ss);
             if (ss.PermissionForCreating != null)
@@ -3223,10 +3224,12 @@ namespace Implem.Pleasanter.Models
                         column => PropertyValue(
                             context: context,
                             column: column));
-                switch (context.Action)
+                switch (type)
                 {
-                    case "create":
-                        if (notification.AfterCreate != false)
+                    case "Created":
+                    case "Copied":
+                        if ((type == "Created" && notification.AfterCreate != false)
+                            || (type == "Copied" && notification.AfterCopy != false))
                         {
                             notification.Send(
                                 context: context,
@@ -3241,7 +3244,7 @@ namespace Implem.Pleasanter.Models
                                 values: values);
                         }
                         break;
-                    case "update":
+                    case "Updated":
                         if (notification.AfterUpdate != false
                             && notification.MonitorChangesColumns.Any(columnName => PropertyUpdated(
                                 context: context,
@@ -3262,29 +3265,13 @@ namespace Implem.Pleasanter.Models
                                 values: values);
                         }
                         break;
-                    case "delete":
+                    case "Deleted":
                         if (notification.AfterDelete != false)
                         {
                             notification.Send(
                                 context: context,
                                 ss: ss,
                                 title: Displays.Deleted(
-                                    context: context,
-                                    data: Title.DisplayValue).ToString(),
-                                body: NoticeBody(
-                                    context: context,
-                                    ss: ss,
-                                    notification: notification),
-                                values: values);
-                        }
-                        break;
-                    case "copy":
-                        if (notification.AfterCopy != false)
-                        {
-                            notification.Send(
-                                context: context,
-                                ss: ss,
-                                title: Displays.Created(
                                     context: context,
                                     data: Title.DisplayValue).ToString(),
                                 body: NoticeBody(

@@ -4002,6 +4002,7 @@ namespace Implem.Pleasanter.Models
                 copyFrom: issueId,
                 forceSynchronizeSourceSummary: true,
                 notice: true,
+                noticeType: "Copied",
                 otherInitValue: true);
             switch (errorData.Type)
             {
