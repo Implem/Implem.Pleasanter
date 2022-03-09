@@ -1249,6 +1249,7 @@ namespace Implem.Pleasanter.Models
             bool synchronizeSummary = true,
             bool forceSynchronizeSourceSummary = false,
             bool notice = false,
+            string noticeType = "Created",
             bool otherInitValue = false,
             bool get = true)
         {
@@ -1310,7 +1311,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         notice: notice),
-                    type: "Created");
+                    type: noticeType);
             }
             if (get) Get(context: context, ss: ss);
             if (ss.PermissionForCreating != null)
@@ -2901,7 +2902,9 @@ namespace Implem.Pleasanter.Models
                 switch (type)
                 {
                     case "Created":
-                        if (notification.AfterCreate != false)
+                    case "Copied":
+                        if ((type == "Created" && notification.AfterCreate != false)
+                            || (type == "Copied" && notification.AfterCopy != false))
                         {
                             notification.Send(
                                 context: context,

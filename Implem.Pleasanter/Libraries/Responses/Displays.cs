@@ -159,6 +159,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AfterCopy(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AfterCopy",
+                data: data);
+        }
+
         public static string AfterCreate(
             Context context,
             params string[] data)

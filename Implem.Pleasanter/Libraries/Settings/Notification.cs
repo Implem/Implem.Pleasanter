@@ -33,6 +33,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? AfterCreate;
         public bool? AfterUpdate;
         public bool? AfterDelete;
+        public bool? AfterCopy;
         public bool? Disabled;
         [NonSerialized]
         public int Index;
@@ -80,6 +81,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool afterCreate,
             bool afterUpdate,
             bool afterDelete,
+            bool afterCopy,
             bool disabled)
         {
             Id = id;
@@ -96,6 +98,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             AfterCreate = afterCreate;
             AfterUpdate = afterUpdate;
             AfterDelete = afterDelete;
+            AfterCopy = afterCopy;
             Disabled = disabled;
         }
 
@@ -123,6 +126,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool afterCreate,
             bool afterUpdate,
             bool afterDelete,
+            bool afterCopy,
             bool disabled)
         {
             Type = type;
@@ -138,6 +142,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             AfterCreate = afterCreate;
             AfterUpdate = afterUpdate;
             AfterDelete = afterDelete;
+            AfterCopy = afterCopy;
             Disabled = disabled;
         }
 
@@ -337,6 +342,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (AfterDelete == false)
             {
                 notification.AfterDelete = AfterDelete;
+            }
+            if (AfterCopy == false)
+            {
+                notification.AfterCopy = AfterCopy;
             }
             if (Disabled == true)
             {

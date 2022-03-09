@@ -1,0 +1,33 @@
+﻿{
+    "Id": "AfterCopy",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "After copy"
+        },
+        {
+            "Language": "zh",
+            "Body": "复制后"
+        },
+        {
+            "Language": "ja",
+            "Body": "コピー後"
+        },
+        {
+            "Language": "de",
+            "Body": "Nach dem Kopieren"
+        },
+        {
+            "Language": "ko",
+            "Body": "복사 후"
+        },
+        {
+            "Language": "es",
+            "Body": "Después de copiar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Sau khi sao chép"
+        }
+    ]
+}
