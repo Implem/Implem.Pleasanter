@@ -4640,6 +4640,7 @@ namespace Implem.Pleasanter.Models
                     afterUpdate: context.Forms.Bool("NotificationAfterUpdate"),
                     afterDelete: context.Forms.Bool("NotificationAfterDelete"),
                     afterCopy: context.Forms.Bool("NotificationAfterCopy"),
+                    afterBulkUpdate: context.Forms.Bool("NotificationAfterBulkUpdate"),
                     disabled: context.Forms.Bool("NotificationDisabled")));
                 SetNotificationsResponseCollection(context: context, res: res);
             }
@@ -4680,6 +4681,7 @@ namespace Implem.Pleasanter.Models
                         afterUpdate: context.Forms.Bool("NotificationAfterUpdate"),
                         afterDelete: context.Forms.Bool("NotificationAfterDelete"),
                         afterCopy: context.Forms.Bool("NotificationAfterCopy"),
+                        afterBulkUpdate: context.Forms.Bool("NotificationAfterBulkUpdate"),
                         disabled: context.Forms.Bool("NotificationDisabled"));
                     SetNotificationsResponseCollection(context: context, res: res);
                 }

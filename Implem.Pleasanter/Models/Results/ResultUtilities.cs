@@ -3294,13 +3294,16 @@ namespace Implem.Pleasanter.Models
                         body.Append(
                             $"{column.LabelText} : ",
                             $"{resultModel.ToDisplay(context: context, ss: ss, column: column, mine: null)}\n"));
-                    notification.Send(
-                        context: context,
-                        ss: ss,
-                        title: Displays.BulkUpdated(
+                    if (notification.AfterBulkUpdate != false)
+                    {
+                        notification.Send(
                             context: context,
-                            data: data),
-                        body: body.ToString());
+                            ss: ss,
+                            title: Displays.BulkUpdated(
+                                context: context,
+                                data: data),
+                            body: body.ToString());
+                    }
                 });
             var res = GridRows(
                 context: context,
