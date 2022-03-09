@@ -2759,8 +2759,8 @@ namespace Implem.Pleasanter.Models
                 Summaries.Synchronize(context: context, ss: ss);
                 var data = new string[]
                 {
-                ss.Title,
-                count.ToString()
+                    ss.Title,
+                    count.ToString()
                 };
                 return GridRows(
                     context: context,
