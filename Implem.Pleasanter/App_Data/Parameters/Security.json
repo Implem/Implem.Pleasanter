@@ -78,7 +78,7 @@
         }
     ],
     "SecondaryAuthentication": {
-        "Enabled": false,
+        "Mode": "None",
         "NotificationType": "Mail",
         "NotificationMailBcc": false,
         "AuthenticationCodeCharacterType": "Number",
