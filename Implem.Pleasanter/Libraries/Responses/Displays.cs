@@ -149,6 +149,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AfterBulkDelete(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AfterBulkDelete",
+                data: data);
+        }
+
         public static string AfterBulkUpdate(
             Context context,
             params string[] data)
