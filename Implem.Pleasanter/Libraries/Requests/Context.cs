@@ -943,9 +943,14 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         public void FederatedAuthenticationSessionAuthenticationModuleDeleteSessionTokenCookie()
         {
+            var setCookieNames = AspNetCoreHttpContext.Current.Response.Headers.SetCookie
+                .Select(o => o.Split_1st(';').Split_1st('=').Trim());
             var responceCookies = AspNetCoreHttpContext.Current.Response.Cookies;
-            foreach (var requestCookie in AspNetCoreHttpContext.Current.Request.Cookies)
+            foreach (var requestCookie in AspNetCoreHttpContext.Current.Request.Cookies
+                .Where(o => !setCookieNames.Contains(o.Key)))
+            {
                 responceCookies.Delete(requestCookie.Key);
+            }
         }
 
         public bool AuthenticationsWindows()
