@@ -35,6 +35,8 @@ namespace Implem.Pleasanter.Models
         public bool? AllowGroupAdministration { get; set; }
         public bool? AllowGroupCreation { get; set; }
         public bool? AllowApi { get; set; }
+        public bool? EnableSecondaryAuthentication { get; set; }
+        public bool? DisableSecondaryAuthentication { get; set; }
         public bool? Disabled { get; set; }
         public bool? Lockout { get; set; }
         public int? LockoutCounter { get; set; }

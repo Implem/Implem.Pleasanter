@@ -10469,6 +10469,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Users_EnableSecondaryAuthentication(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_EnableSecondaryAuthentication",
+                data: data);
+        }
+
+        public static string Users_DisableSecondaryAuthentication(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_DisableSecondaryAuthentication",
+                data: data);
+        }
+
         public static string Users_Disabled(
             Context context,
             params string[] data)
