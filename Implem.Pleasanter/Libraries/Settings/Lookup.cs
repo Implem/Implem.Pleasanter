@@ -527,6 +527,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                             ss: ss,
                             column: column,
                             type: Type);
+                    case "EnableSecondaryAuthentication":
+                        return userModel.EnableSecondaryAuthentication.ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
+                    case "DisableSecondaryAuthentication":
+                        return userModel.DisableSecondaryAuthentication.ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
                     case "Disabled":
                         return userModel.Disabled.ToLookup(
                             context: context,
