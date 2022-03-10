@@ -4578,13 +4578,38 @@ namespace Implem.Pleasanter.Models
                     where: where,
                     param: param);
                 Summaries.Synchronize(context: context, ss: ss);
+                var data = new string[]
+                {
+                    ss.Title,
+                    count.ToString()
+                };
+                ss.Notifications.ForEach(notification =>
+                {
+                    var body = new System.Text.StringBuilder();
+                    body.Append(Locations.ItemIndexAbsoluteUri(
+                        context: context,
+                        ss.SiteId) + "\n");
+                    body.Append(
+                        $"{Displays.Issues_Updator(context: context)}: ",
+                        $"{context.User.Name}\n");
+                    if (notification.AfterBulkDelete != false)
+                    {
+                        notification.Send(
+                            context: context,
+                            ss: ss,
+                            title: Displays.BulkDeleted(
+                                context: context,
+                                data: data),
+                            body: body.ToString());
+                    }
+                });
                 return GridRows(
                     context: context,
                     ss: ss,
                     clearCheck: true,
                     message: Messages.BulkDeleted(
                         context: context,
-                        data: count.ToString()));
+                        data: data));
             }
             else
             {
@@ -4721,13 +4746,38 @@ namespace Implem.Pleasanter.Models
                 Summaries.Synchronize(
                     context: context,
                     ss: ss);
+                var data = new string[]
+                {
+                    ss.Title,
+                    count.ToString()
+                };
+                ss.Notifications.ForEach(notification =>
+                    {
+                        var body = new System.Text.StringBuilder();
+                        body.Append(Locations.ItemIndexAbsoluteUri(
+                            context: context,
+                            ss.SiteId) + "\n");
+                        body.Append(
+                            $"{Displays.Issues_Updator(context: context)}: ",
+                            $"{context.User.Name}\n");
+                        if (notification.AfterBulkDelete != false)
+                        {
+                            notification.Send(
+                                context: context,
+                                ss: ss,
+                                title: Displays.BulkDeleted(
+                                    context: context,
+                                    data: data),
+                                body: body.ToString());
+                        }
+                    });
                 return ApiResults.Success(
                     id: context.SiteId,
                     limitPerDate: context.ContractSettings.ApiLimit(),
                     limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
                     message: Displays.BulkDeleted(
                         context: context,
-                        data: count.ToString()));
+                        data: data));
             }
             else
             {

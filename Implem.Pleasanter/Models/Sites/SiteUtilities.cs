@@ -9610,6 +9610,8 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.AfterBulkUpdate(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.AfterBulkDelete(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.Disabled(context: context)))));
         }
 
@@ -9679,6 +9681,10 @@ namespace Implem.Pleasanter.Models
                             .Span(
                                 css: "ui-icon ui-icon-circle-check",
                                 _using: notification.AfterBulkUpdate != false))
+                        .Td(action: () => hb
+                            .Span(
+                                css: "ui-icon ui-icon-circle-check",
+                                _using: notification.AfterBulkDelete != false))
                         .Td(action: () => hb
                             .Span(
                                 css: "ui-icon ui-icon-circle-check",
@@ -9819,6 +9825,11 @@ namespace Implem.Pleasanter.Models
                                 controlCss: " always-send",
                                 labelText: Displays.AfterBulkUpdate(context: context),
                                 _checked: notification.AfterBulkUpdate != false)
+                            .FieldCheckBox(
+                                controlId: "NotificationAfterBulkDelete",
+                                controlCss: " always-send",
+                                labelText: Displays.AfterBulkDelete(context: context),
+                                _checked: notification.AfterBulkDelete != false)
                             .FieldCheckBox(
                                 controlId: "NotificationDisabled",
                                 controlCss: " always-send",

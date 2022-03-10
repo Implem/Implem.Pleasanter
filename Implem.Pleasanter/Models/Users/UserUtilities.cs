@@ -2757,13 +2757,18 @@ namespace Implem.Pleasanter.Models
                         selected: selector.Selected);
                 }
                 Summaries.Synchronize(context: context, ss: ss);
+                var data = new string[]
+                {
+                    ss.Title,
+                    count.ToString()
+                };
                 return GridRows(
                     context: context,
                     ss: ss,
                     clearCheck: true,
                     message: Messages.BulkDeleted(
                         context: context,
-                        data: count.ToString()));
+                        data: data));
             }
             else
             {

@@ -1,0 +1,33 @@
+﻿{
+    "Id": "AfterBulkDelete",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "After bulk delete"
+        },
+        {
+            "Language": "zh",
+            "Body": "批量删除后"
+        },
+        {
+            "Language": "ja",
+            "Body": "一括削除後"
+        },
+        {
+            "Language": "de",
+            "Body": "Nach Massenlöschung"
+        },
+        {
+            "Language": "ko",
+            "Body": "일괄 삭제 후"
+        },
+        {
+            "Language": "es",
+            "Body": "Después de la eliminación masiva"
+        },
+        {
+            "Language": "vn",
+            "Body": "Sau khi xóa hàng loạt"
+        }
+    ]
+}
