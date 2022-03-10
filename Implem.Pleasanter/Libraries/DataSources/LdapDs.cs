@@ -175,7 +175,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .SynchronizedTime(synchronizedTime);
             ldap.LdapExtendedAttributes?.ForEach(attribute =>
                 param.Add(
-                    $"[Users].[{attribute.ColumnName}]",
+                    $"\"{attribute.ColumnName}\"",
                     attribute.ColumnName,
                     result.Property(
                         context: context,
