@@ -2708,6 +2708,7 @@ namespace Implem.Pleasanter.Models
             return new HtmlBuilder().SiteMenu(
                 context: context,
                 ss: SiteSettings,
+                currentSs: null,
                 siteId: destinationId,
                 referenceType: ReferenceType,
                 title: siteMenu.Get(destinationId).Title,
