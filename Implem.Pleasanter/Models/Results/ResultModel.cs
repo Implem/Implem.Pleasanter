@@ -538,7 +538,8 @@ namespace Implem.Pleasanter.Models
             {
                 SetByLookups(
                     context: context,
-                    ss: ss);
+                    ss: ss,
+                    requestFormData: formData);
             }
             MethodType = methodType;
             OnConstructed(context: context);
@@ -585,7 +586,8 @@ namespace Implem.Pleasanter.Models
             {
                 SetByLookups(
                     context: context,
-                    ss: ss);
+                    ss: ss,
+                    requestFormData: formData);
             }
             if (SavedLocked)
             {
@@ -627,7 +629,8 @@ namespace Implem.Pleasanter.Models
             {
                 SetByLookups(
                     context: context,
-                    ss: ss);
+                    ss: ss,
+                    requestFormData: formData);
             }
             OnConstructed(context: context);
         }
@@ -2449,7 +2452,7 @@ namespace Implem.Pleasanter.Models
             SetChoiceHash(context: context, ss: ss);
         }
 
-        public void SetByLookups(Context context, SiteSettings ss)
+        public void SetByLookups(Context context, SiteSettings ss, Dictionary<string,string> requestFormData = null)
         {
             var formData = new Dictionary<string, string>();
             ss.Links
@@ -2462,6 +2465,8 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     link: link,
                     id: GetClass(link.ColumnName).ToLong())
+                        .Where(data => requestFormData == null
+                            || !requestFormData.ContainsKey(data.Key))
                         .ForEach(data =>
                             formData.AddOrUpdate(data.Key, data.Value)));
             if (formData.Any())
