@@ -1,33 +1,33 @@
-{
+﻿{
     "Id": "DemoMailBody",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Thank you for signing up to use the demo environment.\n\nPlease access the following URL to try.\n\n{0}\n\nThe demo environment is available for use for {1} day(s)."
+            "Body": "Thank you for signing up to use the demo environment.\n\nPlease access the URL below and log in with your ID / PW.\n\n{0}\n\n{1}\n\nThe demo environment is available for use for {2} day(s).\r\n\r\nPlease note that the demo site may be maintained without prior notice."
         },
         {
             "Language": "zh",
-            "Body": "感谢您注册使用此演示环境。\n\n请访问以下URL尝试操作。\n\n{0}\n\n此演示环境还可以使用{1}天。"
+            "Body": "感谢您注册使用此演示环境。\n\n请访问下面的 URL 并使用您的 ID / PW 登录。\n\n{0}\n\n{1}\n\n此演示环境还可以使用{2}天。\n\n请注意，演示站点可能会在不事先通知的情况下进行维护。"
         },
         {
             "Language": "ja",
-            "Body": "デモ環境ご利用へのお申し込みありがとうございます。\r\n\r\n下記のURLにアクセスしご試用ください。\r\n\r\n{0}\r\n\r\nデモ環境は{1}日間ご利用いただけます。"
+            "Body": "デモ環境ご利用へのお申し込みありがとうございます。\r\n\r\n下記のURLにアクセスし、ID/PWでログインしてください。\r\n\r\n{0}\r\n\r\n{1}\r\n\r\nデモ環境は{2}日間ご利用いただけます。\r\n\r\nデモサイトは事前の告知なくメンテンスを実施する場合がありますので予めご了承ください。"
         },
         {
             "Language": "de",
-            "Body": "Vielen Dank für Ihre Anmeldung in der Demo-Umgebung.\n\nZum Testen rufen Sie bitte die folgende URL auf.\n\n{0}\n\nSie können die Demo-Umgebung {1} Tag(e) nutzen."
+            "Body": "Vielen Dank für Ihre Anmeldung in der Demo-Umgebung.\n\nBitte greifen Sie auf die unten stehende URL zu und melden Sie sich mit Ihrer ID / PW an.\n\n{0}\n\n{1}\n\nSie können die Demo-Umgebung {2} Tag(e) nutzen.\n\nBitte beachten Sie, dass die Demo-Site ohne vorherige Ankündigung gewartet werden kann."
         },
         {
             "Language": "ko",
-            "Body": "데모 환경 사용을 위해 가입해 주셔서 감사합니다.\n\n사용하려면 다음 URL에 액세스하십시오.\n\n{0}\n\n데모 환경은 {1}일 동안 사용할 수 있습니다."
+            "Body": "데모 환경 사용을 위해 가입해 주셔서 감사합니다.\n\n아래 URL에 접속하여 아이디/비밀번호로 로그인 해주세요.\n\n{0}\n\n{1}\n\n데모 환경은 {2}일 동안 사용할 수 있습니다.\n\n데모 사이트는 사전 예고 없이 유지될 수 있음을 알려드립니다."
         },
         {
             "Language": "es",
-            "Body": "Gracias por registrarse para usar el entorno de demostración.\n\nPor favor, acceda a la URL siguiente para hacer una prueba.\n\n{0}\n\nEl entorno de demostración está disponible para usar durante {1} día(s)."
+            "Body": "Gracias por registrarse para usar el entorno de demostración.\n\nAcceda a la siguiente URL e inicie sesión con su ID/PW.\n\n{0}\n\n{1}\n\nEl entorno de demostración está disponible para usar durante {2} día(s).\n\nTenga en cuenta que el sitio de demostración puede mantenerse sin previo aviso."
         },
         {
             "Language": "vn",
-            "Body": "Cảm ơn bạn đã đăng kí sử dụng môi trường giả lập.\r\n\r\n Xin mời truy cập vào URL sau để thử. \r\n\r\n{0}\r\n\r\n Môi trường giả lập có hiệu lực trong {1} ngày."
+            "Body": "Cảm ơn bạn đã đăng kí sử dụng môi trường giả lập.\r\n\r\n Vui lòng truy cập URL bên dưới và đăng nhập bằng ID / PW của bạn. \r\n\r\n{0}\r\n\r\n{1}\r\n\r\n Môi trường giả lập có hiệu lực trong {2} ngày. \r\n\r\n Xin lưu ý rằng trang demo có thể được duy trì mà không cần thông báo trước."
         }
     ]
 }

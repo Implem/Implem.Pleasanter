@@ -8476,6 +8476,16 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Name(context: context),
                         text: view.Name,
                         validateRequired: true)
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "DefaultViewMode",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.DefaultViewMode(context: context),
+                        optionCollection: GetViewTypeOptionCollection(
+                            context: context,
+                            ss: ss),
+                        selectedValue: view.DefaultMode,
+                        insertBlank: true)
                     .Div(id: "ViewTabsContainer", action: () => hb
                         .Ul(id: "ViewTabs", action: () => hb
                             .Li(action: () => hb
@@ -9494,6 +9504,15 @@ namespace Implem.Pleasanter.Models
                     Displays.Hidden(context: context)
                 }
             };
+        }
+
+        private static Dictionary<string, string> GetViewTypeOptionCollection(Context context, SiteSettings ss)
+        {
+            return Def.ViewModeDefinitionCollection
+                .Where(o => o.ReferenceType == ss.ReferenceType)
+                .ToDictionary(o => o.Name, o => Displays.Get(
+                    context: context,
+                    id: o.Name));
         }
 
         /// <summary>
