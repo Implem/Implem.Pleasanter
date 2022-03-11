@@ -424,7 +424,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 sysLogModel: this);
             column = (column ?? Rds.SysLogsDefaultColumns());
-            join = join ??  Rds.SysLogsJoinDefault();
+            join = join ?? Rds.SysLogsJoinDefault();
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectSysLogs(
@@ -456,7 +456,7 @@ namespace Implem.Pleasanter.Models
         private void Set(Context context, DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
-            foreach(DataColumn dataColumn in dataRow.Table.Columns)
+            foreach (DataColumn dataColumn in dataRow.Table.Columns)
             {
                 var column = new ColumnNameInfo(dataColumn.ColumnName);
                 if (column.TableAlias == tableAlias)
@@ -742,7 +742,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public void Update(Context context, bool writeSqlToDebugLog)
         {
-            if (Parameters.SysLog.NotLoggingIp?.Contains(UserHostAddress) != true)
+            if (NotLoggingIp(UserHostAddress) != true)
             {
                 Repository.ExecuteNonQuery(
                     context: context,
@@ -850,7 +850,7 @@ namespace Implem.Pleasanter.Models
             SetProperties(
                 context: context,
                 sysLogType: sysLogType);
-            if (Parameters.SysLog.NotLoggingIp?.Contains(UserHostAddress) != true)
+            if (NotLoggingIp(UserHostAddress) != true)
             {
                 SysLogId = Repository.ExecuteScalar_response(
                     context: context,
@@ -975,6 +975,20 @@ namespace Implem.Pleasanter.Models
             Update(
                 context: context,
                 writeSqlToDebugLog: false);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private bool NotLoggingIp(string ipAddress)
+        {
+            if (Parameters.SysLog.NotLoggingIp?.Any() != true)
+            {
+                return false;
+            }
+            return Parameters.SysLog.NotLoggingIp
+                .Select(addr => IpRange.FromCidr(addr))
+                .Any(range => range.InRange(ipAddress));
         }
     }
 }
