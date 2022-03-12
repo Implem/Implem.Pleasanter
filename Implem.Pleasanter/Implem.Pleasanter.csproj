@@ -56,8 +56,8 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Novell.Directory.Ldap.NETStandard" Version="3.6.0" />
-    <PackageReference Include="Sendgrid" Version="9.25.3" />
-    <PackageReference Include="SendGrid.SmtpApi" Version="1.4.4" />
+    <PackageReference Include="Sendgrid" Version="9.26.0" />
+    <PackageReference Include="SendGrid.SmtpApi" Version="1.4.5" />
     <PackageReference Include="Sustainsys.Saml2" Version="2.9.0" />
     <PackageReference Include="Sustainsys.Saml2.AspNetCore2" Version="2.9.0" />
     <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="6.0.0" />
