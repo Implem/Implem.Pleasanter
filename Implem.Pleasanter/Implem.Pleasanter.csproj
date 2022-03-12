@@ -43,12 +43,12 @@
     <PackageReference Include="Microsoft.AspNet.WebPages" Version="3.2.7">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
-    <PackageReference Include="Microsoft.ClearScript" Version="7.2.2">
+    <PackageReference Include="Microsoft.ClearScript" Version="7.2.3">
       <NoWarn></NoWarn>
     </PackageReference>
-    <PackageReference Include="Microsoft.ClearScript.linux-arm64" Version="7.2.2" />
-    <PackageReference Include="Microsoft.ClearScript.linux-x64" Version="7.2.2" />
-    <PackageReference Include="Microsoft.ClearScript.Windows" Version="7.2.2">
+    <PackageReference Include="Microsoft.ClearScript.linux-arm64" Version="7.2.3" />
+    <PackageReference Include="Microsoft.ClearScript.linux-x64" Version="7.2.3" />
+    <PackageReference Include="Microsoft.ClearScript.Windows" Version="7.2.3">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
     <PackageReference Include="Microsoft.Web.Infrastructure" Version="1.0.0">
