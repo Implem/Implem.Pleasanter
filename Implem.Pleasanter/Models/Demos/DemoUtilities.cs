@@ -114,7 +114,6 @@ namespace Implem.Pleasanter.Models
                 context = new Context(
                     tenantId: demoModel.TenantId,
                     language: context.Language);
-                var password = Strings.NewGuid().Sha512Cng();
                 if (!demoModel.Initialized)
                 {
                     var userHash = GetUserHash(
@@ -125,25 +124,15 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         userHash: userHash,
                         idHash: idHash);
-                }
-                else
-                {
-                    Repository.ExecuteNonQuery(
+                    new UserModel()
+                    {
+                        LoginId = demoModel.LoginId,
+                        Password = userHash.Get(demoModel.LoginId).Sha512Cng()
+                    }.Authenticate(
                         context: context,
-                        statements: Rds.UpdateUsers(
-                            param: Rds.UsersParam().Password(password),
-                            where: Rds.UsersWhere().LoginId(
-                                value: context.Sqls.EscapeValue(demoModel.LoginId),
-                                _operator: context.Sqls.LikeWithEscape)));
+                        returnUrl: string.Empty);
+                    SiteInfo.Reflesh(context: context, force: true);
                 }
-                new UserModel()
-                {
-                    LoginId = demoModel.LoginId,
-                    Password = password
-                }.Authenticate(
-                    context: context,
-                    returnUrl: string.Empty);
-                SiteInfo.Reflesh(context: context, force: true);
                 return context.Authenticated;
             }
             else
@@ -273,13 +262,7 @@ namespace Implem.Pleasanter.Models
                                 param: Rds.DeptsParam()
                                     .TenantId(demoModel.TenantId)
                                     .DeptCode(demoDefinition.ClassA)
-                                    .DeptName(demoDefinition.Title)
-                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(
-                                        context: context,
-                                        demoModel: demoModel))
-                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(
-                                        context: context,
-                                        demoModel: demoModel)))
+                                    .DeptName(demoDefinition.Title))
                         }).Id.ToLong()));
         }
 
@@ -314,13 +297,7 @@ namespace Implem.Pleasanter.Models
                                     .Name(demoDefinition.Title)
                                     .Language(context.Language)
                                     .DeptId(idHash.Get(demoDefinition.ParentId).ToInt())
-                                    .TenantManager(demoDefinition.ClassD == "1")
-                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(
-                                        context: context,
-                                        demoModel: demoModel))
-                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(
-                                        context: context,
-                                        demoModel: demoModel))),
+                                    .TenantManager(demoDefinition.ClassD == "1")),
                             Rds.InsertMailAddresses(
                                 param: Rds.MailAddressesParam()
                                     .OwnerId(raw: Def.Sql.Identity)
@@ -363,7 +340,7 @@ namespace Implem.Pleasanter.Models
             new SiteCollection(
                 context: context,
                 where: Rds.SitesWhere().TenantId(demoModel.TenantId))
-                .ForEach(siteModel =>
+                    .ForEach(siteModel =>
                     {
                         var fullText = siteModel.FullText(
                             context: context, ss: siteModel.SiteSettings);
@@ -410,13 +387,7 @@ namespace Implem.Pleasanter.Models
                                 param: Rds.ItemsParam()
                                     .ReferenceType("Sites")
                                     .Creator(creator)
-                                    .Updator(updator)
-                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(
-                                        context: context,
-                                        demoModel: demoModel))
-                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(
-                                        context: context,
-                                        demoModel: demoModel)),
+                                    .Updator(updator),
                                 addUpdatorParam: false),
                             Rds.InsertSites(
                                 param: Rds.SitesParam()
@@ -430,13 +401,7 @@ namespace Implem.Pleasanter.Models
                                     .InheritPermission(idHash, topId, demoDefinition.ParentId)
                                     .SiteSettings(demoDefinition.Body.Replace(idHash))
                                     .Creator(creator)
-                                    .Updator(updator)
-                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(
-                                        context: context,
-                                        demoModel: demoModel))
-                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(
-                                        context: context,
-                                        demoModel: demoModel)),
+                                    .Updator(updator),
                                 addUpdatorParam: false)
                         }).Id.ToLong();
                     idHash.Add(demoDefinition.Id, siteId);
