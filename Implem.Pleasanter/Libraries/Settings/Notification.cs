@@ -33,6 +33,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? AfterCreate;
         public bool? AfterUpdate;
         public bool? AfterDelete;
+        public bool? AfterCopy;
+        public bool? AfterBulkUpdate;
+        public bool? AfterBulkDelete;
         public bool? Disabled;
         [NonSerialized]
         public int Index;
@@ -80,6 +83,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool afterCreate,
             bool afterUpdate,
             bool afterDelete,
+            bool afterCopy,
+            bool afterBulkUpdate,
+            bool afterBulkDelete,
             bool disabled)
         {
             Id = id;
@@ -96,6 +102,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             AfterCreate = afterCreate;
             AfterUpdate = afterUpdate;
             AfterDelete = afterDelete;
+            AfterCopy = afterCopy;
+            AfterBulkUpdate = afterBulkUpdate;
+            AfterBulkDelete = afterBulkDelete;
             Disabled = disabled;
         }
 
@@ -123,6 +132,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool afterCreate,
             bool afterUpdate,
             bool afterDelete,
+            bool afterCopy,
+            bool afterBulkUpdate,
+            bool afterBulkDelete,
             bool disabled)
         {
             Type = type;
@@ -138,6 +150,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             AfterCreate = afterCreate;
             AfterUpdate = afterUpdate;
             AfterDelete = afterDelete;
+            AfterCopy = afterCopy;
+            AfterBulkUpdate = afterBulkUpdate;
+            AfterBulkDelete = afterBulkDelete;
             Disabled = disabled;
         }
 
@@ -337,6 +352,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (AfterDelete == false)
             {
                 notification.AfterDelete = AfterDelete;
+            }
+            if (AfterCopy == false)
+            {
+                notification.AfterCopy = AfterCopy;
+            }
+            if (AfterBulkUpdate == false)
+            {
+                notification.AfterBulkUpdate = AfterBulkUpdate;
+            }
+            if (AfterBulkDelete == false)
+            {
+                notification.AfterBulkDelete = AfterBulkDelete;
             }
             if (Disabled == true)
             {

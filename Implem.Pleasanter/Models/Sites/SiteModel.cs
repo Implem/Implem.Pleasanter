@@ -701,7 +701,7 @@ namespace Implem.Pleasanter.Models
             {
                 return string.Empty;
             }
-            switch (column.ColumnName)
+            switch (column.Name)
             {
                 case "SiteId":
                     return SiteId.ToDisplay(
@@ -802,32 +802,32 @@ namespace Implem.Pleasanter.Models
                     switch (Def.ExtendedColumnTypes.Get(column.Name))
                     {
                         case "Class":
-                            return GetClass(column: column).ToDisplay(
+                            return GetClass(columnName: column.Name).ToDisplay(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Num":
-                            return GetNum(column: column).ToDisplay(
+                            return GetNum(columnName: column.Name).ToDisplay(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Date":
-                            return GetDate(column: column).ToDisplay(
+                            return GetDate(columnName: column.Name).ToDisplay(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Description":
-                            return GetDescription(column: column).ToDisplay(
+                            return GetDescription(columnName: column.Name).ToDisplay(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Check":
-                            return GetCheck(column: column).ToDisplay(
+                            return GetCheck(columnName: column.Name).ToDisplay(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Attachments":
-                            return GetAttachments(column: column).ToDisplay(
+                            return GetAttachments(columnName: column.Name).ToDisplay(
                                 context: context,
                                 ss: ss,
                                 column: column);
@@ -2708,6 +2708,7 @@ namespace Implem.Pleasanter.Models
             return new HtmlBuilder().SiteMenu(
                 context: context,
                 ss: SiteSettings,
+                currentSs: null,
                 siteId: destinationId,
                 referenceType: ReferenceType,
                 title: siteMenu.Get(destinationId).Title,
@@ -4639,6 +4640,9 @@ namespace Implem.Pleasanter.Models
                     afterCreate: context.Forms.Bool("NotificationAfterCreate"),
                     afterUpdate: context.Forms.Bool("NotificationAfterUpdate"),
                     afterDelete: context.Forms.Bool("NotificationAfterDelete"),
+                    afterCopy: context.Forms.Bool("NotificationAfterCopy"),
+                    afterBulkUpdate: context.Forms.Bool("NotificationAfterBulkUpdate"),
+                    afterBulkDelete: context.Forms.Bool("NotificationAfterBulkDelete"),
                     disabled: context.Forms.Bool("NotificationDisabled")));
                 SetNotificationsResponseCollection(context: context, res: res);
             }
@@ -4678,6 +4682,9 @@ namespace Implem.Pleasanter.Models
                         afterCreate: context.Forms.Bool("NotificationAfterCreate"),
                         afterUpdate: context.Forms.Bool("NotificationAfterUpdate"),
                         afterDelete: context.Forms.Bool("NotificationAfterDelete"),
+                        afterCopy: context.Forms.Bool("NotificationAfterCopy"),
+                        afterBulkUpdate: context.Forms.Bool("NotificationAfterBulkUpdate"),
+                        afterBulkDelete: context.Forms.Bool("NotificationAfterBulkDelete"),
                         disabled: context.Forms.Bool("NotificationDisabled"));
                     SetNotificationsResponseCollection(context: context, res: res);
                 }

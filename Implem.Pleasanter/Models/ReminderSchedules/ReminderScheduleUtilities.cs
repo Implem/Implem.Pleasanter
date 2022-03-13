@@ -43,7 +43,8 @@ namespace Implem.Pleasanter.Models
                             .Id()
                             .Sites_Updator()
                             .Sites_TenantId()
-                            .Users_DeptId(),
+                            .Users_DeptId()
+                            .Tenants_ContractDeadline(),
                         join: Rds.ReminderSchedulesJoin()
                             .Add(
                                 tableName: "\"Sites\"",
@@ -52,16 +53,34 @@ namespace Implem.Pleasanter.Models
                             .Add(
                                 tableName: "\"Users\"",
                                 joinType: SqlJoin.JoinTypes.LeftOuter,
-                                joinExpression: "\"Users\".\"UserId\"=\"Sites\".\"Updator\""),
+                                joinExpression: "\"Users\".\"UserId\"=\"Sites\".\"Updator\"")
+                            .Add(
+                                tableName: "\"Tenants\"",
+                                joinType: SqlJoin.JoinTypes.Inner,
+                                joinExpression: "\"Tenants\".\"TenantId\"=\"Sites\".\"TenantId\""),
                         where: Rds.ReminderSchedulesWhere()
                             .ScheduledTime(
                                 DateTime.Now.ToLocal(context: context),
                                 _operator: "<=")))
                                     .AsEnumerable();
-                targets.ForEach(dataRow => Remind(
-                    context: context,
-                    dataRow: dataRow));
-                System.Threading.Thread.Sleep(Parameters.Reminder.Interval);
+                targets.ForEach(dataRow =>
+                {
+                    if (!dataRow.IsNull("ContractDeadline")
+                        && dataRow.DateTime("ContractDeadline") < DateTime.Now)
+                    {
+                        Rds.ExecuteNonQuery(
+                            context: context,
+                            statements: Rds.DeleteReminderSchedules(
+                            factory: context,
+                            where: Rds.ReminderSchedulesWhere()
+                                .SiteId(value: dataRow.Long("SiteId"))));
+                    }
+                    else
+                    {
+                        Remind(context: context, dataRow: dataRow);
+                        System.Threading.Thread.Sleep(Parameters.Reminder.Interval);
+                    }
+                });
             }
             return string.Empty;
         }

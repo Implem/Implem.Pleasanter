@@ -1,12 +1,21 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 namespace Implem.Pleasanter.Libraries.Requests
 {
     public static class ViewModes
     {
-        public static string GetSessionData(Context context, long siteId)
+        public static string GetSessionData(Context context, long siteId, SiteSettings ss = null)
         {
+            if (ss?.GridView > 0)
+            {
+                var defaultViewMode = ss.Views?.Get(ss.GridView)?.DefaultMode;
+                if (!defaultViewMode.IsNullOrEmpty())
+                {
+                    return defaultViewMode;
+                }
+            }
             return SessionData(context: context).Get(siteId) ?? "index";
         }
 

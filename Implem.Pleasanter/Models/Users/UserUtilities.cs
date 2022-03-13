@@ -888,6 +888,42 @@ namespace Implem.Pleasanter.Models
                                     value: string.Empty,
                                     tabIndex: tabIndex,
                                     serverScriptModelColumn: serverScriptModelColumn);
+                    case "EnableSecondaryAuthentication":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: userModel.EnableSecondaryAuthentication,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn);
+                    case "DisableSecondaryAuthentication":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: userModel.DisableSecondaryAuthentication,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty,
+                                    tabIndex: tabIndex,
+                                    serverScriptModelColumn: serverScriptModelColumn);
                     case "Disabled":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -1266,6 +1302,12 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         column: column); break;
                     case "AllowApi": value = userModel.AllowApi.GridText(
+                        context: context,
+                        column: column); break;
+                    case "EnableSecondaryAuthentication": value = userModel.EnableSecondaryAuthentication.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DisableSecondaryAuthentication": value = userModel.DisableSecondaryAuthentication.GridText(
                         context: context,
                         column: column); break;
                     case "Disabled": value = userModel.Disabled.GridText(
@@ -1777,6 +1819,18 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column);
+                case "EnableSecondaryAuthentication":
+                    return userModel.EnableSecondaryAuthentication
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "DisableSecondaryAuthentication":
+                    return userModel.DisableSecondaryAuthentication
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
                 case "Disabled":
                     return userModel.Disabled
                         .ToControl(
@@ -2235,6 +2289,18 @@ namespace Implem.Pleasanter.Models
                                 res.Val(
                                     target: "#Users_AllowApi" + idSuffix,
                                     value: userModel.AllowApi,
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "EnableSecondaryAuthentication":
+                                res.Val(
+                                    target: "#Users_EnableSecondaryAuthentication" + idSuffix,
+                                    value: userModel.EnableSecondaryAuthentication,
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "DisableSecondaryAuthentication":
+                                res.Val(
+                                    target: "#Users_DisableSecondaryAuthentication" + idSuffix,
+                                    value: userModel.DisableSecondaryAuthentication,
                                     options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                 break;
                             case "Disabled":
@@ -2757,13 +2823,18 @@ namespace Implem.Pleasanter.Models
                         selected: selector.Selected);
                 }
                 Summaries.Synchronize(context: context, ss: ss);
+                var data = new string[]
+                {
+                    ss.Title,
+                    count.ToString()
+                };
                 return GridRows(
                     context: context,
                     ss: ss,
                     clearCheck: true,
                     message: Messages.BulkDeleted(
                         context: context,
-                        data: count.ToString()));
+                        data: data));
             }
             else
             {
