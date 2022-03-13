@@ -94,7 +94,7 @@ namespace Implem.Pleasanter.Models
                     demoDefinition => LoginId(
                         demoModel: demoModel,
                         userId: demoDefinition.Id),
-                    demoDefinition => Strings.NewGuid().Substring(0, 16));
+                    demoDefinition => Strings.NewGuid().Substring(0, 16).ToLower());
         }
 
         /// <summary>
