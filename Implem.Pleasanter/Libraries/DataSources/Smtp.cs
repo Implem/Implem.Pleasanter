@@ -9,6 +9,7 @@ using MimeKit;
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 namespace Implem.Pleasanter.Libraries.DataSources
 {
     public class Smtp
@@ -45,76 +46,79 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Body = body;
         }
 
-        public async void Send(Context context, Attachments attachments = null)
+        public void Send(Context context, Attachments attachments = null)
         {
-            try
+            var task = Task.Run(() =>
             {
-                var message = new MimeMessage();
-                message.From.Add(Addresses.From(From));
-                Addresses.Get(
-                    context: context,
-                    addresses: To)
-                    .ForEach(to => message.To.Add(MailboxAddress.Parse(to)));
-                Addresses.Get(
-                    context: context,
-                    addresses: Cc)
-                    .ForEach(cc => message.Cc.Add(MailboxAddress.Parse(cc)));
-                Addresses.Get(
-                    context: context,
-                    addresses: Bcc)
-                        .ForEach(bcc => message.Bcc.Add(MailboxAddress.Parse(bcc)));
-                message.Subject = Subject;
-                var textPart = new TextPart(MimeKit.Text.TextFormat.Plain)
+                try
                 {
-                    Text = Body
-                };
-                var mimeParts = attachments
-                    ?.Where(attachment => attachment?.Base64?.IsNullOrEmpty() == false)
-                    .Select(attachment =>
+                    var message = new MimeMessage();
+                    message.From.Add(Addresses.From(From));
+                    Addresses.Get(
+                        context: context,
+                        addresses: To)
+                        .ForEach(to => message.To.Add(MailboxAddress.Parse(to)));
+                    Addresses.Get(
+                        context: context,
+                        addresses: Cc)
+                        .ForEach(cc => message.Cc.Add(MailboxAddress.Parse(cc)));
+                    Addresses.Get(
+                        context: context,
+                        addresses: Bcc)
+                            .ForEach(bcc => message.Bcc.Add(MailboxAddress.Parse(bcc)));
+                    message.Subject = Subject;
+                    var textPart = new TextPart(MimeKit.Text.TextFormat.Plain)
                     {
-                        var fileName = attachment.Name ?? attachment.FileName ?? string.Empty;
-                        var mimeType = attachment.ContentType.IsNullOrEmpty()
-                            ? MimeTypes.GetMimeType(fileName)
-                            : attachment.ContentType;
-                        var stream = new MemoryStream(Convert.FromBase64String(attachment.Base64));
-                        var mimePart = new MimePart(mimeType);
-                        mimePart.FileName = Strings.CoalesceEmpty(fileName, "NoName");
-                        mimePart.Content = new MimeContent(stream);
-                        return mimePart;
-                    }).ToList();
-                if (mimeParts?.Count > 0)
-                {
-                    var multipart = new Multipart("mixed");
-                    multipart.Add(textPart);
-                    foreach (var part in mimeParts)
+                        Text = Body
+                    };
+                    var mimeParts = attachments
+                        ?.Where(attachment => attachment?.Base64?.IsNullOrEmpty() == false)
+                        .Select(attachment =>
+                        {
+                            var fileName = attachment.Name ?? attachment.FileName ?? string.Empty;
+                            var mimeType = attachment.ContentType.IsNullOrEmpty()
+                                ? MimeTypes.GetMimeType(fileName)
+                                : attachment.ContentType;
+                            var stream = new MemoryStream(Convert.FromBase64String(attachment.Base64));
+                            var mimePart = new MimePart(mimeType);
+                            mimePart.FileName = Strings.CoalesceEmpty(fileName, "NoName");
+                            mimePart.Content = new MimeContent(stream);
+                            return mimePart;
+                        }).ToList();
+                    if (mimeParts?.Count > 0)
                     {
-                        multipart.Add(part);
+                        var multipart = new Multipart("mixed");
+                        multipart.Add(textPart);
+                        foreach (var part in mimeParts)
+                        {
+                            multipart.Add(part);
+                        }
+                        message.Body = multipart;
                     }
-                    message.Body = multipart;
-                }
-                else
-                {
-                    message.Body = textPart;
-                }
-                using (var smtpClient = new SmtpClient())
-                {
-                    var options = Parameters.Mail.SmtpEnableSsl
-                        ? MailKit.Security.SecureSocketOptions.StartTls
-                        : MailKit.Security.SecureSocketOptions.Auto;
-                    await smtpClient.ConnectAsync(Host, Port, options);
-                    if (!Parameters.Mail.SmtpUserName.IsNullOrEmpty()
-                        && !Parameters.Mail.SmtpPassword.IsNullOrEmpty())
+                    else
                     {
-                        await smtpClient.AuthenticateAsync(Parameters.Mail.SmtpUserName, Parameters.Mail.SmtpPassword);
+                        message.Body = textPart;
                     }
-                    await smtpClient.SendAsync(message);
-                    await smtpClient.DisconnectAsync(true);
+                    using (var smtpClient = new SmtpClient())
+                    {
+                        var options = Parameters.Mail.SmtpEnableSsl
+                            ? MailKit.Security.SecureSocketOptions.StartTls
+                            : MailKit.Security.SecureSocketOptions.Auto;
+                        smtpClient.Connect(Host, Port, options);
+                        if (!Parameters.Mail.SmtpUserName.IsNullOrEmpty()
+                            && !Parameters.Mail.SmtpPassword.IsNullOrEmpty())
+                        {
+                            smtpClient.Authenticate(Parameters.Mail.SmtpUserName, Parameters.Mail.SmtpPassword);
+                        }
+                        smtpClient.Send(message);
+                        smtpClient.Disconnect(true);
+                    }
                 }
-            }
-            catch (Exception e)
-            {
-                new SysLogModel(Context, e);
-            }
+                catch (Exception e)
+                {
+                    new SysLogModel(Context, e);
+                }
+            });
         }
     }
 }

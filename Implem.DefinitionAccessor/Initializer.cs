@@ -818,6 +818,43 @@ namespace Implem.DefinitionAccessor
                 Def.ColumnDefinitionCollection.FirstOrDefault(o =>
                     o.Id == "Users_AllowApi").UpdateAccessControl = "ManageService";
             }
+            switch (Parameters.Security.SecondaryAuthentication?.Mode)
+            {
+                case SecondaryAuthentication.SecondaryAuthenticationMode.None:
+                    SetManageServiceToEnableSecondaryAuthentication();
+                    SetManageServiceToDisableSecondaryAuthentication();
+                    break;
+                case SecondaryAuthentication.SecondaryAuthenticationMode.DefaultEnable:
+                    SetManageServiceToEnableSecondaryAuthentication();
+                    break;
+                case SecondaryAuthentication.SecondaryAuthenticationMode.DefaultDisable:
+                    SetManageServiceToDisableSecondaryAuthentication();
+                    break;
+                default:
+                    SetManageServiceToEnableSecondaryAuthentication();
+                    SetManageServiceToDisableSecondaryAuthentication();
+                    break;
+            }
+        }
+
+        private static void SetManageServiceToDisableSecondaryAuthentication()
+        {
+            Def.ColumnDefinitionCollection.FirstOrDefault(o =>
+                o.Id == "Users_DisableSecondaryAuthentication").CreateAccessControl = "ManageService";
+            Def.ColumnDefinitionCollection.FirstOrDefault(o =>
+                o.Id == "Users_DisableSecondaryAuthentication").ReadAccessControl = "ManageService";
+            Def.ColumnDefinitionCollection.FirstOrDefault(o =>
+                o.Id == "Users_DisableSecondaryAuthentication").UpdateAccessControl = "ManageService";
+        }
+
+        private static void SetManageServiceToEnableSecondaryAuthentication()
+        {
+            Def.ColumnDefinitionCollection.FirstOrDefault(o =>
+                o.Id == "Users_EnableSecondaryAuthentication").CreateAccessControl = "ManageService";
+            Def.ColumnDefinitionCollection.FirstOrDefault(o =>
+                o.Id == "Users_EnableSecondaryAuthentication").ReadAccessControl = "ManageService";
+            Def.ColumnDefinitionCollection.FirstOrDefault(o =>
+                o.Id == "Users_EnableSecondaryAuthentication").UpdateAccessControl = "ManageService";
         }
 
         private static void SetTimeZone()

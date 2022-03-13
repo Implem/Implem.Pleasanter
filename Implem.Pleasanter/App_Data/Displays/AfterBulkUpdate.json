@@ -1,0 +1,33 @@
+﻿{
+    "Id": "AfterBulkUpdate",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "After bulk update"
+        },
+        {
+            "Language": "zh",
+            "Body": "批量更新后"
+        },
+        {
+            "Language": "ja",
+            "Body": "一括更新後"
+        },
+        {
+            "Language": "de",
+            "Body": "Nach Massenaktualisierung"
+        },
+        {
+            "Language": "ko",
+            "Body": "일괄 업데이트 후"
+        },
+        {
+            "Language": "es",
+            "Body": "Después de la actualización masiva"
+        },
+        {
+            "Language": "vn",
+            "Body": "Sau khi cập nhật hàng loạt"
+        }
+    ]
+}

@@ -2,7 +2,14 @@
 {
     public class SecondaryAuthentication
     {
-        public bool Enabled;
+        public enum SecondaryAuthenticationMode
+        {
+            None,
+            DefaultEnable,
+            DefaultDisable
+        }
+
+        public SecondaryAuthenticationMode Mode;
         public string NotificationType;
         public bool NotificationMailBcc;
         public string AuthenticationCodeCharacterType;

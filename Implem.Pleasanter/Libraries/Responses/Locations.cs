@@ -177,16 +177,14 @@ namespace Implem.Pleasanter.Libraries.Responses
                         id: id));
         }
 
-        public static string DemoUri(Context context, string passphrase)
+        public static string DemoUri(Context context)
         {
-            var path = "/demos/login?passphrase=" + passphrase;
-            return Parameters.Service.AbsoluteUri != null
-                ? Parameters.Service.AbsoluteUri + path
-                : context.AbsoluteUri.Replace(
+            return Parameters.Service.AbsoluteUri
+                ?? context.AbsoluteUri.Replace(
                     context.AbsolutePath,
                     Get(
                         context: context,
-                        parts: path));
+                        parts: string.Empty));
         }
 
         public static string RegistrationUri(Context context, string passphrase)

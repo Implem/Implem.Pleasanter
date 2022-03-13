@@ -58,6 +58,8 @@ namespace Implem.Pleasanter.Models
         public bool AllowGroupAdministration = false;
         public bool AllowGroupCreation = false;
         public bool AllowApi = false;
+        public bool EnableSecondaryAuthentication = false;
+        public bool DisableSecondaryAuthentication = false;
         public bool Disabled = false;
         public bool Lockout = false;
         public int LockoutCounter = 0;
@@ -134,6 +136,8 @@ namespace Implem.Pleasanter.Models
         public bool SavedAllowGroupAdministration = false;
         public bool SavedAllowGroupCreation = false;
         public bool SavedAllowApi = false;
+        public bool SavedEnableSecondaryAuthentication = false;
+        public bool SavedDisableSecondaryAuthentication = false;
         public bool SavedDisabled = false;
         public bool SavedLockout = false;
         public int SavedLockoutCounter = 0;
@@ -344,6 +348,22 @@ namespace Implem.Pleasanter.Models
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.GetDefaultInput(context: context).ToBool() != AllowApi);
+        }
+
+        public bool EnableSecondaryAuthentication_Updated(Context context, Column column = null)
+        {
+            return EnableSecondaryAuthentication != SavedEnableSecondaryAuthentication &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToBool() != EnableSecondaryAuthentication);
+        }
+
+        public bool DisableSecondaryAuthentication_Updated(Context context, Column column = null)
+        {
+            return DisableSecondaryAuthentication != SavedDisableSecondaryAuthentication &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToBool() != DisableSecondaryAuthentication);
         }
 
         public bool Disabled_Updated(Context context, Column column = null)
@@ -893,6 +913,30 @@ namespace Implem.Pleasanter.Models
                                 exportColumn: exportColumn)
                             : string.Empty;
                     break;
+                case "EnableSecondaryAuthentication":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? EnableSecondaryAuthentication.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "DisableSecondaryAuthentication":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? DisableSecondaryAuthentication.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
                 case "Disabled":
                     value = ss.ReadColumnAccessControls.Allowed(
                         context: context,
@@ -1344,6 +1388,8 @@ namespace Implem.Pleasanter.Models
                     case "AllowGroupAdministration": data.AllowGroupAdministration = AllowGroupAdministration; break;
                     case "AllowGroupCreation": data.AllowGroupCreation = AllowGroupCreation; break;
                     case "AllowApi": data.AllowApi = AllowApi; break;
+                    case "EnableSecondaryAuthentication": data.EnableSecondaryAuthentication = EnableSecondaryAuthentication; break;
+                    case "DisableSecondaryAuthentication": data.DisableSecondaryAuthentication = DisableSecondaryAuthentication; break;
                     case "Disabled": data.Disabled = Disabled; break;
                     case "Lockout": data.Lockout = Lockout; break;
                     case "LockoutCounter": data.LockoutCounter = LockoutCounter; break;
@@ -1383,7 +1429,7 @@ namespace Implem.Pleasanter.Models
             {
                 return string.Empty;
             }
-            switch (column.ColumnName)
+            switch (column.Name)
             {
                 case "UserId":
                     return UserId.ToDisplay(
@@ -1530,6 +1576,16 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
+                case "EnableSecondaryAuthentication":
+                    return EnableSecondaryAuthentication.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "DisableSecondaryAuthentication":
+                    return DisableSecondaryAuthentication.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
                 case "Disabled":
                     return Disabled.ToDisplay(
                         context: context,
@@ -1619,32 +1675,32 @@ namespace Implem.Pleasanter.Models
                     switch (Def.ExtendedColumnTypes.Get(column.Name))
                     {
                         case "Class":
-                            return GetClass(column: column).ToDisplay(
+                            return GetClass(columnName: column.Name).ToDisplay(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Num":
-                            return GetNum(column: column).ToDisplay(
+                            return GetNum(columnName: column.Name).ToDisplay(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Date":
-                            return GetDate(column: column).ToDisplay(
+                            return GetDate(columnName: column.Name).ToDisplay(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Description":
-                            return GetDescription(column: column).ToDisplay(
+                            return GetDescription(columnName: column.Name).ToDisplay(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Check":
-                            return GetCheck(column: column).ToDisplay(
+                            return GetCheck(columnName: column.Name).ToDisplay(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Attachments":
-                            return GetAttachments(column: column).ToDisplay(
+                            return GetAttachments(columnName: column.Name).ToDisplay(
                                 context: context,
                                 ss: ss,
                                 column: column);
@@ -1664,7 +1720,7 @@ namespace Implem.Pleasanter.Models
             {
                 return string.Empty;
             }
-            switch (column.ColumnName)
+            switch (column.Name)
             {
                 case "TenantId":
                     return TenantId.ToApiDisplayValue(
@@ -1841,6 +1897,16 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
+                case "EnableSecondaryAuthentication":
+                    return EnableSecondaryAuthentication.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "DisableSecondaryAuthentication":
+                    return DisableSecondaryAuthentication.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
                 case "Disabled":
                     return Disabled.ToApiDisplayValue(
                         context: context,
@@ -1960,32 +2026,32 @@ namespace Implem.Pleasanter.Models
                     switch (Def.ExtendedColumnTypes.Get(column.Name))
                     {
                         case "Class":
-                            return GetClass(column: column).ToApiDisplayValue(
+                            return GetClass(columnName: column.Name).ToApiDisplayValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Num":
-                            return GetNum(column: column).ToApiDisplayValue(
+                            return GetNum(columnName: column.Name).ToApiDisplayValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Date":
-                            return GetDate(column: column).ToApiDisplayValue(
+                            return GetDate(columnName: column.Name).ToApiDisplayValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Description":
-                            return GetDescription(column: column).ToApiDisplayValue(
+                            return GetDescription(columnName: column.Name).ToApiDisplayValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Check":
-                            return GetCheck(column: column).ToApiDisplayValue(
+                            return GetCheck(columnName: column.Name).ToApiDisplayValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Attachments":
-                            return GetAttachments(column: column).ToApiDisplayValue(
+                            return GetAttachments(columnName: column.Name).ToApiDisplayValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
@@ -2005,7 +2071,7 @@ namespace Implem.Pleasanter.Models
             {
                 return string.Empty;
             }
-            switch (column.ColumnName)
+            switch (column.Name)
             {
                 case "TenantId":
                     return TenantId.ToApiValue(
@@ -2182,6 +2248,16 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
+                case "EnableSecondaryAuthentication":
+                    return EnableSecondaryAuthentication.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "DisableSecondaryAuthentication":
+                    return DisableSecondaryAuthentication.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
                 case "Disabled":
                     return Disabled.ToApiValue(
                         context: context,
@@ -2301,32 +2377,32 @@ namespace Implem.Pleasanter.Models
                     switch (Def.ExtendedColumnTypes.Get(column.Name))
                     {
                         case "Class":
-                            return GetClass(column: column).ToApiValue(
+                            return GetClass(columnName: column.Name).ToApiValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Num":
-                            return GetNum(column: column).ToApiValue(
+                            return GetNum(columnName: column.Name).ToApiValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Date":
-                            return GetDate(column: column).ToApiValue(
+                            return GetDate(columnName: column.Name).ToApiValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Description":
-                            return GetDescription(column: column).ToApiValue(
+                            return GetDescription(columnName: column.Name).ToApiValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Check":
-                            return GetCheck(column: column).ToApiValue(
+                            return GetCheck(columnName: column.Name).ToApiValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Attachments":
-                            return GetAttachments(column: column).ToApiValue(
+                            return GetAttachments(columnName: column.Name).ToApiValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
@@ -2341,6 +2417,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
+            string noticeType = "Created",
             bool otherInitValue = false,
             bool get = true)
         {
@@ -2637,6 +2714,8 @@ namespace Implem.Pleasanter.Models
                     case "Users_AllowGroupAdministration": AllowGroupAdministration = value.ToBool(); break;
                     case "Users_AllowGroupCreation": AllowGroupCreation = value.ToBool(); break;
                     case "Users_AllowApi": AllowApi = value.ToBool(); break;
+                    case "Users_EnableSecondaryAuthentication": EnableSecondaryAuthentication = value.ToBool(); break;
+                    case "Users_DisableSecondaryAuthentication": DisableSecondaryAuthentication = value.ToBool(); break;
                     case "Users_Disabled": Disabled = value.ToBool(); break;
                     case "Users_Lockout": Lockout = value.ToBool(); if (Lockout_Updated(context: context) && !Lockout) LockoutCounter = 0; break;
                     case "Users_LockoutCounter": LockoutCounter = value.ToInt(); break;
@@ -2759,6 +2838,8 @@ namespace Implem.Pleasanter.Models
             AllowGroupAdministration = userModel.AllowGroupAdministration;
             AllowGroupCreation = userModel.AllowGroupCreation;
             AllowApi = userModel.AllowApi;
+            EnableSecondaryAuthentication = userModel.EnableSecondaryAuthentication;
+            DisableSecondaryAuthentication = userModel.DisableSecondaryAuthentication;
             Disabled = userModel.Disabled;
             Lockout = userModel.Lockout;
             LockoutCounter = userModel.LockoutCounter;
@@ -2827,6 +2908,8 @@ namespace Implem.Pleasanter.Models
             if (data.AllowGroupAdministration != null) AllowGroupAdministration = data.AllowGroupAdministration.ToBool().ToBool();
             if (data.AllowGroupCreation != null) AllowGroupCreation = data.AllowGroupCreation.ToBool().ToBool();
             if (data.AllowApi != null) AllowApi = data.AllowApi.ToBool().ToBool();
+            if (data.EnableSecondaryAuthentication != null) EnableSecondaryAuthentication = data.EnableSecondaryAuthentication.ToBool().ToBool();
+            if (data.DisableSecondaryAuthentication != null) DisableSecondaryAuthentication = data.DisableSecondaryAuthentication.ToBool().ToBool();
             if (data.Disabled != null) Disabled = data.Disabled.ToBool().ToBool();
             if (data.Lockout != null) Lockout = data.Lockout.ToBool().ToBool();
             if (data.LockoutCounter != null) LockoutCounter = data.LockoutCounter.ToInt().ToInt();
@@ -3103,6 +3186,14 @@ namespace Implem.Pleasanter.Models
                             AllowApi = dataRow[column.ColumnName].ToBool();
                             SavedAllowApi = AllowApi;
                             break;
+                        case "EnableSecondaryAuthentication":
+                            EnableSecondaryAuthentication = dataRow[column.ColumnName].ToBool();
+                            SavedEnableSecondaryAuthentication = EnableSecondaryAuthentication;
+                            break;
+                        case "DisableSecondaryAuthentication":
+                            DisableSecondaryAuthentication = dataRow[column.ColumnName].ToBool();
+                            SavedDisableSecondaryAuthentication = DisableSecondaryAuthentication;
+                            break;
                         case "Disabled":
                             Disabled = dataRow[column.ColumnName].ToBool();
                             SavedDisabled = Disabled;
@@ -3264,6 +3355,8 @@ namespace Implem.Pleasanter.Models
                 || AllowGroupAdministration_Updated(context: context)
                 || AllowGroupCreation_Updated(context: context)
                 || AllowApi_Updated(context: context)
+                || EnableSecondaryAuthentication_Updated(context: context)
+                || DisableSecondaryAuthentication_Updated(context: context)
                 || Disabled_Updated(context: context)
                 || Lockout_Updated(context: context)
                 || LockoutCounter_Updated(context: context)
@@ -4034,9 +4127,24 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private bool EnabledSecondaryAuthentication(Context context)
         {
-            if (Parameters.Security?.SecondaryAuthentication?.Enabled != true)
+            switch (Parameters.Security.SecondaryAuthentication?.Mode)
             {
-                return false;
+                case ParameterAccessor.Parts.SecondaryAuthentication.SecondaryAuthenticationMode.None:
+                    return false;
+                case ParameterAccessor.Parts.SecondaryAuthentication.SecondaryAuthenticationMode.DefaultEnable:
+                    if (DisableSecondaryAuthentication)
+                    {
+                        return false;
+                    }
+                    break;
+                case ParameterAccessor.Parts.SecondaryAuthentication.SecondaryAuthenticationMode.DefaultDisable:
+                    if (!EnableSecondaryAuthentication)
+                    {
+                        return false;
+                    }
+                    break;
+                default:
+                    return false;
             }
             var statements = new List<SqlStatement>().OnUseSecondaryAuthentication(context: context).ToArray();
             if (!(statements?.Any() == true))
@@ -4044,8 +4152,8 @@ namespace Implem.Pleasanter.Models
                 return true;
             }
             statements.ForEach(statement => statement.SqlParamCollection = new SqlParamCollection()
-                .Add("TenantId", this.TenantId)
-                .Add("UserId", this.UserId));
+                .Add("TenantId", TenantId)
+                .Add("UserId", UserId));
             var dataTables = statements.Select(statement => Repository.ExecuteTable(
                 context: context,
                 statements: statement));

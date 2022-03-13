@@ -538,7 +538,8 @@ namespace Implem.Pleasanter.Models
             {
                 SetByLookups(
                     context: context,
-                    ss: ss);
+                    ss: ss,
+                    requestFormData: formData);
             }
             MethodType = methodType;
             OnConstructed(context: context);
@@ -585,7 +586,8 @@ namespace Implem.Pleasanter.Models
             {
                 SetByLookups(
                     context: context,
-                    ss: ss);
+                    ss: ss,
+                    requestFormData: formData);
             }
             if (SavedLocked)
             {
@@ -627,7 +629,8 @@ namespace Implem.Pleasanter.Models
             {
                 SetByLookups(
                     context: context,
-                    ss: ss);
+                    ss: ss,
+                    requestFormData: formData);
             }
             OnConstructed(context: context);
         }
@@ -743,7 +746,7 @@ namespace Implem.Pleasanter.Models
             {
                 return string.Empty;
             }
-            switch (column.ColumnName)
+            switch (column.Name)
             {
                 case "ResultId":
                     return ResultId.ToDisplay(
@@ -789,32 +792,32 @@ namespace Implem.Pleasanter.Models
                     switch (Def.ExtendedColumnTypes.Get(column.Name))
                     {
                         case "Class":
-                            return GetClass(column: column).ToDisplay(
+                            return GetClass(columnName: column.Name).ToDisplay(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Num":
-                            return GetNum(column: column).ToDisplay(
+                            return GetNum(columnName: column.Name).ToDisplay(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Date":
-                            return GetDate(column: column).ToDisplay(
+                            return GetDate(columnName: column.Name).ToDisplay(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Description":
-                            return GetDescription(column: column).ToDisplay(
+                            return GetDescription(columnName: column.Name).ToDisplay(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Check":
-                            return GetCheck(column: column).ToDisplay(
+                            return GetCheck(columnName: column.Name).ToDisplay(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Attachments":
-                            return GetAttachments(column: column).ToDisplay(
+                            return GetAttachments(columnName: column.Name).ToDisplay(
                                 context: context,
                                 ss: ss,
                                 column: column);
@@ -834,7 +837,7 @@ namespace Implem.Pleasanter.Models
             {
                 return string.Empty;
             }
-            switch (column.ColumnName)
+            switch (column.Name)
             {
                 case "SiteId":
                     return SiteId.ToApiDisplayValue(
@@ -930,32 +933,32 @@ namespace Implem.Pleasanter.Models
                     switch (Def.ExtendedColumnTypes.Get(column.Name))
                     {
                         case "Class":
-                            return GetClass(column: column).ToApiDisplayValue(
+                            return GetClass(columnName: column.Name).ToApiDisplayValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Num":
-                            return GetNum(column: column).ToApiDisplayValue(
+                            return GetNum(columnName: column.Name).ToApiDisplayValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Date":
-                            return GetDate(column: column).ToApiDisplayValue(
+                            return GetDate(columnName: column.Name).ToApiDisplayValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Description":
-                            return GetDescription(column: column).ToApiDisplayValue(
+                            return GetDescription(columnName: column.Name).ToApiDisplayValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Check":
-                            return GetCheck(column: column).ToApiDisplayValue(
+                            return GetCheck(columnName: column.Name).ToApiDisplayValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Attachments":
-                            return GetAttachments(column: column).ToApiDisplayValue(
+                            return GetAttachments(columnName: column.Name).ToApiDisplayValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
@@ -975,7 +978,7 @@ namespace Implem.Pleasanter.Models
             {
                 return string.Empty;
             }
-            switch (column.ColumnName)
+            switch (column.Name)
             {
                 case "SiteId":
                     return SiteId.ToApiValue(
@@ -1071,32 +1074,32 @@ namespace Implem.Pleasanter.Models
                     switch (Def.ExtendedColumnTypes.Get(column.Name))
                     {
                         case "Class":
-                            return GetClass(column: column).ToApiValue(
+                            return GetClass(columnName: column.Name).ToApiValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Num":
-                            return GetNum(column: column).ToApiValue(
+                            return GetNum(columnName: column.Name).ToApiValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Date":
-                            return GetDate(column: column).ToApiValue(
+                            return GetDate(columnName: column.Name).ToApiValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Description":
-                            return GetDescription(column: column).ToApiValue(
+                            return GetDescription(columnName: column.Name).ToApiValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Check":
-                            return GetCheck(column: column).ToApiValue(
+                            return GetCheck(columnName: column.Name).ToApiValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
                         case "Attachments":
-                            return GetAttachments(column: column).ToApiValue(
+                            return GetAttachments(columnName: column.Name).ToApiValue(
                                 context: context,
                                 ss: ss,
                                 column: column);
@@ -1249,6 +1252,7 @@ namespace Implem.Pleasanter.Models
             bool synchronizeSummary = true,
             bool forceSynchronizeSourceSummary = false,
             bool notice = false,
+            string noticeType = "Created",
             bool otherInitValue = false,
             bool get = true)
         {
@@ -1310,7 +1314,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         notice: notice),
-                    type: "Created");
+                    type: noticeType);
             }
             if (get) Get(context: context, ss: ss);
             if (ss.PermissionForCreating != null)
@@ -2448,7 +2452,7 @@ namespace Implem.Pleasanter.Models
             SetChoiceHash(context: context, ss: ss);
         }
 
-        public void SetByLookups(Context context, SiteSettings ss)
+        public void SetByLookups(Context context, SiteSettings ss, Dictionary<string,string> requestFormData = null)
         {
             var formData = new Dictionary<string, string>();
             ss.Links
@@ -2461,6 +2465,8 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     link: link,
                     id: GetClass(link.ColumnName).ToLong())
+                        .Where(data => requestFormData == null
+                            || !requestFormData.ContainsKey(data.Key))
                         .ForEach(data =>
                             formData.AddOrUpdate(data.Key, data.Value)));
             if (formData.Any())
@@ -2901,7 +2907,9 @@ namespace Implem.Pleasanter.Models
                 switch (type)
                 {
                     case "Created":
-                        if (notification.AfterCreate != false)
+                    case "Copied":
+                        if ((type == "Created" && notification.AfterCreate != false)
+                            || (type == "Copied" && notification.AfterCopy != false))
                         {
                             notification.Send(
                                 context: context,
