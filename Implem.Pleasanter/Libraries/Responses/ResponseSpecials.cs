@@ -4626,6 +4626,94 @@ namespace Implem.Pleasanter.Libraries.Responses
             return res.ValAndFormData("#Users_AllowApi", value);
         }
 
+        public static UsersResponseCollection EnableSecondaryAuthentication(
+            this UsersResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Users_EnableSecondaryAuthentication",
+                res.UserModel.EnableSecondaryAuthentication.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "EnableSecondaryAuthentication")));
+        }
+
+        public static UsersResponseCollection EnableSecondaryAuthentication(
+            this UsersResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Users_EnableSecondaryAuthentication", value);
+        }
+
+        public static UsersResponseCollection EnableSecondaryAuthentication_FormData(
+            this UsersResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Users_EnableSecondaryAuthentication",
+                res.UserModel.EnableSecondaryAuthentication.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "EnableSecondaryAuthentication")));
+        }
+
+        public static UsersResponseCollection EnableSecondaryAuthentication_FormData(
+            this UsersResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Users_EnableSecondaryAuthentication", value);
+        }
+
+        public static UsersResponseCollection DisableSecondaryAuthentication(
+            this UsersResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Users_DisableSecondaryAuthentication",
+                res.UserModel.DisableSecondaryAuthentication.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "DisableSecondaryAuthentication")));
+        }
+
+        public static UsersResponseCollection DisableSecondaryAuthentication(
+            this UsersResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Users_DisableSecondaryAuthentication", value);
+        }
+
+        public static UsersResponseCollection DisableSecondaryAuthentication_FormData(
+            this UsersResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Users_DisableSecondaryAuthentication",
+                res.UserModel.DisableSecondaryAuthentication.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "DisableSecondaryAuthentication")));
+        }
+
+        public static UsersResponseCollection DisableSecondaryAuthentication_FormData(
+            this UsersResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Users_DisableSecondaryAuthentication", value);
+        }
+
         public static UsersResponseCollection Disabled(
             this UsersResponseCollection res,
             Context context,

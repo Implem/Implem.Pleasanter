@@ -245,6 +245,18 @@ namespace Implem.Pleasanter.Models
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
+                    case "EnableSecondaryAuthentication":
+                        if (userModel.EnableSecondaryAuthentication_Updated(context: context, column: column))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "DisableSecondaryAuthentication":
+                        if (userModel.DisableSecondaryAuthentication_Updated(context: context, column: column))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
                     case "Disabled":
                         if (userModel.Disabled_Updated(context: context, column: column))
                         {
@@ -573,6 +585,18 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "AllowApi":
                         if (userModel.AllowApi_Updated(context: context))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "EnableSecondaryAuthentication":
+                        if (userModel.EnableSecondaryAuthentication_Updated(context: context))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "DisableSecondaryAuthentication":
+                        if (userModel.DisableSecondaryAuthentication_Updated(context: context))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }

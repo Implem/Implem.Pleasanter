@@ -41,6 +41,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public int Id;
         public string Name;
+        public string DefaultMode;
         public List<string> GridColumns;
         public DisplayTypes? FiltersDisplayType;
         public bool? FiltersReduced;
@@ -400,6 +401,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     context: context,
                                     controlId: controlId);
                                 break;
+                            case "DefaultViewMode":
+                                DefaultMode = String(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
                             case "ViewGridColumnsAll":
                                 GridColumns = String(
                                     context: context,
@@ -699,6 +705,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var view = ss.Views?.FirstOrDefault(o => o.Id == Id)
                 ?? new View();
             Name = view.Name;
+            DefaultMode = view.DefaultMode;
             Incomplete = view.Incomplete;
             Own = view.Own;
             NearCompletionTime = view.NearCompletionTime;
@@ -1004,6 +1011,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             var view = new View();
             view.Id = Id;
             view.Name = Name;
+            if (!DefaultMode.IsNullOrEmpty())
+            {
+                view.DefaultMode = DefaultMode;
+            }
             if (GridColumns != null && GridColumns.Join() != ss.GridColumns?.Join())
             {
                 view.GridColumns = GridColumns;

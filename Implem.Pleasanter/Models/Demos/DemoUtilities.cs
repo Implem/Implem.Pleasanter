@@ -37,9 +37,12 @@ namespace Implem.Pleasanter.Models
             var mailAddress = context.Forms.Data("Users_DemoMailAddress");
             var tenantModel = new TenantModel()
             {
-                TenantName = mailAddress
+                TenantName = mailAddress,
+                ContractDeadline = DateTime.Now.AddDays(Parameters.Service.DemoUsagePeriod)
             };
-            tenantModel.Create(context: context, ss: ss);
+            tenantModel.Create(
+                context: context,
+                ss: ss);
             context = new Context(
                 tenantId: tenantModel.TenantId,
                 language: context.Language);
@@ -48,26 +51,50 @@ namespace Implem.Pleasanter.Models
                 Passphrase = passphrase,
                 MailAddress = mailAddress
             };
-            demoModel.Create(context: context, ss: ss);
-            demoModel.Initialize(context: context, outgoingMailModel: new OutgoingMailModel()
-            {
-                Title = new Title(Displays.DemoMailTitle(context: context)),
-                Body = Displays.DemoMailBody(
-                    context: context,
-                    data: new string[]
-                    {
-                        Locations.DemoUri(
-                            context: context,
-                            passphrase: passphrase),
-                        Parameters.Service.DemoUsagePeriod.ToString()
-                    }),
-                From = MimeKit.MailboxAddress.Parse(Parameters.Mail.SupportFrom),
-                To = mailAddress,
-                Bcc = Parameters.Mail.SupportFrom
-            });
+            demoModel.Create(
+                context: context,
+                ss: ss);
+            var userHash = GetUserHash(
+                context: context,
+                demoModel: demoModel);
+            demoModel.Initialize(
+                context: context,
+                outgoingMailModel: new OutgoingMailModel()
+                {
+                    Title = new Title(Displays.DemoMailTitle(context: context)),
+                    Body = Displays.DemoMailBody(
+                        context: context,
+                        data: new string[]
+                        {
+                            Locations.DemoUri(context: context),
+                            userHash
+                                .Select(data => $"ID: {data.Key} PW: {data.Value}")
+                                .Join("\r\n"),
+                            Parameters.Service.DemoUsagePeriod.ToString()
+                        }),
+                    From = MimeKit.MailboxAddress.Parse(Parameters.Mail.SupportFrom),
+                    To = mailAddress,
+                    Bcc = Parameters.Mail.SupportFrom
+                },
+                userHash: userHash);
             return Messages.ResponseSentAcceptanceMail(context: context)
                 .Remove("#DemoForm")
                 .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static Dictionary<string, string> GetUserHash(Context context, DemoModel demoModel)
+        {
+            return Def.DemoDefinitionCollection
+                .Where(o => o.Language == context.Language)
+                .Where(o => o.Type == "Users")
+                .ToDictionary(
+                    demoDefinition => LoginId(
+                        demoModel: demoModel,
+                        userId: demoDefinition.Id),
+                    demoDefinition => Strings.NewGuid().Substring(0, 16).ToLower());
         }
 
         /// <summary>
@@ -87,33 +114,25 @@ namespace Implem.Pleasanter.Models
                 context = new Context(
                     tenantId: demoModel.TenantId,
                     language: context.Language);
-                var password = Strings.NewGuid().Sha512Cng();
                 if (!demoModel.Initialized)
                 {
+                    var userHash = GetUserHash(
+                        context: context,
+                        demoModel: demoModel);
                     var idHash = new Dictionary<string, long>();
                     demoModel.Initialize(
                         context: context,
-                        idHash: idHash,
-                        password: password);
-                }
-                else
-                {
-                    Repository.ExecuteNonQuery(
+                        userHash: userHash,
+                        idHash: idHash);
+                    new UserModel()
+                    {
+                        LoginId = demoModel.LoginId,
+                        Password = userHash.Get(demoModel.LoginId).Sha512Cng()
+                    }.Authenticate(
                         context: context,
-                        statements: Rds.UpdateUsers(
-                            param: Rds.UsersParam().Password(password),
-                            where: Rds.UsersWhere().LoginId(
-                                value: context.Sqls.EscapeValue(demoModel.LoginId),
-                                _operator: context.Sqls.LikeWithEscape)));
+                        returnUrl: string.Empty);
+                    SiteInfo.Reflesh(context: context, force: true);
                 }
-                new UserModel()
-                {
-                    LoginId = demoModel.LoginId,
-                    Password = password
-                }.Authenticate(
-                    context: context,
-                    returnUrl: string.Empty);
-                SiteInfo.Reflesh(context: context, force: true);
                 return context.Authenticated;
             }
             else
@@ -138,18 +157,26 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static void Initialize(
-            this DemoModel demoModel, Context context, OutgoingMailModel outgoingMailModel)
+            this DemoModel demoModel,
+            Context context,
+            OutgoingMailModel outgoingMailModel,
+            Dictionary<string, string> userHash)
         {
+            System.Diagnostics.Debug.WriteLine(outgoingMailModel.Body);
             var idHash = new Dictionary<string, long>();
-            var password = Strings.NewGuid().Sha512Cng();
             System.Threading.Tasks.Task.Run(() =>
             {
                 try
                 {
-                    demoModel.Initialize(context: context, idHash: idHash, password: password);
-                    outgoingMailModel.Send(context: context, ss: new SiteSettings());
+                    demoModel.Initialize(
+                        context: context,
+                        userHash: userHash,
+                        idHash: idHash);
+                    outgoingMailModel.Send(
+                        context: context,
+                        ss: new SiteSettings());
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     new SysLogModel(context: context, e: e);
                 }
@@ -162,8 +189,8 @@ namespace Implem.Pleasanter.Models
         private static void Initialize(
             this DemoModel demoModel,
             Context context,
-            Dictionary<string, long> idHash,
-            string password)
+            Dictionary<string, string> userHash,
+            Dictionary<string, long> idHash)
         {
             demoModel.InitializeTimeLag();
             InitializeDepts(
@@ -173,8 +200,8 @@ namespace Implem.Pleasanter.Models
             InitializeUsers(
                 context: context,
                 demoModel: demoModel,
-                idHash: idHash,
-                password: password);
+                userHash: userHash,
+                idHash: idHash);
             SiteInfo.Reflesh(
                 context: context,
                 force: true);
@@ -235,13 +262,7 @@ namespace Implem.Pleasanter.Models
                                 param: Rds.DeptsParam()
                                     .TenantId(demoModel.TenantId)
                                     .DeptCode(demoDefinition.ClassA)
-                                    .DeptName(demoDefinition.Title)
-                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(
-                                        context: context,
-                                        demoModel: demoModel))
-                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(
-                                        context: context,
-                                        demoModel: demoModel)))
+                                    .DeptName(demoDefinition.Title))
                         }).Id.ToLong()));
         }
 
@@ -249,7 +270,10 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static void InitializeUsers(
-            Context context, DemoModel demoModel, Dictionary<string, long> idHash, string password)
+            Context context,
+            DemoModel demoModel,
+            Dictionary<string, string> userHash,
+            Dictionary<string, long> idHash)
         {
             Def.DemoDefinitionCollection
                 .Where(o => o.Language == context.Language)
@@ -269,18 +293,11 @@ namespace Implem.Pleasanter.Models
                                 param: Rds.UsersParam()
                                     .TenantId(demoModel.TenantId)
                                     .LoginId(loginId)
-                                    .Password(password)
+                                    .Password(userHash.Get(loginId).Sha512Cng())
                                     .Name(demoDefinition.Title)
                                     .Language(context.Language)
                                     .DeptId(idHash.Get(demoDefinition.ParentId).ToInt())
-                                    .Birthday(demoDefinition.ClassC.ToDateTime())
-                                    .Gender(demoDefinition.ClassB)
-                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(
-                                        context: context,
-                                        demoModel: demoModel))
-                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(
-                                        context: context,
-                                        demoModel: demoModel))),
+                                    .TenantManager(demoDefinition.ClassD == "1")),
                             Rds.InsertMailAddresses(
                                 param: Rds.MailAddressesParam()
                                     .OwnerId(raw: Def.Sql.Identity)
@@ -323,7 +340,7 @@ namespace Implem.Pleasanter.Models
             new SiteCollection(
                 context: context,
                 where: Rds.SitesWhere().TenantId(demoModel.TenantId))
-                .ForEach(siteModel =>
+                    .ForEach(siteModel =>
                     {
                         var fullText = siteModel.FullText(
                             context: context, ss: siteModel.SiteSettings);
@@ -365,39 +382,27 @@ namespace Implem.Pleasanter.Models
                         selectIdentity: true,
                         statements: new SqlStatement[]
                         {
-                        Rds.InsertItems(
-                            selectIdentity: true,
-                            param: Rds.ItemsParam()
-                                .ReferenceType("Sites")
-                                .Creator(creator)
-                                .Updator(updator)
-                                .CreatedTime(demoDefinition.CreatedTime.DemoTime(
-                                    context: context,
-                                    demoModel: demoModel))
-                                .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(
-                                    context: context,
-                                    demoModel: demoModel)),
-                            addUpdatorParam: false),
-                        Rds.InsertSites(
-                            param: Rds.SitesParam()
-                                .TenantId(demoModel.TenantId)
-                                .SiteId(raw: Def.Sql.Identity)
-                                .Title(demoDefinition.Title)
-                                .ReferenceType(demoDefinition.ClassA)
-                                .ParentId(idHash.ContainsKey(demoDefinition.ParentId)
-                                    ? idHash.Get(demoDefinition.ParentId)
-                                    : 0)
-                                .InheritPermission(idHash, topId, demoDefinition.ParentId)
-                                .SiteSettings(demoDefinition.Body.Replace(idHash))
-                                .Creator(creator)
-                                .Updator(updator)
-                                .CreatedTime(demoDefinition.CreatedTime.DemoTime(
-                                    context: context,
-                                    demoModel: demoModel))
-                                .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(
-                                    context: context,
-                                    demoModel: demoModel)),
-                            addUpdatorParam: false)
+                            Rds.InsertItems(
+                                selectIdentity: true,
+                                param: Rds.ItemsParam()
+                                    .ReferenceType("Sites")
+                                    .Creator(creator)
+                                    .Updator(updator),
+                                addUpdatorParam: false),
+                            Rds.InsertSites(
+                                param: Rds.SitesParam()
+                                    .TenantId(demoModel.TenantId)
+                                    .SiteId(raw: Def.Sql.Identity)
+                                    .Title(demoDefinition.Title)
+                                    .ReferenceType(demoDefinition.ClassA)
+                                    .ParentId(idHash.ContainsKey(demoDefinition.ParentId)
+                                        ? idHash.Get(demoDefinition.ParentId)
+                                        : 0)
+                                    .InheritPermission(idHash, topId, demoDefinition.ParentId)
+                                    .SiteSettings(demoDefinition.Body.Replace(idHash))
+                                    .Creator(creator)
+                                    .Updator(updator),
+                                addUpdatorParam: false)
                         }).Id.ToLong();
                     idHash.Add(demoDefinition.Id, siteId);
                     ssHash.AddIfNotConainsKey(siteId, SiteSettingsUtilities.Get(

@@ -3089,6 +3089,7 @@ namespace Implem.Pleasanter.Models
                             .SiteMenu(
                                 context: context,
                                 ss: ss,
+                                currentSs: siteModelChild.SiteSettings,
                                 siteId: siteModelChild.SiteId,
                                 referenceType: siteModelChild.ReferenceType,
                                 title: siteModelChild.Title.Value,
@@ -3105,6 +3106,7 @@ namespace Implem.Pleasanter.Models
                 ? hb.SiteMenu(
                     context: context,
                     ss: siteModel.SiteSettings,
+                    currentSs: null,
                     siteId: siteModel.ParentId,
                     referenceType: "Sites",
                     title: Displays.ToParent(context: context),
@@ -3119,6 +3121,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
+            SiteSettings currentSs,
             long siteId,
             string referenceType,
             string title,
@@ -3151,7 +3154,7 @@ namespace Implem.Pleasanter.Models
                         attributes: new HtmlAttributes()
                             .Href(SiteHref(
                                 context: context,
-                                ss: ss,
+                                ss: currentSs,
                                 siteId: siteId,
                                 referenceType: referenceType)),
                         action: () => hb
@@ -3185,7 +3188,8 @@ namespace Implem.Pleasanter.Models
                 default:
                     var viewMode = ViewModes.GetSessionData(
                         context: context,
-                        siteId: siteId);
+                        siteId: siteId,
+                        ss: ss);
                     switch (viewMode.ToLower())
                     {
                         case "trashbox":
@@ -8476,6 +8480,16 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Name(context: context),
                         text: view.Name,
                         validateRequired: true)
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "DefaultViewMode",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.DefaultViewMode(context: context),
+                        optionCollection: GetViewTypeOptionCollection(
+                            context: context,
+                            ss: ss),
+                        selectedValue: view.DefaultMode,
+                        insertBlank: true)
                     .Div(id: "ViewTabsContainer", action: () => hb
                         .Ul(id: "ViewTabs", action: () => hb
                             .Li(action: () => hb
@@ -9496,6 +9510,15 @@ namespace Implem.Pleasanter.Models
             };
         }
 
+        private static Dictionary<string, string> GetViewTypeOptionCollection(Context context, SiteSettings ss)
+        {
+            return Def.ViewModeDefinitionCollection
+                .Where(o => o.ReferenceType == ss.ReferenceType)
+                .ToDictionary(o => o.Name, o => Displays.Get(
+                    context: context,
+                    id: o.Name));
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>
@@ -9606,6 +9629,12 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.AfterDelete(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.AfterCopy(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.AfterBulkUpdate(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.AfterBulkDelete(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.Disabled(context: context)))));
         }
 
@@ -9667,6 +9696,18 @@ namespace Implem.Pleasanter.Models
                             .Span(
                                 css: "ui-icon ui-icon-circle-check",
                                 _using: notification.AfterDelete != false))
+                        .Td(action: () => hb
+                            .Span(
+                                css: "ui-icon ui-icon-circle-check",
+                                _using: notification.AfterCopy != false))
+                        .Td(action: () => hb
+                            .Span(
+                                css: "ui-icon ui-icon-circle-check",
+                                _using: notification.AfterBulkUpdate != false))
+                        .Td(action: () => hb
+                            .Span(
+                                css: "ui-icon ui-icon-circle-check",
+                                _using: notification.AfterBulkDelete != false))
                         .Td(action: () => hb
                             .Span(
                                 css: "ui-icon ui-icon-circle-check",
@@ -9797,6 +9838,21 @@ namespace Implem.Pleasanter.Models
                                 controlCss: " always-send",
                                 labelText: Displays.AfterDelete(context: context),
                                 _checked: notification.AfterDelete != false)
+                            .FieldCheckBox(
+                                controlId: "NotificationAfterCopy",
+                                controlCss: " always-send",
+                                labelText: Displays.AfterCopy(context: context),
+                                _checked: notification.AfterCopy != false)
+                            .FieldCheckBox(
+                                controlId: "NotificationAfterBulkUpdate",
+                                controlCss: " always-send",
+                                labelText: Displays.AfterBulkUpdate(context: context),
+                                _checked: notification.AfterBulkUpdate != false)
+                            .FieldCheckBox(
+                                controlId: "NotificationAfterBulkDelete",
+                                controlCss: " always-send",
+                                labelText: Displays.AfterBulkDelete(context: context),
+                                _checked: notification.AfterBulkDelete != false)
                             .FieldCheckBox(
                                 controlId: "NotificationDisabled",
                                 controlCss: " always-send",

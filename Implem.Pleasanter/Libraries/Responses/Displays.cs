@@ -149,6 +149,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AfterBulkDelete(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AfterBulkDelete",
+                data: data);
+        }
+
+        public static string AfterBulkUpdate(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AfterBulkUpdate",
+                data: data);
+        }
+
         public static string AfterCondition(
             Context context,
             params string[] data)
@@ -156,6 +176,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "AfterCondition",
+                data: data);
+        }
+
+        public static string AfterCopy(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AfterCopy",
                 data: data);
         }
 
@@ -10436,6 +10466,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Users_AllowApi",
+                data: data);
+        }
+
+        public static string Users_EnableSecondaryAuthentication(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_EnableSecondaryAuthentication",
+                data: data);
+        }
+
+        public static string Users_DisableSecondaryAuthentication(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_DisableSecondaryAuthentication",
                 data: data);
         }
 
