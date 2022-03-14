@@ -453,11 +453,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 return;
             }
             var value = getter(column);
-            if (column.ChoiceHash?.Any() == true
-                && !column.ChoiceHash.ContainsKey(value?.ToString()))
-            {
-                return;
-            }
             setter(value);
         }
 
