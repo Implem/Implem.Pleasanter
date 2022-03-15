@@ -276,7 +276,9 @@ namespace Implem.Libraries.Utilities
         {
             if (self is string value)
             {
-                self = new string(value.SkipWhile(s => s == (char)165).ToArray());
+                self = new string(value
+                    .SkipWhile(c => c == (char)92 || c == (char)165)
+                    .ToArray());
             }
             decimal data;
             if (self != null && decimal.TryParse(
