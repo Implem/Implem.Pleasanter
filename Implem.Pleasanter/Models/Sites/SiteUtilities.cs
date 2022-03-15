@@ -9510,6 +9510,9 @@ namespace Implem.Pleasanter.Models
             };
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static Dictionary<string, string> GetViewTypeOptionCollection(Context context, SiteSettings ss)
         {
             return Def.ViewModeDefinitionCollection
