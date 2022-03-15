@@ -145,7 +145,8 @@ namespace Implem.Pleasanter.Models
                         controlId: "NoDisplayIfReadOnly",
                         fieldCss: "field-auto-thin both",
                         labelText: Displays.NoDisplayIfReadOnly(context: context),
-                        _checked: ss.NoDisplayIfReadOnly));
+                        _checked: ss.NoDisplayIfReadOnly,
+                        _using: site));
         }
 
         /// <summary>
