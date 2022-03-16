@@ -219,6 +219,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AfterImport(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AfterImport",
+                data: data);
+        }
+
         public static string AfterUpdate(
             Context context,
             params string[] data)
