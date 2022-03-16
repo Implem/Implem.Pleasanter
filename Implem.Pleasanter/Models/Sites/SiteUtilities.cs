@@ -3089,6 +3089,7 @@ namespace Implem.Pleasanter.Models
                             .SiteMenu(
                                 context: context,
                                 ss: ss,
+                                currentSs: siteModelChild.SiteSettings,
                                 siteId: siteModelChild.SiteId,
                                 referenceType: siteModelChild.ReferenceType,
                                 title: siteModelChild.Title.Value,
@@ -3105,6 +3106,7 @@ namespace Implem.Pleasanter.Models
                 ? hb.SiteMenu(
                     context: context,
                     ss: siteModel.SiteSettings,
+                    currentSs: null,
                     siteId: siteModel.ParentId,
                     referenceType: "Sites",
                     title: Displays.ToParent(context: context),
@@ -3119,6 +3121,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
+            SiteSettings currentSs,
             long siteId,
             string referenceType,
             string title,
@@ -3151,7 +3154,7 @@ namespace Implem.Pleasanter.Models
                         attributes: new HtmlAttributes()
                             .Href(SiteHref(
                                 context: context,
-                                ss: ss,
+                                ss: currentSs,
                                 siteId: siteId,
                                 referenceType: referenceType)),
                         action: () => hb
@@ -3185,7 +3188,8 @@ namespace Implem.Pleasanter.Models
                 default:
                     var viewMode = ViewModes.GetSessionData(
                         context: context,
-                        siteId: siteId);
+                        siteId: siteId,
+                        ss: ss);
                     switch (viewMode.ToLower())
                     {
                         case "trashbox":
@@ -9506,6 +9510,9 @@ namespace Implem.Pleasanter.Models
             };
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static Dictionary<string, string> GetViewTypeOptionCollection(Context context, SiteSettings ss)
         {
             return Def.ViewModeDefinitionCollection
