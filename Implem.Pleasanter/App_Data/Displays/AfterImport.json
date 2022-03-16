@@ -1,0 +1,33 @@
+﻿{
+    "Id": "AfterImport",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "After import"
+        },
+        {
+            "Language": "zh",
+            "Body": "导入后"
+        },
+        {
+            "Language": "ja",
+            "Body": "インポート後"
+        },
+        {
+            "Language": "de",
+            "Body": "Nach dem Import"
+        },
+        {
+            "Language": "ko",
+            "Body": "수입 후"
+        },
+        {
+            "Language": "es",
+            "Body": "Después de la importación"
+        },
+        {
+            "Language": "vn",
+            "Body": "Sau khi nhập khẩu"
+        }
+    ]
+}

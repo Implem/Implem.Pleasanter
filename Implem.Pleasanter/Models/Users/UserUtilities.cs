@@ -3179,6 +3179,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         data: new string[]
                         {
+                            ss.Title,
                             insertCount.ToString(),
                             updateCount.ToString()
                         }));

@@ -5822,6 +5822,31 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             siteId: ss.SiteId)
                                 .ToArray());
+                ss.Notifications.ForEach(notification =>
+                {
+                    var body = new System.Text.StringBuilder();
+                    body.Append(Locations.ItemIndexAbsoluteUri(
+                        context: context,
+                        ss.SiteId) + "\n");
+                    body.Append(
+                        $"{Displays.Issues_Updator(context: context)}: ",
+                        $"{context.User.Name}\n");
+                    if (notification.AfterImport != false)
+                    {
+                        notification.Send(
+                            context: context,
+                            ss: ss,
+                            title: Displays.Imported(
+                                context: context,
+                                data: new string[]
+                                {
+                                    ss.Title,
+                                    insertCount.ToString(),
+                                    updateCount.ToString()
+                                }),
+                            body: body.ToString());
+                    }
+                });
                 return GridRows(
                     context: context,
                     ss: ss,
@@ -5830,6 +5855,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         data: new string[]
                         {
+                            ss.Title,
                             insertCount.ToString(),
                             updateCount.ToString()
                         }));
