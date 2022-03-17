@@ -103,7 +103,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     {
                         var options = Parameters.Mail.SmtpEnableSsl
                             ? MailKit.Security.SecureSocketOptions.StartTls
-                            : MailKit.Security.SecureSocketOptions.Auto;
+                            : MailKit.Security.SecureSocketOptions.None;
                         smtpClient.Connect(Host, Port, options);
                         if (!Parameters.Mail.SmtpUserName.IsNullOrEmpty()
                             && !Parameters.Mail.SmtpPassword.IsNullOrEmpty())

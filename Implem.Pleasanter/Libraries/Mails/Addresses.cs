@@ -124,7 +124,15 @@ namespace Implem.Pleasanter.Libraries.Mails
             {
                 return false;
             }
-            return MailboxAddress.TryParse(address, out MailboxAddress _);
+            try
+            {
+                var mailAddress = new System.Net.Mail.MailAddress(address);
+            }
+            catch (System.FormatException)
+            {
+                return false;
+            }
+            return true;
         }
 
         public static string ExternalMailAddress(string addresses)
