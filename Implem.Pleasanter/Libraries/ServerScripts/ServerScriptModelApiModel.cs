@@ -43,7 +43,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     result = null;
                     return false;
                 }
-                switch (Def.ExtendedColumnTypes.Get(name))
+                switch (Def.ExtendedColumnTypes.Get(name ?? string.Empty))
                 {
                     case "Class":
                         result = Model.GetClass(name);

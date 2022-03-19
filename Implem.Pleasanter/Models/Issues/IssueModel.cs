@@ -269,7 +269,7 @@ namespace Implem.Pleasanter.Models
                 case "Creator": return Creator_Updated(context: context);
                 case "Updator": return Updator_Updated(context: context);
                 default: 
-                    switch (Def.ExtendedColumnTypes.Get(name))
+                    switch (Def.ExtendedColumnTypes.Get(name ?? string.Empty))
                     {
                         case "Class": return Class_Updated(name);
                         case "Num": return Num_Updated(name);
@@ -547,7 +547,7 @@ namespace Implem.Pleasanter.Models
                             : string.Empty;
                     break;
                 default:
-                    switch (Def.ExtendedColumnTypes.Get(column.Name))
+                    switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                     {
                         case "Class":
                             value = ss.ReadColumnAccessControls.Allowed(
@@ -797,7 +797,7 @@ namespace Implem.Pleasanter.Models
                 id: IssueId,
                 timestamp: Timestamp.ToDateTime());
             column = (column ?? Rds.IssuesEditorColumns(ss))?.SetExtendedSqlSelectingColumn(context: context, ss: ss, view: view);
-            join = join ??  Rds.IssuesJoinDefault();
+            join = join ?? Rds.IssuesJoinDefault();
             if (ss?.TableType == Sqls.TableTypes.Normal)
             {
                 join = ss.Join(
@@ -940,7 +940,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         column: column);
                 default:
-                    switch (Def.ExtendedColumnTypes.Get(column.Name))
+                    switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                     {
                         case "Class":
                             return GetClass(columnName: column.Name).ToDisplay(
@@ -1106,7 +1106,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         column: column);
                 default:
-                    switch (Def.ExtendedColumnTypes.Get(column.Name))
+                    switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                     {
                         case "Class":
                             return GetClass(columnName: column.Name).ToApiDisplayValue(
@@ -1272,7 +1272,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         column: column);
                 default:
-                    switch (Def.ExtendedColumnTypes.Get(column.Name))
+                    switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                     {
                         case "Class":
                             return GetClass(columnName: column.Name).ToApiValue(
@@ -2258,7 +2258,7 @@ namespace Implem.Pleasanter.Models
                                     param.Owner(Owner.Id), SiteId, IssueId));
                             break;
                         default:
-                            switch (Def.ExtendedColumnTypes.Get(column.ColumnName))
+                            switch (Def.ExtendedColumnTypes.Get(column?.ColumnName ?? string.Empty))
                             {
                                 case "Class":
                                     if (!GetClass(column: column).IsNullOrEmpty())
@@ -2394,7 +2394,7 @@ namespace Implem.Pleasanter.Models
                         status: Status);
                     break;
                 default:
-                    switch (Def.ExtendedColumnTypes.Get(column.ColumnName))
+                    switch (Def.ExtendedColumnTypes.Get(column?.ColumnName ?? string.Empty))
                     {
                         case "Class":
                             GetClass(
@@ -2478,7 +2478,7 @@ namespace Implem.Pleasanter.Models
                             var column = ss.GetColumn(
                                 context: context,
                                 columnName: key.Split_2nd('_'));
-                            switch (Def.ExtendedColumnTypes.Get(column?.ColumnName))
+                            switch (Def.ExtendedColumnTypes.Get(column?.ColumnName ?? string.Empty))
                             {
                                 case "Class":
                                     GetClass(
@@ -2530,12 +2530,15 @@ namespace Implem.Pleasanter.Models
                     columnName: ss.Links
                         ?.Where(o => o.SiteId > 0)
                         .FirstOrDefault(o => o.SiteId == formsSiteId).ColumnName);
-                var value = PropertyValue(
-                    context: context,
-                    column: column);
-                column.Linking = column.MultipleSelections == true
-                    ? value.Deserialize<List<string>>()?.Contains(context.Forms.Data("LinkId")) == true
-                    : value == context.Forms.Data("LinkId");
+                if (column != null)
+                {
+                    var value = PropertyValue(
+                        context: context,
+                        column: column);
+                    column.Linking = column.MultipleSelections == true
+                        ? value.Deserialize<List<string>>()?.Contains(context.Forms.Data("LinkId")) == true
+                        : value == context.Forms.Data("LinkId");
+                }
             }
             var queryStringsSiteId = context.QueryStrings.Long("FromSiteId");
             if (queryStringsSiteId > 0)
@@ -2853,7 +2856,7 @@ namespace Implem.Pleasanter.Models
                         case "WorkValue": param.WorkValue(WorkValue.Value); break;
                         case "ProgressRate": param.ProgressRate(ProgressRate.Value); break;
                         default:
-                            if (Def.ExtendedColumnTypes.ContainsKey(formulaSet.Target))
+                            if (Def.ExtendedColumnTypes.ContainsKey(formulaSet.Target ?? string.Empty))
                             {
                                 param.Add(
                                     columnBracket: $"\"{formulaSet.Target}\"",
@@ -3072,7 +3075,7 @@ namespace Implem.Pleasanter.Models
                                 condition: filter.Value);
                             break;
                         default:
-                            switch (Def.ExtendedColumnTypes.Get(filter.Key))
+                            switch (Def.ExtendedColumnTypes.Get(filter.Key ?? string.Empty))
                             {
                                 case "Class":
                                     match = GetClass(column: column).Matched(
@@ -3438,7 +3441,7 @@ namespace Implem.Pleasanter.Models
                                         update: update));
                                     break;
                                 default:
-                                    switch (Def.ExtendedColumnTypes.Get(column.Name))
+                                    switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                                     {
                                         case "Class":
                                             body.Append(GetClass(columnName: column.Name).ToNotice(
@@ -3545,7 +3548,7 @@ namespace Implem.Pleasanter.Models
         private void Set(Context context, SiteSettings ss, DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
-            foreach(DataColumn dataColumn in dataRow.Table.Columns)
+            foreach (DataColumn dataColumn in dataRow.Table.Columns)
             {
                 var column = new ColumnNameInfo(dataColumn.ColumnName);
                 if (column.TableAlias == tableAlias)
@@ -3642,7 +3645,7 @@ namespace Implem.Pleasanter.Models
                                 ? Versions.VerTypes.History
                                 : Versions.VerTypes.Latest; break;
                         default:
-                            switch (Def.ExtendedColumnTypes.Get(column.Name))
+                            switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                             {
                                 case "Class":
                                     GetClass(

@@ -1064,7 +1064,7 @@ namespace Implem.Pleasanter.Models
                                     tabIndex: tabIndex,
                                     serverScriptModelColumn: serverScriptModelColumn);
                     default:
-                        switch (Def.ExtendedColumnTypes.Get(column.Name))
+                        switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                         {
                             case "Class":
                                 return ss.ReadColumnAccessControls.Allowed(
@@ -1258,7 +1258,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         column: column); break;
                     default:
-                        switch (Def.ExtendedColumnTypes.Get(column.Name))
+                        switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                         {
                             case "Class":
                                 value = issueModel.GetClass(columnName: column.Name).GridText(
@@ -2172,7 +2172,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             column: column);
                 default:
-                    switch (Def.ExtendedColumnTypes.Get(column.Name))
+                    switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                     {
                         case "Class":
                             return issueModel.GetClass(columnName: column.Name)
@@ -2569,7 +2569,7 @@ namespace Implem.Pleasanter.Models
                                     options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                 break;
                             default:
-                                switch (Def.ExtendedColumnTypes.Get(column.Name))
+                                switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                                 {
                                     case "Class":
                                         res.Val(

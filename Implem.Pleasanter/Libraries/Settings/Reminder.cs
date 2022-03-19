@@ -664,7 +664,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                         column: column));
                                 break;
                             default:
-                                switch (Def.ExtendedColumnTypes.Get(column.Name))
+                                switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                                 {
                                     case "Class":
                                         line = line.Replace(
@@ -808,7 +808,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                         column: column));
                                 break;
                             default:
-                                switch (Def.ExtendedColumnTypes.Get(column.Name))
+                                switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                                 {
                                     case "Class":
                                         line = line.Replace(

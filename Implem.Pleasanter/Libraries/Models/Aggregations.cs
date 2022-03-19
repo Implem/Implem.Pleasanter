@@ -69,7 +69,8 @@ namespace Implem.Pleasanter.Libraries.Models
                         {
                             if (groupByColumn != null)
                             {
-                                if (dataRow[1].ToDecimal() != 0)
+                                if (dataRow.Table.Columns.Count >= 2
+                                    && dataRow[1].ToDecimal() != 0)
                                 {
                                     var key = Key(
                                         ss,

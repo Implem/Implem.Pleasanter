@@ -634,7 +634,7 @@ namespace Implem.Pleasanter.Models
                                 ? Versions.VerTypes.History
                                 : Versions.VerTypes.Latest; break;
                         default:
-                            switch (Def.ExtendedColumnTypes.Get(column.Name))
+                            switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                             {
                                 case "Class":
                                     GetClass(

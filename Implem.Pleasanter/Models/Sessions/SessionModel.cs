@@ -131,7 +131,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 sessionModel: this);
             column = (column ?? Rds.SessionsDefaultColumns());
-            join = join ??  Rds.SessionsJoinDefault();
+            join = join ?? Rds.SessionsJoinDefault();
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectSessions(
@@ -186,7 +186,7 @@ namespace Implem.Pleasanter.Models
         private void Set(Context context, DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
-            foreach(DataColumn dataColumn in dataRow.Table.Columns)
+            foreach (DataColumn dataColumn in dataRow.Table.Columns)
             {
                 var column = new ColumnNameInfo(dataColumn.ColumnName);
                 if (column.TableAlias == tableAlias)
@@ -255,7 +255,7 @@ namespace Implem.Pleasanter.Models
                                 ? Versions.VerTypes.History
                                 : Versions.VerTypes.Latest; break;
                         default:
-                            switch (Def.ExtendedColumnTypes.Get(column.Name))
+                            switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                             {
                                 case "Class":
                                     GetClass(
