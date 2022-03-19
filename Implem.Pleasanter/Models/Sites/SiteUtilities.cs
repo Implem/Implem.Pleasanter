@@ -9677,7 +9677,8 @@ namespace Implem.Pleasanter.Models
                             .Text(text: notification.MonitorChangesColumns?
                                 .Select(columnName => ss.GetColumn(
                                     context: context,
-                                    columnName: columnName).LabelText)
+                                    columnName: columnName)?.LabelText)
+                                .Where(labelText => labelText != null)
                                 .Join(", ")))
                         .Td(action: () => hb
                             .Text(text: beforeCondition?.Name))

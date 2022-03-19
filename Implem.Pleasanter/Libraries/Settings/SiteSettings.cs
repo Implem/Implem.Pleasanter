@@ -20,7 +20,6 @@ using System.Data;
 using System.Linq;
 using System.Text.RegularExpressions;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
-
 namespace Implem.Pleasanter.Libraries.Settings
 {
     [Serializable()]
@@ -1951,7 +1950,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 && columnName?.Contains(',') == true
                 && JoinOptions().ContainsKey(columnName.Split_1st()) == true)
             {
-                column = AddJoinedColumn(context: context, columnName: columnName);
+                column = AddJoinedColumn(
+                    context: context,
+                    columnName: columnName);
             }
             if (ColumnDefinitionHash?.ContainsKey(column?.Name ?? string.Empty) != true)
             {
@@ -1988,6 +1989,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         private Column AddJoinedColumn(Context context, string columnName)
         {
             var columnNameInfo = new ColumnNameInfo(columnName);
+            if (!columnNameInfo.Exists(ss: this))
+            {
+                return null;
+            }
             var ss = JoinedSsHash.Get(columnNameInfo.SiteId);
             var columnDefinition = ss?.ColumnDefinitionHash.Get(columnNameInfo.Name);
             if (columnDefinition != null)
@@ -4503,6 +4508,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 var column = currentSs?.GetColumn(
                     context: context,
                     columnName: name);
+                if (column == null) continue;
                 path.Add(part);
                 var alias = path.Join("-");
                 if (!tableName.IsNullOrEmpty() && !name.IsNullOrEmpty())
