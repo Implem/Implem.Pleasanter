@@ -1847,6 +1847,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ColumnHash = Columns
                 .GroupBy(o => o.ColumnName)
                 .Select(o => o.First())
+                .Where(o => ColumnDefinitionHash?.ContainsKey(o?.Name ?? string.Empty) == true)
                 .ToDictionary(o => o.ColumnName, o => o);
         }
 
@@ -1951,6 +1952,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 && JoinOptions().ContainsKey(columnName.Split_1st()) == true)
             {
                 column = AddJoinedColumn(context: context, columnName: columnName);
+            }
+            if (ColumnDefinitionHash?.ContainsKey(column?.Name ?? string.Empty) != true)
+            {
+                return null;
             }
             return column;
         }
