@@ -182,10 +182,14 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         {
             return columns?.Any() == true
                 ? columns
-                : ss.CrosstabColumnsOptions(context: context).Select(o => ss
-                    .GetColumn(
+                    .Where(column => column != null)
+                    .ToList()
+                : ss.CrosstabColumnsOptions(context: context)
+                    .Select(o => ss.GetColumn(
                         context: context,
-                        columnName: o.Key)).ToList();
+                        columnName: o.Key))
+                    .Where(column => column != null)
+                    .ToList();
         }
 
         public static string Csv(
@@ -297,8 +301,8 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             Column groupByX, Column groupByY, EnumerableRowCollection<DataRow> dataRows)
         {
             var data = dataRows.Select(dataRow => new CrosstabElement(
-                groupByX: dataRow.String(groupByX.ColumnName),
-                groupByY: dataRow.String(groupByY.ColumnName),
+                groupByX: dataRow.String(groupByX?.ColumnName ?? string.Empty),
+                groupByY: dataRow.String(groupByY?.ColumnName ?? string.Empty),
                 value: dataRow.Decimal("Value")));
             return ElementHash(data: data);
         }
@@ -310,9 +314,9 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             dataRows.ForEach(dataRow =>
                 columnList.ForEach(column =>
                     data.Add(new CrosstabElement(
-                        groupByX: dataRow.String(groupByX.ColumnName),
-                        groupByY: column.ColumnName,
-                        value: dataRow.Decimal(column.ColumnName)))));
+                        groupByX: dataRow.String(groupByX?.ColumnName),
+                        groupByY: column?.ColumnName,
+                        value: dataRow.Decimal(column?.ColumnName)))));
             return ElementHash(data: data);
         }
 
@@ -421,7 +425,8 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         public static Dictionary<string, ControlData> ChoicesY(List<Column> columnList)
         {
             return columnList.ToDictionary(
-                o => o.ColumnName, o => new ControlData(o?.LabelText));
+                o => o.ColumnName,
+                o => new ControlData(o?.LabelText));
         }
 
         public static decimal CellValue(
