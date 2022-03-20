@@ -2620,6 +2620,9 @@ namespace Implem.Pleasanter.Models
                 }
                 view.ColumnFilterHash.Add("ResultId", resultId.ToString());
             }
+            view.MergeSession(sessionView: Views.GetBySession(
+                context: context,
+                ss: ss));
             switch (view.ApiDataType)
             {
                 case View.ApiDataTypes.KeyValues:
