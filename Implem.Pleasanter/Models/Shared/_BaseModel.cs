@@ -104,7 +104,7 @@ namespace Implem.Pleasanter.Models
             data.AddRange(CheckHash.Keys);
             data.AddRange(AttachmentsHash.Keys);
             return data
-                .Where(columnName => Def.ExtendedColumnTypes.ContainsKey(columnName))
+                .Where(columnName => Def.ExtendedColumnTypes.ContainsKey(columnName ?? string.Empty))
                 .ToList();
         }
 
@@ -113,7 +113,7 @@ namespace Implem.Pleasanter.Models
             Column column,
             bool toLocal = false)
         {
-            switch (Def.ExtendedColumnTypes.Get(column.ColumnName))
+            switch (Def.ExtendedColumnTypes.Get(column?.ColumnName ?? string.Empty))
             {
                 case "Class":
                     return GetClass(columnName: column.ColumnName);
@@ -144,7 +144,7 @@ namespace Implem.Pleasanter.Models
             string value,
             bool toUniversal = false)
         {
-            switch (Def.ExtendedColumnTypes.Get(column.ColumnName))
+            switch (Def.ExtendedColumnTypes.Get(column?.ColumnName ?? string.Empty))
             {
                 case "Class":
                     GetClass(
@@ -633,7 +633,7 @@ namespace Implem.Pleasanter.Models
         {
             if (column != null)
             {
-                switch (Def.ExtendedColumnTypes.Get(column.ColumnName))
+                switch (Def.ExtendedColumnTypes.Get(column?.ColumnName ?? string.Empty))
                 {
                     case "Class":
                         GetClass(column.ColumnName)?.FullText(

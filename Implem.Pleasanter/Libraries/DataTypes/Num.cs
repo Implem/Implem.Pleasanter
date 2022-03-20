@@ -8,6 +8,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Data;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.DataTypes
@@ -38,17 +39,23 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             if (column?.Nullable == true)
             {
-                if (value.IsNullOrEmpty()) return;
-                decimal decimalValue;
+                if (value.IsNullOrEmpty())
+                {
+                    return;
+                }
                 if (!decimal.TryParse(
-                    value,
+                    new string(value
+                        .SkipWhile(c => c == (char)92 || c == (char)165)
+                        .ToArray()),
                     NumberStyles.Any,
                     context.CultureInfo(),
-                    out decimalValue)) return;
+                    out _))
+                {
+                    return;
+                }
             }
-            Value = column?.Round(value.ToDecimal(
-                cultureInfo: context.CultureInfo()))
-                    ?? 0;
+            Value = column?.Round(value: value.ToDecimal(cultureInfo: context.CultureInfo()))
+                ?? 0;
         }
 
         public string ToControl(

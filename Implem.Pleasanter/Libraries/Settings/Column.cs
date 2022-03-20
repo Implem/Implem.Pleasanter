@@ -71,6 +71,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ChoicesText;
         public bool? UseSearch;
         public bool? MultipleSelections;
+        public bool? NotInsertBlankChoice;
         public string DefaultInput;
         public string GridFormat;
         public string EditorFormat;
@@ -1402,7 +1403,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             sql.Depts_UpdatedTime(tableName: path, _as: _as);
                             break;
                         default:
-                            switch (Def.ExtendedColumnTypes.Get(columnName))
+                            switch (Def.ExtendedColumnTypes.Get(columnName ?? string.Empty))
                             {
                                 case "Class":
                                 case "Num":
@@ -1457,7 +1458,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             sql.Groups_UpdatedTime(tableName: path, _as: _as);
                             break;
                         default:
-                            switch (Def.ExtendedColumnTypes.Get(columnName))
+                            switch (Def.ExtendedColumnTypes.Get(columnName ?? string.Empty))
                             {
                                 case "Class":
                                 case "Num":
@@ -1539,7 +1540,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             sql.Registrations_UpdatedTime(tableName: path, _as: _as);
                             break;
                         default:
-                            switch (Def.ExtendedColumnTypes.Get(columnName))
+                            switch (Def.ExtendedColumnTypes.Get(columnName ?? string.Empty))
                             {
                                 case "Class":
                                 case "Num":
@@ -1711,7 +1712,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             sql.Users_UpdatedTime(tableName: path, _as: _as);
                             break;
                         default:
-                            switch (Def.ExtendedColumnTypes.Get(columnName))
+                            switch (Def.ExtendedColumnTypes.Get(columnName ?? string.Empty))
                             {
                                 case "Class":
                                 case "Num":
@@ -1837,7 +1838,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                         : "ItemTitle");
                             break;
                         default:
-                            switch (Def.ExtendedColumnTypes.Get(columnName))
+                            switch (Def.ExtendedColumnTypes.Get(columnName ?? string.Empty))
                             {
                                 case "Class":
                                 case "Num":
@@ -1930,7 +1931,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                         : "ItemTitle");
                             break;
                         default:
-                            switch (Def.ExtendedColumnTypes.Get(columnName))
+                            switch (Def.ExtendedColumnTypes.Get(columnName ?? string.Empty))
                             {
                                 case "Class":
                                 case "Num":
@@ -2008,7 +2009,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                         : "ItemTitle");
                             break;
                         default:
-                            switch (Def.ExtendedColumnTypes.Get(columnName))
+                            switch (Def.ExtendedColumnTypes.Get(columnName ?? string.Empty))
                             {
                                 case "Class":
                                 case "Num":

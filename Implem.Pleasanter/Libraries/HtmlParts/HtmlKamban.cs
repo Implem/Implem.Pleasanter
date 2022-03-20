@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlCss: " auto-postback",
                         labelText: Displays.GroupByX(context: context),
                         optionCollection: ss.KambanGroupByOptions(context: context),
-                        selectedValue: groupByX.ColumnName,
+                        selectedValue: groupByX?.ColumnName,
                         method: "post")
                     .FieldDropDown(
                         context: context,
@@ -67,7 +67,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlCss: " auto-postback",
                         labelText: Displays.AggregationTarget(context: context),
                         optionCollection: ss.KambanValueOptions(context: context),
-                        selectedValue: value.ColumnName,
+                        selectedValue: value?.ColumnName,
                         method: "post")
                     .FieldDropDown(
                         context: context,
@@ -129,7 +129,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Id("KambanBody")
                     .DataAction("UpdateByKamban")
                     .DataMethod("post"),
-                action: () => groupByX.EditChoices(
+                action: () => groupByX?.EditChoices(
                     context: context,
                     insertBlank: true,
                     view: view)
@@ -340,7 +340,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     : Displays.NotSet(context: context),
                 data.Count(),
                 value != null && data.Any() && aggregateType != "Count"
-                    ? " : " + value.Display(
+                    ? " : " + value?.Display(
                         context: context,
                         value: data.Summary(aggregateType),
                         unit: true)
@@ -394,7 +394,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return data.Title + (value == null || aggregateType == "Count"
                 ? string.Empty
-                : " : " + value.Display(
+                : " : " + value?.Display(
                     context: context,
                     value: data.Value,
                     unit: true));

@@ -36,13 +36,17 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string String(ExpandoObject data, string columnName)
         {
             object value;
-            switch (Def.ExtendedColumnTypes.Get(columnName))
+            switch (Def.ExtendedColumnTypes.Get(columnName ?? string.Empty))
             {
                 case "Date":
-                    value = Date(data, columnName);
+                    value = Date(
+                        data: data,
+                        name: columnName);
                     break;
                 default:
-                    value = Value(data, columnName);
+                    value = Value(
+                        data: data,
+                        name: columnName);
                     break;
             }
             return value?.ToString() ?? string.Empty;
@@ -453,11 +457,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 return;
             }
             var value = getter(column);
-            if (column.ChoiceHash?.Any() == true
-                && !column.ChoiceHash.ContainsKey(value?.ToString()))
-            {
-                return;
-            }
             setter(value);
         }
 

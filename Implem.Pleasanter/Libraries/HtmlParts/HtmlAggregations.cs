@@ -243,7 +243,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         id: aggregation.Type.ToString());
                     break;
                 default:
-                    text += targetColumn.GridLabelText + " " +
+                    text += targetColumn?.GridLabelText + " " +
                         Displays.Get(
                             context: context,
                             id: aggregation.Type.ToString());
