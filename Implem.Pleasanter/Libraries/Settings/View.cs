@@ -2453,19 +2453,19 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             if (MergeSessionViewFilters == true)
             {
-                Incomplete = sessionView.Incomplete;
-                Own = sessionView.Own;
-                NearCompletionTime = sessionView.NearCompletionTime;
-                Delay = sessionView.Delay;
-                Overdue = sessionView.Overdue;
-                Search = sessionView.Search;
+                Incomplete |= sessionView.Incomplete;
+                Own |= sessionView.Own;
+                NearCompletionTime |= sessionView.NearCompletionTime;
+                Delay |= sessionView.Delay;
+                Overdue |= sessionView.Overdue;
+                Search = Strings.CoalesceEmpty(Search, sessionView.Search);
                 sessionView?.ColumnFilterHash?.ForEach(item =>
                 {
                     if (ColumnFilterHash == null)
                     {
                         ColumnFilterHash = new Dictionary<string, string>();
                     }
-                    ColumnFilterHash.AddOrUpdate(item.Key, item.Value);
+                    ColumnFilterHash.AddIfNotConainsKey(item.Key, item.Value);
                 });
             }
             if (MergeSessionViewSorters == true)
@@ -2476,7 +2476,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         ColumnSorterHash = new Dictionary<string, SqlOrderBy.Types>();
                     }
-                    ColumnSorterHash.AddOrUpdate(item.Key, item.Value);
+                    ColumnSorterHash.AddIfNotConainsKey(item.Key, item.Value);
                 });
             }
         }
