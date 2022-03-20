@@ -503,7 +503,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 column: column,
                                 extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
                                 extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
-                                extendedHtmlAfterControl: extendedHtmlAfterControl);
+                                extendedHtmlAfterControl: extendedHtmlAfterControl,
+                                controlOption: () =>
+                                {
+                                    if (column.MultipleSelections != true)
+                                    {
+                                        hb
+                                          .Div(
+                                              css: "ui-icon ui-icon-person current-user",
+                                              _using: column.Type == Column.Types.User)
+                                          .Div(
+                                              css: "ui-icon ui-icon-person current-dept",
+                                              _using: column.Type == Column.Types.Dept);
+                                    }
+                                });
                         case ControlTypes.Text:
                             return hb.FieldText(
                                 fieldId: controlId + "Field",
@@ -672,12 +685,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 validateRegexErrorMessage: column.RegexValidationMessage,
                                 attributes: column.DateTimeStep == null
                                     ? null
-                                    : new Dictionary<string, string>() {
+                                    : new Dictionary<string, string>()
+                                    {
                                         { "data-step", column.DateTimeStep?.ToString() }
                                     },
                                 extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
                                 extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
-                                extendedHtmlAfterControl: extendedHtmlAfterControl);
+                                extendedHtmlAfterControl: extendedHtmlAfterControl,
+                                controlOption: () => hb
+                                    .Div(css: "ui-icon ui-icon-clock current-time"));
                         case ControlTypes.CheckBox:
                             return hb.FieldCheckBox(
                                 fieldId: controlId + "Field",
@@ -1078,6 +1094,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string extendedHtmlBeforeLabel = null,
             string extendedHtmlBetweenLabelAndControl = null,
             string extendedHtmlAfterControl = null,
+            Action controlOption = null,
             bool _using = true)
         {
             return _using
@@ -1096,8 +1113,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
                     extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
                     extendedHtmlAfterControl: extendedHtmlAfterControl,
-                    controlAction: () => hb
-                        .TextBox(
+                    controlAction: () =>
+                    {
+                        hb.TextBox(
                             textType: textType,
                             controlId: controlId,
                             controlCss: controlCss +
@@ -1122,9 +1140,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             validateRegexErrorMessage: validateRegexErrorMessage,
                             action: action,
                             method: method,
-                            attributes: attributes)
-                        .Span(css: "unit", _using: !unit.IsNullOrEmpty(), action: () => hb
-                            .Text(unit)))
+                            attributes: attributes);
+                        controlOption?.Invoke();
+                        hb.Span(
+                            css: "unit",
+                            _using: !unit.IsNullOrEmpty(),
+                            action: () => hb.Text(unit));
+                    })
                 : hb;
         }
 
@@ -1343,6 +1365,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string extendedHtmlBeforeLabel = null,
             string extendedHtmlBetweenLabelAndControl = null,
             string extendedHtmlAfterControl = null,
+            Action controlOption = null,
             bool _using = true)
         {
             return _using
@@ -1361,23 +1384,27 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
                     extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
                     extendedHtmlAfterControl: extendedHtmlAfterControl,
-                    controlAction: () => hb
-                        .DropDown(
-                            context: context,
-                            controlId: controlId,
-                            controlCss: controlCss,
-                            optionCollection: optionCollection,
-                            selectedValue: selectedValue,
-                            multiple: multiple,
-                            addSelectedValue: addSelectedValue,
-                            insertBlank: insertBlank,
-                            disabled: disabled,
-                            alwaysSend: alwaysSend,
-                            onChange: onChange,
-                            validateRequired: validateRequired,
-                            action: action,
-                            method: method,
-                            column: column))
+                    controlAction: () =>
+                    {
+                        hb
+                            .DropDown(
+                                context: context,
+                                controlId: controlId,
+                                controlCss: controlCss,
+                                optionCollection: optionCollection,
+                                selectedValue: selectedValue,
+                                multiple: multiple,
+                                addSelectedValue: addSelectedValue,
+                                insertBlank: insertBlank,
+                                disabled: disabled,
+                                alwaysSend: alwaysSend,
+                                onChange: onChange,
+                                validateRequired: validateRequired,
+                                action: action,
+                                method: method,
+                                column: column);
+                        controlOption?.Invoke();
+                    })
                 : hb;
         }
 
