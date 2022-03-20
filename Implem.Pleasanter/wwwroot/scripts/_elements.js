@@ -27,6 +27,10 @@ $p.loginId = function () {
     return $('#LoginId').val();
 }
 
+$p.deptId = function () {
+    return parseInt($('#DeptId').val());
+}
+
 $p.userId = function () {
     return parseInt($('#UserId').val());
 }

@@ -1172,9 +1172,9 @@ th.calendar-header{
     clear:both;
 }
 
-#ExportTabsContainer {
-    margin: 0px 20px 10px 20px;
-    clear: both;
+#ExportTabsContainer{
+    margin:0px 20px 10px 20px;
+    clear:both;
 }
 
 #EditorDetailTabsContainer{
@@ -1654,7 +1654,7 @@ th.calendar-header{
     width:340px;
     height:45px;
     float:left;
-    padding:0px 10px 10px 0px;
+    padding:0px 20px 10px 0px;
 }
 
 .field-normal > .field-label{
@@ -2161,7 +2161,7 @@ td > .field-normal,td > .field-wide{
 }
 
 .field-normal .control-checkbox + label{
-    width:180px;
+    width:175px;
 }
 
 .control-radio{
@@ -3087,7 +3087,23 @@ div.field-control .ui-multiselect.ui-state-disabled{
 .current-time{
     position:absolute;
     top:9px;
-    right:7px;
+    right:-17px;
+    cursor:pointer;
+    z-index:10;
+}
+
+.current-user{
+    position:absolute;
+    top:9px;
+    right:-17px;
+    cursor:pointer;
+    z-index:10;
+}
+
+.current-dept{
+    position:absolute;
+    top:9px;
+    right:-17px;
     cursor:pointer;
     z-index:10;
 }

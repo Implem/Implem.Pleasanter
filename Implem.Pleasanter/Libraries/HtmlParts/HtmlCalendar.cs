@@ -60,8 +60,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelText: Displays.Column(context: context),
                     optionCollection: ss.CalendarColumnOptions(context: context),
                     selectedValue: toColumn == null
-                        ? fromColumn.ColumnName
-                        : $"{fromColumn.ColumnName}-{toColumn.ColumnName}",
+                        ? fromColumn?.ColumnName
+                        : $"{fromColumn?.ColumnName}-{toColumn?.ColumnName}",
                     action: "Calendar",
                     method: "post")
                 .FieldTextBox(
@@ -131,13 +131,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             hb
                 .Hidden(
                     controlId: "CalendarCanUpdate",
-                    value: (
-                        !fromColumn.RecordedTime
-                        && !fromColumn.GetEditorReadOnly()
-                        && fromColumn.CanUpdate(
+                    value: (fromColumn?.RecordedTime != true
+                        && fromColumn?.GetEditorReadOnly() != true
+                        && fromColumn?.CanUpdate(
                             context: context,
                             ss: ss,
-                            mine: null)
+                            mine: null) == true
                         && timePeriod != "Yearly"
                         && groupBy == null).ToOneOrZeroString())
                 .Hidden(
@@ -158,7 +157,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         context: context))
                 .Hidden(
                     controlId: "CalendarFromDefaultInput",
-                    value: fromColumn.DefaultInput)
+                    value: fromColumn?.DefaultInput)
                 .Hidden(
                     controlId: "CalendarToDefaultInput",
                     value: toColumn?.DefaultInput);
@@ -242,7 +241,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         {
                             hb.Th(
                                 css: "ui-widget-header",
-                                action: () => hb.Text(groupBy.LabelText),
+                                action: () => hb.Text(groupBy?.LabelText),
                                 _using: groupBy != null);
                             for (var x = 0; x < 12; x++)
                             {
@@ -301,7 +300,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         {
                             hb.Th(
                                 css: "ui-widget-header",
-                                action: () => hb.Text(groupBy.LabelText),
+                                action: () => hb.Text(groupBy?.LabelText),
                                 _using: groupBy != null);
                             for (var x = 0; x < 7; x++)
                             {
@@ -372,7 +371,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         {
                             hb.Th(
                                 css: "ui-widget-header",
-                                action: () => hb.Text(groupBy.LabelText),
+                                action: () => hb.Text(groupBy?.LabelText),
                                 _using: groupBy != null);
                             for (var x = 0; x < 7; x++)
                             {
@@ -430,7 +429,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return dataRows
                 .GroupBy(
-                    dataRow => dataRow.String(groupBy.ColumnName),
+                    dataRow => dataRow.String(groupBy?.ColumnName),
                     dataRow =>
                         CreateCalendarElement(
                             context: context,
@@ -483,7 +482,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return new CalendarElement(
                 id: dataRow.Long("Id"),
                 title: dataRow.String("ItemTitle"),
-                time: (from.EditorFormat == "Ymdhm"
+                time: (from?.EditorFormat == "Ymdhm"
                     ? dataRow.DateTime("From").ToLocal(context: context).ToString("HH:mm") + " "
                     : null),
                 from: ConvertIfCompletionTime(

@@ -139,7 +139,7 @@ namespace Implem.Pleasanter.Models
                         }
                         break;
                     default:
-                        switch (Def.ExtendedColumnTypes.Get(column.Name))
+                        switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                         {
                             case "Class":
                                 if (groupModel.Class_Updated(
@@ -264,7 +264,7 @@ namespace Implem.Pleasanter.Models
                         }
                         break;
                     default:
-                        switch (Def.ExtendedColumnTypes.Get(column.Name))
+                        switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                         {
                             case "Class":
                                 if (groupModel.Class_Updated(

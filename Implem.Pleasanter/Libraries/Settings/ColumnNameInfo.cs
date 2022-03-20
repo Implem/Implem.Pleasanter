@@ -1,4 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.Settings
 {
     public class ColumnNameInfo
@@ -24,7 +25,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ColumnName = columnName;
             if (columnName.Contains(","))
             {
-                Name = columnName.Split_2nd();
+                Name = columnName.Split(',').Skip(1).Join(string.Empty);
                 TableAlias = columnName.Split_1st();
                 SiteId = ColumnUtilities.GetSiteIdByTableAlias(TableAlias);
                 Joined = true;
@@ -33,6 +34,37 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 Name = columnName;
             }
+        }
+
+        public bool Exists(SiteSettings ss)
+        {
+            if (!ss.ColumnDefinitionHash.ContainsKey(Name))
+            {
+                return false;
+            }
+            if (!ss.JoinedSsHash.ContainsKey(SiteId))
+            {
+                return false;
+            }
+            foreach (var part in TableAlias.Split('-'))
+            {
+                var columnName = part.Split('~').First();
+                var siteId = part.Split('~').Skip(1).Join(string.Empty);
+                if (!siteId.All(char.IsDigit))
+                {
+                    return false;
+                }
+                var currentSs = ss.JoinedSsHash.Get(siteId.ToLong());
+                if (currentSs == null)
+                {
+                    return false;
+                }
+                if (!currentSs.ColumnDefinitionHash.ContainsKey(columnName))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

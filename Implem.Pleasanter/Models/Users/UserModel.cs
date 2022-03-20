@@ -1118,7 +1118,7 @@ namespace Implem.Pleasanter.Models
                             : string.Empty;
                     break;
                 default:
-                    switch (Def.ExtendedColumnTypes.Get(column.Name))
+                    switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                     {
                         case "Class":
                             value = ss.ReadColumnAccessControls.Allowed(
@@ -1342,7 +1342,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 userModel: this);
             column = (column ?? Rds.UsersDefaultColumns());
-            join = join ??  Rds.UsersJoinDefault();
+            join = join ?? Rds.UsersJoinDefault();
             Set(context, ss, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectUsers(
@@ -1681,7 +1681,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         column: column);
                 default:
-                    switch (Def.ExtendedColumnTypes.Get(column.Name))
+                    switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                     {
                         case "Class":
                             return GetClass(columnName: column.Name).ToDisplay(
@@ -2032,7 +2032,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         column: column);
                 default:
-                    switch (Def.ExtendedColumnTypes.Get(column.Name))
+                    switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                     {
                         case "Class":
                             return GetClass(columnName: column.Name).ToApiDisplayValue(
@@ -2383,7 +2383,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         column: column);
                 default:
-                    switch (Def.ExtendedColumnTypes.Get(column.Name))
+                    switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                     {
                         case "Class":
                             return GetClass(columnName: column.Name).ToApiValue(
@@ -2760,7 +2760,7 @@ namespace Implem.Pleasanter.Models
                             var column = ss.GetColumn(
                                 context: context,
                                 columnName: key.Split_2nd('_'));
-                            switch (Def.ExtendedColumnTypes.Get(column?.ColumnName))
+                            switch (Def.ExtendedColumnTypes.Get(column?.ColumnName ?? string.Empty))
                             {
                                 case "Class":
                                     GetClass(
@@ -3062,7 +3062,7 @@ namespace Implem.Pleasanter.Models
         private void Set(Context context, SiteSettings ss, DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
-            foreach(DataColumn dataColumn in dataRow.Table.Columns)
+            foreach (DataColumn dataColumn in dataRow.Table.Columns)
             {
                 var column = new ColumnNameInfo(dataColumn.ColumnName);
                 if (column.TableAlias == tableAlias)
@@ -3272,7 +3272,7 @@ namespace Implem.Pleasanter.Models
                                 ? Versions.VerTypes.History
                                 : Versions.VerTypes.Latest; break;
                         default:
-                            switch (Def.ExtendedColumnTypes.Get(column.Name))
+                            switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                             {
                                 case "Class":
                                     GetClass(

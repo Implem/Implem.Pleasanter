@@ -548,7 +548,7 @@ namespace Implem.Pleasanter.Models
                 case "Creator": return Creator_Updated(context: context);
                 case "Updator": return Updator_Updated(context: context);
                 default: 
-                    switch (Def.ExtendedColumnTypes.Get(name))
+                    switch (Def.ExtendedColumnTypes.Get(name ?? string.Empty))
                     {
                         case "Class": return Class_Updated(name);
                         case "Num": return Num_Updated(name);
@@ -675,7 +675,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 siteModel: this);
             column = (column ?? Rds.SitesDefaultColumns());
-            join = join ??  Rds.SitesJoinDefault();
+            join = join ?? Rds.SitesJoinDefault();
             Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectSites(
@@ -799,7 +799,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         column: column);
                 default:
-                    switch (Def.ExtendedColumnTypes.Get(column.Name))
+                    switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                     {
                         case "Class":
                             return GetClass(columnName: column.Name).ToDisplay(
@@ -1311,7 +1311,7 @@ namespace Implem.Pleasanter.Models
                             var column = ss.GetColumn(
                                 context: context,
                                 columnName: key.Split_2nd('_'));
-                            switch (Def.ExtendedColumnTypes.Get(column?.ColumnName))
+                            switch (Def.ExtendedColumnTypes.Get(column?.ColumnName ?? string.Empty))
                             {
                                 case "Class":
                                     GetClass(
@@ -1563,7 +1563,7 @@ namespace Implem.Pleasanter.Models
                                 condition: filter.Value);
                             break;
                         default:
-                            switch (Def.ExtendedColumnTypes.Get(filter.Key))
+                            switch (Def.ExtendedColumnTypes.Get(filter.Key ?? string.Empty))
                             {
                                 case "Class":
                                     match = GetClass(column: column).Matched(
@@ -1653,7 +1653,7 @@ namespace Implem.Pleasanter.Models
         private void Set(Context context, DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
-            foreach(DataColumn dataColumn in dataRow.Table.Columns)
+            foreach (DataColumn dataColumn in dataRow.Table.Columns)
             {
                 var column = new ColumnNameInfo(dataColumn.ColumnName);
                 if (column.TableAlias == tableAlias)
@@ -1798,7 +1798,7 @@ namespace Implem.Pleasanter.Models
                                 ? Versions.VerTypes.History
                                 : Versions.VerTypes.Latest; break;
                         default:
-                            switch (Def.ExtendedColumnTypes.Get(column.Name))
+                            switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                             {
                                 case "Class":
                                     GetClass(
@@ -4643,6 +4643,7 @@ namespace Implem.Pleasanter.Models
                     afterCopy: context.Forms.Bool("NotificationAfterCopy"),
                     afterBulkUpdate: context.Forms.Bool("NotificationAfterBulkUpdate"),
                     afterBulkDelete: context.Forms.Bool("NotificationAfterBulkDelete"),
+                    afterImport: context.Forms.Bool("NotificationAfterImport"),
                     disabled: context.Forms.Bool("NotificationDisabled")));
                 SetNotificationsResponseCollection(context: context, res: res);
             }
@@ -4685,6 +4686,7 @@ namespace Implem.Pleasanter.Models
                         afterCopy: context.Forms.Bool("NotificationAfterCopy"),
                         afterBulkUpdate: context.Forms.Bool("NotificationAfterBulkUpdate"),
                         afterBulkDelete: context.Forms.Bool("NotificationAfterBulkDelete"),
+                        afterImport: context.Forms.Bool("NotificationAfterImport"),
                         disabled: context.Forms.Bool("NotificationDisabled"));
                     SetNotificationsResponseCollection(context: context, res: res);
                 }

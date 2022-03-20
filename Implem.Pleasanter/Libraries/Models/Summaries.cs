@@ -219,7 +219,7 @@ namespace Implem.Pleasanter.Libraries.Models
                             sourceColumn: sourceColumn,
                             sourceCondition: sourceCondition)).AsEnumerable();
                 default:
-                    switch (Def.ExtendedColumnTypes.Get(destinationColumn))
+                    switch (Def.ExtendedColumnTypes.Get(destinationColumn ?? string.Empty))
                     {
                         case "Num":
                             return Repository.ExecuteTable(
@@ -247,7 +247,7 @@ namespace Implem.Pleasanter.Libraries.Models
             {
                 case "WorkValue": issueModel.WorkValue.Value = value; break;
                 default:
-                    switch (Def.ExtendedColumnTypes.Get(destinationColumn))
+                    switch (Def.ExtendedColumnTypes.Get(destinationColumn ?? string.Empty))
                     {
                         case "Num":
                             issueModel.GetNum(
@@ -359,7 +359,7 @@ namespace Implem.Pleasanter.Libraries.Models
             switch (destinationColumn)
             {
                 default:
-                    switch (Def.ExtendedColumnTypes.Get(destinationColumn))
+                    switch (Def.ExtendedColumnTypes.Get(destinationColumn ?? string.Empty))
                     {
                         case "Num":
                             return Repository.ExecuteTable(
@@ -386,7 +386,7 @@ namespace Implem.Pleasanter.Libraries.Models
             switch (destinationColumn)
             {
                 default:
-                    switch (Def.ExtendedColumnTypes.Get(destinationColumn))
+                    switch (Def.ExtendedColumnTypes.Get(destinationColumn ?? string.Empty))
                     {
                         case "Num":
                             resultModel.GetNum(
@@ -589,7 +589,7 @@ namespace Implem.Pleasanter.Libraries.Models
                         _as: "Value",
                         function: Sqls.Functions.Sum);
                 default:
-                    switch (Def.ExtendedColumnTypes.Get(sourceColumn))
+                    switch (Def.ExtendedColumnTypes.Get(sourceColumn ?? string.Empty))
                     {
                         case "Num":
                             return issuesColumn.Add(
@@ -610,7 +610,7 @@ namespace Implem.Pleasanter.Libraries.Models
             switch (sourceColumn)
             {
                 default:
-                    switch (Def.ExtendedColumnTypes.Get(sourceColumn))
+                    switch (Def.ExtendedColumnTypes.Get(sourceColumn ?? string.Empty))
                     {
                         case "Num":
                             return resultsColumn.Add(
@@ -669,7 +669,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     return issuesColumn.RemainingWorkValue(
                         _as: "Value", function: Sqls.Functions.Avg);
                 default:
-                    switch (Def.ExtendedColumnTypes.Get(sourceColumn))
+                    switch (Def.ExtendedColumnTypes.Get(sourceColumn ?? string.Empty))
                     {
                         case "Num":
                             return issuesColumn.Add(
@@ -690,7 +690,7 @@ namespace Implem.Pleasanter.Libraries.Models
             switch (sourceColumn)
             {
                 default:
-                    switch (Def.ExtendedColumnTypes.Get(sourceColumn))
+                    switch (Def.ExtendedColumnTypes.Get(sourceColumn ?? string.Empty))
                     {
                         case "Num":
                             return resultsColumn.Add(
@@ -749,7 +749,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     return issuesColumn.RemainingWorkValue(
                         _as: "Value", function: Sqls.Functions.Min);
                 default:
-                    switch (Def.ExtendedColumnTypes.Get(sourceColumn))
+                    switch (Def.ExtendedColumnTypes.Get(sourceColumn ?? string.Empty))
                     {
                         case "Num":
                             return issuesColumn.Add(
@@ -770,7 +770,7 @@ namespace Implem.Pleasanter.Libraries.Models
             switch (sourceColumn)
             {
                 default:
-                    switch (Def.ExtendedColumnTypes.Get(sourceColumn))
+                    switch (Def.ExtendedColumnTypes.Get(sourceColumn ?? string.Empty))
                     {
                         case "Num":
                             return resultsColumn.Add(
@@ -829,7 +829,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     return issuesColumn.RemainingWorkValue(
                         _as: "Value", function: Sqls.Functions.Max);
                 default:
-                    switch (Def.ExtendedColumnTypes.Get(sourceColumn))
+                    switch (Def.ExtendedColumnTypes.Get(sourceColumn ?? string.Empty))
                     {
                         case "Num":
                             return issuesColumn.Add(
@@ -850,7 +850,7 @@ namespace Implem.Pleasanter.Libraries.Models
             switch (sourceColumn)
             {
                 default:
-                    switch (Def.ExtendedColumnTypes.Get(sourceColumn))
+                    switch (Def.ExtendedColumnTypes.Get(sourceColumn ?? string.Empty))
                     {
                         case "Num":
                             return resultsColumn.Add(
@@ -867,7 +867,7 @@ namespace Implem.Pleasanter.Libraries.Models
         private static SqlWhereCollection IssuesWhere(
             IEnumerable<long> destinations, long sourceSiteId, string linkColumn)
         {
-            return Def.ExtendedColumnTypes.ContainsKey(linkColumn)
+            return Def.ExtendedColumnTypes.ContainsKey(linkColumn ?? string.Empty)
                 ? Rds.IssuesWhere()
                     .SiteId(value: sourceSiteId)
                     .Add(
@@ -876,13 +876,13 @@ namespace Implem.Pleasanter.Libraries.Models
                             .Select(o => "'" + o + "'")
                             .Join(",")),
                         _operator: " in ")
-                    : null;
+                : null;
         }
 
         private static SqlWhereCollection ResultsWhere(
             IEnumerable<long> destinations, long sourceSiteId, string linkColumn)
         {
-            return Def.ExtendedColumnTypes.ContainsKey(linkColumn)
+            return Def.ExtendedColumnTypes.ContainsKey(linkColumn ?? string.Empty)
                 ? Rds.ResultsWhere()
                     .SiteId(value: sourceSiteId)
                     .Add(
@@ -891,7 +891,7 @@ namespace Implem.Pleasanter.Libraries.Models
                             .Select(o => "'" + o + "'")
                             .Join(",")),
                         _operator: " in ")
-                    : null;
+                : null;
         }
 
         private static SqlWhereCollection Where(

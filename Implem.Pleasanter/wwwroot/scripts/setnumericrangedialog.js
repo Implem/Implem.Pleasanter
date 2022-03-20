@@ -29,16 +29,16 @@ $p.openSiteSetNumericRangeDialog = function ($control) {
                 endValue = values[1];
             }
         }
-        $('#numericRangeStart').val(startValue);
-        $('#numericRangeEnd').val(endValue);
+        $('#NumericRangeStart').val(startValue);
+        $('#NumericRangeEnd').val(endValue);
     }
     else {
         $('#SetNumericRangeDialog').removeClass('loop');
     }
 }
 $p.openSetNumericRangeOK = function ($controlID) {
-    $start = $('#numericRangeStart');
-    $end = $('#numericRangeEnd');
+    $start = $('#NumericRangeStart');
+    $end = $('#NumericRangeEnd');
     $start.validate();
     $end.validate();
     if (!$start.valid() || !$end.valid()) {
@@ -47,8 +47,8 @@ $p.openSetNumericRangeOK = function ($controlID) {
     }
     $control = $('[id="' + $controlID + '"]');
     $target = $('[id="' + $controlID.replace('_NumericRange', '') + '"]');
-    var sdval = $('#numericRangeStart').val();
-    var edval = $('#numericRangeEnd').val();
+    var sdval = $('#NumericRangeStart').val();
+    var edval = $('#NumericRangeEnd').val();
     var setval = '';
     var dispval = '';
     if (sdval || edval) {
@@ -71,7 +71,7 @@ $p.closeSiteSetNumericRangeDialog = function ($controlID) {
     }
 }
 $p.openSetNumericRangeClear = function ($control) {
-    $('#numericRangeStart').val('');
-    $('#numericRangeEnd').val('');
+    $('#NumericRangeStart').val('');
+    $('#NumericRangeEnd').val('');
     $p.clearMessage();
 }

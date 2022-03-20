@@ -207,7 +207,7 @@ namespace Implem.Pleasanter.Models
             DataRow dataRow,
             string tableAlias)
         {
-            foreach(DataColumn dataColumn in dataRow.Table.Columns)
+            foreach (DataColumn dataColumn in dataRow.Table.Columns)
             {
                 var column = new ColumnNameInfo(dataColumn.ColumnName);
                 if (column.TableAlias == tableAlias)
@@ -254,7 +254,7 @@ namespace Implem.Pleasanter.Models
                             CreatedTime = new Time(context, dataRow, column.ColumnName);
                             break;
                         default:
-                            switch (Def.ExtendedColumnTypes.Get(column.Name))
+                            switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                             {
                                 case "Class":
                                     Class(
@@ -290,7 +290,7 @@ namespace Implem.Pleasanter.Models
 
         public void AddDestination(IExportModel exportModel, string columnName)
         {
-            switch (Def.ExtendedColumnTypes.Get(columnName))
+            switch (Def.ExtendedColumnTypes.Get(columnName ?? string.Empty))
             {
                 case "Class":
                     Class(
@@ -311,7 +311,7 @@ namespace Implem.Pleasanter.Models
 
         public void ReplaceIdHash(string columnName, Dictionary<long, long> idHash)
         {
-            switch (Def.ExtendedColumnTypes.Get(columnName))
+            switch (Def.ExtendedColumnTypes.Get(columnName ?? string.Empty))
             {
                 case "Class":
                     Class(

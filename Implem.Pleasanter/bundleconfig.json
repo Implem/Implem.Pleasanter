@@ -40,6 +40,7 @@
             "wwwroot/scripts/columnaccesscontrol.js",
             "wwwroot/scripts/confirm.js",
             "wwwroot/scripts/confirmevents.js",
+            "wwwroot/scripts/controloptionevents.js",
             "wwwroot/scripts/crosstab.js",
             "wwwroot/scripts/datetime.js",
             "wwwroot/scripts/dialog.js",

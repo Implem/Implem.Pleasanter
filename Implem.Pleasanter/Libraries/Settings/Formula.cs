@@ -121,7 +121,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             if (ColumnName != null)
             {
-                formula += ss.FormulaColumn(ColumnName).LabelText;
+                formula += ss.FormulaColumn(ColumnName)?.LabelText;
             }
             if (RawValue != null)
             {

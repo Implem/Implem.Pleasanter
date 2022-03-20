@@ -26,15 +26,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return
                 hb.Form(
                     attributes: new HtmlAttributes()
-                        .Id("dateRangeForm")
+                        .Id("DateRangeForm")
                         .Action(Locations.ItemAction(
                             context: context,
                             id: ss.SiteId)),
                     action: () => hb
                         .FieldTextBox(
                             textType: HtmlTypes.TextTypes.DateTime,
-                            fieldId: "dateRangeStartFieldField",
-                            controlId: "dateRangeStart",
+                            fieldId: "DateRangeStartFieldField",
+                            controlId: "DateRangeStart",
                             fieldDescription: column.Description,
                             labelText: Displays.Start(context: context),
                             controlOnly: false,
@@ -52,11 +52,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 ? null
                                 : new Dictionary<string, string>() {
                                     { "data-step", column.DateTimeStep?.ToString() }
-                                })
+                                },
+                            controlOption: () => hb
+                                .Div(css: "ui-icon ui-icon-clock current-time"))
                         .FieldTextBox(
                             textType: HtmlTypes.TextTypes.DateTime,
-                            fieldId: "dateRangeEndField",
-                            controlId: "dateRangeEnd",
+                            fieldId: "DateRangeEndField",
+                            controlId: "DateRangeEnd",
                             fieldDescription: column.Description,
                             labelText: Displays.End(context: context),
                             controlOnly: false,
@@ -74,45 +76,47 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 ? null
                                 : new Dictionary<string, string>() {
                                     { "data-step", column.DateTimeStep?.ToString() }
-                                })
+                                },
+                            controlOption: () => hb
+                                .Div(css: "ui-icon ui-icon-clock current-time"))
                         .P(css: "message-dialog")
                         .Div(
                             css: "command-center",
                             action: () => hb
                                 .Button(
                                     text: Displays.OK(context: context),
-                                    controlId: "dateRangeOK",
+                                    controlId: "DateRangeOK",
                                     controlCss: "button-icon validate",
                                     onClick: $"$p.openSetDateRangeOK('{context.Forms.ControlId()}','{(column.DateTimepicker() ? "DateTimepicker" : string.Empty)}');",
                                     icon: "ui-icon-arrowreturnthick-1-e",
                                     method: "post")
                                 .Button(
                                     text: Displays.Cancel(context: context),
-                                    controlId: "dateRangeCancel",
+                                    controlId: "DateRangeCancel",
                                     controlCss: "button-icon",
                                     onClick: $"$p.closeSiteSetDateRangeDialog('{context.Forms.ControlId()}')",
                                     icon: "ui-icon-cancel")
                                 .Button(
                                     text: Displays.Clear(context: context),
-                                    controlId: "dateRangeClear",
+                                    controlId: "DateRangeClear",
                                     controlCss: "button-icon",
                                     onClick: "$p.openSetDateRangeClear($(this));",
                                     icon: "ui-icon-cancel")
                                 .Button(
                                     text: Displays.Today(context: context),
-                                    controlId: "dateRangeToday",
+                                    controlId: "DateRangeToday",
                                     controlCss: "button-icon",
                                     onClick: $"$p.openSetDateRangeOK('{context.Forms.ControlId()}','Today');",
                                     icon: "ui-icon-clock")
                                 .Button(
                                     text: Displays.ThisMonth(context: context),
-                                    controlId: "dateRangeThisMonth",
+                                    controlId: "DateRangeThisMonth",
                                     controlCss: "button-icon",
                                     onClick: $"$p.openSetDateRangeOK('{context.Forms.ControlId()}','ThisMonth');",
                                     icon: "ui-icon-clock")
                                 .Button(
                                     text: Displays.ThisYear(context: context),
-                                    controlId: "dateRangeThisYear",
+                                    controlId: "DateRangeThisYear",
                                     controlCss: "button-icon",
                                     onClick: $"$p.openSetDateRangeOK('{context.Forms.ControlId()}','ThisYear');",
                                     icon: "ui-icon-clock")));

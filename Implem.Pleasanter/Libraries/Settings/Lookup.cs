@@ -140,7 +140,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             column: column,
                             type: Type);
                     default:
-                        switch (Def.ExtendedColumnTypes.Get(column.Name))
+                        switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                         {
                             case "Class":
                                 return deptModel.GetClass(column: column).ToLookup(
@@ -286,7 +286,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             column: column,
                             type: Type);
                     default:
-                        switch (Def.ExtendedColumnTypes.Get(column.Name))
+                        switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                         {
                             case "Class":
                                 return groupModel.GetClass(column: column).ToLookup(
@@ -606,7 +606,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             column: column,
                             type: Type);
                     default:
-                        switch (Def.ExtendedColumnTypes.Get(column.Name))
+                        switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                         {
                             case "Class":
                                 return userModel.GetClass(column: column).ToLookup(
@@ -806,7 +806,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             column: column,
                             type: Type);
                     default:
-                        switch (Def.ExtendedColumnTypes.Get(column.Name))
+                        switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                         {
                             case "Class":
                                 return issueModel.GetClass(column: column).ToLookup(
@@ -976,7 +976,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             column: column,
                             type: Type);
                     default:
-                        switch (Def.ExtendedColumnTypes.Get(column.Name))
+                        switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                         {
                             case "Class":
                                 return resultModel.GetClass(column: column).ToLookup(

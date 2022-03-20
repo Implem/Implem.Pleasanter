@@ -25,15 +25,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
             return hb.Form(
                 attributes: new HtmlAttributes()
-                    .Id("numericRangeForm")
+                    .Id("NumericRangeForm")
                     .Action(Locations.ItemAction(
                         context: context,
                         id: ss.SiteId)),
                 action: () => hb
                     .FieldTextBox(
                         textType: HtmlTypes.TextTypes.Normal,
-                        fieldId: "numericRangeStartField",
-                        controlId: "numericRangeStart",
+                        fieldId: "NumericRangeStartField",
+                        controlId: "NumericRangeStart",
                         fieldDescription: column.Description,
                         labelText: Displays.Start(context: context),
                         controlOnly: false,
@@ -46,8 +46,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         validateMaxLength: column.ValidateMaxLength ?? 0)
                     .FieldTextBox(
                         textType: HtmlTypes.TextTypes.Normal,
-                        fieldId: "numericRangeEndField",
-                        controlId: "numericRangeEnd",
+                        fieldId: "NumericRangeEndField",
+                        controlId: "NumericRangeEnd",
                         fieldDescription: column.Description,
                         labelText: Displays.End(context: context),
                         controlOnly: false,

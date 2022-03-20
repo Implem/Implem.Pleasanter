@@ -32,6 +32,7 @@ namespace Implem.Pleasanter.App_Start
                 "~/scripts/columnaccesscontrol.js",
                 "~/scripts/confirm.js",
                 "~/scripts/confirmevents.js",
+                "~/scripts/controloptionevents.js",
                 "~/scripts/crosstab.js",
                 "~/scripts/datetime.js",
                 "~/scripts/dialog.js",
