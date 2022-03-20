@@ -1121,6 +1121,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.MultipleSelections = column.MultipleSelections;
                     }
+                    if (column.NotInsertBlankChoice == true)
+                    {
+                        enabled = true;
+                        newColumn.NotInsertBlankChoice = column.NotInsertBlankChoice;
+                    }
                     if (column.DefaultInput != columnDefinition.DefaultInput)
                     {
                         enabled = true;
@@ -1707,6 +1712,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.ChoicesText = column.ChoicesText ?? columnDefinition.ChoicesText;
                 column.UseSearch = column.UseSearch ?? columnDefinition.UseSearch;
                 column.MultipleSelections = column.MultipleSelections ?? false;
+                column.NotInsertBlankChoice = column.NotInsertBlankChoice ?? false;
                 column.DefaultInput = column.DefaultInput ?? columnDefinition.DefaultInput;
                 column.GridFormat = column.GridFormat ?? columnDefinition.GridFormat;
                 column.EditorFormat = column.EditorFormat ?? columnDefinition.EditorFormat;
@@ -3543,6 +3549,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     context: context, column: column); break;
                 case "UseSearch": column.UseSearch = value.ToBool(); break;
                 case "MultipleSelections": column.MultipleSelections = value.ToBool(); break;
+                case "NotInsertBlankChoice": column.NotInsertBlankChoice = value.ToBool(); break;
                 case "DefaultInput": column.DefaultInput = value; break;
                 case "GridFormat": column.GridFormat = value; break;
                 case "EditorFormat": column.EditorFormat = value; break;

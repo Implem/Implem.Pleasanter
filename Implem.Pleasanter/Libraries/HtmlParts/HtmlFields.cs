@@ -496,7 +496,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 optionCollection: optionCollection,
                                 selectedValue: value,
                                 multiple: column.MultipleSelections == true,
-                                insertBlank: column.MultipleSelections != true,
+                                insertBlank: column.MultipleSelections != true
+                                    && column.NotInsertBlankChoice != true,
                                 alwaysSend: alwaysSend,
                                 validateRequired: required,
                                 column: column,

@@ -4249,6 +4249,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string NotInsertBlankChoice(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "NotInsertBlankChoice",
+                data: data);
+        }
+
         public static string InternalServerError(
             Context context,
             params string[] data)

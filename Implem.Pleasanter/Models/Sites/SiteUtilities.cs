@@ -6071,6 +6071,11 @@ namespace Implem.Pleasanter.Models
                                                 controlId: "MultipleSelections",
                                                 labelText: Displays.MultipleSelections(context: context),
                                                 _checked: column.MultipleSelections == true,
+                                                _using: column.TypeName == "nvarchar")
+                                            .FieldCheckBox(
+                                                controlId: "NotInsertBlankChoice",
+                                                labelText: Displays.NotInsertBlankChoice(context: context),
+                                                _checked: column.NotInsertBlankChoice == true,
                                                 _using: column.TypeName == "nvarchar");
                                         break;
                                     default:

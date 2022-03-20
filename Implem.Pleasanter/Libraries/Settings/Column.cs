@@ -71,6 +71,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ChoicesText;
         public bool? UseSearch;
         public bool? MultipleSelections;
+        public bool? NotInsertBlankChoice;
         public string DefaultInput;
         public string GridFormat;
         public string EditorFormat;
