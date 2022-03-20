@@ -194,7 +194,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                         value = value.Replace(match.Value, Displays.Users(context: context));
                         break;
                     case "[UserId]":
-                        value = value.Replace(match.Value, Id > 0
+                        value = value.Replace(match.Value, Id > 0 && !Anonymous()
                             ? Id.ToString()
                             : string.Empty);
                         break;
