@@ -273,6 +273,12 @@ namespace Implem.Libraries.Utilities
 
         public static decimal ToDecimal(this object self, CultureInfo cultureInfo)
         {
+            if (self is string value)
+            {
+                self = new string(value
+                    .SkipWhile(c => c == (char)92 || c == (char)165)
+                    .ToArray());
+            }
             decimal data;
             if (self != null && decimal.TryParse(
                 self.ToString(), NumberStyles.Any, cultureInfo, out data))

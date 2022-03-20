@@ -274,7 +274,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             {
                                 hb.Th();
                             }
-                            choicesX.ForEach(choiceX => hb
+                            choicesX?.ForEach(choiceX => hb
                                 .Th(action: () => hb
                                     .HeaderText(
                                         context: context,
@@ -315,7 +315,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         ? row.Max(o => o.Value)
                                         : 0;
                                 }
-                                choicesX.ForEach(choiceX => hb
+                                choicesX?.ForEach(choiceX => hb
                                     .Td(
                                         context: context,
                                         ss: ss,

@@ -2376,7 +2376,7 @@ namespace Implem.Pleasanter.Models.Shared
             Column column,
             bool toLocal = false)
         {
-            switch (Def.ExtendedColumnTypes.Get(column?.ColumnName))
+            switch (Def.ExtendedColumnTypes.Get(column?.ColumnName ?? string.Empty))
             {
                 case "Class":
                     return Class(columnName: column.ColumnName);
@@ -2407,7 +2407,7 @@ namespace Implem.Pleasanter.Models.Shared
             string value,
             bool toUniversal = false)
         {
-            switch (Def.ExtendedColumnTypes.Get(column.ColumnName))
+            switch (Def.ExtendedColumnTypes.Get(column?.ColumnName ?? string.Empty))
             {
                 case "Class":
                     Class(

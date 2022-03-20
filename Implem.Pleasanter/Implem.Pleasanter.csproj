@@ -1432,7 +1432,7 @@
     <Content Include="Scripts\Confirm.js" />
     <Content Include="Scripts\ConfirmEvents.js" />
     <Content Include="Scripts\Crosstab.js" />
-    <Content Include="Scripts\DateTime.js" />
+    <Content Include="Scripts\ControlOptionEvents.js" />
     <Content Include="Scripts\Dialog.js" />
     <Content Include="Scripts\DialogEvents.js" />
     <Content Include="Scripts\Display.js" />
@@ -2391,6 +2391,11 @@
     <Content Include="App_Data\Displays\Overflow.json" />
     <Content Include="App_Data\Displays\ResetType.json" />
     <Content Include="App_Data\Displays\String.json" />
+    <Content Include="App_Data\Displays\AfterBulkDelete.json" />
+    <Content Include="App_Data\Displays\AfterBulkUpdate.json" />
+    <Content Include="App_Data\Displays\AfterCopy.json" />
+    <Content Include="App_Data\Displays\AfterImport.json" />
+    <Content Include="App_Data\Displays\NotInsertBlankChoice.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

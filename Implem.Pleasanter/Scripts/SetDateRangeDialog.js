@@ -34,8 +34,8 @@ $p.openSiteSetDateRangeDialog = function ($control, timepicker) {
                 endValue = timepicker ? values[1] : values[1].split(' ')[0];
             }
         }
-        $('#dateRangeStart').val(startValue);
-        $('#dateRangeEnd').val(endValue);
+        $('#DateRangeStart').val(startValue);
+        $('#DateRangeEnd').val(endValue);
     }
     else
     {
@@ -43,8 +43,8 @@ $p.openSiteSetDateRangeDialog = function ($control, timepicker) {
     }
 }
 $p.openSetDateRangeOK = function ($controlID, type) {
-    var sdval = $('#dateRangeStart').val();
-    var edval = $('#dateRangeEnd').val();
+    var sdval = $('#DateRangeStart').val();
+    var edval = $('#DateRangeEnd').val();
     var setval = '["' + type + '"]';
     var dispval = $p.display(type);
     switch (type) {
@@ -79,6 +79,6 @@ $p.closeSiteSetDateRangeDialog = function ($controlID) {
     }
 }
 $p.openSetDateRangeClear = function () {
-    $('#dateRangeStart').val('');
-    $('#dateRangeEnd').val('');
+    $('#DateRangeStart').val('');
+    $('#DateRangeEnd').val('');
 }

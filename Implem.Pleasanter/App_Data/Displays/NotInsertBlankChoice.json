@@ -1,0 +1,33 @@
+﻿{
+    "Id": "NotInsertBlankChoice",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Do not insert blanks in choices"
+        },
+        {
+            "Language": "zh",
+            "Body": "不要在选项中插入空格"
+        },
+        {
+            "Language": "ja",
+            "Body": "選択肢にブランクを挿入しない"
+        },
+        {
+            "Language": "de",
+            "Body": "Fügen Sie keine Leerzeichen in Auswahlmöglichkeiten ein"
+        },
+        {
+            "Language": "ko",
+            "Body": "선택 항목에 공백을 삽입하지 마십시오."
+        },
+        {
+            "Language": "es",
+            "Body": "No inserte espacios en blanco en las opciones"
+        },
+        {
+            "Language": "vn",
+            "Body": "Không chèn khoảng trống trong các lựa chọn"
+        }
+    ]
+}

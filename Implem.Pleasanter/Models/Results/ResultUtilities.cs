@@ -974,7 +974,7 @@ namespace Implem.Pleasanter.Models
                                     tabIndex: tabIndex,
                                     serverScriptModelColumn: serverScriptModelColumn);
                     default:
-                        switch (Def.ExtendedColumnTypes.Get(column.Name))
+                        switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                         {
                             case "Class":
                                 return ss.ReadColumnAccessControls.Allowed(
@@ -1153,7 +1153,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         column: column); break;
                     default:
-                        switch (Def.ExtendedColumnTypes.Get(column.Name))
+                        switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                         {
                             case "Class":
                                 value = resultModel.GetClass(columnName: column.Name).GridText(
@@ -2037,7 +2037,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             column: column);
                 default:
-                    switch (Def.ExtendedColumnTypes.Get(column.Name))
+                    switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                     {
                         case "Class":
                             return resultModel.GetClass(columnName: column.Name)
@@ -2388,7 +2388,7 @@ namespace Implem.Pleasanter.Models
                                     options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                 break;
                             default:
-                                switch (Def.ExtendedColumnTypes.Get(column.Name))
+                                switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                                 {
                                     case "Class":
                                         res.Val(
@@ -2620,6 +2620,9 @@ namespace Implem.Pleasanter.Models
                 }
                 view.ColumnFilterHash.Add("ResultId", resultId.ToString());
             }
+            view.MergeSession(sessionView: Views.GetBySession(
+                context: context,
+                ss: ss));
             switch (view.ApiDataType)
             {
                 case View.ApiDataTypes.KeyValues:
@@ -4590,7 +4593,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss.SiteId) + "\n");
                     body.Append(
-                        $"{Displays.Issues_Updator(context: context)}: ",
+                        $"{Displays.Results_Updator(context: context)}: ",
                         $"{context.User.Name}\n");
                     if (notification.AfterBulkDelete != false)
                     {
@@ -5470,6 +5473,31 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             siteId: ss.SiteId)
                                 .ToArray());
+                ss.Notifications.ForEach(notification =>
+                {
+                    var body = new System.Text.StringBuilder();
+                    body.Append(Locations.ItemIndexAbsoluteUri(
+                        context: context,
+                        ss.SiteId) + "\n");
+                    body.Append(
+                        $"{Displays.Results_Updator(context: context)}: ",
+                        $"{context.User.Name}\n");
+                    if (notification.AfterImport != false)
+                    {
+                        notification.Send(
+                            context: context,
+                            ss: ss,
+                            title: Displays.Imported(
+                                context: context,
+                                data: new string[]
+                                {
+                                    ss.Title,
+                                    insertCount.ToString(),
+                                    updateCount.ToString()
+                                }),
+                            body: body.ToString());
+                    }
+                });
                 return GridRows(
                     context: context,
                     ss: ss,
@@ -5478,6 +5506,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         data: new string[]
                         {
+                            ss.Title,
                             insertCount.ToString(),
                             updateCount.ToString()
                         }));
@@ -6885,9 +6914,9 @@ namespace Implem.Pleasanter.Models
                         {
                             Id = o.Long("ResultId"),
                             Title = o.String("ItemTitle"),
-                            GroupX = groupByX.ConvertIfUserColumn(o),
+                            GroupX = groupByX?.ConvertIfUserColumn(o),
                             GroupY = groupByY?.ConvertIfUserColumn(o),
-                            Value = o.Decimal(value.ColumnName)
+                            Value = o.Decimal(value?.ColumnName)
                         });
         }
 

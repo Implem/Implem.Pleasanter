@@ -119,6 +119,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         // compatibility Version 1.012
         public string CalendarColumn;
         public bool? ShowHistory;
+        public bool? MergeSessionViewFilters;
+        public bool? MergeSessionViewSorters;
 
         public View()
         {
@@ -1295,6 +1297,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 view.ShowHistory = true;
             }
+            if (MergeSessionViewFilters == true)
+            {
+                view.MergeSessionViewFilters = true;
+            }
+            if (MergeSessionViewSorters == true)
+            {
+                view.MergeSessionViewSorters = true;
+            }
             return view;
         }
 
@@ -2436,6 +2446,38 @@ namespace Implem.Pleasanter.Libraries.Settings
                     return true;
                 default:
                     return false;
+            }
+        }
+
+        public void MergeSession(View sessionView)
+        {
+            if (MergeSessionViewFilters == true)
+            {
+                Incomplete |= sessionView.Incomplete;
+                Own |= sessionView.Own;
+                NearCompletionTime |= sessionView.NearCompletionTime;
+                Delay |= sessionView.Delay;
+                Overdue |= sessionView.Overdue;
+                Search = Strings.CoalesceEmpty(Search, sessionView.Search);
+                sessionView?.ColumnFilterHash?.ForEach(item =>
+                {
+                    if (ColumnFilterHash == null)
+                    {
+                        ColumnFilterHash = new Dictionary<string, string>();
+                    }
+                    ColumnFilterHash.AddIfNotConainsKey(item.Key, item.Value);
+                });
+            }
+            if (MergeSessionViewSorters == true)
+            {
+                sessionView?.ColumnSorterHash?.ForEach(item =>
+                {
+                    if (ColumnSorterHash == null)
+                    {
+                        ColumnSorterHash = new Dictionary<string, SqlOrderBy.Types>();
+                    }
+                    ColumnSorterHash.AddIfNotConainsKey(item.Key, item.Value);
+                });
             }
         }
     }

@@ -20,7 +20,6 @@ using System.Data;
 using System.Linq;
 using System.Text.RegularExpressions;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
-
 namespace Implem.Pleasanter.Libraries.Settings
 {
     [Serializable()]
@@ -1122,6 +1121,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.MultipleSelections = column.MultipleSelections;
                     }
+                    if (column.NotInsertBlankChoice == true)
+                    {
+                        enabled = true;
+                        newColumn.NotInsertBlankChoice = column.NotInsertBlankChoice;
+                    }
                     if (column.DefaultInput != columnDefinition.DefaultInput)
                     {
                         enabled = true;
@@ -1708,6 +1712,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.ChoicesText = column.ChoicesText ?? columnDefinition.ChoicesText;
                 column.UseSearch = column.UseSearch ?? columnDefinition.UseSearch;
                 column.MultipleSelections = column.MultipleSelections ?? false;
+                column.NotInsertBlankChoice = column.NotInsertBlankChoice ?? false;
                 column.DefaultInput = column.DefaultInput ?? columnDefinition.DefaultInput;
                 column.GridFormat = column.GridFormat ?? columnDefinition.GridFormat;
                 column.EditorFormat = column.EditorFormat ?? columnDefinition.EditorFormat;
@@ -1847,6 +1852,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ColumnHash = Columns
                 .GroupBy(o => o.ColumnName)
                 .Select(o => o.First())
+                .Where(o => ColumnDefinitionHash?.ContainsKey(o?.Name ?? string.Empty) == true)
                 .ToDictionary(o => o.ColumnName, o => o);
         }
 
@@ -1950,7 +1956,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                 && columnName?.Contains(',') == true
                 && JoinOptions().ContainsKey(columnName.Split_1st()) == true)
             {
-                column = AddJoinedColumn(context: context, columnName: columnName);
+                column = AddJoinedColumn(
+                    context: context,
+                    columnName: columnName);
+            }
+            if (ColumnDefinitionHash?.ContainsKey(column?.Name ?? string.Empty) != true)
+            {
+                return null;
             }
             return column;
         }
@@ -1983,6 +1995,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         private Column AddJoinedColumn(Context context, string columnName)
         {
             var columnNameInfo = new ColumnNameInfo(columnName);
+            if (!columnNameInfo.Exists(ss: this))
+            {
+                return null;
+            }
             var ss = JoinedSsHash.Get(columnNameInfo.SiteId);
             var columnDefinition = ss?.ColumnDefinitionHash.Get(columnNameInfo.Name);
             if (columnDefinition != null)
@@ -3533,6 +3549,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     context: context, column: column); break;
                 case "UseSearch": column.UseSearch = value.ToBool(); break;
                 case "MultipleSelections": column.MultipleSelections = value.ToBool(); break;
+                case "NotInsertBlankChoice": column.NotInsertBlankChoice = value.ToBool(); break;
                 case "DefaultInput": column.DefaultInput = value; break;
                 case "GridFormat": column.GridFormat = value; break;
                 case "EditorFormat": column.EditorFormat = value; break;
@@ -4498,6 +4515,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 var column = currentSs?.GetColumn(
                     context: context,
                     columnName: name);
+                if (column == null) continue;
                 path.Add(part);
                 var alias = path.Join("-");
                 if (!tableName.IsNullOrEmpty() && !name.IsNullOrEmpty())

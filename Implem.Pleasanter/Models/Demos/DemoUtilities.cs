@@ -124,15 +124,14 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         userHash: userHash,
                         idHash: idHash);
-                    new UserModel()
-                    {
-                        LoginId = demoModel.LoginId,
-                        Password = userHash.Get(demoModel.LoginId).Sha512Cng()
-                    }.Authenticate(
-                        context: context,
-                        returnUrl: string.Empty);
                     SiteInfo.Reflesh(context: context, force: true);
                 }
+                new UserModel()
+                {
+                    LoginId = demoModel.LoginId,
+                }.Allow(
+                    context: context,
+                    returnUrl: string.Empty);
                 return context.Authenticated;
             }
             else
