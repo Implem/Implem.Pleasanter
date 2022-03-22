@@ -1959,6 +1959,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column = AddJoinedColumn(
                     context: context,
                     columnName: columnName);
+                return column;
             }
             if (ColumnDefinitionHash?.ContainsKey(column?.Name ?? string.Empty) != true)
             {
@@ -1995,11 +1996,13 @@ namespace Implem.Pleasanter.Libraries.Settings
         private Column AddJoinedColumn(Context context, string columnName)
         {
             var columnNameInfo = new ColumnNameInfo(columnName);
-            if (!columnNameInfo.Exists(ss: this))
+            var ss = JoinedSsHash.Get(columnNameInfo.SiteId);
+            if (!columnNameInfo.Exists(
+                ss: ss,
+                joinedSsHash: JoinedSsHash))
             {
                 return null;
             }
-            var ss = JoinedSsHash.Get(columnNameInfo.SiteId);
             var columnDefinition = ss?.ColumnDefinitionHash.Get(columnNameInfo.Name);
             if (columnDefinition != null)
             {
