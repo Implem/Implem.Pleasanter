@@ -1,4 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
+using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Settings
 {
@@ -36,13 +37,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public bool Exists(SiteSettings ss)
+        public bool Exists(SiteSettings ss, Dictionary<long, SiteSettings> joinedSsHash)
         {
             if (!ss.ColumnDefinitionHash.ContainsKey(Name))
             {
                 return false;
             }
-            if (!ss.JoinedSsHash.ContainsKey(SiteId))
+            if (!joinedSsHash.ContainsKey(SiteId))
             {
                 return false;
             }
@@ -54,7 +55,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     return false;
                 }
-                var currentSs = ss.JoinedSsHash.Get(siteId.ToLong());
+                var currentSs = joinedSsHash.Get(siteId.ToLong());
                 if (currentSs == null)
                 {
                     return false;
