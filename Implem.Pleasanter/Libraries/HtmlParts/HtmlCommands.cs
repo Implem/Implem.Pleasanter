@@ -131,6 +131,45 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         break;
                                 }
                                 break;
+                            case "depts":
+                                hb.Common(
+                                    context: context,
+                                    ss: ss,
+                                    view: view,
+                                    readOnly: readOnly,
+                                    updateButton: updateButton,
+                                    copyButton: copyButton,
+                                    moveButton: moveButton,
+                                    mailButton: mailButton,
+                                    deleteButton: deleteButton,
+                                    serverScriptModelRow: serverScriptModelRow);
+                                switch (context.Action)
+                                {
+                                    case "index":
+                                        hb
+                                            .Button(
+                                                controlId: "EditImportSettings",
+                                                text: Displays.Import(context: context),
+                                                controlCss: "button-icon",
+                                                accessKey: "w",
+                                                onClick: "$p.openImportSettingsDialog($(this));",
+                                                icon: "ui-icon-arrowreturnthick-1-e",
+                                                selector: "#ImportSettingsDialog",
+                                                _using: context.CanImport(ss: ss)
+                                                    && !readOnly)
+                                            .Button(
+                                                controlId: "OpenExportSelectorDialogCommand",
+                                                text: Displays.Export(context: context),
+                                                controlCss: "button-icon",
+                                                accessKey: "x",
+                                                onClick: "$p.openExportSelectorDialog($(this));",
+                                                icon: "ui-icon-arrowreturnthick-1-w",
+                                                action: "OpenExportSelectorDialog",
+                                                method: "post",
+                                                _using: context.CanExport(ss: ss));
+                                        break;
+                                }
+                                break;
                             case "registrations":
                                 switch (context.Action)
                                 {
