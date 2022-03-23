@@ -217,12 +217,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     : string.Empty)
                                 + (CanUploadImage(
                                     context: context,
+                                    ss: ss,
                                     readOnly: readOnly,
                                     allowImage: allowImage,
                                     preview: preview)
-                                        && ss?.LockedRecord() != true
-                                            ? " upload-image"
-                                            : string.Empty),
+                                        ? " upload-image"
+                                        : string.Empty),
                                 controlCss))
                                     .Placeholder(placeholder)
                                     .DataAlwaysSend(alwaysSend)
@@ -256,34 +256,42 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return CanUploadImage(
                 context: context,
+                ss: ss,
                 readOnly: readOnly,
                 allowImage: allowImage,
                 preview: preview)
-                    && ss?.LockedRecord() != true
-                        ? hb
-                            .Div(
-                                attributes: new HtmlAttributes()
-                                    .Class("ui-icon ui-icon-image button-upload-image")
-                                    .OnClick($"$p.selectImage('{controlId}');"))
-                            .Div(
-                                attributes: new HtmlAttributes()
-                                    .Class("ui-icon ui-icon-video")
-                                    .OnClick($"$p.openVideo('{controlId}');"),
-                                _using: !mobile)
-                            .TextBox(
-                                controlId: controlId + ".upload-image-file",
-                                controlCss: "hidden upload-image-file",
-                                textType: HtmlTypes.TextTypes.File,
-                                accept: "image/*",
-                                dataId: controlId)
-                        : hb;
+                    ? hb
+                        .Div(
+                            attributes: new HtmlAttributes()
+                                .Class("ui-icon ui-icon-image button-upload-image")
+                                .OnClick($"$p.selectImage('{controlId}');"))
+                        .Div(
+                            attributes: new HtmlAttributes()
+                                .Class("ui-icon ui-icon-video")
+                                .OnClick($"$p.openVideo('{controlId}');"),
+                            _using: !mobile)
+                        .TextBox(
+                            controlId: controlId + ".upload-image-file",
+                            controlCss: "hidden upload-image-file",
+                            textType: HtmlTypes.TextTypes.File,
+                            accept: "image/*",
+                            dataId: controlId)
+                    : hb;
         }
 
         private static bool CanUploadImage(
-            Context context, bool readOnly, bool allowImage, bool preview)
+            Context context,
+            SiteSettings ss,
+            bool readOnly,
+            bool allowImage,
+            bool preview)
         {
             return context.ContractSettings.Images()
-                && !readOnly && allowImage && !preview;
+                && ss?.LockedTable() != true
+                && ss?.LockedRecord() != true
+                && !readOnly
+                && allowImage
+                && !preview;
         }
 
         public static HtmlBuilder MarkUp(
