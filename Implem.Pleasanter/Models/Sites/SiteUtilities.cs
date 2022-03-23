@@ -5659,6 +5659,12 @@ namespace Implem.Pleasanter.Models
                                 {
                                     case "ChoicesText":
                                         hb
+                                            .FieldTextBox(
+                                                textType: HtmlTypes.TextTypes.MultiLine,
+                                                controlId: "ChoicesText",
+                                                fieldCss: "field-wide",
+                                                labelText: Displays.OptionList(context: context),
+                                                text: column.ChoicesText)
                                             .FieldCheckBox(
                                                 controlId: "UseSearch",
                                                 labelText: Displays.UseSearch(context: context),
