@@ -5653,7 +5653,28 @@ namespace Implem.Pleasanter.Models
                                         },
                                     },
                                     selectedValue: column.TextAlign.ToInt().ToString());
-                            if (!column.OtherColumn())
+                            if (column.OtherColumn())
+                            {
+                                switch (column.ControlType)
+                                {
+                                    case "ChoicesText":
+                                        hb
+                                            .FieldTextBox(
+                                                textType: HtmlTypes.TextTypes.MultiLine,
+                                                controlId: "ChoicesText",
+                                                fieldCss: "field-wide",
+                                                labelText: Displays.OptionList(context: context),
+                                                text: column.ChoicesText)
+                                            .FieldCheckBox(
+                                                controlId: "UseSearch",
+                                                labelText: Displays.UseSearch(context: context),
+                                                _checked: column.UseSearch == true);
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                            else
                             {
                                 if (column.TypeName == "nvarchar"
                                     && column.ControlType != "Attachments")
