@@ -169,6 +169,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder MarkDown(
             this HtmlBuilder hb,
             Context context,
+            SiteSettings ss,
             string controlId = null,
             string controlCss = null,
             string text = null,
@@ -201,7 +202,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Id(controlId + ".editor")
                             .Class("ui-icon ui-icon-pencil button-edit-markdown")
                            .OnClick($"$p.editMarkdown($('#{controlId}'));"),
-                       _using: !readOnly);
+                       _using: !readOnly && ss?.LockedRecord() != true);
             }
             hb
                 .TextArea(
@@ -229,6 +230,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     text: text)
                 .MarkDownCommands(
                     context: context,
+                    ss: ss,
                     controlId: controlId,
                     readOnly: readOnly,
                     allowImage: allowImage,
@@ -240,6 +242,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder MarkDownCommands(
             this HtmlBuilder hb,
             Context context,
+            SiteSettings ss,
             string controlId,
             bool readOnly,
             bool allowImage,
@@ -247,6 +250,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool preview)
         {
             return CanUploadImage(context, readOnly, allowImage, preview)
+                && ss?.LockedRecord() != true
                 ? hb
                     .Div(
                         attributes: new HtmlAttributes()

@@ -56,6 +56,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     {
                         hb.MarkDown(
                             context: context,
+                            ss : ss,
                             controlId: controlId,
                             text: Body,
                             allowImage: allowImage,
