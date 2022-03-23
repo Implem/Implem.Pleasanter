@@ -48,7 +48,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string FormStringRaw { get; set; }
         public string FormString { get; set; }
         public List<PostedFile> PostedFiles { get; set; } = new List<PostedFile>();
-        public bool HasRoute { get; set; } = AspNetCoreHttpContext.Current != null;
+        public bool HasRoute { get; set; }
         public string HttpMethod { get; set; }
         public bool Ajax { get; set; }
         public bool Mobile { get; set; }
@@ -83,7 +83,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string TopScript { get; set; }
         public int DeptId { get; set; }
         public int UserId { get; set; }
-        public string LoginId { get; set; } = AspNetCoreHttpContext.Current?.User?.Identity?.Name;
+        public string LoginId { get; set; }
         public Dept Dept { get; set; }
         public User User { get; set; }
         public string UserHostName { get; set; }
@@ -104,9 +104,9 @@ namespace Implem.Pleasanter.Libraries.Requests
         public long ServerScriptDepth { get; set; } = 0;
         public bool ServerScriptDisabled { get; set; }
         public List<ParameterAccessor.Parts.ExtendedField> ExtendedFields { get; set; }
-        public string AuthenticationType { get => AspNetCoreHttpContext.Current?.User?.Identity?.AuthenticationType; }
-        public bool? IsAuthenticated { get => AspNetCoreHttpContext.Current?.User?.Identity?.IsAuthenticated; }
-        public IEnumerable<Claim> UserClaims { get => AspNetCoreHttpContext.Current?.User?.Claims; }
+        public string AuthenticationType { get; set; }
+        public bool? IsAuthenticated { get; set; }
+        public IEnumerable<Claim> UserClaims { get; set; }
 
         public Context(
             bool request = true,
@@ -179,9 +179,18 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         private void SetRequests()
         {
+            HasRoute = AspNetCoreHttpContext.Current != null;
             if (HasRoute)
             {
-                var request = AspNetCoreHttpContext.Current?.Request;
+                var user = AspNetCoreHttpContext.Current.User;
+                if (user != null)
+                {
+                    LoginId = user.Identity?.Name;
+                    AuthenticationType = user.Identity?.AuthenticationType;
+                    IsAuthenticated = user.Identity?.IsAuthenticated;
+                    UserClaims = user.Claims;
+                }
+                var request = AspNetCoreHttpContext.Current.Request;
                 FormStringRaw = CreateFormStringRaw(AspNetCoreHttpContext.Current.Request);
                 FormString = HttpUtility.UrlDecode(FormStringRaw, System.Text.Encoding.UTF8);
                 HttpMethod = request?.Method;
