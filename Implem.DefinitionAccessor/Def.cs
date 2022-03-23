@@ -386,6 +386,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_UpdateAttachmentsStatementsMethod": Code.Model_UpdateAttachmentsStatementsMethod = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateAttachmentsStatementsMethod, definitionRow, CodeXls); break;
                     case "Model_UpdateParams_Items": Code.Model_UpdateParams_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateParams_Items, definitionRow, CodeXls); break;
                     case "Model_UpdateParams_Users": Code.Model_UpdateParams_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateParams_Users, definitionRow, CodeXls); break;
+                    case "Model_UpdateParams_Depts": Code.Model_UpdateParams_Depts = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateParams_Depts, definitionRow, CodeXls); break;
                     case "Model_UpdatePermissions": Code.Model_UpdatePermissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdatePermissions, definitionRow, CodeXls); break;
                     case "Model_UpdateInitSiteSettings": Code.Model_UpdateInitSiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateInitSiteSettings, definitionRow, CodeXls); break;
                     case "Model_OnUpdatingExtendedSqls": Code.Model_OnUpdatingExtendedSqls = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdatingExtendedSqls, definitionRow, CodeXls); break;
@@ -605,6 +606,7 @@ namespace Implem.DefinitionAccessor
                     case "Collection_SiteSettingsArgument": Code.Collection_SiteSettingsArgument = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection_SiteSettingsArgument, definitionRow, CodeXls); break;
                     case "Model_Utilities": Code.Model_Utilities = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities, definitionRow, CodeXls); break;
                     case "Model_Utilities_Index": Code.Model_Utilities_Index = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Index, definitionRow, CodeXls); break;
+                    case "Model_Utilities_TemplateTitle_Depts": Code.Model_Utilities_TemplateTitle_Depts = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TemplateTitle_Depts, definitionRow, CodeXls); break;
                     case "Model_Utilities_ViewSelectorField": Code.Model_Utilities_ViewSelectorField = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ViewSelectorField, definitionRow, CodeXls); break;
                     case "Model_Utilities_ViewSelectorFieldWithShowHistory": Code.Model_Utilities_ViewSelectorFieldWithShowHistory = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ViewSelectorFieldWithShowHistory, definitionRow, CodeXls); break;
                     case "Model_Utilities_TrashBox": Code.Model_Utilities_TrashBox = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TrashBox, definitionRow, CodeXls); break;
@@ -3022,6 +3024,7 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_DropDownSearchDialogForm": Css._sharp_DropDownSearchDialogForm = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_DropDownSearchDialogForm, definitionRow, CssXls); break;
                     case "_sharp_ProcessTabsContainer": Css._sharp_ProcessTabsContainer = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ProcessTabsContainer, definitionRow, CssXls); break;
                     case "_sharp_ViewTabsContainer": Css._sharp_ViewTabsContainer = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ViewTabsContainer, definitionRow, CssXls); break;
+                    case "_sharp_ExportTabsContainer": Css._sharp_ExportTabsContainer = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ExportTabsContainer, definitionRow, CssXls); break;
                     case "_sharp_EditorDetailTabsContainer": Css._sharp_EditorDetailTabsContainer = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_EditorDetailTabsContainer, definitionRow, CssXls); break;
                     case "_sharp_ColumnAccessControlTabsContainer": Css._sharp_ColumnAccessControlTabsContainer = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ColumnAccessControlTabsContainer, definitionRow, CssXls); break;
                     case "_sharp_SearchResults": Css._sharp_SearchResults = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SearchResults, definitionRow, CssXls); break;
@@ -3359,6 +3362,8 @@ namespace Implem.DefinitionAccessor
                     case "_dot_menu_sort_space___space_li_dot_grid_header_filter_space__dot_ui_icon": Css._dot_menu_sort_space___space_li_dot_grid_header_filter_space__dot_ui_icon = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_sort_space___space_li_dot_grid_header_filter_space__dot_ui_icon, definitionRow, CssXls); break;
                     case "_dot_menu_sort_space___space_li_colon_not__dot_grid_header_filter__space_div_dot_field_control_space___space__asterisk_": Css._dot_menu_sort_space___space_li_colon_not__dot_grid_header_filter__space_div_dot_field_control_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_sort_space___space_li_colon_not__dot_grid_header_filter__space_div_dot_field_control_space___space__asterisk_, definitionRow, CssXls); break;
                     case "_dot_current_time": Css._dot_current_time = definitionRow[1].ToString(); SetCssTable(CssTable._dot_current_time, definitionRow, CssXls); break;
+                    case "_dot_current_user": Css._dot_current_user = definitionRow[1].ToString(); SetCssTable(CssTable._dot_current_user, definitionRow, CssXls); break;
+                    case "_dot_current_dept": Css._dot_current_dept = definitionRow[1].ToString(); SetCssTable(CssTable._dot_current_dept, definitionRow, CssXls); break;
                     case "input_colon_focus": Css.input_colon_focus = definitionRow[1].ToString(); SetCssTable(CssTable.input_colon_focus, definitionRow, CssXls); break;
                     case "select_colon_focus_colon_not__dot_has_css_": Css.select_colon_focus_colon_not__dot_has_css_ = definitionRow[1].ToString(); SetCssTable(CssTable.select_colon_focus_colon_not__dot_has_css_, definitionRow, CssXls); break;
                     case "textarea_colon_focus": Css.textarea_colon_focus = definitionRow[1].ToString(); SetCssTable(CssTable.textarea_colon_focus, definitionRow, CssXls); break;
@@ -7539,6 +7544,7 @@ namespace Implem.DefinitionAccessor
         public string Model_UpdateAttachmentsStatementsMethod;
         public string Model_UpdateParams_Items;
         public string Model_UpdateParams_Users;
+        public string Model_UpdateParams_Depts;
         public string Model_UpdatePermissions;
         public string Model_UpdateInitSiteSettings;
         public string Model_OnUpdatingExtendedSqls;
@@ -7758,6 +7764,7 @@ namespace Implem.DefinitionAccessor
         public string Collection_SiteSettingsArgument;
         public string Model_Utilities;
         public string Model_Utilities_Index;
+        public string Model_Utilities_TemplateTitle_Depts;
         public string Model_Utilities_ViewSelectorField;
         public string Model_Utilities_ViewSelectorFieldWithShowHistory;
         public string Model_Utilities_TrashBox;
@@ -8249,6 +8256,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_UpdateAttachmentsStatementsMethod = new CodeDefinition();
         public CodeDefinition Model_UpdateParams_Items = new CodeDefinition();
         public CodeDefinition Model_UpdateParams_Users = new CodeDefinition();
+        public CodeDefinition Model_UpdateParams_Depts = new CodeDefinition();
         public CodeDefinition Model_UpdatePermissions = new CodeDefinition();
         public CodeDefinition Model_UpdateInitSiteSettings = new CodeDefinition();
         public CodeDefinition Model_OnUpdatingExtendedSqls = new CodeDefinition();
@@ -8468,6 +8476,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Collection_SiteSettingsArgument = new CodeDefinition();
         public CodeDefinition Model_Utilities = new CodeDefinition();
         public CodeDefinition Model_Utilities_Index = new CodeDefinition();
+        public CodeDefinition Model_Utilities_TemplateTitle_Depts = new CodeDefinition();
         public CodeDefinition Model_Utilities_ViewSelectorField = new CodeDefinition();
         public CodeDefinition Model_Utilities_ViewSelectorFieldWithShowHistory = new CodeDefinition();
         public CodeDefinition Model_Utilities_TrashBox = new CodeDefinition();
@@ -10883,6 +10892,7 @@ namespace Implem.DefinitionAccessor
         public string _sharp_DropDownSearchDialogForm;
         public string _sharp_ProcessTabsContainer;
         public string _sharp_ViewTabsContainer;
+        public string _sharp_ExportTabsContainer;
         public string _sharp_EditorDetailTabsContainer;
         public string _sharp_ColumnAccessControlTabsContainer;
         public string _sharp_SearchResults;
@@ -11220,6 +11230,8 @@ namespace Implem.DefinitionAccessor
         public string _dot_menu_sort_space___space_li_dot_grid_header_filter_space__dot_ui_icon;
         public string _dot_menu_sort_space___space_li_colon_not__dot_grid_header_filter__space_div_dot_field_control_space___space__asterisk_;
         public string _dot_current_time;
+        public string _dot_current_user;
+        public string _dot_current_dept;
         public string input_colon_focus;
         public string select_colon_focus_colon_not__dot_has_css_;
         public string textarea_colon_focus;
@@ -11415,6 +11427,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_DropDownSearchDialogForm = new CssDefinition();
         public CssDefinition _sharp_ProcessTabsContainer = new CssDefinition();
         public CssDefinition _sharp_ViewTabsContainer = new CssDefinition();
+        public CssDefinition _sharp_ExportTabsContainer = new CssDefinition();
         public CssDefinition _sharp_EditorDetailTabsContainer = new CssDefinition();
         public CssDefinition _sharp_ColumnAccessControlTabsContainer = new CssDefinition();
         public CssDefinition _sharp_SearchResults = new CssDefinition();
@@ -11752,6 +11765,8 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_menu_sort_space___space_li_dot_grid_header_filter_space__dot_ui_icon = new CssDefinition();
         public CssDefinition _dot_menu_sort_space___space_li_colon_not__dot_grid_header_filter__space_div_dot_field_control_space___space__asterisk_ = new CssDefinition();
         public CssDefinition _dot_current_time = new CssDefinition();
+        public CssDefinition _dot_current_user = new CssDefinition();
+        public CssDefinition _dot_current_dept = new CssDefinition();
         public CssDefinition input_colon_focus = new CssDefinition();
         public CssDefinition select_colon_focus_colon_not__dot_has_css_ = new CssDefinition();
         public CssDefinition textarea_colon_focus = new CssDefinition();

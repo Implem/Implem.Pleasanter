@@ -104,6 +104,262 @@ namespace Implem.Pleasanter.Models
                 column.GetDefaultInput(context: context).ToBool() != Disabled);
         }
 
+        public string CsvData(
+            Context context,
+            SiteSettings ss,
+            Column column,
+            ExportColumn exportColumn,
+            List<string> mine,
+            bool? encloseDoubleQuotes)
+        {
+            var value = string.Empty;
+            switch (column.Name)
+            {
+                case "TenantId":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? TenantId.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "DeptId":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? DeptId.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "Ver":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? Ver.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "DeptCode":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? DeptCode.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "Dept":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? Dept.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "DeptName":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? DeptName.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "Body":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? Body.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "Disabled":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? Disabled.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "Comments":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? Comments.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "Creator":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? Creator.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "Updator":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? Updator.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "CreatedTime":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? CreatedTime.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "UpdatedTime":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? UpdatedTime.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
+                    {
+                        case "Class":
+                            value = ss.ReadColumnAccessControls.Allowed(
+                                context: context,
+                                ss: ss,
+                                column: column,
+                                mine: mine)
+                                    ? GetClass(columnName: column.Name).ToExport(
+                                        context: context,
+                                        column: column,
+                                        exportColumn: exportColumn)
+                                    : string.Empty;
+                            break;
+                        case "Num":
+                            value = ss.ReadColumnAccessControls.Allowed(
+                                context: context,
+                                ss: ss,
+                                column: column,
+                                mine: mine)
+                                    ? GetNum(columnName: column.Name).ToExport(
+                                        context: context,
+                                        column: column,
+                                        exportColumn: exportColumn)
+                                    : string.Empty;
+                            break;
+                        case "Date":
+                            value = ss.ReadColumnAccessControls.Allowed(
+                                context: context,
+                                ss: ss,
+                                column: column,
+                                mine: mine)
+                                    ? GetDate(columnName: column.Name).ToExport(
+                                        context: context,
+                                        column: column,
+                                        exportColumn: exportColumn)
+                                    : string.Empty;
+                            break;
+                        case "Description":
+                            value = ss.ReadColumnAccessControls.Allowed(
+                                context: context,
+                                ss: ss,
+                                column: column,
+                                mine: mine)
+                                    ? GetDescription(columnName: column.Name).ToExport(
+                                        context: context,
+                                        column: column,
+                                        exportColumn: exportColumn)
+                                    : string.Empty;
+                            break;
+                        case "Check":
+                            value = ss.ReadColumnAccessControls.Allowed(
+                                context: context,
+                                ss: ss,
+                                column: column,
+                                mine: mine)
+                                    ? GetCheck(columnName: column.Name).ToExport(
+                                        context: context,
+                                        column: column,
+                                        exportColumn: exportColumn)
+                                    : string.Empty;
+                            break;
+                        case "Attachments":
+                            value = ss.ReadColumnAccessControls.Allowed(
+                                context: context,
+                                ss: ss,
+                                column: column,
+                                mine: mine)
+                                    ? GetAttachments(columnName: column.Name).ToExport(
+                                        context: context,
+                                        column: column,
+                                        exportColumn: exportColumn)
+                                    : string.Empty;
+                            break;
+                        default: return string.Empty;
+                    }
+                    break;
+            }
+            if (encloseDoubleQuotes != false)
+            {
+                return "\"" + value?.Replace("\"", "\"\"") + "\"";
+            }
+            else
+            {
+                return value;
+            }
+        }
+
         public List<int> SwitchTargets;
 
         public DeptModel()
@@ -686,6 +942,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData Update(
             Context context,
             SiteSettings ss,
+            bool refleshSiteInfo = true,
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
@@ -717,9 +974,10 @@ namespace Implem.Pleasanter.Models
             {
                 Get(context: context, ss: ss);
             }
-            SiteInfo.Reflesh(
-                context: context,
-                force: true);
+            if (refleshSiteInfo)
+            {
+                SiteInfo.Reflesh(context: context);
+            }
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -1290,6 +1548,25 @@ namespace Implem.Pleasanter.Models
                 MineCache = mine;
             }
             return MineCache;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public DeptModel(
+            Context context,
+            SiteSettings ss,
+            string deptCode)
+        {
+            if (!deptCode.IsNullOrEmpty())
+            {
+                Get(
+                    context: context,
+                    ss: ss,
+                    where: Rds.DeptsWhere()
+                        .TenantId(context.TenantId)
+                        .DeptCode(deptCode));
+            }
         }
 
         /// <summary>
