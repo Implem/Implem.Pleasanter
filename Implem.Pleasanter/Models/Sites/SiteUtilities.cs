@@ -5653,7 +5653,22 @@ namespace Implem.Pleasanter.Models
                                         },
                                     },
                                     selectedValue: column.TextAlign.ToInt().ToString());
-                            if (!column.OtherColumn())
+                            if (column.OtherColumn())
+                            {
+                                switch (column.ControlType)
+                                {
+                                    case "ChoicesText":
+                                        hb
+                                            .FieldCheckBox(
+                                                controlId: "UseSearch",
+                                                labelText: Displays.UseSearch(context: context),
+                                                _checked: column.UseSearch == true);
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                            else
                             {
                                 if (column.TypeName == "nvarchar"
                                     && column.ControlType != "Attachments")
