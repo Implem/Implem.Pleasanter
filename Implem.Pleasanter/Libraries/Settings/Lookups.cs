@@ -51,7 +51,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     id: id);
             }
             var formData = link.Lookups.ToDictionary(
-                lookup => $"{currentSs.ReferenceType}_{lookup.To}",
+                lookup => $"{ss.ReferenceType}_{lookup.To}",
                 lookup => string.Empty);
             if (id > 0
                 && currentSs != null
@@ -60,7 +60,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 link.Lookups.ForEach(lookup =>
                 {
                     formData.AddOrUpdate(
-                        $"{currentSs.ReferenceType}_{lookup.To}",
+                        $"{ss.ReferenceType}_{lookup.To}",
                         string.Empty);
                 });
                 switch (currentSs.ReferenceType)
