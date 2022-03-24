@@ -587,6 +587,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     formData: formData);
             }
+            if (setByApi) SetByApi(context: context, ss: new SiteSettings());
             MethodType = methodType;
             OnConstructed(context: context);
         }
@@ -1437,6 +1438,8 @@ namespace Implem.Pleasanter.Models
             if (data.InheritPermission != null) InheritPermission = data.InheritPermission.ToLong().ToLong();
             if (data.Publish != null) Publish = data.Publish.ToBool().ToBool();
             if (data.DisableCrossSearch != null) DisableCrossSearch = data.DisableCrossSearch.ToBool().ToBool();
+            if (data.Permissions != null) RecordPermissions = data.Permissions;
+            if (data.SiteSettings != null) SiteSettings = data.SiteSettings;
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             data.ClassHash?.ForEach(o => GetClass(
@@ -1902,6 +1905,55 @@ namespace Implem.Pleasanter.Models
                 MineCache = mine;
             }
             return MineCache;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public SiteApiModel GetByApi(Context context)
+        {
+            var data = new SiteApiModel();
+            data.ApiVersion = context.ApiVersion;
+            data.TenantId = TenantId;
+            data.SiteId = SiteId;
+            data.UpdatedTime = UpdatedTime.Value.ToLocal(context: context);
+            data.Ver = Ver;
+            data.Title = SiteSettings.Title;
+            data.Body = SiteSettings.Body;
+            data.SiteName = SiteName;
+            data.SiteGroupName = SiteGroupName;
+            data.GridGuide = SiteSettings.GridGuide;
+            data.EditorGuide = SiteSettings.EditorGuide;
+            data.CalendarGuide = SiteSettings.CalendarGuide;
+            data.CrosstabGuide = SiteSettings.CrosstabGuide;
+            data.GanttGuide = SiteSettings.GanttGuide;
+            data.BurnDownGuide = SiteSettings.BurnDownGuide;
+            data.TimeSeriesGuide = SiteSettings.TimeSeriesGuide;
+            data.KambanGuide = SiteSettings.KambanGuide;
+            data.ImageLibGuide = SiteSettings.ImageLibGuide;
+            data.ReferenceType = SiteSettings.ReferenceType;
+            data.ParentId = SiteSettings.ParentId;
+            data.InheritPermission = SiteSettings.InheritPermission;
+            if(context.CanManagePermission(ss: SiteSettings))
+            {
+                data.Permissions = PermissionUtilities.CurrentCollection(
+                    context: context,
+                    referenceId: SiteId)
+                        .Select(permission => $"{permission.Name},{permission.Id},{(long)permission.Type}")
+                        .ToList();
+            }
+            data.SiteSettings = SiteSettings.RecordingData(context: context);
+            data.Publish = SiteSettings.Publish;
+            data.DisableCrossSearch = DisableCrossSearch;
+            data.LockedTime = LockedTime.Value.ToLocal(context: context);
+            data.LockedUser = LockedUser.Id;
+            data.ApiCountDate = ApiCountDate;
+            data.ApiCount = ApiCount;
+            data.Comments = Comments.ToLocal(context: context).ToJson();
+            data.Creator = Creator.Id;
+            data.Updator = Updator.Id;
+            data.CreatedTime = CreatedTime.Value.ToLocal(context: context);
+            return data;
         }
 
         /// <summary>
