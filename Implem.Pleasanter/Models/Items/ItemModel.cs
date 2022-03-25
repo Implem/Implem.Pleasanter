@@ -1372,7 +1372,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public ContentResultInheritance GetByApi(Context context, bool internalRequest = false)
+        public ContentResultInheritance GetByApi(Context context, bool internalRequest = false, string referenceType = null)
         {
             SetSite(
                 context: context,
@@ -1384,8 +1384,14 @@ namespace Implem.Pleasanter.Models
                     siteId: Site.SiteId,
                     limitPerSite: context.ContractSettings.ApiLimit()));
             }
-            switch (Site.ReferenceType)
+            switch (referenceType ?? Site.ReferenceType)
             {
+                case "Sites":
+                    return SiteUtilities.GetByApi(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        siteId: Site.SiteId,
+                        internalRequest: internalRequest);
                 case "Issues":
                     return IssueUtilities.GetByApi(
                         context: context,
@@ -1508,6 +1514,11 @@ namespace Implem.Pleasanter.Models
             }
             switch (Site.ReferenceType)
             {
+                case "Sites":
+                    return SiteUtilities.CreateByApi(
+                        context: context,
+                        parentId: Site.SiteId,
+                        inheritPermission: Site.InheritPermission);
                 case "Issues":
                     return IssueUtilities.CreateByApi(
                         context: context,
@@ -1739,7 +1750,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public ContentResultInheritance UpdateByApi(Context context)
+        public ContentResultInheritance UpdateByApi(Context context, string referenceType = null)
         {
             SetSite(
                 context: context,
@@ -1751,8 +1762,13 @@ namespace Implem.Pleasanter.Models
                     siteId: Site.SiteId,
                     limitPerSite: context.ContractSettings.ApiLimit()));
             }
-            switch (Site.ReferenceType)
+            switch (referenceType ?? Site.ReferenceType)
             {
+                case "Sites":
+                    return SiteUtilities.UpdateByApi(
+                        context: context,
+                        siteModel: Site,
+                        siteId: ReferenceId);
                 case "Issues":
                     return IssueUtilities.UpdateByApi(
                         context: context,
@@ -1978,7 +1994,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public ContentResultInheritance DeleteByApi(Context context)
+        public ContentResultInheritance DeleteByApi(Context context, string referenceType = null)
         {
             SetSite(
                 context: context,
@@ -1990,8 +2006,13 @@ namespace Implem.Pleasanter.Models
                     siteId: Site.SiteId,
                     limitPerSite: context.ContractSettings.ApiLimit()));
             }
-            switch (Site.ReferenceType)
+            switch (referenceType ?? Site.ReferenceType)
             {
+                case "Sites":
+                    return SiteUtilities.DeleteByApi(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        siteId: ReferenceId);
                 case "Issues":
                     return IssueUtilities.DeleteByApi(
                         context: context,

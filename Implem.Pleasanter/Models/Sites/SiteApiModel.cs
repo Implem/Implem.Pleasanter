@@ -1,5 +1,8 @@
-﻿using Implem.Pleasanter.Models.Shared;
+﻿using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models.Shared;
 using System;
+using System.Collections.Generic;
+
 namespace Implem.Pleasanter.Models
 {
     [Serializable]
@@ -25,7 +28,8 @@ namespace Implem.Pleasanter.Models
         public string ReferenceType { get; set; }
         public long? ParentId { get; set; }
         public long? InheritPermission { get; set; }
-        public string SiteSettings { get; set; }
+        public List<string> Permissions { get; set; }
+        public SiteSettings SiteSettings { get; set; }
         public bool? Publish { get; set; }
         public bool? DisableCrossSearch { get; set; }
         public DateTime? LockedTime { get; set; }
