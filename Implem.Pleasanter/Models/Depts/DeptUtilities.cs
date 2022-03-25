@@ -151,6 +151,9 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         id: ss.SiteId)
                     .MoveDialog(context: context, bulk: true)
+                    .ImportSettingsDialog(
+                        context: context,
+                        ss: ss)
                     .Div(attributes: new HtmlAttributes()
                         .Id("ExportSelectorDialog")
                         .Class("dialog")

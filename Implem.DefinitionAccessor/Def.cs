@@ -283,6 +283,7 @@ namespace Implem.DefinitionAccessor
                     case "Def_DefinitionClass_DefinitionTable": Code.Def_DefinitionClass_DefinitionTable = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Def_DefinitionClass_DefinitionTable, definitionRow, CodeXls); break;
                     case "Controller": Code.Controller = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Controller, definitionRow, CodeXls); break;
                     case "Controller_Groups": Code.Controller_Groups = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Controller_Groups, definitionRow, CodeXls); break;
+                    case "Controller_Depts": Code.Controller_Depts = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Controller_Depts, definitionRow, CodeXls); break;
                     case "Controller_Users": Code.Controller_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Controller_Users, definitionRow, CodeXls); break;
                     case "Base": Code.Base = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Base, definitionRow, CodeXls); break;
                     case "Base_Property": Code.Base_Property = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Base_Property, definitionRow, CodeXls); break;
@@ -317,6 +318,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetParentId": Code.Model_SetParentId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetParentId, definitionRow, CodeXls); break;
                     case "Model_SetInheritPermission": Code.Model_SetInheritPermission = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetInheritPermission, definitionRow, CodeXls); break;
                     case "Model_SetByApiExec": Code.Model_SetByApiExec = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApiExec, definitionRow, CodeXls); break;
+                    case "Model_SetBySiteApiExec": Code.Model_SetBySiteApiExec = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetBySiteApiExec, definitionRow, CodeXls); break;
                     case "Model_SetByLookupsExec": Code.Model_SetByLookupsExec = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByLookupsExec, definitionRow, CodeXls); break;
                     case "Model_SetByLookupsExecFormDataOnly": Code.Model_SetByLookupsExecFormDataOnly = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByLookupsExecFormDataOnly, definitionRow, CodeXls); break;
                     case "Model_SetProcessMatchConditionsExec": Code.Model_SetProcessMatchConditionsExec = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetProcessMatchConditionsExec, definitionRow, CodeXls); break;
@@ -460,6 +462,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetLinking": Code.Model_SetLinking = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetLinking, definitionRow, CodeXls); break;
                     case "Model_SetByApi": Code.Model_SetByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi, definitionRow, CodeXls); break;
                     case "Model_SetByApi_ColumnCases": Code.Model_SetByApi_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_ColumnCases, definitionRow, CodeXls); break;
+                    case "Model_SetByApi_ColumnCasesSite": Code.Model_SetByApi_ColumnCasesSite = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_ColumnCasesSite, definitionRow, CodeXls); break;
                     case "Model_SetByApi_RecordPermissions": Code.Model_SetByApi_RecordPermissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_RecordPermissions, definitionRow, CodeXls); break;
                     case "Model_SetByLookups": Code.Model_SetByLookups = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByLookups, definitionRow, CodeXls); break;
                     case "Model_AddSqlParamIdentity": Code.Model_AddSqlParamIdentity = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_AddSqlParamIdentity, definitionRow, CodeXls); break;
@@ -7441,6 +7444,7 @@ namespace Implem.DefinitionAccessor
         public string Def_DefinitionClass_DefinitionTable;
         public string Controller;
         public string Controller_Groups;
+        public string Controller_Depts;
         public string Controller_Users;
         public string Base;
         public string Base_Property;
@@ -7475,6 +7479,7 @@ namespace Implem.DefinitionAccessor
         public string Model_SetParentId;
         public string Model_SetInheritPermission;
         public string Model_SetByApiExec;
+        public string Model_SetBySiteApiExec;
         public string Model_SetByLookupsExec;
         public string Model_SetByLookupsExecFormDataOnly;
         public string Model_SetProcessMatchConditionsExec;
@@ -7618,6 +7623,7 @@ namespace Implem.DefinitionAccessor
         public string Model_SetLinking;
         public string Model_SetByApi;
         public string Model_SetByApi_ColumnCases;
+        public string Model_SetByApi_ColumnCasesSite;
         public string Model_SetByApi_RecordPermissions;
         public string Model_SetByLookups;
         public string Model_AddSqlParamIdentity;
@@ -8153,6 +8159,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Def_DefinitionClass_DefinitionTable = new CodeDefinition();
         public CodeDefinition Controller = new CodeDefinition();
         public CodeDefinition Controller_Groups = new CodeDefinition();
+        public CodeDefinition Controller_Depts = new CodeDefinition();
         public CodeDefinition Controller_Users = new CodeDefinition();
         public CodeDefinition Base = new CodeDefinition();
         public CodeDefinition Base_Property = new CodeDefinition();
@@ -8187,6 +8194,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetParentId = new CodeDefinition();
         public CodeDefinition Model_SetInheritPermission = new CodeDefinition();
         public CodeDefinition Model_SetByApiExec = new CodeDefinition();
+        public CodeDefinition Model_SetBySiteApiExec = new CodeDefinition();
         public CodeDefinition Model_SetByLookupsExec = new CodeDefinition();
         public CodeDefinition Model_SetByLookupsExecFormDataOnly = new CodeDefinition();
         public CodeDefinition Model_SetProcessMatchConditionsExec = new CodeDefinition();
@@ -8330,6 +8338,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetLinking = new CodeDefinition();
         public CodeDefinition Model_SetByApi = new CodeDefinition();
         public CodeDefinition Model_SetByApi_ColumnCases = new CodeDefinition();
+        public CodeDefinition Model_SetByApi_ColumnCasesSite = new CodeDefinition();
         public CodeDefinition Model_SetByApi_RecordPermissions = new CodeDefinition();
         public CodeDefinition Model_SetByLookups = new CodeDefinition();
         public CodeDefinition Model_AddSqlParamIdentity = new CodeDefinition();
