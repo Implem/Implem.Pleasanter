@@ -605,6 +605,9 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     wikiModel: wikiModel,
                     editInDialog: editInDialog)
+                        .Hidden(
+                            controlId: "recordId",
+                            value: context.Id.ToString())
                 : hb.Div(
                     id: "EditorTabsContainer",
                     css: "max",
@@ -625,7 +628,10 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             id: wikiModel.WikiId,
                             wikiModel: wikiModel,
-                            editInDialog: editInDialog));
+                            editInDialog: editInDialog)
+                        .Hidden(
+                            controlId: "recordId",
+                            value: context.Id.ToString()));
         }
 
         /// <summary>

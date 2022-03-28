@@ -1345,6 +1345,9 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     resultModel: resultModel,
                     editInDialog: editInDialog)
+                        .Hidden(
+                            controlId: "recordId",
+                            value: context.Id.ToString())
                 : hb.Div(
                     id: "EditorTabsContainer",
                     css: "max",
@@ -1365,7 +1368,10 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             id: resultModel.ResultId,
                             resultModel: resultModel,
-                            editInDialog: editInDialog));
+                            editInDialog: editInDialog)
+                        .Hidden(
+                            controlId: "recordId",
+                            value: context.Id.ToString()));
         }
 
         private static HtmlBuilder Editor(
