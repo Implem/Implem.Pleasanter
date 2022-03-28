@@ -1371,10 +1371,9 @@ namespace Implem.Pleasanter.Models
                             resultModel: resultModel,
                             editInDialog: editInDialog));
             }
-            hb.Hidden(
+            return hb.Hidden(
                 controlId: "EditorInDialogRecordId",
                 value: context.Id.ToString());
-            return hb;
         }
 
         private static HtmlBuilder Editor(

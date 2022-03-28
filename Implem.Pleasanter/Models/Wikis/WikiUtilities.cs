@@ -631,10 +631,9 @@ namespace Implem.Pleasanter.Models
                             wikiModel: wikiModel,
                             editInDialog: editInDialog));
             }
-            hb.Hidden(
+            return hb.Hidden(
                 controlId: "EditorInDialogRecordId",
                 value: context.Id.ToString());
-            return hb;
         }
 
         /// <summary>
