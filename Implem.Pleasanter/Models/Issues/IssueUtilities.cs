@@ -1444,13 +1444,17 @@ namespace Implem.Pleasanter.Models
             IssueModel issueModel,
             bool editInDialog)
         {
-            return ss.Tabs?.Any() != true
-                ? hb.FieldSetGeneral(
+            if (ss.Tabs?.Any() != true)
+            {
+                hb.FieldSetGeneral(
                     context: context,
                     ss: ss,
                     issueModel: issueModel,
-                    editInDialog: editInDialog)
-                : hb.Div(
+                    editInDialog: editInDialog);
+            }
+            else
+            {
+                hb.Div(
                     id: "EditorTabsContainer",
                     css: "max",
                     attributes: new HtmlAttributes().TabActive(context: context),
@@ -1471,6 +1475,10 @@ namespace Implem.Pleasanter.Models
                             id: issueModel.IssueId,
                             issueModel: issueModel,
                             editInDialog: editInDialog));
+            }
+            return hb.Hidden(
+                controlId: "EditorInDialogRecordId",
+                value: context.Id.ToString());
         }
 
         private static HtmlBuilder Editor(
