@@ -123,13 +123,13 @@ $p.selectImage = function (controlId) {
 
 $p.uploadImage = function (controlId, file) {
     var url;
-    if ($('#recordId') == null) {
+    if ($('#EditorInDialogRecordId').length === 0) {
         url = $('.main-form')
             .attr('action')
             .replace('_action_', 'binaries/uploadimage');
     }
     else {
-        url = '/items/' + $('#recordId').val() + '/binaries/uploadimage'
+        url = '/items/' + $('#EditorInDialogRecordId').val() + '/binaries/uploadimage'
     }
     var data = new FormData();
     data.append('ControlId', controlId);

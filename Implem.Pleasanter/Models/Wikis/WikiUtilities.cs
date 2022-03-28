@@ -599,16 +599,17 @@ namespace Implem.Pleasanter.Models
             WikiModel wikiModel,
             bool editInDialog)
         {
-            return ss.Tabs?.Any() != true
-                ? hb.FieldSetGeneral(
+            if (ss.Tabs?.Any() != true)
+            {
+                hb.FieldSetGeneral(
                     context: context,
                     ss: ss,
                     wikiModel: wikiModel,
-                    editInDialog: editInDialog)
-                        .Hidden(
-                            controlId: "recordId",
-                            value: context.Id.ToString())
-                : hb.Div(
+                    editInDialog: editInDialog);
+            }
+            else
+            {
+                hb.Div(
                     id: "EditorTabsContainer",
                     css: "max",
                     attributes: new HtmlAttributes().TabActive(context: context),
@@ -628,10 +629,12 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             id: wikiModel.WikiId,
                             wikiModel: wikiModel,
-                            editInDialog: editInDialog)
-                        .Hidden(
-                            controlId: "recordId",
-                            value: context.Id.ToString()));
+                            editInDialog: editInDialog));
+            }
+            hb.Hidden(
+                controlId: "EditorInDialogRecordId",
+                value: context.Id.ToString());
+            return hb;
         }
 
         /// <summary>
