@@ -260,16 +260,12 @@ namespace Implem.Pleasanter.Models
                     column: Rds.LinksColumn()
                         .SourceId()
                         .DestinationId(),
-                    join: new SqlJoinCollection(new SqlJoin(
-                        tableBracket: "\"Sites\"",
-                        joinType: SqlJoin.JoinTypes.Inner,
-                        joinExpression: "\"Links\".\"DestinationId\"=\"Sites\".\"SiteId\"")),
+                    join: LinkUtilities.LinkJoins(),
                     where: Rds.LinksWhere()
                         .DestinationId_In(ids)
-                        .Sites_TenantId(context.TenantId)
-                        .Sites_ReferenceType(
-                            _operator: " in ",
-                            raw: "('Issues','Results')")));
+                        .LinksWhere(
+                            context: context,
+                            ids: ids)));
             var newLinks = dataTable.AsEnumerable()
                 .Select(r => (sourceId: r.Field<long>(0), destinationId: r.Field<long>(1)))
                 .GroupBy(r => r.destinationId, r => r.sourceId)
@@ -295,14 +291,16 @@ namespace Implem.Pleasanter.Models
             }
             var dataTable = Repository.ExecuteTable(
                 context: context,
-                statements:
-                    Rds.SelectLinks(
-                        column: Rds.LinksColumn()
-                            .DestinationId()
-                            .SourceId(),
-                        where: Rds.LinksWhere()
-                            .SourceId_In(ids))
-                );
+                statements: Rds.SelectLinks(
+                    column: Rds.LinksColumn()
+                        .DestinationId()
+                        .SourceId(),
+                    join: LinkUtilities.LinkJoins(),
+                    where: Rds.LinksWhere()
+                        .SourceId_In(ids)
+                        .LinksWhere(
+                            context: context,
+                            ids: ids)));
             var newLinks = dataTable.AsEnumerable()
                 .Select(r => (destinationId: r.Field<long>(0), sourceId: r.Field<long>(1)))
                 .GroupBy(r => r.sourceId, r => r.destinationId)
