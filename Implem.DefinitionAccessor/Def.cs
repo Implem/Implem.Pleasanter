@@ -3267,6 +3267,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_alert_information": Css._dot_alert_information = definitionRow[1].ToString(); SetCssTable(CssTable._dot_alert_information, definitionRow, CssXls); break;
                     case "label_dot_error": Css.label_dot_error = definitionRow[1].ToString(); SetCssTable(CssTable.label_dot_error, definitionRow, CssXls); break;
                     case "_dot_error": Css._dot_error = definitionRow[1].ToString(); SetCssTable(CssTable._dot_error, definitionRow, CssXls); break;
+                    case "_dot_error_plus__dot_ui_widget_dot_ui_state_default_dot_ui_multiselect": Css._dot_error_plus__dot_ui_widget_dot_ui_state_default_dot_ui_multiselect = definitionRow[1].ToString(); SetCssTable(CssTable._dot_error_plus__dot_ui_widget_dot_ui_state_default_dot_ui_multiselect, definitionRow, CssXls); break;
                     case "_dot_with_unit_plus_label_dot_error": Css._dot_with_unit_plus_label_dot_error = definitionRow[1].ToString(); SetCssTable(CssTable._dot_with_unit_plus_label_dot_error, definitionRow, CssXls); break;
                     case "_dot_button_edit_markdown": Css._dot_button_edit_markdown = definitionRow[1].ToString(); SetCssTable(CssTable._dot_button_edit_markdown, definitionRow, CssXls); break;
                     case "_dot_comment_space___space__dot_button_edit_markdown": Css._dot_comment_space___space__dot_button_edit_markdown = definitionRow[1].ToString(); SetCssTable(CssTable._dot_comment_space___space__dot_button_edit_markdown, definitionRow, CssXls); break;
@@ -11141,6 +11142,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_alert_information;
         public string label_dot_error;
         public string _dot_error;
+        public string _dot_error_plus__dot_ui_widget_dot_ui_state_default_dot_ui_multiselect;
         public string _dot_with_unit_plus_label_dot_error;
         public string _dot_button_edit_markdown;
         public string _dot_comment_space___space__dot_button_edit_markdown;
@@ -11676,6 +11678,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_alert_information = new CssDefinition();
         public CssDefinition label_dot_error = new CssDefinition();
         public CssDefinition _dot_error = new CssDefinition();
+        public CssDefinition _dot_error_plus__dot_ui_widget_dot_ui_state_default_dot_ui_multiselect = new CssDefinition();
         public CssDefinition _dot_with_unit_plus_label_dot_error = new CssDefinition();
         public CssDefinition _dot_button_edit_markdown = new CssDefinition();
         public CssDefinition _dot_comment_space___space__dot_button_edit_markdown = new CssDefinition();
