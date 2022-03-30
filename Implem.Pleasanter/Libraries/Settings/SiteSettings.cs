@@ -2154,7 +2154,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     || GetEditorColumnNames().Contains(column.ColumnName)
                     || column.ColumnName.Contains("~")
                     || column.ColumnName == "Creator"
-                    || column.ColumnName == "Updator")
+                    || column.ColumnName == "Updator"
+                    || column.ColumnName == "CreatedTime"
+                    || column.ColumnName == "UpdatedTime")
                 .AllowedColumns(
                     context: context,
                     ss: this,
