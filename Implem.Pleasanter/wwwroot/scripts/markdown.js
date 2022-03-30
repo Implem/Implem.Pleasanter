@@ -122,9 +122,16 @@ $p.selectImage = function (controlId) {
 }
 
 $p.uploadImage = function (controlId, file) {
-    var url = $('.main-form')
-        .attr('action')
-        .replace('_action_', 'binaries/uploadimage');
+    var $editorInDialogRecordId = $('#EditorInDialogRecordId');
+    var url;
+    if (!$editorInDialogRecordId.length) {
+        url = $('.main-form')
+            .attr('action')
+            .replace('_action_', 'binaries/uploadimage');
+    }
+    else {
+        url = $('#BaseUrl').val() + $editorInDialogRecordId.val() + '/binaries/uploadimage'
+    }
     var data = new FormData();
     data.append('ControlId', controlId);
     data.append('file', file);
