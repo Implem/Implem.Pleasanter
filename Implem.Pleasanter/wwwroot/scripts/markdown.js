@@ -140,8 +140,8 @@ $p.uploadImage = function (controlId, file) {
 }
 
 $p.setTargetBlank = function () {
-    var aTags = $('.md').find('a');
-    aTags.map(function (index, tag) {
+    var aTags = $('.md a');
+    aTags.each(function () {
         $(this).attr('target', '_blank');
     })
 }
