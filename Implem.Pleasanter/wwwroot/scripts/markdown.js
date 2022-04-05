@@ -4,6 +4,7 @@
         $viewer.html($p.markup($control.val()));
         $p.resizeEditor($control, $viewer);
         $p.toggleEditor($control, false);
+        $p.setTargetBlank();
     }
 }
 
@@ -136,4 +137,11 @@ $p.uploadImage = function (controlId, file) {
     data.append('ControlId', controlId);
     data.append('file', file);
     $p.multiUpload(url, data);
+}
+
+$p.setTargetBlank = function () {
+    var aTags = $('.md a');
+    aTags.each(function () {
+        $(this).attr('target', '_blank');
+    })
 }

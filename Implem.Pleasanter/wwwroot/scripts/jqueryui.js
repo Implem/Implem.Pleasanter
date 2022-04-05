@@ -136,11 +136,13 @@
             var $viewer = $('[id="' + this.id + '.viewer"]');
             $viewer.html($p.markup($control.val()));
             $control.addClass('applied');
+            $p.setTargetBlank();
         });
         $('.markup:not(.applied)').each(function () {
             var $control = $(this);
             $control.html($p.markup($control.html(), true));
             $control.addClass('applied');
+            $p.setTargetBlank();
         });
         if ($('#Publish').length === 1) {
             $('a').each(function () {
