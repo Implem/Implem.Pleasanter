@@ -3759,6 +3759,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string GroupImported(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "GroupImported",
+                data: data);
+        }
+
         public static string Guide(
             Context context,
             params string[] data)
