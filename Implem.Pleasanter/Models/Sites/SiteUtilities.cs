@@ -6329,8 +6329,7 @@ namespace Implem.Pleasanter.Models
                                             .FieldCheckBox(
                                                 controlId: "NotInsertBlankChoice",
                                                 labelText: Displays.NotInsertBlankChoice(context: context),
-                                                _checked: column.NotInsertBlankChoice == true,
-                                                _using: column.TypeName == "nvarchar");
+                                                _checked: column.NotInsertBlankChoice == true);
                                         break;
                                     default:
                                         break;
