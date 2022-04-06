@@ -1937,8 +1937,10 @@ namespace Implem.Pleasanter.Models
                     }
                     groups.Add(groupModel);
                 };
-                var insertCount = 0;
-                var updateCount = 0;
+                var insertGroupCount = 0;
+                var updateGroupCount = 0;
+                var insertGroupMemberCount = 0;
+                var updateGroupMemberCount = 0;
                 foreach (var groupModel in groups)
                 {
                     if (groupModel.AccessStatus == Databases.AccessStatuses.Selected)
@@ -1962,7 +1964,7 @@ namespace Implem.Pleasanter.Models
                                 default:
                                     return errorData.MessageJson(context: context);
                             }
-                            updateCount++;
+                            updateGroupCount++;
                         }
                     }
                     else
@@ -1978,13 +1980,15 @@ namespace Implem.Pleasanter.Models
                             default:
                                 return errorData.MessageJson(context: context);
                         }
-                        insertCount++;
+                        insertGroupCount++;
                     }
                     if (!groupModel.MemberType.IsNullOrEmpty())
                     {
                         UpdateOrInsertGroupMember(
                             context: context,
-                            groupModel: groupModel);
+                            groupModel: groupModel,
+                            insertGroupMemberCount: ref insertGroupMemberCount,
+                            updateGroupMemberCount: ref updateGroupMemberCount);
                     }
                 }
                 SiteInfo.Reflesh(
@@ -1994,13 +1998,15 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     res: res.WindowScrollTop(),
-                    message: Messages.Imported(
+                    message: Messages.GroupImported(
                         context: context,
                         data: new string[]
                         {
                             ss.Title,
-                            insertCount.ToString(),
-                            updateCount.ToString()
+                            insertGroupCount.ToString(),
+                            updateGroupCount.ToString(),
+                            insertGroupMemberCount.ToString(),
+                            updateGroupMemberCount.ToString()
                         }));
             }
             else
@@ -2096,7 +2102,11 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static void UpdateOrInsertGroupMember(Context context, GroupModel groupModel)
+        private static void UpdateOrInsertGroupMember(
+            Context context,
+            GroupModel groupModel,
+            ref int insertGroupMemberCount,
+            ref int updateGroupMemberCount)
         {
             var deptId = GetDeptId(
                 context: context,
@@ -2125,6 +2135,7 @@ namespace Implem.Pleasanter.Models
                                 .UserId(userId),
                             param: Rds.GroupMembersParam()
                                 .Admin(groupModel.MemberIsAdmin)));
+                    updateGroupMemberCount++;
                 }
             }
             else
@@ -2138,6 +2149,7 @@ namespace Implem.Pleasanter.Models
                         .DeptId(deptId)
                         .UserId(userId)
                         .Admin(groupModel.MemberIsAdmin ?? false)));
+                insertGroupMemberCount++;
             }
         }
 

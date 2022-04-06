@@ -611,6 +611,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message GroupImported(Context context, params string[] data)
+        {
+            return Get(
+                id: "GroupImported",
+                text: Displays.GroupImported(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
         public static Message HasBeenDeleted(Context context, params string[] data)
         {
             return Get(
@@ -2066,6 +2076,16 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return ResponseMessage(
                 message: FileUpdateCompleted(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseGroupImported(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: GroupImported(
                     context: context,
                     data: data),
                 target: target);
