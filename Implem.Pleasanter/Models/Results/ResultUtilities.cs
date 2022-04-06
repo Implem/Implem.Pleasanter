@@ -2130,6 +2130,10 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         formData: context.Forms);
+                    resultModel.SetByLookups(
+                        context: context,
+                        ss: ss,
+                        requestFormData: context.Forms);
                     resultModel.ResultId = 0;
                     resultModel.Ver = 1;
                     resultModel.Comments = new Comments();
