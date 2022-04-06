@@ -6174,6 +6174,13 @@ namespace Implem.Pleasanter.Models
             var groupByY = ss.GetColumn(
                 context: context,
                 columnName: view.GetCrosstabGroupByY(context: context, ss: ss));
+            if (!groupByX.CanRead(context: context, ss: ss, mine: null)
+                || !groupByY.CanRead(context: context, ss: ss, mine: null))
+            {
+                return HtmlTemplates.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.HasNotPermission));
+            }
             var columns = CrosstabColumns(context: context, ss: ss, view: view);
             var aggregateType = view.GetCrosstabAggregateType(ss);
             var value = ss.GetColumn(
@@ -6261,6 +6268,11 @@ namespace Implem.Pleasanter.Models
             var groupByY = ss.GetColumn(
                 context: context,
                 columnName: view.GetCrosstabGroupByY(context: context, ss: ss));
+            if (!groupByX.CanRead(context: context, ss: ss, mine: null)
+                || !groupByY.CanRead(context: context, ss: ss, mine: null))
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
             var columns = CrosstabColumns(context: context, ss: ss, view: view);
             var aggregateType = view.GetCrosstabAggregateType(ss);
             var value = ss.GetColumn(
