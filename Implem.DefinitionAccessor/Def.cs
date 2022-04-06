@@ -388,7 +388,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_UpdateAttachmentsStatementsMethod": Code.Model_UpdateAttachmentsStatementsMethod = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateAttachmentsStatementsMethod, definitionRow, CodeXls); break;
                     case "Model_UpdateParams_Items": Code.Model_UpdateParams_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateParams_Items, definitionRow, CodeXls); break;
                     case "Model_UpdateParams_Users": Code.Model_UpdateParams_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateParams_Users, definitionRow, CodeXls); break;
-                    case "Model_UpdateParams_Depts": Code.Model_UpdateParams_Depts = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateParams_Depts, definitionRow, CodeXls); break;
+                    case "Model_UpdateParams": Code.Model_UpdateParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateParams, definitionRow, CodeXls); break;
+                    case "Model_UpdateParams_GroupMembers": Code.Model_UpdateParams_GroupMembers = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateParams_GroupMembers, definitionRow, CodeXls); break;
                     case "Model_UpdatePermissions": Code.Model_UpdatePermissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdatePermissions, definitionRow, CodeXls); break;
                     case "Model_UpdateInitSiteSettings": Code.Model_UpdateInitSiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateInitSiteSettings, definitionRow, CodeXls); break;
                     case "Model_OnUpdatingExtendedSqls": Code.Model_OnUpdatingExtendedSqls = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdatingExtendedSqls, definitionRow, CodeXls); break;
@@ -401,6 +402,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_OnUpdatedNotice": Code.Model_OnUpdatedNotice = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdatedNotice, definitionRow, CodeXls); break;
                     case "Model_OnUpdated_Depts": Code.Model_OnUpdated_Depts = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdated_Depts, definitionRow, CodeXls); break;
                     case "Model_OnUpdated_Groups": Code.Model_OnUpdated_Groups = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdated_Groups, definitionRow, CodeXls); break;
+                    case "Model_OnUpdated_GroupMembers": Code.Model_OnUpdated_GroupMembers = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdated_GroupMembers, definitionRow, CodeXls); break;
                     case "Model_OnUpdated_Users": Code.Model_OnUpdated_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdated_Users, definitionRow, CodeXls); break;
                     case "Model_OnUpdated_SetSiteMenu": Code.Model_OnUpdated_SetSiteMenu = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdated_SetSiteMenu, definitionRow, CodeXls); break;
                     case "Model_OnUpdated_ServerScript": Code.Model_OnUpdated_ServerScript = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdated_ServerScript, definitionRow, CodeXls); break;
@@ -609,7 +611,7 @@ namespace Implem.DefinitionAccessor
                     case "Collection_SiteSettingsArgument": Code.Collection_SiteSettingsArgument = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection_SiteSettingsArgument, definitionRow, CodeXls); break;
                     case "Model_Utilities": Code.Model_Utilities = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities, definitionRow, CodeXls); break;
                     case "Model_Utilities_Index": Code.Model_Utilities_Index = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Index, definitionRow, CodeXls); break;
-                    case "Model_Utilities_TemplateTitle_Depts": Code.Model_Utilities_TemplateTitle_Depts = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TemplateTitle_Depts, definitionRow, CodeXls); break;
+                    case "Model_Utilities_TemplateTitle": Code.Model_Utilities_TemplateTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TemplateTitle, definitionRow, CodeXls); break;
                     case "Model_Utilities_ViewSelectorField": Code.Model_Utilities_ViewSelectorField = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ViewSelectorField, definitionRow, CodeXls); break;
                     case "Model_Utilities_ViewSelectorFieldWithShowHistory": Code.Model_Utilities_ViewSelectorFieldWithShowHistory = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ViewSelectorFieldWithShowHistory, definitionRow, CodeXls); break;
                     case "Model_Utilities_TrashBox": Code.Model_Utilities_TrashBox = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TrashBox, definitionRow, CodeXls); break;
@@ -1613,6 +1615,10 @@ namespace Implem.DefinitionAccessor
                     case "Groups_Body": Column.Groups_Body = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Groups_Body, definitionRow, ColumnXls); break;
                     case "Groups_Title": Column.Groups_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Groups_Title, definitionRow, ColumnXls); break;
                     case "Groups_Disabled": Column.Groups_Disabled = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Groups_Disabled, definitionRow, ColumnXls); break;
+                    case "Groups_MemberType": Column.Groups_MemberType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Groups_MemberType, definitionRow, ColumnXls); break;
+                    case "Groups_MemberKey": Column.Groups_MemberKey = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Groups_MemberKey, definitionRow, ColumnXls); break;
+                    case "Groups_MemberName": Column.Groups_MemberName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Groups_MemberName, definitionRow, ColumnXls); break;
+                    case "Groups_MemberIsAdmin": Column.Groups_MemberIsAdmin = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Groups_MemberIsAdmin, definitionRow, ColumnXls); break;
                     case "GroupMembers_GroupId": Column.GroupMembers_GroupId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.GroupMembers_GroupId, definitionRow, ColumnXls); break;
                     case "GroupMembers_DeptId": Column.GroupMembers_DeptId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.GroupMembers_DeptId, definitionRow, ColumnXls); break;
                     case "GroupMembers_UserId": Column.GroupMembers_UserId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.GroupMembers_UserId, definitionRow, ColumnXls); break;
@@ -7550,7 +7556,8 @@ namespace Implem.DefinitionAccessor
         public string Model_UpdateAttachmentsStatementsMethod;
         public string Model_UpdateParams_Items;
         public string Model_UpdateParams_Users;
-        public string Model_UpdateParams_Depts;
+        public string Model_UpdateParams;
+        public string Model_UpdateParams_GroupMembers;
         public string Model_UpdatePermissions;
         public string Model_UpdateInitSiteSettings;
         public string Model_OnUpdatingExtendedSqls;
@@ -7563,6 +7570,7 @@ namespace Implem.DefinitionAccessor
         public string Model_OnUpdatedNotice;
         public string Model_OnUpdated_Depts;
         public string Model_OnUpdated_Groups;
+        public string Model_OnUpdated_GroupMembers;
         public string Model_OnUpdated_Users;
         public string Model_OnUpdated_SetSiteMenu;
         public string Model_OnUpdated_ServerScript;
@@ -7771,7 +7779,7 @@ namespace Implem.DefinitionAccessor
         public string Collection_SiteSettingsArgument;
         public string Model_Utilities;
         public string Model_Utilities_Index;
-        public string Model_Utilities_TemplateTitle_Depts;
+        public string Model_Utilities_TemplateTitle;
         public string Model_Utilities_ViewSelectorField;
         public string Model_Utilities_ViewSelectorFieldWithShowHistory;
         public string Model_Utilities_TrashBox;
@@ -8265,7 +8273,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_UpdateAttachmentsStatementsMethod = new CodeDefinition();
         public CodeDefinition Model_UpdateParams_Items = new CodeDefinition();
         public CodeDefinition Model_UpdateParams_Users = new CodeDefinition();
-        public CodeDefinition Model_UpdateParams_Depts = new CodeDefinition();
+        public CodeDefinition Model_UpdateParams = new CodeDefinition();
+        public CodeDefinition Model_UpdateParams_GroupMembers = new CodeDefinition();
         public CodeDefinition Model_UpdatePermissions = new CodeDefinition();
         public CodeDefinition Model_UpdateInitSiteSettings = new CodeDefinition();
         public CodeDefinition Model_OnUpdatingExtendedSqls = new CodeDefinition();
@@ -8278,6 +8287,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_OnUpdatedNotice = new CodeDefinition();
         public CodeDefinition Model_OnUpdated_Depts = new CodeDefinition();
         public CodeDefinition Model_OnUpdated_Groups = new CodeDefinition();
+        public CodeDefinition Model_OnUpdated_GroupMembers = new CodeDefinition();
         public CodeDefinition Model_OnUpdated_Users = new CodeDefinition();
         public CodeDefinition Model_OnUpdated_SetSiteMenu = new CodeDefinition();
         public CodeDefinition Model_OnUpdated_ServerScript = new CodeDefinition();
@@ -8486,7 +8496,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Collection_SiteSettingsArgument = new CodeDefinition();
         public CodeDefinition Model_Utilities = new CodeDefinition();
         public CodeDefinition Model_Utilities_Index = new CodeDefinition();
-        public CodeDefinition Model_Utilities_TemplateTitle_Depts = new CodeDefinition();
+        public CodeDefinition Model_Utilities_TemplateTitle = new CodeDefinition();
         public CodeDefinition Model_Utilities_ViewSelectorField = new CodeDefinition();
         public CodeDefinition Model_Utilities_ViewSelectorFieldWithShowHistory = new CodeDefinition();
         public CodeDefinition Model_Utilities_TrashBox = new CodeDefinition();
@@ -9491,6 +9501,10 @@ namespace Implem.DefinitionAccessor
         public string Groups_Body;
         public string Groups_Title;
         public string Groups_Disabled;
+        public string Groups_MemberType;
+        public string Groups_MemberKey;
+        public string Groups_MemberName;
+        public string Groups_MemberIsAdmin;
         public string GroupMembers_GroupId;
         public string GroupMembers_DeptId;
         public string GroupMembers_UserId;
@@ -10022,6 +10036,10 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Groups_Body = new ColumnDefinition();
         public ColumnDefinition Groups_Title = new ColumnDefinition();
         public ColumnDefinition Groups_Disabled = new ColumnDefinition();
+        public ColumnDefinition Groups_MemberType = new ColumnDefinition();
+        public ColumnDefinition Groups_MemberKey = new ColumnDefinition();
+        public ColumnDefinition Groups_MemberName = new ColumnDefinition();
+        public ColumnDefinition Groups_MemberIsAdmin = new ColumnDefinition();
         public ColumnDefinition GroupMembers_GroupId = new ColumnDefinition();
         public ColumnDefinition GroupMembers_DeptId = new ColumnDefinition();
         public ColumnDefinition GroupMembers_UserId = new ColumnDefinition();

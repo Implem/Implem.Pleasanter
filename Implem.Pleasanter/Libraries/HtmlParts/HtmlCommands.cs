@@ -132,6 +132,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 }
                                 break;
                             case "depts":
+                            case "groups":
                                 hb.Common(
                                     context: context,
                                     ss: ss,

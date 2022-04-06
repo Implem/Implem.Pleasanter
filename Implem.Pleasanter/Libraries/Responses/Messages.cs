@@ -801,6 +801,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message InvalidMemberKey(Context context, params string[] data)
+        {
+            return Get(
+                id: "InvalidMemberKey",
+                text: Displays.InvalidMemberKey(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message InvalidMemberType(Context context, params string[] data)
+        {
+            return Get(
+                id: "InvalidMemberType",
+                text: Displays.InvalidMemberType(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message InvalidRequest(Context context, params string[] data)
         {
             return Get(
@@ -2236,6 +2256,26 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return ResponseMessage(
                 message: InvalidJsonData(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseInvalidMemberKey(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: InvalidMemberKey(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseInvalidMemberType(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: InvalidMemberType(
                     context: context,
                     data: data),
                 target: target);

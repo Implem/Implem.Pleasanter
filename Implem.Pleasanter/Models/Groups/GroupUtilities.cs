@@ -50,57 +50,21 @@ namespace Implem.Pleasanter.Models
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
-            return hb.Template(
+            var serverScriptModelRow = ss.GetServerScriptModelRow(
+                context: context,
+                view: view);
+            return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
                 view: view,
-                verType: Versions.VerTypes.Latest,
-                methodType: BaseModel.MethodTypes.Index,
-                referenceType: "Groups",
-                script: JavaScripts.ViewMode(viewMode),
-                title: Displays.Groups(context: context) + " - " + Displays.List(context: context),
-                action: () =>
-                {
-                    hb
-                        .Form(
-                            attributes: new HtmlAttributes()
-                                .Id("MainForm")
-                                .Class("main-form")
-                                .Action(Locations.Action(
-                                    context: context,
-                                    controller: "Groups")),
-                            action: () => hb
-                                .ViewFilters(context: context, ss: ss, view: view)
-                                .Aggregations(
-                                    context: context,
-                                    ss: ss,
-                                    view: view)
-                                .Div(id: "ViewModeContainer", action: () => hb
-                                    .Grid(
-                                        context: context,
-                                        ss: ss,
-                                        gridData: gridData,
-                                        view: view))
-                                .MainCommands(
-                                    context: context,
-                                    ss: ss,
-                                    verType: Versions.VerTypes.Latest)
-                                .Div(css: "margin-bottom")
-                                .Hidden(
-                                    controlId: "BaseUrl",
-                                    value: Locations.BaseUrl(context: context))
-                                .Hidden(
-                                    controlId: "GridOffset",
-                                    value: Parameters.General.GridPageSize.ToString()))
-                        .Div(attributes: new HtmlAttributes()
-                            .Id("ImportSettingsDialog")
-                            .Class("dialog")
-                            .Title(Displays.Import(context: context)))
-                        .Div(attributes: new HtmlAttributes()
-                            .Id("ExportSettingsDialog")
-                            .Class("dialog")
-                            .Title(Displays.ExportSettings(context: context)));
-                }).ToString();
+                viewMode: viewMode,
+                serverScriptModelRow: serverScriptModelRow,
+                viewModeBody: () => hb.Grid(
+                    context: context,
+                    gridData: gridData,
+                    ss: ss,
+                    view: view,
+                    serverScriptModelRow: serverScriptModelRow));
         }
 
         private static string ViewModeTemplate(
@@ -131,6 +95,7 @@ namespace Implem.Pleasanter.Models
                 siteId: ss.SiteId,
                 parentId: ss.ParentId,
                 referenceType: "Groups",
+                title: Displays.Groups(context: context) + " - " + Displays.List(context: context),
                 script: JavaScripts.ViewMode(viewMode),
                 userScript: ss.ViewModeScripts(context: context),
                 userStyle: ss.ViewModeStyles(context: context),
@@ -188,6 +153,9 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         id: ss.SiteId)
                     .MoveDialog(context: context, bulk: true)
+                    .ImportSettingsDialog(
+                        context: context,
+                        ss: ss)
                     .Div(attributes: new HtmlAttributes()
                         .Id("ExportSelectorDialog")
                         .Class("dialog")
@@ -1826,6 +1794,541 @@ namespace Implem.Pleasanter.Models
                                 : string.Empty)
                     }))
                 .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string Import(Context context)
+        {
+            var ss = SiteSettingsUtilities.GroupsSiteSettings(context: context);
+            if (context.ContractSettings.Import == false)
+            {
+                return Messages.ResponseRestricted(context: context).ToJson();
+            }
+            var invalid = GroupValidators.OnImporting(
+                context: context,
+                ss: ss);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson(context: context);
+            }
+            var res = new ResponseCollection();
+            Csv csv;
+            try
+            {
+                csv = new Csv(
+                    csv: context.PostedFiles.FirstOrDefault().Byte(),
+                    encoding: context.Forms.Data("Encoding"));
+            }
+            catch
+            {
+                return Messages.ResponseFailedReadFile(context: context).ToJson();
+            }
+            var count = csv.Rows.Count();
+            if (Parameters.General.ImportMax > 0 && Parameters.General.ImportMax < count)
+            {
+                return Error.Types.ImportMax.MessageJson(
+                    context: context,
+                    data: Parameters.General.ImportMax.ToString());
+            }
+            if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId, number: count))
+            {
+                return Error.Types.ItemsLimit.MessageJson(context: context);
+            }
+            if (csv != null && count > 0)
+            {
+                var columnHash = ImportUtilities.GetColumnHash(ss, csv);
+                var idColumn = columnHash
+                    .Where(o =>
+                        o.Value.Column.ColumnName == "GroupId")
+                    .Select(o =>
+                        new { Id = o.Key })
+                    .FirstOrDefault()?.Id ?? -1;
+                var invalidColumn = Imports.ColumnValidate(
+                    context,
+                    ss,
+                    columnHash.Values.Select(o => o.Column.ColumnName),
+                    columnNames: "GroupName");
+                if (invalidColumn != null) return invalidColumn;
+                var groups = new List<GroupModel>();
+                foreach (var data in csv.Rows.Select((o, i) =>
+                    new { Row = o, Index = i }))
+                {
+                    var groupModel = new GroupModel();
+                    if (idColumn > -1)
+                    {
+                        var model = new GroupModel(
+                            context: context,
+                            ss: ss,
+                            groupId: data.Row[idColumn].ToInt());
+                        if (model.AccessStatus == Databases.AccessStatuses.Selected)
+                        {
+                            groupModel = model;
+                        }
+                    }
+                    foreach (var column in columnHash)
+                    {
+                        var recordingData = ImportRecordingData(
+                            context: context,
+                            column: column.Value.Column,
+                            value: data.Row[column.Key],
+                            inheritPermission: ss.InheritPermission);
+                        switch (column.Value.Column.ColumnName)
+                        {
+                            case "GroupId":
+                                groupModel.GroupId = recordingData.ToInt();
+                                break;
+                            case "GroupName":
+                                groupModel.GroupName = recordingData;
+                                break;
+                            case "Body":
+                                groupModel.Body = recordingData;
+                                break;
+                            case "Comments":
+                                if (groupModel.AccessStatus != Databases.AccessStatuses.Selected &&
+                                    !data.Row[column.Key].IsNullOrEmpty())
+                                {
+                                    groupModel.Comments.Prepend(
+                                        context: context,
+                                        ss: ss,
+                                        body: data.Row[column.Key]);
+                                }
+                                break;
+                            case "Disabled":
+                                groupModel.Disabled = recordingData.ToBool();
+                                break;
+                            case "MemberType":
+                                groupModel.MemberType = recordingData.ToString();
+                                break;
+                            case "MemberKey":
+                                groupModel.MemberKey = recordingData.ToString();
+                                break;
+                            case "MemberName":
+                                groupModel.MemberName = recordingData.ToString();
+                                break;
+                            case "MemberIsAdmin":
+                                groupModel.MemberIsAdmin = recordingData.ToBool();
+                                break;
+                            default:
+                                groupModel.GetValue(
+                                    context: context,
+                                    column: column.Value.Column,
+                                    value: recordingData);
+                                break;
+                        }
+                    }
+                    var csvRowForError = data.Index + 2;
+                    if (!ValidateMemberType(memberType: groupModel.MemberType))
+                    {
+                        return InvalidMemberTypeError(
+                            context: context,
+                            errorCsvRow: csvRowForError);
+                    }
+                    if (!ValidateMemberKey(
+                        context: context,
+                        memberType: groupModel.MemberType,
+                        memberKey: groupModel.MemberKey))
+                    {
+                        return InvalidMemberKeyError(
+                            context: context,
+                            errorCsvRow: csvRowForError);
+                    }
+                    groups.Add(groupModel);
+                };
+                var insertCount = 0;
+                var updateCount = 0;
+                foreach (var groupModel in groups)
+                {
+                    if (groupModel.AccessStatus == Databases.AccessStatuses.Selected)
+                    {
+                        if (groupModel.Updated(context: context))
+                        {
+                            groupModel.VerUp = Versions.MustVerUp(
+                                context: context,
+                                ss: ss,
+                                baseModel: groupModel);
+                            var errorData = groupModel.Update(
+                                context: context,
+                                ss: ss,
+                                refleshSiteInfo: false,
+                                updateGroupMembers: false,
+                                get: false);
+                            switch (errorData.Type)
+                            {
+                                case Error.Types.None:
+                                    break;
+                                default:
+                                    return errorData.MessageJson(context: context);
+                            }
+                            updateCount++;
+                        }
+                    }
+                    else
+                    {
+                        var errorData = groupModel.Create(
+                            context: context,
+                            ss: ss,
+                            get: false);
+                        switch (errorData.Type)
+                        {
+                            case Error.Types.None:
+                                break;
+                            default:
+                                return errorData.MessageJson(context: context);
+                        }
+                        insertCount++;
+                    }
+                    if (!groupModel.MemberType.IsNullOrEmpty())
+                    {
+                        UpdateOrInsertGroupMember(
+                            context: context,
+                            groupModel: groupModel);
+                    }
+                }
+                SiteInfo.Reflesh(
+                    context: context,
+                    force: true);
+                return GridRows(
+                    context: context,
+                    ss: ss,
+                    res: res.WindowScrollTop(),
+                    message: Messages.Imported(
+                        context: context,
+                        data: new string[]
+                        {
+                            ss.Title,
+                            insertCount.ToString(),
+                            updateCount.ToString()
+                        }));
+            }
+            else
+            {
+                return Messages.ResponseFileNotFound(context: context).ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string InvalidMemberTypeError(Context context, int errorCsvRow)
+        {
+            return Error.Types.InvalidMemberType.MessageJson(
+                context: context,
+                data: errorCsvRow.ToString());
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string InvalidMemberKeyError(Context context, int errorCsvRow)
+        {
+            return Error.Types.InvalidMemberKey.MessageJson(
+                context: context,
+                data: errorCsvRow.ToString());
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static bool ValidateMemberType(string memberType)
+        {
+            return memberType.IsNullOrEmpty()
+                || memberType == "Dept"
+                || memberType == "User";
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static bool ValidateMemberKey(Context context, string memberType, string memberKey)
+        {
+            switch (memberType)
+            {
+                case null:
+                case "":
+                    return true;
+                case "Dept":
+                    return GetDeptId(
+                        context: context,
+                        deptCode: memberKey) > 0;
+                case "User":
+                    return GetUserId(
+                        context: context,
+                        loginId: memberKey) > 0;
+                default:
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static int GetUserId(Context context, string loginId)
+        {
+            return Repository.ExecuteScalar_int(
+                context: context,
+                statements: Rds.SelectUsers(
+                    column: Rds.UsersColumn()
+                        .UserId(),
+                    where: Rds.UsersWhere()
+                        .TenantId(context.TenantId)
+                        .LoginId(loginId))
+                );
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static int GetDeptId(Context context, string deptCode)
+        {
+            return Repository.ExecuteScalar_int (
+                context: context,
+                statements: Rds.SelectDepts(
+                    column: Rds.DeptsColumn()
+                        .DeptId(),
+                    where: Rds.DeptsWhere()
+                        .TenantId(context.TenantId)
+                        .DeptCode(deptCode)));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void UpdateOrInsertGroupMember(Context context, GroupModel groupModel)
+        {
+            var deptId = GetDeptId(
+                context: context,
+                deptCode: groupModel.MemberKey);
+            var userId = GetUserId(
+                context: context,
+                loginId: groupModel.MemberKey);
+            if (Repository.ExecuteScalar_bool(
+                    context: context,
+                    statements: Rds.SelectGroupMembers(
+                        column: Rds.GroupMembersColumn().GroupMembersCount(),
+                        where: Rds.GroupMembersWhere()
+                            .GroupId(groupModel.GroupId)
+                            .DeptId(deptId)
+                            .UserId(userId))))
+            {
+                if (groupModel.MemberIsAdmin != null)
+                {
+                    Repository.ExecuteNonQuery(
+                        context: context,
+                        transactional: true,
+                        statements: Rds.UpdateGroupMembers(
+                            where: Rds.GroupMembersWhere()
+                                .GroupId(groupModel.GroupId)
+                                .DeptId(deptId)
+                                .UserId(userId),
+                            param: Rds.GroupMembersParam()
+                                .Admin(groupModel.MemberIsAdmin)));
+                }
+            }
+            else
+            {
+                Repository.ExecuteNonQuery(
+                    context: context,
+                    transactional: true,
+                    statements: Rds.InsertGroupMembers(
+                        param: Rds.GroupMembersParam()
+                        .GroupId(groupModel.GroupId)
+                        .DeptId(deptId)
+                        .UserId(userId)
+                        .Admin(groupModel.MemberIsAdmin ?? false)));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string ImportRecordingData(
+            Context context, Column column, string value, long inheritPermission)
+        {
+            var recordingData = column.RecordingData(
+                context: context,
+                value: value,
+                siteId: inheritPermission);
+            return recordingData;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string OpenExportSelectorDialog(Context context, SiteSettings ss)
+        {
+            if (context.ContractSettings.Export == false)
+            {
+                return HtmlTemplates.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.InvalidRequest));
+            }
+            var invalid = GroupValidators.OnExporting(
+                context: context,
+                ss: ss);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson(context: context);
+            }
+            return new ResponseCollection()
+                .Html(
+                    "#ExportSelectorDialog",
+                    new HtmlBuilder().ExportSelectorDialog(
+                        context: context,
+                        ss: ss))
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ResponseFile Export(Context context, SiteSettings ss)
+        {
+            if (context.ContractSettings.Export == false)
+            {
+                return null;
+            }
+            var invalid = GroupValidators.OnExporting(
+                context: context,
+                ss: ss);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return null;
+            }
+            var export = ss.GetExport(context: context);
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
+            var csv = new System.Text.StringBuilder();
+            if (export.Header == true)
+            {
+                csv.Append(export.Columns.Select(column =>
+                    "\"" + column.GetLabelText() + "\"").Join(","),
+                    $",\"{Displays.Groups_MemberType(context: context)}\"",
+                    $",\"{Displays.Groups_MemberKey(context: context)}\"",
+                    $",\"{Displays.Groups_MemberName(context: context)}\"",
+                    $",\"{Displays.Groups_MemberIsAdmin(context: context)}\"",
+                    "\n");
+            }
+            new GroupCollection(
+                context: context,
+                ss: ss,
+                where: view.Where(
+                    context: context,
+                    ss: ss,
+                    where: Rds.GroupsWhere().TenantId(context.TenantId)),
+                orderBy: view.OrderBy(
+                    context: context,
+                    ss: ss))
+                        .ForEach(groupModel =>
+                        {
+                            var members = GroupMembers(
+                                context: context,
+                                groupId: groupModel.GroupId);
+                            if (members.Count() == 0)
+                            {
+                                AppendGroupColumnsToCsv(
+                                    context: context,
+                                    ss: ss,
+                                    groupModel: groupModel,
+                                    export: export,
+                                    csv: csv);
+                                AppendBlankGroupMemberColumnsToCsv(csv: csv);
+                            }
+                            else
+                            {
+                                members.ForEach(dataRow =>
+                                {
+                                    AppendGroupColumnsToCsv(
+                                        context: context,
+                                        ss: ss,
+                                        groupModel: groupModel,
+                                        export: export,
+                                        csv: csv);
+                                    AppendGroupMemberColumnsToCsv(
+                                        context: context,
+                                        dataRow: dataRow,
+                                        csv: csv);
+                                });
+                            }
+                        });
+            return new ResponseFile(
+                fileContent: csv.ToString(),
+                fileDownloadName: ExportUtilities.FileName(
+                    context: context,
+                    title: ss.Title,
+                    name: Displays.Groups(context: context)),
+                encoding: context.QueryStrings.Data("encoding"));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void AppendGroupMemberColumnsToCsv(Context context, DataRow dataRow, System.Text.StringBuilder csv)
+        {
+            var dept = SiteInfo.Dept(
+                tenantId: context.TenantId,
+                deptId: dataRow.Int("DeptId"));
+            var user = SiteInfo.User(
+                context: context,
+                userId: dataRow.Int("UserId"));
+            var admin = dataRow.Bool("Admin");
+            if (dept.Id > 0)
+            {
+                csv.Append(
+                    $",\"Dept\"",
+                    $",\"{dept.Code}\"",
+                    $",\"{dept.Name}\"",
+                    $",\"{admin}\"",
+                    "\n");
+            }
+            else if (!user.Anonymous())
+            {
+                csv.Append(
+                    $",\"User\"",
+                    $",\"{user.LoginId}\"",
+                    $",\"{user.Name}\"",
+                    $",\"{admin}\"",
+                    "\n");
+            }
+            else
+            {
+                AppendBlankGroupMemberColumnsToCsv(csv: csv);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void AppendGroupColumnsToCsv(
+            Context context,
+            SiteSettings ss,
+            GroupModel groupModel,
+            Export export,
+            System.Text.StringBuilder csv)
+        {
+            csv.Append(export.Columns.Select(exportColumn =>
+                groupModel.CsvData(
+                    context: context,
+                    ss: ss,
+                    column: ss.GetColumn(
+                        context: context,
+                        columnName: exportColumn.ColumnName),
+                    exportColumn: exportColumn,
+                    mine: groupModel.Mine(context: context),
+                    encloseDoubleQuotes: true)).Join());
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void AppendBlankGroupMemberColumnsToCsv(System.Text.StringBuilder csv)
+        {
+            csv.Append(",\"\",\"\",\"\",\"\"", "\n");
         }
 
         /// <summary>

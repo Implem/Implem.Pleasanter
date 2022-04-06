@@ -18,6 +18,15 @@ namespace Implem.Pleasanter.Libraries.Extensions
         }
 
         public static object ToApiDisplayValue(
+            this bool? self,
+            Context context,
+            SiteSettings ss,
+            Column column)
+        {
+            return self;
+        }
+
+        public static object ToApiDisplayValue(
             this DateTime self,
             Context context,
             SiteSettings ss,

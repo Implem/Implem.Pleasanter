@@ -31,6 +31,10 @@ namespace Implem.Pleasanter.Models
         public string GroupName = string.Empty;
         public string Body = string.Empty;
         public bool Disabled = false;
+        public string MemberType = string.Empty;
+        public string MemberKey = string.Empty;
+        public string MemberName = string.Empty;
+        public bool? MemberIsAdmin = null;
 
         public Title Title
         {
@@ -45,6 +49,10 @@ namespace Implem.Pleasanter.Models
         public string SavedGroupName = string.Empty;
         public string SavedBody = string.Empty;
         public bool SavedDisabled = false;
+        public string SavedMemberType = string.Empty;
+        public string SavedMemberKey = string.Empty;
+        public string SavedMemberName = string.Empty;
+        public bool? SavedMemberIsAdmin = null;
 
         public bool TenantId_Updated(Context context, Column column = null)
         {
@@ -84,6 +92,238 @@ namespace Implem.Pleasanter.Models
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.GetDefaultInput(context: context).ToBool() != Disabled);
+        }
+
+        public string CsvData(
+            Context context,
+            SiteSettings ss,
+            Column column,
+            ExportColumn exportColumn,
+            List<string> mine,
+            bool? encloseDoubleQuotes)
+        {
+            var value = string.Empty;
+            switch (column.Name)
+            {
+                case "TenantId":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? TenantId.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "GroupId":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? GroupId.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "Ver":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? Ver.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "GroupName":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? GroupName.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "Body":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? Body.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "Disabled":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? Disabled.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "Comments":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? Comments.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "Creator":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? Creator.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "Updator":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? Updator.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "CreatedTime":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? CreatedTime.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "UpdatedTime":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? UpdatedTime.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
+                    {
+                        case "Class":
+                            value = ss.ReadColumnAccessControls.Allowed(
+                                context: context,
+                                ss: ss,
+                                column: column,
+                                mine: mine)
+                                    ? GetClass(columnName: column.Name).ToExport(
+                                        context: context,
+                                        column: column,
+                                        exportColumn: exportColumn)
+                                    : string.Empty;
+                            break;
+                        case "Num":
+                            value = ss.ReadColumnAccessControls.Allowed(
+                                context: context,
+                                ss: ss,
+                                column: column,
+                                mine: mine)
+                                    ? GetNum(columnName: column.Name).ToExport(
+                                        context: context,
+                                        column: column,
+                                        exportColumn: exportColumn)
+                                    : string.Empty;
+                            break;
+                        case "Date":
+                            value = ss.ReadColumnAccessControls.Allowed(
+                                context: context,
+                                ss: ss,
+                                column: column,
+                                mine: mine)
+                                    ? GetDate(columnName: column.Name).ToExport(
+                                        context: context,
+                                        column: column,
+                                        exportColumn: exportColumn)
+                                    : string.Empty;
+                            break;
+                        case "Description":
+                            value = ss.ReadColumnAccessControls.Allowed(
+                                context: context,
+                                ss: ss,
+                                column: column,
+                                mine: mine)
+                                    ? GetDescription(columnName: column.Name).ToExport(
+                                        context: context,
+                                        column: column,
+                                        exportColumn: exportColumn)
+                                    : string.Empty;
+                            break;
+                        case "Check":
+                            value = ss.ReadColumnAccessControls.Allowed(
+                                context: context,
+                                ss: ss,
+                                column: column,
+                                mine: mine)
+                                    ? GetCheck(columnName: column.Name).ToExport(
+                                        context: context,
+                                        column: column,
+                                        exportColumn: exportColumn)
+                                    : string.Empty;
+                            break;
+                        case "Attachments":
+                            value = ss.ReadColumnAccessControls.Allowed(
+                                context: context,
+                                ss: ss,
+                                column: column,
+                                mine: mine)
+                                    ? GetAttachments(columnName: column.Name).ToExport(
+                                        context: context,
+                                        column: column,
+                                        exportColumn: exportColumn)
+                                    : string.Empty;
+                            break;
+                        default: return string.Empty;
+                    }
+                    break;
+            }
+            if (encloseDoubleQuotes != false)
+            {
+                return "\"" + value?.Replace("\"", "\"\"") + "\"";
+            }
+            else
+            {
+                return value;
+            }
         }
 
         public List<int> SwitchTargets;
@@ -389,6 +629,26 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
+                case "MemberType":
+                    return MemberType.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "MemberKey":
+                    return MemberKey.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "MemberName":
+                    return MemberName.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "MemberIsAdmin":
+                    return MemberIsAdmin.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
                 case "Comments":
                     return Comments.ToApiDisplayValue(
                         context: context,
@@ -507,6 +767,26 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "Disabled":
                     return Disabled.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "MemberType":
+                    return MemberType.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "MemberKey":
+                    return MemberKey.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "MemberName":
+                    return MemberName.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "MemberIsAdmin":
+                    return MemberIsAdmin.ToApiValue(
                         context: context,
                         ss: ss,
                         column: column);
@@ -648,6 +928,8 @@ namespace Implem.Pleasanter.Models
         public ErrorData Update(
             Context context,
             SiteSettings ss,
+            bool refleshSiteInfo = true,
+            bool updateGroupMembers = true,
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
@@ -679,41 +961,48 @@ namespace Implem.Pleasanter.Models
             {
                 Get(context: context, ss: ss);
             }
-            statements = new List<SqlStatement>
+            if (updateGroupMembers)
             {
-                Rds.PhysicalDeleteGroupMembers(
-                    where: Rds.GroupMembersWhere()
-                        .GroupId(GroupId))
-            };
-            Repository.ExecuteNonQuery(
-                context: context,
-                transactional: true,
-                statements: statements.ToArray());
-            context.Forms.List("CurrentMembersAll").ForEach(data =>
+                statements = new List<SqlStatement>
+                {
+                    Rds.PhysicalDeleteGroupMembers(
+                        where: Rds.GroupMembersWhere()
+                            .GroupId(GroupId))
+                };
+                Repository.ExecuteNonQuery(
+                    context: context,
+                    transactional: true,
+                    statements: statements.ToArray());
+                context.Forms.List("CurrentMembersAll").ForEach(data =>
+                {
+                    if (data.StartsWith("Dept,"))
+                    {
+                        Repository.ExecuteNonQuery(
+                            context: context,
+                            transactional: true,
+                            statements: Rds.InsertGroupMembers(
+                                param: Rds.GroupMembersParam()
+                                    .GroupId(GroupId)
+                                    .DeptId(data.Split_2nd().ToInt())
+                                    .Admin(data.Split_3rd().ToBool())));
+                    }
+                    if (data.StartsWith("User,"))
+                    {
+                        Repository.ExecuteNonQuery(
+                            context: context,
+                            transactional: true,
+                            statements: Rds.InsertGroupMembers(
+                                param: Rds.GroupMembersParam()
+                                    .GroupId(GroupId)
+                                    .UserId(data.Split_2nd().ToInt())
+                                    .Admin(data.Split_3rd().ToBool())));
+                    }
+                });
+            }
+            if (refleshSiteInfo)
             {
-                if (data.StartsWith("Dept,"))
-                {
-                    Repository.ExecuteNonQuery(
-                        context: context,
-                        transactional: true,
-                        statements: Rds.InsertGroupMembers(
-                            param: Rds.GroupMembersParam()
-                                .GroupId(GroupId)
-                                .DeptId(data.Split_2nd().ToInt())
-                                .Admin(data.Split_3rd().ToBool())));
-                }
-                if (data.StartsWith("User,"))
-                {
-                    Repository.ExecuteNonQuery(
-                        context: context,
-                        transactional: true,
-                        statements: Rds.InsertGroupMembers(
-                            param: Rds.GroupMembersParam()
-                                .GroupId(GroupId)
-                                .UserId(data.Split_2nd().ToInt())
-                                .Admin(data.Split_3rd().ToBool())));
-                }
-            });
+                SiteInfo.Reflesh(context: context);
+            }
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -968,6 +1257,10 @@ namespace Implem.Pleasanter.Models
             GroupName = groupModel.GroupName;
             Body = groupModel.Body;
             Disabled = groupModel.Disabled;
+            MemberType = groupModel.MemberType;
+            MemberKey = groupModel.MemberKey;
+            MemberName = groupModel.MemberName;
+            MemberIsAdmin = groupModel.MemberIsAdmin;
             Comments = groupModel.Comments;
             Creator = groupModel.Creator;
             Updator = groupModel.Updator;
