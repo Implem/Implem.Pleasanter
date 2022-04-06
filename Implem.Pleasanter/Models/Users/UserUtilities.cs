@@ -3048,6 +3048,9 @@ namespace Implem.Pleasanter.Models
                             case "AllowGroupAdministration":
                                 userModel.AllowGroupAdministration = recordingData.ToBool();
                                 break;
+                            case "AllowGroupCreation":
+                                userModel.AllowGroupCreation = recordingData.ToBool();
+                                break;
                             case "Disabled":
                                 userModel.Disabled = recordingData.ToBool();
                                 break;
