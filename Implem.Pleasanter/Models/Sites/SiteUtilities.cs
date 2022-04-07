@@ -5566,7 +5566,7 @@ namespace Implem.Pleasanter.Models
                                     .A(
                                         href: "#AutoNumberingSettingTab",
                                         text: Displays.AutoNumbering(context: context)),
-                                _using: column.TypeName.CsTypeSummary() == Types.CsString)
+                                _using: column.AutoNumberingColumn())
                             .Li(
                                 action: () => hb
                                     .A(
@@ -5702,7 +5702,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Column column)
         {
-            if (column.TypeName.CsTypeSummary() != Types.CsString)
+            if (!column.AutoNumberingColumn())
             {
                 return hb;
             }
