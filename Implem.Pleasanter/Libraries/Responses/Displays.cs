@@ -6779,6 +6779,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ReplaceAllGroupMembers(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ReplaceAllGroupMembers",
+                data: data);
+        }
+
         public static string Reply(
             Context context,
             params string[] data)

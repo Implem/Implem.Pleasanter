@@ -1937,6 +1937,16 @@ namespace Implem.Pleasanter.Models
                     }
                     groups.Add(groupModel);
                 };
+                if (context.Forms.Bool("ReplaceAllGroupMembers") == true)
+                {
+                    groups
+                        .Select(o => o.GroupId)
+                        .Distinct()
+                        .ForEach(groupId =>
+                            PhysicalDeleteGroupMembers(
+                                context: context,
+                                groupId: groupId));
+                }
                 var insertGroupCount = 0;
                 var updateGroupCount = 0;
                 var insertGroupMemberCount = 0;
@@ -2151,6 +2161,19 @@ namespace Implem.Pleasanter.Models
                         .Admin(groupModel.MemberIsAdmin ?? false)));
                 insertGroupMemberCount++;
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void PhysicalDeleteGroupMembers(Context context, int groupId)
+        {
+            Repository.ExecuteNonQuery(
+                context: context,
+                transactional: true,
+                statements: Rds.PhysicalDeleteGroupMembers(
+                    where: Rds.GroupMembersWhere()
+                        .GroupId(groupId)));
         }
 
         /// <summary>
