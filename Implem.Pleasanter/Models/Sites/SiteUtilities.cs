@@ -5642,7 +5642,7 @@ namespace Implem.Pleasanter.Models
                             .Ul(id: "EditorDetailsettingTabs", action: () => hb
                                 .Li(action: () => hb
                                     .A(
-                                        href: "#EditorColumnDialog",
+                                        href: "#EditorColumnDialogTab",
                                         text: Displays.General(context: context)))
                                 .Li(
                                     action: () => hb
