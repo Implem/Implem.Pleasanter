@@ -102,13 +102,13 @@ namespace Implem.CodeDefiner
             catch (ParametersNotFoundException e)
             {
                 Consoles.Write(
-                    "ParametersNotFoundException : " + e.Message + "\n" + e.StackTrace,
+                    "ParametersNotFoundException : " + e.Message,
                     Consoles.Types.Error);
             }
             catch (ParametersIllegalSyntaxException e)
             {
                 Consoles.Write(
-                    "ParametersIllegalSyntaxException : " + e.Message + "\n" + e.StackTrace,
+                    "ParametersIllegalSyntaxException : " + e.Message,
                     Consoles.Types.Error);
             }
             catch (Exception e)
