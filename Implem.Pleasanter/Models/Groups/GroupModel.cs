@@ -26,6 +26,7 @@ namespace Implem.Pleasanter.Models
     [Serializable]
     public class GroupModel : BaseModel
     {
+        public List<string> GroupMembers;
         public int TenantId = 0;
         public int GroupId = 0;
         public string GroupName = string.Empty;
@@ -498,6 +499,7 @@ namespace Implem.Pleasanter.Models
                         break;
                 }
             });
+            if (GroupMembers != null) { data.GroupMembers = GroupMembers; }
             return data;
         }
 
@@ -869,17 +871,24 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
+            bool setByApi = false,
             string noticeType = "Created",
             bool otherInitValue = false,
             bool get = true)
         {
             TenantId = context.TenantId;
             var statements = new List<SqlStatement>();
+            var groupMembers = setByApi
+                ? GroupMembers
+                : context.Forms.List("CurrentMembersAll");
+            var addMyselfGroupmembers = true;
+            if(setByApi && groupMembers != null) { addMyselfGroupmembers = false; }
             statements.AddRange(CreateStatements(
                 context: context,
                 ss: ss,
                 tableType: tableType,
                 param: param,
+                groupMembersUsing: addMyselfGroupmembers,
                 otherInitValue: otherInitValue));
             var response = Repository.ExecuteScalar_response(
                 context: context,
@@ -887,6 +896,31 @@ namespace Implem.Pleasanter.Models
                 selectIdentity: true,
                 statements: statements.ToArray());
             GroupId = (response.Id ?? GroupId).ToInt();
+            groupMembers?.ForEach(data =>
+            {
+                if (data.StartsWith("Dept,"))
+                {
+                    Repository.ExecuteNonQuery(
+                        context: context,
+                        transactional: true,
+                        statements: Rds.InsertGroupMembers(
+                            param: Rds.GroupMembersParam()
+                                .GroupId(GroupId)
+                                .DeptId(data.Split_2nd().ToInt())
+                                .Admin(data.Split_3rd().ToBool())));
+                }
+                if (data.StartsWith("User,"))
+                {
+                    Repository.ExecuteNonQuery(
+                        context: context,
+                        transactional: true,
+                        statements: Rds.InsertGroupMembers(
+                            param: Rds.GroupMembersParam()
+                                .GroupId(GroupId)
+                                .UserId(data.Split_2nd().ToInt())
+                                .Admin(data.Split_3rd().ToBool())));
+                }
+            });
             if (get) Get(context: context, ss: ss);
             return new ErrorData(type: Error.Types.None);
         }
@@ -897,6 +931,7 @@ namespace Implem.Pleasanter.Models
             string dataTableName = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
+            bool groupMembersUsing = true,
             bool otherInitValue = false)
         {
             var statements = new List<SqlStatement>();
@@ -917,7 +952,8 @@ namespace Implem.Pleasanter.Models
                     param: param ?? Rds.GroupMembersParam()
                         .GroupId(raw: Def.Sql.Identity)
                         .UserId(context.UserId)
-                        .Admin(true)),
+                        .Admin(true),
+                    _using: groupMembersUsing),
                 StatusUtilities.UpdateStatus(
                     tenantId: context.TenantId,
                     type: StatusUtilities.Types.GroupsUpdated),
@@ -930,6 +966,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             bool refleshSiteInfo = true,
             bool updateGroupMembers = true,
+            bool setByApi = false,
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
@@ -963,17 +1000,19 @@ namespace Implem.Pleasanter.Models
             }
             if (updateGroupMembers)
             {
-                statements = new List<SqlStatement>
+                var groupMembers = setByApi
+                    ? GroupMembers
+                    : context.Forms.List("CurrentMembersAll");
+                if (groupMembers != null)
                 {
-                    Rds.PhysicalDeleteGroupMembers(
-                        where: Rds.GroupMembersWhere()
-                            .GroupId(GroupId))
-                };
-                Repository.ExecuteNonQuery(
+                    Repository.ExecuteNonQuery(
                     context: context,
                     transactional: true,
-                    statements: statements.ToArray());
-                context.Forms.List("CurrentMembersAll").ForEach(data =>
+                    statements: Rds.PhysicalDeleteGroupMembers(
+                        where: Rds.GroupMembersWhere()
+                            .GroupId(GroupId)));
+                }            
+                groupMembers?.ForEach(data =>
                 {
                     if (data.StartsWith("Dept,"))
                     {
@@ -1288,6 +1327,7 @@ namespace Implem.Pleasanter.Models
             if (data.GroupName != null) GroupName = data.GroupName.ToString().ToString();
             if (data.Body != null) Body = data.Body.ToString().ToString();
             if (data.Disabled != null) Disabled = data.Disabled.ToBool().ToBool();
+            if (data.GroupMembers != null) GroupMembers = data.GroupMembers;
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             data.ClassHash?.ForEach(o => GetClass(
