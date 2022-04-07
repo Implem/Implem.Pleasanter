@@ -1,7 +1,10 @@
 ﻿name: learn-github-actions
-on: [push]
+on:
+    push:
+        branches:
+            - 'feature/daily-build-and-test'
 jobs:
-  check-bats-version:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "this is pen"
+    check-bats-version:
+        runs-on: ubuntu-latest
+        steps:
+            - run: echo "this is pen"
