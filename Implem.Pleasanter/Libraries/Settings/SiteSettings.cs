@@ -1662,7 +1662,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return columnDefinition?.LinkColumn > 0;
         }
 
-        private void UpdateColumns(Context context, bool onSerializing = false)
+        private void UpdateColumns(Context context)
         {
             if (Columns == null) Columns = new List<Column>();
             var columnHash = Columns.ToDictionary(
@@ -1670,21 +1670,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column => column);
             ColumnDefinitionHash?.Values.ForEach(columnDefinition =>
             {
-                if (!onSerializing)
+                var column = columnHash.Get(columnDefinition.ColumnName);
+                if (column == null)
                 {
-                    var column = columnHash.Get(columnDefinition.ColumnName);
-                    if (column == null)
-                    {
-                        column = new Column(columnDefinition.ColumnName);
-                        Columns.Add(column);
-                        columnHash.Add(column.ColumnName, column);
-                    }
-                    UpdateColumn(
-                        context: context,
-                        ss: this,
-                        columnDefinition: columnDefinition,
-                        column: column);
+                    column = new Column(columnDefinition.ColumnName);
+                    Columns.Add(column);
+                    columnHash.Add(column.ColumnName, column);
                 }
+                UpdateColumn(
+                    context: context,
+                    ss: this,
+                    columnDefinition: columnDefinition,
+                    column: column);
             });
         }
 
