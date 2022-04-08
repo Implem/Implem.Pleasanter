@@ -24,6 +24,8 @@ jobs:
             run: dotnet restore ${{ env.WORKING_DIRECTORY }}
           - name: Build Pleasanter
             run: dotnet build "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-restore
+          - name: Restore
+            run: dotnet restore ${{ env.WORKING_DIR_CODEDEFINER }}
           - name: Build CodeDefiner
             run: dotnet build "${{ env.WORKING_DIR_CODEDEFINER }}" --configuration ${{ env.CONFIGURATION }} --no-restore
           - name: Build TestAutomation
