@@ -20,13 +20,15 @@ jobs:
             uses: actions/setup-dotnet@v1
             with:
                 dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
-          - name: Restore
+          - name: Restore (Pleasanter)
             run: dotnet restore ${{ env.WORKING_DIRECTORY }}
           - name: Build Pleasanter
             run: dotnet build "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-restore
-          - name: Restore
+          - name: Restore (CodeDefiner)
             run: dotnet restore ${{ env.WORKING_DIR_CODEDEFINER }}
           - name: Build CodeDefiner
             run: dotnet build "${{ env.WORKING_DIR_CODEDEFINER }}" --configuration ${{ env.CONFIGURATION }} --no-restore
+          - name: Restore(TestAutomation)
+            run: dotnet restore ${{ env.WORKING_DIR_TESTAUTOMATION }}
           - name: Build TestAutomation
             run: dotnet build "${{ env.WORKING_DIR_TESTAUTOMATION }}" --configuration ${{ env.CONFIGURATION }} --no-restore
