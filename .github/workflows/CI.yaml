@@ -1,0 +1,30 @@
+﻿name: CI
+on:
+    push:
+        branches: ['feature/daily-build-and-test']
+env:
+  AZURE_WEBAPP_NAME: pleasanter
+  AZURE_WEBAPP_PACKAGE_PATH: Implem.Pleasanter/publish
+  AZURE_WEBAPP_PUBLISH_PROFILE: ${{ secrets.pleasanter_f16e }}
+  CONFIGURATION: Release
+  DOTNET_CORE_VERSION: 6.0.x
+  WORKING_DIRECTORY: Implem.Pleasanter
+  WORKING_DIR_CODEDEFINER: Implem.CodeDefiner
+  WORKING_DIR_TESTAUTOMATION: Implem.TestAutomation
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v2
+          - name: Setup .NET Core
+            uses: actions/setup-dotnet@v1
+            with:
+                dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
+          - name: Restore
+            run: dotnet restore ${{ env.WORKING_DIRECTORY }}
+          - name: Build Pleasanter
+            run: dotnet build "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-restore
+          - name: Build CodeDefiner
+            run: dotnet build "${{ env.WORKING_DIR_CODEDEFINER }}" --configuration ${{ env.CONFIGURATION }} --no-restore
+          - name: Build TestAutomation
+            run: dotnet build "${{ env.WORKING_DIR_TESTAUTOMATION }}" --configuration ${{ env.CONFIGURATION }} --no-restore

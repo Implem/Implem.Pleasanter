@@ -42,6 +42,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implem.TestAutomation", "Im
 		{C082A0D7-13C6-4D8A-9735-3C302E81B280} = {C082A0D7-13C6-4D8A-9735-3C302E81B280}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CICD", "CICD", "{EDD4BA11-3C06-4DE2-82CA-D0B945EE21E6}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\CI.yaml = .github\workflows\CI.yaml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
