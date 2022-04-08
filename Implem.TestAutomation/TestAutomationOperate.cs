@@ -726,7 +726,7 @@ namespace Implem.TestAutomation
         {
             var parts = new DirectoryInfo(Assembly.GetEntryAssembly().Location).FullName.Split('\\');
             var path = new DirectoryInfo(Path.Combine(
-                parts.Take(Array.IndexOf(parts, "implem.TestAutomation") + 1).Join("\\"),
+                parts.Take(Array.IndexOf(parts, "Implem.TestAutomation") + 1).Join("\\"),
                 "Log")).FullName;
             if (!new DirectoryInfo(path).Exists) Directory.CreateDirectory(path);
             var file = Path.Combine(path, logFileName);
@@ -747,7 +747,7 @@ namespace Implem.TestAutomation
         {
             var parts = new DirectoryInfo(Assembly.GetEntryAssembly().Location).FullName.Split('\\');
             var path = new DirectoryInfo(Path.Combine(
-                parts.Take(Array.IndexOf(parts, "implem.TestAutomation") + 1).Join("\\"),
+                parts.Take(Array.IndexOf(parts, "Implem.TestAutomation") + 1).Join("\\"),
                 "Log",
                 Parameters.ExtendedAutoTestSettings.ResultsPath)).FullName;
             if (!new DirectoryInfo(path).Exists) Directory.CreateDirectory(path);
@@ -799,7 +799,7 @@ namespace Implem.TestAutomation
             {
                 var parts = new DirectoryInfo(Assembly.GetEntryAssembly().Location).FullName.Split('\\');
                 var path = new DirectoryInfo(Path.Combine(
-                    parts.Take(Array.IndexOf(parts, "implem.TestAutomation") + 1).Join("\\"),
+                    parts.Take(Array.IndexOf(parts, "Implem.TestAutomation") + 1).Join("\\"),
                     "Log",
                     Parameters.ExtendedAutoTestSettings.ScreenShotPath)).FullName;
                 if (!new DirectoryInfo(path).Exists) Directory.CreateDirectory(path);

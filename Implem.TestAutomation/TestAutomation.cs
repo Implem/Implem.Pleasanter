@@ -109,7 +109,7 @@ namespace Implem.TestAutomation
             {
                 var parts = new DirectoryInfo(Assembly.GetEntryAssembly().Location).FullName.Split('\\');
                 path = new DirectoryInfo(Path.Combine(parts.Take(Array.IndexOf
-                    (parts, "implem.TestAutomation")).Join("\\"), "Implem.Pleasanter")).FullName;
+                    (parts, "Implem.TestAutomation")).Join("\\"), "Implem.Pleasanter")).FullName;
             }
             return (path, executeType);
         }
