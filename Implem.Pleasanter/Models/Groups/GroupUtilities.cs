@@ -2927,6 +2927,19 @@ namespace Implem.Pleasanter.Models
                         offset: api.Offset,
                         pageSize: pageSize,
                         tableType: tableType);
+                    groupCollection.ForEach(groupModel =>
+                    {
+                        var data = new Dictionary<string, ControlData>();
+                        GroupMembers(
+                            context: context,
+                            groupId: groupModel.GroupId)
+                                .ForEach(datarow =>
+                                    data.AddMember(
+                                        context: context,
+                                        dataRow: datarow));
+                        groupModel.GroupMembers = data.Select(
+                            groupMember => groupMember.Key).ToList<string>();
+                    });
                     var groups = siteGroups == null
                         ? groupCollection
                         : groupCollection.Join(siteGroups, c => c.GroupId, s => s, (c, s) => c);
@@ -2981,7 +2994,10 @@ namespace Implem.Pleasanter.Models
                         data: column.ColumnName);
                 }
             }
-            var errorData = groupModel.Create(context: context, ss: ss);
+            var errorData = groupModel.Create(
+                context: context,
+                ss: ss,
+                setByApi: true);
             switch (errorData.Type)
             {
                 case Error.Types.None:
@@ -3038,7 +3054,9 @@ namespace Implem.Pleasanter.Models
             }
             var errorData = groupModel.Update(
                 context: context,
-                ss: ss);
+                ss: ss,
+                setByApi: true,
+                get: false);
             switch (errorData.Type)
             {
                 case Error.Types.None:
