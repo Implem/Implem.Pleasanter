@@ -881,8 +881,7 @@ namespace Implem.Pleasanter.Models
             var groupMembers = setByApi
                 ? GroupMembers
                 : context.Forms.List("CurrentMembersAll");
-            var addMyselfGroupmembers = true;
-            if(setByApi && groupMembers != null) { addMyselfGroupmembers = false; }
+            var addMyselfGroupmembers = !setByApi || groupMembers == null;
             statements.AddRange(CreateStatements(
                 context: context,
                 ss: ss,
