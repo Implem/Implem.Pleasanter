@@ -22,7 +22,7 @@ namespace Implem.PleasanterFilters
                 new SysLogModel(
                     context: context,
                     method: nameof(OnException),
-                    message: filterContext.Exception.Message,
+                    message: $"{filterContext.Exception.GetType().Name}: {filterContext.Exception.Message}",
                     errStackTrace: filterContext.Exception.StackTrace,
                     sysLogType: SysLogModel.SysLogTypes.Execption);
                 var siteId = CanManageSiteId(context: context);

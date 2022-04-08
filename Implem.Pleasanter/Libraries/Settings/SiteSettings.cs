@@ -1,6 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.DataSources.SqlServer;
+using Implem.Libraries.Exceptions;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
@@ -287,6 +288,11 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public void Init(Context context)
         {
+            if (!ReferenceType.IsNullOrEmpty()
+                && !Def.ColumnDefinitionCollection.Any(o => o.TableName == ReferenceType))
+            {
+                throw new IllegalSiteSettingsException($"ReferenceType: {ReferenceType}");
+            }
             Version = SiteSettingsUtilities.Version;
             NearCompletionTimeBeforeDays = NearCompletionTimeBeforeDays ??
                 Parameters.General.NearCompletionTimeBeforeDays;
