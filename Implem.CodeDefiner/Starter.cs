@@ -212,19 +212,5 @@ namespace Implem.CodeDefiner
                 Consoles.Types.Error,
                 abort: true);
         }
-
-        [Conditional("DEBUG")]
-        private static void TestPerformance(int loopCount, params Action[] actionCollection)
-        {
-            actionCollection
-                .Select((o, i) => new { Count = i + 1, Action = o })
-                .ForEach(data =>
-                {
-                    for (int count = 1; count <= loopCount; count++)
-                    {
-                        data.Action();
-                    }
-                });
-        }
     }
 }
