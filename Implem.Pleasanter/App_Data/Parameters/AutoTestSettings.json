@@ -1,5 +1,5 @@
 ﻿{
-    "Url": "http://localhost:1759/",
+    "Url": "http://localhost/",
     "BrowserType": "Chrome",
     "Width": 1500,
     "Height": 1000,

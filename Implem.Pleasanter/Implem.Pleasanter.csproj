@@ -2396,6 +2396,10 @@
     <Content Include="App_Data\Displays\AfterCopy.json" />
     <Content Include="App_Data\Displays\AfterImport.json" />
     <Content Include="App_Data\Displays\NotInsertBlankChoice.json" />
+    <Content Include="App_Data\Displays\InvalidMemberType.json" />
+    <Content Include="App_Data\Displays\InvalidMemberKey.json" />
+    <Content Include="App_Data\Displays\GroupImported.json" />
+    <Content Include="App_Data\Displays\ReplaceAllGroupMembers.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

@@ -1,6 +1,7 @@
 ﻿using Implem.DisplayAccessor;
 using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
+using Implem.Libraries.Exceptions;
 using Implem.Libraries.Utilities;
 using Implem.ParameterAccessor.Parts;
 using System;
@@ -75,7 +76,7 @@ namespace Implem.DefinitionAccessor
 
         public static void SetParameters()
         {
-            Parameters.Env = Read<Env>();
+            Parameters.Env = Read<Env>(required: false);
             if (Parameters.Env?.ParametersPath.IsNullOrEmpty() == false)
             {
                 ParametersPath = Parameters.Env?.ParametersPath;
@@ -86,7 +87,7 @@ namespace Implem.DefinitionAccessor
             Parameters.BinaryStorage = Read<BinaryStorage>();
             Parameters.CustomDefinitions = CustomDefinitionsHash();
             Parameters.Deleted = Read<Deleted>();
-            Parameters.ExtendedAutoTestSettings = Read<AutoTestSettings>();
+            Parameters.ExtendedAutoTestSettings = Read<AutoTestSettings>(required: false);
             Parameters.ExtendedAutoTestScenarios = ExtendedAutoTestScenarios();
             Parameters.ExtendedAutoTestOperations = ExtendedAutoTestOperations();
             Parameters.ExtendedColumnDefinitions = ExtendedColumnDefinitions();
@@ -163,14 +164,21 @@ namespace Implem.DefinitionAccessor
             SetRdsParameters();
         }
 
-        private static T Read<T>()
+        private static T Read<T>(bool required = true)
         {
             var name = typeof(T).Name;
             var json = Files.Read(JsonFilePath(name));
             var data = json.Deserialize<T>();
-            if (!json.IsNullOrEmpty() && data == null)
+            if (required)
             {
-                Parameters.SyntaxErrors.Add(name + ".json");
+                if (json.IsNullOrEmpty())
+                {
+                    throw new ParametersNotFoundException(name + ".json");
+                }
+                if (!json.IsNullOrEmpty() && data == null)
+                {
+                    throw new ParametersIllegalSyntaxException(name + ".json");
+                }
             }
             return data;
         }
@@ -196,7 +204,7 @@ namespace Implem.DefinitionAccessor
                     }
                     else
                     {
-                        Parameters.SyntaxErrors.Add(file.Name);
+                        throw new ParametersIllegalSyntaxException(file.FullName);
                     }
                 }
                 foreach (var sub in dir.GetDirectories())
@@ -317,7 +325,7 @@ namespace Implem.DefinitionAccessor
                     }
                     else
                     {
-                        Parameters.SyntaxErrors.Add(file.Name);
+                        throw new ParametersIllegalSyntaxException(file.FullName);
                     }
                 }
                 foreach (var sub in dir.GetDirectories())
@@ -346,7 +354,7 @@ namespace Implem.DefinitionAccessor
                 }
                 else
                 {
-                    Parameters.SyntaxErrors.Add(file.Name);
+                    throw new ParametersIllegalSyntaxException(file.FullName);
                 }
             }
             foreach (var dir in new DirectoryInfo(path).GetDirectories())
@@ -419,7 +427,7 @@ namespace Implem.DefinitionAccessor
                 }
                 else
                 {
-                    Parameters.SyntaxErrors.Add(file.Name);
+                    throw new ParametersIllegalSyntaxException(file.FullName);
                 }
             }
             foreach (var dir in new DirectoryInfo(path).GetDirectories())
@@ -479,7 +487,7 @@ namespace Implem.DefinitionAccessor
                 }
                 else
                 {
-                    Parameters.SyntaxErrors.Add(file.Name);
+                    throw new ParametersIllegalSyntaxException(file.FullName);
                 }
             }
             foreach (var dir in new DirectoryInfo(path).GetDirectories())
@@ -512,7 +520,7 @@ namespace Implem.DefinitionAccessor
                 }
                 else
                 {
-                    Parameters.SyntaxErrors.Add(file.Name);
+                    throw new ParametersIllegalSyntaxException(file.FullName);
                 }
             }
             foreach (var dir in new DirectoryInfo(path).GetDirectories())
@@ -569,10 +577,16 @@ namespace Implem.DefinitionAccessor
         private static List<NavigationMenu> NavigationMenus()
         {
             var name = "NavigationMenus";
-            var data = Files.Read(JsonFilePath(name)).Deserialize<List<NavigationMenu>>();
+            var filePath = JsonFilePath(name);
+            var json = Files.Read(filePath);
+            var data = json.Deserialize<List<NavigationMenu>>();
+            if (json == null)
+            {
+                throw new ParametersNotFoundException(name + ".json");
+            }
             if (data == null)
             {
-                Parameters.SyntaxErrors.Add($"{name}.json");
+                throw new ParametersIllegalSyntaxException(name + ".json");
             }
             return data;
         }

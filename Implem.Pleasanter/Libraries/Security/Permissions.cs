@@ -582,9 +582,11 @@ namespace Implem.Pleasanter.Libraries.Security
             switch (context.Controller)
             {
                 case "tenants":
-                case "depts":
-                case "groups":
                     return false;
+                case "depts":
+                    return CanManageTenant(context: context);
+                case "groups":
+                    return CanEditGroup(context: context);
                 case "users":
                     return CanManageTenant(context: context);
                 default:
@@ -598,9 +600,11 @@ namespace Implem.Pleasanter.Libraries.Security
             switch (context.Controller)
             {
                 case "tenants":
-                case "depts":
-                case "groups":
                     return false;
+                case "depts":
+                    return CanManageTenant(context: context);
+                case "groups":
+                    return CanEditGroup(context: context);
                 case "users":
                     return CanManageTenant(context: context);
                 default:

@@ -9,8 +9,25 @@ namespace Implem.Pleasanter.Models
 {
     public static class SiteValidators
     {
-        public static ErrorData OnEntry(Context context, SiteSettings ss)
+        public static ErrorData OnEntry(Context context, SiteSettings ss, bool api = false)
         {
+            if (api)
+            {
+                if ((!Parameters.Api.Enabled
+                    || context.ContractSettings.Api == false
+                    || context.UserSettings?.AllowApi(context: context) == false))
+                {
+                    return new ErrorData(type: Error.Types.InvalidRequest);
+                }
+                if (context.InvalidJsonData)
+                {
+                    return new ErrorData(type: Error.Types.InvalidJsonData);
+                }
+                if (!ss.IsSite(context: context))
+                {
+                    return new ErrorData(type: Error.Types.NotFound);
+                }
+            }
             return context.HasPermission(ss: ss)
                 ? new ErrorData(type: Error.Types.None)
                 : new ErrorData(type: Error.Types.HasNotPermission);
@@ -215,9 +232,22 @@ namespace Implem.Pleasanter.Models
             return new ErrorData(type: Error.Types.None);
         }
 
-        public static ErrorData OnDeleting(Context context, SiteSettings ss, SiteModel siteModel)
+        public static ErrorData OnDeleting(Context context, SiteSettings ss, SiteModel siteModel, bool api = false)
         {
-            if (ss.Title != context.Forms.Data("DeleteSiteTitle")
+            if (api)
+            {
+                if ((!Parameters.Api.Enabled
+                    || context.ContractSettings.Api == false
+                    || context.UserSettings?.AllowApi(context: context) == false))
+                {
+                    return new ErrorData(type: Error.Types.InvalidRequest);
+                }
+                if (context.InvalidJsonData)
+                {
+                    return new ErrorData(type: Error.Types.InvalidJsonData);
+                }
+            }
+            else if (ss.Title != context.Forms.Data("DeleteSiteTitle")
                 || !Authenticate(context: context))
             {
                 return new ErrorData(type: Error.Types.IncorrectSiteDeleting);

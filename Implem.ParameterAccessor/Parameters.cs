@@ -6,6 +6,7 @@ namespace Implem.DefinitionAccessor
     public static class Parameters
     {
         public static List<string> SyntaxErrors = new List<string>();
+        public static List<string> NotFoundErrors = new List<string>();
         public static Api Api;
         public static Authentication Authentication;
         public static BackgroundTask BackgroundTask;

@@ -1203,6 +1203,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlAction: () => hb
                         .MarkDown(
                             context: context,
+                            ss: ss,
                             controlId: controlId,
                             controlCss: controlCss,
                             validateMaxLength: validateMaxLength,

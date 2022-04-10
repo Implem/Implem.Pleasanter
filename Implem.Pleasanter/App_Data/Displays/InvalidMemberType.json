@@ -1,0 +1,33 @@
+﻿{
+    "Id": "InvalidMemberType",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Invalid Member Type. Row: {0}"
+        },
+        {
+            "Language": "zh",
+            "Body": "成员类型无效。行：{0}"
+        },
+        {
+            "Language": "ja",
+            "Body": "メンバー種別が不正です。 行: {0}"
+        },
+        {
+            "Language": "de",
+            "Body": "Der Mitgliedstyp ist ungültig. Zeile: {0}"
+        },
+        {
+            "Language": "ko",
+            "Body": "멤버 유형이 잘못되었습니다. 행: {0}"
+        },
+        {
+            "Language": "es",
+            "Body": "El tipo de miembro no es válido. Fila: {0}"
+        },
+        {
+            "Language": "vn",
+            "Body": "Loại thành viên không hợp lệ. Dòng: {0}"
+        }
+    ]
+}

@@ -2784,118 +2784,6 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string BulkDelete(Context context, SiteSettings ss)
-        {
-            if (context.CanDelete(ss: ss))
-            {
-                var selector = new RecordSelector(context: context);
-                var count = 0;
-                if(selector.All == false && selector.Selected.Any() == false)
-                {
-                    return Messages.ResponseSelectTargets(context: context).ToJson();
-                }
-                if (Repository.ExecuteScalar_int(
-                    context: context,
-                    statements: Rds.SelectUsers(
-                        column: Rds.UsersColumn().UsersCount(),
-                        where: BulkDeleteWhere(
-                            context: context,
-                            ss: ss,
-                            selected: selector.Selected,
-                            negative: selector.All)
-                                .Users_UserId(context.UserId))) == 1)
-                {
-                    return Messages.ResponseUserNotSelfDelete(context: context).ToJson();
-                }
-                if (selector.All)
-                {
-                    count = BulkDelete(
-                        context: context,
-                        ss: ss,
-                        selected: selector.Selected,
-                        negative: true);
-                }
-                else
-                {
-                    count = BulkDelete(
-                        context: context,
-                        ss: ss,
-                        selected: selector.Selected);
-                }
-                Summaries.Synchronize(context: context, ss: ss);
-                var data = new string[]
-                {
-                    ss.Title,
-                    count.ToString()
-                };
-                return GridRows(
-                    context: context,
-                    ss: ss,
-                    clearCheck: true,
-                    message: Messages.BulkDeleted(
-                        context: context,
-                        data: data));
-            }
-            else
-            {
-                return Messages.ResponseHasNotPermission(context: context).ToJson();
-            }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static int BulkDelete(
-            Context context,
-            SiteSettings ss,
-            IEnumerable<long> selected,
-            bool negative = false)
-        {
-            var where = BulkDeleteWhere(
-                context: context,
-                ss: ss,
-                selected: selected,
-                negative: negative);
-            return Repository.ExecuteScalar_response(
-                context: context,
-                transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.DeleteMailAddresses(
-                        factory: context,
-                        where: Rds.MailAddressesWhere()
-                            .OwnerId_In(sub: Rds.SelectUsers(
-                                column: Rds.UsersColumn().UserId(),
-                                where: where))
-                            .OwnerType("Users")),
-                    Rds.DeleteUsers(factory: context, where: where),
-                    Rds.RowCount()
-                }).Count.ToInt();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static SqlWhereCollection BulkDeleteWhere(
-            Context context,
-            SiteSettings ss,
-            IEnumerable<long> selected,
-            bool negative)
-        {
-            return Views.GetBySession(context: context, ss: ss).Where(
-                context: context,
-                ss: ss,
-                where: Rds.UsersWhere()
-                    .TenantId(context.TenantId)
-                    .UserId_In(
-                        value: selected.Select(o => o.ToInt()),
-                        negative: negative,
-                        _using: selected.Any()));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public static string Import(Context context)
         {
             var ss = SiteSettingsUtilities.UsersSiteSettings(context: context);
@@ -3048,6 +2936,9 @@ namespace Implem.Pleasanter.Models
                             case "AllowGroupAdministration":
                                 userModel.AllowGroupAdministration = recordingData.ToBool();
                                 break;
+                            case "AllowGroupCreation":
+                                userModel.AllowGroupCreation = recordingData.ToBool();
+                                break;
                             case "Disabled":
                                 userModel.Disabled = recordingData.ToBool();
                                 break;
@@ -3193,6 +3084,131 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private static string ImportRecordingData(
+            Context context, Column column, string value, long inheritPermission)
+        {
+            var recordingData = column.RecordingData(
+                context: context,
+                value: value,
+                siteId: inheritPermission);
+            return recordingData;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string BulkDelete(Context context, SiteSettings ss)
+        {
+            if (context.CanDelete(ss: ss))
+            {
+                var selector = new RecordSelector(context: context);
+                var count = 0;
+                if(selector.All == false && selector.Selected.Any() == false)
+                {
+                    return Messages.ResponseSelectTargets(context: context).ToJson();
+                }
+                if (Repository.ExecuteScalar_int(
+                    context: context,
+                    statements: Rds.SelectUsers(
+                        column: Rds.UsersColumn().UsersCount(),
+                        where: BulkDeleteWhere(
+                            context: context,
+                            ss: ss,
+                            selected: selector.Selected,
+                            negative: selector.All)
+                                .Users_UserId(context.UserId))) == 1)
+                {
+                    return Messages.ResponseUserNotSelfDelete(context: context).ToJson();
+                }
+                if (selector.All)
+                {
+                    count = BulkDelete(
+                        context: context,
+                        ss: ss,
+                        selected: selector.Selected,
+                        negative: true);
+                }
+                else
+                {
+                    count = BulkDelete(
+                        context: context,
+                        ss: ss,
+                        selected: selector.Selected);
+                }
+                Summaries.Synchronize(context: context, ss: ss);
+                var data = new string[]
+                {
+                    ss.Title,
+                    count.ToString()
+                };
+                return GridRows(
+                    context: context,
+                    ss: ss,
+                    clearCheck: true,
+                    message: Messages.BulkDeleted(
+                        context: context,
+                        data: data));
+            }
+            else
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static int BulkDelete(
+            Context context,
+            SiteSettings ss,
+            IEnumerable<long> selected,
+            bool negative = false)
+        {
+            var where = BulkDeleteWhere(
+                context: context,
+                ss: ss,
+                selected: selected,
+                negative: negative);
+            return Repository.ExecuteScalar_response(
+                context: context,
+                transactional: true,
+                statements: new SqlStatement[]
+                {
+                    Rds.DeleteMailAddresses(
+                        factory: context,
+                        where: Rds.MailAddressesWhere()
+                            .OwnerId_In(sub: Rds.SelectUsers(
+                                column: Rds.UsersColumn().UserId(),
+                                where: where))
+                            .OwnerType("Users")),
+                    Rds.DeleteUsers(factory: context, where: where),
+                    Rds.RowCount()
+                }).Count.ToInt();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static SqlWhereCollection BulkDeleteWhere(
+            Context context,
+            SiteSettings ss,
+            IEnumerable<long> selected,
+            bool negative)
+        {
+            return Views.GetBySession(context: context, ss: ss).Where(
+                context: context,
+                ss: ss,
+                where: Rds.UsersWhere()
+                    .TenantId(context.TenantId)
+                    .UserId_In(
+                        value: selected.Select(o => o.ToInt()),
+                        negative: negative,
+                        _using: selected.Any()));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static bool UpdateMailAddresses(Context context, UserModel userModel)
         {
             if (userModel.UserId > 0 && userModel.MailAddresses.Any())
@@ -3229,19 +3245,6 @@ namespace Implem.Pleasanter.Models
                 }
             }
             return false;
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static string ImportRecordingData(
-            Context context, Column column, string value, long inheritPermission)
-        {
-            var recordingData = column.RecordingData(
-                context: context,
-                value: value,
-                siteId: inheritPermission);
-            return recordingData;
         }
 
         /// <summary>
@@ -3298,9 +3301,9 @@ namespace Implem.Pleasanter.Models
                     export.Columns.Select(column =>
                         "\"" + column.GetLabelText() + "\"").Join(","),
                     ",",
-                    Displays.MailAddress(context: context),
+                    $"\"{Displays.MailAddress(context: context)}\"",
                     ",",
-                    Displays.Password(context: context),
+                    $"\"{Displays.Password(context: context)}\"",
                     "\n");
             }
             new UserCollection(

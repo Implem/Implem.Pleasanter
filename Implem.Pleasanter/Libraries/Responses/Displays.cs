@@ -3759,6 +3759,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string GroupImported(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "GroupImported",
+                data: data);
+        }
+
         public static string Guide(
             Context context,
             params string[] data)
@@ -4296,6 +4306,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "InvalidJsonData",
+                data: data);
+        }
+
+        public static string InvalidMemberKey(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "InvalidMemberKey",
+                data: data);
+        }
+
+        public static string InvalidMemberType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "InvalidMemberType",
                 data: data);
         }
 
@@ -6746,6 +6776,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Reminders",
+                data: data);
+        }
+
+        public static string ReplaceAllGroupMembers(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ReplaceAllGroupMembers",
                 data: data);
         }
 
@@ -9946,6 +9986,46 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Groups_Disabled",
+                data: data);
+        }
+
+        public static string Groups_MemberType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_MemberType",
+                data: data);
+        }
+
+        public static string Groups_MemberKey(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_MemberKey",
+                data: data);
+        }
+
+        public static string Groups_MemberName(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_MemberName",
+                data: data);
+        }
+
+        public static string Groups_MemberIsAdmin(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Groups_MemberIsAdmin",
                 data: data);
         }
 

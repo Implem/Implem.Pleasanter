@@ -397,16 +397,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         sysLogType: SysLogModel.SysLogTypes.Execption);
                     return false;
                 }
-                var today = DateTime.Today;
-                if (certs[0].NotBefore.Date > today || certs[0].NotAfter.Date < today)
-                {
-                    new SysLogModel(
-                        context: context,
-                        method: nameof(FindCert),
-                        message: $"Certificate expired ({certs[0].NotBefore.ToString("yyyy/MM/dd")} - {certs[0].NotAfter.ToString("yyyy/MM/dd")})",
-                        sysLogType: SysLogModel.SysLogTypes.Execption);
-                    return false;
-                }
             }
             finally
             {

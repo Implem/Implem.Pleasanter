@@ -1,0 +1,33 @@
+﻿{
+    "Id": "InvalidMemberKey",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "It is a member that does not exist. Row: {0}"
+        },
+        {
+            "Language": "zh",
+            "Body": "它是一个不存在的成员。 行：{0}"
+        },
+        {
+            "Language": "ja",
+            "Body": "存在しないメンバーです。 行: {0}"
+        },
+        {
+            "Language": "de",
+            "Body": "Es ist ein Mitglied, das nicht existiert. Zeile: {0}"
+        },
+        {
+            "Language": "ko",
+            "Body": "존재하지 않는 멤버입니다. 행: {0}"
+        },
+        {
+            "Language": "es",
+            "Body": "Es un miembro que no existe. Fila: {0}"
+        },
+        {
+            "Language": "vn",
+            "Body": "Nó là một thành viên không tồn tại. Dòng: {0}"
+        }
+    ]
+}

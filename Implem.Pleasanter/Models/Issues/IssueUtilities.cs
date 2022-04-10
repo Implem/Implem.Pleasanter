@@ -1444,13 +1444,17 @@ namespace Implem.Pleasanter.Models
             IssueModel issueModel,
             bool editInDialog)
         {
-            return ss.Tabs?.Any() != true
-                ? hb.FieldSetGeneral(
+            if (ss.Tabs?.Any() != true)
+            {
+                hb.FieldSetGeneral(
                     context: context,
                     ss: ss,
                     issueModel: issueModel,
-                    editInDialog: editInDialog)
-                : hb.Div(
+                    editInDialog: editInDialog);
+            }
+            else
+            {
+                hb.Div(
                     id: "EditorTabsContainer",
                     css: "max",
                     attributes: new HtmlAttributes().TabActive(context: context),
@@ -1471,6 +1475,10 @@ namespace Implem.Pleasanter.Models
                             id: issueModel.IssueId,
                             issueModel: issueModel,
                             editInDialog: editInDialog));
+            }
+            return hb.Hidden(
+                controlId: "EditorInDialogRecordId",
+                value: context.Id.ToString());
         }
 
         private static HtmlBuilder Editor(
@@ -2279,6 +2287,10 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         formData: context.Forms);
+                    issueModel.SetByLookups(
+                        context: context,
+                        ss: ss,
+                        requestFormData: context.Forms);
                     issueModel.IssueId = 0;
                     issueModel.Ver = 1;
                     issueModel.Comments = new Comments();
@@ -6526,6 +6538,13 @@ namespace Implem.Pleasanter.Models
             var groupByY = ss.GetColumn(
                 context: context,
                 columnName: view.GetCrosstabGroupByY(context: context, ss: ss));
+            if (!groupByX.CanRead(context: context, ss: ss, mine: null)
+                || !groupByY.CanRead(context: context, ss: ss, mine: null))
+            {
+                return HtmlTemplates.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.HasNotPermission));
+            }
             var columns = CrosstabColumns(context: context, ss: ss, view: view);
             var aggregateType = view.GetCrosstabAggregateType(ss);
             var value = ss.GetColumn(
@@ -6613,6 +6632,11 @@ namespace Implem.Pleasanter.Models
             var groupByY = ss.GetColumn(
                 context: context,
                 columnName: view.GetCrosstabGroupByY(context: context, ss: ss));
+            if (!groupByX.CanRead(context: context, ss: ss, mine: null)
+                || !groupByY.CanRead(context: context, ss: ss, mine: null))
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
             var columns = CrosstabColumns(context: context, ss: ss, view: view);
             var aggregateType = view.GetCrosstabAggregateType(ss);
             var value = ss.GetColumn(

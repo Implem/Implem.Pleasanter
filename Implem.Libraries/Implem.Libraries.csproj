@@ -113,6 +113,9 @@
     <Compile Include="DataSources\SqlServer\SqlServerErrors.cs" />
     <Compile Include="DataSources\SqlServer\SqlServerSqls.cs" />
     <Compile Include="DataSources\SqlServer\SqlWhereCollection.cs" />
+    <Compile Include="Exceptions\IllegalSiteSettingsException.cs" />
+    <Compile Include="Exceptions\ParametersIllegalSyntaxException.cs" />
+    <Compile Include="Exceptions\ParametersNotFoundException.cs" />
     <Compile Include="Plugins\kanaxs_ex-1.0.2.cs" />
     <Compile Include="Utilities\Bools.cs" />
     <Compile Include="Classes\ListEx.cs" />
