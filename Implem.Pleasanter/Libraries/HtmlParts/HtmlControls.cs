@@ -169,6 +169,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder MarkDown(
             this HtmlBuilder hb,
             Context context,
+            SiteSettings ss,
             string controlId = null,
             string controlCss = null,
             string text = null,
@@ -214,7 +215,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 + (viewerSwitchingTypes == Column.ViewerSwitchingTypes.Manual
                                     ? " manual"
                                     : string.Empty)
-                                + (CanUploadImage(context, readOnly, allowImage, preview)
+                                + (CanUploadImage(
+                                    context: context,
+                                    ss: ss,
+                                    readOnly: readOnly,
+                                    allowImage: allowImage,
+                                    preview: preview)
                                         ? " upload-image"
                                         : string.Empty),
                                 controlCss))
@@ -229,6 +235,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     text: text)
                 .MarkDownCommands(
                     context: context,
+                    ss: ss,
                     controlId: controlId,
                     readOnly: readOnly,
                     allowImage: allowImage,
@@ -240,37 +247,51 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder MarkDownCommands(
             this HtmlBuilder hb,
             Context context,
+            SiteSettings ss,
             string controlId,
             bool readOnly,
             bool allowImage,
             bool mobile,
             bool preview)
         {
-            return CanUploadImage(context, readOnly, allowImage, preview)
-                ? hb
-                    .Div(
-                        attributes: new HtmlAttributes()
-                            .Class("ui-icon ui-icon-image button-upload-image")
-                            .OnClick($"$p.selectImage('{controlId}');"))
-                    .Div(
-                        attributes: new HtmlAttributes()
-                            .Class("ui-icon ui-icon-video")
-                            .OnClick($"$p.openVideo('{controlId}');"),
-                        _using: !mobile)
-                    .TextBox(
-                        controlId: controlId + ".upload-image-file",
-                        controlCss: "hidden upload-image-file",
-                        textType: HtmlTypes.TextTypes.File,
-                        accept: "image/*",
-                        dataId: controlId)
-                : hb;
+            return CanUploadImage(
+                context: context,
+                ss: ss,
+                readOnly: readOnly,
+                allowImage: allowImage,
+                preview: preview)
+                    ? hb
+                        .Div(
+                            attributes: new HtmlAttributes()
+                                .Class("ui-icon ui-icon-image button-upload-image")
+                                .OnClick($"$p.selectImage('{controlId}');"))
+                        .Div(
+                            attributes: new HtmlAttributes()
+                                .Class("ui-icon ui-icon-video")
+                                .OnClick($"$p.openVideo('{controlId}');"),
+                            _using: !mobile)
+                        .TextBox(
+                            controlId: controlId + ".upload-image-file",
+                            controlCss: "hidden upload-image-file",
+                            textType: HtmlTypes.TextTypes.File,
+                            accept: "image/*",
+                            dataId: controlId)
+                    : hb;
         }
 
         private static bool CanUploadImage(
-            Context context, bool readOnly, bool allowImage, bool preview)
+            Context context,
+            SiteSettings ss,
+            bool readOnly,
+            bool allowImage,
+            bool preview)
         {
             return context.ContractSettings.Images()
-                && !readOnly && allowImage && !preview;
+                && ss?.LockedTable() != true
+                && ss?.LockedRecord() != true
+                && !readOnly
+                && allowImage
+                && !preview;
         }
 
         public static HtmlBuilder MarkUp(

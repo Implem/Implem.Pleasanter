@@ -1072,6 +1072,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
+        public bool AutoNumberingColumn()
+        {
+            return TypeName.CsTypeSummary() == Implem.Libraries.Utilities.Types.CsString
+                && ColumnName != "Comments";
+        }
+
         public SqlColumnCollection SqlColumnCollection()
         {
             var sql = new SqlColumnCollection();

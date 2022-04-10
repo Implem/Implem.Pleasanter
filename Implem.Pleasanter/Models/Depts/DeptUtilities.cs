@@ -48,54 +48,21 @@ namespace Implem.Pleasanter.Models
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
-            return hb.Template(
+            var serverScriptModelRow = ss.GetServerScriptModelRow(
+                context: context,
+                view: view);
+            return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
                 view: view,
-                verType: Versions.VerTypes.Latest,
-                methodType: BaseModel.MethodTypes.Index,
-                referenceType: "Depts",
-                script: JavaScripts.ViewMode(viewMode),
-                title: Displays.Depts(context: context) + " - " + Displays.List(context: context),
-                action: () =>
-                {
-                    hb
-                        .Form(
-                            attributes: new HtmlAttributes()
-                                .Id("MainForm")
-                                .Class("main-form")
-                                .Action(Locations.Action(
-                                    context: context,
-                                    controller: "Depts")),
-                            action: () => hb
-                                .ViewFilters(context: context, ss: ss, view: view)
-                                .Aggregations(
-                                    context: context,
-                                    ss: ss,
-                                    view: view)
-                                .Div(id: "ViewModeContainer", action: () => hb
-                                    .Grid(
-                                        context: context,
-                                        ss: ss,
-                                        gridData: gridData,
-                                        view: view))
-                                .MainCommands(
-                                    context: context,
-                                    ss: ss,
-                                    verType: Versions.VerTypes.Latest)
-                                .Div(css: "margin-bottom")
-                                .Hidden(
-                                    controlId: "BaseUrl",
-                                    value: Locations.BaseUrl(context: context)))
-                        .Div(attributes: new HtmlAttributes()
-                            .Id("ImportSettingsDialog")
-                            .Class("dialog")
-                            .Title(Displays.Import(context: context)))
-                        .Div(attributes: new HtmlAttributes()
-                            .Id("ExportSettingsDialog")
-                            .Class("dialog")
-                            .Title(Displays.ExportSettings(context: context)));
-                }).ToString();
+                viewMode: viewMode,
+                serverScriptModelRow: serverScriptModelRow,
+                viewModeBody: () => hb.Grid(
+                    context: context,
+                    gridData: gridData,
+                    ss: ss,
+                    view: view,
+                    serverScriptModelRow: serverScriptModelRow));
         }
 
         private static string ViewModeTemplate(
@@ -126,6 +93,7 @@ namespace Implem.Pleasanter.Models
                 siteId: ss.SiteId,
                 parentId: ss.ParentId,
                 referenceType: "Depts",
+                title: Displays.Depts(context: context) + " - " + Displays.List(context: context),
                 script: JavaScripts.ViewMode(viewMode),
                 userScript: ss.ViewModeScripts(context: context),
                 userStyle: ss.ViewModeStyles(context: context),
@@ -183,6 +151,9 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         id: ss.SiteId)
                     .MoveDialog(context: context, bulk: true)
+                    .ImportSettingsDialog(
+                        context: context,
+                        ss: ss)
                     .Div(attributes: new HtmlAttributes()
                         .Id("ExportSelectorDialog")
                         .Class("dialog")
@@ -562,7 +533,7 @@ namespace Implem.Pleasanter.Models
                                     value: string.Empty,
                                     tabIndex: tabIndex,
                                     serverScriptModelColumn: serverScriptModelColumn);
-                    case "Dept":
+                    case "DeptName":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
                             ss: ss,
@@ -571,7 +542,7 @@ namespace Implem.Pleasanter.Models
                                 ? hb.Td(
                                     context: context,
                                     column: column,
-                                    value: deptModel.Dept,
+                                    value: deptModel.DeptName,
                                     tabIndex: tabIndex,
                                     serverScriptModelColumn: serverScriptModelColumn)
                                 : hb.Td(
@@ -846,7 +817,7 @@ namespace Implem.Pleasanter.Models
                     case "DeptCode": value = deptModel.DeptCode.GridText(
                         context: context,
                         column: column); break;
-                    case "Dept": value = deptModel.Dept.GridText(
+                    case "DeptName": value = deptModel.DeptName.GridText(
                         context: context,
                         column: column); break;
                     case "Body": value = deptModel.Body.GridText(
@@ -1831,6 +1802,290 @@ namespace Implem.Pleasanter.Models
                                 : string.Empty)
                     }))
                 .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string Import(Context context)
+        {
+            var ss = SiteSettingsUtilities.DeptsSiteSettings(context: context);
+            if (context.ContractSettings.Import == false)
+            {
+                return Messages.ResponseRestricted(context: context).ToJson();
+            }
+            var invalid = DeptValidators.OnImporting(
+                context: context,
+                ss: ss);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson(context: context);
+            }
+            var res = new ResponseCollection();
+            Csv csv;
+            try
+            {
+                csv = new Csv(
+                    csv: context.PostedFiles.FirstOrDefault().Byte(),
+                    encoding: context.Forms.Data("Encoding"));
+            }
+            catch
+            {
+                return Messages.ResponseFailedReadFile(context: context).ToJson();
+            }
+            var count = csv.Rows.Count();
+            if (Parameters.General.ImportMax > 0 && Parameters.General.ImportMax < count)
+            {
+                return Error.Types.ImportMax.MessageJson(
+                    context: context,
+                    data: Parameters.General.ImportMax.ToString());
+            }
+            if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId, number: count))
+            {
+                return Error.Types.ItemsLimit.MessageJson(context: context);
+            }
+            if (csv != null && count > 0)
+            {
+                var columnHash = ImportUtilities.GetColumnHash(ss, csv);
+                var idColumn = columnHash
+                    .Where(o =>
+                        o.Value.Column.ColumnName == "DeptCode")
+                    .Select(o =>
+                        new { Id = o.Key })
+                    .FirstOrDefault()?.Id ?? -1;
+                var invalidColumn = Imports.ColumnValidate(
+                    context,
+                    ss,
+                    columnHash.Values.Select(o => o.Column.ColumnName),
+                    columnNames: new string[]
+                    {
+                        "DeptCode",
+                        "DeptName"
+                    });
+                if (invalidColumn != null) return invalidColumn;
+                var deptHash = new Dictionary<int, DeptModel>();
+                csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
+                {
+                    var deptModel = new DeptModel();
+                    if (idColumn > -1)
+                    {
+                        var model = new DeptModel(
+                            context: context,
+                            ss: ss,
+                            deptCode: data.Row[idColumn]);
+                        if (model.AccessStatus == Databases.AccessStatuses.Selected)
+                        {
+                            deptModel = model;
+                        }
+                    }
+                    columnHash.ForEach(column =>
+                    {
+                        var recordingData = ImportRecordingData(
+                            context: context,
+                            column: column.Value.Column,
+                            value: data.Row[column.Key],
+                            inheritPermission: ss.InheritPermission);
+                        switch (column.Value.Column.ColumnName)
+                        {
+                            case "DeptId":
+                                deptModel.DeptId = recordingData.ToInt();
+                                break;
+                            case "DeptCode":
+                                deptModel.DeptCode = recordingData;
+                                break;
+                            case "DeptName":
+                                deptModel.DeptName = recordingData;
+                                break;
+                            case "Body":
+                                deptModel.Body = recordingData;
+                                break;
+                            case "Comments":
+                                if (deptModel.AccessStatus != Databases.AccessStatuses.Selected &&
+                                    !data.Row[column.Key].IsNullOrEmpty())
+                                {
+                                    deptModel.Comments.Prepend(
+                                        context: context,
+                                        ss: ss,
+                                        body: data.Row[column.Key]);
+                                }
+                                break;
+                            case "Disabled":
+                                deptModel.Disabled = recordingData.ToBool();
+                                break;
+                            default:
+                                deptModel.GetValue(
+                                    context: context,
+                                    column: column.Value.Column,
+                                    value: recordingData);
+                                break;
+                        }
+                    });
+                    deptHash.Add(data.Index, deptModel);
+                });
+                var insertCount = 0;
+                var updateCount = 0;
+                foreach (var deptModel in deptHash.Values)
+                {
+                    if (deptModel.AccessStatus == Databases.AccessStatuses.Selected)
+                    {
+                        if (deptModel.Updated(context: context))
+                        {
+                            deptModel.VerUp = Versions.MustVerUp(
+                                context: context,
+                                ss: ss,
+                                baseModel: deptModel);
+                            var errorData = deptModel.Update(
+                                context: context,
+                                ss: ss,
+                                refleshSiteInfo: false,
+                                get: false);
+                            switch (errorData.Type)
+                            {
+                                case Error.Types.None:
+                                    break;
+                                default:
+                                    return errorData.MessageJson(context: context);
+                            }
+                            updateCount++;
+                        }
+                    }
+                    else
+                    {
+                        var errorData = deptModel.Create(
+                            context: context,
+                            ss: ss,
+                            get: false);
+                        switch (errorData.Type)
+                        {
+                            case Error.Types.None:
+                                break;
+                            default:
+                                return errorData.MessageJson(context: context);
+                        }
+                        insertCount++;
+                    }
+                }
+                SiteInfo.Reflesh(
+                    context: context,
+                    force: true);
+                return GridRows(
+                    context: context,
+                    ss: ss,
+                    res: res.WindowScrollTop(),
+                    message: Messages.Imported(
+                        context: context,
+                        data: new string[]
+                        {
+                            ss.Title,
+                            insertCount.ToString(),
+                            updateCount.ToString()
+                        }));
+            }
+            else
+            {
+                return Messages.ResponseFileNotFound(context: context).ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string ImportRecordingData(
+            Context context, Column column, string value, long inheritPermission)
+        {
+            var recordingData = column.RecordingData(
+                context: context,
+                value: value,
+                siteId: inheritPermission);
+            return recordingData;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string OpenExportSelectorDialog(Context context, SiteSettings ss)
+        {
+            if (context.ContractSettings.Export == false)
+            {
+                return HtmlTemplates.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.InvalidRequest));
+            }
+            var invalid = DeptValidators.OnExporting(
+                context: context,
+                ss: ss);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson(context: context);
+            }
+            return new ResponseCollection()
+                .Html(
+                    "#ExportSelectorDialog",
+                    new HtmlBuilder().ExportSelectorDialog(
+                        context: context,
+                        ss: ss))
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ResponseFile Export(Context context, SiteSettings ss)
+        {
+            if (context.ContractSettings.Export == false)
+            {
+                return null;
+            }
+            var invalid = DeptValidators.OnExporting(
+                context: context,
+                ss: ss);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return null;
+            }
+            var export = ss.GetExport(context: context);
+            var view = Views.GetBySession(context: context, ss: ss);
+            var csv = new System.Text.StringBuilder();
+            if (export.Header == true)
+            {
+                csv.Append(
+                    export.Columns.Select(column =>
+                        "\"" + column.GetLabelText() + "\"").Join(","),
+                    "\n");
+            }
+            new DeptCollection(
+                context: context,
+                ss: ss,
+                where: view.Where(
+                    context: context,
+                    ss: ss,
+                    where: Rds.DeptsWhere().TenantId(context.TenantId)),
+                orderBy: view.OrderBy(
+                    context: context,
+                    ss: ss))
+                        .ForEach(deptModel =>
+                            csv.Append(
+                                export.Columns.Select(exportColumn =>
+                                    deptModel.CsvData(
+                                        context: context,
+                                        ss: ss,
+                                        column: ss.GetColumn(
+                                            context: context,
+                                            columnName: exportColumn.ColumnName),
+                                        exportColumn: exportColumn,
+                                        mine: deptModel.Mine(context: context),
+                                        encloseDoubleQuotes: true)).Join(),
+                                "\n"));
+            return new ResponseFile(
+                fileContent: csv.ToString(),
+                fileDownloadName: ExportUtilities.FileName(
+                    context: context,
+                    title: ss.Title,
+                    name: Displays.Depts(context: context)),
+                encoding: context.QueryStrings.Data("encoding"));
         }
 
         /// <summary>

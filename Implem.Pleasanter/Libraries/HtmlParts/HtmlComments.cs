@@ -102,6 +102,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Placeholder(labelText))
                         .MarkDownCommands(
                             context: context,
+                            ss: ss,
                             controlId: "Comments",
                             readOnly: false,
                             allowImage: allowImage,

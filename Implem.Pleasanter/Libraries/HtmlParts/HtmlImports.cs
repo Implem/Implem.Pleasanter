@@ -41,6 +41,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         _checked: ss.UpdatableImport == true,
                         controlCss: " always-send",
                         _using: context.Controller == "items")
+                    .FieldCheckBox(
+                        controlId: "ReplaceAllGroupMembers",
+                        fieldCss: "field-wide",
+                        labelText: Displays.ReplaceAllGroupMembers(context: context),
+                        _checked: false,
+                        controlCss: " always-send",
+                        _using: context.Controller == "groups")
                     .P(css: "message-dialog")
                     .Div(
                         css: "command-center",

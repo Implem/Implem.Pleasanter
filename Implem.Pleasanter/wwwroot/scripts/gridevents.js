@@ -88,8 +88,10 @@
 
 $(function () {
     var timer;
+    var intervalTimer;
     $(document).on('mouseenter', 'table > thead > tr > th.sortable', function () {
         clearTimeout(timer);
+        clearInterval(intervalTimer);
         if ($(".menu-sort:visible").length) {
             $(".menu-sort:visible").hide();
         }
@@ -112,6 +114,7 @@ $(function () {
     });
     $(document).on('mouseenter', 'body > thead > tr > th.sortable', function () {
         clearTimeout(timer);
+        clearInterval(intervalTimer);
         if ($(".menu-sort:visible").length) {
             $(".menu-sort:visible").hide();
         }
@@ -132,8 +135,15 @@ $(function () {
                 .show();
         }, 700, $(this));
     });
+    $(document).on('mouseenter', '#GridHeaderMenus', function () {
+        clearInterval(intervalTimer);
+    });
     $(document).on('mouseleave', 'th.sortable', function () {
         clearTimeout(timer);
+        clearInterval(intervalTimer);
+        intervalTimer = setInterval(function () {
+            $('ul[id^=GridHeaderMenu__').hide();
+        }, 1000);
     });
     $(document).on('mouseleave', '.menu-sort', function () {
         if (!$('.ui-multiselect-menu:visible').length) {

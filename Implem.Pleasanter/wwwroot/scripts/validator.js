@@ -70,6 +70,9 @@
                 $control.focus();
             }
         });
+        $('label.error').each(function (index, element) {
+            $(element).appendTo($(element).parent());
+        });
     }
 
     $p.applyValidator = function () {
@@ -164,6 +167,5 @@
         }
         $form.validate();
     }
-
     $p.applyValidator();
 });

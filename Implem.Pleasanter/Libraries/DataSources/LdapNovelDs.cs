@@ -247,7 +247,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .SynchronizedTime(synchronizedTime);
             attributes?.ForEach(attributeAndName =>
                 param.Add(
-                    $"\"Users\".\"{attributeAndName.Key.ColumnName}\"",
+                    $"\"{attributeAndName.Key.ColumnName}\"",
                     attributeAndName.Key.ColumnName,
                     attributeAndName.Value));
             statements.Add(Rds.UpdateOrInsertUsers(
