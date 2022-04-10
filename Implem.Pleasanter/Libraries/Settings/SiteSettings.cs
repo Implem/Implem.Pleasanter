@@ -1,6 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.DataSources.SqlServer;
+using Implem.Libraries.Exceptions;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
@@ -287,6 +288,11 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public void Init(Context context)
         {
+            if (!ReferenceType.IsNullOrEmpty()
+                && !Def.ColumnDefinitionCollection.Any(o => o.TableName == ReferenceType))
+            {
+                throw new IllegalSiteSettingsException($"ReferenceType: {ReferenceType}");
+            }
             Version = SiteSettingsUtilities.Version;
             NearCompletionTimeBeforeDays = NearCompletionTimeBeforeDays ??
                 Parameters.General.NearCompletionTimeBeforeDays;
@@ -1656,7 +1662,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return columnDefinition?.LinkColumn > 0;
         }
 
-        private void UpdateColumns(Context context, bool onSerializing = false)
+        private void UpdateColumns(Context context)
         {
             if (Columns == null) Columns = new List<Column>();
             var columnHash = Columns.ToDictionary(
@@ -1664,21 +1670,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column => column);
             ColumnDefinitionHash?.Values.ForEach(columnDefinition =>
             {
-                if (!onSerializing)
+                var column = columnHash.Get(columnDefinition.ColumnName);
+                if (column == null)
                 {
-                    var column = columnHash.Get(columnDefinition.ColumnName);
-                    if (column == null)
-                    {
-                        column = new Column(columnDefinition.ColumnName);
-                        Columns.Add(column);
-                        columnHash.Add(column.ColumnName, column);
-                    }
-                    UpdateColumn(
-                        context: context,
-                        ss: this,
-                        columnDefinition: columnDefinition,
-                        column: column);
+                    column = new Column(columnDefinition.ColumnName);
+                    Columns.Add(column);
+                    columnHash.Add(column.ColumnName, column);
                 }
+                UpdateColumn(
+                    context: context,
+                    ss: this,
+                    columnDefinition: columnDefinition,
+                    column: column);
             });
         }
 
@@ -2154,7 +2157,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     || GetEditorColumnNames().Contains(column.ColumnName)
                     || column.ColumnName.Contains("~")
                     || column.ColumnName == "Creator"
-                    || column.ColumnName == "Updator")
+                    || column.ColumnName == "Updator"
+                    || column.ColumnName == "CreatedTime"
+                    || column.ColumnName == "UpdatedTime")
                 .AllowedColumns(
                     context: context,
                     ss: this,

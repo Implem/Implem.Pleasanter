@@ -35,9 +35,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public string ToControl(Context context, SiteSettings ss, Column column)
         {
             var value = Value.ToString();
-            return column.ChoiceHash.ContainsKey(value) || Value != 0
-                ? value
-                : string.Empty;
+            return column.ChoiceHash?.ContainsKey(value) == true
+                || Value != 0
+                    ? value
+                    : string.Empty;
         }
 
         public string ToResponse(Context context, SiteSettings ss, Column column)
@@ -101,7 +102,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public string ToExport(Context context, Column column, ExportColumn exportColumn = null)
         {
-            return Value == 0 && !column.ChoiceHash.ContainsKey(ToString())
+            return Value == 0
                 ? null
                 : column.ChoiceParts(
                     context: context,

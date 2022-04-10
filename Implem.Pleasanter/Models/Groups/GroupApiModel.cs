@@ -1,5 +1,6 @@
 ﻿using Implem.Pleasanter.Models.Shared;
 using System;
+using System.Collections.Generic;
 namespace Implem.Pleasanter.Models
 {
     [Serializable]
@@ -16,6 +17,7 @@ namespace Implem.Pleasanter.Models
         public int? Updator { get; set; }
         public DateTime? CreatedTime { get; set; }
         public DateTime? UpdatedTime { get; set; }
+        public List<string> GroupMembers { get; set; }
 
         public GroupApiModel()
         {

@@ -4,6 +4,7 @@
         $viewer.html($p.markup($control.val()));
         $p.resizeEditor($control, $viewer);
         $p.toggleEditor($control, false);
+        $p.setTargetBlank();
     }
 }
 
@@ -122,11 +123,28 @@ $p.selectImage = function (controlId) {
 }
 
 $p.uploadImage = function (controlId, file) {
-    var url = $('.main-form')
-        .attr('action')
-        .replace('_action_', 'binaries/uploadimage');
+    var $tr = $('[id="' + controlId + '"]').closest('tr');
+    var $editorInDialogRecordId = $('#EditorInDialogRecordId');
+    var url;
+    if ($tr.length) {
+        url = $('#BaseUrl').val() + $tr.data('id') + '/binaries/uploadimage'
+    } else if ($editorInDialogRecordId.length) {
+        url = $('#BaseUrl').val() + $editorInDialogRecordId.val() + '/binaries/uploadimage'
+    }
+    else {
+        url = $('.main-form')
+            .attr('action')
+            .replace('_action_', 'binaries/uploadimage');
+    }
     var data = new FormData();
     data.append('ControlId', controlId);
     data.append('file', file);
     $p.multiUpload(url, data);
+}
+
+$p.setTargetBlank = function () {
+    var aTags = $('.md a');
+    aTags.each(function () {
+        $(this).attr('target', '_blank');
+    })
 }

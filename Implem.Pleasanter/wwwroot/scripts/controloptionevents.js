@@ -22,7 +22,7 @@
 });
 $(document).on('click', '.current-dept', function () {
     var $control = $(this).prev();
-    $p.set($control, $p.userId());
+    $p.set($control, $p.deptId());
 });
 $(document).on('click', '.current-user', function () {
     var $control = $(this).prev();

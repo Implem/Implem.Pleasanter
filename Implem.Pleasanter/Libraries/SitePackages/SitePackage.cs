@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -205,7 +206,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             {
                 AssemblyVersion = Environments.AssemblyVersion;
                 BaseSiteId = context.SiteId;
-                Server = context.Server;
+                Server = Strings.CoalesceEmpty(Parameters.Service.AbsoluteUri, context.Server);
                 CreatorName = context.User.Name;
                 PackageTime = DateTime.Now;
                 Convertors = new List<Convertor>();

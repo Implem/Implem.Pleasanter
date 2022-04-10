@@ -2643,6 +2643,10 @@ label.error{
     border:solid 1px red;
 }
 
+.error+.ui-widget.ui-state-default.ui-multiselect{
+    border:solid 1px red;
+}
+
 .with-unit+label.error{
     width:70%;
     position:absolute;

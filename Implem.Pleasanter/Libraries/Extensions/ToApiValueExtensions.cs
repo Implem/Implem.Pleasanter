@@ -15,6 +15,15 @@ namespace Implem.Pleasanter.Libraries.Extensions
         }
 
         public static object ToApiValue(
+            this bool? self,
+            Context context,
+            SiteSettings ss,
+            Column column)
+        {
+            return self;
+        }
+
+        public static object ToApiValue(
             this DateTime self,
             Context context,
             SiteSettings ss,

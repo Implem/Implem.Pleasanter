@@ -3,6 +3,7 @@ using Implem.Factory;
 using Implem.IRds;
 using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
+using Implem.Libraries.Exceptions;
 using Implem.Libraries.Utilities;
 using System;
 using System.Collections.Generic;
@@ -40,60 +41,81 @@ namespace Implem.CodeDefiner
             var action = args[0];
             var path = argHash.Get("p")?.Replace('\\', System.IO.Path.DirectorySeparatorChar);
             var target = argHash.Get("t");
-            Initializer.Initialize(
-                path,
-                assemblyVersion: Assembly.GetExecutingAssembly().GetName().Version.ToString(),
-                codeDefiner: true,
-                setSaPassword: argHash.ContainsKey("s"),
-                setRandomPassword: argHash.ContainsKey("r"));
-            factory = RdsFactory.Create(Parameters.Rds.Dbms);
-            switch (action)
+            try
             {
-                case "_rds":
-                    ConfigureDatabase(factory: factory);
-                    break;
-                case "rds":
-                    ConfigureDatabase(factory: factory);
-                    CreateDefinitionAccessorCode();
-                    CreateMvcCode(target);
-                    break;
-                case "_def":
-                    CreateDefinitionAccessorCode();
-                    break;
-                case "def":
-                    CreateDefinitionAccessorCode();
-                    CreateMvcCode(target);
-                    break;
-                case "mvc":
-                    CreateMvcCode(target);
-                    break;
-                case "css":
-                    CreateCssCode();
-                    break;
-                case "backup":
-                    CreateSolutionBackup();
-                    break;
-                case "migrate":
-                    ConfigureDatabase(factory: factory);
-                    MigrateDatabase();
-                    break;
-                default:
-                    WriteErrorToConsole(args);
-                    break;
+                Initializer.Initialize(
+                    path,
+                    assemblyVersion: Assembly.GetExecutingAssembly().GetName().Version.ToString(),
+                    codeDefiner: true,
+                    setSaPassword: argHash.ContainsKey("s"),
+                    setRandomPassword: argHash.ContainsKey("r"));
+                factory = RdsFactory.Create(Parameters.Rds.Dbms);
+                switch (action)
+                {
+                    case "_rds":
+                        ConfigureDatabase(factory: factory);
+                        break;
+                    case "rds":
+                        ConfigureDatabase(factory: factory);
+                        CreateDefinitionAccessorCode();
+                        CreateMvcCode(target);
+                        break;
+                    case "_def":
+                        CreateDefinitionAccessorCode();
+                        break;
+                    case "def":
+                        CreateDefinitionAccessorCode();
+                        CreateMvcCode(target);
+                        break;
+                    case "mvc":
+                        CreateMvcCode(target);
+                        break;
+                    case "css":
+                        CreateCssCode();
+                        break;
+                    case "backup":
+                        CreateSolutionBackup();
+                        break;
+                    case "migrate":
+                        ConfigureDatabase(factory: factory);
+                        MigrateDatabase();
+                        break;
+                    default:
+                        WriteErrorToConsole(args);
+                        break;
+                }
+                if (Consoles.ErrorCount > 0)
+                {
+                    Consoles.Write(
+                        string.Format(DisplayAccessor.Displays.Get("CodeDefinerErrorCount"),
+                            Consoles.ErrorCount,
+                            Path.GetFullPath(logName)),
+                        Consoles.Types.Error);
+                }
+                else
+                {
+                    Consoles.Write(
+                        DisplayAccessor.Displays.Get("CodeDefinerCompleted"),
+                        Consoles.Types.Success);
+                }
             }
-            if (Consoles.ErrorCount > 0)
+            catch (ParametersNotFoundException e)
             {
                 Consoles.Write(
-                    string.Format(DisplayAccessor.Displays.Get("CodeDefinerErrorCount"),
-                        Consoles.ErrorCount,
-                        Path.GetFullPath(logName)), 
+                    "ParametersNotFoundException : " + e.Message,
                     Consoles.Types.Error);
             }
-            else
+            catch (ParametersIllegalSyntaxException e)
             {
                 Consoles.Write(
-                    DisplayAccessor.Displays.Get("CodeDefinerCompleted"),
-                    Consoles.Types.Success);
+                    "ParametersIllegalSyntaxException : " + e.Message,
+                    Consoles.Types.Error);
+            }
+            catch (Exception e)
+            {
+                Consoles.Write(
+                    "UnhandledException : " + e.Message + "\n" + e.StackTrace,
+                    Consoles.Types.Error);
             }
             WaitConsole(args);
         }
@@ -189,20 +211,6 @@ namespace Implem.CodeDefiner
                 "Incorrect argument. {0}".Params(args.Join(" ")),
                 Consoles.Types.Error,
                 abort: true);
-        }
-
-        [Conditional("DEBUG")]
-        private static void TestPerformance(int loopCount, params Action[] actionCollection)
-        {
-            actionCollection
-                .Select((o, i) => new { Count = i + 1, Action = o })
-                .ForEach(data =>
-                {
-                    for (int count = 1; count <= loopCount; count++)
-                    {
-                        data.Action();
-                    }
-                });
         }
     }
 }

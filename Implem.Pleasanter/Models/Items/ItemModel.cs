@@ -260,16 +260,12 @@ namespace Implem.Pleasanter.Models
                     column: Rds.LinksColumn()
                         .SourceId()
                         .DestinationId(),
-                    join: new SqlJoinCollection(new SqlJoin(
-                        tableBracket: "\"Sites\"",
-                        joinType: SqlJoin.JoinTypes.Inner,
-                        joinExpression: "\"Links\".\"DestinationId\"=\"Sites\".\"SiteId\"")),
+                    join: LinkUtilities.LinkJoins(),
                     where: Rds.LinksWhere()
                         .DestinationId_In(ids)
-                        .Sites_TenantId(context.TenantId)
-                        .Sites_ReferenceType(
-                            _operator: " in ",
-                            raw: "('Issues','Results')")));
+                        .LinksWhere(
+                            context: context,
+                            ids: ids)));
             var newLinks = dataTable.AsEnumerable()
                 .Select(r => (sourceId: r.Field<long>(0), destinationId: r.Field<long>(1)))
                 .GroupBy(r => r.destinationId, r => r.sourceId)
@@ -295,14 +291,16 @@ namespace Implem.Pleasanter.Models
             }
             var dataTable = Repository.ExecuteTable(
                 context: context,
-                statements:
-                    Rds.SelectLinks(
-                        column: Rds.LinksColumn()
-                            .DestinationId()
-                            .SourceId(),
-                        where: Rds.LinksWhere()
-                            .SourceId_In(ids))
-                );
+                statements: Rds.SelectLinks(
+                    column: Rds.LinksColumn()
+                        .DestinationId()
+                        .SourceId(),
+                    join: LinkUtilities.LinkJoins(),
+                    where: Rds.LinksWhere()
+                        .SourceId_In(ids)
+                        .LinksWhere(
+                            context: context,
+                            ids: ids)));
             var newLinks = dataTable.AsEnumerable()
                 .Select(r => (destinationId: r.Field<long>(0), sourceId: r.Field<long>(1)))
                 .GroupBy(r => r.sourceId, r => r.destinationId)
@@ -1372,7 +1370,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public ContentResultInheritance GetByApi(Context context, bool internalRequest = false)
+        public ContentResultInheritance GetByApi(Context context, bool internalRequest = false, string referenceType = null)
         {
             SetSite(
                 context: context,
@@ -1384,8 +1382,14 @@ namespace Implem.Pleasanter.Models
                     siteId: Site.SiteId,
                     limitPerSite: context.ContractSettings.ApiLimit()));
             }
-            switch (Site.ReferenceType)
+            switch (referenceType ?? Site.ReferenceType)
             {
+                case "Sites":
+                    return SiteUtilities.GetByApi(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        siteId: Site.SiteId,
+                        internalRequest: internalRequest);
                 case "Issues":
                     return IssueUtilities.GetByApi(
                         context: context,
@@ -1508,6 +1512,11 @@ namespace Implem.Pleasanter.Models
             }
             switch (Site.ReferenceType)
             {
+                case "Sites":
+                    return SiteUtilities.CreateByApi(
+                        context: context,
+                        parentId: Site.SiteId,
+                        inheritPermission: Site.InheritPermission);
                 case "Issues":
                     return IssueUtilities.CreateByApi(
                         context: context,
@@ -1739,7 +1748,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public ContentResultInheritance UpdateByApi(Context context)
+        public ContentResultInheritance UpdateByApi(Context context, string referenceType = null)
         {
             SetSite(
                 context: context,
@@ -1751,8 +1760,13 @@ namespace Implem.Pleasanter.Models
                     siteId: Site.SiteId,
                     limitPerSite: context.ContractSettings.ApiLimit()));
             }
-            switch (Site.ReferenceType)
+            switch (referenceType ?? Site.ReferenceType)
             {
+                case "Sites":
+                    return SiteUtilities.UpdateByApi(
+                        context: context,
+                        siteModel: Site,
+                        siteId: ReferenceId);
                 case "Issues":
                     return IssueUtilities.UpdateByApi(
                         context: context,
@@ -1978,7 +1992,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public ContentResultInheritance DeleteByApi(Context context)
+        public ContentResultInheritance DeleteByApi(Context context, string referenceType = null)
         {
             SetSite(
                 context: context,
@@ -1990,8 +2004,13 @@ namespace Implem.Pleasanter.Models
                     siteId: Site.SiteId,
                     limitPerSite: context.ContractSettings.ApiLimit()));
             }
-            switch (Site.ReferenceType)
+            switch (referenceType ?? Site.ReferenceType)
             {
+                case "Sites":
+                    return SiteUtilities.DeleteByApi(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        siteId: ReferenceId);
                 case "Issues":
                     return IssueUtilities.DeleteByApi(
                         context: context,

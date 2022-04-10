@@ -49,6 +49,8 @@ namespace Implem.Pleasanter.Libraries.General
             InvalidFormula,
             InvalidIpAddress,
             InvalidJsonData,
+            InvalidMemberKey,
+            InvalidMemberType,
             InvalidRequest,
             InvalidSsoCode,
             ItemsLimit,
@@ -269,6 +271,14 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.InvalidJsonData:
                     return Messages.InvalidJsonData(
+                        context: context,
+                        data: data);
+                case Types.InvalidMemberKey:
+                    return Messages.InvalidMemberKey(
+                        context: context,
+                        data: data);
+                case Types.InvalidMemberType:
+                    return Messages.InvalidMemberType(
                         context: context,
                         data: data);
                 case Types.InvalidRequest:

@@ -42,7 +42,6 @@
             "wwwroot/scripts/confirmevents.js",
             "wwwroot/scripts/controloptionevents.js",
             "wwwroot/scripts/crosstab.js",
-            "wwwroot/scripts/datetime.js",
             "wwwroot/scripts/dialog.js",
             "wwwroot/scripts/dialogevents.js",
             "wwwroot/scripts/display.js",

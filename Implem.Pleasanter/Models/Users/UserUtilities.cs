@@ -3048,6 +3048,9 @@ namespace Implem.Pleasanter.Models
                             case "AllowGroupAdministration":
                                 userModel.AllowGroupAdministration = recordingData.ToBool();
                                 break;
+                            case "AllowGroupCreation":
+                                userModel.AllowGroupCreation = recordingData.ToBool();
+                                break;
                             case "Disabled":
                                 userModel.Disabled = recordingData.ToBool();
                                 break;
@@ -3298,9 +3301,9 @@ namespace Implem.Pleasanter.Models
                     export.Columns.Select(column =>
                         "\"" + column.GetLabelText() + "\"").Join(","),
                     ",",
-                    Displays.MailAddress(context: context),
+                    $"\"{Displays.MailAddress(context: context)}\"",
                     ",",
-                    Displays.Password(context: context),
+                    $"\"{Displays.Password(context: context)}\"",
                     "\n");
             }
             new UserCollection(

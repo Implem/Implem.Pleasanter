@@ -342,7 +342,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static List<Permission> CurrentCollection(Context context, long referenceId)
+        public static List<Permission> CurrentCollection(Context context, long referenceId)
         {
             return Repository.ExecuteTable(
                 context: context,

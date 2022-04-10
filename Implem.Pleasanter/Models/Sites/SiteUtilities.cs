@@ -1787,6 +1787,239 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static ContentResultInheritance GetByApi(
+            Context context,
+            SiteSettings ss,
+            long siteId,
+            bool internalRequest)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }            
+            var invalid = SiteValidators.OnEntry(
+                context: context,
+                ss: ss,
+                api: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                       context: context,
+                       errorData: invalid);
+            }
+            return ApiResults.Get(
+                statusCode: 200,
+                limitPerDate: context.ContractSettings.ApiLimit(),
+                limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                response: new
+                {
+                    Data = new SiteModel(
+                        context: context,
+                        siteId: siteId)
+                            .GetByApi(context: context)
+                });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ContentResultInheritance CreateByApi(
+            Context context,
+            long parentId,
+            long inheritPermission)
+        {
+            var siteModel = new SiteModel(
+                context: context,
+                parentId: parentId,
+                inheritPermission: inheritPermission,
+                setByApi: true);
+            var ss = siteModel.SiteSettings;
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            if (context.ContractSettings.SitesLimit(context: context))
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.ItemsLimit));
+            }
+            if (parentId == 0)
+            {
+                ss.PermissionType = context.SiteTopPermission();
+            }
+            var invalid = SiteValidators.OnCreating(
+                context: context,
+                ss: ss,
+                siteModel: siteModel);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                       context: context,
+                       errorData: invalid);
+            }
+            var errorData = siteModel.Create(context: context, otherInitValue: true);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    return ApiResults.Success(
+                        id: siteModel.SiteId,
+                        limitPerDate: context.ContractSettings.ApiLimit(),
+                        limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                        message: Displays.Created(
+                            context: context,
+                            data: siteModel.Title.MessageDisplay(context: context)));
+                case Error.Types.Duplicated:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: errorData,
+                        data: ss.GetColumn(
+                            context: context,
+                            columnName: errorData.ColumnName)?.LabelText);
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: errorData);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ContentResultInheritance UpdateByApi(
+            Context context,
+            SiteModel siteModel,
+            long siteId)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            var ss = siteModel.SiteSettings.SiteSettingsOnUpdate(context: context);
+            siteModel.SetByApi(
+                context: context,
+                ss: ss);
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(
+                context: context,
+                siteModel: siteModel,
+                referenceId: siteId);
+            var invalid = SiteValidators.OnUpdating(
+                context: context,
+                ss: ss,
+                siteModel: siteModel);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                      context: context,
+                      errorData: invalid);
+            }
+            if (siteModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return ApiResults.Error(
+                  context: context,
+                  errorData: invalid);
+            }
+            if (siteModel.InheritPermission > 0)
+            {
+                ss.InheritPermission = siteModel.InheritPermission;
+            }
+            if (siteModel.RecordPermissions?.Count > 0
+                && Parameters.Permissions.CheckManagePermission)
+            {
+                if (!new PermissionCollection(
+                    context: context,
+                    referenceId: siteModel.SiteId,
+                    permissions: siteModel.RecordPermissions)
+                        .Any(permission =>
+                            permission.PermissionType.HasFlag(
+                                Permissions.Types.ManagePermission
+                                | Permissions.Types.ManageSite)))
+                {
+                    return ApiResults.Error(
+                      context: context,
+                      errorData: invalid);
+                }
+            }
+            var errorData = siteModel.Update(
+                context: context,
+                ss: ss);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    return ApiResults.Success(
+                        siteModel.SiteId,
+                        limitPerDate: context.ContractSettings.ApiLimit(),
+                        limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                        message: Displays.Updated(
+                            context: context,
+                            data: siteModel.Title.MessageDisplay(context: context)));
+                case Error.Types.Duplicated:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: errorData,
+                        data: ss.GetColumn(
+                            context: context,
+                            columnName: errorData.ColumnName)?.LabelText);
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: errorData);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ContentResultInheritance DeleteByApi(
+            Context context,
+            SiteSettings ss,
+            long siteId)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            var siteModel = new SiteModel(context, siteId);
+            var invalid = SiteValidators.OnDeleting(
+                context: context,
+                ss: ss,
+                siteModel: siteModel,
+                api: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                      context: context,
+                      errorData: invalid);
+            }
+            var errorData = siteModel.Delete(context: context, ss: ss);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    return ApiResults.Success(
+                        id: siteModel.SiteId,
+                        limitPerDate: context.ContractSettings.ApiLimit(),
+                        limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                        message: Displays.Deleted(
+                            context: context,
+                            data: siteModel.Title.MessageDisplay(context: context)));
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: errorData);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string Templates(Context context, long parentId, long inheritPermission)
         {
             var siteModel = new SiteModel(
@@ -5333,7 +5566,7 @@ namespace Implem.Pleasanter.Models
                                     .A(
                                         href: "#AutoNumberingSettingTab",
                                         text: Displays.AutoNumbering(context: context)),
-                                _using: column.TypeName.CsTypeSummary() == Types.CsString)
+                                _using: column.AutoNumberingColumn())
                             .Li(
                                 action: () => hb
                                     .A(
@@ -5409,7 +5642,7 @@ namespace Implem.Pleasanter.Models
                             .Ul(id: "EditorDetailsettingTabs", action: () => hb
                                 .Li(action: () => hb
                                     .A(
-                                        href: "#EditorColumnDialog",
+                                        href: "#EditorColumnDialogTab",
                                         text: Displays.General(context: context)))
                                 .Li(
                                     action: () => hb
@@ -5469,7 +5702,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Column column)
         {
-            if (column.TypeName.CsTypeSummary() != Types.CsString)
+            if (!column.AutoNumberingColumn())
             {
                 return hb;
             }
@@ -5653,7 +5886,28 @@ namespace Implem.Pleasanter.Models
                                         },
                                     },
                                     selectedValue: column.TextAlign.ToInt().ToString());
-                            if (!column.OtherColumn())
+                            if (column.OtherColumn())
+                            {
+                                switch (column.ControlType)
+                                {
+                                    case "ChoicesText":
+                                        hb
+                                            .FieldTextBox(
+                                                textType: HtmlTypes.TextTypes.MultiLine,
+                                                controlId: "ChoicesText",
+                                                fieldCss: "field-wide",
+                                                labelText: Displays.OptionList(context: context),
+                                                text: column.ChoicesText)
+                                            .FieldCheckBox(
+                                                controlId: "UseSearch",
+                                                labelText: Displays.UseSearch(context: context),
+                                                _checked: column.UseSearch == true);
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                            else
                             {
                                 if (column.TypeName == "nvarchar"
                                     && column.ControlType != "Attachments")
@@ -6075,8 +6329,7 @@ namespace Implem.Pleasanter.Models
                                             .FieldCheckBox(
                                                 controlId: "NotInsertBlankChoice",
                                                 labelText: Displays.NotInsertBlankChoice(context: context),
-                                                _checked: column.NotInsertBlankChoice == true,
-                                                _using: column.TypeName == "nvarchar");
+                                                _checked: column.NotInsertBlankChoice == true);
                                         break;
                                     default:
                                         break;
