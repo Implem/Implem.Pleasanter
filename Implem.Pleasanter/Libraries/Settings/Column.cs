@@ -705,11 +705,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             var ids = (MultipleSelections == true
                 ? selectedValues?.Deserialize<List<long>>()
                 : selectedValues?.ToLong().ToSingleList())
-                    ?.Where(o => o > 0)
+                    ?.Where(o => o >= 0)
                     .ToList();
             if (ids?.Any() == true)
             {
-                if (Linked())
+                if (Linked(withoutWiki: true))
                 {
                     if (LinkedTitleHash.ContainsKey(selectedValues))
                     {
