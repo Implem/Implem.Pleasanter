@@ -1510,6 +1510,10 @@ namespace Implem.Pleasanter.Models
                             css: "always-send",
                             value: resultModel.Timestamp)
                         .Hidden(
+                            controlId: "IsNew",
+                            css: "always-send",
+                            value: (context.Action == "new") ? "1" : "0")
+                        .Hidden(
                             controlId: "SwitchTargets",
                             css: "always-send",
                             value: resultModel.SwitchTargets?.Join(),

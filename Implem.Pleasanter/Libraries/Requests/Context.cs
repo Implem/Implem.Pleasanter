@@ -103,6 +103,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string ContentType { get; set; }
         public long ServerScriptDepth { get; set; } = 0;
         public bool ServerScriptDisabled { get; set; }
+        public bool IsNew { get; set; }
         public List<ParameterAccessor.Parts.ExtendedField> ExtendedFields { get; set; }
         public string AuthenticationType { get; set; }
         public bool? IsAuthenticated { get; set; }
@@ -422,6 +423,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                     .Where(o => o != null)
                     .ForEach(key =>
                         Forms.AddIfNotConainsKey(key, request.Form[key]));
+            IsNew = Forms.Bool("IsNew") || Action == "new";
         }
 
         private void SetPostedFiles(ICollection<IFormFile> files)
