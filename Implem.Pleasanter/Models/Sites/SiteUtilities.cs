@@ -5578,7 +5578,8 @@ namespace Implem.Pleasanter.Models
                                     .A(
                                         href: "#ExtendedHtmlSettingTab",
                                         text: Displays.ExtendedHtml(context: context)),
-                                _using: !column.OtherColumn()))
+                                _using: !column.OtherColumn()
+                                    && column.ColumnName != "Comments"))
                         .EditorColumnDialogTab(
                             context: context,
                             ss: ss,
@@ -5763,9 +5764,12 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static HtmlBuilder ExtendedHtmlSettingTab(
-            this HtmlBuilder hb, Column column, Context context, SiteSettings ss)
+            this HtmlBuilder hb,
+            Column column,
+            Context context,
+            SiteSettings ss)
         {
-            if (column.OtherColumn())
+            if (column.OtherColumn() || column.ColumnName == "Comments")
             {
                 return hb;
             }
