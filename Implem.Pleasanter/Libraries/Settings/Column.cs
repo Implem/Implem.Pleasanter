@@ -705,11 +705,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             var ids = (MultipleSelections == true
                 ? selectedValues?.Deserialize<List<long>>()
                 : selectedValues?.ToLong().ToSingleList())
-                    ?.Where(o => o >= 0)
+                    ?.Where(o => o > 0)
                     .ToList();
             if (ids?.Any() == true)
             {
-                if (Linked(withoutWiki: true))
+                if (Linked())
                 {
                     if (LinkedTitleHash.ContainsKey(selectedValues))
                     {
@@ -724,10 +724,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                     LinkedTitleHash.AddIfNotConainsKey(selectedValues, choice);
                     return LinkedTitleHash[selectedValues];
                 }
-                else if (ChoiceHash?.ContainsKey(selectedValues) == true)
-                {
-                    return ChoiceHash[selectedValues];
-                }
+            }
+            else if (ChoiceHash?.ContainsKey(selectedValues) == true)
+            {
+                return ChoiceHash[selectedValues];
             }
             return new Choice(nullCase, raw: true);
         }
