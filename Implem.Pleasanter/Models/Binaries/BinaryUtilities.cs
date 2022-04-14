@@ -678,7 +678,7 @@ namespace Implem.Pleasanter.Models
         public static SqlStatement UpdateReferenceId(
             Context context, SiteSettings ss, long referenceId, string values)
         {
-            var guids = values?.RegexValues("[0-9a-z]{32}").ToList();
+            var guids = values?.RegexValues("[0-9a-z]{32}").ToList().ConvertAll(x => x.ToUpper());
             return guids?.Any() == true
                 ? Rds.UpdateBinaries(
                     param: Rds.BinariesParam().ReferenceId(referenceId),
