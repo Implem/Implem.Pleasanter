@@ -1856,7 +1856,9 @@ namespace Implem.Pleasanter.Models
                 foreach (var data in csv.Rows.Select((o, i) =>
                     new { Row = o, Index = i }))
                 {
-                    var groupModel = new GroupModel();
+                    var groupModel = new GroupModel(
+                        context: context,
+                        ss: ss);
                     if (idColumn > -1)
                     {
                         var model = new GroupModel(
@@ -1951,21 +1953,31 @@ namespace Implem.Pleasanter.Models
                 var updateGroupCount = 0;
                 var insertGroupMemberCount = 0;
                 var updateGroupMemberCount = 0;
+                var newGroups = new Dictionary<string, GroupModel>();
                 foreach (var groupModel in groups)
                 {
                     if (groupModel.AccessStatus == Databases.AccessStatuses.Selected)
                     {
-                        if (groupModel.Updated(context: context))
+                        var errorData = UpdateGroup(
+                            context: context,
+                            ss: ss,
+                            groupModel: groupModel,
+                            updateGroupCount: ref updateGroupCount);
+                        switch (errorData.Type)
                         {
-                            groupModel.VerUp = Versions.MustVerUp(
+                            case Error.Types.None:
+                                break;
+                            default:
+                                return errorData.MessageJson(context: context);
+                        }
+                    }
+                    else
+                    {
+                        if (!newGroups.ContainsKey(groupModel.GroupName))
+                        {
+                            var errorData = groupModel.Create(
                                 context: context,
                                 ss: ss,
-                                baseModel: groupModel);
-                            var errorData = groupModel.Update(
-                                context: context,
-                                ss: ss,
-                                refleshSiteInfo: false,
-                                updateGroupMembers: false,
                                 get: false);
                             switch (errorData.Type)
                             {
@@ -1974,23 +1986,25 @@ namespace Implem.Pleasanter.Models
                                 default:
                                     return errorData.MessageJson(context: context);
                             }
-                            updateGroupCount++;
+                            insertGroupCount++;
+                            newGroups.Add(groupModel.GroupName, groupModel);
                         }
-                    }
-                    else
-                    {
-                        var errorData = groupModel.Create(
-                            context: context,
-                            ss: ss,
-                            get: false);
-                        switch (errorData.Type)
+                        else
                         {
-                            case Error.Types.None:
-                                break;
-                            default:
-                                return errorData.MessageJson(context: context);
+                            groupModel.GroupId = newGroups[groupModel.GroupName].GroupId;
+                            var errorData = UpdateGroup(
+                                context: context,
+                                ss: ss,
+                                groupModel: groupModel,
+                                updateGroupCount: ref updateGroupCount);
+                            switch (errorData.Type)
+                            {
+                                case Error.Types.None:
+                                    break;
+                                default:
+                                    return errorData.MessageJson(context: context);
+                            }
                         }
-                        insertGroupCount++;
                     }
                     if (!groupModel.MemberType.IsNullOrEmpty())
                     {
@@ -2023,6 +2037,44 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseFileNotFound(context: context).ToJson();
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static ErrorData UpdateGroup(
+            Context context,
+            SiteSettings ss,
+            GroupModel groupModel,
+            ref int updateGroupCount)
+        {
+            if (!groupModel.Updated(context: context))
+            {
+                return new ErrorData(type: Error.Types.None);
+            }
+            groupModel.Timestamp = Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectGroups(
+                    column: Rds.GroupsColumn()
+                        .UpdatedTime(),
+                    where: Rds.GroupsWhere()
+                        .TenantId(context.TenantId)
+                        .GroupId(groupModel.GroupId)))
+                            .AsEnumerable()
+                            .FirstOrDefault()
+                            ?.Field<DateTime>("UpdatedTime")
+                            .ToString("yyyy/M/d H:m:s.fff");
+            var errorData = groupModel.Update(
+                context: context,
+                ss: ss,
+                refleshSiteInfo: false,
+                updateGroupMembers: false,
+                get: false);
+            if (errorData.Type == Error.Types.None)
+            {
+                updateGroupCount++;
+            }
+            return errorData;
         }
 
         /// <summary>
