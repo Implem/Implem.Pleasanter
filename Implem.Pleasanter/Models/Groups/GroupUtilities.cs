@@ -1961,6 +1961,18 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 baseModel: groupModel);
+                            groupModel.Timestamp = Rds.ExecuteTable(
+                                context: context,
+                                statements: Rds.SelectGroups(
+                                    column: Rds.GroupsColumn()
+                                        .UpdatedTime(),
+                                    where: Rds.GroupsWhere()
+                                        .TenantId(context.TenantId)
+                                        .GroupId(groupModel.GroupId)))
+                                            .AsEnumerable()
+                                            .FirstOrDefault()
+                                            ?.Field<DateTime>("UpdatedTime")
+                                            .ToString("yyyy/M/d H:m:s.fff");
                             var errorData = groupModel.Update(
                                 context: context,
                                 ss: ss,
