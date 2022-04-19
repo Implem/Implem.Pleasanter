@@ -1,0 +1,42 @@
+﻿version: '3'
+
+services:
+  implem.pleasanter:
+    image: implempleasanter
+    build:
+      context: .
+      dockerfile: ./Implem.Pleasanter/Dockerfile
+    container_name: pleasanter
+    env_file:
+      - rds_settings.env
+    depends_on:
+      - db
+    networks:
+      - default
+  implem.codedefiner:
+    image: implemcodedefiner
+    build:
+      context: .
+      dockerfile: ./Implem.CodeDefiner/Dockerfile
+    container_name: codedefiner
+    env_file:
+      - rds_settings.env
+    depends_on:
+      - db
+    networks:
+      - default
+  db:
+    image: postgres:14
+    container_name: postgresql
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+    ports:
+      - "5432:5432"
+    restart: always
+    networks:
+      - default
+networks:
+  default:
+    name: pleasanternetwork

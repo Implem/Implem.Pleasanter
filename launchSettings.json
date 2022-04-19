@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "db": "StartWithoutDebugging",
+        "implem.codedefiner": "StartDebugging",
+        "implem.pleasanter": "StartDebugging"
+      }
+    }
+  }
+}
