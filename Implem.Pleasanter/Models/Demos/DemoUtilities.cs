@@ -67,7 +67,9 @@ namespace Implem.Pleasanter.Models
                         data: new string[]
                         {
                             Locations.DemoUri(context: context),
+                            $"ID: {userHash.First().Key} PW: {userHash.First().Value}",
                             userHash
+                                .Skip(1)
                                 .Select(data => $"ID: {data.Key} PW: {data.Value}")
                                 .Join("\r\n"),
                             Parameters.Service.DemoUsagePeriod.ToString()
