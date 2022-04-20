@@ -2,25 +2,29 @@
 
 services:
   implem.pleasanter:
-    image: implempleasanter
     build:
       context: .
       dockerfile: ./Implem.Pleasanter/Dockerfile
+    image: implem.pleasanter
     container_name: pleasanter
-    env_file:
-      - rds_settings.env
+    environment:
+      - Implem.Pleasanter_Rds_PostgreSQL_SaConnectionString
+      - Implem.Pleasanter_Rds_PostgreSQL_OwnerConnectionString
+      - Implem.Pleasanter_Rds_PostgreSQL_UserConnectionString
     depends_on:
       - db
     networks:
       - default
   implem.codedefiner:
-    image: implemcodedefiner
     build:
       context: .
       dockerfile: ./Implem.CodeDefiner/Dockerfile
+    image: implem.codedefiner
     container_name: codedefiner
-    env_file:
-      - rds_settings.env
+    environment:
+      - Implem.Pleasanter_Rds_PostgreSQL_SaConnectionString
+      - Implem.Pleasanter_Rds_PostgreSQL_OwnerConnectionString
+      - Implem.Pleasanter_Rds_PostgreSQL_UserConnectionString
     depends_on:
       - db
     networks:
