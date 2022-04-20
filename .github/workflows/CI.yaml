@@ -11,24 +11,19 @@ env:
   WORKING_DIRECTORY: Implem.Pleasanter
   WORKING_DIR_CODEDEFINER: Implem.CodeDefiner
   WORKING_DIR_TESTAUTOMATION: Implem.TestAutomation
+  Implem.Pleasanter_Rds_PostgreSQL_SaConnectionString: ${{ secrets.pleasanter_rds_sa_conn }}
+  Implem.Pleasanter_Rds_PostgreSQL_OwnerConnectionString: ${{ secrets.pleasanter_rds_owner_conn }}
+  Implem.Pleasanter_Rds_PostgreSQL_UserConnectionString: ${{ secrets.pleasanter_rds_user_conn }}
 jobs:
     build:
         runs-on: ubuntu-latest
         steps:
-          - uses: actions/checkout@v2
-          - name: Setup .NET Core
-            uses: actions/setup-dotnet@v1
-            with:
-                dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
-          - name: Restore (Pleasanter)
-            run: dotnet restore ${{ env.WORKING_DIRECTORY }}
-          - name: Build Pleasanter
-            run: dotnet build "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-restore
-          - name: Restore (CodeDefiner)
-            run: dotnet restore ${{ env.WORKING_DIR_CODEDEFINER }}
-          - name: Build CodeDefiner
-            run: dotnet build "${{ env.WORKING_DIR_CODEDEFINER }}" --configuration ${{ env.CONFIGURATION }} --no-restore
-          - name: Restore(TestAutomation)
-            run: dotnet restore ${{ env.WORKING_DIR_TESTAUTOMATION }}
-          - name: Build TestAutomation
-            run: dotnet build "${{ env.WORKING_DIR_TESTAUTOMATION }}" --configuration ${{ env.CONFIGURATION }} --no-restore
+        - uses: actions/checkout@v2
+        - name: build on docker-compose
+          run: |
+            docker-compose build
+            docker-compose run --rm --name codedefiner implem.codedefiner _rds
+            docker-compose run -d -p 50001:80 --name pleasanter implem.pleasanter
+            curl -v http://localhost:50001/
+            docker-compose down
+          working-directory: ./
