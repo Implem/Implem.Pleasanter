@@ -26,15 +26,18 @@ services:
     networks:
       - default
   db:
-    image: postgres:14
     container_name: postgresql
+    build:
+      context: .
+      dockerfile: ./docker-build/postgresql/Dockerfile
     environment:
       - POSTGRES_USER
       - POSTGRES_PASSWORD
       - POSTGRES_DB
     ports:
       - "5432:5432"
-    restart: always
+    volumes:
+      - ./docker-build/postgresql/init:/docker-entrypoint-initdb.d
     networks:
       - default
 networks:
