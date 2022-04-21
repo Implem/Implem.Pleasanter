@@ -11,9 +11,6 @@ env:
   WORKING_DIRECTORY: Implem.Pleasanter
   WORKING_DIR_CODEDEFINER: Implem.CodeDefiner
   WORKING_DIR_TESTAUTOMATION: Implem.TestAutomation
-  Implem.Pleasanter_Rds_PostgreSQL_SaConnectionString: ${{ secrets.pleasanter_rds_sa_conn }}
-  Implem.Pleasanter_Rds_PostgreSQL_OwnerConnectionString: ${{ secrets.pleasanter_rds_owner_conn }}
-  Implem.Pleasanter_Rds_PostgreSQL_UserConnectionString: ${{ secrets.pleasanter_rds_user_conn }}
 jobs:
     build:
         runs-on: ubuntu-latest
@@ -27,3 +24,7 @@ jobs:
             curl -v http://localhost:50001/
             docker-compose down
           working-directory: ./
+          env:
+            Implem.Pleasanter_Rds_PostgreSQL_SaConnectionString: ${{ secrets.pleasanter_rds_sa_conn }}
+            Implem.Pleasanter_Rds_PostgreSQL_OwnerConnectionString: ${{ secrets.pleasanter_rds_owner_conn }}
+            Implem.Pleasanter_Rds_PostgreSQL_UserConnectionString: ${{ secrets.pleasanter_rds_user_conn }}
