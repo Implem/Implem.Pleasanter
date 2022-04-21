@@ -3,31 +3,31 @@
     "Type": 110,
     "Languages": [
         {
-            "Body": "Thank you for signing up to use the demo environment.\n\nPlease access the URL below and log in with your ID / PW.\n\n{0}\n\n{1}\n\nThe demo environment is available for use for {2} day(s).\r\n\r\nPlease note that the demo site may be maintained without prior notice."
+            "Body": "Thank you for signing up to use the demo environment.\r\n\r\nPlease access the URL below and log in with your ID / PW.\r\n\r\n{0}\r\n\r\nAdministrator ID\r\n{1}\r\n\r\nGeneral user ID (19 ID can be used)\r\n{2}\r\n\r\nThe demo environment is available for use for {3} day(s).\r\n\r\nPlease note that the demo site may be maintained without prior notice."
         },
         {
             "Language": "zh",
-            "Body": "感谢您注册使用此演示环境。\n\n请访问下面的 URL 并使用您的 ID / PW 登录。\n\n{0}\n\n{1}\n\n此演示环境还可以使用{2}天。\n\n请注意，演示站点可能会在不事先通知的情况下进行维护。"
+            "Body": "感谢您注册使用此演示环境。\r\n\r\n请访问下面的 URL 并使用您的 ID / PW 登录。\r\n\r\n{0}\r\n\r\n管理员 ID\r\n{1}\r\n\r\n通用用户ID（可以使用19个ID）\r\n{2}\r\n\r\n此演示环境还可以使用{3}天。\r\n\r\n请注意，演示站点可能会在不事先通知的情况下进行维护。"
         },
         {
             "Language": "ja",
-            "Body": "デモ環境ご利用へのお申し込みありがとうございます。\r\n\r\n下記のURLにアクセスし、ID/PWでログインしてください。\r\n\r\n{0}\r\n\r\n{1}\r\n\r\nデモ環境は{2}日間ご利用いただけます。\r\n\r\nデモサイトは事前の告知なくメンテンスを実施する場合がありますので予めご了承ください。"
+            "Body": "デモ環境ご利用へのお申し込みありがとうございます。\r\n\r\n下記のURLにアクセスし、ID/PWでログインしてください。\r\n\r\n{0}\r\n\r\n管理者ID\r\n{1}\r\n\r\n一般ユーザID（19IDご利用いただけます）\r\n{2}\r\n\r\nデモ環境は{3}日間ご利用いただけます。\r\n\r\nデモサイトは事前の告知なくメンテンスを実施する場合がありますので予めご了承ください。"
         },
         {
             "Language": "de",
-            "Body": "Vielen Dank für Ihre Anmeldung in der Demo-Umgebung.\n\nBitte greifen Sie auf die unten stehende URL zu und melden Sie sich mit Ihrer ID / PW an.\n\n{0}\n\n{1}\n\nSie können die Demo-Umgebung {2} Tag(e) nutzen.\n\nBitte beachten Sie, dass die Demo-Site ohne vorherige Ankündigung gewartet werden kann."
+            "Body": "Vielen Dank für Ihre Anmeldung in der Demo-Umgebung.\r\n\r\nBitte greifen Sie auf die unten stehende URL zu und melden Sie sich mit Ihrer ID / PW an.\r\n\r\n{0}\r\n\r\nAdministrator ID\r\n{1}\r\n\r\nAllgemeine Benutzerkennung (19 ID verwendbar)\r\n{2}\r\n\r\nSie können die Demo-Umgebung {3} Tag(e) nutzen.\r\n\r\nBitte beachten Sie, dass die Demo-Site ohne vorherige Ankündigung gewartet werden kann."
         },
         {
             "Language": "ko",
-            "Body": "데모 환경 사용을 위해 가입해 주셔서 감사합니다.\n\n아래 URL에 접속하여 아이디/비밀번호로 로그인 해주세요.\n\n{0}\n\n{1}\n\n데모 환경은 {2}일 동안 사용할 수 있습니다.\n\n데모 사이트는 사전 예고 없이 유지될 수 있음을 알려드립니다."
+            "Body": "데모 환경 사용을 위해 가입해 주셔서 감사합니다.\r\n\r\n아래 URL에 접속하여 아이디/비밀번호로 로그인 해주세요.\r\n\r\n{0}\r\n\r\n관리자 ID\r\n{1}\r\n\r\n일반 사용자 ID (19ID 사용 가능)\r\n{2}\r\n\r\n데모 환경은 {3}일 동안 사용할 수 있습니다.\r\n\r\n데모 사이트는 사전 예고 없이 유지될 수 있음을 알려드립니다."
         },
         {
             "Language": "es",
-            "Body": "Gracias por registrarse para usar el entorno de demostración.\n\nAcceda a la siguiente URL e inicie sesión con su ID/PW.\n\n{0}\n\n{1}\n\nEl entorno de demostración está disponible para usar durante {2} día(s).\n\nTenga en cuenta que el sitio de demostración puede mantenerse sin previo aviso."
+            "Body": "Gracias por registrarse para usar el entorno de demostración.\r\n\r\nAcceda a la siguiente URL e inicie sesión con su ID/PW.\r\n\r\n{0}\r\n\r\nID del administrador\r\n{1}\r\n\r\nID de usuario general (se puede usar 19 ID)\r\n{2}\r\n\r\nEl entorno de demostración está disponible para usar durante {3} día(s).\r\n\r\nTenga en cuenta que el sitio de demostración puede mantenerse sin previo aviso."
         },
         {
             "Language": "vn",
-            "Body": "Cảm ơn bạn đã đăng kí sử dụng môi trường giả lập.\r\n\r\n Vui lòng truy cập URL bên dưới và đăng nhập bằng ID / PW của bạn. \r\n\r\n{0}\r\n\r\n{1}\r\n\r\n Môi trường giả lập có hiệu lực trong {2} ngày. \r\n\r\n Xin lưu ý rằng trang demo có thể được duy trì mà không cần thông báo trước."
+            "Body": "Cảm ơn bạn đã đăng kí sử dụng môi trường giả lập.\r\n\r\n Vui lòng truy cập URL bên dưới và đăng nhập bằng ID / PW của bạn. \r\n\r\n{0}\r\n\r\nID quản trị viên\r\n{1}\r\n\r\nID người dùng chung (có thể sử dụng 19 ID)\r\n{2}\r\n\r\n Môi trường giả lập có hiệu lực trong {3} ngày. \r\n\r\n Xin lưu ý rằng trang demo có thể được duy trì mà không cần thông báo trước."
         }
     ]
 }
