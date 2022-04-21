@@ -21,7 +21,7 @@ jobs:
             docker-compose build
             docker-compose run --rm --name codedefiner implem.codedefiner _rds
             docker-compose run -d -p 50001:80 --name pleasanter implem.pleasanter
-            curl -v http://localhost:50001/
+            curl -D - -s  -o /dev/null http://localhost:50001/users/login
             docker-compose down
           working-directory: ./
           env:
