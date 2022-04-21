@@ -28,3 +28,6 @@ jobs:
             Implem.Pleasanter_Rds_PostgreSQL_SaConnectionString: ${{ secrets.pleasanter_rds_sa_conn }}
             Implem.Pleasanter_Rds_PostgreSQL_OwnerConnectionString: ${{ secrets.pleasanter_rds_owner_conn }}
             Implem.Pleasanter_Rds_PostgreSQL_UserConnectionString: ${{ secrets.pleasanter_rds_user_conn }}
+            POSTGRES_USER: ${{ secrets.postgres_user }}
+            POSTGRES_PASSWORD: ${{ secrets.postgres_password }}
+            POSTGRES_DB: ${{ secrets.postgres_db }}
