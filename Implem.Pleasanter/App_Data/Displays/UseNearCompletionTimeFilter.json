@@ -1,0 +1,33 @@
+﻿{
+    "Id": "UseNearCompletionTimeFilter",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Use near time of completion filter"
+        },
+        {
+            "Language": "zh",
+            "Body": "使用接近完成时间过滤器"
+        },
+        {
+            "Language": "ja",
+            "Body": "期限が近いを使用する"
+        },
+        {
+            "Language": "de",
+            "Body": "Verwenden Sie den Filter zum Zeitpunkt der Fertigstellung"
+        },
+        {
+            "Language": "ko",
+            "Body": "완료 시간 필터 사용"
+        },
+        {
+            "Language": "es",
+            "Body": "Usar cerca del tiempo de finalización del filtro"
+        },
+        {
+            "Language": "vn",
+            "Body": "Sử dụng gần thời điểm hoàn thành bộ lọc"
+        }
+    ]
+}

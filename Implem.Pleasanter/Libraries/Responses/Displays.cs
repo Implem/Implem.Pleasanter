@@ -8479,6 +8479,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string UseIncompleteFilter(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UseIncompleteFilter",
+                data: data);
+        }
+
         public static string UseIndentOption(
             Context context,
             params string[] data)
@@ -8496,6 +8506,36 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "UseMonth",
+                data: data);
+        }
+
+        public static string UseNearCompletionTimeFilter(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UseNearCompletionTimeFilter",
+                data: data);
+        }
+
+        public static string UseOverdueFilter(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UseOverdueFilter",
+                data: data);
+        }
+
+        public static string UseOwnFilter(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UseOwnFilter",
                 data: data);
         }
 
@@ -8596,6 +8636,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "UseSearch",
+                data: data);
+        }
+
+        public static string UseSearchFilter(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UseSearchFilter",
                 data: data);
         }
 

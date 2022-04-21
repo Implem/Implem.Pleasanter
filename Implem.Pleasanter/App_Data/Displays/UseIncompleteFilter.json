@@ -1,0 +1,33 @@
+﻿{
+    "Id": "UseIncompleteFilter",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Use incomplete filter"
+        },
+        {
+            "Language": "zh",
+            "Body": "使用不完整的过滤器"
+        },
+        {
+            "Language": "ja",
+            "Body": "未完了フィルタを使用する"
+        },
+        {
+            "Language": "de",
+            "Body": "Unvollständigen Filter verwenden"
+        },
+        {
+            "Language": "ko",
+            "Body": "불완전한 필터 사용"
+        },
+        {
+            "Language": "es",
+            "Body": "Usar filtro incompleto"
+        },
+        {
+            "Language": "vn",
+            "Body": "Sử dụng bộ lọc chưa hoàn chỉnh"
+        }
+    ]
+}

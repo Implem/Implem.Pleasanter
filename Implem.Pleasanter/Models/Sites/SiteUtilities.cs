@@ -4882,7 +4882,32 @@ namespace Implem.Pleasanter.Models
                     controlId: "UseRelatingColumnsOnFilter",
                     fieldCss: "field-auto-thin",
                     labelText: Displays.UseRelatingColumns(context: context),
-                    _checked: ss.UseRelatingColumnsOnFilter == true));
+                    _checked: ss.UseRelatingColumnsOnFilter == true)
+                .FieldCheckBox(
+                    controlId: "UseIncompleteFilter",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.UseIncompleteFilter(context: context),
+                    _checked: ss.UseIncompleteFilter == true)
+                .FieldCheckBox(
+                    controlId: "UseOwnFilter",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.UseOwnFilter(context: context),
+                    _checked: ss.UseOwnFilter == true)
+                .FieldCheckBox(
+                    controlId: "UseNearCompletionTimeFilter",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.UseNearCompletionTimeFilter(context: context),
+                    _checked: ss.UseNearCompletionTimeFilter == true)
+                .FieldCheckBox(
+                    controlId: "UseOverdueFilter",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.UseOverdueFilter(context: context),
+                    _checked: ss.UseOverdueFilter == true)
+                .FieldCheckBox(
+                    controlId: "UseSearchFilter",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.UseSearchFilter(context: context),
+                    _checked: ss.UseSearchFilter == true));
         }
 
         /// <summary>
