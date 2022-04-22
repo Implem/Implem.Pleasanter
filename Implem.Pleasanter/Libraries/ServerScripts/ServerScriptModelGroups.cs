@@ -22,7 +22,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     context: Context,
                     tenantId: group.TenantId,
                     groupId: group.Id,
-                    groupName: group.Name)
+                    groupName: group.Name,
+                    body: group.Body,
+                    disabled: group.Disabled)
                 : null;
             return groupModel;
         }
