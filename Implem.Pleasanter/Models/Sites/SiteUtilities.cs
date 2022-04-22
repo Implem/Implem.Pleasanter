@@ -1022,6 +1022,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
+            Process process = null;
             var errorData = siteModel.Create(context: context);
             switch (errorData.Type)
             {
@@ -1047,6 +1048,29 @@ namespace Implem.Pleasanter.Models
                         .ToJson();
                 default:
                     return errorData.MessageJson(context: context);
+            }
+        }
+
+        private static Message CreatedMessage(
+            Context context,
+            SiteSettings ss,
+            SiteModel siteModel,
+            Process process)
+        {
+            if (process == null)
+            {
+                return Messages.Created(
+                    context: context,
+                    data: siteModel.Title.Value);
+            }
+            else
+            {
+                var message = process.GetSuccessMessage(context: context);
+                message.Text = siteModel.ReplacedDisplayValues(
+                    context: context,
+                    ss: ss,
+                    value: message.Text);
+                return message;
             }
         }
 
@@ -7818,6 +7842,8 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.Tooltip(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.ScreenType(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.CurrentStatus(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.ChangedStatus(context: context)))
@@ -7866,6 +7892,11 @@ namespace Implem.Pleasanter.Models
                                     .Text(text: process.Description))
                                 .Td(action: () => hb
                                     .Text(text: process.Tooltip))
+                                .Td(action: () => hb
+                                    .Text(text: Displays.Get(
+                                        context: context,
+                                        id: process.ScreenType?.ToString()
+                                            ?? Process.ScreenTypes.Edit.ToString())))
                                 .Td(action: () => hb
                                     .Text(text: process.CurrentStatus != -1
                                         ? statusColumn?.ChoiceHash?.Get(process.CurrentStatus.ToString())?.Text
@@ -8010,6 +8041,24 @@ namespace Implem.Pleasanter.Models
                         css: o.CssClass));
             return hb.FieldSet(id: "ProcessGeneralTab", action: () => hb
                 .Div(css: "items", action: () => hb
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "ProcessScreenType",
+                        controlCss: " always-send",
+                        labelText: Displays.ScreenType(context: context),
+                        optionCollection: new Dictionary<string, string>
+                        {
+                            {
+                                Process.ScreenTypes.New.ToInt().ToString(),
+                                Displays.New(context: context)
+                            },
+                            {
+                                Process.ScreenTypes.Edit.ToInt().ToString(),
+                                Displays.Edit(context: context)
+                            }
+                        },
+                        selectedValue: process.ScreenType?.ToInt().ToString()
+                            ?? Process.ScreenTypes.Edit.ToInt().ToString())
                     .FieldDropDown(
                         context: context,
                         controlId: "ProcessCurrentStatus",

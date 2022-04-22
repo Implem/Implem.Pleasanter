@@ -2783,9 +2783,37 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
+            var process = ss.Processes?.FirstOrDefault(o =>
+                $"Process_{o.Id}" == context.Forms.ControlId());
+            if (process != null)
+            {
+                process.MatchConditions = resultModel.GetProcessMatchConditions(
+                    context: context,
+                    ss: ss,
+                    process: process);
+                if (process.MatchConditions && process.Accessable(context: context))
+                {
+                    if (process.ChangedStatus != -1)
+                    {
+                        resultModel.Status.Value = process.ChangedStatus;
+                    }
+                }
+                else
+                {
+                    var message = process.GetErrorMessage(context: context);
+                    message.Text = resultModel.ReplacedDisplayValues(
+                        context: context,
+                        ss: ss,
+                        value: message.Text);
+                    return new ResponseCollection()
+                        .Message(message: message)
+                        .ToJson();
+                }
+            }
             var errorData = resultModel.Create(
                 context: context,
                 ss: ss,
+                process: process,
                 copyFrom: context.Forms.Long("CopyFrom"),
                 notice: true);
             switch (errorData.Type)
@@ -2793,9 +2821,11 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None:
                     SessionUtilities.Set(
                         context: context,
-                        message: Messages.Created(
+                        message: CreatedMessage(
                             context: context,
-                            data: resultModel.Title.DisplayValue));
+                            ss: ss,
+                            resultModel: resultModel,
+                            process: process));
                     return new ResponseCollection()
                         .Response("id", resultModel.ResultId.ToString())
                         .SetMemory("formChanged", false)
@@ -2820,6 +2850,29 @@ namespace Implem.Pleasanter.Models
                                 .ToJson();
                 default:
                     return errorData.MessageJson(context: context);
+            }
+        }
+
+        private static Message CreatedMessage(
+            Context context,
+            SiteSettings ss,
+            ResultModel resultModel,
+            Process process)
+        {
+            if (process == null)
+            {
+                return Messages.Created(
+                    context: context,
+                    data: resultModel.Title.DisplayValue);
+            }
+            else
+            {
+                var message = process.GetSuccessMessage(context: context);
+                message.Text = resultModel.ReplacedDisplayValues(
+                    context: context,
+                    ss: ss,
+                    value: message.Text);
+                return message;
             }
         }
 

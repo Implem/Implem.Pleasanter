@@ -2964,9 +2964,37 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
+            var process = ss.Processes?.FirstOrDefault(o =>
+                $"Process_{o.Id}" == context.Forms.ControlId());
+            if (process != null)
+            {
+                process.MatchConditions = issueModel.GetProcessMatchConditions(
+                    context: context,
+                    ss: ss,
+                    process: process);
+                if (process.MatchConditions && process.Accessable(context: context))
+                {
+                    if (process.ChangedStatus != -1)
+                    {
+                        issueModel.Status.Value = process.ChangedStatus;
+                    }
+                }
+                else
+                {
+                    var message = process.GetErrorMessage(context: context);
+                    message.Text = issueModel.ReplacedDisplayValues(
+                        context: context,
+                        ss: ss,
+                        value: message.Text);
+                    return new ResponseCollection()
+                        .Message(message: message)
+                        .ToJson();
+                }
+            }
             var errorData = issueModel.Create(
                 context: context,
                 ss: ss,
+                process: process,
                 copyFrom: context.Forms.Long("CopyFrom"),
                 notice: true);
             switch (errorData.Type)
@@ -2974,9 +3002,11 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None:
                     SessionUtilities.Set(
                         context: context,
-                        message: Messages.Created(
+                        message: CreatedMessage(
                             context: context,
-                            data: issueModel.Title.DisplayValue));
+                            ss: ss,
+                            issueModel: issueModel,
+                            process: process));
                     return new ResponseCollection()
                         .Response("id", issueModel.IssueId.ToString())
                         .SetMemory("formChanged", false)
@@ -3001,6 +3031,29 @@ namespace Implem.Pleasanter.Models
                                 .ToJson();
                 default:
                     return errorData.MessageJson(context: context);
+            }
+        }
+
+        private static Message CreatedMessage(
+            Context context,
+            SiteSettings ss,
+            IssueModel issueModel,
+            Process process)
+        {
+            if (process == null)
+            {
+                return Messages.Created(
+                    context: context,
+                    data: issueModel.Title.DisplayValue);
+            }
+            else
+            {
+                var message = process.GetSuccessMessage(context: context);
+                message.Text = issueModel.ReplacedDisplayValues(
+                    context: context,
+                    ss: ss,
+                    value: message.Text);
+                return message;
             }
         }
 
