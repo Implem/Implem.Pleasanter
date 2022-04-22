@@ -312,16 +312,30 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case Types.CsNumeric:
                     if (column.Id_Ver)
                     {
-                        hb.FieldTextBox(
-                            controlId: idPrefix + column.ColumnName,
-                            fieldCss: "field-auto-thin",
-                            controlCss: ss.UseFilterButton != true
-                                ? " auto-postback"
-                                : string.Empty,
-                            labelText: column.GridLabelText,
-                            labelTitle: ss.LabelTitle(column),
-                            controlOnly: controlOnly,
-                            method: "post");
+                        if (column.DateFilterSetMode == ColumnUtilities.DateFilterSetMode.Default)
+                        {
+                            hb.FieldTextBox(
+                                controlId: idPrefix + column.ColumnName,
+                                fieldCss: "field-auto-thin",
+                                controlCss: ss.UseFilterButton != true
+                                    ? " auto-postback"
+                                    : string.Empty,
+                                labelText: column.GridLabelText,
+                                labelTitle: ss.LabelTitle(column),
+                                controlOnly: controlOnly,
+                                method: "post");
+                        }
+                        else
+                        {
+                            SetNumericRangeDialog(
+                                hb: hb,
+                                ss: ss,
+                                view: view,
+                                column: column,
+                                idPrefix: idPrefix,
+                                action: action,
+                                controlOnly: controlOnly);
+                        }
                     }
                     else if (column.DateFilterSetMode == ColumnUtilities.DateFilterSetMode.Default)
                     {
@@ -341,26 +355,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     }
                     else
                     {
-                        hb.FieldTextBox(
-                            controlId: idPrefix + column.ColumnName + "_NumericRange",
-                            fieldCss: "field-auto-thin",
-                            controlCss: (column.UseSearch == true ? " search" : string.Empty),
-                            labelText: column.GridLabelText,
-                            labelTitle: ss.LabelTitle(column),
-                            controlOnly: controlOnly,
-                            action: "openSetNumericRangeDialog",
-                            text: GetNumericFilterRange(view.ColumnFilter(column.ColumnName)),
-                            method: "post",
-                            attributes: new Dictionary<string, string>
-                            {
-                                ["onfocus"] = $"$p.openSetNumericRangeDialog($(this))"
-                            })
-                        .Hidden(attributes: new HtmlAttributes()
-                            .Id(idPrefix + column.ColumnName)
-                            .Class(column.UseSearch == true ? " search" : string.Empty)
-                            .DataMethod("post")
-                            .DataAction(action)
-                            .Value(view.ColumnFilter(column.ColumnName)));
+                        SetNumericRangeDialog(
+                            hb: hb,
+                            ss: ss,
+                            view: view,
+                            column: column,
+                            idPrefix: idPrefix,
+                            action: action,
+                            controlOnly: controlOnly);
                     }
                     break;
                 case Types.CsDateTime:
@@ -450,6 +452,38 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 default:
                     break;
             }
+        }
+
+        private static void SetNumericRangeDialog(
+            HtmlBuilder hb,
+            SiteSettings ss,
+            View view,
+            Column column,
+            string idPrefix,
+            string action,
+            bool controlOnly)
+        {
+            hb
+                .FieldTextBox(
+                    controlId: idPrefix + column.ColumnName + "_NumericRange",
+                    fieldCss: "field-auto-thin",
+                    controlCss: (column.UseSearch == true ? " search" : string.Empty),
+                    labelText: column.GridLabelText,
+                    labelTitle: ss.LabelTitle(column),
+                    controlOnly: controlOnly,
+                    action: "openSetNumericRangeDialog",
+                    text: GetNumericFilterRange(view.ColumnFilter(column.ColumnName)),
+                    method: "post",
+                    attributes: new Dictionary<string, string>
+                    {
+                        ["onfocus"] = $"$p.openSetNumericRangeDialog($(this))"
+                    })
+                .Hidden(attributes: new HtmlAttributes()
+                    .Id(idPrefix + column.ColumnName)
+                    .Class(column.UseSearch == true ? " search" : string.Empty)
+                    .DataMethod("post")
+                    .DataAction(action)
+                    .Value(view.ColumnFilter(column.ColumnName)));
         }
 
         private static HtmlBuilder CheckBox(
