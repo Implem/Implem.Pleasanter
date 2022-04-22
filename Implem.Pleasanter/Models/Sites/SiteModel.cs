@@ -3920,6 +3920,7 @@ namespace Implem.Pleasanter.Models
                 id: SiteSettings.Processes.MaxOrDefault(o => o.Id) + 1,
                 name: context.Forms.Data("ProcessName"),
                 displayName: context.Forms.Data("ProcessDisplayName"),
+                screenType: (Process.ScreenTypes)context.Forms.Int("ProcessScreenType"),
                 currentStatus: context.Forms.Int("ProcessCurrentStatus"),
                 changedStatus: context.Forms.Int("ProcessChangedStatus"),
                 description: context.Forms.Data("ProcessDescription"),
@@ -3965,6 +3966,7 @@ namespace Implem.Pleasanter.Models
                 process.Update(
                     name: context.Forms.Data("ProcessName"),
                     displayName: context.Forms.Data("ProcessDisplayName"),
+                    screenType: (Process.ScreenTypes)context.Forms.Int("ProcessScreenType"),
                     currentStatus: context.Forms.Int("ProcessCurrentStatus"),
                     changedStatus: context.Forms.Int("ProcessChangedStatus"),
                     description: context.Forms.Data("ProcessDescription"),

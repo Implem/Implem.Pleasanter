@@ -7079,6 +7079,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ScreenType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ScreenType",
+                data: data);
+        }
+
         public static string Script(
             Context context,
             params string[] data)

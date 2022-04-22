@@ -15,6 +15,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             ss.Processes
                 ?.Where(process => process.Accessable(context: context))
                 .Where(process => process.MatchConditions)
+                .Where(process => (context.IsNew && process.ScreenType == Process.ScreenTypes.New)
+                    || (!context.IsNew && process.ScreenType != Process.ScreenTypes.New))
                 .ForEach(process =>
                     hb.Button(
                         controlId: $"Process_{process.Id}",
@@ -28,8 +30,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlCss: "button-icon validate",
                         icon: "ui-icon-disk",
                         validations: process.ValidateInputs?.ToJson() ?? "[]",
-                        action: "Update",
-                        method: "put",
+                        action: context.IsNew
+                            ? "Create"
+                            : "Update",
+                        method: context.IsNew
+                            ? "post"
+                            : "put",
                         confirm: process.ConfirmationMessage));
             return hb;
         }

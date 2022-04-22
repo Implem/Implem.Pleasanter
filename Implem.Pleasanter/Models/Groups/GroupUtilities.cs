@@ -1481,15 +1481,18 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
+            Process process = null;
             var errorData = groupModel.Create(context: context, ss: ss);
             switch (errorData.Type)
             {
                 case Error.Types.None:
                     SessionUtilities.Set(
                         context: context,
-                        message: Messages.Created(
+                        message: CreatedMessage(
                             context: context,
-                            data: groupModel.Title.Value));
+                            ss: ss,
+                            groupModel: groupModel,
+                            process: process));
                     return new ResponseCollection()
                         .Response("id", groupModel.GroupId.ToString())
                         .SetMemory("formChanged", false)
@@ -1507,6 +1510,29 @@ namespace Implem.Pleasanter.Models
                         .ToJson();
                 default:
                     return errorData.MessageJson(context: context);
+            }
+        }
+
+        private static Message CreatedMessage(
+            Context context,
+            SiteSettings ss,
+            GroupModel groupModel,
+            Process process)
+        {
+            if (process == null)
+            {
+                return Messages.Created(
+                    context: context,
+                    data: groupModel.Title.Value);
+            }
+            else
+            {
+                var message = process.GetSuccessMessage(context: context);
+                message.Text = groupModel.ReplacedDisplayValues(
+                    context: context,
+                    ss: ss,
+                    value: message.Text);
+                return message;
             }
         }
 
