@@ -1,6 +1,4 @@
-﻿version: '3'
-
-services:
+﻿services:
   implem.pleasanter:
     build:
       context: .

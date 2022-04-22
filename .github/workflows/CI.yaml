@@ -32,9 +32,6 @@ jobs:
             - name: run Implem.Pleasanter on docker-compose
               run: docker-compose run -d -p 50001:80 --name pleasanter implem.pleasanter
               working-directory: ./
-            - name: running check using curl
-              run: curl -D - -s  -o /dev/null http://localhost:50001/users/login
-              working-directory: ./
             - name: clean up on docker-compose
               run: docker-compose down
               working-directory: ./
