@@ -3916,6 +3916,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void AddProcess(Context context, ResponseCollection res)
         {
+            SiteSettings.SetChoiceHash(context: context);
             var process = new Process(
                 id: SiteSettings.Processes.MaxOrDefault(o => o.Id) + 1,
                 name: context.Forms.Data("ProcessName"),
