@@ -2461,15 +2461,18 @@ namespace Implem.Pleasanter.Models
                     return policy.ResponseMessage(context: context).ToJson();
                 }
             }
+            Process process = null;
             var errorData = userModel.Create(context: context, ss: ss);
             switch (errorData.Type)
             {
                 case Error.Types.None:
                     SessionUtilities.Set(
                         context: context,
-                        message: Messages.Created(
+                        message: CreatedMessage(
                             context: context,
-                            data: userModel.Title.Value));
+                            ss: ss,
+                            userModel: userModel,
+                            process: process));
                     return new ResponseCollection()
                         .Response("id", userModel.UserId.ToString())
                         .SetMemory("formChanged", false)
@@ -2487,6 +2490,29 @@ namespace Implem.Pleasanter.Models
                         .ToJson();
                 default:
                     return errorData.MessageJson(context: context);
+            }
+        }
+
+        private static Message CreatedMessage(
+            Context context,
+            SiteSettings ss,
+            UserModel userModel,
+            Process process)
+        {
+            if (process == null)
+            {
+                return Messages.Created(
+                    context: context,
+                    data: userModel.Title.Value);
+            }
+            else
+            {
+                var message = process.GetSuccessMessage(context: context);
+                message.Text = userModel.ReplacedDisplayValues(
+                    context: context,
+                    ss: ss,
+                    value: message.Text);
+                return message;
             }
         }
 
@@ -3457,7 +3483,7 @@ namespace Implem.Pleasanter.Models
                 ? error.MessageJson(context: context)
                 : userModel.Allow(
                     context: context,
-                    returnUrl: context.Forms.Data("ReturnUrl"),
+                    returnUrl: userModel.GetReturnUrl(returnUrl: context.Forms.Data("ReturnUrl")),
                     atLogin: true);
         }
 

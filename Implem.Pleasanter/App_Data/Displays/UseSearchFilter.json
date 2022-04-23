@@ -1,0 +1,33 @@
+﻿{
+    "Id": "UseSearchFilter",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Use search filter"
+        },
+        {
+            "Language": "zh",
+            "Body": "使用搜索过滤器"
+        },
+        {
+            "Language": "ja",
+            "Body": "検索フィルタを使用する"
+        },
+        {
+            "Language": "de",
+            "Body": "Suchfilter verwenden"
+        },
+        {
+            "Language": "ko",
+            "Body": "검색 필터 사용"
+        },
+        {
+            "Language": "es",
+            "Body": "usar filtro de búsqueda"
+        },
+        {
+            "Language": "vn",
+            "Body": "sử dụng bộ lọc tìm kiếm"
+        }
+    ]
+}

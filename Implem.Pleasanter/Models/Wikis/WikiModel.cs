@@ -534,6 +534,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
+            Process process = null,
             bool extendedSqls = true,
             bool notice = false,
             string noticeType = "Created",
@@ -572,6 +573,24 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         notice: notice),
                     type: noticeType);
+                process?.Notifications?.ForEach(notification =>
+                    notification.Send(
+                        context: context,
+                        ss: ss,
+                        title: ReplacedDisplayValues(
+                            context: context,
+                            ss: ss,
+                            value: notification.Subject),
+                        body: ReplacedDisplayValues(
+                            context: context,
+                            ss: ss,
+                            value: notification.Body),
+                        values: ss.IncludedColumns(notification.Address)
+                            .ToDictionary(
+                                column => column,
+                                column => PropertyValue(
+                                    context: context,
+                                    column: column))));
             }
             if (get) Get(context: context, ss: ss);
             var fullText = FullText(context, ss: ss, onCreating: true);

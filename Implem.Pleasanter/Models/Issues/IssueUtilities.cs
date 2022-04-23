@@ -1615,6 +1615,10 @@ namespace Implem.Pleasanter.Models
                             css: "always-send",
                             value: issueModel.Timestamp)
                         .Hidden(
+                            controlId: "IsNew",
+                            css: "always-send",
+                            value: (context.Action == "new") ? "1" : "0")
+                        .Hidden(
                             controlId: "SwitchTargets",
                             css: "always-send",
                             value: issueModel.SwitchTargets?.Join(),
@@ -2960,9 +2964,37 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
+            var process = ss.Processes?.FirstOrDefault(o =>
+                $"Process_{o.Id}" == context.Forms.ControlId());
+            if (process != null)
+            {
+                process.MatchConditions = issueModel.GetProcessMatchConditions(
+                    context: context,
+                    ss: ss,
+                    process: process);
+                if (process.MatchConditions && process.Accessable(context: context))
+                {
+                    if (process.ChangedStatus != -1)
+                    {
+                        issueModel.Status.Value = process.ChangedStatus;
+                    }
+                }
+                else
+                {
+                    var message = process.GetErrorMessage(context: context);
+                    message.Text = issueModel.ReplacedDisplayValues(
+                        context: context,
+                        ss: ss,
+                        value: message.Text);
+                    return new ResponseCollection()
+                        .Message(message: message)
+                        .ToJson();
+                }
+            }
             var errorData = issueModel.Create(
                 context: context,
                 ss: ss,
+                process: process,
                 copyFrom: context.Forms.Long("CopyFrom"),
                 notice: true);
             switch (errorData.Type)
@@ -2970,9 +3002,11 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None:
                     SessionUtilities.Set(
                         context: context,
-                        message: Messages.Created(
+                        message: CreatedMessage(
                             context: context,
-                            data: issueModel.Title.DisplayValue));
+                            ss: ss,
+                            issueModel: issueModel,
+                            process: process));
                     return new ResponseCollection()
                         .Response("id", issueModel.IssueId.ToString())
                         .SetMemory("formChanged", false)
@@ -2997,6 +3031,29 @@ namespace Implem.Pleasanter.Models
                                 .ToJson();
                 default:
                     return errorData.MessageJson(context: context);
+            }
+        }
+
+        private static Message CreatedMessage(
+            Context context,
+            SiteSettings ss,
+            IssueModel issueModel,
+            Process process)
+        {
+            if (process == null)
+            {
+                return Messages.Created(
+                    context: context,
+                    data: issueModel.Title.DisplayValue);
+            }
+            else
+            {
+                var message = process.GetSuccessMessage(context: context);
+                message.Text = issueModel.ReplacedDisplayValues(
+                    context: context,
+                    ss: ss,
+                    value: message.Text);
+                return message;
             }
         }
 
@@ -6372,6 +6429,7 @@ namespace Implem.Pleasanter.Models
                                 bodyOnly: bodyOnly,
                                 inRange: true,
                                 changedItemId: changedItemId))
+                    .Events("on_calendar_load")
                     .ToJson()
                 : new ResponseCollection()
                     .ViewMode(
@@ -6402,6 +6460,7 @@ namespace Implem.Pleasanter.Models
                                 bodyOnly: bodyOnly,
                                 inRange: false,
                                 changedItemId: changedItemId))
+                    .Events("on_calendar_load")
                     .ToJson();
         }
 
@@ -6705,6 +6764,7 @@ namespace Implem.Pleasanter.Models
                                 timePeriod: timePeriod,
                                 month: month,
                                 dataRows: dataRows))
+                    .Events("on_crosstab_load")
                     .ToJson()
                 : new ResponseCollection()
                     .ViewMode(
@@ -6735,6 +6795,7 @@ namespace Implem.Pleasanter.Models
                                 dataRows: dataRows,
                                 inRange: false)
                             : new HtmlBuilder())
+                    .Events("on_crosstab_load")
                     .ToJson();
         }
 
@@ -7013,6 +7074,7 @@ namespace Implem.Pleasanter.Models
                                 range: range,
                                 bodyOnly: bodyOnly,
                                 inRange: true))
+                    .Events("on_gantt_load")
                     .ToJson();
             }
             else
@@ -7040,6 +7102,7 @@ namespace Implem.Pleasanter.Models
                                 range: range,
                                 bodyOnly: bodyOnly,
                                 inRange: false))
+                    .Events("on_gantt_load")
                     .ToJson();
             }
         }
@@ -7221,6 +7284,7 @@ namespace Implem.Pleasanter.Models
                                     column: ss.GetColumn(
                                         context: context,
                                         columnName: "WorkValue")))
+                        .Events("on_burndown_load")
                         .ToJson()
                     : new ResponseCollection()
                         .ViewMode(
@@ -7231,6 +7295,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 data: Parameters.General.BurnDownLimit.ToString()),
                             body: new HtmlBuilder())
+                        .Events("on_burndown_load")
                         .ToJson();
         }
 
@@ -7391,6 +7456,7 @@ namespace Implem.Pleasanter.Models
                                     view: view,
                                     bodyOnly: bodyOnly,
                                     inRange: true))
+                        .Events("on_timeseries_load")
                         .ToJson()
                     : new ResponseCollection()
                         .ViewMode(
@@ -7409,6 +7475,7 @@ namespace Implem.Pleasanter.Models
                                     view: view,
                                     bodyOnly: bodyOnly,
                                     inRange: false))
+                        .Events("on_timeseries_load")
                         .ToJson();
         }
 
@@ -7586,6 +7653,7 @@ namespace Implem.Pleasanter.Models
                                     view: view,
                                     bodyOnly: bodyOnly,
                                     changedItemId: context.Forms.Long("KambanId")))
+                        .Events("on_kamban_load")
                         .ToJson()
                     : new ResponseCollection()
                         .ViewMode(
@@ -7604,6 +7672,7 @@ namespace Implem.Pleasanter.Models
                                     view: view,
                                     bodyOnly: bodyOnly,
                                     inRange: false))
+                        .Events("on_kamban_load")
                         .ToJson();
         }
 

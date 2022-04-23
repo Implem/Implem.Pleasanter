@@ -1,0 +1,33 @@
+﻿{
+    "Id": "UseOwnFilter",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Use own filter"
+        },
+        {
+            "Language": "zh",
+            "Body": "使用自己的过滤器"
+        },
+        {
+            "Language": "ja",
+            "Body": "自分フィルタを使用する"
+        },
+        {
+            "Language": "de",
+            "Body": "Eigenen Filter verwenden"
+        },
+        {
+            "Language": "ko",
+            "Body": "자체 필터 사용"
+        },
+        {
+            "Language": "es",
+            "Body": "Usar filtro propio"
+        },
+        {
+            "Language": "vn",
+            "Body": "Sử dụng bộ lọc riêng"
+        }
+    ]
+}
