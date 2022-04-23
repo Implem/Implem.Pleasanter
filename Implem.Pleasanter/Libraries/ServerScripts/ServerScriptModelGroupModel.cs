@@ -11,17 +11,23 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private readonly int TenantId;
         public readonly int GroupId;
         public readonly string GroupName;
+        public readonly string Body;
+        public readonly bool Disabled;
 
         public ServerScriptModelGroupModel(
             Context context,
             int tenantId,
             int groupId,
-            string groupName)
+            string groupName,
+            string body,
+            bool disabled)
         {
             Context = context;
             TenantId = tenantId;
             GroupId = groupId;
             GroupName = groupName;
+            Body = body;
+            Disabled = disabled;
         }
 
         public List<ServerScriptModelGroupMemberModel> GetMembers()

@@ -632,34 +632,35 @@ namespace Implem.Pleasanter.Libraries.Security
                 context: context,
                 ss: ss,
                 baseModel: baseModel);
-            switch (context.Action)
+            if (context.IsNew)
             {
-                case "new":
-                    return column.CanCreate(
-                        context: context,
-                        ss: ss,
-                        mine: baseModel?.Mine(context: context))
-                            && canEdit
-                                ? ColumnPermissionTypes.Update
-                                : column.CanRead(
-                                    context: context,
-                                    ss: ss,
-                                    mine: baseModel?.Mine(context: context))
-                                        ? ColumnPermissionTypes.Read
-                                        : ColumnPermissionTypes.Deny;
-                default:
-                    return column.CanRead(
-                        context: context,
-                        ss: ss,
-                        mine: baseModel?.Mine(context: context))
-                            && canEdit
-                                ? ColumnPermissionTypes.Update
-                                : column.CanRead(
-                                    context: context,
-                                    ss: ss,
-                                    mine: baseModel?.Mine(context: context))
-                                        ? ColumnPermissionTypes.Read
-                                        : ColumnPermissionTypes.Deny;
+                return column.CanCreate(
+                    context: context,
+                    ss: ss,
+                    mine: baseModel?.Mine(context: context))
+                        && canEdit
+                            ? ColumnPermissionTypes.Update
+                            : column.CanRead(
+                                context: context,
+                                ss: ss,
+                                mine: baseModel?.Mine(context: context))
+                                    ? ColumnPermissionTypes.Read
+                                    : ColumnPermissionTypes.Deny;
+            }
+            else
+            {
+                return column.CanRead(
+                    context: context,
+                    ss: ss,
+                    mine: baseModel?.Mine(context: context))
+                        && canEdit
+                            ? ColumnPermissionTypes.Update
+                            : column.CanRead(
+                                context: context,
+                                ss: ss,
+                                mine: baseModel?.Mine(context: context))
+                                    ? ColumnPermissionTypes.Read
+                                    : ColumnPermissionTypes.Deny;
             }
         }
 

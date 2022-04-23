@@ -75,59 +75,6 @@
         });
     }
 
-    $p.applyValidator = function () {
-        $.extend($.validator.messages, {
-            required: $p.display('ValidateRequired'),
-            c_attachments_required: $p.display('ValidateRequired'),
-            c_num: $p.display('ValidateNumber'),
-            c_min_num: $p.display('ValidateMinNumber'),
-            c_max_num: $p.display('ValidateMaxNumber'),
-            date: $p.display('ValidateDate'),
-            email: $p.display('ValidateEmail'),
-            equalTo: $p.display('ValidateEqualTo'),
-            maxlength: $p.display('ValidateMaxLength')
-        });
-        $('form').each(function () {
-            $(this).validate({ ignore: '' });
-        });
-        $('[data-validate-required="1"]').each(function () {
-            $(this).rules('add', { required: true });
-        });
-        $('[data-validate-attachments-required="1"]').each(function () {
-            $(this).rules('add', { c_attachments_required: true });
-        });
-        $('[data-validate-number="1"]').each(function () {
-            $(this).rules('add', { c_num: true });
-        });
-        $('[data-validate-min-number]').each(function () {
-            $(this).rules('add', { c_min_num: $(this).attr('data-validate-min-number') });
-        });
-        $('[data-validate-max-number]').each(function () {
-            $(this).rules('add', { c_max_num: $(this).attr('data-validate-max-number') });
-        });
-        $('[data-validate-date="1"]').each(function () {
-            $(this).rules('add', { date: true });
-        });
-        $('[data-validate-email="1"]').each(function () {
-            $(this).rules('add', { email: true });
-        });
-        $('[data-validate-equal-to]').each(function () {
-            $(this).rules('add', { equalTo: $(this).attr('data-validate-equal-to') });
-        });
-        $('[data-validate-maxlength]').each(function () {
-            $(this).rules('add', {
-                maxlength: $(this).attr('data-validate-maxlength'),
-                messages: { maxlength: $p.display('ValidateMaxLength').replace('{0}', $(this).attr('data-validate-maxlength')) }
-            });
-        });
-        $('[data-validate-regex]').each(function () {
-            $(this).rules('add', {
-                c_regex: $(this).attr('data-validate-regex'),
-                messages: { c_regex: $(this).attr('data-validate-regex-errormessage') }
-            });
-        });
-    }
-
     $p.formValidate = function ($form, $control) {
         $('input, select, textarea').each(function () {
             $(this).rules('remove');
@@ -169,3 +116,55 @@
     }
     $p.applyValidator();
 });
+$p.applyValidator = function () {
+    $.extend($.validator.messages, {
+        required: $p.display('ValidateRequired'),
+        c_attachments_required: $p.display('ValidateRequired'),
+        c_num: $p.display('ValidateNumber'),
+        c_min_num: $p.display('ValidateMinNumber'),
+        c_max_num: $p.display('ValidateMaxNumber'),
+        date: $p.display('ValidateDate'),
+        email: $p.display('ValidateEmail'),
+        equalTo: $p.display('ValidateEqualTo'),
+        maxlength: $p.display('ValidateMaxLength')
+    });
+    $('form').each(function () {
+        $(this).validate({ ignore: '' });
+    });
+    $('[data-validate-required="1"]').each(function () {
+        $(this).rules('add', { required: true });
+    });
+    $('[data-validate-attachments-required="1"]').each(function () {
+        $(this).rules('add', { c_attachments_required: true });
+    });
+    $('[data-validate-number="1"]').each(function () {
+        $(this).rules('add', { c_num: true });
+    });
+    $('[data-validate-min-number]').each(function () {
+        $(this).rules('add', { c_min_num: $(this).attr('data-validate-min-number') });
+    });
+    $('[data-validate-max-number]').each(function () {
+        $(this).rules('add', { c_max_num: $(this).attr('data-validate-max-number') });
+    });
+    $('[data-validate-date="1"]').each(function () {
+        $(this).rules('add', { date: true });
+    });
+    $('[data-validate-email="1"]').each(function () {
+        $(this).rules('add', { email: true });
+    });
+    $('[data-validate-equal-to]').each(function () {
+        $(this).rules('add', { equalTo: $(this).attr('data-validate-equal-to') });
+    });
+    $('[data-validate-maxlength]').each(function () {
+        $(this).rules('add', {
+            maxlength: $(this).attr('data-validate-maxlength'),
+            messages: { maxlength: $p.display('ValidateMaxLength').replace('{0}', $(this).attr('data-validate-maxlength')) }
+        });
+    });
+    $('[data-validate-regex]').each(function () {
+        $(this).rules('add', {
+            c_regex: $(this).attr('data-validate-regex'),
+            messages: { c_regex: $(this).attr('data-validate-regex-errormessage') }
+        });
+    });
+}

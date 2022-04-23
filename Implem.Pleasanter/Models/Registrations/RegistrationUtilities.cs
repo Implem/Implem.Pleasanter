@@ -1777,6 +1777,29 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        private static Message CreatedMessage(
+            Context context,
+            SiteSettings ss,
+            RegistrationModel registrationModel,
+            Process process)
+        {
+            if (process == null)
+            {
+                return Messages.Created(
+                    context: context,
+                    data: registrationModel.Title.Value);
+            }
+            else
+            {
+                var message = process.GetSuccessMessage(context: context);
+                message.Text = registrationModel.ReplacedDisplayValues(
+                    context: context,
+                    ss: ss,
+                    value: message.Text);
+                return message;
+            }
+        }
+
         public static string Update(Context context, SiteSettings ss, int registrationId)
         {
             var registrationModel = new RegistrationModel(

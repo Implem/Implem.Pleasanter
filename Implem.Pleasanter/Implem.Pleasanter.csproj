@@ -2400,6 +2400,12 @@
     <Content Include="App_Data\Displays\InvalidMemberKey.json" />
     <Content Include="App_Data\Displays\GroupImported.json" />
     <Content Include="App_Data\Displays\ReplaceAllGroupMembers.json" />
+    <Content Include="App_Data\Displays\UseIncompleteFilter.json" />
+    <Content Include="App_Data\Displays\UseOwnFilter.json" />
+    <Content Include="App_Data\Displays\UseNearCompletionTimeFilter.json" />
+    <Content Include="App_Data\Displays\UseOverdueFilter.json" />
+    <Content Include="App_Data\Displays\UseSearchFilter.json" />
+    <Content Include="App_Data\Displays\ScreenType.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

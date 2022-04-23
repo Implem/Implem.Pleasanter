@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ScreenType",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Screen type"
+        },
+        {
+            "Language": "zh",
+            "Body": "屏幕类型"
+        },
+        {
+            "Language": "ja",
+            "Body": "画面種別"
+        },
+        {
+            "Language": "de",
+            "Body": "Bildschirmtyp"
+        },
+        {
+            "Language": "ko",
+            "Body": "화면 유형"
+        },
+        {
+            "Language": "es",
+            "Body": "tipo de pantalla"
+        },
+        {
+            "Language": "vn",
+            "Body": "loại màn hình"
+        }
+    ]
+}

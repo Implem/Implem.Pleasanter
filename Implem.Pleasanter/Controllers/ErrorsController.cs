@@ -3,6 +3,7 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
+using System.Net;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
@@ -12,6 +13,7 @@ namespace Implem.Pleasanter.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
+            Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             var context = new Context();
             if (!context.Ajax)
             {
@@ -29,6 +31,7 @@ namespace Implem.Pleasanter.Controllers
         [AllowAnonymous]
         public ActionResult InvalidIpAddress()
         {
+            Response.StatusCode = (int)HttpStatusCode.Forbidden;
             var context = new Context();
             ViewBag.HtmlBody = HtmlTemplates.Error(
                 context: context,
@@ -39,8 +42,8 @@ namespace Implem.Pleasanter.Controllers
         [AllowAnonymous]
         public ActionResult BadRequest()
         {
+            Response.StatusCode = (int)HttpStatusCode.BadRequest;
             var context = new Context();
-            // Response.StatusCode = (int)HttpStatusCode.BadRequest;
             if (!context.Ajax)
             {
                 ViewBag.HtmlBody = HtmlTemplates.Error(
@@ -57,8 +60,8 @@ namespace Implem.Pleasanter.Controllers
         [AllowAnonymous]
         public ActionResult NotFound()
         {
+            Response.StatusCode = (int)HttpStatusCode.NotFound;
             var context = new Context();
-            // Response.StatusCode = (int)HttpStatusCode.NotFound;
             if (!context.Ajax)
             {
                 ViewBag.HtmlBody = HtmlTemplates.Error(
@@ -75,6 +78,7 @@ namespace Implem.Pleasanter.Controllers
         [AllowAnonymous]
         public ActionResult ParameterSyntaxError()
         {
+            Response.StatusCode = (int)HttpStatusCode.Forbidden;
             var context = new Context();
             var messageData = new string[]
             {
@@ -99,8 +103,8 @@ namespace Implem.Pleasanter.Controllers
         [AllowAnonymous]
         public ActionResult InternalServerError()
         {
+            Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             var context = new Context();
-            // Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             if (!context.Ajax)
             {
                 ViewBag.HtmlBody = HtmlTemplates.Error(
@@ -117,6 +121,7 @@ namespace Implem.Pleasanter.Controllers
         [AllowAnonymous]
         public ActionResult LoginIdAlreadyUse()
         {
+            Response.StatusCode = (int)HttpStatusCode.Forbidden;
             var context = new Context();
             ViewBag.HtmlBody = HtmlTemplates.Error(
                 context: context,
@@ -127,6 +132,7 @@ namespace Implem.Pleasanter.Controllers
         [AllowAnonymous]
         public ActionResult UserLockout()
         {
+            Response.StatusCode = (int)HttpStatusCode.Forbidden;
             var context = new Context();
             ViewBag.HtmlBody = HtmlTemplates.Error(
                 context: context,
@@ -137,6 +143,7 @@ namespace Implem.Pleasanter.Controllers
         [AllowAnonymous]
         public ActionResult UserDisabled()
         {
+            Response.StatusCode = (int)HttpStatusCode.Forbidden;
             var context = new Context();
             ViewBag.HtmlBody = HtmlTemplates.Error(
                 context: context,
@@ -145,9 +152,9 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult SamlLoginFailed
-()
+        public ActionResult SamlLoginFailed()
         {
+            Response.StatusCode = (int)HttpStatusCode.Forbidden;
             var context = new Context();
             ViewBag.HtmlBody = HtmlTemplates.Error(
                 context: context,
@@ -158,6 +165,7 @@ namespace Implem.Pleasanter.Controllers
         [AllowAnonymous]
         public ActionResult InvalidSsoCode()
         {
+            Response.StatusCode = (int)HttpStatusCode.Forbidden;
             var context = new Context();
             ViewBag.HtmlBody = HtmlTemplates.Error(
                 context: context,
@@ -168,6 +176,7 @@ namespace Implem.Pleasanter.Controllers
         [AllowAnonymous]
         public ActionResult EmptyUserName()
         {
+            Response.StatusCode = (int)HttpStatusCode.Forbidden;
             var context = new Context();
             ViewBag.HtmlBody = HtmlTemplates.Error(
                 context: context,

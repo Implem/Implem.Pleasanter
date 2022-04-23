@@ -170,6 +170,24 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case "index":
                     hb.Script(script: "$p.execEvents('on_grid_load','');");
                     break;
+                case "calendar":
+                    hb.Script(script: "$p.execEvents('on_calendar_load','');");
+                    break;
+                case "crosstab":
+                    hb.Script(script: "$p.execEvents('on_crosstab_load','');");
+                    break;
+                case "timeseries":
+                    hb.Script(script: "$p.execEvents('on_timeseries_load','');");
+                    break;
+                case "kamban":
+                    hb.Script(script: "$p.execEvents('on_kamban_load','');");
+                    break;
+                case "gantt":
+                    hb.Script(script: "$p.execEvents('on_gantt_load','');");
+                    break;
+                case "burndown":
+                    hb.Script(script: "$p.execEvents('on_burndown_load','');");
+                    break;
             }
             return hb;
         }

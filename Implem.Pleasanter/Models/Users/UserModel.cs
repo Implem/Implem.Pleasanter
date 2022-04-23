@@ -4485,7 +4485,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private string GetReturnUrl(string returnUrl)
+        public string GetReturnUrl(string returnUrl)
         {
             return (!returnUrl.IsNullOrEmpty() || Permissions.PrivilegedUsers(LoginId))
                 ? ((returnUrl == "/") && (!Parameters.Locations.LoginAfterUrl.IsNullOrEmpty()))
